@@ -1,0 +1,68 @@
+MySQL Übersicht und Kurzanleitung
+
+  Ein weiterer Anlaufpunkt wären die
+  {{http://dev.mysql.com/doc/index.html}} Seiten im Internet.
+
+* mysql.exe
+
+  Folgende Parameter sind relevant:
+
+  * <<<-u>>> Der Benutzername.
+
+  * <<<-p>>> (oder --password=<pwd>) Das Password.
+
+  * <<<-h>>> Der Host der MySQL Datenbank.
+
+  * <<<-D>>> Der Name der Datenbank.
+  
+
+* SQL Abfragen
+
+  Folgende Abfrage ermittelt alle Tabellen aus dem Schema
+  <<<pirates-test>>>:
+
++------------------------------------------------------
+SELECT *
+FROM information_schema.`TABLES` T, information_schema.SCHEMATA S
+WHERE S.SCHEMA_NAME = 'pirates-test'
+  and S.SCHEMA_NAME = T.TABLE_SCHEMA
++------------------------------------------------------
+
+  Die Abfrage kann auf die Tabelle <<<TABLE_SCHEMA>>> beschränkt
+  werden:
+
++------------------------------------------------------
+SELECT *
+FROM information_schema.`TABLES` T
+WHERE T.TABLE_SCHEMA = 'pirates-test'
++------------------------------------------------------
+
+  Ebenfalls nützliche SQL Befehle. Zeigt den Namen der MySQL Datenbank an,
+  mit der man verbunden ist:
+
++------------------------------------------------------
+SELECT database();
++------------------------------------------------------
+
+  Ähnlich der Abfrage oben. Es werden alle Tabellen der Datenbank angezeigt:
+
++------------------------------------------------------
+SHOW TABLES;
++------------------------------------------------------
+
+
+* Sonstiges
+
++------------------------------------------------------
+  net stop beep
++------------------------------------------------------
+
+  Schaltet den Windows Beep-Ton aus. Auf einigen Windows Rechnern verursacht
+  das Kommandozeilen Tool <<<mysql.exe>>> einen nervigen Beep-Ton, falls
+  eine Benutzeranfrage Fehler enthält.
+
+* Datenbank Schema Übersicht
+  
+  [Figure database_model] Das Datenbank Modell
+
+  

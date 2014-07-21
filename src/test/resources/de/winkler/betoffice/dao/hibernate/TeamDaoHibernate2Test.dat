@@ -1,0 +1,6 @@
+### TAB bo_team
+### id | bo_name     | bo_longname         | bo_logo         | bo_teamtype
+     1 | RWE         | Rot-Weiss-Essen     | rwe.gif         | 0
+     2 | RWO         | Rot Weiß Oberhausen | rwo.gif         | 0
+     3 | Deutschland | Deutschland         | deutschland.gif | 1
+     4 | Frankreich  | Frankreich          | frankreich.gif  | 1

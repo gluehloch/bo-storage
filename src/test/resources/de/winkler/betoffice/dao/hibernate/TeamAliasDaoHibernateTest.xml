@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <bo_team id="1" bo_name="Rot-Weiss-Essen" bo_teamtype="0"/>
+    <bo_team id="2" bo_name="Rot Weiß Oberhausen" bo_teamtype="0"/>
+    <bo_team id="3" bo_name="FC Schalke 04" bo_teamtype="0"/>
+    
+    <bo_teamalias id="0" bo_aliasName="RWE" bo_team_ref="1" />
+    <bo_teamalias id="1" bo_aliasName="RWO" bo_team_ref="2" />
+    <bo_teamalias id="2" bo_aliasName="S04" bo_team_ref="3" />
+    <bo_teamalias id="3" bo_aliasName="Schalke" bo_team_ref="3" />
+</dataset>

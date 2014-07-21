@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<FORM>
+	<USE>Tipp-Abgabe Winkler Sportwetten</USE>
+	<FORMINFO>##ENV_HTTP_REFERER##</FORMINFO>
+	<USERIP>##ENV_REMOTE_HOST##</USERIP>
+	<BROWSER>##ENV_HTTP_USER_AGENT##</BROWSER>
+	<DATUM>##DATUM##</DATUM>
+	<TIME>##UHRZEIT##</TIME>
+	<NICKNAME>##user_name##</NICKNAME>
+	<PWDA>##pwd##</PWDA>
+	<CHAMPIONSHIP>##CHAMPIONSHIP##</CHAMPIONSHIP>
+	<ROUND>##round##</ROUND>
+	<HOMEGOALS>##home_goals##</HOMEGOALS>
+	<GUESTGOALS>##guest_goals##</GUESTGOALS>
+</FORM>

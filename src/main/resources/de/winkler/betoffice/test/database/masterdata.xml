@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE dataset SYSTEM "database-master.dtd">
+<dataset>
+  <bo_grouptype id="59" bo_name="Gruppe A"/>
+  <bo_grouptype id="60" bo_name="Gruppe B"/>
+  <bo_grouptype id="61" bo_name="Gruppe C"/>
+  <bo_grouptype id="62" bo_name="Gruppe D"/>
+  <bo_grouptype id="63" bo_name="Gruppe E"/>
+  <bo_grouptype id="64" bo_name="Gruppe F"/>
+  <bo_grouptype id="65" bo_name="Gruppe G"/>
+  <bo_grouptype id="66" bo_name="Gruppe H"/>
+  <bo_grouptype id="67" bo_name="Achtelfinale"/>
+  <bo_grouptype id="68" bo_name="Viertelfinale"/>
+  <bo_grouptype id="69" bo_name="Halbfinale"/>
+  <bo_grouptype id="70" bo_name="Spiel um Platz 3"/>
+  <bo_grouptype id="71" bo_name="Finale"/>
+  <bo_grouptype id="72" bo_name="1. Liga"/>
+
+  <bo_team id="27" bo_name="Frankreich" bo_longname="Frankreich" bo_logo="frankreich.gif" bo_teamtype="1"/>
+  <bo_team id="28" bo_name="Senegal" bo_longname="Senegal" bo_logo="senegal.gif" bo_teamtype="1"/>
+  <bo_team id="29" bo_name="Uruguay" bo_longname="Uruguay" bo_logo="uruguay.gif" bo_teamtype="1"/>
+  <bo_team id="30" bo_name="Dänemark" bo_longname="Dänemark" bo_logo="daenemark.gif" bo_teamtype="1"/>
+  <bo_team id="31" bo_name="Paraguay" bo_longname="Paraguay" bo_logo="paraguay.gif" bo_teamtype="1"/>
+  <bo_team id="32" bo_name="Südafrika" bo_longname="Südafrika" bo_logo="suedafrika.gif" bo_teamtype="1"/>
+  <bo_team id="33" bo_name="Spanien" bo_longname="Spanien" bo_logo="spanien.gif" bo_teamtype="1"/>
+  <bo_team id="34" bo_name="Slowenien" bo_longname="Slowenien" bo_logo="slowenien.gif" bo_teamtype="1"/>
+  <bo_team id="35" bo_name="Brasilien" bo_longname="Brasilien" bo_logo="brasilien.gif" bo_teamtype="1"/>
+  <bo_team id="36" bo_name="Türkei" bo_longname="Türkei" bo_logo="tuerkei.gif" bo_teamtype="1"/>
+  <bo_team id="37" bo_name="China VR" bo_longname="China VR" bo_logo="china.gif" bo_teamtype="1"/>
+  <bo_team id="38" bo_name="Costa Rica" bo_longname="Costa Rica" bo_logo="costarica.gif" bo_teamtype="1"/>
+  <bo_team id="39" bo_name="Rep.Korea" bo_longname="Rep.Korea" bo_logo="suedkorea.gif" bo_teamtype="1"/>
+  <bo_team id="40" bo_name="Polen" bo_longname="Polen" bo_logo="polen.gif" bo_teamtype="1"/>
+  <bo_team id="41" bo_name="USA" bo_longname="USA" bo_logo="usa.gif" bo_teamtype="1"/>
+  <bo_team id="42" bo_name="Portugal" bo_longname="Portugal" bo_logo="portugal.gif" bo_teamtype="1"/>
+  <bo_team id="43" bo_name="Irland" bo_longname="Irland" bo_logo="irland.gif" bo_teamtype="1"/>
+  <bo_team id="44" bo_name="Kamerun" bo_longname="Kamerun" bo_logo="kamerun.gif" bo_teamtype="1"/>
+  <bo_team id="45" bo_name="Deutschland" bo_longname="Deutschland" bo_logo="dfb.gif" bo_teamtype="1"/>
+  <bo_team id="46" bo_name="Saudi Arabien" bo_longname="Saudi Arabien" bo_logo="saudiarabien.gif" bo_teamtype="1"/>
+  <bo_team id="47" bo_name="England" bo_longname="England" bo_logo="england.gif" bo_teamtype="1"/>
+  <bo_team id="48" bo_name="Schweden" bo_longname="Schweden" bo_logo="schweden.gif" bo_teamtype="1"/>
+  <bo_team id="49" bo_name="Argentinien" bo_longname="Argentinien" bo_logo="argentinien.gif" bo_teamtype="1"/>
+  <bo_team id="50" bo_name="Nigeria" bo_longname="Nigeria" bo_logo="nigeria.gif" bo_teamtype="1"/>
+  <bo_team id="51" bo_name="Kroatien" bo_longname="Kroatien" bo_logo="kroatien.gif" bo_teamtype="1"/>
+  <bo_team id="52" bo_name="Mexiko" bo_longname="Mexiko" bo_logo="mexiko.gif" bo_teamtype="1"/>
+  <bo_team id="53" bo_name="Ecuador" bo_longname="Ecuador" bo_logo="ecuador.gif" bo_teamtype="1"/>
+  <bo_team id="54" bo_name="Italien" bo_longname="Italien" bo_logo="italien.gif" bo_teamtype="1"/>
+  <bo_team id="55" bo_name="Japan" bo_longname="Japan" bo_logo="japan.gif" bo_teamtype="1"/>
+  <bo_team id="56" bo_name="Belgien" bo_longname="Belgien" bo_logo="belgien.gif" bo_teamtype="1"/>
+  <bo_team id="57" bo_name="Russland" bo_longname="Russland" bo_logo="russland.gif" bo_teamtype="1"/>
+  <bo_team id="58" bo_name="Tunesien" bo_longname="Tunesien" bo_logo="tunesien.gif" bo_teamtype="1"/>
+  <bo_team id="907" bo_name="Griechenland" bo_longname="Griechenland" bo_logo="greece.gif" bo_teamtype="1"/>
+  <bo_team id="911" bo_name="Schweiz" bo_longname="Schweiz" bo_logo="swiss.gif" bo_teamtype="1"/>
+  <bo_team id="919" bo_name="Bulgarien" bo_longname="Bulgarien" bo_logo="bulgary.gif" bo_teamtype="1"/>
+  <bo_team id="922" bo_name="Tschechien" bo_longname="Tschechien" bo_logo="czech.gif" bo_teamtype="1"/>
+  <bo_team id="923" bo_name="Lettland" bo_longname="Lettland" bo_logo="lettland.gif" bo_teamtype="1"/>
+  <bo_team id="924" bo_name="Niederlande" bo_longname="Niederlande" bo_logo="netherland" bo_teamtype="1"/>
+  <bo_team id="1131" bo_name="[noch_nicht_bekannt]" bo_longname="[noch_nicht_bekannt]" bo_logo="unbekannt.gif" bo_teamtype="1"/>
+  <bo_team id="1132" bo_name="Trinidad Tabago" bo_longname="Trinidad und Tabago" bo_logo="trinidadtabago.gif" bo_teamtype="1"/>
+  <bo_team id="1133" bo_name="Elfenbeinküste" bo_longname="Elfenbeinküste" bo_logo="elfenbeinkueste.gif" bo_teamtype="1"/>
+  <bo_team id="1134" bo_name="Serbien Montenegro" bo_longname="Serbien und Montenegro" bo_logo="serbienmontenegro.gif" bo_teamtype="1"/>
+  <bo_team id="1135" bo_name="Iran" bo_longname="Iran" bo_logo="iran.gif" bo_teamtype="1"/>
+  <bo_team id="1136" bo_name="Angola" bo_longname="Angola" bo_logo="angola.gif" bo_teamtype="1"/>
+  <bo_team id="1137" bo_name="Ghana" bo_longname="Ghana" bo_logo="ghana.gif" bo_teamtype="1"/>
+  <bo_team id="1138" bo_name="Australien" bo_longname="Australien" bo_logo="australien.gif" bo_teamtype="1"/>
+  <bo_team id="1139" bo_name="Togo" bo_longname="Togo" bo_logo="togo.gif" bo_teamtype="1"/>
+  <bo_team id="1140" bo_name="Ukraine" bo_longname="Ukraine" bo_logo="ukraine.gif" bo_teamtype="1"/>
+  <bo_team id="1141" bo_name="FC Bayern München" bo_longname="FC Bayern München" bo_logo="bayern.gif" bo_teamtype="0"/>
+  <bo_team id="1142" bo_name="Borussia Dortmund" bo_longname="Borussia Dortmund" bo_logo="bvb.gif" bo_teamtype="0"/>
+  <bo_team id="1143" bo_name="Bayer 04 Leverkusen" bo_longname="Bayer 04 Leverkusen" bo_logo="leverkusen.gif" bo_teamtype="0"/>
+  <bo_team id="1144" bo_name="SC Freiburg" bo_longname="SC Freiburg" bo_logo="freiburg.gif" bo_teamtype="0"/>
+  <bo_team id="1145" bo_name="SV Werder Bremen" bo_longname="SV Werder Bremen" bo_logo="bremen.gif" bo_teamtype="0"/>
+  <bo_team id="1146" bo_name="1.FC Kaiserslautern" bo_longname="1.FC Kaiserslautern" bo_logo="lautern.gif" bo_teamtype="0"/>
+  <bo_team id="1147" bo_name="VfL Wolfsburg" bo_longname="VfL Wolfsburg" bo_logo="wolfsburg.gif" bo_teamtype="0"/>
+  <bo_team id="1148" bo_name="1.FC Köln" bo_longname="1.FC Köln" bo_logo="koeln.gif" bo_teamtype="0"/>
+  <bo_team id="1149" bo_name="Hansa Rostock" bo_longname="Hansa Rostock" bo_logo="rostock.gif" bo_teamtype="0"/>
+  <bo_team id="1150" bo_name="TSV 1860 München" bo_longname="TSV 1860 München" bo_logo="1860.bmp" bo_teamtype="0"/>
+  <bo_team id="1151" bo_name="Hamburger SV" bo_longname="Hamburger SV" bo_logo="hsv.gif" bo_teamtype="0"/>
+  <bo_team id="1152" bo_name="Energie Cottbus" bo_longname="Energie Cottbus" bo_logo="cottbus.gif" bo_teamtype="0"/>
+  <bo_team id="1153" bo_name="VfB Stuttgart" bo_longname="VfB Stuttgart" bo_logo="stuttgart.gif" bo_teamtype="0"/>
+  <bo_team id="1154" bo_name="SpVgg Unterhaching" bo_longname="SpVgg Unterhaching" bo_logo="haching.gif" bo_teamtype="0"/>
+  <bo_team id="1155" bo_name="Eintracht Frankfurt" bo_longname="Eintracht Frankfurt" bo_logo="frankfurt.gif" bo_teamtype="0"/>
+  <bo_team id="1156" bo_name="VfL Bochum" bo_longname="VfL Bochum" bo_logo="bochum.gif" bo_teamtype="0"/>
+  <bo_team id="1157" bo_name="Hertha BSC Berlin" bo_longname="Hertha BSC Berlin" bo_logo="hertha.gif" bo_teamtype="0"/>
+  <bo_team id="1158" bo_name="St. Pauli" bo_longname="St. Pauli" bo_logo="stpauli.gif" bo_teamtype="0"/>
+  <bo_team id="1159" bo_name="1.FC Nürnberg" bo_longname="1.FC Nürnberg" bo_logo="nuernberg.gif" bo_teamtype="0"/>
+  <bo_team id="1160" bo_name="Borussia MGladbach" bo_longname="Borussia Mönchen Gladbach" bo_logo="gladbach.gif" bo_teamtype="0"/>
+  <bo_team id="1161" bo_name="FC Schalke 04" bo_longname="FC Schalke 04" bo_logo="schalke.gif" bo_teamtype="0"/>
+  <bo_team id="1162" bo_name="Hannover 96" bo_longname="Hannover 96" bo_logo="hannover96.gif" bo_teamtype="0"/>
+  <bo_team id="1163" bo_name="Arminia Bielefeld" bo_longname="Arminia Bielefeld" bo_logo="arminiabielefeld.gif" bo_teamtype="0"/>
+  <bo_team id="1164" bo_name="FSV Mainz 05" bo_longname="FSV Mainz 05" bo_logo="mainz.gif" bo_teamtype="0"/>
+  <bo_team id="1165" bo_name="MSV Duisburg" bo_longname="MSV Duisburg" bo_logo="duisburg.gif" bo_teamtype="0"/>
+  <bo_team id="1166" bo_name="Alemannia Aachen" bo_longname="Alemannia Aachen" bo_logo="achen.gif" bo_teamtype="0"/>
+  <bo_team id="1167" bo_name="Karlsruher SC" bo_longname="Karlsruher SC" bo_logo="ksc.gif" bo_teamtype="0"/>
+  <bo_team id="1168" bo_name="Österreich" bo_longname="Österreich" bo_logo="oesterreich.gif" bo_teamtype="1"/>
+  <bo_team id="1169" bo_name="Rumänien" bo_longname="Rumänien" bo_logo="rumaenien.gif" bo_teamtype="1"/>
+  <bo_team id="1170" bo_name="1899 Hoffenheim" bo_longname="1899 Hoffenheim" bo_logo="hoffenheim.gif" bo_teamtype="0"/>
+  <bo_team id="1171" bo_name="Serbien" bo_longname="Serbien" bo_logo="serbien.gif" bo_teamtype="1"/>
+  <bo_team id="1172" bo_name="Algerien" bo_longname="Algerien" bo_logo="algerien.gif" bo_teamtype="1"/>
+  <bo_team id="1173" bo_name="Neuseeland" bo_longname="Neuseeland" bo_logo="neuseeland.gif" bo_teamtype="1"/>
+  <bo_team id="1174" bo_name="Slowakei" bo_longname="Slowakei" bo_logo="slowakei.gif" bo_teamtype="1"/>
+  <bo_team id="1175" bo_name="Nordkorea" bo_longname="Nordkorea" bo_logo="nordkorea.gif" bo_teamtype="1"/>
+  <bo_team id="1176" bo_name="Honduras" bo_longname="Honduras" bo_logo="honduras.gif" bo_teamtype="1"/>
+  <bo_team id="1177" bo_name="Chile" bo_longname="Chile" bo_logo="chile.gif" bo_teamtype="1"/>
+
+  <bo_teamalias id="521" bo_aliasname="VfL Wolfsburg" bo_team_ref="1147"/>
+  <bo_teamalias id="522" bo_aliasname="VfB Stuttgart" bo_team_ref="1153"/>
+  <bo_teamalias id="523" bo_aliasname="Borussia Dortmund" bo_team_ref="1142"/>
+  <bo_teamalias id="524" bo_aliasname="1.FC Köln" bo_team_ref="1148"/>
+  <bo_teamalias id="525" bo_aliasname="1. FC Köln" bo_team_ref="1148"/>
+  <bo_teamalias id="526" bo_aliasname="1.FC K_ln" bo_team_ref="1148"/>
+  <bo_teamalias id="527" bo_aliasname="1.FC Nürnberg" bo_team_ref="1159"/>
+  <bo_teamalias id="528" bo_aliasname="1. FC Nürnberg" bo_team_ref="1159"/>
+  <bo_teamalias id="529" bo_aliasname="Schalke 04" bo_team_ref="1161"/>
+  <bo_teamalias id="530" bo_aliasname="Werder Bremen" bo_team_ref="1145"/>
+  <bo_teamalias id="531" bo_aliasname="Eintracht Frankfurt" bo_team_ref="1155"/>
+  <bo_teamalias id="532" bo_aliasname="Hertha BSC Berlin" bo_team_ref="1157"/>
+  <bo_teamalias id="533" bo_aliasname="Hannover 96" bo_team_ref="1162"/>
+  <bo_teamalias id="534" bo_aliasname="FSV Mainz 05" bo_team_ref="1164"/>
+  <bo_teamalias id="535" bo_aliasname="Bayer Leverkusen" bo_team_ref="1143"/>
+  <bo_teamalias id="536" bo_aliasname="1899 Hoffenheim" bo_team_ref="1168"/>
+  <bo_teamalias id="537" bo_aliasname="Bayern München" bo_team_ref="1141"/>
+  <bo_teamalias id="538" bo_aliasname="VfL Bochum" bo_team_ref="1156"/>
+  <bo_teamalias id="539" bo_aliasname="Borussia Mönchengladbach" bo_team_ref="1160"/>
+  <bo_teamalias id="540" bo_aliasname="SC Freiburg" bo_team_ref="1144"/>
+  <bo_teamalias id="541" bo_aliasname="Hamburger SV" bo_team_ref="1151"/>
+  <!--
+  <bo_teamalias id="542" bo_aliasname="Karnevalsverein" bo_team_ref="1148"/>
+  -->
+
+  <bo_user id="1" bo_name="Rohloff" bo_surname="Markus" bo_nickname="mrTipp" bo_email="markusrohloff@gmx.de" bo_phone="0201/61 03 36" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="2" bo_name="Schulte" bo_surname="Christian" bo_nickname="Xtian" bo_email="spottwetten@xtian.de" bo_phone="040/775 774" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="3" bo_name="Groth" bo_surname="Peter" bo_nickname="Peter" bo_email="peter.groth@gmx.de" bo_phone="0179/1008450" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="4" bo_name="Automat" bo_surname="No1" bo_nickname="Automat" bo_email="home@andre-winkler.de" bo_phone="" bo_password="xxx" bo_automat="true" bo_excluded="false" bo_title=""/>
+  <bo_user id="5" bo_name="Winkler" bo_surname="Lars" bo_nickname="planlos" bo_email="gluehloch@compuserve.de" bo_phone="0201/7502407" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="6" bo_name="Winkler" bo_surname="Andre" bo_nickname="Frosch" bo_email="home@andre-winkler.de" bo_phone="040/76 75 16 24" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="7" bo_name="Müller" bo_surname="Peter" bo_nickname="Meister" bo_email="xmlprofi@gmx.net" bo_phone="" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="8" bo_name="Hoffmann" bo_surname="Melanie" bo_nickname="Melanie" bo_email="parel@gmx.de" bo_phone="00000000000" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="9" bo_name="Hattwig" bo_surname="Lars" bo_nickname="Hattwig" bo_email="l.hattwig@snafu.de" bo_phone="030/84 50 77 51" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="10" bo_name="Schneider" bo_surname="Roger" bo_nickname="Fuxx" bo_email="Ro.schneider@enbw.com" bo_phone="" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="11" bo_name="Blahak" bo_surname="Rainer" bo_nickname="Fuchs" bo_email="r.blahak@enbw.com" bo_phone="" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="12" bo_name="Toth" bo_surname="Franz" bo_nickname="Zocker" bo_email="schneider.roger@nexgo.de" bo_phone="" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="13" bo_name="Rohloff" bo_surname="Markus" bo_nickname="Persistenz" bo_email="markusrohloff@gmx.de" bo_phone="02364/509202" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="14" bo_name="Groth" bo_surname="Jochen" bo_nickname="Jogi" bo_email="jochen@grothnet.de" bo_phone="02594-82375" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title="MT"/>
+  <bo_user id="15" bo_name="Bitzer" bo_surname="Gerd" bo_nickname="Homer" bo_email="bitzer@wsc-gmbh.de" bo_phone="01736146557" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="16" bo_name="Bucksath" bo_surname="Steffen" bo_nickname="Steffen" bo_email="steffen@bucksath.de" bo_phone="0170/9440357" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="17" bo_name="Schäfer" bo_surname="Moritz" bo_nickname="Sunny" bo_email="moritz_schaefer@gmx.de" bo_phone="064047776" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="18" bo_name="pavlovic" bo_surname="julia" bo_nickname="krmaca" bo_email="mm1982@web.de" bo_phone="01793456712" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="19" bo_name="Kienzler" bo_surname="Günter" bo_nickname="Dotwin74" bo_email="dotwin74@freenet.de" bo_phone="084661686" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="20" bo_name="juergen" bo_surname="reisinger" bo_nickname="junior" bo_email="juergen.reisinger@gmx.net" bo_phone="" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="21" bo_name="Stegemann" bo_surname="Claus" bo_nickname="Santa" bo_email="ClausStegemann@web.de" bo_phone="02594894760" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="22" bo_name="seidl" bo_surname="christine" bo_nickname="chris" bo_email="sdchristinchen@web.de" bo_phone="040-76751624" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="23" bo_name="Hasselmann" bo_surname="Jan" bo_nickname="BayJan" bo_email="janhasselmann@gmx.de" bo_phone="" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="24" bo_name="Rönnebeck" bo_surname="Stefan" bo_nickname="Roenne" bo_email="stefan.roennebeck@medium-big-band.de" bo_phone="0179-5462057" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="25" bo_name="Esselmann" bo_surname="Dirk" bo_nickname="Essel" bo_email="dirk.esselmann@wertgutachter.de" bo_phone="02502/6936" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="26" bo_name="Hühnken" bo_surname="Lutz" bo_nickname="tyler" bo_email="lutz@huehnken.de" bo_phone="040-30237867" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="27" bo_name="Reinke" bo_surname="Markus" bo_nickname="Kron" bo_email="markus_reinke@gmx.net" bo_phone="-" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="28" bo_name="Timm" bo_surname="Volker" bo_nickname="volki" bo_email="volker.timm@web.de" bo_phone="" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="29" bo_name="Seekamp" bo_surname="Holger" bo_nickname="Holgi" bo_email="seekamp@gmx.de" bo_phone="" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="30" bo_name="Christoph" bo_surname="Martin" bo_nickname="Chrisi" bo_email="christophm@onbo_email.at" bo_phone="" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="31" bo_name="Schroepke" bo_surname="Dieter" bo_nickname="Dieter" bo_email="dieter.schroepke@gmx.de" bo_phone="43272409" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="32" bo_name="Paus" bo_surname="Michael" bo_nickname="Manni" bo_email="pausm@web.de" bo_phone="" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="33" bo_name="Wiemers" bo_surname="Meinolf" bo_nickname="SpecialAgent" bo_email="mail@meinolf-wiemers.de" bo_phone="0511-2353935" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="34" bo_name="Kroschk" bo_surname="Axel" bo_nickname="Rumo" bo_email="axel@kroschk.net" bo_phone="" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="35" bo_name="Seidl" bo_surname="Andreas" bo_nickname="Andi" bo_email="Andreas.seidl@gmx.de" bo_phone="08419936520" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="14147" bo_name="Parplies" bo_surname="Jan-Peter" bo_nickname="Peter Pan" bo_email="janpar@gmx.de" bo_phone="040/859710" bo_password="xxx" bo_automat="false" bo_excluded="true" bo_title=""/>
+  <bo_user id="17279" bo_name="König" bo_surname="Michael" bo_nickname="King" bo_email="king@unicum.de" bo_phone="0251-271194" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="17280" bo_name="JEDA" bo_surname="JonaErikDavidAxel" bo_nickname="Goddard" bo_email="" bo_phone="" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title="(e)"/>
+  <bo_user id="17281" bo_name="Riemann" bo_surname="Jörg" bo_nickname="Bernd_das_Brot" bo_email="ri@mc-wetter.de" bo_phone="" bo_password="xxx" bo_automat="false" bo_excluded="false" bo_title=""/>
+  <bo_user id="17282" bo_name="Schienagel" bo_surname="Peter" bo_nickname="binglers" bo_email="binglers@t-online.de" bo_phone="binglers@t-online.de" bo_password="xxx" bo_automat="true" bo_excluded="false" bo_title=""/>
+  <bo_user id="17283" bo_name="Kaiser" bo_surname="Michael" bo_nickname="Mikai" bo_email="michael.Kaiser@derAmrumer.de" bo_phone="michael.Kaiser@derAmrumer.de" bo_password="xxx" bo_automat="true" bo_excluded="false" bo_title=""/>
+  <bo_user id="17284" bo_name="Thiele" bo_surname="Dirk" bo_nickname="Rainman" bo_email="diplomet@gmx.de" bo_phone="diplomet@gmx.de" bo_password="xxx" bo_automat="true" bo_excluded="false" bo_title=""/>
+  <bo_user id="17285" bo_name="Schenk" bo_surname="Friedemann" bo_nickname="Friedi" bo_email="Friedemann.Schenk@gmx.de" bo_phone="Friedemann.Schenk@gmx.de" bo_password="xxx" bo_automat="true" bo_excluded="false" bo_title=""/>
+  <bo_user id="17286" bo_name="Thürling" bo_surname="Nadine" bo_nickname="Dennis" bo_email="NadineThuerling@web.de" bo_phone="NadineThuerling@web.de" bo_password="xxx" bo_automat="true" bo_excluded="false" bo_title=""/>
+  <bo_user id="17287" bo_name="Rohloff" bo_surname="Bianka" bo_nickname="mrsTipp" bo_email="andre.winkler@web.de" bo_phone="andre.winkler@web.de" bo_password="xxx" bo_automat="true" bo_excluded="false" bo_title="(e)"/>
+</dataset>

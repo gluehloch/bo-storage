@@ -1,0 +1,19 @@
+Die ist ein Test-Mail-Tipp:
+
+<FORM>
+    <USE>Tipp-Abgabe Winkler Sportwetten</USE>
+    <FORMINFO>##ENV_HTTP_REFERER##</FORMINFO>
+    <USERIP>TEST-REMOTE-HOST</USERIP>
+    <BROWSER>TEST-BROWSER</BROWSER>
+    <DATUM>25.03.1971</DATUM>
+    <TIME>17:55</TIME>
+    <NICKNAME>andre.winkler</NICKNAME>
+    <PWDA>Elch71</PWDA>
+    <CHAMPIONSHIP>Bundesliga 2008/09</CHAMPIONSHIP>
+    <ROUND>1</ROUND>
+    <HOMEGOALS>0,1,2,3,4,5,6,7,8</HOMEGOALS>
+    <GUESTGOALS>8,7,6,5,4,3,2,1,0</GUESTGOALS>
+</FORM>
+
+Mit freundlichen Gruessen,
+Andre Winkler

@@ -1,0 +1,31 @@
+Migrationsprojekt 'Echte Datumsfelder'
+
+ Ziel: Ersetzung der alten Datumsfelder in der MySQL Datenbank durch echte
+ Datums-Typen.
+ 
+ Erster Kandidat: DateTime. Die Spalten kann mit und ohne Uhrzeitinformationen
+ belegt werden.
+ 
++------------------------------------------------------------------------------+
+DATETIME
+  
+Format: YYYY-MM-DD hh:mm:ss (2001-01-01 01:00:00)
+Storage 8 bytes
+
+Description:
+Stores a specific time in the range of 12:00:00 AM, January 1, 1000 ('1000-01-01 00:00:00')
+to 11:59:59 P.M., December 31, 9999 ('9999-12-31 23:59:59') in the Gregorian calendar.
+
++------------------------------------------------------------------------------+
+
+Beispiel:
+
++------------------------------------------------------------------------------+
+alter table bo_game add column bo_datetime datetime;
+update bo_game set bo_datetime = '1971-03-24 17:05:55';
+update bo_game set bo_datetime = '1971-03-24';
+select bo_datetime from bo_game;
++------------------------------------------------------------------------------+
+
+DATE_FORMAT( date, format) 
+

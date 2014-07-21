@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class
+        name="de.winkler.betoffice.storage.Team"
+        table="bo_team"
+        dynamic-update="false"
+        dynamic-insert="false"
+    >
+
+        <id
+            name="id"
+            column="id"
+            type="java.lang.Long"
+        >
+            <generator class="native">
+            </generator>
+        </id>
+
+        <property
+            name="name"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="bo_name"
+            not-null="true"
+            unique="true"
+        />
+
+        <property
+            name="longName"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="bo_longname"
+        />
+
+        <property
+            name="logo"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="bo_logo"
+        />
+
+        <!--
+        <property
+            name="teamType"
+            type="de.winkler.betoffice.storage.enums.TeamType"
+            update="true"
+            insert="true"
+            column="bo_teamtype"
+            not-null="true"
+        />
+         -->
+          
+        <property
+            name="teamType"
+            column="bo_teamtype"
+            update="true"
+            insert="true"
+            not-null="true"        
+            >
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">de.winkler.betoffice.storage.enums.TeamType</param>
+            </type>
+        </property>
+            
+        <set
+            name="groups"
+            table="bo_team_group"
+            lazy="false"
+            inverse="true"
+            cascade="none"
+            sort="unsorted"
+        >
+
+              <key
+                  column="bo_team_ref"
+              />
+
+              <many-to-many
+                  class="de.winkler.betoffice.storage.Group"
+                  column="bo_group_ref"
+                  outer-join="auto"
+              />
+
+        </set>
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-Team.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+    </class>
+
+</hibernate-mapping>

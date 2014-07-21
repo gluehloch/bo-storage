@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ergx>
+  <termin>
+    <termin_id>fbbl1m_2009_4239</termin_id>
+    <spielid>fbbl1m_4239</spielid>
+    <sportart>Fußball</sportart>
+    <liga>Bundesliga</liga>
+    <gender>m</gender>
+    <land>Deutschland</land>
+    <saison>2009</saison>
+    <datum>07.08.2009</datum>
+    <zeit>20.30</zeit>
+    <ort />
+    <teama>VfL Wolfsburg</teama>
+    <teama_id>fbbl1m_53</teama_id>
+    <teamb>VfB Stuttgart</teamb>
+    <teamb_id>fbbl1m_47</teamb_id>
+    <punkte_a />
+    <punkte_b />
+    <teil1 />
+    <teil2 />
+    <teil3 />
+    <nv />
+    <penalty />
+    <spieltag>1</spieltag>
+    <spieltagname>1. Spieltag</spieltagname>
+    <division_a />
+    <division_b />
+    <conference_a />
+    <conference_b />
+    <info />
+  </termin>
+  <termin>
+    <termin_id>fbbl1m_2009_4240</termin_id>
+    <spielid>fbbl1m_4240</spielid>
+    <sportart>Fußball</sportart>
+    <liga>Bundesliga</liga>
+    <gender>m</gender>
+    <land>Deutschland</land>
+    <saison>2009</saison>
+    <datum>08.08.2009</datum>
+    <zeit>15.30</zeit>
+    <ort />
+    <teama>Borussia Dortmund</teama>
+    <teama_id>fbbl1m_45</teama_id>
+    <teamb>1. FC Köln</teamb>
+    <teamb_id>fbbl1m_61</teamb_id>
+    <punkte_a />
+    <punkte_b />
+    <teil1 />
+    <teil2 />
+    <teil3 />
+    <nv />
+    <penalty />
+    <spieltag>1</spieltag>
+    <spieltagname>1. Spieltag</spieltagname>
+    <division_a />
+    <division_b />
+    <conference_a />
+    <conference_b />
+    <info />
+  </termin>
+  <termin>
+    <termin_id>fbbl1m_2009_4241</termin_id>
+    <spielid>fbbl1m_4241</spielid>
+    <sportart>Fußball</sportart>
+    <liga>Bundesliga</liga>
+    <gender>m</gender>
+    <land>Deutschland</land>
+    <saison>2009</saison>
+    <datum>08.08.2009</datum>
+    <zeit>15.30</zeit>
+    <ort />
+    <teama>1. FC Nürnberg</teama>
+    <teama_id>fbbl1m_64</teama_id>
+    <teamb>Schalke 04</teamb>
+    <teamb_id>fbbl1m_42</teamb_id>
+    <punkte_a />
+    <punkte_b />
+    <teil1 />
+    <teil2 />
+    <teil3 />
+    <nv />
+    <penalty />
+    <spieltag>1</spieltag>
+    <spieltagname>1. Spieltag</spieltagname>
+    <division_a />
+    <division_b />
+    <conference_a />
+    <conference_b />
+    <info />
+  </termin>
+  <termin>
+    <termin_id>fbbl1m_2009_4243</termin_id>
+    <spielid>fbbl1m_4243</spielid>
+    <sportart>Fußball</sportart>
+    <liga>Bundesliga</liga>
+    <gender>m</gender>
+    <land>Deutschland</land>
+    <saison>2009</saison>
+    <datum>08.08.2009</datum>
+    <zeit>15.30</zeit>
+    <ort />
+    <teama>Werder Bremen</teama>
+    <teama_id>fbbl1m_40</teama_id>
+    <teamb>Eintracht Frankfurt</teamb>
+    <teamb_id>fbbl1m_52</teamb_id>
+    <punkte_a />
+    <punkte_b />
+    <teil1 />
+    <teil2 />
+    <teil3 />
+    <nv />
+    <penalty />
+    <spieltag>1</spieltag>
+    <spieltagname>1. Spieltag</spieltagname>
+    <division_a />
+    <division_b />
+    <conference_a />
+    <conference_b />
+    <info />
+  </termin>
+  <termin>
+    <termin_id>fbbl1m_2009_4244</termin_id>
+    <spielid>fbbl1m_4244</spielid>
+    <sportart>Fußball</sportart>
+    <liga>Bundesliga</liga>
+    <gender>m</gender>
+    <land>Deutschland</land>
+    <saison>2009</saison>
+    <datum>08.08.2009</datum>
+    <zeit>15.30</zeit>
+    <ort />
+    <teama>Hertha BSC Berlin</teama>
+    <teama_id>fbbl1m_44</teama_id>
+    <teamb>Hannover 96</teamb>
+    <teamb_id>fbbl1m_50</teamb_id>
+    <punkte_a />
+    <punkte_b />
+    <teil1 />
+    <teil2 />
+    <teil3 />
+    <nv />
+    <penalty />
+    <spieltag>1</spieltag>
+    <spieltagname>1. Spieltag</spieltagname>
+    <division_a />
+    <division_b />
+    <conference_a />
+    <conference_b />
+    <info />
+  </termin>
+  <termin>
+    <termin_id>fbbl1m_2009_4245</termin_id>
+    <spielid>fbbl1m_4245</spielid>
+    <sportart>Fußball</sportart>
+    <liga>Bundesliga</liga>
+    <gender>m</gender>
+    <land>Deutschland</land>
+    <saison>2009</saison>
+    <datum>08.08.2009</datum>
+    <zeit>15.30</zeit>
+    <ort />
+    <teama>FSV Mainz 05</teama>
+    <teama_id>fbbl1m_66</teama_id>
+    <teamb>Bayer Leverkusen</teamb>
+    <teamb_id>fbbl1m_43</teamb_id>
+    <punkte_a />
+    <punkte_b />
+    <teil1 />
+    <teil2 />
+    <teil3 />
+    <nv />
+    <penalty />
+    <spieltag>1</spieltag>
+    <spieltagname>1. Spieltag</spieltagname>
+    <division_a />
+    <division_b />
+    <conference_a />
+    <conference_b />
+    <info />
+  </termin>
+  <termin>
+    <termin_id>fbbl1m_2009_4246</termin_id>
+    <spielid>fbbl1m_4246</spielid>
+    <sportart>Fußball</sportart>
+    <liga>Bundesliga</liga>
+    <gender>m</gender>
+    <land>Deutschland</land>
+    <saison>2009</saison>
+    <datum>08.08.2009</datum>
+    <zeit>18.30</zeit>
+    <ort />
+    <teama>1899 Hoffenheim</teama>
+    <teama_id>fbbl1m_62</teama_id>
+    <teamb>Bayern München</teamb>
+    <teamb_id>fbbl1m_39</teamb_id>
+    <punkte_a />
+    <punkte_b />
+    <teil1 />
+    <teil2 />
+    <teil3 />
+    <nv />
+    <penalty />
+    <spieltag>1</spieltag>
+    <spieltagname>1. Spieltag</spieltagname>
+    <division_a />
+    <division_b />
+    <conference_a />
+    <conference_b />
+    <info />
+  </termin>
+  <termin>
+    <termin_id>fbbl1m_2009_4247</termin_id>
+    <spielid>fbbl1m_4247</spielid>
+    <sportart>Fußball</sportart>
+    <liga>Bundesliga</liga>
+    <gender>m</gender>
+    <land>Deutschland</land>
+    <saison>2009</saison>
+    <datum>09.08.2009</datum>
+    <zeit>15.30</zeit>
+    <ort />
+    <teama>VfL Bochum</teama>
+    <teama_id>fbbl1m_54</teama_id>
+    <teamb>Borussia Mönchengladbach</teamb>
+    <teamb_id>fbbl1m_60</teamb_id>
+    <punkte_a />
+    <punkte_b />
+    <teil1 />
+    <teil2 />
+    <teil3 />
+    <nv />
+    <penalty />
+    <spieltag>1</spieltag>
+    <spieltagname>1. Spieltag</spieltagname>
+    <division_a />
+    <division_b />
+    <conference_a />
+    <conference_b />
+    <info />
+  </termin>
+  <termin>
+    <termin_id>fbbl1m_2009_4242</termin_id>
+    <spielid>fbbl1m_4242</spielid>
+    <sportart>Fußball</sportart>
+    <liga>Bundesliga</liga>
+    <gender>m</gender>
+    <land>Deutschland</land>
+    <saison>2009</saison>
+    <datum>09.08.2009</datum>
+    <zeit>17.30</zeit>
+    <ort />
+    <teama>SC Freiburg</teama>
+    <teama_id>fbbl1m_67</teama_id>
+    <teamb>Hamburger SV</teamb>
+    <teamb_id>fbbl1m_41</teamb_id>
+    <punkte_a />
+    <punkte_b />
+    <teil1 />
+    <teil2 />
+    <teil3 />
+    <nv />
+    <penalty />
+    <spieltag>1</spieltag>
+    <spieltagname>1. Spieltag</spieltagname>
+    <division_a />
+    <division_b />
+    <conference_a />
+    <conference_b />
+    <info />
+  </termin>
+
+  <zusatztext />
+</ergx>

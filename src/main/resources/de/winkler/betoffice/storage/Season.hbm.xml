@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class
+        name="de.winkler.betoffice.storage.Season"
+        table="bo_season"
+        dynamic-update="false"
+        dynamic-insert="false"
+    >
+
+        <id
+            name="id"
+            column="id"
+            type="java.lang.Long"
+        >
+            <generator class="native">
+            </generator>
+        </id>
+
+        <component
+            name="championshipConfiguration"
+            class="de.winkler.betoffice.storage.ChampionshipConfiguration"
+        >
+
+        <property
+            name="exportDirectory"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="bo_exportdirectory"
+        />
+
+        <property
+            name="exportTemplate"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="bo_exporttemplate"
+        />
+
+        </component>
+
+        <list
+            name="gameList"
+            inverse="false"
+            cascade="all"
+            lazy="extra"
+        >
+
+              <key
+                  column="bo_season_ref"
+              />
+
+              <index
+                  column="bo_index"
+              />
+
+              <one-to-many
+                  class="de.winkler.betoffice.storage.GameList"
+              />
+        </list>
+
+        <property
+            name="year"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="bo_year"
+            lazy="false"
+        />
+
+        <property
+            name="name"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="bo_name"
+        />
+
+        <many-to-one
+            name="currentGameList"
+            class="de.winkler.betoffice.storage.GameList"
+            cascade="none"
+            outer-join="auto"
+            update="true"
+            insert="true"
+            column="bo_current_ref"
+            not-null="false"
+        />
+
+        <!--
+        <property
+            name="mode"
+            type="de.winkler.betoffice.storage.enums.SeasonType"
+            update="true"
+            insert="true"
+            column="bo_mode"
+            not-null="true"
+        />
+        -->
+
+        <property
+            name="mode"
+            column="bo_mode"
+            update="true"
+            insert="true"
+            not-null="true"
+            lazy="false"
+            >
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">de.winkler.betoffice.storage.enums.SeasonType</param>
+                <param name="lazy">false</param>
+            </type>
+        </property>
+
+        <!--
+        <property
+            name="teamType"
+            type="de.winkler.betoffice.storage.enums.TeamType"
+            update="true"
+            insert="true"
+            column="bo_teamtype"
+            not-null="true"
+        />
+        -->
+
+        <property
+            name="teamType"
+            column="bo_teamtype"
+            update="true"
+            insert="true"
+            not-null="true"
+            lazy="false"
+            >
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">de.winkler.betoffice.storage.enums.TeamType</param>
+            </type>
+        </property>
+
+        <set
+            name="groups"
+            inverse="true"
+            cascade="all"
+            sort="unsorted"
+        >
+
+              <key
+                  column="bo_season_ref"
+              />
+
+              <one-to-many
+                  class="de.winkler.betoffice.storage.Group"
+              />
+        </set>
+
+        <set
+            name="userSeason"
+            inverse="true"
+            cascade="all"
+            sort="unsorted"
+        >
+
+              <key
+                  column="bo_season_ref"
+              />
+
+              <one-to-many
+                  class="de.winkler.betoffice.storage.UserSeason"
+              />
+        </set>
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-Season.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+    </class>
+
+</hibernate-mapping>

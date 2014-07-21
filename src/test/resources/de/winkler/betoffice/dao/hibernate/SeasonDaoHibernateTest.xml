@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <bo_season id="1" bo_name="1. Bundesliga" bo_year="1999/2000" bo_mode="0" bo_teamtype="0" />
+    <bo_season id="2" bo_name="1. Bundesliga" bo_year="2000/2001" bo_mode="0" bo_teamtype="0" />
+    <bo_season id="3" bo_name="1. Bundesliga" bo_year="2001/2002" bo_mode="0" bo_teamtype="0" />
+    <bo_season id="4" bo_name="1. Bundesliga" bo_year="2002/2003" bo_mode="0" bo_teamtype="0" />   
+</dataset>

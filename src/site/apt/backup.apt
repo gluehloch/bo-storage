@@ -1,0 +1,122 @@
+Sammlung von Backupskripten
+
+* Backup einer MySQL Datenbank unter Windows
+
+  Allererste Wichtigkeit bei einem Backup: Wann wurde das Backup angelegt
+  und somit die automatische Bereitstellung eines Datums. Unter Windows
+  gibt es dafür die Umgebungsvarible %DATE%. Hier ein paar beispielhafte
+  Anwendungen:
+
+  * <<<%DATE:~6,4%>>> nimmt die nächsten 4 Zeichen ab Position 6.
+
+  * <<<%DATE:~0,3%>>> nimmt die ersten 3 Zeichen.
+
+  * <<<%DATE:~3,2%>>> nimmt die nächsten 2 Zeichen ab Position 3.
+
+  []
+
+  Mit dem DOS-Batch Befehl <<<set tt=%DATE:~6,4%-%DATE:~3,2%-%DATE:~0,2%>>>
+  erhält die Variable tt den Wert <<<YYY-MM-DD>>>. Das folgende DOS-Batch
+  Beispiel zeigt, wie die typische Sicherung einer MYSQL Datenbank aussehen
+  könnte. 
+   
++------------------------------------------------------------------------------+
+@echo off
+
+REM Aktuelle Zeit abrufen
+set CURRENTTIME=%TIME%
+
+REM Zusammensetzung Archivname
+set tt=%DATE:~6,4%-%DATE:~3,2%-%DATE:~0,2%
+echo Backup gestartet am %tt%
+
+set filename=pirates-production-%tt%.sql
+
+del %filename%
+mysqldump -c pirates-production -u sportwetten --password=sportwetten > %filename%
+
+rem Optional: Sicherung auf ein Netzlaufwerk
+copy %filename% Y:\Applications\betoffice\pirates-production-database
++------------------------------------------------------------------------------+
+
+* Backup unter Linux/Unix
+
+  Der Dump wird hier per SCP auf einen anderen Rechner verschoben.
+
++------------------------------------------------------------------------------+
+#!/bin/bash
+CURRENTTIME=`date '+%Y-%m-%d'`
+echo "Backup date: $CURRENTTIME"
+
+FILENAME="pirates-production-$CURRENTTIME.sql"
+echo "Backup file: $FILENAME"
+
+rm $FILENAME
+mysqldump -c pirates-production -u sportwetten --password=sportwetten > $FILENAME
+
+scp $FILENAME awinkler2@192.168.0.2:/cygdrive/f/Applications/betoffice/pirates-production-database
++------------------------------------------------------------------------------+
+
+* Daily database backup
+
+  Editieren der crontab Einträge für einen User:
+
++------------------------------------------------------------------------------+
+crontab -e
++------------------------------------------------------------------------------+
+
+  Das Skript möchte ich einmal täglich um 20:20 Uhr ausführen lassen. Dazu
+  eignet sich ein CRON Job am besten. Die Steuerung erfolgt über die
+  folgenden Befehle:
+  
+  * Auflisten aller crontab Einträge für einen User:
+
++------------------------------------------------------------------------------+
+crontab -l
++------------------------------------------------------------------------------+
+
+  * Für mein Backup Skript habe ich die folgende Zeiteinteilung gewählt:
+
++------------------------------------------------------------------------------+
+# m h  dom mon dow   command
+20 20 * * * /home/betoffice/bin/backup_betoffice.sh
++------------------------------------------------------------------------------+
+  
+  []
+
+  Dabei haben die Spalten in der crontab die folgende Bedeutung:
+ 
+  * 1. Spalte - Minute
+    0-59 (mehrere Minuten-Angaben mit Komma, z.B. 0,30 für xx:00 und xx:30 Uhr) 
+    * für alle Minuten 
+    */5 für alle 5 Minuten (also xx:00, xx:05, xx:10 Uhr, usw.) 
+
+  * 2. Spalte - Stunde
+    0-23 (mehrere Stunden-Angaben mit Komma, z.B. 10,13,17 für 10:xx, 13:xx und 17:xx Uhr) 
+    * für alle Stunden 
+    */4 für alle 4 Stunden (also 00:xx, 04:xx, 08:xx, 12:xx, 16:xx und 20:xx Uhr) 
+
+  * 3. Spalte - Tag im Monat
+    1-31 
+    * für jeden Tag 
+
+  * 4. Spalte - Monat
+    1-12 
+    * für jeden Monat 
+
+  * 5. Spalte - Wochentag
+    0-7 (0 und 7 stehen für Sonntag, 1 für Montag, usw.) 
+    * für jeden Wochentag 
+
+  []
+  
+  * Damit die Backup-Dateien auf einen anderen Rechner gespiegel werden,
+    kann man den folgenden Befehl verwenden:
+
++------------------------------------------------------------------------------+
+rsync --delete -avzbe ssh betoffice@tippdiekistebier.de:~/path/to/server ~/tippdiekistebier --backup-dir=~/old
++------------------------------------------------------------------------------+
+  
+  []
+
+  

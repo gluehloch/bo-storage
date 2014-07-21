@@ -1,0 +1,21 @@
+Die ist ein Test-Mail-Anmeldung:
+
+<FORM>
+    <USE>Anmeldung Winkler Sportwetten</USE>
+    <FORMINFO>##ENV_HTTP_REFERER##</FORMINFO>
+    <USERIP>TEST-REMOTE-HOST</USERIP>
+    <BROWSER>TEST-BROWSER</BROWSER>
+    <DATUM>25.03.1971</DATUM>
+    <TIME>17:55</TIME>
+    <USER>Winkler</USER>
+    <USERCALL>Andre</USERCALL>
+    <NICKNAME>andre.winkler</NICKNAME>
+    <PWDA>Elch71</PWDA>
+    <PWDB>Elch71</PWDB>
+    <EMAIL>andre.winkler@web.de</EMAIL>
+    <PHONE>4711</PHONE>
+</FORM>
+
+
+Mit freundlichen Gruessen,
+Andre Winkler

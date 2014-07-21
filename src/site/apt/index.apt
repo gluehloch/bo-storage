@@ -1,0 +1,86 @@
+Betoffice Storage Projekt
+
+  Domänenklassen und Persistenzfunktionalität der Betoffice Anwendung.
+
+
+* Implementierungs FAQ
+
+  * Wie erhalte ich Zugriff auf ein Betoffice-Service Objekt?
+
+    Der Zugriff erfolgt über Spring. Dazu ist ein ClassPathXmlApplicationContext
+    Objekt anzulegen. Die Default-Konfiguration sieht so aus:
+
++---------------------------------------------------------------------------+
+ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+    new String[] { "betoffice.xml" } );
+Object databaseMaintenanceService = context
+    .getBean("databaseMaintenanceService");
++---------------------------------------------------------------------------+
+
+    In diesem Fall werden die Dateien
+    <<<src/main/resources/betoffice-persistence.xml>>>,
+    <<<src/main/resources/betoffice-datasource.xml>>>,
+    <<<src/main/resources/betoffice.properties>>> herangezogen. Die Property
+    Definitionen in der <<<betoffice.properties>>> Datei ersetzen die
+    Platzhalter in den restlichen Spring-Konfigurationsdateien.
+
+    Um die Konfiguration an die entsprechende Umgebung anzupassen, empfiehlt
+    sich eher der folgende Aufruf:
+
++---------------------------------------------------------------------------+
+ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+    new String[] {
+        "classpath:betoffice-datasource.xml",
+        "classpath:betoffice-persistence.xml",
+        "classpath:my_connection_properties.xml", });
+Object databaseMaintenanceService = context
+    .getBean("databaseMaintenanceService");
++---------------------------------------------------------------------------+
+    
+    <<<betoffice-datasource.xml>>> definiert eine DataSource. Für den Einsatz
+    in einem Web-Container würde man hier von den Default-Einstellungen weg
+    gehen und eher die Datasource über JNDI beziehen und dies in einer
+    eigenen Spring-Datasource Konfiguration verdrahten. Die Datei
+    <<<betoffice-persistence.xml>>> kann in der Regel so übernommen werden,
+    außer man möchte die Transaktionssteuerung ändern. Die Datei
+    <<<my_connection_properties.xml>>> könnte dabei folgenden Aufbau haben:
+
++---------------------------------------------------------------------------+
+  <bean id="myProperties"
+    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location">
+      <value>classpath:betoffice.properties</value>
+    </property>
+  </bean>
++---------------------------------------------------------------------------+
+
+    Es wird also eine Property Datei herangezogen, die die entsprechenden
+    Platzhalter in den anderen Konfigurationen ersetzt.
+
+    Nach erfolgreicher Konfigurationsauswahl stehen dann die folgenden Service
+    Klassen, die sich im Paket
+    <<<de.winkler.betoffice.service>>> wiederfinden, zur Verfügung:
+
+    * MasterDataManagerService. Bean ID: <<<masterDataManagerService>>>
+
+      Verwaltung der Stammdaten der Anwendung, wie Teilnehmer, Mannschaften,
+      Gruppentypen.
+    
+    * SeasonManagerService. Bean ID: <<<seasonManagerService>>>
+
+      Verwaltung der Daten einer Meisterschaft, wie Teilnehmer und
+      Mannschaftszuordnung.
+      
+    * Tippservice. Bean ID: <<<tippService>>>
+    
+      Service zur Abgabe von Spieltipps.
+      
+    * DatabaseMaintenanceService. Bean ID: <<<databaseMaintenanceService>>>
+    
+      Wartungs-Service. Über diesen Service können direkt HSQL oder SQL
+      Befehle an die Datenbank abgesetzt werden. 
+
+* TODOs / Vorschläge
+
+  * Für Version 1.2 eine Storage DSL für Finder und Factory Use-Cases.
+

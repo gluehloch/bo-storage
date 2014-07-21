@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+  <!--+
+    ! =========================================================================
+    ! Enthaelt die Verbindungseinstellungen zur Datenbank; Organisiert die
+    ! Hibernate Konfiguration (Mapping-Dateien); Initialisiert das Hibernate
+    ! Transaktionsmanagement; Stellt die DAOs, die Betoffice Konfiguration und
+    ! das Transaktionsmanagement in der Configuration zur Verfuegung.
+    ! Diese Spring Konfiguration ist ueber die folgenden Eigenschaften
+    ! parametrisierbar:
+    !
+    ! ${database.driver.class} = Database Driver Class Name
+    ! ${database.url} = Database JDBC URL
+    ! ${database.user} = Database User
+    ! ${database.password} = Database User Password
+    !
+    ! =========================================================================
+    +-->
+
+  <!--+
+    ! =======================================================================
+    ! Datenbank Einstellungen
+    ! =======================================================================
+    +-->
+  <bean id="myDataSource"
+    class="org.apache.commons.dbcp.BasicDataSource"
+    destroy-method="close">
+    <property name="driverClassName">
+      <value>com.mysql.jdbc.Driver</value>
+    </property>
+    <property name="url">
+      <value>jdbc:mysql://localhost/piratestest</value>
+    </property>
+    <property name="username">
+      <value>sportwetten</value>
+    </property>
+    <property name="password">
+      <value>sportwetten</value>
+    </property>
+  </bean>
+
+</beans>

@@ -1,0 +1,166 @@
+Unit Tests im betoffice-storage Paket
+
+  Grundlage für alle Tests ist JUnit 4. In der Testumgebung wird eine
+  vorinstallierte MySQL Datenbank erwartet in der das Schema PIRATESTEST
+  mit dem Datenbank-User 'sportwetten' und Passwort 'sportwetten'
+  angelegt ist. Als weitere Testdatenbank ist Derby vorgesehen. In einzelnen
+  Testfällen wird Derby bereits verwendet
+  (Siehe <<<de.winkler.betoffice.database.DerbyStorageTest>>>). Als weitere
+  Hilfsmittel sind im Einsatz: Unitils, Coberture (Auswertung der
+  Testabdeckung) und Mockito.
+
+  Die JUnit Tests setzen auf zwei Ebenen an:
+
+* DAO Test
+
+  Die DAO Klassen im Paket <<<de.winkler.betoffice.dao.hibernate>>>.
+  Diese Tests kommen ohne Spring aus und verwenden die Funktionen von
+  Hibernate, Unitils und DBUnit. Allgemeine Oberklasse ist hier
+  <<<de.winkler.betoffice.dao.hibernate.HibernateDaoTestSupport>>>
+  Im Verzeichnis <<<PROJECT/src/test/resource>>> und dort im Paket
+  <<<de.winkler.betoffice.dao.hibernate>>> wird die initiale
+  DBUnit Datenbankbefüllung erwartet. Folgende Dateien sind an einem Test
+  in dieser Schicht involviert (Beispiel anhand der Testklasse
+  SeasonDaoHibernateTest):
+
++---------------------------------------------------------------------------+
+src
+ +---/main
+     !  !
+     !  +---/java
+     !         !
+     !         +---/de/winkler/betoffice/dao/hibernate/SeasonDaoHibernate.java
+     /test
+        !
+        +---/java
+        !      !
+        !      +---/de/winkler/betoffice/dao/hibernate/SeasonDaoHibernateTest.java
+        !
+        +---/resources
+               !
+               +---/test-mysql-hibernate.cfg.xml
+               !   (Die Datei wird von der Utility Klasse
+               !    <<<de.winkler.betoffice.dao.hibernate.HibernateDaoTestSupport>>>
+               !    verwendet.)
+               !
+               +---/de.winkler.betoffice.dao.hibernate.SeasonDaoHibernateTest.xml
+               !   (Daten für die Beladung der Testdatenbank im DBUnit Format.)
+               !
+               +---/unitils.properties
+                   (Datenbankverbindungseinstellungen für das Unitils Framework.)
++---------------------------------------------------------------------------+
+
+  Die Frameworks Unitils/DBUnit sorgen für die Befüllung der Testdatenbank mit
+  dem für diesen Testfall spezifischen Daten.
+
+  Folgende Konfigurationsdateien werden für einen DAO Test verwendet:
+
+  * <<</test-mysql-hibernate.cfg.xml>>>
+    (Hibernate holt sich hier direkt die Verbindungsdaten zur Datenbank über
+     die klassische Hibernate CFG Datei. Diese Konfigurationsdatei zeigt
+     direkt auf jdbc:mysql://localhost/pirates-test.)
+
+  * <<</unitils.properties>>>
+    (Konfiguriert die Toolbox UNITILS. Datenbankeinstellungen sind hier leider
+     redundant aufgeführt.)
+
+  []
+
+* Service Layer
+
+  Eine Architektur Schicht über dem DAO Layer. Die Klassen im Paket
+  <<<de.winkler.betoffice.service>>> bilden den fachlichen Kern der Anwendung.
+  über diese Schnittstelle greifen alle anderen Anwendungen auf
+  betoffice-storage zu. Auf dieser Ebene kommt Spring zum Einsatz und muss
+  dementsprechend in den Testklasse angesprochen und unterstützt werden.
+
+  Die Testklassen finden sich in der unterhalb dieser Paketstruktur.
+  Um die folgenden Testklassen auch in anderen betoffice Projekten verwenden
+  zu können, liegen diese unter dem Verzeichnis <<<src/main>>> bzw.
+  <<<src/resources>>>.
+  Als Testunterstützung fungiert die Klasse
+  <<<de.winkler.betoffice.test.service.ServiceTestSupport>>>. Hier finden sich
+  die Eigenschaften für den Zugriff auf die Objekte
+  <<<PersistenceTestSupport>>> und <<<MySqlDatabasedTestSupport>>>, welche
+  das Rückgrat der Testumgebung in dieser Schicht bilden.
+
+  MySqlDatabaseTestSupport liefert eine initialisierte Datenbank und legt
+  ggf. alle Tabellenstrukturen an. Bei Bedarf kann eine Datenbank mit
+  #deleteDatabase() komplett gelöscht werden.
+
+  PersistenceTestSupport liefert den Zugriff auf die Spring-Konfiguration.
+  Damit erhalten die Testfälle den Zugang zu allen Services bzw. deren
+  darunterliegenden DAOs und ggf. weiteren Objekten.
+
++---------------------------------------------------------------------------+
+src
+ +---/main
+     !  !
+     !  +---/java
+     !  !      !
+     !  !      +---/de/winkler/betoffice/service
+     !  !      !      !
+     !  !      !      +---/SeasonManagerService.java
+     !  !      !      !
+     !  !      !      +---/MasterDataManagerService.java
+     !  !      !
+     !  !      +---/de/winkler/betoffice/test/database
+     !  !             !
+     !  !             +---/MySqlDatabasedTestSupport.java
+     !  !             !
+     !  !             +---/PersistenceTestSupport.java
+     !  !      
+     !  !
+     !  +---/resources
+     !         !
+     !         +---/betoffice-persistence.xml
+     !         !   (Definition der Default-Spring Konfiguration für den Betrieb
+     !         !    von Betoffice.)
+     !         !
+     !         +---/hibernate-mysql-test.xml
+     !         !   (Eine Datei für die Springkonfiguration. Die Einstellungen
+     !         !    hier überschreibt die Default-Springkonfiguration.)
+     !         !
+     !         +---/de/winkler/betoffice/test/database/hibernate-mysql-test.properties
+     !             (Datenbankverbindungseinstellungen für die zu beladende Datenbank.
+     !              Wird von MySqlDatabasedTestSupport verwendet und in der
+     !              Spring-Konfiguration angezogen.)
+     !
+     /test
+        !
+        +---/java
+        !      !
+        !      +---/de/winkler/betoffice/dao/hibernate
+        !      !   (Test der Hibernate DAOs mit Hilfe von Unitils ohne Spring
+        !      !    Unterstützung.)
+        !      !      
+        !      +---/de/winkler/betoffice/service
+        !             ! (Test der Service-Schnittstelle.)
+        !             !
+        !             +---/CreateNewSeasonTest.java
+        !             !
+        !             +---/MasterDataManagerServiceTest.java
+        !             !
+        !             +---/SeasonManagerServiceTest.java
+        !
+        +---/resources
+               !
++---------------------------------------------------------------------------+
+
+* Probleme und TODOs
+
+  Service und DAO-Layer werden auf unterschiedliche Art und Weise getestet.
+  Grund: Ich wollte unbedingt Unitils und das Spring TestContext Framework
+  ausprobieren!
+
+* Groovy JUnit Tests
+
+  Ein weiteres Experiment ist das Testen mit Groovy.
+  Zur Unterstützung der Groovy Testklassen existiert die Groovy-Klasse
+  <<<de.winkler.betoffice.service.BetofficePersistenceTestCase>>>. Im Testfall
+  steht eine MySQL Datenbank zur Verfügung, die mit einigen Stammdaten
+  vorbefüllt ist. Die <<<#assertDbTableEquals(...)>>> Methoden vergleichen
+  Ergebnisse von Datenbankabfragen mit dem erwarteten Ergebnis. Im Quellcode
+  wird quasi die DBUnit Beschreibung abgelegt.
+
+ * Utility Klassen

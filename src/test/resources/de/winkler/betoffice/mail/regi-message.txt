@@ -1,0 +1,15 @@
+<FORM>
+	<USE>Anmeldung Winkler Sportwetten</USE>
+	<FORMINFO>##ENV_HTTP_REFERER##</FORMINFO>
+	<USERIP>##ENV_REMOTE_HOST##</USERIP>
+	<BROWSER>##ENV_HTTP_USER_AGENT##</BROWSER>
+	<DATUM>##DATUM##</DATUM>
+	<TIME>##UHRZEIT##</TIME>
+	<USER>##user_name##</USER>
+	<USERCALL>##user_call##</USERCALL>
+	<NICKNAME>##nickname##</NICKNAME>
+	<PWDA>##passwordA##</PWDA>
+	<PWDB>##passwordB##</PWDB>
+	<EMAIL>##absender##</EMAIL>
+	<PHONE>##phone##</PHONE>
+</FORM>

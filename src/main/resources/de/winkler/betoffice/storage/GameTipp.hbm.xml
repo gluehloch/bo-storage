@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class
+        name="de.winkler.betoffice.storage.GameTipp"
+        table="bo_gametipp"
+        dynamic-update="false"
+        dynamic-insert="false"
+    >
+
+        <id
+            name="id"
+            column="id"
+            type="java.lang.Long"
+        >
+            <generator class="native">
+            </generator>
+        </id>
+
+        <component
+            name="tipp"
+            class="de.winkler.betoffice.storage.GameResult"
+        >
+        <property
+            name="homeGoals"
+            type="int"
+            update="true"
+            insert="true"
+            column="bo_homegoals"
+        />
+
+        <property
+            name="guestGoals"
+            type="int"
+            update="true"
+            insert="true"
+            column="bo_guestgoals"
+        />
+
+        </component>
+
+        <many-to-one
+            name="user"
+            class="de.winkler.betoffice.storage.User"
+            cascade="none"
+            outer-join="auto"
+            update="true"
+            insert="true"
+            column="bo_user_ref"
+        />
+
+        <many-to-one
+            name="game"
+            class="de.winkler.betoffice.storage.Game"
+            cascade="all"
+            outer-join="auto"
+            update="true"
+            insert="true"
+            column="bo_game_ref"
+        />
+
+        <!--
+        <property
+            name="status"
+            type="de.winkler.betoffice.storage.enums.TippStatusType"
+            update="true"
+            insert="true"
+            column="bo_status"
+        />
+        -->
+
+        <property
+            name="status"
+            column="bo_status"
+            update="true"
+            insert="true"
+            >
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">de.winkler.betoffice.storage.enums.TippStatusType</param>
+            </type>
+        </property>
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-GameTipp.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+    </class>
+
+</hibernate-mapping>

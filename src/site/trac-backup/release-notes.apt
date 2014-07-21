@@ -1,0 +1,199 @@
+= Betoffice Release Notes and Changes =
+
+ UserResultOfDay getUserPoints(
+
+== Change Notes for betoffice-1.2.1 ==
+
+'''betoffice-storage changes:'''
+ * TODO: Update to Hibernate annotations (JPA).
+
+== Change Notes for betoffice-1.2.1 ==
+
+'''betoffice-storage change:'''
+ * FINISHED: Store tipp before mailing.
+ 
+'''betoffice-exchange changes:'''
+
+'''betoffice-batch new:'''
+ * FINISHED: Exporting season data to bohome.
+ 
+'''betoffice-swing changes:'''
+
+----
+
+== Change Notes for betoffice-1.2.0 ==
+
+'''betoffice-storage changes:'''
+ * 
+
+== Change Notes for betoffice-1.1.4 ==
+
+'''betoffice-storage change:'''
+ * FINISHED: datetime columns for bo_game and a migration script.
+ * FINISHED: Update to Spring annotations.
+ * FINISHED: DFB download without existing round.
+ * FIXED: Ticket #14 Unexpected mail types disturbs the mail download process.
+ * MOVED: Removed the dependency Groovy and Derby. Started two new lab projects for them.
+ * FINISHED: Updated database creation scripts for production and test database (Distinct users for prod and test). 
+ 
+'''betoffice-exchange changes:'''
+ * 
+ 
+'''betoffice-swing changes:'''
+ * Datetime presentation of bo_game data.
+
+----
+
+== Change Notes for betoffice-1.1.3 ==
+
+The 1.1.3 release. The release is associated with [milestone:betoffice-1.1.3 betoffice-1.1.3]
+
+'''common changes:'''
+ * FINISHED: Moved to Maven 3.
+ * FINISHED: Changed the gmaven builder. Eclipse uses {{{org.eclipse.m2}}} now.
+
+'''database changes:'''
+ * FIXED: Set a default for all enum mapped columns. Take a look at ticket #13.
+ * FINISHED: The storage project supports MySQL INNODB. So we have real transactions.
+
+'''betoffice-storage changes:'''
+ * FINISHED: Remove the deprecated Hibernate´s enum support: [http://community.jboss.org/wiki/Java5EnumUserType Java5EnumUserType] or
+   [http://stackoverflow.com/questions/1593929/hibernate-enum-mapping Stackoverflow question for Java enums and Hibernate]
+ * FINISHED: Change all calls from {{{getHibernateTemplate#load(...)}}} to {{{getHibernateTemplate().get(...)}}}.
+
+'''betoffice-swing changes:'''
+ * FIXED: Ticket #11 Invalid tipp mails throw a RuntimeException, which is not catched.
+ * FIXED: Ticket #12 Better error messages for the mail download dialog.
+ * FINISHED: Reflect the changes to the enum types from betoffice-storage.
+
+----
+
+== Change notes for awtools-homepage generator 1.7.0-M1 ==
+
+The 1.7.0-M1 release is associated with milestone [milestone:betoffice-1.1.3 betoffice-1.1.3].
+
+ * FINISHED: Added the jQuery plugins cookie and json to the web resources.
+ * FINISHED: Updated to Maven 3.
+
+----
+
+== Change Notes for betoffice-1.1.2 ==
+
+The 1.1.2 release. The release is associated with [milestone:betoffice-1.1.2 betoffice-1.1.2]
+
+'''betoffice-storage changes:'''
+ * FINISHED: A better test coverage for the service classes {{{DefaultMasterDataService}}} and {{{DefaultSeasonDataService}}}.
+ * FINISHED: Ticket #2 Add team type to class {{{Team}}} and {{{Season}}}.
+
+'''betoffice-exchange changes:'''
+ * FINISHED: Update to the current awtools homepage generator (1.7.0-rc1).
+
+'''betoffice-swing changes:'''
+ * FINISHED: Ticket #2 Add team type to class {{{Team}}}.
+ * FINISHED: Ticket #7 Missing detail view for the participators.
+ * FINISHED: Ticket #8 Missing view for the tipp ranking of all participators.
+ * FINISHED: Ticket #9 Missing team ranking table.
+ * FIXED: The round view gets a refresh after a download from the DFB site.
+ * FIXED: Modified {{{startup.sh}}} so that it is runnable under Linux.
+
+----
+
+== Change notes for awtools-homepage generator 1.7.0-rc1 ==
+
+The 1.7.0-rc1 release is associated with milestone [milestone:awtools-homepage-generator-1.7.0-rc1].
+
+ * FINISHED: Substitute the JavaScript framework Prototype with jQuery.
+ * FINISHED: Change the menu handling (Instead of HttpRequest i will use cookies).
+ * FINISHED: Update to the latest YAML versions (3.2.1).
+ * FINISHED: Some changes for the header.
+
+== The web server is moving ==
+
+The homepage moved to a new address: tippdiekistebier.de. The PHP formular evaluator gets a round up and some new test cases. Also i will start some tests for a RESTful wrapper service of the betoffice-storage project.
+
+----
+
+== Change Notes for betoffice-1.1.1 ==
+
+The 1.1.1 release. The release is associated with [milestone:betoffice-1.1.1 betoffice-1.1.1]
+
+'''betoffice-storage changes:'''
+ * FINISHED: Update to the last Hibernate version.
+ * FINISHED: Update to the last Spring version.
+ * FINISHED: Change to slf4j logger.
+ * FINISHED: New service methods to handle {{{TeamAlias}}} changes.
+
+'''betoffice-exchange changes:'''
+ * FINISHED: Download the rounds from the DFB http service.
+ * FINISHED: Change to slf4j logger.
+ * FINISHED: Ticket #1 Use external source for actual match results
+
+'''betoffice-swing changes:'''
+ * FINISHED: Download dialog to control the inserts and updates of the external import interface.
+ * FINISHED: Change to slf4j logger.
+ * FINISHED: Dialog to manage the team alias names.
+
+----
+
+== Change Notes for betoffice-1.1.0 ==
+
+The 1.1.0 release. The release is associated with [milestone:betoffice-1.1.0 betoffice-1.1.0]
+
+'''betoffice-swing changes:'''
+ * FIXED: Ticket #6. Tree refresh after user/season relation update.
+ * FIXED: Ticket #10. Tree refresh after group/season relation update.
+
+----
+
+== Change Notes for betoffice-1.1.0-rc2 ==
+
+The second release candidate for betoffice-1.1.0. The release is associated with [milestone:betoffice-1.1.0-rc2 betoffice-1.1.0-rc2]
+
+'''betoffice-swing changes:'''
+ * FIXED: Ticket #3. Fix some refreshment problems. The tree view has to show new rounds after creation.
+ * FIXED: Ticket #5. Fix the team/group management dialog. Sorting by team names.
+ * ADDED: A new info dialog to show system and application properties.
+
+'''betoffice-storage changes:'''
+ * FIXED: Ticket #4. Fix for the table calculation. The goal difference calculation was not implemented.
+
+----
+
+== Change Notes for betoffice-1.1.0-rc1 ==
+
+Following changes between version 1.0.2 and 1.1.0-rc1 are implemented (Take also a look on the related milestone [milestone:betoffice-1.1.0-rc1]):
+
+'''Web frontend changes:'''
+
+ * FINISHED: Mail attribute changes:
+   * FINISHED: Attribute {{{user}}} in the tipp email changes to {{{nickname}}}. If you send a registration mail,
+     the attribute {{{nickname}}} is already used. Currently the tipp mail is using {{{user}}} instead
+     of {{{nickname}}}.
+   * FINISHED: Attribute {{{gameDay}}} in the tipp email changes to {{{round}}}. Beware that the {{{round}}} value
+     in the mail has a range of 1..N, instead of the internal representation of 0..N-1.
+   * FINISHED: An additional attribute for the {{{championship}}} has to be to send. This attribute references
+     the database id of the championship.
+ * FINISHED: Change project encoding to UTF-8.
+
+'''betoffice-swing changes:'''
+ * FINISHED: Alle dialogs and views must consider the new service interface to betoffice-storage.
+ * FINISHED: Enhanced support for the create match use case.
+ * FINISHED: Change project encoding to UTF-8.
+
+'''betoffice-exchange changes:'''
+ * FINISHED: Support for the new betoffice-storage service interface.
+ * FINISHED: Reflect the modified domain model (ex the removed table {{{gameList}}}.
+ * FINISHED: Change project encoding to UTF-8.
+
+'''betoffice-storage changes:'''
+
+ * FINISHED: A new service interface with some validations.
+ * FINISHED: Change project encoding to UTF-8.
+ * PLANNED: Use external services as input source.
+
+'''Database changes:'''
+
+ * FINISHED: The table {{{gameDayList}}} will be removed. The table {{{gameList}}} will reference directly table {{{season}}}.
+ * FINISHED: Change project encoding to UTF-8.
+ * FINISHED: A new table {{{bo_teamalias}}} for holding all alias team names.
+ * FINISHED: Migration script for the old production database 1.0.2 to 1.1.0.

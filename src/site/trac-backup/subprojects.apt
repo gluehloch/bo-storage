@@ -1,0 +1,210 @@
+= Sub Projects =
+
+Here are the URLs of all sub projects of betoffice.
+
+== The Maven parent POMs ==
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-mvn-project/trunk/gluehloch-parent-pom
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-mvn-project/trunk/betoffice-parent-pom
+
+Create a TAG command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-mvn-project/trunk/gluehloch-parent-pom \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-mvn-project/tags/gluehloch-parent-pom-<VERSION> \
+  -m "TAG: gluehloch-parent-pom-<VERSION>"
+}}}
+
+== The betoffice projects ==
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/main/trunk/betoffice-storage
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/main/trunk/betoffice-exchange
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/main/trunk/betoffice-swing
+
+== The awtools projects ==
+
+=== awtools-basic or gluehloch-utils ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/winutil/trunk
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/winutil/branches
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/winutil/tags
+
+Create a TAG command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/winutil/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/winutil/tags/<VERSION>_release \
+  -m "TAG: winutil-<VERSION>_release"
+}}}
+
+Create a BRANCH command: (May be i should take a better name for the branch to reflect the bugfix intention)
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/winutil/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/winutil/branches/<VERSION>_release \
+  -m "BRANCH: winutil-<VERSION>_release"
+}}}
+
+=== awtools-beanutils ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-beanutils/trunk
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-beanutils/branches
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-beanutils/tags
+
+Create a TAG command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-beanutils/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-beanutils/tags/<VERSION>_release \
+  -m "TAG: awtools-beanutils-<VERSION>_release"
+}}}
+
+Create a BRANCH command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-beanutils/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-beanutils/branches/<VERSION>_release \
+  -m "TAG: awtools-beanutils-<VERSION>_release"
+}}}
+
+=== awtools-config ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-config/trunk
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-config/branches
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-config/tags
+
+Create TAG command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-config/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-config/tags/<VERSION>_release \
+  -m "TAG: awtools-config-<VERSION>_release"
+}}}
+
+Create BRANCH command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-config/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-config/branches/<VERSION>_release \
+  -m "TAG: awtools-config-<VERSION>_release"
+}}}
+
+=== awtools-mail ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-mail/trunk
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-mail/branches
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-mail/tags
+
+Create a TAG command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-mail/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-mail/tags/<VERSION>_release \
+  -m "TAG: awtools-mail-<VERSION>_release"
+}}}
+
+Create a BRANCH command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-mail/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-mail/branches/<VERSION>_release \
+  -m "BRANCH: awtools-mail-<VERSION>_release"
+}}}
+
+=== awtools-lang ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-lang/trunk
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-lang/branches
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-lang/tags
+
+Create a TAG command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-lang/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-lang/tags/<VERSION>_release \
+  -m "TAG: awtools-lang-<VERSION>_release"
+}}}
+
+Create a BRANCH command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-lang/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-lang/branches/<VERSION>_release \
+  -m "BRANCH: awtools-lang-<VERSION>_release"
+}}}
+
+=== awtools-xml ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-xml/trunk
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-xml/branches
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-xml/tags
+
+Create a TAG command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-xml/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-xml/tags/<VERSION>_release \
+  -m "TAG: awtools-xml-<VERSION>_release"
+}}}
+
+Create a BRANCH command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-xml/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/awtools-xml/branches/<VERSION>_release \
+  -m "BRANCH: awtools-xml-<VERSION>_release"
+}}}
+
+== The homepage generator ==
+
+=== homepage-core ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-core/trunk
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-core/branches
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-core/tags
+
+Create a TAG command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-core/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-core/tags/<VERSION>_release \
+  -m "TAG: gluehloch-homepage-core-<VERSION>_release"
+}}}
+
+Create a BRANCH command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-core/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-core/branches/<VERSION>_release \
+  -m "BRANCH: gluehloch-homepage-core-<VERSION>_release"
+}}}
+
+=== homepage-resource ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-resource/trunk
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-resource/branches
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-resource/tags
+
+Create a TAG command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-resource/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-resource/tags/<VERSION>_release \
+  -m "TAG: gluehloch-homepage-resource-<VERSION>_release"
+}}}
+
+Create a BRANCH command:
+{{{
+svn copy https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-resource/trunk \
+  https://betoffice.svn.sourceforge.net/svnroot/betoffice/gluehloch-homepage/gluehloch-homepage-resource/branches/<VERSION>_release \
+  -m "BRANCH: gluehloch-homepage-resource-<VERSION>_release"
+}}}
+
+== The Swinger projects ==
+
+=== swinger-commons ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/commons/trunk
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/commons/branches
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/commons/tags
+
+=== swinger-commands ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/commands/trunk
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/commands/branches
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/commands/tags
+
+=== swinger-tree ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/tree/trunk
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/tree/branches
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/tree/tags
+
+=== swinger-concurrent ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/concurrent/trunk
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/concurrent/branches
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/concurrent/tags
+
+=== swinger-view ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/view/trunk
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/view/branches
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/swinger/view/tags
+
+== The Homepage projects ==
+
+=== tippdiekistebier.de ===
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/main/trunk/betoffice-hp
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/main/branches/betoffice-hp
+ * https://betoffice.svn.sourceforge.net/svnroot/betoffice/main/tags/betoffice-hp
+

@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+  <!--+
+    ! =========================================================================
+    ! Enthaelt die Verbindungseinstellungen zur Datenbank; Organisiert die
+    ! Hibernate Konfiguration (Mapping-Dateien); Initialisiert das Hibernate
+    ! Transaktionsmanagement; Stellt die DAOs, die Betoffice Konfiguration und
+    ! das Transaktionsmanagement in der Configuration zur Verfuegung.
+    ! Diese Spring Konfiguration ist ueber die folgenden Eigenschaften
+    ! parametrisierbar:
+    !
+    ! ${database.driver.class} = Database Driver Class Name
+    ! ${database.url} = Database JDBC URL
+    ! ${database.user} = Database User
+    ! ${database.password} = Database User Password
+    !
+    ! =========================================================================
+    +-->
+
+  <!--+
+    ! =======================================================================
+    ! Datenbank Einstellungen
+    ! =======================================================================
+    +-->
+  <bean id="myDataSource"
+    class="org.apache.commons.dbcp.BasicDataSource"
+    destroy-method="close">
+    <property name="defaultAutoCommit">
+    	<value>false</value>
+    </property>
+    <property name="driverClassName">
+      <value>${hibernate.connection.driver_class}</value>
+      <!-- Example: com.mysql.jdbc.Driver -->
+    </property>
+    <property name="url">
+      <value>${hibernate.connection.url}</value>
+      <!-- Example: jdbc:mysql://localhost/piratestest -->
+    </property>
+    <property name="username">
+      <value>${hibernate.connection.username}</value>
+    </property>
+    <property name="password">
+      <value>${hibernate.connection.password}</value>
+    </property>
+  </bean>
+
+</beans>

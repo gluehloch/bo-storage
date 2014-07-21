@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <bo_user id="1" bo_nickname="Frosch" bo_name="Winkler" bo_surname="Adam" bo_password="pst" bo_automat="0" bo_excluded="0"/>
+    <bo_user id="2" bo_nickname="Hattwig" bo_name="Meier" bo_surname="Erwin" bo_password="passwort" bo_automat="0" bo_excluded="0"/>
+    <bo_user id="3" bo_nickname="Peter" bo_name="Winkelmann" bo_surname="Lars" bo_password="geheim" bo_automat="0" bo_excluded="0"/>
+</dataset>
