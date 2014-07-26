@@ -1,0 +1,12 @@
+### TAB bo_team
+### id | bo_name       | bo_longname         | bo_logo         | bo_teamtype
+     1 | RWE           | Rot-Weiss-Essen     | rwe.gif         | 0
+     2 | RWO           | Rot Weiß Oberhausen | rwo.gif         | 0
+     3 | FC Schalke 04 | FC Schalke 04       | schalke04.gif   | 0
+
+### TAB bo_teamalias
+### id | bo_aliasname | bo_team_ref
+    0  | RWE          | 1
+    1  | RWO          | 2
+    2  | S04          | 3
+    3  | Schalke      | 3

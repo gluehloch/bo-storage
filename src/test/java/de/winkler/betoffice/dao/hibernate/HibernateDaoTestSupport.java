@@ -103,7 +103,6 @@ public class HibernateDaoTestSupport {
             deleteAll(conn);
             conn.commit();
         } finally {
-            conn.rollback();
             if (conn != null) {
                 conn.close();
             }

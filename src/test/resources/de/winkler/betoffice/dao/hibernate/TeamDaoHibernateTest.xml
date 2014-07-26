@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<dataset>
-    <bo_team id="0" bo_name="RWE" bo_longname="Rot-Weiss-Essen" bo_logo="rwe.gif" bo_teamtype="0" />
-    <bo_team id="1" bo_name="RWO" bo_longname="Rot Weiß Oberhausen" bo_logo="rwo.gif" bo_teamtype="0" />
-    <bo_team id="2" bo_name="Deutschland" bo_longname="Deutschland" bo_logo="deutschland.gif" bo_teamtype="1" />
-    <bo_team id="3" bo_name="Frankreich" bo_longname="Frankreich" bo_logo="frankreich.gif" bo_teamtype="1" />   
-</dataset>

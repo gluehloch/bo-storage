@@ -1,53 +1,109 @@
 /*
- * $Id: TeamDaoHibernateTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
+ * $Id: org.eclipse.jdt.ui.prefs 104 2008-06-08 10:34:41Z awinkler2 $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
  *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.dao.hibernate;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
+import org.hibernate.jdbc.Work;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import de.winkler.betoffice.dao.TeamDao;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.enums.TeamType;
 
 /**
- * Testet das DAO {@link TeamDaoHibernate}.
+ * A test class for {@link teamDao}.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedDate: 2008-06-08 12:34:41 +0200 (So, 08 Jun 2008) $
  */
-public class TeamDaoHibernateTest extends HibernateDaoTestSupport {
+public class TeamDaoHibernateTest extends DaoTestSupport {
 
-    private TeamDaoHibernate teamDaoHibernate;
+    @Autowired
+    private TeamDao teamDao;
+
+    @Before
+    public void init() {
+        prepareDatabase(TeamDaoHibernateTest.class);
+    }
+
+    @After
+    public void shutdown() {
+        getSessionFactory().getCurrentSession().doWork(new Work() {
+            @Override
+            public void execute(Connection connection) throws SQLException {
+                Statement stmt = connection.createStatement();
+                stmt.execute("DELETE FROM bo_team");
+                stmt.close();
+            }
+        });
+    }
 
     @Test
-    public void testTeamDaoHibernateFindAll() {
-        List<Team> teams = teamDaoHibernate.findAll();
+    public void testDataSource() {
+        assertThat(getDataSource(), notNullValue());
+        assertThat(getSessionFactory(), notNullValue());
+        assertThat(teamDao, notNullValue());
+    }
+
+    @Test
+    public void testDataLoad() throws Exception {
+        List<Team> teams = teamDao.findAll();
+        assertThat(teams.size(), equalTo(4));
+
+        Team rwe = teamDao.findById(1);
+        assertThat(rwe.getName(), equalTo("RWE"));
+        assertThat(rwe.getTeamType(), equalTo(TeamType.DFB));
+
+        Team rwo = teamDao.findById(2);
+        assertThat(rwo.getName(), equalTo("RWO"));
+        assertThat(rwo.getTeamType(), equalTo(TeamType.DFB));
+
+        Team deutschland = teamDao.findById(3);
+        assertThat(deutschland.getName(), equalTo("Deutschland"));
+        assertThat(deutschland.getTeamType(), equalTo(TeamType.FIFA));
+
+        Team frankreich = teamDao.findById(4);
+        assertThat(frankreich.getName(), equalTo("Frankreich"));
+        assertThat(frankreich.getTeamType(), equalTo(TeamType.FIFA));
+    }
+
+    @Test
+    public void testteamDaoFindAll() {
+        List<Team> teams = teamDao.findAll();
         assertEquals(4, teams.size());
         assertEquals("Deutschland", teams.get(0).getName());
         assertEquals("Frankreich", teams.get(1).getName());
@@ -56,34 +112,28 @@ public class TeamDaoHibernateTest extends HibernateDaoTestSupport {
     }
 
     @Test
-    public void testTeamDaoHibernateFindTeam() {
-        Team team = teamDaoHibernate.findByName("RWE");
+    public void testteamDaoFindTeam() {
+        Team team = teamDao.findByName("RWE");
         assertEquals("RWE", team.getName());
-        team = teamDaoHibernate.findByName("RWO");
+        team = teamDao.findByName("RWO");
         assertEquals("RWO", team.getName());
     }
 
     @Test
-    public void testTeamDaoHibernateFindTeams() {
-        List<Team> teams = teamDaoHibernate.findTeams(TeamType.DFB);
+    public void testteamDaoFindTeams() {
+        List<Team> teams = teamDao.findTeams(TeamType.DFB);
         assertEquals(2, teams.size());
         assertEquals("RWE", teams.get(0).getName());
         assertEquals(TeamType.DFB, teams.get(0).getTeamType());
         assertEquals("RWO", teams.get(1).getName());
         assertEquals(TeamType.DFB, teams.get(1).getTeamType());
 
-        teams = teamDaoHibernate.findTeams(TeamType.FIFA);
+        teams = teamDao.findTeams(TeamType.FIFA);
         assertEquals(2, teams.size());
         assertEquals("Deutschland", teams.get(0).getName());
         assertEquals(TeamType.FIFA, teams.get(0).getTeamType());
         assertEquals("Frankreich", teams.get(1).getName());
         assertEquals(TeamType.FIFA, teams.get(1).getTeamType());
-    }
-
-    @Before
-    public void setUp() {
-        teamDaoHibernate = new TeamDaoHibernate();
-        teamDaoHibernate.setSessionFactory(sessionFactory);
     }
 
 }
