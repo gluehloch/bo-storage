@@ -1,5 +1,4 @@
 /*
- * $Id$
  * ============================================================================
  * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
  * rights reserved.
@@ -26,6 +25,7 @@ package de.winkler.betoffice.dao.hibernate;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.sql.DataSource;
 
@@ -40,15 +40,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import de.dbload.Dbload;
 
 /**
- * TODO Comment me!
+ * DAO test support.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedDate: 2008-06-08 12:34:41 +0200 (So, 08 Jun 2008) $
+ * @author by Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/betoffice-datasource.xml",
         "/betoffice-persistence.xml", "/test-mysql-piratestest.xml" })
-public class DaoTestSupport extends
+public abstract class AbstractDaoTestSupport extends
         AbstractTransactionalJUnit4SpringContextTests {
 
     @Autowired
@@ -58,10 +57,33 @@ public class DaoTestSupport extends
     private SessionFactory sessionFactory;
 
     public void prepareDatabase(final Class<?> clazz) {
+        deleteDatabase();
         sessionFactory.getCurrentSession().doWork(new Work() {
             @Override
             public void execute(Connection connection) throws SQLException {
                 Dbload.start(connection, clazz);
+            }
+        });
+    }
+
+    public void deleteDatabase() {
+        sessionFactory.getCurrentSession().doWork(new Work() {
+            @Override
+            public void execute(Connection connection) throws SQLException {
+                Statement stmt = connection.createStatement();
+                stmt.execute("UPDATE bo_season set bo_current_ref = NULL");
+                stmt.execute("DELETE FROM bo_gametipp");
+                stmt.execute("DELETE FROM bo_game");
+                stmt.execute("DELETE FROM bo_gamelist");
+                stmt.execute("DELETE FROM bo_team_group");
+                stmt.execute("DELETE FROM bo_group");
+                stmt.execute("DELETE FROM bo_user_season");
+                stmt.execute("DELETE FROM bo_season");
+                stmt.execute("DELETE FROM bo_teamalias");
+                stmt.execute("DELETE FROM bo_team");
+                stmt.execute("DELETE FROM bo_user");
+                stmt.execute("DELETE FROM bo_grouptype");
+                stmt.close();
             }
         });
     }

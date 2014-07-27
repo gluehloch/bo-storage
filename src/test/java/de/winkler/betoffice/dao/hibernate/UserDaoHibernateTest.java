@@ -1,8 +1,7 @@
 /*
- * $Id: UserDaoHibernateTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2014 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -29,23 +28,46 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
+import org.hibernate.jdbc.Work;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.storage.User;
 
 /**
  * Test for class {@link UserDaoHibernate}.
- * 
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2008-06-08 12:34:41
- *          +0200 (So, 08 Jun 2008) $
+ *
+ * @author by Andre Winkler
  */
-public class UserDaoHibernateTest extends HibernateDaoTestSupport {
+public class UserDaoHibernateTest extends AbstractDaoTestSupport {
 
-    private UserDaoHibernate userDaoHibernate;
+    @Autowired
+    private UserDao userDaoHibernate;
+
+    @Before
+    public void init() {
+        prepareDatabase(UserDaoHibernateTest.class);
+    }
+
+    @After
+    public void shutdown() {
+        getSessionFactory().getCurrentSession().doWork(new Work() {
+            @Override
+            public void execute(Connection connection) throws SQLException {
+                Statement stmt = connection.createStatement();
+                stmt.execute("DELETE FROM bo_user");
+                stmt.close();
+            }
+        });
+    }
 
     @Test
     public void testUserDaoHibernateFindAll() {
@@ -61,15 +83,9 @@ public class UserDaoHibernateTest extends HibernateDaoTestSupport {
         User user = userDaoHibernate.findByNickname("Frosch");
         assertNotNull(user);
         assertEquals("Adam", user.getSurname());
-        
+
         user = userDaoHibernate.findByNickname("fehler");
         assertNull(user);
-    }
-
-    @Before
-    public void setUp() {
-        userDaoHibernate = new UserDaoHibernate();
-        userDaoHibernate.setSessionFactory(sessionFactory);
     }
 
 }

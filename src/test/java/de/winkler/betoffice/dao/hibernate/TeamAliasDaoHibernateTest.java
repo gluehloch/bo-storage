@@ -1,7 +1,6 @@
 /*
- * $Id: TeamAliasDaoHibernateTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2012 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -45,11 +44,9 @@ import de.winkler.betoffice.storage.TeamAlias;
 /**
  * Test for class {@link TeamAliasDaoHibernate}.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
- *          +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  */
-public class TeamAliasDaoHibernateTest extends DaoTestSupport {
+public class TeamAliasDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Autowired
     private TeamAliasDao teamAliasDao;

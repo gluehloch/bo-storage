@@ -1,5 +1,4 @@
 /*
- * $Id: org.eclipse.jdt.ui.prefs 104 2008-06-08 10:34:41Z awinkler2 $
  * ============================================================================
  * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
  * rights reserved.
@@ -47,10 +46,9 @@ import de.winkler.betoffice.storage.enums.TeamType;
 /**
  * A test class for {@link teamDao}.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedDate: 2008-06-08 12:34:41 +0200 (So, 08 Jun 2008) $
+ * @author by Andre Winkler
  */
-public class TeamDaoHibernateTest extends DaoTestSupport {
+public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Autowired
     private TeamDao teamDao;
