@@ -27,11 +27,18 @@ package de.winkler.betoffice.dao.hibernate;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
+import org.hibernate.jdbc.Work;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.dao.UserSeasonDao;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
@@ -42,29 +49,41 @@ import de.winkler.betoffice.storage.User;
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
  * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
  */
-public class UserSeasonDaoHibernateTest extends HibernateDaoTestSupport {
+public class UserSeasonDaoHibernateTest extends AbstractDaoTestSupport {
 
-    private UserSeasonDaoHibernate userSeasonDaoHibernate;
+    @Autowired
+    private UserSeasonDao userSeasonDao;
 
-    private SeasonDaoHibernate seasonDaoHibernate;
+    @Autowired
+    private SeasonDao seasonDao;
+
+    @Before
+    public void init() {
+        prepareDatabase(UserSeasonDaoHibernateTest.class);
+    }
+
+    @After
+    public void shutdown() {
+        getSessionFactory().getCurrentSession().doWork(new Work() {
+            @Override
+            public void execute(Connection connection) throws SQLException {
+                Statement stmt = connection.createStatement();
+                stmt.execute("DELETE FROM bo_user_season");
+                stmt.execute("DELETE FROM bo_user");
+                stmt.execute("DELETE FROM bo_season");
+                stmt.close();
+            }
+        });
+    }
 
     @Test
     public void testUserSeasonDaoHibernate() {
-        Season season = seasonDaoHibernate.findByName("1. Bundesliga", "1999/2000");
-        List<User> users = userSeasonDaoHibernate.findUsers(season);
+        Season season = seasonDao.findByName("1. Bundesliga", "1999/2000");
+        List<User> users = userSeasonDao.findUsers(season);
         assertEquals(3, users.size());
         assertEquals("Frosch", users.get(0).getNickName());
         assertEquals("Hattwig", users.get(1).getNickName());
         assertEquals("Peter", users.get(2).getNickName());
-    }
-
-    @Before
-    public void setUp() {
-        seasonDaoHibernate = new SeasonDaoHibernate();
-        seasonDaoHibernate.setSessionFactory(sessionFactory);
-        
-        userSeasonDaoHibernate = new UserSeasonDaoHibernate();
-        userSeasonDaoHibernate.setSessionFactory(sessionFactory);
     }
 
 }
