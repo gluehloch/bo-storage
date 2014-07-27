@@ -27,11 +27,20 @@ package de.winkler.betoffice.dao.hibernate;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
+import org.hibernate.jdbc.Work;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import de.winkler.betoffice.dao.GroupDao;
+import de.winkler.betoffice.dao.GroupTypeDao;
+import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
 
@@ -41,33 +50,43 @@ import de.winkler.betoffice.storage.Season;
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
  * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
  */
-public class GroupDaoHibernateTest extends HibernateDaoTestSupport {
+public class GroupDaoHibernateTest extends AbstractDaoTestSupport {
 
-    private GroupDaoHibernate groupDaoHibernate;
+    @Autowired
+    private GroupDao groupDao;
 
-    private GroupTypeDaoHibernate groupTypeDaoHibernate;
+    @Autowired
+    private GroupTypeDao groupTypeDao;
 
-    private SeasonDaoHibernate seasonDaoHibernate;
+    @Autowired
+    private SeasonDao seasonDaoHibernate;
+
+    @Before
+    public void init() {
+        prepareDatabase(GroupDaoHibernateTest.class);
+    }
+
+    @After
+    public void shutdown() {
+        getSessionFactory().getCurrentSession().doWork(new Work() {
+            @Override
+            public void execute(Connection connection) throws SQLException {
+                Statement stmt = connection.createStatement();
+                stmt.execute("DELETE FROM bo_group");
+                stmt.execute("DELETE FROM bo_season");
+                stmt.execute("DELETE FROM bo_grouptype");
+                stmt.close();
+            }
+        });
+    }
 
     @Test
     public void testGroupDaoHibernateFindBySeason() {
         Season season = seasonDaoHibernate.findByName("4711", "1000");
-        List<Group> groups = groupDaoHibernate.findBySeason(season);
+        List<Group> groups = groupDao.findBySeason(season);
         assertEquals(2, groups.size());
         assertEquals("1. Liga", groups.get(0).getGroupType().getName());
         assertEquals("2. Liga", groups.get(1).getGroupType().getName());
-    }
-    
-    @Before
-    public void setup() {
-        groupTypeDaoHibernate = new GroupTypeDaoHibernate();
-        groupTypeDaoHibernate.setSessionFactory(sessionFactory);
-        
-        seasonDaoHibernate = new SeasonDaoHibernate();
-        seasonDaoHibernate.setSessionFactory(sessionFactory);
-        
-        groupDaoHibernate = new GroupDaoHibernate();
-        groupDaoHibernate.setSessionFactory(sessionFactory);
     }
 
 }

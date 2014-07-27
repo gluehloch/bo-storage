@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2008 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -23,12 +23,13 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.jdbc.Work;
@@ -36,7 +37,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.unitils.reflectionassert.ReflectionAssert;
 
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.storage.Season;
@@ -134,8 +134,10 @@ public class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
         List<Season> seasons = seasonDaoHibernate.findAll();
         assertEquals(4, seasons.size());
 
-        ReflectionAssert.assertPropertyLenientEquals("year", Arrays.asList(
-                "1999/2000", "2000/2001", "2001/2002", "2002/2003"), seasons);
+        assertThat(seasons.get(0).getYear(), equalTo("1999/2000"));
+        assertThat(seasons.get(1).getYear(), equalTo("2000/2001"));
+        assertThat(seasons.get(2).getYear(), equalTo("2001/2002"));
+        assertThat(seasons.get(3).getYear(), equalTo("2002/2003"));
     }
 
 }
