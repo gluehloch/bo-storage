@@ -28,17 +28,21 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import org.fest.util.Files;
 import org.hibernate.jdbc.Work;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.dbload.csv.ResourceWriter;
 import de.winkler.betoffice.dao.TeamDao;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.enums.TeamType;
@@ -97,6 +101,15 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
         Team frankreich = teamDao.findById(4);
         assertThat(frankreich.getName(), equalTo("Frankreich"));
         assertThat(frankreich.getTeamType(), equalTo(TeamType.FIFA));
+
+        Path path = new File("D:/tmp/team.dat").toPath();
+        final ResourceWriter rw = new ResourceWriter(path);
+        getSessionFactory().getCurrentSession().doWork(new Work() {
+            @Override
+            public void execute(Connection connection) throws SQLException {
+                rw.start(connection, "select * from bo_team", false);
+            }
+        });
     }
 
     @Test
