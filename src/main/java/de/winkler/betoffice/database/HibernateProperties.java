@@ -57,84 +57,6 @@ import java.util.Properties;
  */
 public class HibernateProperties {
 
-	/** hibernate.dialect */
-	public static final String DIALECT = "hibernate.dialect";
-
-	/** hibernate.connection.url */
-	public static final String URL = "hibernate.connection.url";
-
-	/** hibernate.connection.driver_class */
-	public static final String DRIVER = "hibernate.connection.driver_class";
-
-	/** hibernate.connection.username */
-	public static final String USERNAME = "hibernate.connection.username";
-
-	/** hibernate.connection.password */
-	public static final String PASSWORD = "hibernate.connection.password";
-
-	/** Alle Hibernate Properties in einem Array. */
-	private static final String[] KEYS = { DIALECT, URL, DRIVER, USERNAME,
-			PASSWORD };
-
-	/** Der Logger der Klasse. */
-	private final Log log = LogFactory.getLog(HibernateProperties.class);
-
-	// ------------------------------------------------------------------------
-
-	/** Hibernate Connection Properties. */
-	private final Properties properties;
-
-	/**
-	 * Konstruktor.
-	 *
-	 * @param _properties Hibernate Connection Properties.
-	 */
-	public HibernateProperties(final Properties _properties) {
-		properties = _properties;
-	}
-
-	/**
-	 * Prüft, ob alle notwendigen Hibernate Properties vorhanden sind.
-	 *
-	 * @return Liefert <code>true</code> wenn alle Eigenschaften vorhanden
-	 *     sind.
-	 */
-	public boolean validate() {
-		boolean ok = true;
-		for (String key : KEYS) {
-			if (StringUtils.isBlank(properties.getProperty(key))) {
-				log.info("Hibernate property '" + key + "' not set!");
-				ok = false;
-			}
-		}
-		return ok;
-	}
-
-	/**
-	 * Erstellt eine Connection anhand der Daten einer hibernate.properties
-	 * Datei bzw. eine Properties Objekts.
-	 *
-	 * @return Eine Connection zur Datenbank.
-	 */
-	public Connection createConnection() {
-		Connection jdbcConnection = null;
-		try {
-			Class
-				.forName(properties.get(HibernateProperties.DRIVER).toString());
-			jdbcConnection = DriverManager.getConnection(properties
-				.getProperty(HibernateProperties.URL), properties
-				.getProperty(HibernateProperties.USERNAME), properties
-				.getProperty(HibernateProperties.PASSWORD));
-		} catch (SQLException ex) {
-			log.error("connection not created", ex);
-			throw new RuntimeException(ex);
-		} catch (ClassNotFoundException ex) {
-			log.error("connection not created", ex);
-			throw new RuntimeException(ex);
-		}
-		return jdbcConnection;
-	}
-
 	/**
 	 * Erstellt ein Hibernate <code>Configuration</code> Objekt anhand eines
 	 * Property Objekts.
@@ -158,29 +80,5 @@ public class HibernateProperties {
 	}
 
 	// ------------------------------------------------------------------------
-
-	/**
-	 * Liefert die Connection.
-	 *
-	 * @param properties Hibernate Connection Properties.
-	 * @return Eine SQL Connection.
-	 */
-	public static Connection createConnection(final Properties properties) {
-		HibernateProperties hibernateProperties = new HibernateProperties(
-			properties);
-		return hibernateProperties.createConnection();
-	}
-
-	/**
-	 * Liefert die Hibernate Configuration.
-	 *
-	 * @param properties Hibernate Connection Properties.
-	 * @return Eine Hibernate Configuration.
-	 */
-	public static Configuration createConfiguration(final Properties properties) {
-		HibernateProperties hibernateProperties = new HibernateProperties(
-			properties);
-		return hibernateProperties.createConfiguration();
-	}
 
 }

@@ -32,17 +32,15 @@ import java.io.File;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
-import org.fest.util.Files;
 import org.hibernate.jdbc.Work;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.dbload.csv.ResourceWriter;
+import de.dbload.csv.writer.ResourceWriter;
 import de.winkler.betoffice.dao.TeamDao;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.enums.TeamType;
@@ -64,14 +62,7 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
 
     @After
     public void shutdown() {
-        getSessionFactory().getCurrentSession().doWork(new Work() {
-            @Override
-            public void execute(Connection connection) throws SQLException {
-                Statement stmt = connection.createStatement();
-                stmt.execute("DELETE FROM bo_team");
-                stmt.close();
-            }
-        });
+        deleteDatabase();
     }
 
     @Test
@@ -102,7 +93,7 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(frankreich.getName(), equalTo("Frankreich"));
         assertThat(frankreich.getTeamType(), equalTo(TeamType.FIFA));
 
-        Path path = new File("D:/tmp/team.dat").toPath();
+        Path path = new File("C:/tmp/team.dat").toPath();
         final ResourceWriter rw = new ResourceWriter(path);
         getSessionFactory().getCurrentSession().doWork(new Work() {
             @Override

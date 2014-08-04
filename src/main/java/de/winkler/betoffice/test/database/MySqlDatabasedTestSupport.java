@@ -34,7 +34,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
 import de.awtools.basic.LoggerFactory;
-import de.winkler.betoffice.database.ImportDatabase;
+import de.betoffice.database.hibernate.HibernateConnectionFactory;
+import de.betoffice.database.hibernate.ImportDatabase;
 
 /**
  * Bereitet eine MySQL Datenbank für einen oder mehrere Testfälle vor. Geladen
