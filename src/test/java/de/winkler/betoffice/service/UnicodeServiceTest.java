@@ -39,8 +39,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.Team;
-import de.winkler.betoffice.test.database.MySqlDatabasedTestSupport.DataLoader;
 
 /**
  * Testet die korrekte Verwendung von Unicode Zeichen.

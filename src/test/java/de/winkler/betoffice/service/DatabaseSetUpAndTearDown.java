@@ -30,9 +30,9 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import de.betoffice.database.data.MySqlDatabasedTestSupport;
+import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.UserResult;
-import de.winkler.betoffice.test.database.MySqlDatabasedTestSupport;
-import de.winkler.betoffice.test.database.MySqlDatabasedTestSupport.DataLoader;
 
 /**
  * Database test setup and tear down methods.

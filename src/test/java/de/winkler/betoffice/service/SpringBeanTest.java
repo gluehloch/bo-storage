@@ -40,9 +40,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.service.SeasonManagerService;
 import de.winkler.betoffice.storage.Season;
-import de.winkler.betoffice.test.database.MySqlDatabasedTestSupport.DataLoader;
 
 /**
  * Test for Spring´s JUnit and annotation support.

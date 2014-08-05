@@ -41,8 +41,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.GroupType;
-import de.winkler.betoffice.test.database.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 
 /**

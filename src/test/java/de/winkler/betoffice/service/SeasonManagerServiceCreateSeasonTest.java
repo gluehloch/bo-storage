@@ -43,6 +43,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.awtools.basic.AWTools;
+import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -54,7 +55,6 @@ import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
-import de.winkler.betoffice.test.database.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 
 /**

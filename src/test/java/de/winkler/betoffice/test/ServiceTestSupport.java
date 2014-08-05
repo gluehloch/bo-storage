@@ -36,12 +36,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import de.betoffice.database.data.MySqlDatabasedTestSupport;
+import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
+import de.betoffice.database.test.PersistenceTestSupport;
 import de.winkler.betoffice.service.DatabaseMaintenanceService;
 import de.winkler.betoffice.service.MasterDataManagerService;
 import de.winkler.betoffice.service.SeasonManagerService;
-import de.winkler.betoffice.test.database.MySqlDatabasedTestSupport;
-import de.winkler.betoffice.test.database.MySqlDatabasedTestSupport.DataLoader;
-import de.winkler.betoffice.test.database.PersistenceTestSupport;
 
 /**
  * Oberklasse für alle Service-Layer Tests.
