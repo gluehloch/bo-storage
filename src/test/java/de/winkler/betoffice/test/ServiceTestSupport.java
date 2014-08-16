@@ -52,7 +52,7 @@ import de.winkler.betoffice.service.SeasonManagerService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/betoffice-datasource.xml",
         "/betoffice-persistence.xml", "/test-mysql-piratestest.xml" })
-public class ServiceTestSupport {
+public abstract class ServiceTestSupport {
 
     @Autowired
     protected DataSource dataSource;
@@ -75,11 +75,6 @@ public class ServiceTestSupport {
 
     public final MySqlDatabasedTestSupport getMySqlDatabasedTestSupport() {
         return mysql;
-    }
-
-    @Test
-    public void ignoreTheTest() {
-        // Eclipse JUnit test runner expects a defined test.
     }
 
     public final void setUp(final DataLoader dataLoader) throws SQLException {

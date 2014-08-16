@@ -154,7 +154,7 @@
 
     <dependency>
       <groupId>de.betoffice</groupId>
-      <artifactId>betoffice-testsupport</artifactId>
+      <artifactId>betoffice-testutils</artifactId>
       <version>0.0.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
