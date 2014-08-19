@@ -1,26 +1,24 @@
 /*
- * $Id: DummyScenario.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.test;
@@ -48,14 +46,15 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
 /**
  * Baut ein Testszenario für BetOffice auf. <br>
  * <strong>Nur zu Testzwecken zu verwenden!</strong>
- *
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * 
+ * @author Andre Winkler
  */
 public class DummyScenario {
 
-    private static final Date DATE_2002_01_01 = new DateTime(2002, 1, 1, 0, 0).toDate();
-    private static final Date DATE_2002_01_02 = new DateTime(2002, 1, 2, 0, 0).toDate();
+    private static final Date DATE_2002_01_01 = new DateTime(2002, 1, 1, 0, 0)
+            .toDate();
+    private static final Date DATE_2002_01_02 = new DateTime(2002, 1, 2, 0, 0)
+            .toDate();
 
     private final List<Season> seasons = new ArrayList<Season>();
 
@@ -99,7 +98,8 @@ public class DummyScenario {
      * <li>4 Mannschaften: Team_A, Team_B, Team_C und Team_D.</li>
      * <li>Eine Gruppe: Test-Gruppe.</li>
      * <li>Einem Spieltag dem 12.12.2002.</li>
-     * <li>4 Spiele an diesem Spieltag: <table border="1">
+     * <li>4 Spiele an diesem Spieltag:
+     * <table border="1">
      * <tr>
      * <td>Spiel</td>
      * <td>User A</td>
@@ -109,7 +109,7 @@ public class DummyScenario {
      * <td>Medium</td>
      * </tr>
      * <tr>
-     * <td>(1.1.) Team_A - Team_B 2:1 </td>
+     * <td>(1.1.) Team_A - Team_B 2:1</td>
      * <td>1:0</td>
      * <td>0:1</td>
      * <td>1:1</td>
@@ -117,7 +117,7 @@ public class DummyScenario {
      * <td>1:0</td>
      * </tr>
      * <tr>
-     * <td>(1.2.) Team_C - Team_D 1:1 </td>
+     * <td>(1.2.) Team_C - Team_D 1:1</td>
      * <td>1:0</td>
      * <td>0:1</td>
      * <td>1:1</td>
@@ -125,7 +125,7 @@ public class DummyScenario {
      * <td>1:0</td>
      * </tr>
      * <tr>
-     * <td>(1.3.) Team_A - Team_B 0:1 </td>
+     * <td>(1.3.) Team_A - Team_B 0:1</td>
      * <td>1:0</td>
      * <td>0:1</td>
      * <td>1:1</td>
@@ -133,13 +133,14 @@ public class DummyScenario {
      * <td>1:0</td>
      * </tr>
      * <tr>
-     * <td>(1.4.) Team_A - Team_B 3:3 </td>
+     * <td>(1.4.) Team_A - Team_B 3:3</td>
      * <td>1:0</td>
      * <td>0:1</td>
      * <td>1:1</td>
      * <td>2:1</td>
      * </tr>
-     * </table> </li>
+     * </table>
+     * </li>
      * <li>D.h. folgende Punktestände sind vorhanden:
      * <ul>
      * <ul>
@@ -155,8 +156,7 @@ public class DummyScenario {
      * Team D: 1 Remis. TV 1:1
      * </ul>
      * </ul>
-     * </li>
-     * <li>Für die Tipper:
+     * </li> <li>Für die Tipper:
      * <ul>
      * <ul>
      * (1) User B: 2 Ergebnis
@@ -170,11 +170,10 @@ public class DummyScenario {
      * <ul>
      * (2) User D: 1 Toto
      * </ul>
-     * </ul>
-     * </li>
-     * </ul>
-     *
-     * @throws Exception Da ging was schief.
+     * </ul></li> </ul>
+     * 
+     * @throws Exception
+     *             Da ging was schief.
      */
     private void initialize() throws Exception {
         teams = new DummyTeams();
@@ -261,8 +260,6 @@ public class DummyScenario {
         round1.addGame(game4);
         round1.setGroup(buli_1);
 
-        season.setCurrentGameList(round1);
-
         // Tipps erzeugen und eintragen.
         Assert.assertNotNull(game1.getGameList().getSeason());
         Assert.assertNotNull(game2.getGameList().getSeason());
@@ -271,43 +268,43 @@ public class DummyScenario {
 
         // Spiel 1
         game1.addTipp(users.users()[DummyUsers.FROSCH], gr10,
-            TippStatusType.USER);
+                TippStatusType.USER);
         game1.addTipp(users.users()[DummyUsers.HATTWIG], gr01,
-            TippStatusType.USER);
+                TippStatusType.USER);
         game1.addTipp(users.users()[DummyUsers.MRTIPP], gr11,
-            TippStatusType.USER);
+                TippStatusType.USER);
         game1.addTipp(users.users()[DummyUsers.PETER], gr21,
-            TippStatusType.USER);
+                TippStatusType.USER);
 
         // Spiel 2
         game2.addTipp(users.users()[DummyUsers.FROSCH], gr10,
-            TippStatusType.USER);
+                TippStatusType.USER);
         game2.addTipp(users.users()[DummyUsers.HATTWIG], gr01,
-            TippStatusType.USER);
+                TippStatusType.USER);
         game2.addTipp(users.users()[DummyUsers.MRTIPP], gr11,
-            TippStatusType.USER);
+                TippStatusType.USER);
         game2.addTipp(users.users()[DummyUsers.PETER], gr21,
-            TippStatusType.USER);
+                TippStatusType.USER);
 
         // Spiel 3
         game3.addTipp(users.users()[DummyUsers.FROSCH], gr10,
-            TippStatusType.USER);
+                TippStatusType.USER);
         game3.addTipp(users.users()[DummyUsers.HATTWIG], gr01,
-            TippStatusType.USER);
+                TippStatusType.USER);
         game3.addTipp(users.users()[DummyUsers.MRTIPP], gr11,
-            TippStatusType.USER);
+                TippStatusType.USER);
         game3.addTipp(users.users()[DummyUsers.PETER], gr21,
-            TippStatusType.USER);
+                TippStatusType.USER);
 
         // Spiel 4
         game4.addTipp(users.users()[DummyUsers.FROSCH], gr10,
-            TippStatusType.USER);
+                TippStatusType.USER);
         game4.addTipp(users.users()[DummyUsers.HATTWIG], gr01,
-            TippStatusType.USER);
+                TippStatusType.USER);
         game4.addTipp(users.users()[DummyUsers.MRTIPP], gr11,
-            TippStatusType.USER);
+                TippStatusType.USER);
         game4.addTipp(users.users()[DummyUsers.PETER], gr21,
-            TippStatusType.USER);
+                TippStatusType.USER);
 
         Validate.isTrue(getBuli_2().getTeams().size() == 3);
     }
@@ -371,8 +368,9 @@ public class DummyScenario {
 
     /**
      * Generiert einige Gruppen. Eine entsprechende Factory muss vorhanden sein.
-     *
-     * @param _season Die betreffende Saison.
+     * 
+     * @param _season
+     *            Die betreffende Saison.
      */
     private void createGroups(final Season _season) {
         Validate.notNull(season);

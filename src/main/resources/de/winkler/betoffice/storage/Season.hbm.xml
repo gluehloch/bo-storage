@@ -80,28 +80,6 @@
             column="bo_name"
         />
 
-        <many-to-one
-            name="currentGameList"
-            class="de.winkler.betoffice.storage.GameList"
-            cascade="none"
-            outer-join="auto"
-            update="true"
-            insert="true"
-            column="bo_current_ref"
-            not-null="false"
-        />
-
-        <!--
-        <property
-            name="mode"
-            type="de.winkler.betoffice.storage.enums.SeasonType"
-            update="true"
-            insert="true"
-            column="bo_mode"
-            not-null="true"
-        />
-        -->
-
         <property
             name="mode"
             column="bo_mode"
@@ -115,17 +93,6 @@
                 <param name="lazy">false</param>
             </type>
         </property>
-
-        <!--
-        <property
-            name="teamType"
-            type="de.winkler.betoffice.storage.enums.TeamType"
-            update="true"
-            insert="true"
-            column="bo_teamtype"
-            not-null="true"
-        />
-        -->
 
         <property
             name="teamType"

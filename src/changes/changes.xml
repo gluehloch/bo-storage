@@ -6,8 +6,20 @@
   </properties>
   <body>
     <!--
-         *** STILL UNDER DEVELOPMENT 1.3.0 (SNAPSHOT) *** 
+         *** STILL UNDER DEVELOPMENT 1.3.4 (SNAPSHOT) *** 
     -->
+    <release version="betoffice-storage-1.3.4" date="2014-08-19"
+      description="Update">
+      <action dev="andrewinkler" type="removed" date="2014-08-19">
+        Removed the dependencies DBUnit and Unitils. Added betoffice-testutils.
+      </action>
+      <action dev="andrewinkler" type="removed" date="2014-08-19">
+        Removed the property currentGameList from class Season.
+      </action>
+    </release>
+    
+    <!-- Version betoffice-storage 1.3.3 is missing -->
+
     <release version="betoffice-storage-1.3.2" date="2014-04-27"
       description="Update">
       <action dev="andrewinkler" type="add" date="2014-03-07">

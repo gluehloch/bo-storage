@@ -1,26 +1,24 @@
 /*
- * $Id: Season.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.storage;
@@ -44,10 +42,8 @@ import de.winkler.betoffice.storage.enums.TeamType;
 
 /**
  * Verwaltet die Daten einer Saison.
- *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
- *
+ * 
+ * @author by Andre Winkler
  * @hibernate.class table="bo_season"
  */
 public class Season extends AbstractStorageObject {
@@ -73,9 +69,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Liefert den Primärschlüssel.
-     *
+     * 
      * @return Der Primärschlüssel.
-     *
+     * 
      * @hibernate.id generator-class="native"
      */
     public Long getId() {
@@ -84,8 +80,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Setzt den Primärschlüssel.
-     *
-     * @param value Der Primärschlüssel.
+     * 
+     * @param value
+     *            Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
@@ -98,9 +95,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Liefert die Meisterschaftskonfiguration.
-     *
+     * 
      * @return Die Meisterschaftskonfiguration.
-     *
+     * 
      * @hibernate.component
      */
     public ChampionshipConfiguration getChampionshipConfiguration() {
@@ -109,8 +106,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Setzt eine neue Meisterschaftskonfiguration.
-     *
-     * @param value Die Meisterschaftskonfiguration.
+     * 
+     * @param value
+     *            Die Meisterschaftskonfiguration.
      */
     protected void setChampionshipConfiguration(
             final ChampionshipConfiguration value) {
@@ -120,14 +118,14 @@ public class Season extends AbstractStorageObject {
 
     // -- year ----------------------------------------------------------------
 
-    /** Bezeichner Jahrgang/Datum der Saison.  */
+    /** Bezeichner Jahrgang/Datum der Saison. */
     private String year;
 
     /**
      * Jahrgang der Spielzeit (Format: 2001/2002).
-     *
+     * 
      * @return Jahrgang der Spielzeit.
-     *
+     * 
      * @hibernate.property column="bo_year"
      */
     public String getYear() {
@@ -136,8 +134,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Setzt den Jahrgang.
-     *
-     * @param value Der Jahrgang.
+     * 
+     * @param value
+     *            Der Jahrgang.
      */
     public void setYear(final String value) {
         Validate.notNull(value);
@@ -151,9 +150,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Bezeichnung der Spielzeit (z.B. 1. Bundesliga).
-     *
+     * 
      * @return Bezeichnung der Spielzeit.
-     *
+     * 
      * @hibernate.property column="bo_name"
      */
     public String getName() {
@@ -162,74 +161,28 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Setzt den Namen der Spielzeit.
-     *
-     * @param value Name der Spielzeit.
+     * 
+     * @param value
+     *            Name der Spielzeit.
      */
     public void setName(final String value) {
         Validate.notNull(value);
         name = value.trim();
     }
 
-    // -- currentGameDay ------------------------------------------------------
-
-    /** Verweis auf den aktuellen Spieltag. */
-    private GameList currentGameList;
-
-    /**
-     * Liefert den aktuellen Spieltag. Ist kein aktueller Spieltag gesetzt,
-     * aber eine Liste von Spieltagen vorhanden, dann wird der letzte
-     * Spieltag aus dieser Liste als der aktuelle Spieltag angenommen. Sind
-     * keine Spieltage vorhanden, wird eine null-Referenz zurückgegeben.
-     *
-     * @return Der aktuelle Spieltag oder den mit der höchsten Ordnungsnummer,
-     *     falls kein aktueller Spieltag gesetzt. Dieser Wert kann
-     *     <code>null</code> sein, wenn der Saison/Meisterschaft bis jetzt
-     *     keine Spieltage zugeordnet sind.
-     *
-     * @hibernate.many-to-one
-     *     class="de.winkler.betoffice.storage.GameList"
-     *     cascade="none"
-     *     column="bo_current_ref"
-     *     not-null="false"
-     */
-    public GameList getCurrentGameList() {
-        if ((currentGameList == null) && (size() > 0)) {
-            // Default, wenn kein aktueller Spieltag vorhanden, dann ist
-            // dies immer der letzte in der Liste.
-            return getGamesOfDay(size() - 1);
-        } else if (size() == 0) {
-            log.warn("Keine Spieltage vorhanden!");
-            return null;
-        } else {
-            return currentGameList;
-        }
-    }
-
-    /**
-     * Setzt den aktuellen Spieltag. Darf auch <code>null</code> sein, da bei
-     * Erst-Instanzierung dieser Klasse noch kein aktueller Spieltag
-     * vorhanden sein kann!
-     *
-     * @param value Der aktuelle Spieltag. Darf <code>null</code> sein.
-     */
-    public void setCurrentGameList(final GameList value) {
-        currentGameList = value;
-    }
-
     // -- mode ----------------------------------------------------------------
 
-    /** Spielmodus der Saison. (Bundesliga, Pokal, WM,...) `*/
+    /** Spielmodus der Saison. (Bundesliga, Pokal, WM,...) ` */
     private SeasonType mode = SeasonType.LEAGUE;
 
     /**
      * Liefert den Modus der Saison.
-     *
+     * 
      * @return Der Modus.
-     *
-     * @hibernate.property
-     *     column="bo_mode"
-     *     type="de.winkler.betoffice.storage.enums.SeasonType"
-     *     not-null="true"
+     * 
+     * @hibernate.property column="bo_mode"
+     *                     type="de.winkler.betoffice.storage.enums.SeasonType"
+     *                     not-null="true"
      */
     public SeasonType getMode() {
         return mode;
@@ -237,8 +190,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Setzt den Modus der Saison.
-     *
-     * @param value Der Modus.
+     * 
+     * @param value
+     *            Der Modus.
      */
     public void setMode(final SeasonType value) {
         mode = value;
@@ -246,19 +200,17 @@ public class Season extends AbstractStorageObject {
 
     // -- teamType ------------------------------------------------------------
 
-    /** Mannschaftstyp. (DFB, FIFA) `*/
+    /** Mannschaftstyp. (DFB, FIFA) ` */
     private TeamType teamType = TeamType.DFB;
 
     /**
-     * Liefert den Mannschaftstyp, der für diese Meisterschaft akzeptiert
-     * wird.
-     *
+     * Liefert den Mannschaftstyp, der für diese Meisterschaft akzeptiert wird.
+     * 
      * @return Der akzeptierte TeamType.
-     *
-     * @hibernate.property
-     *     column="bo_teamtype"
-     *     type="de.winkler.betoffice.storage.enums.TeamType"
-     *     not-null="true"
+     * 
+     * @hibernate.property column="bo_teamtype"
+     *                     type="de.winkler.betoffice.storage.enums.TeamType"
+     *                     not-null="true"
      */
     public TeamType getTeamType() {
         return teamType;
@@ -266,8 +218,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Setzt den Mannschaftstyp.
-     *
-     * @param value Der Mannschaftstyp.
+     * 
+     * @param value
+     *            Der Mannschaftstyp.
      */
     public void setTeamType(final TeamType value) {
         teamType = value;
@@ -280,16 +233,13 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Liefert die Gruppen dieser Saison.
-     *
+     * 
      * @return Eine Menge mit Gruppen der Saison.
-     *
-     * @hibernate.set
-     *     cascade="all"
-     *     inverse="true"
-     * @hibernate.collection-one-to-many
-     *     class="de.winkler.betoffice.storage.Group"
-     * @hibernate.collection-key
-     *     column="bo_season_ref"
+     * 
+     * @hibernate.set cascade="all" inverse="true"
+     * @hibernate.collection-one-to-many 
+     *                                   class="de.winkler.betoffice.storage.Group"
+     * @hibernate.collection-key column="bo_season_ref"
      */
     public Set<Group> getGroups() {
         return groups;
@@ -297,8 +247,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Setzt die Gruppen.
-     *
-     * @param value Die Grupppen.
+     * 
+     * @param value
+     *            Die Grupppen.
      */
     protected void setGroups(final Set<Group> value) {
         groups = value;
@@ -306,10 +257,11 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Liefert die passende Gruppe in dieser Saison.
-     *
-     * @param groupType Ein Gruppentyp.
-     * @return Die passende Gruppe. Kann <code>null</code> liefern, wenn
-     *     keine passende Gruppe gefunden.
+     * 
+     * @param groupType
+     *            Ein Gruppentyp.
+     * @return Die passende Gruppe. Kann <code>null</code> liefern, wenn keine
+     *         passende Gruppe gefunden.
      */
     public Group getGroup(final GroupType groupType) {
         for (Group group : getGroups()) {
@@ -322,8 +274,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Fügt eine weitere Gruppe der Saison hinzu.
-     *
-     * @param group Eine weitere Gruppe.
+     * 
+     * @param group
+     *            Eine weitere Gruppe.
      */
     public void addGroup(final Group group) {
         Validate.notNull(group);
@@ -333,8 +286,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Fügt eine Liste von Gruppen dieser Saison hinzu.
-     *
-     * @param values Eine Liste von Gruppen.
+     * 
+     * @param values
+     *            Eine Liste von Gruppen.
      */
     public void addGroups(final Set<Group> values) {
         Validate.notNull(values);
@@ -345,8 +299,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Prüft, ob eine Gruppe mit gesuchten Namen bereits existiert.
-     *
-     * @param _groupType Der gesuchte Gruppentyp.
+     * 
+     * @param _groupType
+     *            Der gesuchte Gruppentyp.
      * @return Der Gruppentyp, wenn bereits vorhanden; <code>null</code>, sonst.
      */
     public Group isActivated(final GroupType _groupType) {
@@ -360,8 +315,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Entfernt eine Gruppe.
-     *
-     * @param group Die zu entfernende Gruppe.
+     * 
+     * @param group
+     *            Die zu entfernende Gruppe.
      */
     public void removeGroup(final Group group) {
         Validate.notNull(group.getSeason());
@@ -372,10 +328,11 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Deaktiviert eine Gruppe.
-     *
-     * @param groupType Der zu deaktivierende Gruppentyp.
-     * @return Das entfernte {@link Group} Objekt. Kann <code>null</code>
-     *     sein, wenn kein entsprechendes {@link Group} Objekt gefunden.
+     * 
+     * @param groupType
+     *            Der zu deaktivierende Gruppentyp.
+     * @return Das entfernte {@link Group} Objekt. Kann <code>null</code> sein,
+     *         wenn kein entsprechendes {@link Group} Objekt gefunden.
      */
     public Group removeGroup(final GroupType groupType) {
         for (Iterator<Group> i = getGroups().iterator(); i.hasNext();) {
@@ -391,7 +348,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Liefert alle Mannschaften, die über eine Gruppe an dieser Saison
      * beteiligt sind.
-     *
+     * 
      * @return Alle Mannschaften, die dieser Saison zugeordnet sind.
      */
     public Set<Team> getTeams() {
@@ -404,7 +361,7 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Liefert alle Gruppentypen, die dieser Saison zugeordnet sind.
-     *
+     * 
      * @return Eine Liste mit <code>GroupType</code>.
      */
     public List<GroupType> getGroupTypes() {
@@ -422,16 +379,13 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Liefert die Beziehung Teilnehmer/Saison.
-     *
+     * 
      * @return Ein Menge von <code>UserSeason</code>.
-     *
-     * @hibernate.set
-     *     cascade="all"
-     *     inverse="true"
-     * @hibernate.collection-one-to-many
-     *     class="de.winkler.betoffice.storage.UserSeason"
-     * @hibernate.collection-key
-     *     column="bo_season_ref"
+     * 
+     * @hibernate.set cascade="all" inverse="true"
+     * @hibernate.collection-one-to-many 
+     *                                   class="de.winkler.betoffice.storage.UserSeason"
+     * @hibernate.collection-key column="bo_season_ref"
      */
     public Set<UserSeason> getUserSeason() {
         return userSeason;
@@ -439,8 +393,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Setzt die Beziehung Teilnehmer/Saison.
-     *
-     * @param value Ein Menge von <code>UserSeason</code>.
+     * 
+     * @param value
+     *            Ein Menge von <code>UserSeason</code>.
      */
     protected void setUserSeason(final Set<UserSeason> value) {
         userSeason = value;
@@ -448,8 +403,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Einen Teilnehmer der Saison hinzufügen.
-     *
-     * @param user Der neue Teilnehmer.
+     * 
+     * @param user
+     *            Der neue Teilnehmer.
      */
     public void addUser(final UserSeason user) {
         Validate.notNull(user.getUser());
@@ -463,10 +419,11 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Entfernt einen Teilnehmer aus der Saison.
-     *
-     * @param user Der zu entfernende Teilnehmer. Ist der Teilnehmer nicht
-     *     dieser Saison zugeordnet, wird eine <code>RuntimeException</code>
-     *     geworfen.
+     * 
+     * @param user
+     *            Der zu entfernende Teilnehmer. Ist der Teilnehmer nicht dieser
+     *            Saison zugeordnet, wird eine <code>RuntimeException</code>
+     *            geworfen.
      */
     public void removeUser(final UserSeason user) {
         Validate.notNull(user.getUser());
@@ -477,18 +434,20 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Deaktiviert einen Teilnehmer.
-     *
-     * @param user Der zu deaktivierende Teilnehmer.
+     * 
+     * @param user
+     *            Der zu deaktivierende Teilnehmer.
      * @return Das entfernte {@link UserSeason} Objekt. Kann <code>null</code>
-     *     sein, wenn kein entsprechendes {@link UserSeason} Objekt gefunden.
+     *         sein, wenn kein entsprechendes {@link UserSeason} Objekt
+     *         gefunden.
      */
     public UserSeason removeUser(final User user) {
         for (Iterator<UserSeason> i = getUserSeason().iterator(); i.hasNext();) {
             UserSeason tmp = i.next();
             if (tmp.getUser().equals(user)) {
-                //                Darf hier nicht geschehen: Sonst geht das DAO Delete nicht!
-                //                tmp.setSeason(null);
-                //                tmp.setUser(null);
+                // Darf hier nicht geschehen: Sonst geht das DAO Delete nicht!
+                // tmp.setSeason(null);
+                // tmp.setUser(null);
                 i.remove();
                 return tmp;
             }
@@ -498,7 +457,7 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Liefert alle Teilnehmer, die dieser Saison zugeordnet sind.
-     *
+     * 
      * @return Alle Teilnehmer dieser Saison.
      */
     public List<User> getUsers() {
@@ -517,18 +476,14 @@ public class Season extends AbstractStorageObject {
     /**
      * Liefert alle Spieltage. Eine <code>List</code> von {@link GameList}
      * Objekten.
-     *
+     * 
      * @return Die Spieltage.
-     *
-     * @hibernate.list
-     *     cascade="all"
-     *     lazy="true"
-     * @hibernate.collection-index
-     *     column="bo_index"
-     * @hibernate.collection-key
-     *     column="bo_gamedaylist_ref"
-     * @hibernate.collection-one-to-many
-     *     class="de.winkler.betoffice.storage.GameList"
+     * 
+     * @hibernate.list cascade="all" lazy="true"
+     * @hibernate.collection-index column="bo_index"
+     * @hibernate.collection-key column="bo_gamedaylist_ref"
+     * @hibernate.collection-one-to-many 
+     *                                   class="de.winkler.betoffice.storage.GameList"
      */
     protected List<GameList> getGameList() {
         return gameList;
@@ -536,8 +491,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Setzt die Spieltagsliste.
-     *
-     * @param value Eine Spieltagsliste.
+     * 
+     * @param value
+     *            Eine Spieltagsliste.
      */
     protected void setGameList(final List<GameList> value) {
         Validate.notNull(value);
@@ -546,7 +502,7 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Liefert eine nicht-modifizierbare Liste aller Spieltage.
-     *
+     * 
      * @return Liste aller Spieltage (GameList).
      */
     public List<GameList> unmodifiableGameList() {
@@ -555,7 +511,7 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Liefert die Anzahl der Spieltage.
-     *
+     * 
      * @return Anzahl der Spieltage.
      */
     public int size() {
@@ -564,8 +520,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Liefert den Index eines Objekts in dieser Liste.
-     *
-     * @param object Das gesuchte Objekt.
+     * 
+     * @param object
+     *            Das gesuchte Objekt.
      * @return Anzahl der Spieltage.
      */
     public int indexOf(final Object object) {
@@ -574,8 +531,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Übergebener GameList/Spieltag bereits in Liste enthalten?
-     *
-     * @param _gameList Die zu prüfende GameList/Spieltag
+     * 
+     * @param _gameList
+     *            Die zu prüfende GameList/Spieltag
      * @return true, vorhanden; false, nicht vorhanden.
      */
     public boolean contains(final GameList _gameList) {
@@ -584,10 +542,11 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Diese Methode liefert die Spieltagsliste.
-     *
-     * @param dayNr Nummer des Spieltags ( [0] .. [size() - 1] ).
+     * 
+     * @param dayNr
+     *            Nummer des Spieltags ( [0] .. [size() - 1] ).
      * @return Liste aller Spiele eines Spieltags. Liefert <code>null</code>
-     *     zurück, wenn keine Spieltage der Saison/Meisterschaft zugeordnet!
+     *         zurück, wenn keine Spieltage der Saison/Meisterschaft zugeordnet!
      */
     public GameList getGamesOfDay(final int dayNr) {
         if ((dayNr >= gameList.size()) || (dayNr < 0)) {
@@ -626,10 +585,12 @@ public class Season extends AbstractStorageObject {
      * Fügt einen neuen Spieltag der Spieltagsliste hinzu. Ein Spieltag wird
      * immer hinten angehängt. Falls eine andere Einsortierung erfolgen soll
      * müsste entsprechend der Index in allen Spieltagen geändert werden.
-     *
-     * @param _gameList Ein Spieltag.
-     * @throws IllegalArgumentException GameListe bereits vorhanden oder
-     *     ein Attribut von gameList nicht gesetzt.
+     * 
+     * @param _gameList
+     *            Ein Spieltag.
+     * @throws IllegalArgumentException
+     *             GameListe bereits vorhanden oder ein Attribut von gameList
+     *             nicht gesetzt.
      */
     public void addGameList(final GameList _gameList) {
         Validate.notNull(_gameList);
@@ -672,8 +633,9 @@ public class Season extends AbstractStorageObject {
 
     /**
      * Entfernt einen Spieltag aus der Spieltagsliste.
-     *
-     * @param _gameList Ein Spieltag.
+     * 
+     * @param _gameList
+     *            Ein Spieltag.
      */
     public void removeGameList(final GameList _gameList) {
         Validate.notNull(_gameList);
@@ -697,15 +659,15 @@ public class Season extends AbstractStorageObject {
     // -- StorageObject -------------------------------------------------------
 
     /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig
-     * gefüllt sind, damit es evt. Weiterverarbeitungen erfahren kann.
-     * Folgende Eigenschaften müssen gesetzt sein:
+     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
+     * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
+     * Eigenschaften müssen gesetzt sein:
      * <ul>
-     *  <li>year</li>
-     *  <li>name</li>
+     * <li>year</li>
+     * <li>name</li>
      * </ul>
      * Der Spielmodus ist per default auf 'Liga' eingestellt.
-     *
+     * 
      * @return true, Objekt in Ordnung; false, es ist was falsch.
      */
     public boolean isValid() {

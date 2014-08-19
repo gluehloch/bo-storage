@@ -1,26 +1,24 @@
 /*
- * $Id: GameTippTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.storage;
@@ -44,9 +42,8 @@ import de.winkler.betoffice.storage.exception.StorageObjectNotValidException;
 
 /**
  * Testklasse für die Klasse GameTipp.
- *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * 
+ * @author Andre Winkler
  */
 public class GameTippTest {
 
@@ -56,9 +53,12 @@ public class GameTippTest {
         private final User user;
 
         /**
-         * @param _gr Das zu setzende Spielergebnis.
-         * @param _tr Das zu erwartende Toto-Ergebnis.
-         * @param _us Das zu erwartende Toto-Egebnis von User sowieso.
+         * @param _gr
+         *            Das zu setzende Spielergebnis.
+         * @param _tr
+         *            Das zu erwartende Toto-Ergebnis.
+         * @param _us
+         *            Das zu erwartende Toto-Egebnis von User sowieso.
          */
         public TestSpec(final GameResult _gr, final TotoResult _tr,
                 final User _us) {
@@ -89,7 +89,7 @@ public class GameTippTest {
                 buf.append(getGame().getGameTipp(user));
             } catch (StorageObjectNotFoundException ex) {
                 throw new RuntimeException(ex);
-                //                buf.append("Kein Tipp vorhanden.");
+                // buf.append("Kein Tipp vorhanden.");
             }
             return buf.toString();
         }
@@ -154,8 +154,9 @@ public class GameTippTest {
      * Testet den Listener der Klasse GameTipp. Bei Änderungen am Spielergebniss
      * schlägt sich dies auf den Punktestand des Tippers nieder, der für dieses
      * Spiel einen Tipp abgegeben hat.
-     *
-     * @throws StorageObjectNotFoundException Da ging was schief.
+     * 
+     * @throws StorageObjectNotFoundException
+     *             Da ging was schief.
      */
     @Test
     public void testGameListener() throws StorageObjectNotFoundException {
@@ -277,7 +278,7 @@ public class GameTippTest {
         season.setName("Bundesliga");
         season.setYear("1999/2000");
 
-        //        getConfiguration().getStorageContext().setCurrentSeason(season);
+        // getConfiguration().getStorageContext().setCurrentSeason(season);
 
         // Gruppe erzeugen.
         GroupType buli1 = new GroupType();
@@ -296,7 +297,6 @@ public class GameTippTest {
         round.setGroup(group);
         season.addGameList(round);
         round.addGame(game);
-        season.setCurrentGameList(round);
 
         // Beteiligte Mannschaften erzeugen.
         Team luebeck = new Team("Vfb Lübeck", "Vfb Lübeck", "luebeck.gif");
@@ -339,7 +339,7 @@ public class GameTippTest {
 
     /**
      * Liefet eine Spielpaarung.
-     *
+     * 
      * @return Ein <code>Game</code>.
      */
     public Game getGame() {
