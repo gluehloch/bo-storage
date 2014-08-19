@@ -61,7 +61,7 @@ public abstract class AbstractDaoTestSupport extends
         sessionFactory.getCurrentSession().doWork(new Work() {
             @Override
             public void execute(Connection connection) throws SQLException {
-                Dbload.start(connection, clazz);
+                Dbload.read(connection, clazz);
             }
         });
     }
