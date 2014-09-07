@@ -5,17 +5,17 @@
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
@@ -45,7 +45,7 @@ import de.winkler.betoffice.storage.UserSeason;
  * Definiert die Konstanten für die <code>hibernate.properties</code> Datei.
  * Diese Klasse kann eine <code>java.sql.Connection</code> oder eine Hibernate
  * <code>Configuration</code> erzeugen.
- * 
+ *
  * @author Andre Winkler
  */
 public class BetofficeHibernateProperties extends HibernateProperties {
@@ -60,7 +60,7 @@ public class BetofficeHibernateProperties extends HibernateProperties {
     /**
      * Erstellt ein Hibernate <code>Configuration</code> Objekt anhand eines
      * Property Objekts.
-     * 
+     *
      * @return Eine Hibernate Configuration.
      */
     public Configuration createConfiguration() {

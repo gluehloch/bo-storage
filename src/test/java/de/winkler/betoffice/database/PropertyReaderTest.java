@@ -39,18 +39,18 @@ import de.awtools.config.PropertiesGlueConfig;
 
 /**
  * Testet das Auslesen der Property-Dateien.
- * 
+ *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
  * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2010-08-01 05:43:29
  *          +0200 (Sun, 01 Aug 2010) $
  */
 public class PropertyReaderTest {
 
-	private static final String PROPERTY_FILE = "/de/winkler/betoffice/test/database/test-mysql-piratestest.properties";
+	private static final String PROPERTY_FILE = "/de/betoffice/database/test/test-mysql-piratestest.properties";
 
 	/**
 	 * Der Test mit {@link Properties} funktioniert.
-	 * 
+	 *
 	 * @throws Exception
 	 *             Da ging was schief.
 	 */
@@ -75,7 +75,7 @@ public class PropertyReaderTest {
 	 * Genau der gleiche Test funktioniert im Projekt gluehloch-util. Verlaesst
 	 * der Code das Projekt und wird z.B. hier ausgefuehrt, liefert der Test
 	 * einen Fehler zurueck.
-	 * 
+	 *
 	 * @throws Exception
 	 *             Da ging was schief.
 	 */
@@ -91,7 +91,7 @@ public class PropertyReaderTest {
 
 	/**
 	 * Mit Commons-Configuration geht es auch noch.
-	 * 
+	 *
 	 * @throws Exception
 	 *             Da ging was schief.
 	 */
@@ -107,7 +107,7 @@ public class PropertyReaderTest {
 
 	/**
 	 * Mit Commons-Configuration und interpoliert geht es auch noch?
-	 * 
+	 *
 	 * @throws Exception
 	 *             Da ging was schief.
 	 */

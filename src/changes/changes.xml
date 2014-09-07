@@ -6,7 +6,7 @@
   </properties>
   <body>
     <!--
-         *** STILL UNDER DEVELOPMENT 1.3.4 (SNAPSHOT) *** 
+         *** STILL UNDER DEVELOPMENT 1.3.4 (SNAPSHOT) ***
     -->
     <release version="betoffice-storage-1.3.4" date="2014-08-19"
       description="Update">
@@ -14,10 +14,11 @@
         Removed the dependencies DBUnit and Unitils. Added betoffice-testutils.
       </action>
       <action dev="andrewinkler" type="removed" date="2014-08-19">
-        Removed the property currentGameList from class Season.
+        Removed the property currentGameList from class Season (and also
+        removed from the database table season#bo_current_ref).
       </action>
     </release>
-    
+
     <!-- Version betoffice-storage 1.3.3 is missing -->
 
     <release version="betoffice-storage-1.3.2" date="2014-04-27"
@@ -26,7 +27,7 @@
         Added MasterDataManagerService#findTeamById(...)
       </action>
     </release>
-    
+
     <release version="betoffice-storage-1.3.1a" date="2014-03-07"
       description="Update">
       <action dev="andrewinkler" type="add" date="2014-03-07">
@@ -81,23 +82,23 @@
         for the DataSource definition. Updated to commons-dbcp-1.5.4.
       </action>
     </release>
-  
+
     <release version="betoffice-storage-1.2.0" date="2013-03-27"
       description="Service seperation. Java 7 compilation">
       <action dev="andrewinkler" type="update" date="2013-03-17">
         Moved the confirmation mail function to betoffice-storage.
       </action>
       <action dev="andrewinkler" type="add" date="2013-02-16">
-        Added BetofficeMailer for sending confirmation mails.  
-      </action>      
+        Added BetofficeMailer for sending confirmation mails.
+      </action>
       <action dev="andrewinkler" type="update" date="2012-11-25">
-        Java 7 compilation.  
+        Java 7 compilation.
       </action>
       <action dev="andrewinkler" type="add" date="2012-11-05">
-        Seperated the 'add tipp' service.  
+        Seperated the 'add tipp' service.
       </action>
     </release>
-  
+
     <release version="betoffice-storage-1.1.5" date="2013-03-18"
         description="Bugfix.">
       <action dev="andrewinkler" type="fix" date="2013-03-18">

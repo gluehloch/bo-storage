@@ -34,6 +34,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.hibernate.jdbc.Work;
 import org.junit.After;
 import org.junit.Before;
@@ -93,8 +94,8 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(frankreich.getName(), equalTo("Frankreich"));
         assertThat(frankreich.getTeamType(), equalTo(TeamType.FIFA));
 
-        Path path = new File("C:/tmp/team.dat").toPath();
-        final ResourceWriter rw = new ResourceWriter(path);
+        final ResourceWriter rw = new ResourceWriter(File.createTempFile(
+                "team", "dat"));
         getSessionFactory().getCurrentSession().doWork(new Work() {
             @Override
             public void execute(Connection connection) throws SQLException {

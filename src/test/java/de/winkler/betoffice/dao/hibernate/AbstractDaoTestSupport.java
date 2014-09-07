@@ -71,7 +71,6 @@ public abstract class AbstractDaoTestSupport extends
             @Override
             public void execute(Connection connection) throws SQLException {
                 Statement stmt = connection.createStatement();
-                stmt.execute("UPDATE bo_season set bo_current_ref = NULL");
                 stmt.execute("DELETE FROM bo_gametipp");
                 stmt.execute("DELETE FROM bo_game");
                 stmt.execute("DELETE FROM bo_gamelist");
