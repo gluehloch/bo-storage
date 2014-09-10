@@ -1,8 +1,8 @@
 ### TAB bo_user
-### id | bo_nickname | bo_name    | bo_surname | bo_password | bo_automat | bo_excluded
-    1  | Frosch      | Winkler    | Adam       | pst         | 0          | 0
-    2  | Hattwig     | Meier      | Erwin      | passwort    | 0          | 0
-    3  | Peter       | Winkelmann | Lars       | geheim      | 0          | 0
+### id | bo_nickname | bo_name    | bo_surname | bo_password | bo_automat(bit) | bo_excluded(bit)
+    1  | Frosch      | Winkler    | Adam       | pst         | 0               | 0
+    2  | Hattwig     | Meier      | Erwin      | passwort    | 0               | 0
+    3  | Peter       | Winkelmann | Lars       | geheim      | 0               | 0
 
 ### TAB bo_season
 ### id | bo_name       | bo_year   | bo_mode | bo_teamtype

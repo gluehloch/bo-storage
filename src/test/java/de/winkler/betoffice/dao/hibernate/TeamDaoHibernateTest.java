@@ -29,12 +29,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.hibernate.jdbc.Work;
 import org.junit.After;
 import org.junit.Before;

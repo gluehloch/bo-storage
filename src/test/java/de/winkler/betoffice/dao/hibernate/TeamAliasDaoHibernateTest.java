@@ -56,11 +56,16 @@ public class TeamAliasDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Before
     public void init() {
+        cleanUpDatabase();
         prepareDatabase(TeamAliasDaoHibernateTest.class);
     }
 
     @After
     public void shutdown() {
+        cleanUpDatabase();
+    }
+
+    private void cleanUpDatabase() {
         getSessionFactory().getCurrentSession().doWork(new Work() {
             @Override
             public void execute(Connection connection) throws SQLException {
