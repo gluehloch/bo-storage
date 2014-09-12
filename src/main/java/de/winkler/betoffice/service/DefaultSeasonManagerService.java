@@ -414,6 +414,14 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     @Override
     @Transactional
     public Group addGroupType(Season season, GroupType groupType) {
+        if (season == null) {
+            throw new IllegalArgumentException("Parameter season is null!");
+        }
+
+        if (groupType == null) {
+            throw new IllegalArgumentException("Parameter groupType is null!");
+        }
+
         Group group = season.getGroup(groupType);
         if (group == null) {
             group = new Group();
