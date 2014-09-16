@@ -1,26 +1,24 @@
 /*
- * $Id: Game.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
  *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.storage;
@@ -43,8 +41,7 @@ import de.winkler.betoffice.storage.exception.StorageRuntimeException;
 /**
  * Kapselt alle Daten eines Fussballspiels.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  *
  * @hibernate.class table="bo_game"
  */
@@ -92,7 +89,8 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Setzt den Primärschlüssel.
      *
-     * @param value Der Primärschlüssel.
+     * @param value
+     *            Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
@@ -111,11 +109,12 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     public Date getDateTime() {
         return dateTime;
     }
-    
+
     /**
      * Ses date and time of the game.
      *
-     * @param _dateTime date and time
+     * @param _dateTime
+     *            date and time
      */
     public void setDateTime(final Date _dateTime) {
         dateTime = _dateTime;
@@ -131,9 +130,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *
      * @return Die Gruppe.
      *
-     * @hibernate.many-to-one
-     *     column="bo_group_ref"
-     *     cascade="none"
+     * @hibernate.many-to-one column="bo_group_ref" cascade="none"
      */
     public Group getGroup() {
         return group;
@@ -142,7 +139,8 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Setzt die Gruppe zu diesem Spiel.
      *
-     * @param value Die Gruppe.
+     * @param value
+     *            Die Gruppe.
      */
     public void setGroup(final Group value) {
         group = value;
@@ -158,9 +156,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *
      * @return Die Heimmannschaft.
      *
-     * @hibernate.many-to-one
-     *     column="bo_hometeam_ref"
-     *     cascade="none"
+     * @hibernate.many-to-one column="bo_hometeam_ref" cascade="none"
      */
     public Team getHomeTeam() {
         return homeTeam;
@@ -169,7 +165,8 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Setzt die Heimmannschaft.
      *
-     * @param value Die Heimmannschaft.
+     * @param value
+     *            Die Heimmannschaft.
      */
     public void setHomeTeam(final Team value) {
         homeTeam = value;
@@ -185,9 +182,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *
      * @return Die Gastmannschaft.
      *
-     * @hibernate.many-to-one
-     *     column="bo_guestteam_ref"
-     *     cascade="none"
+     * @hibernate.many-to-one column="bo_guestteam_ref" cascade="none"
      */
     public Team getGuestTeam() {
         return guestTeam;
@@ -196,7 +191,8 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Setzt die Gastmannschaft.
      *
-     * @param value Die Gastmannschaft.
+     * @param value
+     *            Die Gastmannschaft.
      */
     public void setGuestTeam(final Team value) {
         guestTeam = value;
@@ -221,7 +217,8 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Setzt das Spielergebnis.
      *
-     * @param value Ein Spielergebnis.
+     * @param value
+     *            Ein Spielergebnis.
      */
     public void setResult(final GameResult value) {
         result = value;
@@ -230,8 +227,10 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Zuweisung eines Ergebnisses zu diesem Spiel.
      *
-     * @param homeGoals Die Tore der Heimmannschaft.
-     * @param guestGoals Die Tore der Gastmannschaft.
+     * @param homeGoals
+     *            Die Tore der Heimmannschaft.
+     * @param guestGoals
+     *            Die Tore der Gastmannschaft.
      *
      * @see #setResult(GameResult)
      */
@@ -242,9 +241,12 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Zuweisung eines Ergebnisses zu diesem Spiel.
      *
-     * @param homeGoals Die Tore der Heimmannschaft.
-     * @param guestGoals Die Tore der Gastmannschaft.
-     * @param finished Spiel beendet?
+     * @param homeGoals
+     *            Die Tore der Heimmannschaft.
+     * @param guestGoals
+     *            Die Tore der Gastmannschaft.
+     * @param finished
+     *            Spiel beendet?
      *
      * @see #setResult(GameResult)
      */
@@ -275,7 +277,8 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Setzt 'Spiel beendet'.
      *
-     * @param value true, Spiel beendet; false, sonst.
+     * @param value
+     *            true, Spiel beendet; false, sonst.
      */
     public void setPlayed(final boolean value) {
         played = value;
@@ -291,11 +294,9 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *
      * @return Der Spieltag.
      *
-     * @hibernate.many-to-one
-     *     column="bo_gamelist_ref"
-     *     cascade="none"
-     *     not-null="false"
-     *     class="de.winkler.betoffice.storage.GameList"
+     * @hibernate.many-to-one column="bo_gamelist_ref" cascade="none"
+     *                        not-null="false"
+     *                        class="de.winkler.betoffice.storage.GameList"
      */
     public GameList getGameList() {
         return ofGameList;
@@ -306,8 +307,10 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * GameList zugeordnet wird, d.h. der Aufruf erfolgt aus der Methode
      * {@link GameList#addGame(Game)}.
      *
-     * @param value Der Spieltag. Der Parameter kann <code>null</code> sein.
-     *  In diesem Fall wird eine Spielpaarung aus einem Spieltag gelöscht.
+     * @param value
+     *            Der Spieltag. Der Parameter kann <code>null</code> sein. In
+     *            diesem Fall wird eine Spielpaarung aus einem Spieltag
+     *            gelöscht.
      *
      * @see GameList#addGame(Game)
      */
@@ -340,10 +343,11 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * da sich dieser Wert aus der Position innerhalb der <code>GameList</code>
      * ermittelt.
      *
-     * @param value Die Ordnungsnummer.
+     * @param value
+     *            Die Ordnungsnummer.
      */
     public void setIndex(final int value) {
-        //      not used, calculated value, see getIndex() method
+        // not used, calculated value, see getIndex() method
     }
 
     // -- tippList ------------------------------------------------------------
@@ -356,15 +360,11 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *
      * @return Die Tipp-Liste.
      *
-     * @hibernate.list
-     *     cascade="all"
-     *     lazy="false"
-     * @hibernate.collection-index
-     *     column="bo_tipps_index"
-     * @hibernate.collection-key
-     *     column="bo_game_ref"
+     * @hibernate.list cascade="all" lazy="false"
+     * @hibernate.collection-index column="bo_tipps_index"
+     * @hibernate.collection-key column="bo_game_ref"
      * @hibernate.collection-one-to-many
-     *     class="de.winkler.betoffice.storage.GameTipp"
+     *                                   class="de.winkler.betoffice.storage.GameTipp"
      */
     protected List<GameTipp> getTippList() {
         return tippList;
@@ -373,10 +373,35 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Setzt die Tipp-Liste.
      *
-     * @param value Die Tipp-Liste.
+     * @param value
+     *            Die Tipp-Liste.
      */
     protected void setTippList(final List<GameTipp> value) {
         tippList = value;
+    }
+
+    // -- openligaid ----------------------------------------------------------
+
+    /** http://www.openligadb.de */
+    private Long openligaid;
+
+    /**
+     * Get openligadb ID.
+     *
+     * @return The openligadb ID
+     */
+    public Long getOpenligaid() {
+        return openligaid;
+    }
+
+    /**
+     * Set openligadb ID
+     *
+     * @param value
+     *            The openligadb ID
+     */
+    public void setOpenligaid(Long value) {
+        openligaid = value;
     }
 
     // ------------------------------------------------------------------------
@@ -384,9 +409,12 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Fügt dem Spiel einen Tipp hinzu. Bestehende Tipps werden überschrieben.
      *
-     * @param user Der Spieler von dem der Tipp kommt.
-     * @param gr Der Tipp des Spielers.
-     * @param status Der Status des Tipps.
+     * @param user
+     *            Der Spieler von dem der Tipp kommt.
+     * @param gr
+     *            Der Tipp des Spielers.
+     * @param status
+     *            Der Status des Tipps.
      * @return Ein neu erzeugter Tipp oder ein bereits abgegebener Tipp.
      */
     public GameTipp addTipp(final User user, final GameResult gr,
@@ -430,12 +458,15 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Fügt diesem Spiel einen neuen Tipp hinzu.
      *
-     * @param tipp Der neue Tipp.
-     * @throws StorageObjectNotValidException Tipp nicht in Ordnung.
-     * @throws StorageObjectExistsException Tipp bereits vorhanden.
+     * @param tipp
+     *            Der neue Tipp.
+     * @throws StorageObjectNotValidException
+     *             Tipp nicht in Ordnung.
+     * @throws StorageObjectExistsException
+     *             Tipp bereits vorhanden.
      */
     public void addTipp(final GameTipp tipp)
-        throws StorageObjectNotValidException, StorageObjectExistsException {
+            throws StorageObjectNotValidException, StorageObjectExistsException {
 
         Validate.notNull(tipp);
         tipp.validate();
@@ -474,11 +505,13 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Entfernt aus Game einen Tipp.
      *
-     * @param tipp Der zu entfernende Tipp.
-     * @throws StorageObjectNotFoundException Tipp nicht vorhanden.
+     * @param tipp
+     *            Der zu entfernende Tipp.
+     * @throws StorageObjectNotFoundException
+     *             Tipp nicht vorhanden.
      */
     public void removeTipp(final GameTipp tipp)
-        throws StorageObjectNotFoundException {
+            throws StorageObjectNotFoundException {
 
         Validate.notNull(tipp, "tipp als null-Parameter");
 
@@ -495,16 +528,16 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     }
 
     /**
-     * Ermittelt für einen Spieler den für dieses Spiel
-     * abgegebenen Tipp.
+     * Ermittelt für einen Spieler den für dieses Spiel abgegebenen Tipp.
      *
-     * @param user Der gesuchte Tipp von diesem Spieler.
+     * @param user
+     *            Der gesuchte Tipp von diesem Spieler.
      * @return Der abgegebene Tipp des Spielers.
-     * @throws StorageObjectNotFoundException Keinen Tipp für gesuchten User
-     *  gefunden.
+     * @throws StorageObjectNotFoundException
+     *             Keinen Tipp für gesuchten User gefunden.
      */
     public GameTipp getGameTipp(final User user)
-        throws StorageObjectNotFoundException {
+            throws StorageObjectNotFoundException {
 
         Validate.notNull(user, "user als null Parameter");
 
@@ -532,7 +565,8 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * Liefert einen Spieltipp oder, wenn kein Tipp gefunden werden konnte,
      * einen ungültigen Spieltipp.
      *
-     * @param user Den Tipp von diesem Teilnehmer suchen.
+     * @param user
+     *            Den Tipp von diesem Teilnehmer suchen.
      * @return Der Tipp.
      */
     public GameTipp getGameTippOrInvalid(final User user) {
@@ -551,7 +585,8 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Prüft, ob der Teilnehmer user einen Tipp abgegeben hat.
      *
-     * @param user Der zu prüfende User.
+     * @param user
+     *            Der zu prüfende User.
      * @return true, Tipp vorhanden; false, kein Tipp vorhanden.
      */
     public boolean containsTipp(User user) {
@@ -567,7 +602,8 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Gibt den Tipp an Position <code>index</code> zurück.
      *
-     * @param index Index des Tipps.
+     * @param index
+     *            Index des Tipps.
      * @return Der Tipp an Position <code>index</code>.
      */
     public GameTipp getGameTipp(final int index) {
@@ -584,8 +620,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     }
 
     /**
-     * Liefert ein nicht-modifizierbare Liste aller Tipps
-     * dieses Spiels.
+     * Liefert ein nicht-modifizierbare Liste aller Tipps dieses Spiels.
      *
      * @return Eine nicht modifizierbare Kopie der internen Tipp-Liste.
      */
@@ -596,14 +631,14 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     // -- StorageObject -------------------------------------------------------
 
     /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig
-     * gefüllt sind, damit es evt. Weiterverarbeitungen erfahren kann.
-     * Folgende Eigenschaften müssen gesetzt sein:
+     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
+     * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
+     * Eigenschaften müssen gesetzt sein:
      * <ul>
-     *  <li>dateTime</li>
-     *  <li>homeTeam</li>
-     *  <li>guestTeam</li>
-     *  <li>group</li>
+     * <li>dateTime</li>
+     * <li>homeTeam</li>
+     * <li>guestTeam</li>
+     * <li>group</li>
      * </ul>
      *
      * @return true, Objekt in Ordnung; false, es ist was falsch.
@@ -624,7 +659,9 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     // -- Comparable ----------------------------------------------------------
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(final Game _game) {

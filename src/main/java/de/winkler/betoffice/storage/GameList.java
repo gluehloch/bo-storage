@@ -1,26 +1,24 @@
 /*
- * $Id: GameList.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
  *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.storage;
@@ -42,8 +40,7 @@ import de.winkler.betoffice.storage.exception.StorageRuntimeException;
 /**
  * Verwaltet alle Spiele/Games/Matches eines Spieltags/GameList/Round.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  *
  * @hibernate.class table="bo_gamelist"
  */
@@ -80,7 +77,8 @@ public class GameList extends AbstractStorageObject implements
     /**
      * Setzt den Primärschlüssel.
      *
-     * @param value Der Primärschlüssel.
+     * @param value
+     *            Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
@@ -99,15 +97,11 @@ public class GameList extends AbstractStorageObject implements
      *
      * @return Die Liste der Spiele.
      *
-     * @hibernate.list
-     *     cascade="all"
-     *     lazy="false"
-     * @hibernate.collection-index
-     *     column="bo_index"
-     * @hibernate.collection-key
-     *     column="bo_gamelist_ref"
+     * @hibernate.list cascade="all" lazy="false"
+     * @hibernate.collection-index column="bo_index"
+     * @hibernate.collection-key column="bo_gamelist_ref"
      * @hibernate.collection-one-to-many
-     *     class="de.winkler.betoffice.storage.Game"
+     *                                   class="de.winkler.betoffice.storage.Game"
      */
     protected List<Game> getGameList() {
         return gameList;
@@ -116,7 +110,8 @@ public class GameList extends AbstractStorageObject implements
     /**
      * Setzt die Liste der Spiele.
      *
-     * @param value Die Liste der Spiele.
+     * @param value
+     *            Die Liste der Spiele.
      */
     protected void setGameList(final List<Game> value) {
         Validate.notNull(value);
@@ -126,7 +121,8 @@ public class GameList extends AbstractStorageObject implements
     /**
      * Fügt eine neue Spielpaarung dem Spieltag hinzu.
      *
-     * @param value Eine Spielpaarung.
+     * @param value
+     *            Eine Spielpaarung.
      */
     public void addGame(final Game value) {
         Validate.notNull(value);
@@ -153,7 +149,8 @@ public class GameList extends AbstractStorageObject implements
     /**
      * Entfernt ein Spielpaarung aus dieser Spieltagsliste.
      *
-     * @param value Die zu entfernende Spielpaarung.
+     * @param value
+     *            Die zu entfernende Spielpaarung.
      */
     public void removeGame(final Game value) {
         Validate.notNull(value);
@@ -169,9 +166,10 @@ public class GameList extends AbstractStorageObject implements
      * Liefert eine Liste der Spiele dieses Spieltags, die zu einer bestimmten
      * Gruppe gehören.
      *
-     * @param _group Die Gruppe deren Spiele gefragt sind.
+     * @param _group
+     *            Die Gruppe deren Spiele gefragt sind.
      * @return Eine Liste aller Spiele der gefragten Gruppe. Diese Liste kann
-     *  nicht modifiziert werden.
+     *         nicht modifiziert werden.
      */
     public List<Game> getGamesOfGroup(final Group _group) {
         List<Game> list = new LinkedList<Game>();
@@ -196,7 +194,8 @@ public class GameList extends AbstractStorageObject implements
     /**
      * Hole Spiel mit Spielnummer index.
      *
-     * @param _index Index eines Spiels.
+     * @param _index
+     *            Index eines Spiels.
      * @return Das Spiel mit dem gesuchten Index.
      */
     public Game get(final int _index) {
@@ -231,10 +230,7 @@ public class GameList extends AbstractStorageObject implements
      *
      * @return Spieltagindex.
      *
-     * @hibernate.property
-     *     column="bo_index"
-     *     insert="true"
-     *     update="true"
+     * @hibernate.property column="bo_index" insert="true" update="true"
      */
     public int getIndex() {
         return index;
@@ -244,7 +240,8 @@ public class GameList extends AbstractStorageObject implements
      * Setzt den Spieltagindex. Ist ohne Bedeutung, da über die Sortierung in
      * GameDayList gesetzt. Siehe dazu die Methode {@link #getIndex()}.
      *
-     * @param value Der zu setzende Spieltagindex.
+     * @param value
+     *            Der zu setzende Spieltagindex.
      *
      * @see #getIndex()
      */
@@ -265,11 +262,12 @@ public class GameList extends AbstractStorageObject implements
     public Date getDateTime() {
         return dateTime;
     }
-    
+
     /**
      * Ses date and time of the game.
      *
-     * @param _dateTime date and time
+     * @param _dateTime
+     *            date and time
      */
     public void setDateTime(final Date _dateTime) {
         dateTime = _dateTime;
@@ -288,22 +286,21 @@ public class GameList extends AbstractStorageObject implements
      *
      * @return Die zugehörige Saison.
      *
-     * @hibernate.many-to-one
-     *     column="bo_gamedaylist_ref"
-     *     cascade="none"
+     * @hibernate.many-to-one column="bo_gamedaylist_ref" cascade="none"
      */
     public Season getSeason() {
         return season;
     }
 
     /**
-     * Setzt die Saison/Spieltagsliste, die zu diesem Spieltag gehört.
-     * Wird gesetzt, wenn die Spieltagsliste einer Saison/GameDayList
-     * zugeordnet wird. Der Aufruf erfolgt aus der Methode
+     * Setzt die Saison/Spieltagsliste, die zu diesem Spieltag gehört. Wird
+     * gesetzt, wenn die Spieltagsliste einer Saison/GameDayList zugeordnet
+     * wird. Der Aufruf erfolgt aus der Methode
      * {@link Season#addGameList(GameList)}.
      *
-     * @param value Die zugehörige Saison. Kann <code>null</code> sein. Dann
-     *     wurde diese Spieltagsliste aus einer Saison entfernt.
+     * @param value
+     *            Die zugehörige Saison. Kann <code>null</code> sein. Dann wurde
+     *            diese Spieltagsliste aus einer Saison entfernt.
      *
      * @see Season#addGameList(GameList)
      */
@@ -324,9 +321,7 @@ public class GameList extends AbstractStorageObject implements
      *
      * @return Die zugehörige Gruppe.
      *
-     * @hibernate.many-to-one
-     *     column="bo_group_ref"
-     *     cascade="none"
+     * @hibernate.many-to-one column="bo_group_ref" cascade="none"
      */
     public Group getGroup() {
         return group;
@@ -335,10 +330,35 @@ public class GameList extends AbstractStorageObject implements
     /**
      * Setzt die zugehörige Gruppe.
      *
-     * @param value Die zugehörige Gruppe. Kann <code>null</code> sein!
+     * @param value
+     *            Die zugehörige Gruppe. Kann <code>null</code> sein!
      */
     public void setGroup(final Group value) {
         group = value;
+    }
+
+    // -- openligaid ----------------------------------------------------------
+
+    /** http://www.openligadb.de */
+    private Long openligaid;
+
+    /**
+     * Get openligadb ID.
+     *
+     * @return The openligadb ID
+     */
+    public Long getOpenligaid() {
+        return openligaid;
+    }
+
+    /**
+     * Set openligadb ID
+     *
+     * @param value
+     *            The openligadb ID
+     */
+    public void setOpenligaid(Long value) {
+        openligaid = value;
     }
 
     // ------------------------------------------------------------------------
@@ -346,7 +366,8 @@ public class GameList extends AbstractStorageObject implements
     /**
      * Berechnet die erzielten Punkte eines Spielers für diesen Spieltag.
      *
-     * @param user Der Teilnehmer für den die Punktzahl ermittelt wird.
+     * @param user
+     *            Der Teilnehmer für den die Punktzahl ermittelt wird.
      * @return Ein <code>UserResultOfDay</code>
      */
     public UserResultOfDay getUserPoints(User user) {
@@ -363,8 +384,8 @@ public class GameList extends AbstractStorageObject implements
                     // Fall, wird eine RuntimeException geworfen.
                     //
                     // TODO Dieser Fall kann aber trotzdem auftreten:
-                    //  Automatische MinTipp-Generierung und anschliessendes
-                    //  teilweises, manuelles Ändern der Tipps.
+                    // Automatische MinTipp-Generierung und anschliessendes
+                    // teilweises, manuelles Ändern der Tipps.
                     //
                     if ((urod.getStatus() != null)
                             && !(tipp.getStatus().equals(urod.getStatus()))) {
@@ -397,9 +418,10 @@ public class GameList extends AbstractStorageObject implements
     /**
      * Liefert alle Tipps dieses Spieltags für den gefordeten User.
      *
-     * @param user Die Tipps des gesuchten Users.
+     * @param user
+     *            Die Tipps des gesuchten Users.
      * @return Eine Liste mit allen Tipps für diesen Spieltag vom gesuchten
-     *  User.
+     *         User.
      */
     public List<GameTipp> getTippsOfUser(final User user) {
         List<GameTipp> tippList = new ArrayList<GameTipp>();
@@ -408,8 +430,8 @@ public class GameList extends AbstractStorageObject implements
                 GameTipp tipp = game.getGameTipp(user);
                 tippList.add(tipp);
             } catch (StorageObjectNotFoundException ex) {
-                log.info(new StringBuffer("Für User ").append(user).append(
-                        " keinen Tipp gefunden.").toString());
+                log.info(new StringBuffer("Für User ").append(user)
+                        .append(" keinen Tipp gefunden.").toString());
             }
         }
         return tippList;
@@ -418,7 +440,8 @@ public class GameList extends AbstractStorageObject implements
     /**
      * Überprüft, ob der Spieltag vor dem übergebenen Spieltag liegt.
      *
-     * @param _gameList Der zu vergleichende Spieltag.
+     * @param _gameList
+     *            Der zu vergleichende Spieltag.
      * @return true, Spieltag liegt vor dem übergebenen Spieltag; false sonst.
      */
     public boolean isBefore(final GameList _gameList) {
@@ -432,7 +455,8 @@ public class GameList extends AbstractStorageObject implements
     /**
      * Überprüft, ob der Spieltag nach dem übergebenen Spieltag liegt.
      *
-     * @param gd Der zu vergleichende Spieltag.
+     * @param gd
+     *            Der zu vergleichende Spieltag.
      * @return true, Spieltag liegt nach dem übergebenen Spieltag; false sonst.
      */
     public boolean isAfter(final GameList gd) {
@@ -446,12 +470,12 @@ public class GameList extends AbstractStorageObject implements
     // -- StorageObject -------------------------------------------------------
 
     /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig
-     * gefüllt sind, damit es evt. Weiterverarbeitungen erfahren kann.
-     * Folgende Eigenschaften müssen gesetzt sein:
+     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
+     * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
+     * Eigenschaften müssen gesetzt sein:
      * <ul>
-     *   <li>dateTime</li>
-     *   <li>group</li>
+     * <li>dateTime</li>
+     * <li>group</li>
      * </ul>
      *
      * @return true, Objekt in Ordnung; false, es ist was falsch.
@@ -468,7 +492,9 @@ public class GameList extends AbstractStorageObject implements
 
     // -- Object --------------------------------------------------------------
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(final GameList _round) {

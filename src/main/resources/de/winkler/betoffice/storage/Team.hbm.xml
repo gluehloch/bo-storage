@@ -56,19 +56,27 @@
             not-null="true"
         />
          -->
-          
+
         <property
             name="teamType"
             column="bo_teamtype"
             update="true"
             insert="true"
-            not-null="true"        
+            not-null="true"
             >
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">de.winkler.betoffice.storage.enums.TeamType</param>
             </type>
         </property>
-            
+
+        <property
+            name="openligaid"
+            type="java.lang.Long"
+            update="true"
+            insert="true"
+            column="bo_openligaid"
+        />
+
         <set
             name="groups"
             table="bo_team_group"

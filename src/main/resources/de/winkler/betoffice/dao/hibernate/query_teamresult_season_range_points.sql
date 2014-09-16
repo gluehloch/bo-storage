@@ -1,11 +1,11 @@
 select
-  tabelle.id, tabelle.bo_name, tabelle.bo_longname, tabelle.bo_logo, tabelle.bo_teamtype,
+  tabelle.id, tabelle.bo_name, tabelle.bo_longname, tabelle.bo_logo, tabelle.bo_teamtype, tabelle.bo_openligaid,
   SUM(win) as win, SUM(remis) as remis, SUM(lost) as lost, (SUM(win) * 3 + SUM(remis)) as points
 from
 (
     (
         select
-          t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype,
+          t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype, t.bo_openligaid,
           count(*) as win, 0 as remis, 0 as lost
         from
           bo_season s,
@@ -29,12 +29,12 @@ from
           and
           (
               (
-                    m.bo_hometeam_ref = t.id  
+                    m.bo_hometeam_ref = t.id
                 and m.bo_homegoals > m.bo_guestgoals
               )
               or
               (
-                    m.bo_guestteam_ref = t.id  
+                    m.bo_guestteam_ref = t.id
                 and m.bo_guestgoals > m.bo_homegoals
               )
           )
@@ -43,7 +43,7 @@ from
     UNION ALL
     (
         select
-          t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype,
+          t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype, t.bo_openligaid,
           0 as win, count(*) as remis, 0 as lost
         from
           bo_season s,
@@ -67,12 +67,12 @@ from
           and
           (
               (
-                    m.bo_hometeam_ref = t.id  
+                    m.bo_hometeam_ref = t.id
                 and m.bo_homegoals = m.bo_guestgoals
               )
               or
               (
-                    m.bo_guestteam_ref = t.id  
+                    m.bo_guestteam_ref = t.id
                 and m.bo_guestgoals = m.bo_homegoals
               )
           )
@@ -81,7 +81,7 @@ from
     UNION ALL
     (
         select
-          t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype,
+          t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype, t.bo_openligaid,
           0 as win, 0 as remis, count(*) as lost
         from
           bo_season s,
@@ -105,12 +105,12 @@ from
           and
           (
               (
-                    m.bo_hometeam_ref = t.id  
+                    m.bo_hometeam_ref = t.id
                 and m.bo_homegoals < m.bo_guestgoals
               )
               or
               (
-                    m.bo_guestteam_ref = t.id  
+                    m.bo_guestteam_ref = t.id
                 and m.bo_guestgoals < m.bo_homegoals
               )
           )

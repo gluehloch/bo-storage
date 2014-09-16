@@ -110,6 +110,14 @@
             column="bo_index"
         />
 
+        <property
+            name="openligaid"
+            type="java.lang.Long"
+            update="true"
+            insert="true"
+            column="bo_openligaid"
+        />
+
         <list
             name="tippList"
             inverse="false"

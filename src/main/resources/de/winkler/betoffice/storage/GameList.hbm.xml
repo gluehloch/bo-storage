@@ -56,6 +56,14 @@
             column="bo_datetime"
         />
 
+        <property
+            name="openligaid"
+            type="java.lang.Long"
+            update="true"
+            insert="true"
+            column="bo_openligaid"
+        />
+
         <many-to-one
             name="season"
             class="de.winkler.betoffice.storage.Season"

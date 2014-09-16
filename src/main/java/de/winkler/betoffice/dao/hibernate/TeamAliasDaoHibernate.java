@@ -1,26 +1,24 @@
 /*
- * $Id: TeamAliasDaoHibernate.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
  *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.dao.hibernate;
@@ -36,17 +34,15 @@ import de.winkler.betoffice.storage.TeamAlias;
 
 /**
  * Die Hibernate Implementierung des DAO {@link TeamAliasDao}.
- * 
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2012-07-25 20:56:30
- *          +0200 (Wed, 25 Jul 2012) $
+ *
+ * @author by Andre Winkler
  */
 @Repository("teamAliasDao")
 public class TeamAliasDaoHibernate extends AbstractCommonDao<TeamAlias>
         implements TeamAliasDao {
 
     /** Sucht nach allen Teams mit einem bestimmten Namen. */
-    private static final String QUERY_TEAMALIAS_BY_NAME = "select t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype "
+    private static final String QUERY_TEAMALIAS_BY_NAME = "select t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype, t.bo_openligaid "
             + "from bo_team t, bo_teamalias ta "
             + "where ta.bo_aliasname like :alias_name "
             + "  and ta.bo_team_ref = t.id";

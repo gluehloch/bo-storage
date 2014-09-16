@@ -1,26 +1,24 @@
 /*
- * $Id: Team.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
  *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.storage;
@@ -35,13 +33,12 @@ import de.winkler.betoffice.storage.enums.TeamType;
 /**
  * Kapselt die Teamdaten.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  *
  * @hibernate.class table="bo_team"
  */
 public class Team extends AbstractStorageObject {
-    
+
     /** serial version id */
     private static final long serialVersionUID = -3181346057831881080L;
 
@@ -52,22 +49,26 @@ public class Team extends AbstractStorageObject {
      */
     public Team() {
     }
-    
+
     /**
      * Konstruktor. Erstellt ein minimales Team Objekt.
      *
-     * @param value Der Mannschaftsname
+     * @param value
+     *            Der Mannschaftsname
      */
     public Team(final String value) {
         this(value, null, null);
     }
-    
+
     /**
      * Konstruktor.
      *
-     * @param _name Der Mannschaftsname.
-     * @param _longName Der Mannschaftsname komplett/in Langform.
-     * @param _logo Das Logo/Bezeichner der Logo-Datei.
+     * @param _name
+     *            Der Mannschaftsname.
+     * @param _longName
+     *            Der Mannschaftsname komplett/in Langform.
+     * @param _logo
+     *            Das Logo/Bezeichner der Logo-Datei.
      */
     public Team(final String _name, final String _longName, final String _logo) {
         setName(_name);
@@ -94,13 +95,14 @@ public class Team extends AbstractStorageObject {
     /**
      * Setzt den Primärschlüssel.
      *
-     * @param value Der Primärschlüssel.
+     * @param value
+     *            Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
     }
 
-   // -- name ----------------------------------------------------------------
+    // -- name ----------------------------------------------------------------
 
     /** Der Name der Eigenschaft 'name'. */
     public static final String PROPERTY_NAME = "name";
@@ -113,10 +115,7 @@ public class Team extends AbstractStorageObject {
      *
      * @return Der Teamname.
      *
-     * @hibernate.property
-     *     column="bo_name"
-     *     not-null="true"
-     *     unique="true"
+     * @hibernate.property column="bo_name" not-null="true" unique="true"
      */
     public String getName() {
         return name;
@@ -125,7 +124,8 @@ public class Team extends AbstractStorageObject {
     /**
      * Setzt den Teamnamen.
      *
-     * @param value Der Teamname.
+     * @param value
+     *            Der Teamname.
      */
     public void setName(final String value) {
         name = value;
@@ -153,7 +153,8 @@ public class Team extends AbstractStorageObject {
     /**
      * Setzt den Teamnamen in der Langbezeichnung.
      *
-     * @param value Der lange Teamname.
+     * @param value
+     *            Der lange Teamname.
      */
     public void setLongName(final String value) {
         longName = value;
@@ -181,8 +182,9 @@ public class Team extends AbstractStorageObject {
     /**
      * Setzt das Logo.
      *
-     * @param value Das Logo.
-     */    
+     * @param value
+     *            Das Logo.
+     */
     public void setLogo(final String value) {
         logo = value;
     }
@@ -200,16 +202,12 @@ public class Team extends AbstractStorageObject {
      *
      * @return Die Gruppen.
      *
-     * @hibernate.set
-     *     role="groups"
-     *     table="bo_team_group"
-     *     cascade="none"
-     *     inverse="true"
-     * @hibernate.collection-key
-     *     column="bo_team_ref"
+     * @hibernate.set role="groups" table="bo_team_group" cascade="none"
+     *                inverse="true"
+     * @hibernate.collection-key column="bo_team_ref"
      * @hibernate.collection-many-to-many
-     *     class="de.winkler.betoffice.storage.Group"
-     *     column="bo_group_ref"
+     *                                    class="de.winkler.betoffice.storage.Group"
+     *                                    column="bo_group_ref"
      */
     public Set<Group> getGroups() {
         return groups;
@@ -218,7 +216,8 @@ public class Team extends AbstractStorageObject {
     /**
      * Setzt die Gruppen, denen diese Mannschaft angehört neu.
      *
-     * @param value Die Gruppen.
+     * @param value
+     *            Die Gruppen.
      */
     protected void setGroups(final Set<Group> value) {
         groups = value;
@@ -228,7 +227,8 @@ public class Team extends AbstractStorageObject {
      * Ordnet die Mannschaft einer bestimmten Gruppe zu. Wird aus der Methode
      * {@link Group#addTeam(Team)} aufgerufen.
      *
-     * @param value Die zugeordnete Gruppe.
+     * @param value
+     *            Die zugeordnete Gruppe.
      */
     protected void addGroup(final Group value) {
         groups.add(value);
@@ -238,7 +238,8 @@ public class Team extends AbstractStorageObject {
      * Entfernt eine Mannschaft aus einer bestimmten Gruppe. Wird aus der
      * Methode {@link Group#removeTeam(Team)} aufgerufen.
      *
-     * @param value Die zugeordnete Gruppe.
+     * @param value
+     *            Die zugeordnete Gruppe.
      */
     protected void removeGroup(final Group value) {
         groups.remove(value);
@@ -246,7 +247,7 @@ public class Team extends AbstractStorageObject {
 
     // -- teamType ------------------------------------------------------------
 
-    /** Mannschaftstyp. (DFB, FIFA) `*/
+    /** Mannschaftstyp. (DFB, FIFA) ` */
     private TeamType teamType = TeamType.DFB;
 
     /**
@@ -254,10 +255,9 @@ public class Team extends AbstractStorageObject {
      *
      * @return Der Modus.
      *
-     * @hibernate.property
-     *     column="bo_teamtype"
-     *     type="de.winkler.betoffice.storage.enums.TeamType"
-     *     not-null="true"
+     * @hibernate.property column="bo_teamtype"
+     *                     type="de.winkler.betoffice.storage.enums.TeamType"
+     *                     not-null="true"
      */
     public TeamType getTeamType() {
         return teamType;
@@ -266,22 +266,47 @@ public class Team extends AbstractStorageObject {
     /**
      * Setzt den Mannschaftstyp.
      *
-     * @param value Der Mannschaftstyp.
+     * @param value
+     *            Der Mannschaftstyp.
      */
     public void setTeamType(final TeamType value) {
         teamType = value;
     }
 
-    // -- StorageObject -------------------------------------------------------
-    
+    // -- openligaid ----------------------------------------------------------
+
+    /** http://www.openligadb.de */
+    private Long openligaid;
+
     /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig
-     * gefüllt sind, damit es evt. Weiterverarbeitungen erfahren kann.
-     * Folgende Eigenschaften müssen gesetzt sein:
+     * Get openligadb ID.
+     *
+     * @return The openligadb ID
+     */
+    public Long getOpenligaid() {
+        return openligaid;
+    }
+
+    /**
+     * Set openligadb ID
+     *
+     * @param value
+     *            The openligadb ID
+     */
+    public void setOpenligaid(Long value) {
+        openligaid = value;
+    }
+
+    // -- StorageObject -------------------------------------------------------
+
+    /**
+     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
+     * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
+     * Eigenschaften müssen gesetzt sein:
      * <ul>
-     *  <li>teamName</li>
-     *  <li>teamLogoName</li>
-     *  <li>logo</li>
+     * <li>teamName</li>
+     * <li>teamLogoName</li>
+     * <li>logo</li>
      * </ul>
      *
      * @return true, Objekt in Ordnung; false, es ist was falsch.
@@ -301,7 +326,7 @@ public class Team extends AbstractStorageObject {
     }
 
     // -- Object --------------------------------------------------------------
-    
+
     /**
      * @see Object#toString()
      */
@@ -319,7 +344,7 @@ public class Team extends AbstractStorageObject {
             return false;
         } else {
             Team team = (Team) object;
-            return (team.getName().equals(getName()));       
+            return (team.getName().equals(getName()));
         }
     }
 
@@ -331,5 +356,5 @@ public class Team extends AbstractStorageObject {
         result = 37 * result + getName().hashCode();
         return result;
     }
-        
+
 }
