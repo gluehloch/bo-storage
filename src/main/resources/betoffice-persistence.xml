@@ -53,6 +53,7 @@
   </bean>
 
   <context:component-scan base-package="de.winkler.betoffice"/>
+  <context:component-scan base-package="de.betoffice"/>
   <!--
   <context:component-scan base-package="de.winkler.betoffice.dao.hibernate"/>
   <context:component-scan base-package="de.winkler.betoffice.service"/>
