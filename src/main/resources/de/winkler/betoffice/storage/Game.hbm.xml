@@ -82,6 +82,72 @@
 
         </component>
 
+        <component
+            name="halfTimeGoals"
+            class="de.winkler.betoffice.storage.GameResult"
+        >
+        <property
+            name="homeGoals"
+            type="int"
+            update="true"
+            insert="true"
+            column="bo_halftimehomegoals"
+        />
+
+        <property
+            name="guestGoals"
+            type="int"
+            update="true"
+            insert="true"
+            column="bo_halftimeguestgoals"
+        />
+        
+        </component>
+
+        <component
+            name="overTimeGoals"
+            class="de.winkler.betoffice.storage.GameResult"
+        >
+        <property
+            name="homeGoals"
+            type="int"
+            update="true"
+            insert="true"
+            column="bo_overtimehomegoals"
+        />
+
+        <property
+            name="guestGoals"
+            type="int"
+            update="true"
+            insert="true"
+            column="bo_overtimeguestgoals"
+        />
+
+        </component>
+
+        <component
+            name="penaltyGoals"
+            class="de.winkler.betoffice.storage.GameResult"
+        >
+        <property
+            name="homeGoals"
+            type="int"
+            update="true"
+            insert="true"
+            column="bo_penaltyhomegoals"
+        />
+
+        <property
+            name="guestGoals"
+            type="int"
+            update="true"
+            insert="true"
+            column="bo_penaltyguestgoals"
+        />
+
+        </component>
+
         <property
             name="played"
             type="boolean"

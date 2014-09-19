@@ -258,6 +258,45 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
         setPlayed(finished);
     }
 
+    // -- halfTimeGoals -------------------------------------------------------
+    
+    /** The half-time goals. */
+    private GameResult halfTimeGoals = new GameResult();
+
+    public GameResult getHalfTimeGoals() {
+        return halfTimeGoals;
+    }
+
+    public void setHalfTimeGoals(GameResult _halfTimeGoals) {
+        halfTimeGoals = _halfTimeGoals;
+    }
+
+    // -- overTimeGoals -------------------------------------------------------
+    
+    /** The over-time goals. */
+    private GameResult overTimeGoals = new GameResult();
+
+    public GameResult getOverTimeGoals() {
+        return overTimeGoals;
+    }
+
+    public void setOverTimeGoals(GameResult _overTimeGoals) {
+        overTimeGoals = _overTimeGoals;
+    }
+    
+    // -- penaltyGoals --------------------------------------------------------
+    
+    /** The penalty goals after over-time. */
+    private GameResult penaltyGoals = new GameResult();
+
+    public GameResult getPenaltyGoals() {
+        return penaltyGoals;
+    }
+
+    public void setPenaltyGoals(GameResult _penaltyGoals) {
+        penaltyGoals = _penaltyGoals;
+    }
+
     // -- played --------------------------------------------------------------
 
     /** Spiel beendet? */

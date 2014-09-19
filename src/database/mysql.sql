@@ -131,6 +131,12 @@ create table bo_game (
     bo_gamelist_ref bigint,
     bo_index integer,
     bo_datetime datetime,
+    bo_halftimehomegoals integer,
+    bo_halftimeguestgoals integer,
+    bo_overtimehomegoals integer,
+    bo_overtimeguestgoals integer,
+    bo_penaltyhomegoals integer,
+    bo_penaltyguestgoals integer,
     primary key (id)
 ) ENGINE=InnoDB;
 

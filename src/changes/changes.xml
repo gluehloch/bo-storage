@@ -6,10 +6,13 @@
   </properties>
   <body>
     <!--
-         *** STILL UNDER DEVELOPMENT 1.3.4 (SNAPSHOT) ***
+         *** STILL UNDER DEVELOPMENT 2.0.0 (SNAPSHOT) ***
     -->
-    <release version="betoffice-storage-1.3.4" date="2014-08-19"
+    <release version="betoffice-storage-2.0.0" date="2014-08-19"
       description="Update">
+      <action dev="andrewinkler" type="add" date="2014-09-19">
+        Added half-time, over-time and penalty goals.
+      </action>
       <action dev="andrewinkler" type="add" date="2014-09-16">
         The tables bo_gamelist, bo_team and bo_game get a new column:
         bo_openligaid (The Openligadb identificaton).
