@@ -38,7 +38,6 @@ import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.enums.TotoResult;
 import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
-import de.winkler.betoffice.storage.exception.StorageObjectNotValidException;
 
 /**
  * Testklasse für die Klasse GameTipp.
@@ -110,45 +109,6 @@ public class GameTippTest {
     private User userE;
     private Season season;
     private Group group;
-
-    @Test
-    public void testGameTippCheckValidity() {
-        GameTipp tipp = new GameTipp();
-        tipp.setTipp(new GameResult(1, 0), TippStatusType.USER);
-        tipp.setUser(new User());
-
-        try {
-            tipp.validate();
-        } catch (StorageObjectNotValidException e) {
-            fail("Tipp war in Ordnung");
-        }
-
-        tipp = new GameTipp();
-        try {
-            tipp.validate();
-            fail("Tipp war nicht in Ordnung");
-        } catch (StorageObjectNotValidException e) {
-            // Ok
-        }
-
-        tipp = new GameTipp();
-        tipp.setTipp(new GameResult(1, 0), TippStatusType.USER);
-        try {
-            tipp.validate();
-            fail("Tipp war nicht in Ordnung");
-        } catch (StorageObjectNotValidException e) {
-            // Ok
-        }
-
-        tipp = new GameTipp();
-        tipp.setUser(new User());
-        try {
-            tipp.validate();
-            fail("Tipp war nicht in Ordnung");
-        } catch (StorageObjectNotValidException e) {
-            // Ok
-        }
-    }
 
     /**
      * Testet den Listener der Klasse GameTipp. Bei Änderungen am Spielergebniss

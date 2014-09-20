@@ -25,8 +25,6 @@
 
 package de.winkler.betoffice.storage;
 
-import de.winkler.betoffice.storage.exception.StorageObjectNotValidException;
-
 /**
  * <code>StorageObject</code> definiert die allgemeine Schnittstelle für alle
  * Fachklassen von betoffice.
@@ -35,22 +33,5 @@ import de.winkler.betoffice.storage.exception.StorageObjectNotValidException;
  * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
  */
 public interface StorageObject {
-
-    /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
-     * sind, damit es evt. Weiterverarbeitungen erfahren kann.
-     * 
-     * @return true, Objekt in Ordnung; false, es ist was falsch.
-     */
-    public boolean isValid();
-
-    /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
-     * sind. Ist dies nicht der Fall, wird eine StorageObjectNotValidException
-     * geworfen.
-     * 
-     * @throws StorageObjectNotValidException Objekt nicht gültig befüllt.
-     */
-    public void validate() throws StorageObjectNotValidException;
 
 }

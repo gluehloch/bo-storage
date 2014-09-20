@@ -605,11 +605,6 @@ public class Season extends AbstractStorageObject {
             }
         }
 
-        if (!_gameList.isValid()) {
-            log.error("gameList nicht gültig!");
-            throw new IllegalArgumentException("gameList nicht gültig!");
-        }
-
         // ... und in Spieltagsliste aufnehmen.
         _gameList.setSeason(this);
         _gameList.setIndex(gameList.size());

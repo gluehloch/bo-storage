@@ -5,17 +5,17 @@
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
- *
+ * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- *
+ * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
@@ -259,7 +259,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     }
 
     // -- halfTimeGoals -------------------------------------------------------
-    
+
     /** The half-time goals. */
     private GameResult halfTimeGoals = new GameResult();
 
@@ -272,7 +272,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     }
 
     // -- overTimeGoals -------------------------------------------------------
-    
+
     /** The over-time goals. */
     private GameResult overTimeGoals = new GameResult();
 
@@ -283,9 +283,9 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     public void setOverTimeGoals(GameResult _overTimeGoals) {
         overTimeGoals = _overTimeGoals;
     }
-    
+
     // -- penaltyGoals --------------------------------------------------------
-    
+
     /** The penalty goals after over-time. */
     private GameResult penaltyGoals = new GameResult();
 
@@ -295,6 +295,19 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     public void setPenaltyGoals(GameResult _penaltyGoals) {
         penaltyGoals = _penaltyGoals;
+    }
+
+    // -- location -------------------------------------------------------------
+
+    /** The location of the match. */
+    private Location location;
+    
+    public Location getLocation() {
+        return location;
+    }
+    
+    public void setLocation(Location _location) {
+        location = _location;
     }
 
     // -- played --------------------------------------------------------------
@@ -402,7 +415,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * @hibernate.list cascade="all" lazy="false"
      * @hibernate.collection-index column="bo_tipps_index"
      * @hibernate.collection-key column="bo_game_ref"
-     * @hibernate.collection-one-to-many
+     * @hibernate.collection-one-to-many 
      *                                   class="de.winkler.betoffice.storage.GameTipp"
      */
     protected List<GameTipp> getTippList() {
@@ -499,16 +512,13 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *
      * @param tipp
      *            Der neue Tipp.
-     * @throws StorageObjectNotValidException
-     *             Tipp nicht in Ordnung.
      * @throws StorageObjectExistsException
      *             Tipp bereits vorhanden.
      */
     public void addTipp(final GameTipp tipp)
-            throws StorageObjectNotValidException, StorageObjectExistsException {
+            throws StorageObjectExistsException {
 
         Validate.notNull(tipp);
-        tipp.validate();
 
         if (containsTipp(tipp.getUser())) {
             StringBuffer buf = new StringBuffer("'");
@@ -667,40 +677,11 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
         return Collections.unmodifiableList(tippList);
     }
 
-    // -- StorageObject -------------------------------------------------------
-
-    /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
-     * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
-     * Eigenschaften müssen gesetzt sein:
-     * <ul>
-     * <li>dateTime</li>
-     * <li>homeTeam</li>
-     * <li>guestTeam</li>
-     * <li>group</li>
-     * </ul>
-     *
-     * @return true, Objekt in Ordnung; false, es ist was falsch.
-     */
-    public boolean isValid() {
-        if (dateTime == null) {
-            return false;
-        } else if (homeTeam == null) {
-            return false;
-        } else if (guestTeam == null) {
-            return false;
-        } else if (group == null) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     // -- Comparable ----------------------------------------------------------
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(final Game _game) {
