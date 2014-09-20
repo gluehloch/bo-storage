@@ -97,6 +97,12 @@ alter table bo_user_season
     drop
     foreign key FKB2D710E5F5473151;
 
+drop table if exists bo_player;
+
+drop table if exists bo_goal;
+
+drop table if exists bo_location;
+
 drop table if exists bo_game;
 
 drop table if exists bo_gamelist;
@@ -131,13 +137,43 @@ create table bo_game (
     bo_gamelist_ref bigint,
     bo_index integer,
     bo_datetime datetime,
+    bo_openligaid bigint,
     bo_halftimehomegoals integer,
     bo_halftimeguestgoals integer,
     bo_overtimehomegoals integer,
     bo_overtimeguestgoals integer,
     bo_penaltyhomegoals integer,
     bo_penaltyguestgoals integer,
+    bo_location_ref bigint,
     primary key (id)
+) ENGINE=InnoDB;
+
+create table bo_player (
+    id bigint not null auto_increment,
+    bo_name varchar(100),
+    bo_openligaid bigint comment 'Openligadb player/goalgetter ID',
+    primary key(id)
+) ENGINE=InnoDB;
+
+create table bo_goal (
+    id bigint not null auto_increment,
+    bo_game_ref bigint,
+    bo_player_ref bigint,
+    bo_minute integer,
+    bo_penalty bit comment 'Elfmeter?',
+    bo_overtime bit comment 'Nachspielzeit?',
+    bo_owngoal bit comment 'Eigentor?',
+    bo_comment varchar(255) comment 'Kommentar',
+    primary key (id)
+) ENGINE=InnoDB;
+
+create table bo_location (
+    id bigint not null auto_increment,
+    bo_name varchar(100),
+    bo_city varchar(100),
+    bo_geodat varchar(100),
+    bo_openligaid bigint comment 'Openligdb location',
+    primary key(id)
 ) ENGINE=InnoDB;
 
 create table bo_gamelist (
@@ -147,6 +183,7 @@ create table bo_gamelist (
     bo_season_ref bigint,
     bo_group_ref bigint,
     bo_datetime datetime,
+    bo_openligaid bigint,
     primary key (id)
 ) ENGINE=InnoDB;
 
@@ -191,6 +228,7 @@ create table bo_team (
     bo_longname varchar(255),
     bo_logo varchar(255),
     bo_teamtype integer not null,
+    bo_openligaid bigint,
     primary key (id)
 ) ENGINE=InnoDB;
 
@@ -252,6 +290,24 @@ alter table bo_game
     add constraint fk_game_gamelist
     foreign key (bo_gamelist_ref)
     references bo_gamelist (id);
+
+alter table bo_goal
+    add index fk_goal_game (bo_game_ref),
+    add constraint fk_goal_game
+    foreign key (bo_game_ref)
+    references bo_game (id);
+
+alter table bo_goal
+    add index fk_goal_player (bo_player_ref),
+    add constraint fk_goal_player
+    foreign key (bo_player_ref)
+    references bo_player (id);
+    
+alter table bo_game
+    add index fk_goal_location (bo_location_ref),
+    add constraint fk_goal_location
+    foreign key (bo_location_ref)
+    references bo_location (id);
 
 alter table bo_gamelist
     add index fk_gamelist_group (bo_group_ref),

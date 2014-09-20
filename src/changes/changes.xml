@@ -10,6 +10,9 @@
     -->
     <release version="betoffice-storage-2.0.0" date="2014-08-19"
       description="Update">
+      <action dev="andrewinkler" type="removed" date="2014-09-19">
+        MySQL ISAM scripts.
+      </action>
       <action dev="andrewinkler" type="add" date="2014-09-19">
         Added half-time, over-time and penalty goals.
       </action>
