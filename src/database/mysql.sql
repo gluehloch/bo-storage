@@ -161,10 +161,9 @@ create table bo_goal (
     bo_game_ref bigint,
     bo_player_ref bigint,
     bo_minute integer,
-    bo_penalty bit comment 'Elfmeter?',
-    bo_overtime bit comment 'Nachspielzeit?',
-    bo_owngoal bit comment 'Eigentor?',
+    bo_goaltype integer comment '0 Regulaer, 1 Elfmeter, 2 Eigentor, 3 Verlaengerung',
     bo_comment varchar(255) comment 'Kommentar',
+    bo_openligid bigint,
     primary key (id)
 ) ENGINE=InnoDB;
 
