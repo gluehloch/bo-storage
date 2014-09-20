@@ -168,6 +168,18 @@
             lazy="false"
         />
 
+        <many-to-one
+            name="location"
+            class="de.winkler.betoffice.storage.Location"
+            cascade="none"
+            outer-join="auto"
+            update="true"
+            insert="true"
+            column="bo_location_ref"
+            not-null="false"
+            lazy="false"
+        />
+
         <property
             name="index"
             type="int"

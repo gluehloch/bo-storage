@@ -30,6 +30,7 @@
     class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
     <property name="mappingResources">
       <list>
+        <value>/de/winkler/betoffice/storage/Location.hbm.xml</value>
         <value>/de/winkler/betoffice/storage/Team.hbm.xml</value>
         <value>/de/winkler/betoffice/storage/TeamAlias.hbm.xml</value>
         <value>/de/winkler/betoffice/storage/GroupType.hbm.xml</value>
