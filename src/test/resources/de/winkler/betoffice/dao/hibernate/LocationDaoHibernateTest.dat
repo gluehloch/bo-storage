@@ -1,0 +1,5 @@
+### TAB bo_location
+### id | bo_name          | bo_city   | bo_geodat   | bo_openligaid
+     1 | Stadion Essen    | Essen     | 10.10.10.10 | 1
+     2 | Ruhrstadion      | Bochum    | 20.20.20.20 | 2
+     3 | Westfalenstadion | Dortmund  | 30.30.30.30 | 3

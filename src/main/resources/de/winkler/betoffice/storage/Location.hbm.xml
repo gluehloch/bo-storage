@@ -6,7 +6,7 @@
 <hibernate-mapping>
     <class
         name="de.winkler.betoffice.storage.Location"
-        table="bo_team"
+        table="bo_location"
         dynamic-update="false"
         dynamic-insert="false"
     >
@@ -35,7 +35,7 @@
             type="java.lang.String"
             update="true"
             insert="true"
-            column="bo_logo"
+            column="bo_city"
         />
 
         <property

@@ -82,6 +82,7 @@ public abstract class AbstractDaoTestSupport extends
                 stmt.execute("DELETE FROM bo_team");
                 stmt.execute("DELETE FROM bo_user");
                 stmt.execute("DELETE FROM bo_grouptype");
+                stmt.execute("DELETE FROM bo_location");
                 stmt.close();
             }
         });
