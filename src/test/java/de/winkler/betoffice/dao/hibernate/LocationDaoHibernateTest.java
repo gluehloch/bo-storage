@@ -86,20 +86,6 @@ public class LocationDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(dortmund.getCity(), equalTo("Dortmund"));
         assertThat(dortmund.getGeodat(), equalTo("30.30.30.30"));
         assertThat(dortmund.getOpenligaid(), equalTo(3L));
-
-        //
-        // Team frankreich = teamDao.findById(4);
-        // assertThat(frankreich.getName(), equalTo("Frankreich"));
-        // assertThat(frankreich.getTeamType(), equalTo(TeamType.FIFA));
-        //
-        // final ResourceWriter rw = new ResourceWriter(File.createTempFile(
-        // "team", "dat"));
-        // getSessionFactory().getCurrentSession().doWork(new Work() {
-        // @Override
-        // public void execute(Connection connection) throws SQLException {
-        // rw.start(connection, "select * from bo_team", false);
-        // }
-        // });
     }
 
 }

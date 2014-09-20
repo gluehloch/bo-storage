@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class
+        name="de.winkler.betoffice.storage.Player"
+        table="bo_player"
+        dynamic-update="false"
+        dynamic-insert="false"
+    >
+
+        <id
+            name="id"
+            column="id"
+            type="java.lang.Long"
+        >
+            <generator class="native">
+            </generator>
+        </id>
+
+        <property
+            name="name"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="bo_name"
+            not-null="true"
+            unique="true"
+        />
+
+        <property
+            name="vorname"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="bo_vorname"
+        />
+
+        <property
+            name="openligaid"
+            type="java.lang.Long"
+            update="true"
+            insert="true"
+            column="bo_openligaid"
+        />
+
+    </class>
+
+</hibernate-mapping>

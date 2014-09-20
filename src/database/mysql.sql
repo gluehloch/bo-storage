@@ -151,6 +151,7 @@ create table bo_game (
 create table bo_player (
     id bigint not null auto_increment,
     bo_name varchar(100),
+    bo_vorname varchar(100),
     bo_openligaid bigint comment 'Openligadb player/goalgetter ID',
     primary key(id)
 ) ENGINE=InnoDB;
