@@ -112,6 +112,14 @@ public interface MasterDataManagerService {
     public Team findTeamById(long id);
 
     /**
+     * Liefert eine Mannschaft anhand der openliga id.
+     *
+     * @param id Openligadb ID
+     * @return Die gesuchte Mannschaft
+     */
+    public Team findTeamByOpenligaId(long id);
+    
+    /**
      * Erstellt einen neuen Team Alias Namen.
      *
      * @param team Die Mannschaft, die einen neuen Alias Namen erhalten soll.

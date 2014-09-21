@@ -72,7 +72,19 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testDataLoad() throws Exception {
+    public void testTeamDaoOpenligaidFinder() {
+        Team rwe = teamDao.findByOpenligaId(10);
+        assertThat(rwe.getName(), equalTo("RWE"));
+        Team rwo = teamDao.findByOpenligaId(20);
+        assertThat(rwo.getName(), equalTo("RWO"));
+        Team deutschland = teamDao.findByOpenligaId(30);
+        assertThat(deutschland.getName(), equalTo("Deutschland"));
+        Team frankreich = teamDao.findByOpenligaId(40);
+        assertThat(frankreich.getName(), equalTo("Frankreich"));
+    }
+
+    @Test
+    public void testTeamDaoFinder() throws Exception {
         List<Team> teams = teamDao.findAll();
         assertThat(teams.size(), equalTo(4));
 
@@ -103,7 +115,7 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testteamDaoFindAll() {
+    public void testTeamDaoFindAll() {
         List<Team> teams = teamDao.findAll();
         assertEquals(4, teams.size());
         assertEquals("Deutschland", teams.get(0).getName());
@@ -113,7 +125,7 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testteamDaoFindTeam() {
+    public void testTeamDaoFindTeam() {
         Team team = teamDao.findByName("RWE");
         assertEquals("RWE", team.getName());
         team = teamDao.findByName("RWO");
@@ -121,7 +133,7 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testteamDaoFindTeams() {
+    public void testTeamDaoFindTeams() {
         List<Team> teams = teamDao.findTeams(TeamType.DFB);
         assertEquals(2, teams.size());
         assertEquals("RWE", teams.get(0).getName());

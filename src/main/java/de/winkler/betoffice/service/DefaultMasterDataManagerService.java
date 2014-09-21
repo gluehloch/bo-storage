@@ -233,4 +233,10 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
         getConfig().getUserDao().update(user);
     }
 
+    @Override
+    @Transactional(readOnly = false)
+    public Team findTeamByOpenligaId(long id) {
+        return getConfig().getTeamDao().findByOpenligaId(id);
+    }
+
 }
