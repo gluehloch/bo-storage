@@ -32,6 +32,7 @@
       <list>
         <value>/de/winkler/betoffice/storage/Location.hbm.xml</value>
         <value>/de/winkler/betoffice/storage/Player.hbm.xml</value>
+        <value>/de/winkler/betoffice/storage/Goal.hbm.xml</value>
         <value>/de/winkler/betoffice/storage/Team.hbm.xml</value>
         <value>/de/winkler/betoffice/storage/TeamAlias.hbm.xml</value>
         <value>/de/winkler/betoffice/storage/GroupType.hbm.xml</value>

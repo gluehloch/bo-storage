@@ -402,6 +402,18 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
         // not used, calculated value, see getIndex() method
     }
 
+    // -- goals ---------------------------------------------------------------
+    
+    private List<Goal> goals = new ArrayList<Goal>();
+    
+    public List<Goal> getGoals() {
+        return goals;
+    }
+    
+    protected void setGoals(List<Goal> _goals) {
+        goals = _goals;
+    }
+    
     // -- tippList ------------------------------------------------------------
 
     /** Liste mit den Tipps der User zu diesem Spiel. */

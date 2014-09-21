@@ -158,6 +158,7 @@ create table bo_player (
 
 create table bo_goal (
     id bigint not null auto_increment,
+    bo_index integer,
     bo_game_ref bigint,
     bo_player_ref bigint,
     bo_minute integer,

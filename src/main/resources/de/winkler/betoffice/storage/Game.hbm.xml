@@ -215,6 +215,25 @@
               />
         </list>
 
+        <list
+            name="goals"
+            inverse="false"
+            cascade="all"
+        >
+
+              <key
+                  column="bo_game_ref"
+              />
+
+              <index
+                  column="bo_index"
+              />
+
+              <one-to-many
+                  class="de.winkler.betoffice.storage.Goal"
+              />
+        </list>
+
         <!--
             To add non XDoclet property mappings, create a file named
                 hibernate-properties-Game.xml

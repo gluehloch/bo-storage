@@ -46,6 +46,22 @@
             column="bo_openligaid"
         />
 
+        <set
+            name="goals"
+            inverse="true"
+            cascade="all"
+            sort="unsorted"
+        >
+
+              <key
+                  column="bo_player_ref"
+              />
+
+              <one-to-many
+                  class="de.winkler.betoffice.storage.Goal"
+              />
+        </set>
+
     </class>
 
 </hibernate-mapping>

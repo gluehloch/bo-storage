@@ -23,6 +23,9 @@
 
 package de.winkler.betoffice.storage;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * The player of a football match.
  *
@@ -35,6 +38,7 @@ public class Player extends AbstractStorageObject {
     private Long id;
     private String name;
     private String vorname;
+    private Set<Goal> goals = new HashSet<>();
     private Long openligaid;
 
     /**
@@ -83,6 +87,21 @@ public class Player extends AbstractStorageObject {
     }
 
     /**
+     * @return the goals
+     */
+    public Set<Goal> getGoals() {
+        return goals;
+    }
+
+    /**
+     * @param goals
+     *            the goals to set
+     */
+    public void setGoals(Set<Goal> goals) {
+        this.goals = goals;
+    }
+
+    /**
      * @return the openligaid
      */
     public Long getOpenligaid() {
@@ -95,13 +114,6 @@ public class Player extends AbstractStorageObject {
      */
     public void setOpenligaid(Long openligaid) {
         this.openligaid = openligaid;
-    }
-
-    /**
-     * @return the serialversionuid
-     */
-    public static long getSerialversionuid() {
-        return serialVersionUID;
     }
 
     /*
