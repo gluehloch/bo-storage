@@ -73,13 +73,13 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testTeamDaoOpenligaidFinder() {
-        Team rwe = teamDao.findByOpenligaId(10);
+        Team rwe = teamDao.findByOpenligaid(10);
         assertThat(rwe.getName(), equalTo("RWE"));
-        Team rwo = teamDao.findByOpenligaId(20);
+        Team rwo = teamDao.findByOpenligaid(20);
         assertThat(rwo.getName(), equalTo("RWO"));
-        Team deutschland = teamDao.findByOpenligaId(30);
+        Team deutschland = teamDao.findByOpenligaid(30);
         assertThat(deutschland.getName(), equalTo("Deutschland"));
-        Team frankreich = teamDao.findByOpenligaId(40);
+        Team frankreich = teamDao.findByOpenligaid(40);
         assertThat(frankreich.getName(), equalTo("Frankreich"));
     }
 

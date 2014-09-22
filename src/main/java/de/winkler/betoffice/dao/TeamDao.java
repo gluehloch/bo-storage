@@ -129,6 +129,6 @@ public interface TeamDao {
      *            Die Openligadb ID
      * @return Eine Mannschaft.
      */
-    public Team findByOpenligaId(long id);
+    public Team findByOpenligaid(long id);
 
 }

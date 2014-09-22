@@ -98,11 +98,11 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team> implements
     }
 
     @Override
-    public Team findByOpenligaId(long id) {
+    public Team findByOpenligaid(long openligaid) {
         @SuppressWarnings("unchecked")
         List<Team> teams = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_TEAM_BY_OPENLIGAID)
-                .setParameter("openligaid", id).list();
+                .setParameter("openligaid", openligaid).list();
         return first(teams);
     }
 

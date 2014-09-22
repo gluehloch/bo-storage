@@ -1,5 +1,4 @@
 /*
- * $Id: DefaultMasterDataManagerService.java 3935 2014-03-09 14:48:15Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
  * Copyright (c) 2000-2014 by Andre Winkler. All rights reserved.
@@ -33,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.winkler.betoffice.storage.GroupType;
+import de.winkler.betoffice.storage.Location;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamAlias;
 import de.winkler.betoffice.storage.User;
@@ -44,8 +44,7 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
 /**
  * Default-Implementierung der Stammdatenverwaltung.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3935 $ $LastChangedDate: 2014-03-09 15:48:15 +0100 (Sun, 09 Mar 2014) $
+ * @author by Andre Winkler
  */
 @Service("masterDataManagerService")
 public class DefaultMasterDataManagerService extends AbstractManagerService
@@ -235,8 +234,44 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = false)
-    public Team findTeamByOpenligaId(long id) {
-        return getConfig().getTeamDao().findByOpenligaId(id);
+    public Team findTeamByOpenligaid(long id) {
+        return getConfig().getTeamDao().findByOpenligaid(id);
+    }
+
+    @Override
+    @Transactional
+    public void createLocation(Location location) {
+        getConfig().getLocationDao().save(location);
+    }
+
+    @Override
+    @Transactional
+    public void deleteLocation(Location location) {
+        getConfig().getLocationDao().delete(location);
+    }
+
+    @Override
+    @Transactional
+    public void updateLocation(Location location) {
+        getConfig().getLocationDao().update(location);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Location> findAllLocations() {
+        return getConfig().getLocationDao().findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Location findLocation(long id) {
+        return getConfig().getLocationDao().findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Location findLocationByOpenligaid(long openligaid) {
+        return getConfig().getLocationDao().findByOpenligaid(openligaid);
     }
 
 }

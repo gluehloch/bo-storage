@@ -65,7 +65,21 @@ public class LocationDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testLocationFinder() throws Exception {
+    public void testLocationFinderByOpenligaid() {
+        Location essen = locationDao.findByOpenligaid(1L);
+        assertThat(essen.getName(), equalTo("Stadion Essen"));
+        assertThat(essen.getCity(), equalTo("Essen"));
+        assertThat(essen.getGeodat(), equalTo("10.10.10.10"));
+        
+        Location bochum = locationDao.findByOpenligaid(2);
+        assertThat(bochum.getName(), equalTo("Ruhrstadion"));
+        assertThat(bochum.getCity(), equalTo("Bochum"));
+        assertThat(bochum.getGeodat(), equalTo("20.20.20.20"));
+        assertThat(bochum.getOpenligaid(), equalTo(2L));
+    }
+    
+    @Test
+    public void testLocationFinder() {
         List<Location> location = locationDao.findAll();
         assertThat(location.size(), equalTo(3));
 

@@ -43,11 +43,6 @@ public class LocationDaoHibernate extends AbstractCommonDao<Location> implements
         super(Location.class);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.winkler.betoffice.dao.LocationDao#findAll()
-     */
     @SuppressWarnings("unchecked")
     @Override
     public List<Location> findAll() {
@@ -55,6 +50,17 @@ public class LocationDaoHibernate extends AbstractCommonDao<Location> implements
                 .getCurrentSession()
                 .createQuery("from Location as location order by location.name")
                 .list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Location findByOpenligaid(long openligaid) {
+        List<Location> locations = getSessionFactory()
+                .getCurrentSession()
+                .createQuery(
+                        "from Location as location where location.openligaid = :openligaid")
+                .setParameter("openligaid", openligaid).list();
+        return first(locations);
     }
 
 }

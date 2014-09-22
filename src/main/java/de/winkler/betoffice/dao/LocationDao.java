@@ -36,10 +36,17 @@ import de.winkler.betoffice.storage.Location;
 public interface LocationDao extends CommonDao<Location> {
 
     /**
-     * Liefert eine Liste alle Spielorte.
+     * Returns a list of all football locations.
      *
-     * @return Eine Liste aller Spielorte.
+     * @return A list of all football locations
      */
     public List<Location> findAll();
+
+    /**
+     * Searches for a location with the supported openliga id
+     * @param openligaid The openligadb ID
+     * @return A location
+     */
+    public Location findByOpenligaid(long openligaid);
 
 }
