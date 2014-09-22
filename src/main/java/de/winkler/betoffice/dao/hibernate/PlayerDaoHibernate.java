@@ -43,17 +43,23 @@ public class PlayerDaoHibernate extends AbstractCommonDao<Player> implements
         super(Player.class);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.winkler.betoffice.dao.PlayerDao#findAll()
-     */
     @SuppressWarnings("unchecked")
     @Override
     public List<Player> findAll() {
         return getSessionFactory().getCurrentSession()
                 .createQuery("from Player as player order by player.name")
                 .list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Player findByOpenligaid(long openligaid) {
+        List<Player> players = getSessionFactory()
+                .getCurrentSession()
+                .createQuery(
+                        "from Player as player where player.openligaid = :openligaid")
+                .list();
+        return first(players);
     }
 
 }

@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Location;
+import de.winkler.betoffice.storage.Player;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamAlias;
 import de.winkler.betoffice.storage.User;
@@ -272,6 +273,42 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     @Transactional(readOnly = true)
     public Location findLocationByOpenligaid(long openligaid) {
         return getConfig().getLocationDao().findByOpenligaid(openligaid);
+    }
+
+    @Override
+    @Transactional
+    public void createPlayer(Player player) {
+        getConfig().getPlayerDao().save(player);
+    }
+
+    @Override
+    @Transactional
+    public void deletePlayer(Player player) {
+        getConfig().getPlayerDao().delete(player);
+    }
+
+    @Override
+    @Transactional
+    public void updatePlayer(Player player) {
+        getConfig().getPlayerDao().update(player);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Player> findAllPlayers() {
+        return getConfig().getPlayerDao().findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Player findPlayer(long id) {
+        return getConfig().getPlayerDao().findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Player findPlayerByOpenligaid(long openligaid) {
+        return getConfig().getPlayerDao().findByOpenligaid(openligaid);
     }
 
 }

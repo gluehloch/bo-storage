@@ -27,6 +27,7 @@ import java.util.List;
 
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Location;
+import de.winkler.betoffice.storage.Player;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamAlias;
 import de.winkler.betoffice.storage.User;
@@ -289,5 +290,56 @@ public interface MasterDataManagerService {
      * @return Eine Spielstaette
      */
     public Location findLocationByOpenligaid(long openligaid);
+
+    // -- player --------------------------------------------------------------
+
+    /**
+     * Erstellt einen Spieler.
+     * 
+     * @param player
+     *            Ein Spieler
+     */
+    public void createPlayer(Player player);
+
+    /**
+     * Loescht einen Spieler
+     * 
+     * @param player
+     *            Ein Spieler
+     */
+    public void deletePlayer(Player player);
+
+    /**
+     * Aendert einen Spieler.
+     * 
+     * @param player
+     *            Ein Spieler
+     */
+    public void updatePlayer(Player player);
+
+    /**
+     * Liefert eine Liste aller Spieler.
+     * 
+     * @return Eine Lister aller Spieler
+     */
+    public List<Player> findAllPlayers();
+
+    /**
+     * Liefert einen Spieler
+     * 
+     * @param id
+     *            Die ID des Spielers
+     * @return Ein Spieler oder <code>null</code>
+     */
+    public Player findPlayer(long id);
+
+    /**
+     * Liefert einen Spieler anhand der openligadb ID
+     * 
+     * @param openligaid
+     *            Die openligadb ID
+     * @return Ein Spieler
+     */
+    public Player findPlayerByOpenligaid(long openligaid);
 
 }

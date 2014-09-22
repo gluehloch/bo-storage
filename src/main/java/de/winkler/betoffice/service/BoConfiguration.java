@@ -32,6 +32,7 @@ import de.winkler.betoffice.dao.GroupTypeDao;
 import de.winkler.betoffice.dao.LocationDao;
 import de.winkler.betoffice.dao.MaintenanceDao;
 import de.winkler.betoffice.dao.MatchDao;
+import de.winkler.betoffice.dao.PlayerDao;
 import de.winkler.betoffice.dao.RoundDao;
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.dao.TeamAliasDao;
@@ -190,6 +191,20 @@ public class BoConfiguration {
         locationDao = _locationDao;
     }
 
+    // -- player --------------------------------------------------------------
+    
+    private PlayerDao playerDao;
+    
+    public PlayerDao getPlayerDao() {
+        return playerDao;
+    }
+    
+    @Autowired
+    public void setPlayerDao(PlayerDao _playerDao) {
+        playerDao = _playerDao;
+    }
+   
+    
     // -- maintenance ---------------------------------------------------------
 
     private MaintenanceDao maintenanceDao;
