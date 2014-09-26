@@ -25,7 +25,6 @@ package de.winkler.betoffice.dao.hibernate;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.sql.DataSource;
 
@@ -37,6 +36,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import de.betoffice.database.data.DeleteDatabase;
 import de.dbload.Dbload;
 
 /**
@@ -70,20 +70,7 @@ public abstract class AbstractDaoTestSupport extends
         sessionFactory.getCurrentSession().doWork(new Work() {
             @Override
             public void execute(Connection connection) throws SQLException {
-                Statement stmt = connection.createStatement();
-                stmt.execute("DELETE FROM bo_gametipp");
-                stmt.execute("DELETE FROM bo_game");
-                stmt.execute("DELETE FROM bo_gamelist");
-                stmt.execute("DELETE FROM bo_team_group");
-                stmt.execute("DELETE FROM bo_group");
-                stmt.execute("DELETE FROM bo_user_season");
-                stmt.execute("DELETE FROM bo_season");
-                stmt.execute("DELETE FROM bo_teamalias");
-                stmt.execute("DELETE FROM bo_team");
-                stmt.execute("DELETE FROM bo_user");
-                stmt.execute("DELETE FROM bo_grouptype");
-                stmt.execute("DELETE FROM bo_location");
-                stmt.close();
+                DeleteDatabase.deleteDatabase(connection);
             }
         });
     }
