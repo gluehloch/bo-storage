@@ -40,6 +40,22 @@
             insert="true"
             column="bo_exporttemplate"
         />
+        
+        <property
+            name="openligaLeagueShortcut"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="bo_openligaleagueshortcut"
+        />
+
+        <property
+            name="openligaLeagueSeason"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="bo_openligaleagueSeason"
+        />
 
         </component>
 
