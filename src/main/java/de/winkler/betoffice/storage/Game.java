@@ -414,6 +414,10 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
         goals = _goals;
     }
     
+    public void addGoal(Goal goal) {
+        goals.add(goal);
+    }
+
     // -- tippList ------------------------------------------------------------
 
     /** Liste mit den Tipps der User zu diesem Spiel. */
