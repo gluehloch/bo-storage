@@ -1,8 +1,7 @@
 /*
- * $Id: mysql.sql 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2009 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2014 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -26,108 +25,41 @@
 /*
  * MySQL schema script
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  */
-select 'Start installation of betoffice 1.3.4 MySQL schema.' as INFO;
+select 'Start installation of betoffice 2.0.0 MySQL schema.' as INFO;
 select version();
 
 
-alter table bo_game
-    drop
-    foreign key FK2F7A0A4F72EF1E4;
-
-alter table bo_game
-    drop
-    foreign key FK2F7A0A4A5A1DD3B;
-
-alter table bo_game
-    drop
-    foreign key FK2F7A0A4343772B9;
-
-alter table bo_game
-    drop
-    foreign key FK2F7A0A4ABA2A68B;
-
-alter table bo_gamelist
-    drop
-    foreign key FK87615F42A5A1DD3B;
-
-alter table bo_gamelist
-    drop
-    foreign key FK87615F42F5473151;
-
-alter table bo_gametipp
-    drop
-    foreign key FK876501D9322960E1;
-
-alter table bo_gametipp
-    drop
-    foreign key FK876501D9D891B5AF;
-
-alter table bo_group
-    drop
-    foreign key FK5C04380D257B374F;
-
-alter table bo_group
-    drop
-    foreign key FK5C04380DF5473151;
-
-alter table bo_season
-    drop
-    foreign key FK383F5B155EB87050;
-
-alter table bo_team_group
-    drop
-    foreign key FK9FAB294FA5A1DD3B;
-
-alter table bo_team_group
-    drop
-    foreign key FK9FAB294FDE967505;
-
-alter table bo_teamalias
-   drop
-   foreign key FK1E0B10A1DE967505;
-
-alter table bo_user_season
-    drop
-    foreign key FKB2D710E5322960E1;
-
+/*
 alter table bo_user_season
     drop
     foreign key FKB2D710E5F5473151;
-
-drop table if exists bo_player;
-
+*/
+    
+drop table if exists bo_gametipp;
 drop table if exists bo_goal;
-
-drop table if exists bo_location;
-
 drop table if exists bo_game;
-
 drop table if exists bo_gamelist;
 
-drop table if exists bo_gametipp;
-
-drop table if exists bo_group;
-
-drop table if exists bo_grouptype;
-
-drop table if exists bo_season;
-
-drop table if exists bo_team;
+drop table if exists bo_player;
+drop table if exists bo_location;
 
 drop table if exists bo_team_group;
+drop table if exists bo_group;
+drop table if exists bo_grouptype;
+
+drop table if exists bo_user_season;
+drop table if exists bo_season;
 
 drop table if exists bo_teamalias;
+drop table if exists bo_team;
 
 drop table if exists bo_user;
 
-drop table if exists bo_user_season;
-
 create table bo_game (
     id bigint not null auto_increment,
-    bo_date varchar(255),
+    bo_date VARCHAR(255),
     bo_group_ref bigint,
     bo_hometeam_ref bigint,
     bo_guestteam_ref bigint,
@@ -150,8 +82,8 @@ create table bo_game (
 
 create table bo_player (
     id bigint not null auto_increment,
-    bo_name varchar(100),
-    bo_vorname varchar(100),
+    bo_name VARCHAR(100),
+    bo_vorname VARCHAR(100),
     bo_openligaid bigint comment 'Openligadb player/goalgetter ID',
     primary key(id)
 ) ENGINE=InnoDB;
@@ -163,16 +95,16 @@ create table bo_goal (
     bo_player_ref bigint,
     bo_minute integer,
     bo_goaltype integer comment '0 Regulaer, 1 Elfmeter, 2 Eigentor, 3 Verlaengerung',
-    bo_comment varchar(255) comment 'Kommentar',
+    bo_comment VARCHAR(255) comment 'Kommentar',
     bo_openligid bigint,
     primary key (id)
 ) ENGINE=InnoDB;
 
 create table bo_location (
     id bigint not null auto_increment,
-    bo_name varchar(100),
-    bo_city varchar(100),
-    bo_geodat varchar(100),
+    bo_name VARCHAR(100),
+    bo_city VARCHAR(100),
+    bo_geodat VARCHAR(100),
     bo_openligaid bigint comment 'Openligdb location',
     primary key(id)
 ) ENGINE=InnoDB;
@@ -180,7 +112,7 @@ create table bo_location (
 create table bo_gamelist (
     id bigint not null auto_increment,
     bo_index integer,
-    bo_date varchar(255),
+    bo_date VARCHAR(255),
     bo_season_ref bigint,
     bo_group_ref bigint,
     bo_datetime datetime,
@@ -208,26 +140,28 @@ create table bo_group (
 
 create table bo_grouptype (
     id bigint not null auto_increment,
-    bo_name varchar(255) not null unique,
+    bo_name VARCHAR(255) not null unique,
     primary key (id)
 ) ENGINE=InnoDB;
 
 create table bo_season (
     id bigint not null auto_increment,
-    bo_exportdirectory varchar(255),
-    bo_exporttemplate varchar(255),
-    bo_year varchar(255),
-    bo_name varchar(255),
+    bo_exportdirectory VARCHAR(255),
+    bo_exporttemplate VARCHAR(255),
+    bo_year VARCHAR(255),
+    bo_name VARCHAR(255),
     bo_mode integer not null,
     bo_teamtype integer not null,
+    bo_openligaleagueshortcut VARCHAR(20) NULL DEFAULT NULL COMMENT 'Openligadb league shortcut',
+    bo_openligaleagueseason VARCHAR(20) NULL DEFAULT NULL COMMENT 'Openligadb league season',
     primary key (id)
 ) ENGINE=InnoDB;
 
 create table bo_team (
     id bigint not null auto_increment,
-    bo_name varchar(255) not null unique,
-    bo_longname varchar(255),
-    bo_logo varchar(255),
+    bo_name VARCHAR(255) not null unique,
+    bo_longname VARCHAR(255),
+    bo_logo VARCHAR(255),
     bo_teamtype integer not null,
     bo_openligaid bigint,
     primary key (id)
@@ -241,22 +175,22 @@ create table bo_team_group (
 
 create table bo_teamalias (
     id bigint not null auto_increment,
-    bo_aliasName varchar(255) not null unique,
+    bo_aliasName VARCHAR(255) not null unique,
     bo_team_ref bigint not null,
     primary key (id)
 ) ENGINE = InnoDB;
 
 create table bo_user (
     id bigint not null auto_increment,
-    bo_name varchar(255),
-    bo_surname varchar(255),
-    bo_nickname varchar(255) not null unique,
-    bo_email varchar(255),
-    bo_phone varchar(255),
-    bo_password varchar(255),
+    bo_name VARCHAR(255),
+    bo_surname VARCHAR(255),
+    bo_nickname VARCHAR(255) not null unique,
+    bo_email VARCHAR(255),
+    bo_phone VARCHAR(255),
+    bo_password VARCHAR(255),
     bo_automat bit,
     bo_excluded bit,
-    bo_title varchar(255),
+    bo_title VARCHAR(255),
     primary key (id)
 ) ENGINE=InnoDB;
 
