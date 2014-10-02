@@ -25,38 +25,29 @@ package de.winkler.betoffice.dao;
 
 import java.util.List;
 
-import de.winkler.betoffice.storage.Player;
+import de.winkler.betoffice.storage.Goal;
 
 /**
- * Player DAO
+ * The DAO for the goals.
  *
  * @author by Andre Winkler
  */
-public interface PlayerDao extends CommonDao<Player> {
+public interface GoalDao extends CommonDao<Goal> {
 
     /**
-     * Liefert eine Liste aller Fussballspieler.
-     *
-     * @return Eine Liste aller Fussballspieler.
+     * Get a list of all goals.
+     * 
+     * @return a list of all goals
      */
-    public List<Player> findAll();
+    public List<Goal> findAll();
 
     /**
-     * Liefert einen Fussballspieler anhand der openligadb ID
+     * Find a goal by the openligadbid
      * 
      * @param openligaid
      *            openligadb ID
-     * @return Ein Spieler
+     * @return A goal
      */
-    public Player findByOpenligaid(long openligaid);
-
-    /**
-     * Liefert einen Spieler mit allen Toren.
-     * 
-     * @param id
-     *            Die Spieler ID
-     * @return Ein Spieler
-     */
-    public Player findAllGoalsOfPlayer(long id);
+    public Goal findByOpenligaid(long openligaid);
 
 }

@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import de.winkler.betoffice.dao.GameTippDao;
+import de.winkler.betoffice.dao.GoalDao;
 import de.winkler.betoffice.dao.GroupDao;
 import de.winkler.betoffice.dao.GroupTypeDao;
 import de.winkler.betoffice.dao.LocationDao;
@@ -204,6 +205,18 @@ public class BoConfiguration {
         playerDao = _playerDao;
     }
    
+    // -- goal ----------------------------------------------------------------
+    
+    private GoalDao goalDao;
+    
+    public GoalDao getGoalDao() {
+        return goalDao;
+    }
+    
+    @Autowired
+    public void setGoalDao(GoalDao _goalDao) {
+        goalDao = _goalDao;
+    }
     
     // -- maintenance ---------------------------------------------------------
 

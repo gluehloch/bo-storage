@@ -58,7 +58,18 @@ public class PlayerDaoHibernate extends AbstractCommonDao<Player> implements
                 .getCurrentSession()
                 .createQuery(
                         "from Player as player where player.openligaid = :openligaid")
-                .list();
+                .setLong("openligaid", openligaid).list();
+        return first(players);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Player findAllGoalsOfPlayer(long id) {
+        List<Player> players = getSessionFactory()
+                .getCurrentSession()
+                .createQuery(
+                        "from Player as player left join fetch player.goals where player.id = :id")
+                .setLong("id", id).list();
         return first(players);
     }
 

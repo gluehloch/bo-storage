@@ -36,8 +36,10 @@ import org.springframework.transaction.annotation.Transactional;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameTipp;
+import de.winkler.betoffice.storage.Goal;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.GroupType;
+import de.winkler.betoffice.storage.Player;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamResult;
@@ -469,6 +471,20 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     @Transactional(readOnly = true)
     public List<GameTipp> findTippsByMatch(Game match) {
         return getConfig().getGameTippDao().findByMatch(match);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public Player findGoalsOfPlayer(long id) {
+        return getConfig().getPlayerDao().findAllGoalsOfPlayer(id);
+    }
+
+    @Override
+    @Transactional
+    public void addGoal(Game match, Goal goal) {
+        match.addGoal(goal);
+        getConfig().getMatchDao().save(match);
+        getConfig().getGoalDao().save(goal);
     }
 
 }

@@ -4,242 +4,93 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class
-        name="de.winkler.betoffice.storage.Game"
-        table="bo_game"
-        dynamic-update="false"
-        dynamic-insert="false"
-    >
+	<class name="de.winkler.betoffice.storage.Game" table="bo_game"
+		dynamic-update="false" dynamic-insert="false">
 
-        <id
-            name="id"
-            column="id"
-            type="java.lang.Long"
-        >
-            <generator class="native">
-            </generator>
-        </id>
+		<id name="id" column="id" type="java.lang.Long">
+			<generator class="native">
+			</generator>
+		</id>
 
-        <property
-            name="dateTime"
-            type="java.util.Date"
-            update="true"
-            insert="true"
-            column="bo_datetime"
-        />
+		<property name="dateTime" type="java.util.Date" update="true"
+			insert="true" column="bo_datetime" />
 
-        <many-to-one
-            name="group"
-            class="de.winkler.betoffice.storage.Group"
-            cascade="none"
-            outer-join="auto"
-            update="true"
-            insert="true"
-            column="bo_group_ref"
-        />
+		<many-to-one name="group" class="de.winkler.betoffice.storage.Group"
+			cascade="none" outer-join="auto" update="true" insert="true" column="bo_group_ref" />
 
-        <many-to-one
-            name="homeTeam"
-            class="de.winkler.betoffice.storage.Team"
-            cascade="none"
-            outer-join="auto"
-            update="true"
-            insert="true"
-            column="bo_hometeam_ref"
-            lazy="false"
-        />
+		<many-to-one name="homeTeam" class="de.winkler.betoffice.storage.Team"
+			cascade="none" outer-join="auto" update="true" insert="true"
+			column="bo_hometeam_ref" lazy="false" />
 
-        <many-to-one
-            name="guestTeam"
-            class="de.winkler.betoffice.storage.Team"
-            cascade="none"
-            outer-join="auto"
-            update="true"
-            insert="true"
-            column="bo_guestteam_ref"
-            lazy="false"
-        />
+		<many-to-one name="guestTeam" class="de.winkler.betoffice.storage.Team"
+			cascade="none" outer-join="auto" update="true" insert="true"
+			column="bo_guestteam_ref" lazy="false" />
 
-        <component
-            name="result"
-            class="de.winkler.betoffice.storage.GameResult"
-        >
-        <property
-            name="homeGoals"
-            type="int"
-            update="true"
-            insert="true"
-            column="bo_homegoals"
-        />
+		<component name="result" class="de.winkler.betoffice.storage.GameResult">
+			<property name="homeGoals" type="int" update="true" insert="true"
+				column="bo_homegoals" />
 
-        <property
-            name="guestGoals"
-            type="int"
-            update="true"
-            insert="true"
-            column="bo_guestgoals"
-        />
+			<property name="guestGoals" type="int" update="true" insert="true"
+				column="bo_guestgoals" />
 
-        </component>
+		</component>
 
-        <component
-            name="halfTimeGoals"
-            class="de.winkler.betoffice.storage.GameResult"
-        >
-        <property
-            name="homeGoals"
-            type="int"
-            update="true"
-            insert="true"
-            column="bo_halftimehomegoals"
-        />
+		<component name="halfTimeGoals" class="de.winkler.betoffice.storage.GameResult">
+			<property name="homeGoals" type="int" update="true" insert="true"
+				column="bo_halftimehomegoals" />
 
-        <property
-            name="guestGoals"
-            type="int"
-            update="true"
-            insert="true"
-            column="bo_halftimeguestgoals"
-        />
-        
-        </component>
+			<property name="guestGoals" type="int" update="true" insert="true"
+				column="bo_halftimeguestgoals" />
 
-        <component
-            name="overTimeGoals"
-            class="de.winkler.betoffice.storage.GameResult"
-        >
-        <property
-            name="homeGoals"
-            type="int"
-            update="true"
-            insert="true"
-            column="bo_overtimehomegoals"
-        />
+		</component>
 
-        <property
-            name="guestGoals"
-            type="int"
-            update="true"
-            insert="true"
-            column="bo_overtimeguestgoals"
-        />
+		<component name="overTimeGoals" class="de.winkler.betoffice.storage.GameResult">
+			<property name="homeGoals" type="int" update="true" insert="true"
+				column="bo_overtimehomegoals" />
 
-        </component>
+			<property name="guestGoals" type="int" update="true" insert="true"
+				column="bo_overtimeguestgoals" />
 
-        <component
-            name="penaltyGoals"
-            class="de.winkler.betoffice.storage.GameResult"
-        >
-        <property
-            name="homeGoals"
-            type="int"
-            update="true"
-            insert="true"
-            column="bo_penaltyhomegoals"
-        />
+		</component>
 
-        <property
-            name="guestGoals"
-            type="int"
-            update="true"
-            insert="true"
-            column="bo_penaltyguestgoals"
-        />
+		<component name="penaltyGoals" class="de.winkler.betoffice.storage.GameResult">
+			<property name="homeGoals" type="int" update="true" insert="true"
+				column="bo_penaltyhomegoals" />
 
-        </component>
+			<property name="guestGoals" type="int" update="true" insert="true"
+				column="bo_penaltyguestgoals" />
 
-        <property
-            name="played"
-            type="boolean"
-            update="true"
-            insert="true"
-            column="bo_isplayed"
-        />
+		</component>
 
-        <many-to-one
-            name="gameList"
-            class="de.winkler.betoffice.storage.GameList"
-            cascade="none"
-            outer-join="auto"
-            update="true"
-            insert="true"
-            column="bo_gamelist_ref"
-            not-null="false"
-            lazy="false"
-        />
+		<property name="played" type="boolean" update="true" insert="true"
+			column="bo_isplayed" />
 
-        <many-to-one
-            name="location"
-            class="de.winkler.betoffice.storage.Location"
-            cascade="none"
-            outer-join="auto"
-            update="true"
-            insert="true"
-            column="bo_location_ref"
-            not-null="false"
-            lazy="false"
-        />
+		<many-to-one name="gameList" class="de.winkler.betoffice.storage.GameList"
+			cascade="none" outer-join="auto" update="true" insert="true"
+			column="bo_gamelist_ref" not-null="false" lazy="false" />
 
-        <property
-            name="index"
-            type="int"
-            update="true"
-            insert="true"
-            column="bo_index"
-        />
+		<many-to-one name="location" class="de.winkler.betoffice.storage.Location"
+			cascade="none" outer-join="auto" update="true" insert="true"
+			column="bo_location_ref" not-null="false" lazy="false" />
 
-        <property
-            name="openligaid"
-            type="java.lang.Long"
-            update="true"
-            insert="true"
-            column="bo_openligaid"
-        />
+		<property name="index" type="int" update="true" insert="true"
+			column="bo_index" />
 
-        <list
-            name="tippList"
-            inverse="false"
-            cascade="all"
-        >
+		<property name="openligaid" type="java.lang.Long" update="true"
+			insert="true" column="bo_openligaid" />
 
-              <key
-                  column="bo_game_ref"
-              />
+		<list name="tippList" inverse="false" cascade="all">
+			<key column="bo_game_ref" />
+			<index column="bo_tipps_index" />
+			<one-to-many class="de.winkler.betoffice.storage.GameTipp" />
+		</list>
 
-              <index
-                  column="bo_tipps_index"
-              />
+		<list name="goals" inverse="false" cascade="all">
+			<key column="bo_game_ref" />
+			<index column="bo_index" />
+			<one-to-many class="de.winkler.betoffice.storage.Goal" />
+		</list>
 
-              <one-to-many
-                  class="de.winkler.betoffice.storage.GameTipp"
-              />
-        </list>
-
-        <list
-            name="goals"
-            inverse="false"
-            cascade="all"
-        >
-
-              <key
-                  column="bo_game_ref"
-              />
-
-              <index
-                  column="bo_index"
-              />
-
-              <one-to-many
-                  class="de.winkler.betoffice.storage.Goal"
-              />
-        </list>
-
-        <!--
-            To add non XDoclet property mappings, create a file named
-                hibernate-properties-Game.xml
-            containing the additional properties and place it in your merge dir.
-        -->
-
-    </class>
+	</class>
 
 </hibernate-mapping>

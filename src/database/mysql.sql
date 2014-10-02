@@ -96,7 +96,7 @@ create table bo_goal (
     bo_minute integer,
     bo_goaltype integer comment '0 Regulaer, 1 Elfmeter, 2 Eigentor, 3 Verlaengerung',
     bo_comment VARCHAR(255) comment 'Kommentar',
-    bo_openligid bigint,
+    bo_openligaid bigint,
     primary key (id)
 ) ENGINE=InnoDB;
 
@@ -279,12 +279,6 @@ alter table bo_group
     add constraint fk_group_season
     foreign key (bo_season_ref)
     references bo_season (id);
-
-alter table bo_season
-    add index fk_season_gamelist (bo_current_ref),
-    add constraint fk_season_gamelist
-    foreign key (bo_current_ref)
-    references bo_gamelist (id);
 
 alter table bo_team_group
     add index fk_team_group_group (bo_group_ref),

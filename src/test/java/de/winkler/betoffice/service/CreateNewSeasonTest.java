@@ -48,11 +48,14 @@ import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.betoffice.database.test.PersistenceTestSupport;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.Goal;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Location;
+import de.winkler.betoffice.storage.Player;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Team;
+import de.winkler.betoffice.storage.enums.GoalType;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
 
@@ -182,13 +185,42 @@ public class CreateNewSeasonTest {
         imtecharena.setOpenligaid(4711L);
         masterDataManagerService.createLocation(imtecharena);
 
+        Player frankMill = new Player();
+        frankMill.setName("Mill");
+        frankMill.setVorname("Frank");
+        frankMill.setOpenligaid(1L);
+        masterDataManagerService.createPlayer(frankMill);
+        
+        Player enteLippens = new Player();
+        enteLippens.setName("Lippens");
+        enteLippens.setVorname("Ente");
+        enteLippens.setOpenligaid(2L);
+        masterDataManagerService.createPlayer(enteLippens);
+        
         match.setLocation(imtecharena);
         sms.updateMatch(match);
+        
+        Goal goal1 = new Goal();
+        goal1.setComment("RWE mach wieder ein Tor.");
+        goal1.setGoalType(GoalType.REGULAR);
+        goal1.setMinute(55);
+        goal1.setOpenligaid(5711L);
+        goal1.setPlayer(enteLippens);
+        sms.addGoal(match, goal1);
 
         List<Game> matches = sms.findMatches(stuttgart, hsv);
         assertThat(matches.size(), equalTo(1));
         assertThat(matches.get(0).getLocation().getName(),
                 equalTo("Imtecharena"));
+        assertThat(matches.get(0).getGoals().size(), equalTo(1));
+        assertThat(matches.get(0).getLocation().getName(), equalTo("Imtecharena"));
+
+        Player playerByOpenligaid = masterDataManagerService.findPlayerByOpenligaid(1L);
+        assertThat(playerByOpenligaid.getName(), equalTo("Mill"));
+        
+        Player lippens = masterDataManagerService.findPlayerByOpenligaid(2L);
+        Player lippens2 = seasonManagerService.findGoalsOfPlayer(lippens.getId());
+        assertThat(lippens2.getGoals().size(), equalTo(1));
     }
 
 }

@@ -415,6 +415,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     }
     
     public void addGoal(Goal goal) {
+        goal.setGame(this);
         goals.add(goal);
     }
 

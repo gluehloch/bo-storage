@@ -83,7 +83,7 @@ public class Goal extends AbstractStorageObject {
      * @param game
      *            the game to set
      */
-    public void setGame(Game game) {
+    protected void setGame(Game game) {
         this.game = game;
     }
 
