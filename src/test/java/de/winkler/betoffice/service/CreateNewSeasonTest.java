@@ -218,6 +218,10 @@ public class CreateNewSeasonTest {
         Player playerByOpenligaid = masterDataManagerService.findPlayerByOpenligaid(1L);
         assertThat(playerByOpenligaid.getName(), equalTo("Mill"));
         
+        List<Goal> goals = sms.findAllGoals();
+        assertThat(goals.size(), equalTo(1));
+        assertThat(goals.get(0).getPlayer().getName(), equalTo("Lippens"));
+        
         Player lippens = masterDataManagerService.findPlayerByOpenligaid(2L);
         Player lippens2 = seasonManagerService.findGoalsOfPlayer(lippens.getId());
         assertThat(lippens2.getGoals().size(), equalTo(1));

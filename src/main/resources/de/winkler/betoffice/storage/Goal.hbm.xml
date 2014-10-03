@@ -4,59 +4,32 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class
-        name="de.winkler.betoffice.storage.Goal"
-        table="bo_goal"
-        dynamic-update="false"
-        dynamic-insert="false"
-    >
+	<class name="de.winkler.betoffice.storage.Goal" table="bo_goal"
+		dynamic-update="false" dynamic-insert="false">
 
-        <id
-            name="id"
-            column="id"
-            type="java.lang.Long"
-        >
-            <generator class="native">
-            </generator>
-        </id>
+		<id name="id" column="id" type="java.lang.Long">
+			<generator class="native">
+			</generator>
+		</id>
 
-        <property
-            name="goalType"
-            column="bo_goaltype"
-            update="true"
-            insert="true"
-            >
-            <type name="org.hibernate.type.EnumType">
-                <param name="enumClass">de.winkler.betoffice.storage.enums.GoalType</param>
-            </type>
-        </property>
+		<property name="goalType" column="bo_goaltype" update="true"
+			insert="true">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">de.winkler.betoffice.storage.enums.GoalType</param>
+			</type>
+		</property>
 
-        <property
-            name="minute"
-            type="java.lang.Integer"
-            update="true"
-            insert="true"
-            column="bo_minute"
-        />
+		<property name="minute" type="java.lang.Integer" update="true"
+			insert="true" column="bo_minute" />
 
-        <property
-            name="comment"
-            type="java.lang.String"
-            update="true"
-            insert="true"
-            column="bo_comment"
-            not-null="true"
-            unique="true"
-        />
+		<property name="comment" type="java.lang.String" update="true"
+			insert="true" column="bo_comment" not-null="true" unique="true" />
 
-        <property
-            name="openligaid"
-            type="java.lang.Long"
-            update="true"
-            insert="true"
-            column="bo_openligaid"
-        />
+		<property name="openligaid" type="java.lang.Long" update="true"
+			insert="true" column="bo_openligaid" />
 
-    </class>
+		<many-to-one name="player" class="de.winkler.betoffice.storage.Player"
+			cascade="none" outer-join="auto" update="true" insert="true" column="bo_player_ref" />
+	</class>
 
 </hibernate-mapping>

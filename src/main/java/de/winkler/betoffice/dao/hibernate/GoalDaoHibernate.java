@@ -47,7 +47,7 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements GoalDao
     @Override
     public List<Goal> findAll() {
         return getSessionFactory().getCurrentSession()
-                .createQuery("from Goal as goal order by goal.id")
+                .createQuery("from Goal as goal inner join fetch goal.player order by goal.id")
                 .list();
     }
 

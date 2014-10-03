@@ -126,6 +126,13 @@ public interface SeasonManagerService {
     public List<Season> findAllSeasons();
 
     /**
+     * Liefert alle bekannten Tore.
+     * 
+     * @return Eine Liste aller Tore.
+     */
+    public List<Goal> findAllGoals();
+
+    /**
      * Liefert alle Mannschaften einer Gruppe.
      *
      * @param group

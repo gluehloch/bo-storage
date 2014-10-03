@@ -487,4 +487,10 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         getConfig().getGoalDao().save(goal);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Goal> findAllGoals() {
+        return getConfig().getGoalDao().findAll();
+    }
+
 }
