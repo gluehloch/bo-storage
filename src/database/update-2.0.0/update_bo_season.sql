@@ -1,4 +1,4 @@
-select 'Start upgrade of betoffice 1.1.4 to 1.3.4 MySQL schema.' as INFO;
+select 'Start upgrade of betoffice 1.1.4 to 2.0.0 MySQL schema.' as INFO;
 select version();
 
 -- Removal of bo_season#bo_current_ref
