@@ -36,7 +36,7 @@ alter table bo_user_season
     drop
     foreign key FKB2D710E5F5473151;
 */
-    
+
 drop table if exists bo_gametipp;
 drop table if exists bo_goal;
 drop table if exists bo_game;
@@ -237,10 +237,10 @@ alter table bo_goal
     add constraint fk_goal_player
     foreign key (bo_player_ref)
     references bo_player (id);
-    
+
 alter table bo_game
-    add index fk_goal_location (bo_location_ref),
-    add constraint fk_goal_location
+    add index fk_game_location (bo_location_ref),
+    add constraint fk_game_location
     foreign key (bo_location_ref)
     references bo_location (id);
 

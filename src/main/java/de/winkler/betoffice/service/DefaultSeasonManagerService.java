@@ -167,7 +167,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     public GameList findRoundById(long id) {
         return (getConfig().getRoundDao().findById(id));
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public List<GameList> findRounds(Season season) {
@@ -484,7 +484,6 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     public void addGoal(Game match, Goal goal) {
         match.addGoal(goal);
         getConfig().getMatchDao().save(match);
-        getConfig().getGoalDao().save(goal);
     }
 
     @Override

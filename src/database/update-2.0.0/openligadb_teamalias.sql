@@ -1,5 +1,9 @@
 -- Season Shortcut
 UPDATE bo_season
+    SET bo_openligaleagueshortcut = 'bl1', bo_openligaleagueseason = '2013'
+    WHERE id = 20;
+
+UPDATE bo_season
     SET bo_openligaleagueshortcut = 'bl1', bo_openligaleagueseason = '2014'
     WHERE id = 22;
 
