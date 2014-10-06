@@ -23,7 +23,7 @@
 			insert="true" column="bo_minute" />
 
 		<property name="comment" type="java.lang.String" update="true"
-			insert="true" column="bo_comment" not-null="true" unique="true" />
+			insert="true" column="bo_comment" unique="true" />
 
 		<property name="openligaid" type="java.lang.Long" update="true"
 			insert="true" column="bo_openligaid" />
