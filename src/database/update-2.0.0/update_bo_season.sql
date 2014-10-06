@@ -55,6 +55,9 @@ ALTER TABLE bo_season ADD bo_openligaleagueshortcut VARCHAR(20) NULL DEFAULT NUL
 ALTER TABLE bo_season ADD bo_openligaleagueseason VARCHAR(20) NULL DEFAULT NULL COMMENT 'Openligadb league season';
 
 -- Reference to openligadb team id
+ALTER TABLE bo_gamelist ADD bo_openligaid BIGINT NULL DEFAULT NULL COMMENT 'Openligadb group ID' , ADD UNIQUE (bo_openligaid);
+
+-- Reference to openligadb team id
 ALTER TABLE bo_team ADD bo_openligaid BIGINT NULL DEFAULT NULL COMMENT 'Openligadb team ID' , ADD UNIQUE (bo_openligaid);
 
 ALTER TABLE bo_game ADD bo_halftimehomegoals INTEGER DEFAULT 0;
