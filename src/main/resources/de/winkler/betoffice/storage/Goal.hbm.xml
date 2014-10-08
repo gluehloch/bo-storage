@@ -28,6 +28,9 @@
 		<property name="openligaid" type="java.lang.Long" update="true"
 			insert="true" column="bo_openligaid" />
 
+        <many-to-one name="game" class="de.winkler.betoffice.storage.Game"
+            cascade="none" outer-join="auto" update="true" insert="true" column="bo_game_ref" />
+
 		<many-to-one name="player" class="de.winkler.betoffice.storage.Player"
 			cascade="none" outer-join="auto" update="true" insert="true" column="bo_player_ref" />
 	</class>

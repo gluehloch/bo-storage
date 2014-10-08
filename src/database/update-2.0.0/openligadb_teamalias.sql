@@ -71,5 +71,4 @@ INSERT INTO bo_teamalias(bo_aliasname, bo_team_ref) VALUES('1. FSV Mainz 05', 11
 UPDATE bo_team SET bo_openligaid = 87 WHERE id = 1160;
 
 -- VfB Stuttgart
-UPDATE bo_team SET bo_openligaid = 16 WHERE id = 1153
-
+UPDATE bo_team SET bo_openligaid = 16 WHERE id = 1153;

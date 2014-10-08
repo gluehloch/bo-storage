@@ -5,17 +5,17 @@
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
- *
+ * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- *
+ * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
@@ -47,6 +47,7 @@ import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.betoffice.database.test.PersistenceTestSupport;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.Goal;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.GroupType;
@@ -157,7 +158,7 @@ public class CreateNewSeasonTest {
         GroupType groupTypeB = mdms.findGroupType("Gruppe B");
 
         Group groupA = sms.addGroupType(season, groupTypeA);
-        /*Group groupB =*/ sms.addGroupType(season, groupTypeB);
+        /* Group groupB = */sms.addGroupType(season, groupTypeB);
 
         sms.addTeam(season, groupTypeA, stuttgart);
         sms.addTeam(season, groupTypeA, hsv);
@@ -174,6 +175,8 @@ public class CreateNewSeasonTest {
         DateTime now = new DateTime();
         GameList round = sms.addRound(season, now, groupTypeA);
         Game match = sms.addMatch(round, now, groupA, stuttgart, hsv);
+        match.setResult(2, 2, true);
+        match.setHalfTimeGoals(new GameResult(1, 1));
 
         Location imtecharena = new Location();
         imtecharena.setCity("Hamburg");
@@ -207,12 +210,17 @@ public class CreateNewSeasonTest {
 
         List<Game> matches = sms.findMatches(stuttgart, hsv);
         assertThat(matches.size(), equalTo(1));
-        assertThat(matches.get(0).getLocation().getName(),
-                equalTo("Imtecharena"));
-        assertThat(matches.get(0).getGoals().size(), equalTo(1));
-        assertThat(matches.get(0).getLocation().getName(), equalTo("Imtecharena"));
+        Game actualMatch = matches.get(0);
+        assertThat(actualMatch.getResult().getHomeGoals(), equalTo(2));
+        assertThat(actualMatch.getResult().getGuestGoals(), equalTo(2));
+        assertThat(actualMatch.getHalfTimeGoals().getHomeGoals(), equalTo(1));
+        assertThat(actualMatch.getHalfTimeGoals().getGuestGoals(), equalTo(1));
+        assertThat(actualMatch.getLocation().getName(), equalTo("Imtecharena"));
+        assertThat(actualMatch.getGoals().size(), equalTo(1));
+        assertThat(actualMatch.getLocation().getName(), equalTo("Imtecharena"));
 
-        Player playerByOpenligaid = masterDataManagerService.findPlayerByOpenligaid(1L);
+        Player playerByOpenligaid = masterDataManagerService
+                .findPlayerByOpenligaid(1L);
         assertThat(playerByOpenligaid.getName(), equalTo("Mill"));
 
         List<Goal> goals = sms.findAllGoals();
@@ -220,7 +228,8 @@ public class CreateNewSeasonTest {
         assertThat(goals.get(0).getPlayer().getName(), equalTo("Lippens"));
 
         Player lippens = masterDataManagerService.findPlayerByOpenligaid(2L);
-        Player lippens2 = seasonManagerService.findGoalsOfPlayer(lippens.getId());
+        Player lippens2 = seasonManagerService.findGoalsOfPlayer(lippens
+                .getId());
         assertThat(lippens2.getGoals().size(), equalTo(1));
     }
 
