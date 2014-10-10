@@ -26,8 +26,11 @@ package de.winkler.betoffice.storage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
@@ -465,6 +468,55 @@ public class GameList extends AbstractStorageObject implements
         } else {
             return false;
         }
+    }
+
+    /**
+     * Find the best round date of an array of matches.
+     *
+     * @return the best round date
+     */
+    public Date findBestRoundDate() {
+        List<Date> matchDates = new ArrayList<>();
+        for (Game match : gameList) {
+            matchDates.add(match.getDateTime());
+        }
+
+        return findBestDate(matchDates);
+    }
+
+    /**
+     * Find the best round date of an array of dates.
+     *
+     * @param matcheDates
+     *            the dates
+     * @return the best round date
+     */
+    public static Date findBestDate(List<Date> matchDates) {
+        Map<Date, Integer> dates = new HashMap<>();
+
+        for (Date date : matchDates) {
+            if (!dates.containsKey(date)) {
+                dates.put(date, Integer.valueOf(0));
+            }
+
+            Integer value = dates.get(date);
+            dates.put(date, value + 1);
+        }
+
+        Map.Entry<Date, Integer> bestDate = null;
+
+        Set<Map.Entry<Date, Integer>> values = dates.entrySet();
+        for (Map.Entry<Date, Integer> dateCount : values) {
+            if (bestDate == null) {
+                bestDate = dateCount;
+            } else {
+                if (dateCount.getValue() > bestDate.getValue()) {
+                    bestDate = dateCount;
+                }
+            }
+        }
+
+        return bestDate.getKey();
     }
 
     // -- StorageObject -------------------------------------------------------
