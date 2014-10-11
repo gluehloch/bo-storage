@@ -8,9 +8,10 @@ UPDATE bo_season
     WHERE id = 22;
 
 -- Unknown goalGetter
-INSERT INTO bo_player(id, bo_name, bo_vorname, bo_openligaid) VALUE (0, "Unbekannt", "John", 0);
-    
-    
+INSERT INTO bo_player(id, bo_name, bo_vorname, bo_openligaid) VALUE (0, 'Unbekannt', 'John', 0);
+-- Unknown location
+INSERT INTO bo_location(id, bo_name, bo_city, bo_geodat, bo_openligaid) VALUE (0, 'Unbekannt', 'Bielefeld', null, 0);
+
 -- Bayern München
 INSERT INTO bo_teamalias(bo_aliasname, bo_team_ref) VALUES('FC Bayern München', 1141);
 UPDATE bo_team SET bo_openligaid = 40 WHERE id = 1141;
