@@ -492,6 +492,10 @@ public class GameList extends AbstractStorageObject implements
      * @return the best round date
      */
     public static Date findBestDate(List<Date> matchDates) {
+        if (matchDates.isEmpty()) {
+            return null;
+        }
+
         Map<Date, Integer> dates = new HashMap<>();
 
         for (Date date : matchDates) {

@@ -13,10 +13,12 @@ create table bo_player (
 drop table if exists bo_goal;
 create table bo_goal (
     id bigint not null auto_increment,
-    bo_index integer,
+    bo_index integer not null,
+    bo_homegoals integer not null,
+    bo_guestgoals integer not null,
     bo_game_ref bigint not null ,
     bo_player_ref bigint not null ,
-    bo_minute integer,
+    bo_minute integer not null,
     bo_goaltype integer comment '0 Regulaer, 1 Elfmeter, 2 Eigentor, 3 Verlaengerung',
     bo_comment VARCHAR(255) comment 'Kommentar',
     bo_openligaid bigint,

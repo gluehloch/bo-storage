@@ -483,6 +483,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     @Transactional
     public void addGoal(Game match, Goal goal) {
         match.addGoal(goal);
+        goal.setGame(match);
         getConfig().getMatchDao().save(match);
     }
 

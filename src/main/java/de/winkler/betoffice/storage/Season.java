@@ -586,32 +586,39 @@ public class Season extends AbstractStorageObject {
      * immer hinten angehängt. Falls eine andere Einsortierung erfolgen soll
      * müsste entsprechend der Index in allen Spieltagen geändert werden.
      * 
-     * @param _gameList
+     * @param newRound
      *            Ein Spieltag.
      * @throws IllegalArgumentException
      *             GameListe bereits vorhanden oder ein Attribut von gameList
      *             nicht gesetzt.
      */
-    public void addGameList(final GameList _gameList) {
-        Validate.notNull(_gameList);
+    public void addGameList(final GameList newRound) {
+        Validate.notNull(newRound, "The newRound parameter is null.");
+        Validate.notNull(newRound.getDateTime(),
+                "The datetime field of newRound is null.");
+        Validate.notNull(newRound.getGroup(),
+                "The group field of newRound is null.");
 
         for (GameList gl : gameList) {
-            if (gl.getDateTime().equals(_gameList.getDateTime())
-                    && gl.getGroup().equals(_gameList.getGroup())) {
-                StringBuilder buf = new StringBuilder(_gameList.toString())
-                        .append(" bereits vorhanden.");
-                log.error(buf.toString());
-                throw new IllegalArgumentException(buf.toString());
+            if (gl.getDateTime() != null
+                    && gl.getDateTime().equals(newRound.getDateTime())
+                    && gl.getGroup().equals(newRound.getGroup())) {
+
+                String error = String
+                        .format("Round [%s] with same date and group is already there.",
+                                newRound.toString());
+                log.error(error);
+                throw new IllegalArgumentException(error);
             }
         }
 
         // ... und in Spieltagsliste aufnehmen.
-        _gameList.setSeason(this);
-        _gameList.setIndex(gameList.size());
-        gameList.add(_gameList);
+        newRound.setSeason(this);
+        newRound.setIndex(gameList.size());
+        gameList.add(newRound);
 
         if (log.isDebugEnabled()) {
-            log.debug("Neuen Spieltag '" + _gameList + "' hinzugefügt.");
+            log.debug("Neuen Spieltag '" + newRound + "' hinzugefügt.");
         }
     }
 

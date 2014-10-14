@@ -91,8 +91,10 @@ create table bo_player (
 create table bo_goal (
     id bigint not null auto_increment,
     bo_index integer,
-    bo_game_ref bigint,
-    bo_player_ref bigint,
+    bo_homegoals integer not null,
+    bo_guestgoals integer not null,
+    bo_game_ref bigint not null ,
+    bo_player_ref bigint not null ,
     bo_minute integer,
     bo_goaltype integer comment '0 Regulaer, 1 Elfmeter, 2 Eigentor, 3 Verlaengerung',
     bo_comment VARCHAR(255) comment 'Kommentar',

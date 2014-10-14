@@ -35,6 +35,7 @@ public class Goal extends AbstractStorageObject {
     private static final long serialVersionUID = -3103409341667493346L;
 
     private Long id;
+    private int index;
     private Integer minute;
     private Game game;
     private Player player;
@@ -57,6 +58,9 @@ public class Goal extends AbstractStorageObject {
         this.id = id;
     }
 
+    ...
+    // TODO INDEX and RESULT as component
+    
     /**
      * @return the minute
      */
@@ -85,7 +89,6 @@ public class Goal extends AbstractStorageObject {
      */
     public void setGame(Game game) {
         this.game = game;
-        game.addGoal(this);
     }
 
     /**
