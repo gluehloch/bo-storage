@@ -4,94 +4,40 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class
-        name="de.winkler.betoffice.storage.GameList"
-        table="bo_gamelist"
-        dynamic-update="false"
-        dynamic-insert="false"
-    >
+	<class name="de.winkler.betoffice.storage.GameList" table="bo_gamelist"
+		dynamic-update="false" dynamic-insert="false">
 
-        <id
-            name="id"
-            column="id"
-            type="java.lang.Long"
-        >
-            <generator class="native">
-            </generator>
-        </id>
+		<id name="id" column="id" type="java.lang.Long">
+			<generator class="native">
+			</generator>
+		</id>
 
-        <list
-            name="gameList"
-            lazy="false"
-            inverse="false"
-            cascade="all"
-        >
+		<list name="gameList" lazy="false" inverse="false" cascade="all">
+			<key column="bo_gamelist_ref" />
+			<index column="bo_index" />
+			<one-to-many class="de.winkler.betoffice.storage.Game" />
+		</list>
 
-              <key
-                  column="bo_gamelist_ref"
-              />
+		<property name="index" type="int" update="true" insert="true"
+			column="bo_index" />
 
-              <index
-                  column="bo_index"
-              />
+		<property name="dateTime" type="java.util.Date" update="true"
+			insert="true" column="bo_datetime" />
 
-              <one-to-many
-                  class="de.winkler.betoffice.storage.Game"
-              />
-        </list>
+		<property name="openligaid" type="java.lang.Long" update="true"
+			insert="true" column="bo_openligaid" />
 
-        <property
-            name="index"
-            type="int"
-            update="true"
-            insert="true"
-            column="bo_index"
-        />
+		<many-to-one name="season" class="de.winkler.betoffice.storage.Season"
+			cascade="none" outer-join="auto" update="true" insert="true" column="bo_season_ref"
+			lazy="false" />
 
-        <property
-            name="dateTime"
-            type="java.util.Date"
-            update="true"
-            insert="true"
-            column="bo_datetime"
-        />
+		<many-to-one name="group" class="de.winkler.betoffice.storage.Group"
+			cascade="none" outer-join="auto" update="true" insert="true" column="bo_group_ref"
+			lazy="false" />
 
-        <property
-            name="openligaid"
-            type="java.lang.Long"
-            update="true"
-            insert="true"
-            column="bo_openligaid"
-        />
+		<!-- To add non XDoclet property mappings, create a file named hibernate-properties-GameList.xml 
+			containing the additional properties and place it in your merge dir. -->
 
-        <many-to-one
-            name="season"
-            class="de.winkler.betoffice.storage.Season"
-            cascade="none"
-            outer-join="auto"
-            update="true"
-            insert="true"
-            column="bo_season_ref"
-            lazy="false"
-        />
-
-        <many-to-one
-            name="group"
-            class="de.winkler.betoffice.storage.Group"
-            cascade="none"
-            outer-join="auto"
-            update="true"
-            insert="true"
-            column="bo_group_ref"
-            lazy="false"
-        />
-
-        <!--
-            To add non XDoclet property mappings, create a file named
-                hibernate-properties-GameList.xml
-            containing the additional properties and place it in your merge dir.
-        -->
-
-    </class>
+	</class>
 
 </hibernate-mapping>

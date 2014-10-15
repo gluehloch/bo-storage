@@ -34,15 +34,9 @@ public class Goal extends AbstractStorageObject {
 
     private static final long serialVersionUID = -3103409341667493346L;
 
+    // -- id ------------------------------------------------------------------
+
     private Long id;
-    private int index;
-    private GameResult result;
-    private Integer minute;
-    private Game game;
-    private Player player;
-    private GoalType goalType;
-    private String comment;
-    private Long openligaid;
 
     /**
      * @return the id
@@ -59,6 +53,10 @@ public class Goal extends AbstractStorageObject {
         this.id = id;
     }
 
+    // ------------------------------------------------------------------------
+
+    private int index;
+
     public int getIndex() {
         return index;
     }
@@ -72,6 +70,10 @@ public class Goal extends AbstractStorageObject {
         this.index = index;
     }
 
+    // -- result --------------------------------------------------------------
+
+    private GameResult result;
+
     public GameResult getResult() {
         return result;
     }
@@ -79,6 +81,10 @@ public class Goal extends AbstractStorageObject {
     public void setResult(GameResult result) {
         this.result = result;
     }
+
+    // -- minute --------------------------------------------------------------
+
+    private Integer minute;
 
     /**
      * @return the minute
@@ -95,6 +101,10 @@ public class Goal extends AbstractStorageObject {
         this.minute = minute;
     }
 
+    // -- game ----------------------------------------------------------------
+
+    private Game game;
+
     /**
      * @return the game
      */
@@ -109,6 +119,10 @@ public class Goal extends AbstractStorageObject {
     public void setGame(Game game) {
         this.game = game;
     }
+
+    // -- player --------------------------------------------------------------
+
+    private Player player;
 
     /**
      * @return the player
@@ -125,6 +139,10 @@ public class Goal extends AbstractStorageObject {
         this.player = player;
     }
 
+    // -- goalType ------------------------------------------------------------
+    
+    private GoalType goalType;
+
     /**
      * @return the goalType
      */
@@ -139,6 +157,10 @@ public class Goal extends AbstractStorageObject {
     public void setGoalType(GoalType goalType) {
         this.goalType = goalType;
     }
+
+    // -- comment -------------------------------------------------------------
+
+    private String comment;
 
     /**
      * @return the comment
@@ -155,6 +177,10 @@ public class Goal extends AbstractStorageObject {
         this.comment = comment;
     }
 
+    // -- openligaid ----------------------------------------------------------
+
+    private Long openligaid;
+
     /**
      * @return the openligaid
      */
@@ -169,6 +195,8 @@ public class Goal extends AbstractStorageObject {
     public void setOpenligaid(Long openligaid) {
         this.openligaid = openligaid;
     }
+
+    // ------------------------------------------------------------------------
 
     /* (non-Javadoc)
      * @see java.lang.Object#toString()

@@ -301,11 +301,11 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     /** The location of the match. */
     private Location location;
-    
+
     public Location getLocation() {
         return location;
     }
-    
+
     public void setLocation(Location _location) {
         location = _location;
     }
@@ -403,17 +403,17 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     }
 
     // -- goals ---------------------------------------------------------------
-    
+
     private List<Goal> goals = new ArrayList<Goal>();
-    
+
     public List<Goal> getGoals() {
         return goals;
     }
-    
+
     protected void setGoals(List<Goal> _goals) {
         goals = _goals;
     }
-    
+
     public void addGoal(Goal goal) {
         goals.add(goal);
     }
