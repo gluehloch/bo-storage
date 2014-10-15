@@ -1,15 +1,6 @@
 select 'Start upgrade of betoffice 1.1.4 to 2.0.0 MySQL schema.' as INFO;
 select version();
 
-drop table if exists bo_player;
-create table bo_player (
-    id bigint not null auto_increment,
-    bo_name VARCHAR(100),
-    bo_vorname VARCHAR(100),
-    bo_openligaid bigint comment 'Openligadb player/goalgetter ID',
-    primary key(id)
-) ENGINE=InnoDB;
-
 drop table if exists bo_goal;
 create table bo_goal (
     id bigint not null auto_increment,
@@ -23,6 +14,15 @@ create table bo_goal (
     bo_comment VARCHAR(255) comment 'Kommentar',
     bo_openligaid bigint,
     primary key (id)
+) ENGINE=InnoDB;
+
+drop table if exists bo_player;
+create table bo_player (
+    id bigint not null auto_increment,
+    bo_name VARCHAR(100),
+    bo_vorname VARCHAR(100),
+    bo_openligaid bigint comment 'Openligadb player/goalgetter ID',
+    primary key(id)
 ) ENGINE=InnoDB;
 
 alter table bo_goal

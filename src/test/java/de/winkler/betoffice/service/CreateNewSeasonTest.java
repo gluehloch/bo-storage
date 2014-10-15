@@ -201,11 +201,13 @@ public class CreateNewSeasonTest {
         sms.updateMatch(match);
 
         Goal goal1 = new Goal();
+        goal1.setIndex(0);
         goal1.setComment("RWE mach wieder ein Tor.");
         goal1.setGoalType(GoalType.REGULAR);
         goal1.setMinute(55);
         goal1.setOpenligaid(5711L);
         goal1.setPlayer(enteLippens);
+        goal1.setResult(new GameResult(0, 1));
         sms.addGoal(match, goal1);
 
         List<Game> matches = sms.findMatches(stuttgart, hsv);

@@ -36,6 +36,7 @@ public class Goal extends AbstractStorageObject {
 
     private Long id;
     private int index;
+    private GameResult result;
     private Integer minute;
     private Game game;
     private Player player;
@@ -58,9 +59,27 @@ public class Goal extends AbstractStorageObject {
         this.id = id;
     }
 
-    ...
-    // TODO INDEX and RESULT as component
-    
+    public int getIndex() {
+        return index;
+    }
+
+    /**
+     * The index is under Hibernate control. Don´t use this method.
+     * 
+     * @param _index
+     */
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public GameResult getResult() {
+        return result;
+    }
+
+    public void setResult(GameResult result) {
+        this.result = result;
+    }
+
     /**
      * @return the minute
      */
@@ -151,16 +170,15 @@ public class Goal extends AbstractStorageObject {
         this.openligaid = openligaid;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
-        return "Goal [id=" + id + ", minute=" + minute + ", game=" + game
-                + ", player=" + player + ", goalType=" + goalType
-                + ", comment=" + comment + ", openligaid=" + openligaid + "]";
+        return "Goal [id=" + id + ", index=" + index + ", result=" + result
+                + ", minute=" + minute + ", game=" + game + ", player="
+                + player + ", goalType=" + goalType + ", comment=" + comment
+                + ", openligaid=" + openligaid + "]";
     }
 
 }
