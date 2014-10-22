@@ -47,6 +47,8 @@ create table bo_location (
     primary key(id)
 ) ENGINE=InnoDB;
 
+
+
 -- Removal of bo_season#bo_current_ref
 ALTER TABLE bo_season DROP FOREIGN KEY fk_season_gamelist;
 ALTER TABLE bo_season DROP bo_current_ref;
@@ -56,6 +58,8 @@ ALTER TABLE bo_season ADD bo_openligaleagueseason VARCHAR(20) NULL DEFAULT NULL 
 -- Reference to openligadb team id
 ALTER TABLE bo_gamelist ADD bo_openligaid BIGINT NULL DEFAULT NULL COMMENT 'Openligadb group ID' , ADD UNIQUE (bo_openligaid);
 
+-- Reference from team to location
+ALTER TABLE bo_team ADD bo_location_ref BIGINT NULL DEFAULT NULL;
 -- Reference to openligadb team id
 ALTER TABLE bo_team ADD bo_openligaid BIGINT NULL DEFAULT NULL COMMENT 'Openligadb team ID' , ADD UNIQUE (bo_openligaid);
 
@@ -71,5 +75,11 @@ ALTER TABLE bo_game ADD bo_openligaid BIGINT NULL DEFAULT NULL COMMENT 'Openliga
 ALTER TABLE bo_game
     ADD INDEX fk_game_location (bo_location_ref),
     ADD CONSTRAINT fk_game_location
+    FOREIGN KEY (bo_location_ref)
+    REFERENCES bo_location (id);
+    
+ALTER TABLE bo_team
+    ADD INDEX fk_team_location (bo_location_ref),
+    ADD CONSTRAINT fk_team_location
     FOREIGN KEY (bo_location_ref)
     REFERENCES bo_location (id);

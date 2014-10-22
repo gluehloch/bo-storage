@@ -58,7 +58,7 @@ drop table if exists bo_team;
 drop table if exists bo_user;
 
 create table bo_game (
-    id bigint not null auto_increment,
+    id bigint not NULL auto_increment,
     bo_date VARCHAR(255),
     bo_group_ref bigint,
     bo_hometeam_ref bigint,
@@ -81,7 +81,7 @@ create table bo_game (
 ) ENGINE=InnoDB;
 
 create table bo_player (
-    id bigint not null auto_increment,
+    id bigint not NULL auto_increment,
     bo_name VARCHAR(100),
     bo_vorname VARCHAR(100),
     bo_openligaid bigint comment 'Openligadb player/goalgetter ID',
@@ -89,12 +89,12 @@ create table bo_player (
 ) ENGINE=InnoDB;
 
 create table bo_goal (
-    id bigint not null auto_increment,
+    id bigint not NULL auto_increment,
     bo_index integer,
     bo_homegoals integer not null,
     bo_guestgoals integer not null,
-    bo_game_ref bigint not null ,
-    bo_player_ref bigint not null ,
+    bo_game_ref bigint not NULL ,
+    bo_player_ref bigint not NULL ,
     bo_minute integer,
     bo_goaltype integer comment '0 Regulaer, 1 Elfmeter, 2 Eigentor, 3 Verlaengerung',
     bo_comment VARCHAR(255) comment 'Kommentar',
@@ -103,7 +103,7 @@ create table bo_goal (
 ) ENGINE=InnoDB;
 
 create table bo_location (
-    id bigint not null auto_increment,
+    id bigint not NULL auto_increment,
     bo_name VARCHAR(100),
     bo_city VARCHAR(100),
     bo_geodat VARCHAR(100),
@@ -112,7 +112,7 @@ create table bo_location (
 ) ENGINE=InnoDB;
 
 create table bo_gamelist (
-    id bigint not null auto_increment,
+    id bigint not NULL auto_increment,
     bo_index integer,
     bo_date VARCHAR(255),
     bo_season_ref bigint,
@@ -123,7 +123,7 @@ create table bo_gamelist (
 ) ENGINE=InnoDB;
 
 create table bo_gametipp (
-    id bigint not null auto_increment,
+    id bigint not NULL auto_increment,
     bo_homegoals integer,
     bo_guestgoals integer,
     bo_user_ref bigint,
@@ -134,20 +134,20 @@ create table bo_gametipp (
 ) ENGINE=InnoDB;
 
 create table bo_group (
-    id bigint not null auto_increment,
+    id bigint not NULL auto_increment,
     bo_season_ref bigint not null,
     bo_grouptype_ref bigint not null,
     primary key (id)
 ) ENGINE=InnoDB;
 
 create table bo_grouptype (
-    id bigint not null auto_increment,
-    bo_name VARCHAR(255) not null unique,
+    id bigint not NULL auto_increment,
+    bo_name VARCHAR(255) not NULL unique,
     primary key (id)
 ) ENGINE=InnoDB;
 
 create table bo_season (
-    id bigint not null auto_increment,
+    id bigint not NULL auto_increment,
     bo_exportdirectory VARCHAR(255),
     bo_exporttemplate VARCHAR(255),
     bo_year VARCHAR(255),
@@ -160,11 +160,12 @@ create table bo_season (
 ) ENGINE=InnoDB;
 
 create table bo_team (
-    id bigint not null auto_increment,
-    bo_name VARCHAR(255) not null unique,
+    id bigint not NULL auto_increment,
+    bo_name VARCHAR(255) not NULL unique,
     bo_longname VARCHAR(255),
     bo_logo VARCHAR(255),
     bo_teamtype integer not null,
+    bo_location_ref BIGINT NULL DEFAULT NULL,
     bo_openligaid bigint,
     primary key (id)
 ) ENGINE=InnoDB;
@@ -176,17 +177,17 @@ create table bo_team_group (
 ) ENGINE=InnoDB;
 
 create table bo_teamalias (
-    id bigint not null auto_increment,
-    bo_aliasName VARCHAR(255) not null unique,
+    id bigint not NULL auto_increment,
+    bo_aliasName VARCHAR(255) not NULL unique,
     bo_team_ref bigint not null,
     primary key (id)
 ) ENGINE = InnoDB;
 
 create table bo_user (
-    id bigint not null auto_increment,
+    id bigint not NULL auto_increment,
     bo_name VARCHAR(255),
     bo_surname VARCHAR(255),
-    bo_nickname VARCHAR(255) not null unique,
+    bo_nickname VARCHAR(255) not NULL unique,
     bo_email VARCHAR(255),
     bo_phone VARCHAR(255),
     bo_password VARCHAR(255),
@@ -197,7 +198,7 @@ create table bo_user (
 ) ENGINE=InnoDB;
 
 create table bo_user_season (
-    id bigint not null auto_increment,
+    id bigint not NULL auto_increment,
     bo_season_ref bigint not null,
     bo_user_ref bigint not null,
     bo_wager integer,
@@ -281,6 +282,12 @@ alter table bo_group
     add constraint fk_group_season
     foreign key (bo_season_ref)
     references bo_season (id);
+
+ALTER TABLE bo_team
+    ADD INDEX fk_team_location (bo_location_ref),
+    ADD CONSTRAINT fk_team_location
+    FOREIGN KEY (bo_location_ref)
+    REFERENCES bo_location (id);
 
 alter table bo_team_group
     add index fk_team_group_group (bo_group_ref),

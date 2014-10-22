@@ -1,11 +1,13 @@
 select
-  tabelle.id, tabelle.bo_name, tabelle.bo_longname, tabelle.bo_logo, tabelle.bo_teamtype, tabelle.bo_openligaid,
+  tabelle.id, tabelle.bo_name, tabelle.bo_longname, tabelle.bo_logo,
+  tabelle.bo_teamtype, tabelle.bo_location_ref, tabelle.bo_openligaid,
   SUM(win) as win, SUM(remis) as remis, SUM(lost) as lost, (SUM(win) * 3 + SUM(remis)) as points
 from
 (
     (
         select
-          t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype, t.bo_openligaid,
+          t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype,
+          t.bo_location_ref, t.bo_openligaid,
           count(*) as win, 0 as remis, 0 as lost
         from
           bo_season s,
@@ -43,7 +45,8 @@ from
     UNION ALL
     (
         select
-          t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype, t.bo_openligaid,
+          t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype,
+          t.bo_location_ref, t.bo_openligaid,
           0 as win, count(*) as remis, 0 as lost
         from
           bo_season s,
@@ -81,7 +84,8 @@ from
     UNION ALL
     (
         select
-          t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype, t.bo_openligaid,
+          t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype,
+          t.bo_location_ref, t.bo_openligaid,
           0 as win, 0 as remis, count(*) as lost
         from
           bo_season s,

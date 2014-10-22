@@ -5,17 +5,17 @@
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
- *
+ * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- *
+ * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
@@ -205,7 +205,7 @@ public class Team extends AbstractStorageObject {
      * @hibernate.set role="groups" table="bo_team_group" cascade="none"
      *                inverse="true"
      * @hibernate.collection-key column="bo_team_ref"
-     * @hibernate.collection-many-to-many
+     * @hibernate.collection-many-to-many 
      *                                    class="de.winkler.betoffice.storage.Group"
      *                                    column="bo_group_ref"
      */
@@ -271,6 +271,30 @@ public class Team extends AbstractStorageObject {
      */
     public void setTeamType(final TeamType value) {
         teamType = value;
+    }
+
+    // -- location ------------------------------------------------------------
+
+    /** Heimspiel Stadion */
+    private Location location;
+
+    /**
+     * Liefert das Heimstadion.
+     * 
+     * @return Das Heimspielstadion.
+     */
+    public Location getLocation() {
+        return location;
+    }
+
+    /**
+     * Setzt das Heimspielstadion.
+     * 
+     * @param value
+     *            Das Heimspielstadion.
+     */
+    public void setLocation(Location value) {
+        location = value;
     }
 
     // -- openligaid ----------------------------------------------------------

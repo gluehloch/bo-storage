@@ -4,71 +4,32 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class
-        name="de.winkler.betoffice.storage.Group"
-        table="bo_group"
-        dynamic-update="false"
-        dynamic-insert="false"
-    >
+	<class name="de.winkler.betoffice.storage.Group" table="bo_group"
+		dynamic-update="false" dynamic-insert="false">
 
-        <id
-            name="id"
-            column="id"
-            type="java.lang.Long"
-        >
-            <generator class="native">
-            </generator>
-        </id>
+		<id name="id" column="id" type="java.lang.Long">
+			<generator class="native">
+			</generator>
+		</id>
 
-        <many-to-one
-            name="season"
-            class="de.winkler.betoffice.storage.Season"
-            cascade="none"
-            outer-join="auto"
-            update="true"
-            insert="true"
-            column="bo_season_ref"
-            not-null="true"
-        />
+		<many-to-one name="season" class="de.winkler.betoffice.storage.Season"
+			cascade="none" outer-join="auto" update="true" insert="true" column="bo_season_ref"
+			not-null="true" />
 
-        <set
-            name="teams"
-            table="bo_team_group"
-            lazy="false"
-            inverse="false"
-            cascade="none"
-            sort="unsorted"
-        >
+		<set name="teams" table="bo_team_group" lazy="false" inverse="false"
+			cascade="none" sort="unsorted">
 
-              <key
-                  column="bo_group_ref"
-              />
+			<key column="bo_group_ref" />
 
-              <many-to-many
-                  class="de.winkler.betoffice.storage.Team"
-                  column="bo_team_ref"
-                  outer-join="auto"
-              />
+			<many-to-many class="de.winkler.betoffice.storage.Team"
+				column="bo_team_ref" outer-join="auto" />
 
-        </set>
+		</set>
 
-        <many-to-one
-            name="groupType"
-            class="de.winkler.betoffice.storage.GroupType"
-            cascade="none"
-            outer-join="auto"
-            update="true"
-            insert="true"
-            column="bo_grouptype_ref"
-            not-null="true"
-        />
+		<many-to-one name="groupType" class="de.winkler.betoffice.storage.GroupType"
+			cascade="none" outer-join="auto" update="true" insert="true"
+			column="bo_grouptype_ref" not-null="true" />
 
-        <!--
-            To add non XDoclet property mappings, create a file named
-                hibernate-properties-Group.xml
-            containing the additional properties and place it in your merge dir.
-        -->
-
-    </class>
+	</class>
 
 </hibernate-mapping>
