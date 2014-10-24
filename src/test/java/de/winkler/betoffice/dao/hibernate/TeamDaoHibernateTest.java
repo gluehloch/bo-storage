@@ -34,7 +34,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.hibernate.jdbc.Work;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,11 +56,6 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
     @Before
     public void init() {
         prepareDatabase(TeamDaoHibernateTest.class);
-    }
-
-    @After
-    public void shutdown() {
-        deleteDatabase();
     }
 
     @Test

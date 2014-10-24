@@ -28,13 +28,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
-import org.hibernate.jdbc.Work;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,24 +49,7 @@ public class UserDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Before
     public void init() {
-        cleanUpDatabase();
         prepareDatabase(UserDaoHibernateTest.class);
-    }
-
-    @After
-    public void shutdown() {
-        cleanUpDatabase();
-    }
-
-    private void cleanUpDatabase() {
-        getSessionFactory().getCurrentSession().doWork(new Work() {
-            @Override
-            public void execute(Connection connection) throws SQLException {
-                Statement stmt = connection.createStatement();
-                stmt.execute("DELETE FROM bo_user");
-                stmt.close();
-            }
-        });
     }
 
     @Test

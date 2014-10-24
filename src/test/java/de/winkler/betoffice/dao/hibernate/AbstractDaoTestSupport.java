@@ -30,6 +30,7 @@ import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.Work;
+import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -66,8 +67,9 @@ public abstract class AbstractDaoTestSupport extends
         });
     }
 
+    @After
     public void deleteDatabase() {
-        sessionFactory.getCurrentSession().doWork(new Work() {
+        getSessionFactory().getCurrentSession().doWork(new Work() {
             @Override
             public void execute(Connection connection) throws SQLException {
                 DeleteDatabase.deleteDatabase(connection);

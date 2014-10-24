@@ -25,13 +25,8 @@ package de.winkler.betoffice.dao.hibernate;
 
 import static org.junit.Assert.assertEquals;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
-import org.hibernate.jdbc.Work;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,25 +51,7 @@ public class TeamAliasDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Before
     public void init() {
-        cleanUpDatabase();
         prepareDatabase(TeamAliasDaoHibernateTest.class);
-    }
-
-    @After
-    public void shutdown() {
-        cleanUpDatabase();
-    }
-
-    private void cleanUpDatabase() {
-        getSessionFactory().getCurrentSession().doWork(new Work() {
-            @Override
-            public void execute(Connection connection) throws SQLException {
-                Statement stmt = connection.createStatement();
-                stmt.execute("DELETE FROM bo_teamalias");
-                stmt.execute("DELETE FROM bo_team");
-                stmt.close();
-            }
-        });
     }
 
     @Test

@@ -30,7 +30,6 @@ import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,11 +50,6 @@ public class PlayerDaoHibernateTest extends AbstractDaoTestSupport {
     @Before
     public void init() {
         prepareDatabase(PlayerDaoHibernateTest.class);
-    }
-
-    @After
-    public void shutdown() {
-        deleteDatabase();
     }
 
     @Test
@@ -84,7 +78,7 @@ public class PlayerDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(winkler.getName(), equalTo("Winkler"));
         assertThat(winkler.getVorname(), equalTo("Erwin"));
         assertThat(winkler.getOpenligaid(), equalTo(3L));
-        
+
         Player koen = playerDao.findById(4);
         assertThat(koen.getName(), equalTo("Koen"));
         assertThat(koen.getVorname(), equalTo("Erwin"));

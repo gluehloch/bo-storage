@@ -1,8 +1,7 @@
 /*
- * $Id: GroupTypeDaoHibernateTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2014 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -27,13 +26,8 @@ package de.winkler.betoffice.dao.hibernate;
 
 import static org.junit.Assert.assertEquals;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
-import org.hibernate.jdbc.Work;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +40,7 @@ import de.winkler.betoffice.storage.Season;
 /**
  * Test case for class {@link GroupTypeDaoHibernate}.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
 public class GroupTypeDaoHibernateTest extends AbstractDaoTestSupport {
 
@@ -60,20 +53,6 @@ public class GroupTypeDaoHibernateTest extends AbstractDaoTestSupport {
     @Before
     public void init() {
         prepareDatabase(GroupTypeDaoHibernateTest.class);
-    }
-
-    @After
-    public void shutdown() {
-        getSessionFactory().getCurrentSession().doWork(new Work() {
-            @Override
-            public void execute(Connection connection) throws SQLException {
-                Statement stmt = connection.createStatement();
-                stmt.execute("DELETE FROM bo_group");
-                stmt.execute("DELETE FROM bo_season");
-                stmt.execute("DELETE FROM bo_grouptype");
-                stmt.close();
-            }
-        });
     }
 
     @Test

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ *  Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -27,13 +27,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
-import org.hibernate.jdbc.Work;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,18 +50,6 @@ public class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
     @Before
     public void init() {
         prepareDatabase(SeasonDaoHibernateTest.class);
-    }
-
-    @After
-    public void shutdown() {
-        getSessionFactory().getCurrentSession().doWork(new Work() {
-            @Override
-            public void execute(Connection connection) throws SQLException {
-                Statement stmt = connection.createStatement();
-                stmt.execute("DELETE FROM bo_season");
-                stmt.close();
-            }
-        });
     }
 
     @Test
