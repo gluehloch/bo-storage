@@ -1,0 +1,159 @@
+### TAB bo_team
+### id | bo_name | bo_longname | bo_logo | bo_teamtype | bo_openligaid
+27|Frankreich|Frankreich|frankreich.gif|1|
+28|Senegal|Senegal|senegal.gif|1|
+29|Uruguay|Uruguay|uruguay.gif|1|
+30|Dänemark|Dänemark|daenemark.gif|1|
+31|Paraguay|Paraguay|paraguay.gif|1|
+32|Südafrika|Südafrika|suedafrika.gif|1|
+33|Spanien|Spanien|spanien.gif|1|
+34|Slowenien|Slowenien|slowenien.gif|1|
+35|Brasilien|Brasilien|brasilien.gif|1|
+36|Türkei|Türkei|tuerkei.gif|1|
+37|China VR|China VR|china.gif|1|
+38|Costa Rica|Costa Rica|costarica.gif|1|
+39|Rep.Korea|Rep.Korea|suedkorea.gif|1|
+40|Polen|Polen|polen.gif|1|
+41|USA|USA|usa.gif|1|
+42|Portugal|Portugal|portugal.gif|1|
+43|Irland|Irland|irland.gif|1|
+44|Kamerun|Kamerun|kamerun.gif|1|
+45|Deutschland|Deutschland|dfb.gif|1|
+46|Saudi Arabien|Saudi Arabien|saudiarabien.gif|1|
+47|England|England|england.gif|1|
+48|Schweden|Schweden|schweden.gif|1|
+49|Argentinien|Argentinien|argentinien.gif|1|
+50|Nigeria|Nigeria|nigeria.gif|1|
+51|Kroatien|Kroatien|kroatien.gif|1|
+52|Mexiko|Mexiko|mexiko.gif|1|
+53|Ecuador|Ecuador|ecuador.gif|1|
+54|Italien|Italien|italien.gif|1|
+55|Japan|Japan|japan.gif|1|
+56|Belgien|Belgien|belgien.gif|1|
+57|Russland|Russland|russland.gif|1|
+58|Tunesien|Tunesien|tunesien.gif|1|
+907|Griechenland|Griechenland|greece.gif|1|
+911|Schweiz|Schweiz|swiss.gif|1|
+919|Bulgarien|Bulgarien|bulgary.gif|1|
+922|Tschechien|Tschechien|czech.gif|1|
+923|Lettland|Lettland|lettland.gif|1|
+924|Niederlande|Niederlande|netherland|1|
+1131|[noch_nicht_bekannt]|[noch_nicht_bekannt]|unbekannt.gif|1|
+1132|Trinidad Tabago|Trinidad und Tabago|trinidadtabago.gif|1|
+1133|Elfenbeinküste|Elfenbeinküste|elfenbeinkueste.gif|1|
+1134|Serbien Montenegro|Serbien und Montenegro|serbienmontenegro.gif|1|
+1135|Iran|Iran|iran.gif|1|
+1136|Angola|Angola|angola.gif|1|
+1137|Ghana|Ghana|ghana.gif|1|
+1138|Australien|Australien|australien.gif|1|
+1139|Togo|Togo|togo.gif|1|
+1140|Ukraine|Ukraine|ukraine.gif|1|
+1141|FC Bayern München|FC Bayern München|bayern.gif|0|
+1142|Borussia Dortmund|Borussia Dortmund|bvb.gif|0|
+1143|Bayer 04 Leverkusen|Bayer 04 Leverkusen|leverkusen.gif|0|
+1144|SC Freiburg|SC Freiburg|freiburg.gif|0|
+1145|SV Werder Bremen|SV Werder Bremen|bremen.gif|0|
+1146|1.FC Kaiserslautern|1.FC Kaiserslautern|lautern.gif|0|
+1147|VfL Wolfsburg|VfL Wolfsburg|wolfsburg.gif|0|
+1148|1.FC Köln|1.FC Köln|koeln.gif|0|
+1149|Hansa Rostock|Hansa Rostock|rostock.gif|0|
+1150|TSV 1860 München|TSV 1860 München|1860.bmp|0|
+1151|Hamburger SV|Hamburger SV|hsv.gif|0|
+1152|Energie Cottbus|Energie Cottbus|cottbus.gif|0|
+1153|VfB Stuttgart|VfB Stuttgart|stuttgart.gif|0|
+1154|SpVgg Unterhaching|SpVgg Unterhaching|haching.gif|0|
+1155|Eintracht Frankfurt|Eintracht Frankfurt|frankfurt.gif|0|
+1156|VfL Bochum|VfL Bochum|bochum.gif|0|
+1157|Hertha BSC Berlin|Hertha BSC Berlin|hertha.gif|0|
+1158|St. Pauli|St. Pauli|stpauli.gif|0|
+1159|1.FC Nürnberg|1.FC Nürnberg|nuernberg.gif|0|
+1160|Borussia MGladbach|Borussia Mönchen Gladbach|gladbach.gif|0|
+1161|FC Schalke 04|FC Schalke 04|schalke.gif|0|
+1162|Hannover 96|Hannover 96|hannover96.gif|0|
+1163|Arminia Bielefeld|Arminia Bielefeld|arminiabielefeld.gif|0|
+1164|FSV Mainz 05|FSV Mainz 05|mainz.gif|0|
+1165|MSV Duisburg|MSV Duisburg|duisburg.gif|0|
+1166|Alemannia Aachen|Alemannia Aachen|achen.gif|0|
+1167|Karlsruher SC|Karlsruher SC|ksc.gif|0|
+1168|Österreich|Österreich|oesterreich.gif|1|
+1169|Rumänien|Rumänien|rumaenien.gif|1|
+1170|1899 Hoffenheim|1899 Hoffenheim|hoffenheim.gif|0|
+1171|Serbien|Serbien|serbien.gif|1|
+1172|Algerien|Algerien|algerien.gif|1|
+1173|Neuseeland|Neuseeland|neuseeland.gif|1|
+1174|Slowakei|Slowakei|slowakei.gif|1|
+1175|Nordkorea|Nordkorea|nordkorea.gif|1|
+1176|Honduras|Honduras|honduras.gif|1|
+1177|Chile|Chile|chile.gif|1|
+
+### TAB bo_teamalias
+### id | bo_aliasname | bo_team_ref
+521|VfL Wolfsburg|1147
+522|VfB Stuttgart|1153
+523|Borussia Dortmund|1142
+524|1.FC Köln|1148
+525|1. FC Köln|1148
+526|1.FC K_ln|1148
+527|1.FC Nürnberg|1159
+528|1. FC Nürnberg|1159
+529|Schalke 04|1161
+530|Werder Bremen|1145
+531|Eintracht Frankfurt|1155
+532|Hertha BSC Berlin|1157
+533|Hannover 96|1162
+534|FSV Mainz 05|1164
+535|Bayer Leverkusen|1143
+536|1899 Hoffenheim|1168
+537|Bayern München|1141
+538|VfL Bochum|1156
+539|Borussia Mönchengladbach|1160
+540|SC Freiburg|1144
+541|Hamburger SV|1151
+
+### TAB bo_user
+### id | bo_name | bo_surname | bo_nickname | bo_email | bo_phone | bo_password | bo_automat | bo_excluded | bo_title
+1|Rohloff|Markus|mrTipp|markusrohloff@gmx.de|0201/61 03 36|xxx|false|false|
+2|Schulte|Christian|Xtian|spottwetten@xtian.de|040/775 774|xxx|false|true|
+3|Groth|Peter|Peter|peter.groth@gmx.de|0179/1008450|xxx|false|false|
+4|Automat|No1|Automat|home@andre-winkler.de||xxx|true|false|
+5|Winkler|Lars|planlos|gluehloch@compuserve.de|0201/7502407|xxx|false|true|
+6|Winkler|Andre|Frosch|home@andre-winkler.de|040/76 75 16 24|xxx|false|false|
+7|Müller|Peter|Meister|xmlprofi@gmx.net||xxx|false|true|
+8|Hoffmann|Melanie|Melanie|parel@gmx.de|00000000000|xxx|false|true|
+9|Hattwig|Lars|Hattwig|l.hattwig@snafu.de|030/84 50 77 51|xxx|false|false|
+10|Schneider|Roger|Fuxx|Ro.schneider@enbw.com||xxx|false|true|
+11|Blahak|Rainer|Fuchs|r.blahak@enbw.com||xxx|false|true|
+12|Toth|Franz|Zocker|schneider.roger@nexgo.de||xxx|false|true|
+13|Rohloff|Markus|Persistenz|markusrohloff@gmx.de|02364/509202|xxx|false|false|
+14|Groth|Jochen|Jogi|jochen@grothnet.de|02594-82375|xxx|false|false|MT
+15|Bitzer|Gerd|Homer|bitzer@wsc-gmbh.de|01736146557|xxx|false|true|
+16|Bucksath|Steffen|Steffen|steffen@bucksath.de|0170/9440357|xxx|false|false|
+17|Schäfer|Moritz|Sunny|moritz_schaefer@gmx.de|064047776|xxx|false|true|
+18|pavlovic|julia|krmaca|mm1982@web.de|01793456712|xxx|false|true|
+19|Kienzler|Günter|Dotwin74|dotwin74@freenet.de|084661686|xxx|false|true|
+20|juergen|reisinger|junior|juergen.reisinger@gmx.net||xxx|false|true|
+21|Stegemann|Claus|Santa|ClausStegemann@web.de|02594894760|xxx|false|true|
+22|seidl|christine|chris|sdchristinchen@web.de|040-76751624|xxx|false|false|
+23|Hasselmann|Jan|BayJan|janhasselmann@gmx.de||xxx|false|false|
+24|Rönnebeck|Stefan|Roenne|stefan.roennebeck@medium-big-band.de|0179-5462057|xxx|false|false|
+25|Esselmann|Dirk|Essel|dirk.esselmann@wertgutachter.de|02502/6936|xxx|false|false|
+26|Hühnken|Lutz|tyler|lutz@huehnken.de|040-30237867|xxx|false|true|
+27|Reinke|Markus|Kron|markus_reinke@gmx.net|-|xxx|false|true|
+28|Timm|Volker|volki|volker.timm@web.de||xxx|false|true|
+29|Seekamp|Holger|Holgi|seekamp@gmx.de||xxx|false|false|
+30|Christoph|Martin|Chrisi|christophm@onbo_email.at||xxx|false|true|
+31|Schroepke|Dieter|Dieter|dieter.schroepke@gmx.de|43272409|xxx|false|true|
+32|Paus|Michael|Manni|pausm@web.de||xxx|false|false|
+33|Wiemers|Meinolf|SpecialAgent|mail@meinolf-wiemers.de|0511-2353935|xxx|false|true|
+34|Kroschk|Axel|Rumo|axel@kroschk.net||xxx|false|true|
+35|Seidl|Andreas|Andi|Andreas.seidl@gmx.de|08419936520|xxx|false|false|
+14147|Parplies|Jan-Peter|Peter Pan|janpar@gmx.de|040/859710|xxx|false|true|
+17279|König|Michael|King|king@unicum.de|0251-271194|xxx|false|false|
+17280|JEDA|JonaErikDavidAxel|Goddard|||xxx|false|false|(e)
+17281|Riemann|Jörg|Bernd_das_Brot|ri@mc-wetter.de||xxx|false|false|
+17282|Schienagel|Peter|binglers|binglers@t-online.de|binglers@t-online.de|xxx|true|false|
+17283|Kaiser|Michael|Mikai|michael.Kaiser@derAmrumer.de|michael.Kaiser@derAmrumer.de|xxx|true|false|
+17284|Thiele|Dirk|Rainman|diplomet@gmx.de|diplomet@gmx.de|xxx|true|false|
+17285|Schenk|Friedemann|Friedi|Friedemann.Schenk@gmx.de|Friedemann.Schenk@gmx.de|xxx|true|false|
+17286|Thürling|Nadine|Dennis|NadineThuerling@web.de|NadineThuerling@web.de|xxx|true|false|
+17287|Rohloff|Bianka|mrsTipp|andre.winkler@web.de|andre.winkler@web.de|xxx|true|false|(e)

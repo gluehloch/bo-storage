@@ -8,6 +8,13 @@
     <!--
          *** STILL UNDER DEVELOPMENT 2.0.0 (SNAPSHOT) ***
     -->
+    <release version="betoffice-storage-2.0.0a" date="2014-10-??"
+      description="Update">
+      <action dev="andrewinkler" type="removed" date="2014-10-27">
+        Remove some DBUnit tests.
+      </action>
+    </release>
+
     <release version="betoffice-storage-2.0.0" date="2014-10-26"
       description="Update">
       <action dev="andrewinkler" type="removed" date="2014-09-20">

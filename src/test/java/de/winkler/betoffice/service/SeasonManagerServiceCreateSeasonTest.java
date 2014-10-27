@@ -1,8 +1,7 @@
 /*
- * $Id: SeasonManagerServiceCreateSeasonTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2014 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -61,8 +60,7 @@ import de.winkler.betoffice.validation.BetofficeValidationException;
  * Creates a season and test some service methods of class
  * {@link DefaultSeasonManagerService}.
  *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/betoffice-datasource.xml",
@@ -179,7 +177,7 @@ public class SeasonManagerServiceCreateSeasonTest {
         createSeason();
         createGroups();
 
-        List<Team> teams = new ArrayList<Team>();
+        List<Team> teams = new ArrayList<>();
         teams.add(hsv);
         teams.add(schalke);
         teams.add(burghausen);
