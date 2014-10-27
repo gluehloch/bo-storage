@@ -1,3 +1,20 @@
+### TAB bo_grouptype
+### id | bo_name
+  59|Gruppe A
+  60|Gruppe B
+  61|Gruppe C
+  62|Gruppe D
+  63|Gruppe E
+  64|Gruppe F
+  65|Gruppe G
+  66|Gruppe H
+  67|Achtelfinale
+  68|Viertelfinale
+  69|Halbfinale
+  70|Spiel um Platz 3
+  71|Finale
+  72|1. Liga
+
 ### TAB bo_team
 ### id | bo_name | bo_longname | bo_logo | bo_teamtype | bo_openligaid
 27|Frankreich|Frankreich|frankreich.gif|1|
@@ -111,49 +128,49 @@
 541|Hamburger SV|1151
 
 ### TAB bo_user
-### id | bo_name | bo_surname | bo_nickname | bo_email | bo_phone | bo_password | bo_automat | bo_excluded | bo_title
-1|Rohloff|Markus|mrTipp|markusrohloff@gmx.de|0201/61 03 36|xxx|false|false|
-2|Schulte|Christian|Xtian|spottwetten@xtian.de|040/775 774|xxx|false|true|
-3|Groth|Peter|Peter|peter.groth@gmx.de|0179/1008450|xxx|false|false|
-4|Automat|No1|Automat|home@andre-winkler.de||xxx|true|false|
-5|Winkler|Lars|planlos|gluehloch@compuserve.de|0201/7502407|xxx|false|true|
-6|Winkler|Andre|Frosch|home@andre-winkler.de|040/76 75 16 24|xxx|false|false|
-7|Müller|Peter|Meister|xmlprofi@gmx.net||xxx|false|true|
-8|Hoffmann|Melanie|Melanie|parel@gmx.de|00000000000|xxx|false|true|
-9|Hattwig|Lars|Hattwig|l.hattwig@snafu.de|030/84 50 77 51|xxx|false|false|
-10|Schneider|Roger|Fuxx|Ro.schneider@enbw.com||xxx|false|true|
-11|Blahak|Rainer|Fuchs|r.blahak@enbw.com||xxx|false|true|
-12|Toth|Franz|Zocker|schneider.roger@nexgo.de||xxx|false|true|
-13|Rohloff|Markus|Persistenz|markusrohloff@gmx.de|02364/509202|xxx|false|false|
-14|Groth|Jochen|Jogi|jochen@grothnet.de|02594-82375|xxx|false|false|MT
-15|Bitzer|Gerd|Homer|bitzer@wsc-gmbh.de|01736146557|xxx|false|true|
-16|Bucksath|Steffen|Steffen|steffen@bucksath.de|0170/9440357|xxx|false|false|
-17|Schäfer|Moritz|Sunny|moritz_schaefer@gmx.de|064047776|xxx|false|true|
-18|pavlovic|julia|krmaca|mm1982@web.de|01793456712|xxx|false|true|
-19|Kienzler|Günter|Dotwin74|dotwin74@freenet.de|084661686|xxx|false|true|
-20|juergen|reisinger|junior|juergen.reisinger@gmx.net||xxx|false|true|
-21|Stegemann|Claus|Santa|ClausStegemann@web.de|02594894760|xxx|false|true|
-22|seidl|christine|chris|sdchristinchen@web.de|040-76751624|xxx|false|false|
-23|Hasselmann|Jan|BayJan|janhasselmann@gmx.de||xxx|false|false|
-24|Rönnebeck|Stefan|Roenne|stefan.roennebeck@medium-big-band.de|0179-5462057|xxx|false|false|
-25|Esselmann|Dirk|Essel|dirk.esselmann@wertgutachter.de|02502/6936|xxx|false|false|
-26|Hühnken|Lutz|tyler|lutz@huehnken.de|040-30237867|xxx|false|true|
-27|Reinke|Markus|Kron|markus_reinke@gmx.net|-|xxx|false|true|
-28|Timm|Volker|volki|volker.timm@web.de||xxx|false|true|
-29|Seekamp|Holger|Holgi|seekamp@gmx.de||xxx|false|false|
-30|Christoph|Martin|Chrisi|christophm@onbo_email.at||xxx|false|true|
-31|Schroepke|Dieter|Dieter|dieter.schroepke@gmx.de|43272409|xxx|false|true|
-32|Paus|Michael|Manni|pausm@web.de||xxx|false|false|
-33|Wiemers|Meinolf|SpecialAgent|mail@meinolf-wiemers.de|0511-2353935|xxx|false|true|
-34|Kroschk|Axel|Rumo|axel@kroschk.net||xxx|false|true|
-35|Seidl|Andreas|Andi|Andreas.seidl@gmx.de|08419936520|xxx|false|false|
-14147|Parplies|Jan-Peter|Peter Pan|janpar@gmx.de|040/859710|xxx|false|true|
-17279|König|Michael|King|king@unicum.de|0251-271194|xxx|false|false|
-17280|JEDA|JonaErikDavidAxel|Goddard|||xxx|false|false|(e)
-17281|Riemann|Jörg|Bernd_das_Brot|ri@mc-wetter.de||xxx|false|false|
-17282|Schienagel|Peter|binglers|binglers@t-online.de|binglers@t-online.de|xxx|true|false|
-17283|Kaiser|Michael|Mikai|michael.Kaiser@derAmrumer.de|michael.Kaiser@derAmrumer.de|xxx|true|false|
-17284|Thiele|Dirk|Rainman|diplomet@gmx.de|diplomet@gmx.de|xxx|true|false|
-17285|Schenk|Friedemann|Friedi|Friedemann.Schenk@gmx.de|Friedemann.Schenk@gmx.de|xxx|true|false|
-17286|Thürling|Nadine|Dennis|NadineThuerling@web.de|NadineThuerling@web.de|xxx|true|false|
-17287|Rohloff|Bianka|mrsTipp|andre.winkler@web.de|andre.winkler@web.de|xxx|true|false|(e)
+### id | bo_name | bo_surname | bo_nickname | bo_email | bo_phone | bo_password | bo_automat(bit) | bo_excluded(bit) | bo_title
+1|Rohloff|Markus|mrTipp|markusrohloff@gmx.de|0201/61 03 36|xxx|0|0|
+2|Schulte|Christian|Xtian|spottwetten@xtian.de|040/775 774|xxx|0|1|
+3|Groth|Peter|Peter|peter.groth@gmx.de|0179/1008450|xxx|0|0|
+4|Automat|No1|Automat|home@andre-winkler.de||xxx|1|0|
+5|Winkler|Lars|planlos|gluehloch@compuserve.de|0201/7502407|xxx|0|1|
+6|Winkler|Andre|Frosch|home@andre-winkler.de|040/76 75 16 24|xxx|0|0|
+7|Müller|Peter|Meister|xmlprofi@gmx.net||xxx|0|1|
+8|Hoffmann|Melanie|Melanie|parel@gmx.de|00000000000|xxx|0|1|
+9|Hattwig|Lars|Hattwig|l.hattwig@snafu.de|030/84 50 77 51|xxx|0|0|
+10|Schneider|Roger|Fuxx|Ro.schneider@enbw.com||xxx|0|1|
+11|Blahak|Rainer|Fuchs|r.blahak@enbw.com||xxx|0|1|
+12|Toth|Franz|Zocker|schneider.roger@nexgo.de||xxx|0|1|
+13|Rohloff|Markus|Persistenz|markusrohloff@gmx.de|02364/509202|xxx|0|0|
+14|Groth|Jochen|Jogi|jochen@grothnet.de|02594-82375|xxx|0|0|MT
+15|Bitzer|Gerd|Homer|bitzer@wsc-gmbh.de|01736146557|xxx|0|1|
+16|Bucksath|Steffen|Steffen|steffen@bucksath.de|0170/9440357|xxx|0|0|
+17|Schäfer|Moritz|Sunny|moritz_schaefer@gmx.de|064047776|xxx|0|1|
+18|pavlovic|julia|krmaca|mm1982@web.de|01793456712|xxx|0|1|
+19|Kienzler|Günter|Dotwin74|dotwin74@freenet.de|084661686|xxx|0|1|
+20|juergen|reisinger|junior|juergen.reisinger@gmx.net||xxx|0|1|
+21|Stegemann|Claus|Santa|ClausStegemann@web.de|02594894760|xxx|0|1|
+22|seidl|christine|chris|sdchristinchen@web.de|040-76751624|xxx|0|0|
+23|Hasselmann|Jan|BayJan|janhasselmann@gmx.de||xxx|0|0|
+24|Rönnebeck|Stefan|Roenne|stefan.roennebeck@medium-big-band.de|0179-5462057|xxx|0|0|
+25|Esselmann|Dirk|Essel|dirk.esselmann@wertgutachter.de|02502/6936|xxx|0|0|
+26|Hühnken|Lutz|tyler|lutz@huehnken.de|040-30237867|xxx|0|1|
+27|Reinke|Markus|Kron|markus_reinke@gmx.net|-|xxx|0|1|
+28|Timm|Volker|volki|volker.timm@web.de||xxx|0|1|
+29|Seekamp|Holger|Holgi|seekamp@gmx.de||xxx|0|0|
+30|Christoph|Martin|Chrisi|christophm@onbo_email.at||xxx|0|1|
+31|Schroepke|Dieter|Dieter|dieter.schroepke@gmx.de|43272409|xxx|0|1|
+32|Paus|Michael|Manni|pausm@web.de||xxx|0|0|
+33|Wiemers|Meinolf|SpecialAgent|mail@meinolf-wiemers.de|0511-2353935|xxx|0|1|
+34|Kroschk|Axel|Rumo|axel@kroschk.net||xxx|0|1|
+35|Seidl|Andreas|Andi|Andreas.seidl@gmx.de|08419936520|xxx|0|0|
+14147|Parplies|Jan-Peter|Peter Pan|janpar@gmx.de|040/859710|xxx|0|1|
+17279|König|Michael|King|king@unicum.de|0251-271194|xxx|0|0|
+17280|JEDA|JonaErikDavidAxel|Goddard|||xxx|0|0|(e)
+17281|Riemann|Jörg|Bernd_das_Brot|ri@mc-wetter.de||xxx|0|0|
+17282|Schienagel|Peter|binglers|binglers@t-online.de|binglers@t-online.de|xxx|1|0|
+17283|Kaiser|Michael|Mikai|michael.Kaiser@derAmrumer.de|michael.Kaiser@derAmrumer.de|xxx|1|0|
+17284|Thiele|Dirk|Rainman|diplomet@gmx.de|diplomet@gmx.de|xxx|1|0|
+17285|Schenk|Friedemann|Friedi|Friedemann.Schenk@gmx.de|Friedemann.Schenk@gmx.de|xxx|1|0|
+17286|Thürling|Nadine|Dennis|NadineThuerling@web.de|NadineThuerling@web.de|xxx|1|0|
+17287|Rohloff|Bianka|mrsTipp|andre.winkler@web.de|andre.winkler@web.de|xxx|1|0|(e)
