@@ -6,7 +6,7 @@
   <parent>
     <groupId>de.winkler.betoffice</groupId>
     <artifactId>betoffice-maven-parent</artifactId>
-    <version>1.2.4</version>
+    <version>1.3.0-SNAPSHOT</version>
   </parent>
 
   <!-- Next parent POM <parent> <groupId>de.betoffice.pom</groupId> <artifactId>betoffice-pom</artifactId>
@@ -157,14 +157,8 @@
     <dependency>
       <groupId>de.betoffice</groupId>
       <artifactId>betoffice-testutils</artifactId>
-      <version>0.1.0</version>
+      <version>0.2.0-SNAPSHOT</version>
       <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>de.winkler.dbload</groupId>
-      <artifactId>dbload</artifactId>
-      <version>0.1.0</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 
