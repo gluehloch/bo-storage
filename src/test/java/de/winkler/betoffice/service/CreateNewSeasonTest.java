@@ -5,17 +5,17 @@
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
@@ -28,7 +28,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -43,8 +42,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import de.betoffice.database.data.DeleteDatabase;
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
-import de.betoffice.database.test.PersistenceTestSupport;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -96,13 +95,7 @@ public class CreateNewSeasonTest {
 
     @Test
     public void testDeleteDatabase() throws Exception {
-        Connection conn = dataSource.getConnection();
-        conn.setAutoCommit(false);
-        try {
-            tearDown();
-        } finally {
-            conn.close();
-        }
+        DeleteDatabase.deleteDatabase(dataSource.getConnection());
     }
 
     @Test
@@ -117,8 +110,9 @@ public class CreateNewSeasonTest {
         season.setTeamType(TeamType.DFB);
         sms.createSeason(season);
 
-        PersistenceTestSupport.assertTableEquals(dataSource,
-                CreateNewSeasonTest.class, "bo_season", "createNewSeason");
+        Season seasonClone = sms.findSeasonById(season.getId());
+        assertThat(seasonClone.getName(), equalTo(season.getName()));
+        assertThat(seasonClone.getYear(), equalTo(season.getYear()));
 
         Team stuttgart = mdms.findTeam("VfB Stuttgart");
         Team hsv = mdms.findTeam("Hamburger SV");
@@ -148,8 +142,9 @@ public class CreateNewSeasonTest {
         season.setTeamType(TeamType.DFB);
         sms.createSeason(season);
 
-        PersistenceTestSupport.assertTableEquals(dataSource,
-                CreateNewSeasonTest.class, "bo_season", "createNewSeason");
+        Season seasonClone = sms.findSeasonById(season.getId());
+        assertThat(seasonClone.getName(), equalTo(season.getName()));
+        assertThat(seasonClone.getYear(), equalTo(season.getYear()));
 
         Team stuttgart = mdms.findTeam("VfB Stuttgart");
         Team hsv = mdms.findTeam("Hamburger SV");

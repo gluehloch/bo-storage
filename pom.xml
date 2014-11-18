@@ -162,14 +162,6 @@
       <version>0.2.0-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
-    <!-- TODO Remove me
-    <dependency>
-      <groupId>de.winkler.dbload</groupId>
-      <artifactId>dbload</artifactId>
-      <version>0.1.0</version>
-      <scope>test</scope>
-    </dependency>
-     -->
   </dependencies>
 
   <properties>
