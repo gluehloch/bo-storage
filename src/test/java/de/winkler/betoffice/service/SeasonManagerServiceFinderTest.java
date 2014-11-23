@@ -29,6 +29,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -45,6 +46,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.awtools.basic.LoggerFactory;
+import de.betoffice.database.data.DeleteDatabase;
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
@@ -91,6 +93,10 @@ public class SeasonManagerServiceFinderTest {
 
     @Before
     public void setUp() throws Exception {
+        Connection connection = dataSource.getConnection();
+        DeleteDatabase.deleteDatabase(connection);
+        connection.close();
+
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
         dsuatd.setUp(DataLoader.FULL);
     }
@@ -128,7 +134,7 @@ public class SeasonManagerServiceFinderTest {
 
         List<Game> matchesHsvStuttgart = seasonManagerService.findMatches(
                 stuttgart, hsv);
-        assertThat(matchesHsvStuttgart.size()).isEqualTo(13);
+        assertThat(matchesHsvStuttgart.size()).isEqualTo(14);
 
         List<Game> matchesStuttgartHsv = seasonManagerService.findMatches(hsv,
                 stuttgart);
@@ -137,7 +143,7 @@ public class SeasonManagerServiceFinderTest {
         List<Game> allMatchesStuttgartHsv = seasonManagerService.findMatches(
                 stuttgart, hsv, true);
 
-        assertThat(allMatchesStuttgartHsv.size()).isEqualTo(27);
+        assertThat(allMatchesStuttgartHsv.size()).isEqualTo(28);
     }
 
     @Test
@@ -147,7 +153,7 @@ public class SeasonManagerServiceFinderTest {
 
         List<Game> matchesHsvStuttgart = seasonManagerService.findMatches(
                 stuttgart, hsv, false);
-        assertThat(matchesHsvStuttgart.size()).isEqualTo(13);
+        assertThat(matchesHsvStuttgart.size()).isEqualTo(14);
 
         List<Game> matchesStuttgartHsv = seasonManagerService.findMatches(hsv,
                 stuttgart, false);
@@ -156,12 +162,12 @@ public class SeasonManagerServiceFinderTest {
         List<Game> allMatchesStuttgartHsv = seasonManagerService.findMatches(
                 stuttgart, hsv, true);
 
-        assertThat(allMatchesStuttgartHsv.size()).isEqualTo(27);
+        assertThat(allMatchesStuttgartHsv.size()).isEqualTo(28);
     }
 
     @Test
     public void testFindAllSeasons() {
-        assertThat(seasonManagerService.findAllSeasons().size()).isEqualTo(20);
+        assertThat(seasonManagerService.findAllSeasons().size()).isEqualTo(22);
     }
 
     /**
@@ -430,7 +436,7 @@ public class SeasonManagerServiceFinderTest {
     @Test
     public void testDatabaseMaintenanceService() {
         Object object = databaseMaintenanceService.executeHql("from Season");
-        assertEquals(20, ((List<?>) object).size());
+        assertEquals(22, ((List<?>) object).size());
 
         Object object2 = databaseMaintenanceService.executeHql("select s "
                 + "from Season s left join fetch s.groups as group "
