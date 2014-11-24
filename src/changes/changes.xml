@@ -8,10 +8,11 @@
     <!--
          *** STILL UNDER DEVELOPMENT 2.0.0 (SNAPSHOT) ***
     -->
-    <release version="betoffice-storage-2.0.0a" date="2014-10-??"
+    <release version="betoffice-storage-2.0.0a" date="2014-11-??"
       description="Update">
-      <action dev="andrewinkler" type="removed" date="2014-10-27">
-        Remove some DBUnit tests.
+      <action dev="andrewinkler" type="removed" date="2014-11-24">
+        Remove some DBUnit tests. The jar dependencies dbunit and unitils
+        are also removed.
       </action>
     </release>
 
