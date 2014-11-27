@@ -70,6 +70,9 @@ public class MasterDataManagerServiceFinderTest extends AbstractDaoTestSupport {
 
     @Test
     public void testFindTeamAliasNames() {
+        Team wolfsburg = masterDataManagerService.findTeamByAlias("VfL Wolfsburg");
+        assertThat(wolfsburg).isNotNull();
+        
         Team koeln = masterDataManagerService.findTeamByAlias("1.FC Köln");
         assertThat(koeln).isNotNull();
 
