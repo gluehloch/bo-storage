@@ -1,0 +1,14 @@
+DELETE FROM bo_goal;
+DELETE FROM bo_gametipp;
+DELETE FROM bo_game;
+DELETE FROM bo_gamelist;
+DELETE FROM bo_team_group;
+DELETE FROM bo_group;
+DELETE FROM bo_user_season;
+DELETE FROM bo_season;
+DELETE FROM bo_teamalias;
+DELETE FROM bo_team;
+DELETE FROM bo_user;
+DELETE FROM bo_grouptype;
+DELETE FROM bo_location;
+DELETE FROM bo_player;
