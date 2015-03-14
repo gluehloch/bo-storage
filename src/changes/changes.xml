@@ -5,11 +5,11 @@
     <author email="andre.winkler@web.de">Andre Winkler</author>
   </properties>
   <body>
-    <!--
-         *** STILL UNDER DEVELOPMENT 2.0.0 (SNAPSHOT) ***
-    -->
-    <release version="betoffice-storage-2.0.0a" date="2015-??-??"
+    <release version="betoffice-storage-2.1.0-SNAPSHOT" date="2015-??-??"
       description="Update">
+      <action dev="andrewinkler" type="add" date="2015-03-14">
+        A service method to get the previous and the next round.
+      </action>
       <action dev="andrewinkler" type="add" date="2015-01-01">
         A script to delete the database.
       </action>
