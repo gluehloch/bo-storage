@@ -195,6 +195,24 @@ public interface SeasonManagerService {
     public GameList findRoundById(long id);
 
     /**
+     * Liefert den nächsten Spieltag.
+     * 
+     * @param id
+     *            Die ID des Spieltags
+     * @return Der nächste Spieltag.
+     */
+    public GameList findNextRound(long id);
+
+    /**
+     * Liefert den vorhergehenden Spieltag.
+     * 
+     * @param id
+     *            Die ID des Spieltags.
+     * @return Der vorhergehende Spieltag.
+     */
+    public GameList findPrevRound(long id);
+
+    /**
      * Liefert alle Spieltage einer Meisterschaft.
      *
      * @param season
