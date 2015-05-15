@@ -7,6 +7,9 @@
   <body>
     <release version="betoffice-storage-2.1.0-SNAPSHOT" date="2015-??-??"
       description="Update">
+      <action dev="andrewinkler" type="update" date="2015-05-15">
+        Error handling for service 'create season'.
+      </action>
       <action dev="andrewinkler" type="add" date="2015-03-14">
         A service method to get the previous and the next round.
       </action>
@@ -14,7 +17,7 @@
         A script to delete the database.
       </action>
       <action dev="andrewinkler" type="removed" date="2014-11-24">
-        Remove some DBUnit tests. The jar dependencies dbunit and unitils
+        Removed some DBUnit tests. The jar dependencies dbunit and unitils
         are also removed.
       </action>
     </release>

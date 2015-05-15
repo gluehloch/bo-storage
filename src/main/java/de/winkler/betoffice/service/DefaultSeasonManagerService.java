@@ -1,26 +1,26 @@
 /*
- * $Id: DefaultSeasonManagerService.java 3829 2013-11-10 12:14:47Z andrewinkler $
+ * $Id: DefaultSeasonManagerService.java 3829 2013-11-10 12:14:47Z andrewinkler
+ * $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2013 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2013 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.service;
@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +55,8 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
  * Die Default-Implementierung der Meisterschaftsverwaltung.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3829 $ $LastChangedDate: 2013-11-10 13:14:47 +0100 (So, 10 Nov 2013) $
+ * @version $LastChangedRevision: 3829 $ $LastChangedDate: 2013-11-10 13:14:47
+ *          +0100 (So, 10 Nov 2013) $
  */
 @Service("seasonManagerService")
 public class DefaultSeasonManagerService extends AbstractManagerService
@@ -338,13 +340,21 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     @Override
     @Transactional
     public void createSeason(Season season) {
-        getConfig().getSeasonDao().save(season);
+        try {
+            getConfig().getSeasonDao().save(season);
+        } catch (ConstraintViolationException ex) {
+            List<BetofficeValidationMessage> messages = new ArrayList<>();
+            messages.add(new BetofficeValidationMessage(
+                    "Diese Meisterschaft ist bereits vorhanden.", null,
+                    Severity.ERROR));
+            throw new BetofficeValidationException(messages);
+        }
     }
 
     @Override
     @Transactional
     public void deleteSeason(Season season) {
-        List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
+        List<BetofficeValidationMessage> messages = new ArrayList<>();
 
         if (findActivatedUsers(season).size() > 0) {
             messages.add(new BetofficeValidationMessage(
