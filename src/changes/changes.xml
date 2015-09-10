@@ -10,6 +10,9 @@
       <action dev="andrewinkler" type="update" date="2015-05-15">
         Error handling for service 'create season'.
       </action>
+      <action dev="andrewinkler" type="add" date="2015-08-30">
+        A service to find the next tipp round.
+      </action>
       <action dev="andrewinkler" type="add" date="2015-03-14">
         A service method to get the previous and the next round.
       </action>

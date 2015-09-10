@@ -191,7 +191,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         }
         return prevGameList;
     }
-
+    
     @Override
     @Transactional(readOnly = true)
     public List<GameList> findRounds(Season season) {

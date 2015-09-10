@@ -143,12 +143,12 @@ public interface RoundDao {
     /**
      * Liefert den nächsten zu tippenden Spieltag.
      *
-     * @param season
+     * @param seasonId
      *            Die Bezugsmeisterschaft.
      * @param date
      *            Das Bezugsdatum.
      * @return Der nächste zu tippende Spieltag.
      */
-    public Long findNextTippRound(Season season, DateTime date);
+    public Long findNextTippRound(long seasonId, DateTime date);
 
 }

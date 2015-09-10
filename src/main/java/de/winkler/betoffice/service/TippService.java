@@ -1,8 +1,7 @@
 /*
- * $Id: TippService.java 3849 2013-11-29 21:36:13Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2013 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2015 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -43,8 +42,7 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
  * Allocates a service for adding, updating and removing tipps. A special method
  * for evaluating Tipp mails.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3849 $ $LastChangedDate: 2013-11-29 22:36:13 +0100 (Fr, 29 Nov 2013) $
+ * @author by Andre Winkler
  */
 public interface TippService {
 
@@ -150,9 +148,10 @@ public interface TippService {
     /**
      * Ermittelt den naechsten zu tippenden Spieltag.
      *
-     * @param season Die Bezugsmeisterschaft
+     * @param seasonId Die Bezugsmeisterschaft
      * @param date Das Bezugsdatum
      * @return Der naechste zu tippende Spieltag
      */
-    public GameList findNextTippRound(Season season, DateTime date);
+    public GameList findTippRound(long seasonId, DateTime date);
+
 }

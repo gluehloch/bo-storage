@@ -132,12 +132,12 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements
     }
 
     @Override
-    public Long findNextTippRound(Season season, DateTime date) {
+    public Long findNextTippRound(long seasonId, DateTime date) {
         String sql = "select min(t.bo_datetime) datetime, t.id next_round_id from "
                 + "(select * from bo_gamelist where bo_season_ref = :season_id and bo_datetime >= :date) as t";
         SQLQuery query = getSessionFactory().getCurrentSession()
                 .createSQLQuery(sql);
-        query.setParameter("season_id", season.getId());
+        query.setParameter("season_id", seasonId);
         query.setDate("date", date.toDate());
         query.addScalar("datetime");
         query.addScalar("next_round_id");
