@@ -7,6 +7,9 @@
   <body>
     <release version="betoffice-storage-2.1.0-SNAPSHOT" date="2015-??-??"
       description="Update">
+      <action dev="andrewinkler" type="add" date="2015-10-27">
+        An authentication service.
+      </action>
       <action dev="andrewinkler" type="update" date="2015-05-15">
         Error handling for service 'create season'.
       </action>
