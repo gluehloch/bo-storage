@@ -25,6 +25,7 @@
 
 package de.winkler.betoffice.service;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,20 +35,19 @@ import de.winkler.betoffice.storage.User;
 /**
  * Implementation of {@link AuthService}.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $
- *          $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  */
 @Service("authService")
 public class DefaultAuthService implements AuthService {
 
     @Autowired
     private UserDao userDao;
-    
+
     @Override
     public SecurityToken login(String name, String password) {
         User user = userDao.findByNickname(name);
-        
+        DateTime now = DateTime.now();
+
         if (user == null) {
 
             return new SecurityToken("securityToken", false, null);
