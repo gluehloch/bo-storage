@@ -1,8 +1,7 @@
 /*
- * $Id: SecurityToken.java 3812 2013-09-08 06:45:18Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2013 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2015 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -25,56 +24,66 @@
 
 package de.winkler.betoffice.service;
 
+import org.joda.time.DateTime;
+
 import de.winkler.betoffice.storage.User;
 
 /**
  * I don´t know. But something to hold session data.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3812 $
- *          $LastChangedDate: 2013-09-08 08:45:18 +0200 (Sun, 08 Sep 2013) $
+ * @author by Andre Winkler
  */
 public class SecurityToken {
+    
+    public enum Role {
+        TIPPER,
+        ADMIN
+    }
 
     private final String token;
-    
-    private final boolean loggedIn;
-    
     private final User user;
+    private final Role role;
+    private final DateTime loginTime;
 
     /**
      * Constructor
      *
      * @param _token The session id
-     * @param _loggedIn <code>true</code> or <code>false</code>
      * @param _user the logged in user
+     * @param _role Role of the user
+     * @param _loginTime Zeitpunkt des einloggens.
      */
-    public SecurityToken(String _token, boolean _loggedIn, User _user) {
+    public SecurityToken(String _token, User _user, Role _role, DateTime _loginTime) {
         token = _token;
-        loggedIn = _loggedIn;
         user = _user;
+        role = _role;
+        loginTime = _loginTime;
     }
 
     public String getToken() {
         return token;
     }
 
-    public boolean isLoggedIn() {
-        return loggedIn;
-    }
-
-    public boolean isNotLoggedIn() {
-        return !loggedIn;
-    }
-
     public User getUser() {
         return user;
     }
 
+    public DateTime getLoginTime() {
+        return loginTime;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
-        return "SecurityToken [token=" + token + ", loggedIn=" + loggedIn
-                + ", user=" + user + "]";
+        return "SecurityToken [token=" + token + ", user=" + user + ", role="
+                + role + ", loginTime=" + loginTime + "]";
     }
+
     
 }
