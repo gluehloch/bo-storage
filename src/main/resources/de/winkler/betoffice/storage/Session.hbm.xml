@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="de.winkler.betoffice.storage.Session" table="bo_session"
+    dynamic-update="false" dynamic-insert="false">
+
+    <id name="id" column="id" type="java.lang.Long">
+      <generator class="native">
+      </generator>
+    </id>
+
+    <property name="browser" type="java.lang.String" update="true"
+      insert="true" column="bo_browser" />
+
+    <property name="failedLogins" type="int" update="true" insert="true"
+      column="bo_failedLogins" />
+
+    <property name="login" type="java.util.Date" update="true" insert="true"
+      column="bo_login" />
+
+    <property name="logout" type="java.util.Date" update="true" insert="true"
+      column="bo_logout" />
+
+    <property name="nickname" type="java.lang.String" update="true"
+      insert="true" column="bo_nickname" />
+
+    <property name="remoteAddress" type="java.lang.String" update="true"
+      insert="true" column="bo_remoteaddress" />
+
+    <property name="token" type="java.lang.String" update="true"
+      insert="true" column="bo_token" />
+
+    <many-to-one name="user" class="de.winkler.betoffice.storage.User"
+      cascade="none" outer-join="auto" update="true" insert="true" column="bo_user_ref" />
+
+  </class>
+
+</hibernate-mapping>

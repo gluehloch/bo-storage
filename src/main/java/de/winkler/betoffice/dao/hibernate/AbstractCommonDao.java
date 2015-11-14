@@ -47,7 +47,20 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
 
     private final Class<T> t;
 
+    // -- sessionFactory ------------------------------------------------------
+
     private SessionFactory sessionFactory;
+
+    @Autowired
+    public void setSessionFactory(final SessionFactory _sessionFactory) {
+        sessionFactory = _sessionFactory;
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    // ------------------------------------------------------------------------
 
     AbstractCommonDao(final Class<T> _t) {
         t = _t;
@@ -128,15 +141,6 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    @Autowired
-    public void setSessionFactory(final SessionFactory _sessionFactory) {
-        sessionFactory = _sessionFactory;
-    }
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
     }
 
 }

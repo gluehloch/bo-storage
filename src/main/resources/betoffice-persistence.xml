@@ -43,6 +43,7 @@
         <value>/de/winkler/betoffice/storage/GameTipp.hbm.xml</value>
         <value>/de/winkler/betoffice/storage/User.hbm.xml</value>
         <value>/de/winkler/betoffice/storage/UserSeason.hbm.xml</value>
+        <value>/de/winkler/betoffice/storage/Session.hbm.xml</value>
       </list>
     </property>
     <property name="hibernateProperties">

@@ -487,7 +487,7 @@ public class GameList extends AbstractStorageObject implements
     /**
      * Find the best round date of an array of dates.
      *
-     * @param matcheDates
+     * @param matchDates
      *            the dates
      * @return the best round date
      */

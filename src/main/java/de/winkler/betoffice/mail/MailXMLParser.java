@@ -54,6 +54,7 @@ public class MailXMLParser {
      * Attribute aus <code>MailContent</code> werden aufgefüllt.
      *
      * @param mailContent Die Rohdaten der Mail.
+     * @return mail content details
      * @throws MailException Der Text konnte nicht geparst werden!
      */
     public MailContentDetails parse(final MailContent mailContent)

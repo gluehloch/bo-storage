@@ -158,6 +158,8 @@ public class UserSeason extends AbstractStorageObject {
     // ------------------------------------------------------------------------
 
     /**
+     * @return valid?
+     * 
      * @see de.winkler.betoffice.storage.StorageObject#isValid()
      */
     public boolean isValid() {

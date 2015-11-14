@@ -27,6 +27,7 @@ package de.winkler.betoffice.service;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.service.SecurityToken.Role;
@@ -43,6 +44,7 @@ public class DefaultAuthService implements AuthService {
     @Autowired
     private UserDao userDao;
 
+    @Transactional
     @Override
     public SecurityToken login(String name, String password) {
         User user = userDao.findByNickname(name);
