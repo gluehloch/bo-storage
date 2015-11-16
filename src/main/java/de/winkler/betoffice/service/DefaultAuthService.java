@@ -1,25 +1,24 @@
 /*
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2015 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2015 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.service;
@@ -29,8 +28,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import de.winkler.betoffice.dao.SessionDao;
 import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.service.SecurityToken.Role;
+import de.winkler.betoffice.storage.Session;
 import de.winkler.betoffice.storage.User;
 
 /**
@@ -43,6 +44,9 @@ public class DefaultAuthService implements AuthService {
 
     @Autowired
     private UserDao userDao;
+    
+    @Autowired
+    private SessionDao sessionDao;
 
     @Transactional
     @Override
@@ -53,10 +57,30 @@ public class DefaultAuthService implements AuthService {
         SecurityToken securityToken = null;
         if (user != null && user.comparePwd(password)) {
             // TODO Die Rolle muss bestimmt werden
-            securityToken = new SecurityToken("securityToken", user, Role.TIPPER, now);
+            securityToken = new SecurityToken("securityToken", user,
+                    Role.TIPPER, now);
+
+            Session session = new Session();
+            session.setBrowser("unknown");
+            session.setFailedLogins(0);
+            session.setLogin(now.toDate());
+            session.setLogout(null);
+            session.setNickname(name);
+            session.setRemoteAddress("unknown");
+            session.setToken(securityToken.getToken());
+            session.setUser(user);
+            
+            sessionDao.save(session);
         }
-        
+
         return securityToken;
+    }
+
+    @Transactional
+    @Override
+    public void logout(SecurityToken securityToken) {
+        // TODO Auto-generated method stub
+        
     }
 
 }
