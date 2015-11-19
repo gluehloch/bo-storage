@@ -54,9 +54,7 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
 /**
  * Die Default-Implementierung der Meisterschaftsverwaltung.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3829 $ $LastChangedDate: 2013-11-10 13:14:47
- *          +0100 (So, 10 Nov 2013) $
+ * @author by Andre Winkler
  */
 @Service("seasonManagerService")
 public class DefaultSeasonManagerService extends AbstractManagerService
