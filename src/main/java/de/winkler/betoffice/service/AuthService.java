@@ -37,9 +37,16 @@ public interface AuthService {
      *            user name
      * @param password
      *            user password
+     * @param sessionId
+     *            SessionId
+     * @param address
+     *            ip address
+     * @param browserId
+     *            browser id
      * @return a security token
      */
-    public SecurityToken login(String name, String password);
+    public SecurityToken login(String name, String password, String sessionId,
+            String address, String browserId);
 
     /**
      * Logout of betoffice.

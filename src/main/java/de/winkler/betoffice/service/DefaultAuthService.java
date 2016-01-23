@@ -44,32 +44,35 @@ public class DefaultAuthService implements AuthService {
 
     @Autowired
     private UserDao userDao;
-    
+
     @Autowired
     private SessionDao sessionDao;
 
     @Transactional
     @Override
-    public SecurityToken login(String name, String password) {
+    public SecurityToken login(String name, String password, String sessionId,
+            String address, String browserId) {
+
         User user = userDao.findByNickname(name);
         DateTime now = DateTime.now();
 
         SecurityToken securityToken = null;
         if (user != null && user.comparePwd(password)) {
-            // TODO Die Rolle muss bestimmt werden
-            securityToken = new SecurityToken("securityToken", user,
-                    Role.TIPPER, now);
+            //
+            // TODO Die Rolle muss bestimmt werden.
+            //
+            securityToken = new SecurityToken(sessionId, user, Role.TIPPER, now);
 
             Session session = new Session();
-            session.setBrowser("unknown");
+            session.setBrowser(browserId);
             session.setFailedLogins(0);
             session.setLogin(now.toDate());
             session.setLogout(null);
             session.setNickname(name);
-            session.setRemoteAddress("unknown");
+            session.setRemoteAddress(address);
             session.setToken(securityToken.getToken());
             session.setUser(user);
-            
+
             sessionDao.save(session);
         }
 
@@ -79,8 +82,9 @@ public class DefaultAuthService implements AuthService {
     @Transactional
     @Override
     public void logout(SecurityToken securityToken) {
-        // TODO Auto-generated method stub
-        
+        Session session = sessionDao.findBySessionId(securityToken.getToken());
+        session.setLogout(DateTime.now().toDate());
+        sessionDao.save(session);
     }
 
 }

@@ -58,4 +58,19 @@ public class SessionDaoHibernate extends AbstractCommonDao<Session> implements
                 .setParameter("nickname", nickname).list();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.winkler.betoffice.dao.SessionDao#findBySessionId(java.lang.String)
+     */
+    @Override
+    public Session findBySessionId(String sessionId) {
+        return (Session) getSessionFactory()
+                .getCurrentSession()
+                .createQuery(
+                        "from Session as session where session.token = :sessionId")
+                .setParameter("sessionId", sessionId).uniqueResult();
+    }
+
 }

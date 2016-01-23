@@ -7,4 +7,4 @@
 ### TAB bo_session
 ### id | bo_nickname | bo_token | bo_login            | bo_logout           | bo_remoteaddress | bo_browser | bo_failedlogins | bo_user_ref
     1  | Frosch      | 4711     | 2015-11-14 00:00:00 | 2015-11-14 01:00:00 | 127.0.0.1        | firefoy    | 1               | 1
-    2  | Frosch      | 4711     | 2015-11-14 02:00:00 | 2015-11-14 02:10:00 | 127.0.0.1        | firefoy    | 1               | 1    
+    2  | Frosch      | 4712     | 2015-11-14 02:00:00 | 2015-11-14 02:10:00 | 127.0.0.1        | firefoy    | 1               | 1    

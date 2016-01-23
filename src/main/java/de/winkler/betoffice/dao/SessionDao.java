@@ -37,9 +37,19 @@ public interface SessionDao extends CommonDao<Session> {
     /**
      * Returns all logins for user with name 'nickname'.
      * 
-     * @param nickname the nickname of the user
+     * @param nickname
+     *            the nickname of the user
      * @return a list of login sessions
      */
     public List<Session> findByNickname(String nickname);
+
+    /**
+     * Returns the session id of an authorized user.
+     * 
+     * @param sessionId
+     *            session id
+     * @return The session of the authorized user
+     */
+    public Session findBySessionId(String sessionId);
 
 }
