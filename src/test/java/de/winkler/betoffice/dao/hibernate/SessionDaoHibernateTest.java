@@ -24,7 +24,6 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
@@ -67,9 +66,10 @@ public class SessionDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testFindSessionBySessionId() {
-        assertThat(sessionDao.findBySessionId("4710").getToken(), nullValue());
-        assertThat(sessionDao.findBySessionId("4711").getToken(),
-                equalTo("4711"));
+        List<Session> sessions = sessionDao.findBySessionId("4710");
+        
+        assertThat(sessions.size(), equalTo(1));
+        assertThat(sessions.get(0).getToken(), equalTo("4711"));
     }
 
 }

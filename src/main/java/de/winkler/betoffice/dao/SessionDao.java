@@ -50,6 +50,6 @@ public interface SessionDao extends CommonDao<Session> {
      *            session id
      * @return The session of the authorized user
      */
-    public Session findBySessionId(String sessionId);
+    public List<Session> findBySessionId(String sessionId);
 
 }

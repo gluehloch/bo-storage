@@ -23,11 +23,15 @@
 
 package de.winkler.betoffice.service;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import de.awtools.basic.LoggerFactory;
 import de.winkler.betoffice.dao.SessionDao;
 import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.service.SecurityToken.Role;
@@ -41,6 +45,9 @@ import de.winkler.betoffice.storage.User;
  */
 @Service("authService")
 public class DefaultAuthService implements AuthService {
+
+    /** Logger für die Klasse. */
+    private final Logger log = LoggerFactory.make();
 
     @Autowired
     private UserDao userDao;
@@ -82,9 +89,18 @@ public class DefaultAuthService implements AuthService {
     @Transactional
     @Override
     public void logout(SecurityToken securityToken) {
-        Session session = sessionDao.findBySessionId(securityToken.getToken());
-        session.setLogout(DateTime.now().toDate());
-        sessionDao.save(session);
+        List<Session> sessions = sessionDao.findBySessionId(securityToken
+                .getToken());
+
+        if (sessions.isEmpty()) {
+            log.warn("Trying to logout with invalid securityToken=[{}]",
+                    securityToken);
+        } else {
+            for (Session session : sessions) {
+                session.setLogout(DateTime.now().toDate());
+                sessionDao.save(session);
+            }
+        }
     }
 
 }

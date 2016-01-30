@@ -64,13 +64,14 @@ public class SessionDaoHibernate extends AbstractCommonDao<Session> implements
      * @see
      * de.winkler.betoffice.dao.SessionDao#findBySessionId(java.lang.String)
      */
+    @SuppressWarnings("unchecked")
     @Override
-    public Session findBySessionId(String sessionId) {
-        return (Session) getSessionFactory()
+    public List<Session> findBySessionId(String sessionId) {
+        return getSessionFactory()
                 .getCurrentSession()
                 .createQuery(
                         "from Session as session where session.token = :sessionId")
-                .setParameter("sessionId", sessionId).uniqueResult();
+                .setParameter("sessionId", sessionId).list();
     }
 
 }
