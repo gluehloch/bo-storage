@@ -9,8 +9,8 @@ create table bo_session (
     bo_login datetime not null,
     bo_logout datetime,
     bo_remoteaddress VARCHAR(100),
-    bo_browser VARCHAR(100),
-    bo_failedlogins bigint, 
+    bo_browser VARCHAR(200),
+    bo_failedlogins bigint,
     bo_user_ref bigint,
     primary key (id)
 ) ENGINE=InnoDB;
