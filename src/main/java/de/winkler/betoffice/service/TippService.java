@@ -102,7 +102,7 @@ public interface TippService {
     public void updateTipp(Game match, User user, GameResult gr,
             TippStatusType status);
 
-    /** 
+    /**
      * Aktualisiert eine Liste von Tipps.
      *
      * @param tipps Eine Liste mit den zu aktualisierende Tipps.
@@ -133,17 +133,6 @@ public interface TippService {
      * @return Die Spieltipps.
      */
     public List<GameTipp> findTippsByRoundAndUser(GameList round, User user);
-
-    /**
-     * Liefert alle Spieltipp zu einem Spieltag von einem Teilnehmer.
-     *
-     * @param seasonId Die betreffende Spielzeit
-     * @param roundId Die ID des Spieltags
-     * @param nickname Der Nickname des Tippers
-     * @return Eine List mit allen Spieltipps für einen Tipper
-     */
-    public List<GameTipp> findTippsByRoundAndUser(long seasonId, long roundId,
-            String nickname);
 
     /**
      * Ermittelt den naechsten zu tippenden Spieltag.

@@ -5,17 +5,17 @@
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
@@ -116,6 +116,21 @@ public class CalculateUserRankingServiceFinderTest {
         Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland",
                 "2006");
         User user = masterDataManagerService.findUserByNickname("Frosch");
+        List<GameList> rounds = seasonManagerService.findRounds(wm2006);
+        GameList finale = rounds.get(24);
+        List<GameTipp> finalRoundTipps = tippService.findTippsByRoundAndUser(
+                finale, user);
+
+        assertEquals(user, finalRoundTipps.get(0).getUser());
+        assertEquals(0, finalRoundTipps.get(0).getTipp().getHomeGoals());
+        assertEquals(2, finalRoundTipps.get(0).getTipp().getGuestGoals());
+    }
+
+    @Test
+    public void testFindTippByXtianWm2006() {
+        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland",
+                "2006");
+        User user = masterDataManagerService.findUserByNickname("Xtian");
         List<GameList> rounds = seasonManagerService.findRounds(wm2006);
         GameList finale = rounds.get(24);
         List<GameTipp> finalRoundTipps = tippService.findTippsByRoundAndUser(

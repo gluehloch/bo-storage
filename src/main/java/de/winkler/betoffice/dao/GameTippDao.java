@@ -58,20 +58,6 @@ public interface GameTippDao {
     public List<GameTipp> findTippsByRoundAndUser(GameList round, User user);
 
     /**
-     * Liefert ähnliche Ergebnisse wie {@link #findTippsByRoundAndUser(GameList, User)}.
-     * Hier sind die betreffenden Entity-IDs ausreichend. 
-     *  
-     * @see #findTippsByRoundAndUser(GameList, User)
-     *
-     * @param seasonId
-     * @param roundId
-     * @param nickname
-     * @return Eine Liste aller Tipps zu dem gesuchten Spieltag und Teilnehmer.
-     */
-    public List<GameTipp> findTippsByRoundAndUser(long seasonId, long roundId,
-            String nickname);
-
-    /**
      * Speichert einen Spiel-Tipp..
      *
      * @param gameTipp Ein Spiel-Tipp.
