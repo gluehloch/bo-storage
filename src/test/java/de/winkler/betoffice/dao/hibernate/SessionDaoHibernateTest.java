@@ -52,7 +52,7 @@ public class SessionDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testFindSesionsByNickname() {
+    public void testFindSessionsByNickname() {
         List<Session> sessions = sessionDao.findByNickname("Frosch");
         assertThat(sessions.size(), equalTo(2));
         assertThat(sessions.get(0).getNickname(), equalTo("Frosch"));
@@ -66,8 +66,7 @@ public class SessionDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testFindSessionBySessionId() {
-        List<Session> sessions = sessionDao.findBySessionId("4710");
-        
+        List<Session> sessions = sessionDao.findBySessionId("4711");
         assertThat(sessions.size(), equalTo(1));
         assertThat(sessions.get(0).getToken(), equalTo("4711"));
     }
