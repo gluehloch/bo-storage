@@ -110,6 +110,11 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
         }
     }
 
+    @Override
+    public final void refresh(final T t) {
+        getSessionFactory().getCurrentSession().refresh(t);
+    }
+
     /**
      * Liefert das erste Element aus einer Liste. Ist die Liste leer, liefert
      * die Methode <code>null</code> zurück. Wird <code>null</code> übergeben,

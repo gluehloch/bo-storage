@@ -5,17 +5,17 @@
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
- *
+ * 
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- *
+ * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
@@ -46,6 +46,7 @@ import de.winkler.betoffice.mail.TippMail;
 import de.winkler.betoffice.mail.TippMailParameter;
 import de.winkler.betoffice.mail.TippToInfoMailConverter;
 import de.winkler.betoffice.mail.TippToXmlConverter;
+import de.winkler.betoffice.service.TippDto.GameTippDto;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -75,6 +76,9 @@ public class DefaultTippService extends AbstractManagerService implements
     public GameTipp addTipp(Game match, User user, GameResult gr,
             TippStatusType status) {
 
+        // TODO A performance killer?
+        getConfig().getMatchDao().refresh(match);
+
         GameTipp gameTipp = match.addTipp(user, gr, status);
         getConfig().getGameTippDao().save(gameTipp);
         return gameTipp;
@@ -87,6 +91,43 @@ public class DefaultTippService extends AbstractManagerService implements
 
         for (int i = 0; i < round.size(); i++) {
             addTipp(round.get(i), user, tipps.get(i), status);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void addTipp(TippDto tippDto) {
+        List<BetofficeValidationMessage> messages = new ArrayList<>();
+
+        // Find related user by nick name...
+        User user = getConfig().getUserDao().findByNickname(
+                tippDto.getNickname());
+        if (user == null) {
+            BetofficeValidationMessage msg = new BetofficeValidationMessage(
+                    "Unknown user with nickname=[" + tippDto.getNickname()
+                            + "]", null, Severity.INFO);
+            messages.add(msg);
+            throw new BetofficeValidationException(messages);
+        }
+
+        // Find related round ...
+        GameList gameList = getConfig().getRoundDao().findById(
+                tippDto.getRoundId());
+
+        if (gameList == null) {
+            BetofficeValidationMessage msg = new BetofficeValidationMessage(
+                    "The roundId=[" + tippDto.getRoundId() + "] is invalid.",
+                    null, Severity.ERROR);
+            messages.add(msg);
+            throw new BetofficeValidationException(messages);
+        }
+
+        for (GameTippDto tipp : tippDto.getGameTipps()) {
+            Game game = getConfig().getMatchDao().findById(tipp.getGameId());
+            GameTipp gameTipp = game.addTipp(user,
+                    new GameResult(tipp.getHomeGoals(), tipp.getGuestGoals()),
+                    TippStatusType.USER);
+            getConfig().getGameTippDao().save(gameTipp);
         }
     }
 
@@ -123,8 +164,7 @@ public class DefaultTippService extends AbstractManagerService implements
     @Override
     @Transactional
     public void evaluateMailTipp(Season season, MailContentDetails mail) {
-
-        List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
+        List<BetofficeValidationMessage> messages = new ArrayList<>();
 
         if (!mail.getUsing().startsWith(MailXMLParser.TIPP)) {
             BetofficeValidationMessage msg = new BetofficeValidationMessage(

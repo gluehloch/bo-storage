@@ -1,8 +1,7 @@
 /*
- * $Id: GroupDao.java 3832 2013-11-15 18:42:54Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2008 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -34,10 +33,9 @@ import de.winkler.betoffice.storage.Team;
 /**
  * DAO zur Verwaltung der {@link Group}s.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3832 $ $LastChangedDate: 2013-11-15 19:42:54 +0100 (Fr, 15 Nov 2013) $
+ * @author by Andre Winkler
  */
-public interface GroupDao {
+public interface GroupDao extends CommonDao<Group> {
 
     /**
      * Liefert die Gruppe zu einer ID

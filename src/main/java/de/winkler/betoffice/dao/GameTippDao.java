@@ -1,8 +1,7 @@
 /*
- * $Id: GameTippDao.java 3798 2013-08-05 18:58:15Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2009 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -35,10 +34,9 @@ import de.winkler.betoffice.storage.User;
 /**
  * Persistiert die {@link GameTipp} Objekte.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3798 $ $LastChangedDate: 2013-08-05 20:58:15 +0200 (Mon, 05 Aug 2013) $
+ * @author by Andre Winkler
  */
-public interface GameTippDao {
+public interface GameTippDao extends CommonDao<GameTipp> {
 
     /**
      * Liefert alle Spiel-Tipps zu einem Spiel.

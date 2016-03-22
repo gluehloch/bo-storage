@@ -1,8 +1,7 @@
 /*
- * $Id: SeasonDao.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2008 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -37,7 +36,7 @@ import de.winkler.betoffice.storage.TeamResult;
  *
  * @author by Andre Winkler
  */
-public interface SeasonDao {
+public interface SeasonDao extends CommonDao<Season> {
 
     /**
      * Liefert eine Liste aller Meisterschaften.

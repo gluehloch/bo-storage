@@ -1,8 +1,7 @@
 /*
- * $Id: MatchDao.java 3834 2013-11-15 18:56:03Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2008 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -34,10 +33,9 @@ import de.winkler.betoffice.storage.Team;
 /**
  * Dieses DAO sucht nach bestimmten Spielpaarungen.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3834 $ $LastChangedDate: 2013-11-15 19:56:03 +0100 (Fr, 15 Nov 2013) $
+ * @author by Andre Winkler
  */
-public interface MatchDao {
+public interface MatchDao extends CommonDao<Game> {
 
     /**
      * Sucht nach einem Spiel.

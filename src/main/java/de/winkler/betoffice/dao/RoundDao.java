@@ -1,8 +1,7 @@
 /*
- * $Id: RoundDao.java 3850 2013-11-30 18:24:08Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2007 by Andre Winkler. All
- * rights reserved.
+ * Project betoffice-storage
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
@@ -24,21 +23,19 @@
 
 package de.winkler.betoffice.dao;
 
-import de.winkler.betoffice.storage.GameList;
-import de.winkler.betoffice.storage.Season;
-
 import java.util.List;
 
 import org.joda.time.DateTime;
 
+import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.Season;
+
 /**
  * DAO für das persistente Verhalten von Spieltagen.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3850 $ $LastChangedDate: 2013-11-30 19:24:08
- *          +0100 (Sa, 30 Nov 2013) $
+ * @author by Andre Winkler
  */
-public interface RoundDao {
+public interface RoundDao extends CommonDao<GameList> {
 
     /**
      * Liefert alle Spieltage einer Meisterschaft.
