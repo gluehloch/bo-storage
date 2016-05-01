@@ -13,12 +13,14 @@ from
           bo_season s,
           bo_team t,
           bo_group g,
+          bo_grouptype gt,
           bo_team_group tg,
           bo_gamelist r,
           bo_game m
         where
               s.id = :season_id
-          and g.id = :group_id
+          and gt.id = :grouptype_id
+          and g.bo_grouptype_ref = gt.id
           and g.bo_season_ref = s.id
           and tg.bo_group_ref = g.id
           and tg.bo_team_ref = t.id
@@ -52,12 +54,14 @@ from
           bo_season s,
           bo_team t,
           bo_group g,
+          bo_grouptype gt,
           bo_team_group tg,
           bo_gamelist r,
           bo_game m
         where
               s.id = :season_id
-          and g.id = :group_id
+          and gt.id = :grouptype_id
+          and g.bo_grouptype_ref = gt.id
           and g.bo_season_ref = s.id
           and tg.bo_group_ref = g.id
           and tg.bo_team_ref = t.id
@@ -91,12 +95,14 @@ from
           bo_season s,
           bo_team t,
           bo_group g,
+          bo_grouptype gt,
           bo_team_group tg,
           bo_gamelist r,
           bo_game m
         where
               s.id = :season_id
-          and g.id = :group_id
+          and gt.id = :grouptype_id
+          and g.bo_grouptype_ref = gt.id
           and g.bo_season_ref = s.id
           and tg.bo_group_ref = g.id
           and tg.bo_team_ref = t.id

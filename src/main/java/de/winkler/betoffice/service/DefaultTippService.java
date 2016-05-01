@@ -76,9 +76,6 @@ public class DefaultTippService extends AbstractManagerService implements
     public GameTipp addTipp(Game match, User user, GameResult gr,
             TippStatusType status) {
 
-        // TODO A performance killer?
-        getConfig().getMatchDao().refresh(match);
-
         GameTipp gameTipp = match.addTipp(user, gr, status);
         getConfig().getGameTippDao().save(gameTipp);
         return gameTipp;
@@ -135,7 +132,10 @@ public class DefaultTippService extends AbstractManagerService implements
     @Transactional
     public void updateTipp(Game match, User user, GameResult gr,
             TippStatusType status) {
-
+        
+        // TODO A performance killer?
+        getConfig().getMatchDao().refresh(match);
+        
         addTipp(match, user, gr, status);
     }
 

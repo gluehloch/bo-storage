@@ -322,15 +322,15 @@ public class SeasonManagerServiceFinderTest {
 
         List<Group> groups = seasonManagerService.findGroups(buli);
         List<TeamResult> teamResults = seasonManagerService
-                .calculateTeamRanking(buli, groups.get(0));
+                .calculateTeamRanking(buli, groups.get(0).getGroupType());
 
         validateTeamResult(teamResults, 0, "VfB Stuttgart", 61, 37, 70);
         validateTeamResult(teamResults, 1, "FC Schalke 04", 53, 32, 68);
         validateTeamResult(teamResults, 2, "SV Werder Bremen", 76, 40, 66);
         validateTeamResult(teamResults, 17, "Borussia MGladbach", 23, 44, 26);
 
-        teamResults = seasonManagerService.calculateTeamRanking(buli,
-                groups.get(0), 0, 4);
+        teamResults = seasonManagerService.calculateTeamRanking(buli, groups
+                .get(0).getGroupType(), 0, 4);
         validateTeamResult(teamResults, 0, "FC Bayern München", 7, 4, 10);
         validateTeamResult(teamResults, 1, "FC Schalke 04", 6, 3, 10);
         validateTeamResult(teamResults, 2, "Hertha BSC Berlin", 8, 2, 9);

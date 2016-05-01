@@ -1,8 +1,6 @@
 /*
- * $Id: DefaultSeasonManagerService.java 3829 2013-11-10 12:14:47Z andrewinkler
- * $
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2013 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -87,16 +85,16 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public List<TeamResult> calculateTeamRanking(Season season, Group group) {
-        return getConfig().getSeasonDao().calculateTeamRanking(season, group);
+    public List<TeamResult> calculateTeamRanking(Season season, GroupType groupType) {
+        return getConfig().getSeasonDao().calculateTeamRanking(season, groupType);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<TeamResult> calculateTeamRanking(Season season, Group group,
+    public List<TeamResult> calculateTeamRanking(Season season, GroupType groupType,
             int startIndex, int endIndex) {
 
-        return getConfig().getSeasonDao().calculateTeamRanking(season, group,
+        return getConfig().getSeasonDao().calculateTeamRanking(season, groupType,
                 startIndex, endIndex);
     }
 

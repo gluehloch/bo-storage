@@ -1,8 +1,7 @@
 /*
- * $Id: TeamResult.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2011 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -31,12 +30,11 @@ import org.apache.commons.lang.Validate;
  * TeamResult verwaltet die errechneten Daten einer Mannschaft für
  * eine Saison und Gruppe. Zwei TeamResults, die im Sinne von
  * <code>compareTo()</code> gleich sind, sind ebenfalls im Sinne
- * der Methode <code>equals()</code> gleich sein. Das Attribut tabPos
+ * der Methode <code>equals()</code> gleich. Das Attribut tabPos
  * wird berechnet und wird für die Auswertung von <code>equals()</code>
  * und <code>hashCode()</code> nicht verwendet.
  *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
 public class TeamResult extends AbstractStorageObject implements
         Comparable<TeamResult> {
@@ -44,9 +42,11 @@ public class TeamResult extends AbstractStorageObject implements
     /** serial version id */
     private static final long serialVersionUID = -6690928605407554417L;
 
-    private Group group;
+    private final Season season;
+    
+    private final GroupType groupType;
 
-    private Team team;
+    private final Team team;
 
     private int posGoals;
 
@@ -60,37 +60,18 @@ public class TeamResult extends AbstractStorageObject implements
 
     private int tablePosition;
 
-    /**
-     * Erzeugt ein TeamResult.
-     *
-     * @param aGroup Eine <code>Group</code>.
-     * @param aTeam Ein <code>Team</code>.
-     */
-    public TeamResult(final Group aGroup, final Team aTeam) {
-        group = aGroup;
-        team = aTeam;
+    public TeamResult(Season _season, GroupType _groupType, Team _team) {
+        season = _season;
+        groupType = _groupType;
+        team = _team;
     }
 
-    /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig
-     * gefüllt sind, damit es evt. Weiterverarbeitungen erfahren kann.
-     * Folgende Eigenschaften müssen gesetzt sein:
-     * <ul>
-     *  <li>group</li>
-     *  <li>team</li>
-     * </ul>
-     * @return true, Objekt in Ordnung; false, es ist was falsch.
-     */
-    public boolean isValid() {
-        if ((group == null) || (team == null)) {
-            return false;
-        } else {
-            return true;
-        }
+    public Season getSeason() {
+        return season;
     }
 
-    public Group getGroup() {
-        return group;
+    public GroupType getGroupType() {
+        return groupType;
     }
 
     public Team getTeam() {
@@ -285,8 +266,8 @@ public class TeamResult extends AbstractStorageObject implements
         } else {
             buf.append(getTeam().getName());
         }
-        buf.append(" Group: ");
-        buf.append(getGroup().getGroupType().getName());
+        buf.append(" GroupType: ");
+        buf.append(getGroupType().getName());
         buf.append(" Goals:");
         buf.append(getGoalsToString());
         buf.append(" Points:");
@@ -306,7 +287,8 @@ public class TeamResult extends AbstractStorageObject implements
         } else {
             TeamResult result = (TeamResult) object;
             if ((result.getTeam().equals(getTeam()))
-                    && (result.getGroup().equals(getGroup()))
+                    && (result.getSeason().equals(getSeason()))
+                    && (result.getGroupType().equals(getGroupType()))
                     && (result.getPosGoals() == getPosGoals())
                     && (result.getNegGoals() == getNegGoals())
                     && (result.getWin() == getWin())
@@ -326,7 +308,8 @@ public class TeamResult extends AbstractStorageObject implements
     public int hashCode() {
         int result = 17;
         result = 37 * result + getTeam().hashCode();
-        result = 37 * result + getGroup().hashCode();
+        result = 37 * result + getSeason().hashCode();
+        result = 37 * result + getGroupType().hashCode();
         result = 37 * result + posGoals;
         result = 37 * result + negGoals;
         result = 37 * result + win;

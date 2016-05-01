@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2013 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -86,11 +86,12 @@ public interface SeasonManagerService {
      *
      * @param season
      *            Die Meisterschaft.
-     * @param group
+     * @param groupType
      *            Die Liga/Gruppe die berechnet werden soll.
      * @return Eine sortierte Liste der Tabelle.
      */
-    public List<TeamResult> calculateTeamRanking(Season season, Group group);
+    public List<TeamResult> calculateTeamRanking(Season season,
+            GroupType groupType);
 
     /**
      * Startet die Tabellenberechnung der Mannschaften einer Meisterschaft über
@@ -98,7 +99,7 @@ public interface SeasonManagerService {
      *
      * @param season
      *            Die Meisterschaft.
-     * @param group
+     * @param groupType
      *            Die Liga/Gruppe die berechnet werden soll.
      * @param startIndex
      *            Index des Start-Spieltags (0..N-1).
@@ -106,8 +107,8 @@ public interface SeasonManagerService {
      *            Index des End-Spieltags (0..N-1).
      * @return Eine sortierte Liste der Tabelle.
      */
-    public List<TeamResult> calculateTeamRanking(Season season, Group group,
-            int startIndex, int endIndex);
+    public List<TeamResult> calculateTeamRanking(Season season,
+            GroupType groupType, int startIndex, int endIndex);
 
     /**
      * Sucht nach den teilnehmenden Spieler einer Meisterschaft.
