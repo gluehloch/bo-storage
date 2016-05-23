@@ -191,6 +191,12 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
         return getConfig().getGroupTypeDao().findByName(name);
     }
 
+	@Override
+    @Transactional(readOnly = true)
+	public GroupType findGroupType(long groupTypeId) {
+		return (getConfig().getGroupTypeDao().findById(groupTypeId));
+	}
+
     @Override
     @Transactional(readOnly = true)
     public Team findTeam(final String name) {
