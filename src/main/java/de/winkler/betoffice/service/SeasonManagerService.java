@@ -273,6 +273,25 @@ public interface SeasonManagerService {
     public List<Group> findGroups(Season season);
 
     /**
+     * Liefert alle Gruppentypen zu einer Meisterschaft.
+     * 
+     * @param season
+     *            Die betreffende Meisterschaft
+     * @return Die aktiven Gruppen der Meisterschaft
+     */
+    public List<GroupType> findGroupTypes(Season season);
+
+    /**
+     * Liefert die Gruppe zu einer Meisterschaft.
+     * @param season
+     *            Die betreffende Meisterschaft
+     * @param groupType
+     *            Der Gruppentyp
+     * @return Die Gruppe zu der Meisterschaft
+     */
+    public Group findGroup(Season season, GroupType groupType);
+
+    /**
      * Liefert die aktiven Gruppentypen der Meisterschaft.
      *
      * @param season

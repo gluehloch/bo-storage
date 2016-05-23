@@ -1,8 +1,7 @@
 /*
- * $Id: GroupTypeDaoHibernate.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -36,9 +35,7 @@ import de.winkler.betoffice.storage.Season;
 /**
  * Klasse für den Zugriff auf <code>Group</code> Objekte mit Hibernate.
  * 
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2012-07-24 06:07:32 +0200 (Tue, 24 Jul
- *          2012) $
+ * @author Andre Winkler
  */
 @Repository("groupTypeDao")
 public class GroupTypeDaoHibernate extends AbstractCommonDao<GroupType>

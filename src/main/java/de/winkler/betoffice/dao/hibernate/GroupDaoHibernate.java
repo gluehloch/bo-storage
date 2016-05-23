@@ -1,8 +1,7 @@
 /*
- * $Id: GroupDaoHibernate.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -32,15 +31,14 @@ import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.GroupDao;
 import de.winkler.betoffice.storage.Group;
+import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Team;
 
 /**
  * Implementierung von {@link GroupDao}.
  * 
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2012-07-27 19:20:45
- *          +0200 (Fri, 27 Jul 2012) $
+ * @author by Andre Winkler
  */
 @Repository("groupDao")
 public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
@@ -84,6 +82,12 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
         @SuppressWarnings("unchecked")
         List<Team> teams = query.list();
         return teams;
+    }
+
+    @Override
+    public Group findBySeasonAndGroupType(Season season, GroupType groupType) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
