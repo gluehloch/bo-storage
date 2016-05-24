@@ -1,31 +1,31 @@
 /*
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
@@ -50,6 +50,17 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
 
     private static final String QUERY_TEAMS_BY_GROUP = AbstractCommonDao
             .loadQuery("query_teams_group.sql");
+
+    /**
+     * Sucht nach einer <code>Group</code>s anhand Meisterschaft und Gruppentyp.
+     */
+    private static final String QUERY_GROUP_BY_SEASON_AND_GROUPTYPE =
+            "select grp from Group as grp inner join grp.season as season inner join grp.groupType as gt"
+            + " where season.id = :seasonId"
+            + " and gt.id = :groupTypeId";
+
+    // + GroupType.class.getName() + " groupType " + "where "
+    // + "groupType.name = :groupTypeName order by groupType.name";
 
     public GroupDaoHibernate() {
         super(Group.class);
@@ -86,8 +97,11 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
 
     @Override
     public Group findBySeasonAndGroupType(Season season, GroupType groupType) {
-        // TODO Auto-generated method stub
-        return null;
+        Query query = getSessionFactory().getCurrentSession().createQuery(
+                QUERY_GROUP_BY_SEASON_AND_GROUPTYPE);
+        query.setParameter("seasonId", season.getId());
+        query.setParameter("groupTypeId", groupType.getId());
+        return (Group) query.uniqueResult();
     }
 
 }
