@@ -59,9 +59,6 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
             + " where season.id = :seasonId"
             + " and gt.id = :groupTypeId";
 
-    // + GroupType.class.getName() + " groupType " + "where "
-    // + "groupType.name = :groupTypeName order by groupType.name";
-
     public GroupDaoHibernate() {
         super(Group.class);
     }
