@@ -135,7 +135,7 @@ public class CalculateUserRankingServiceFinderTest {
         GameList finale = rounds.get(24);
         List<GameTipp> finalRoundTipps = tippService.findTippsByRoundAndUser(
                 finale, user);
-        
+
         assertEquals(finalRoundTipps.size(), 0);
 
 //        assertEquals(user, finalRoundTipps.get(0).getUser());
@@ -170,7 +170,7 @@ public class CalculateUserRankingServiceFinderTest {
 
         GameList round = seasonManagerService.findRound(buli, 0);
         Group bundesliga = round.getGroup();
-        assertEquals(9, round.getGamesOfGroup(bundesliga).size());
+        assertEquals(9, round.unmodifiableList(bundesliga).size());
 
         List<UserResult> userResults = seasonManagerService
                 .calculateUserRanking(round);

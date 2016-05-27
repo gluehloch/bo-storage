@@ -5,17 +5,17 @@
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
@@ -103,7 +103,7 @@ public class GameList extends AbstractStorageObject implements
      * @hibernate.list cascade="all" lazy="false"
      * @hibernate.collection-index column="bo_index"
      * @hibernate.collection-key column="bo_gamelist_ref"
-     * @hibernate.collection-one-to-many 
+     * @hibernate.collection-one-to-many
      *                                   class="de.winkler.betoffice.storage.Game"
      */
     protected List<Game> getGameList() {
@@ -174,7 +174,7 @@ public class GameList extends AbstractStorageObject implements
      * @return Eine Liste aller Spiele der gefragten Gruppe. Diese Liste kann
      *         nicht modifiziert werden.
      */
-    public List<Game> getGamesOfGroup(final Group _group) {
+    public List<Game> unmodifiableList(final Group _group) {
         List<Game> list = new LinkedList<Game>();
 
         for (Game game : gameList) {
@@ -207,7 +207,7 @@ public class GameList extends AbstractStorageObject implements
 
     /**
      * Liefert ein Spiel anhand der Datenbank ID.
-     * 
+     *
      * @param id Die Datenbank ID
      * @return Ein Spiel aus diesem Spieltag.
      */
@@ -565,7 +565,7 @@ public class GameList extends AbstractStorageObject implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(final GameList _round) {
