@@ -73,9 +73,9 @@ public interface SeasonManagerService {
      * @param season
      *            Die betreffende Meisterschaft.
      * @param startIndex
-     *            Index des Spieltags ab dem gezählt wird.
+     *            Index des Spieltags ab dem gezählt wird (0..N-1).
      * @param endIndex
-     *            Index des Spieltags bis zu dem gezählt wird.
+     *            Index des Spieltags bis zu dem gezählt wird (0..N-1).
      * @return Das Ranking der Tipper.
      */
     public List<UserResult> calculateUserRanking(Season season, int startIndex,
