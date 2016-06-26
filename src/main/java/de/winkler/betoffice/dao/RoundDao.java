@@ -28,6 +28,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
 
 /**
@@ -37,115 +38,126 @@ import de.winkler.betoffice.storage.Season;
  */
 public interface RoundDao extends CommonDao<GameList> {
 
-    /**
-     * Liefert alle Spieltage einer Meisterschaft.
-     *
-     * @param season
-     *            Die Meisterschaft dessen Spieltage gesucht werden.
-     * @return Die Spieltage der gesuchten Meisterschaft.
-     */
-    public List<GameList> findRounds(Season season);
+	/**
+	 * Liefert alle Spieltage einer Meisterschaft.
+	 *
+	 * @param season
+	 *            Die Meisterschaft dessen Spieltage gesucht werden.
+	 * @return Die Spieltage der gesuchten Meisterschaft.
+	 */
+	public List<GameList> findRounds(Season season);
 
-    /**
-     * Liefert einen Spieltag einer Meisterschaft.
-     *
-     * @param season
-     *            Die betreffende Meisterschaft.
-     * @param index
-     *            Der Index des Spieltags (0 .. size-1).
-     * @return Der Spieltag.
-     */
-    public GameList findRound(Season season, int index);
+	/**
+	 * Liefert alle Spieltage einer Meisterschaft einer Gruppe.
+	 * 
+	 * @param season
+	 *            Die Meisterschaft
+	 * @param group
+	 *            Die Gruppe
+	 * @return Die Spieltage dieser Gruppe
+	 */
+	public List<GameList> findRounds(Season season, Group group);
 
-    /**
-     * Liefert einen Spieltag einer Meisterschaft.
-     *
-     * @param id
-     *            Die ID des Spieltags.
-     * @return Der Spieltag
-     */
-    public GameList findById(long id);
+	/**
+	 * Liefert einen Spieltag einer Meisterschaft.
+	 *
+	 * @param season
+	 *            Die betreffende Meisterschaft.
+	 * @param index
+	 *            Der Index des Spieltags (0 .. size-1).
+	 * @return Der Spieltag.
+	 */
+	public GameList findRound(Season season, int index);
 
-    /**
-     * Liefert den nächsten Spieltag der Meisterschaft.
-     * 
-     * @param id
-     *            Die ID des aktuellen Spieltags.
-     * @return Der nächste Spieltag.
-     */
-    public Long findNext(long id);
+	/**
+	 * Liefert einen Spieltag einer Meisterschaft.
+	 *
+	 * @param id
+	 *            Die ID des Spieltags.
+	 * @return Der Spieltag
+	 */
+	public GameList findById(long id);
 
-    /**
-     * Liefert den vorhergehenden Spieltag der Meisterschaft.
-     * 
-     * @param id
-     *            Die ID des aktuellen Spieltags.
-     * @return Der vorhergehende Spieltag.
-     */
-    public Long findPrevious(long id);
+	/**
+	 * Liefert den nächsten Spieltag der Meisterschaft.
+	 * 
+	 * @param id
+	 *            Die ID des aktuellen Spieltags.
+	 * @return Der nächste Spieltag.
+	 */
+	public Long findNext(long id);
 
-    /**
-     * Liefert einen Spieltag einer Meisterschaft inklusive aller abhöngigen
-     * Objekte, wie Spieltipps, Tippteilnehmer, Gruppe, Mannschaften und
-     * natürlich der Spiele.
-     *
-     * @param season
-     *            Die betreffende Meisterschaft.
-     * @param index
-     *            Der Index des Spieltags (0 .. size-1).
-     * @return Der Spieltag.
-     */
-    public GameList findAllRoundObjects(Season season, int index);
+	/**
+	 * Liefert den vorhergehenden Spieltag der Meisterschaft.
+	 * 
+	 * @param id
+	 *            Die ID des aktuellen Spieltags.
+	 * @return Der vorhergehende Spieltag.
+	 */
+	public Long findPrevious(long id);
 
-    /**
-     * Legt eine neuen Spieltag persistent an.
-     *
-     * @param round
-     *            Ein Spieltag.
-     */
-    public void save(GameList round);
+	/**
+	 * Liefert einen Spieltag einer Meisterschaft inklusive aller abhöngigen
+	 * Objekte, wie Spieltipps, Tippteilnehmer, Gruppe, Mannschaften und
+	 * natürlich der Spiele.
+	 *
+	 * @param season
+	 *            Die betreffende Meisterschaft.
+	 * @param index
+	 *            Der Index des Spieltags (0 .. size-1).
+	 * @return Der Spieltag.
+	 */
+	public GameList findAllRoundObjects(Season season, int index);
 
-    /**
-     * Legt mehrere neue Spieltage an.
-     *
-     * @param rounds
-     *            Eine Liste von Spieltagen.
-     */
-    public void saveAll(List<GameList> rounds);
+	/**
+	 * Legt eine neuen Spieltag persistent an.
+	 *
+	 * @param round
+	 *            Ein Spieltag.
+	 */
+	public void save(GameList round);
 
-    /**
-     * Eine Update-Operation.
-     *
-     * @param round
-     *            Ein Spieltag.
-     */
-    public void update(GameList round);
+	/**
+	 * Legt mehrere neue Spieltage an.
+	 *
+	 * @param rounds
+	 *            Eine Liste von Spieltagen.
+	 */
+	public void saveAll(List<GameList> rounds);
 
-    /**
-     * Löscht einen Spieltag.
-     *
-     * @param round
-     *            Der zu löschende Spieltag.
-     */
-    public void delete(GameList round);
+	/**
+	 * Eine Update-Operation.
+	 *
+	 * @param round
+	 *            Ein Spieltag.
+	 */
+	public void update(GameList round);
 
-    /**
-     * Löscht alle übergebenen Spieltage.
-     *
-     * @param rounds
-     *            Die zu löschenden Spieltage.
-     */
-    public void deleteAll(List<GameList> rounds);
+	/**
+	 * Löscht einen Spieltag.
+	 *
+	 * @param round
+	 *            Der zu löschende Spieltag.
+	 */
+	public void delete(GameList round);
 
-    /**
-     * Liefert den nächsten zu tippenden Spieltag.
-     *
-     * @param seasonId
-     *            Die Bezugsmeisterschaft.
-     * @param date
-     *            Das Bezugsdatum.
-     * @return Der nächste zu tippende Spieltag.
-     */
-    public Long findNextTippRound(long seasonId, DateTime date);
+	/**
+	 * Löscht alle übergebenen Spieltage.
+	 *
+	 * @param rounds
+	 *            Die zu löschenden Spieltage.
+	 */
+	public void deleteAll(List<GameList> rounds);
+
+	/**
+	 * Liefert den nächsten zu tippenden Spieltag.
+	 *
+	 * @param seasonId
+	 *            Die Bezugsmeisterschaft.
+	 * @param date
+	 *            Das Bezugsdatum.
+	 * @return Der nächste zu tippende Spieltag.
+	 */
+	public Long findNextTippRound(long seasonId, DateTime date);
 
 }

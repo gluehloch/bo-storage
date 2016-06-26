@@ -196,6 +196,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
+    public List<GameList> findRounds(Season season, Group group) {
+    	return (getConfig().getRoundDao().findRounds(season, group));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Group> findGroups(Season season) {
         return (getConfig().getGroupDao().findBySeason(season));
     }

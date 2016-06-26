@@ -32,6 +32,7 @@ import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.RoundDao;
 import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
 
 /**
@@ -40,8 +41,8 @@ import de.winkler.betoffice.storage.Season;
  * @author by Andre Winkler
  */
 @Repository("roundDao")
-public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements
-        RoundDao {
+public class RoundDaoHibernate extends AbstractCommonDao<GameList>
+        implements RoundDao {
 
     /**
      * Sucht nach allen Spieltagen einer Meisterschaft.
@@ -49,6 +50,14 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements
     private static final String QUERY_GAMELIST_BY_SEASON = "from "
             + "GameList as gamelist " + "where gamelist.season.id = :seasonId "
             + "order by gamelist.index";
+
+    /**
+     * Sucht nach allen Spieltagen einer Meisterschaft fuer eine bestimmte
+     * Gruppe.
+     */
+    private static final String QUERY_GAMELIST_BY_SEASON_GROUP = "from "
+            + "GameList as gamelist " + "where gamelist.season.id = :seasonId "
+            + "and gamelist.group.id = :groupId" + " order by gamelist.index";
 
     /**
      * Sucht einen Spieltag einer Meisterschaft.
@@ -64,10 +73,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements
     private static final String QUERY_ALL_ROUND_OBJECTS = "select round from GameList as round "
             + "left join fetch round.gameList game "
             + "left join fetch game.tippList tipp "
-            + "left join fetch tipp.user u "
-            + "left join fetch game.homeTeam "
-            + "left join fetch game.guestTeam "
-            + "left join fetch game.group "
+            + "left join fetch tipp.user u " + "left join fetch game.homeTeam "
+            + "left join fetch game.guestTeam " + "left join fetch game.group "
             + "where round.season.id = :seasonId and round.index = :gameListIndex";
 
     /**
@@ -92,6 +99,16 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements
         List<GameList> objects = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMELIST_BY_SEASON)
                 .setParameter("seasonId", season.getId()).list();
+        return objects;
+    }
+
+    @Override
+    public List<GameList> findRounds(Season season, Group group) {
+        @SuppressWarnings("unchecked")
+        List<GameList> objects = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_GAMELIST_BY_SEASON_GROUP)
+                .setParameter("seasonId", season.getId())
+                .setParameter("groupId", group.getId()).list();
         return objects;
     }
 
