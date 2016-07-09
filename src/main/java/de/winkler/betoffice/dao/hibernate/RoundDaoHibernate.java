@@ -41,8 +41,8 @@ import de.winkler.betoffice.storage.Season;
  * @author by Andre Winkler
  */
 @Repository("roundDao")
-public class RoundDaoHibernate extends AbstractCommonDao<GameList>
-        implements RoundDao {
+public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements
+        RoundDao {
 
     /**
      * Sucht nach allen Spieltagen einer Meisterschaft.
@@ -73,10 +73,18 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
     private static final String QUERY_ALL_ROUND_OBJECTS = "select round from GameList as round "
             + "left join fetch round.gameList game "
             + "left join fetch game.tippList tipp "
-            + "left join fetch tipp.user u " + "left join fetch game.homeTeam "
-            + "left join fetch game.guestTeam " + "left join fetch game.group "
+            + "left join fetch tipp.user u "
+            + "left join fetch game.homeTeam "
+            + "left join fetch game.guestTeam "
+            + "left join fetch game.group "
             + "where round.season.id = :seasonId and round.index = :gameListIndex";
 
+    private static final String QUERY_NEXT_ROUND_BY_DATE = "select min(t.bo_datetime) datetime, t.id next_round_id "
+            + "from (select r.bo_datetime, r.id from bo_gamelist r, bo_game m "
+            + "where r.bo_season_ref = :season_id "
+            + "and r.id = m.bo_gamelist_ref "
+            + "and m.bo_datetime >= :date) "
+            + "as t";
     /**
      * Search for the next game day id.
      */
@@ -150,10 +158,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
 
     @Override
     public Long findNextTippRound(long seasonId, DateTime date) {
-        String sql = "select min(t.bo_datetime) datetime, t.id next_round_id from "
-                + "(select * from bo_gamelist where bo_season_ref = :season_id and bo_datetime >= :date) as t";
         SQLQuery query = getSessionFactory().getCurrentSession()
-                .createSQLQuery(sql);
+                .createSQLQuery(QUERY_NEXT_ROUND_BY_DATE);
         query.setParameter("season_id", seasonId);
         query.setDate("date", date.toDate());
         query.addScalar("datetime");
