@@ -162,6 +162,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
+    public GameList findLastRound(Season season) {
+        return (getConfig().getRoundDao().findLastRound(season));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public GameList findRoundById(long id) {
         return (getConfig().getRoundDao().findById(id));
     }

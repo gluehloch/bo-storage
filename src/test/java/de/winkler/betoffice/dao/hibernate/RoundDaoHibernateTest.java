@@ -35,6 +35,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.winkler.betoffice.dao.MatchDao;
 import de.winkler.betoffice.dao.RoundDao;
+import de.winkler.betoffice.dao.SeasonDao;
+import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.Season;
 
 /**
  * The test for {@link RoundDaoHibernate}.
@@ -48,6 +51,9 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Autowired
     private MatchDao matchDao;
+    
+    @Autowired
+    private SeasonDao seasonDao;
 
     @Before
     public void init() {
@@ -78,7 +84,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testFindTippRound() {
-        // Everythins as expected?
+        // Everything as expected?
         DateTime matchDateTime = new DateTime(matchDao.findById(1L)
                 .getDateTime());
         assertThat(matchDateTime, equalTo(new DateTime(2016, 1, 5, 15, 0, 0)));
@@ -109,6 +115,13 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
                 0, 0)), equalTo(5L));
         assertThat(roundDao.findNextTippRound(1L, new DateTime(2016, 5, 6, 16,
                 0, 0)), equalTo(5L));
+    }
+
+    @Test
+    public void testFindLastRound() {
+        Season season = seasonDao.findById(1l);
+        GameList lastRound = roundDao.findLastRound(season);
+        assertThat(lastRound.getId(), equalTo(5L));
     }
 
 }

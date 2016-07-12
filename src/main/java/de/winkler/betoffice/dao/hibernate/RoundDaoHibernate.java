@@ -52,6 +52,17 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements
             + "order by gamelist.index";
 
     /**
+     * Sucht nach dem letzten Spieltag einer Meisterschaft.
+     */
+    private static final String QUERY_LAST_GAMELIST_BY_SEASON = "from "
+            + "GameList as gamelist "
+            + "where gamelist.season.id = :seasonId "
+            + "and gamelist.index = "
+            + "( "
+            + "select max(index) from gamelist gl2 where  gl2.season.id = :seasonId "
+            + ")";
+
+    /**
      * Sucht nach allen Spieltagen einer Meisterschaft fuer eine bestimmte
      * Gruppe.
      */
@@ -214,6 +225,20 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements
         }
 
         return prevRoundId;
+    }
+
+    @Override
+    public GameList findLastRound(Season season) {
+        @SuppressWarnings("unchecked")
+        List<GameList> rounds = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_LAST_GAMELIST_BY_SEASON)
+                .setParameter("seasonId", season.getId()).list();
+
+        GameList result = null;
+        if (!rounds.isEmpty()) {
+            result = (GameList) rounds.get(0);
+        }
+        return result;
     }
 
 }
