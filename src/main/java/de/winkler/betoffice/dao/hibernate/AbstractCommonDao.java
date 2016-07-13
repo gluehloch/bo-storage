@@ -66,7 +66,6 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
         t = _t;
     }
 
-    @SuppressWarnings("unchecked")
     public final T findById(final long id) {
         return (T) getSessionFactory().getCurrentSession().get(t, id);
     }

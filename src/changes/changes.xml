@@ -8,6 +8,9 @@
     <release version="betoffice-storage-2.1.0-SNAPSHOT" date="2015-??-??"
       description="Update">
       <action dev="andrewinkler" type="update" date="2016-07-09">
+        Update to Springframework 4 and Hibernate 5.
+      </action>
+      <action dev="andrewinkler" type="update" date="2016-07-09">
         Find the next tipp round by a date parameter. Find the last round
         of a season.
       </action>
