@@ -67,13 +67,6 @@
       <version>1.5.4</version>
       <scope>compile</scope>
     </dependency>
-    
-    <!-- Java 8 and Hibernate 5 needs this -->
-    <dependency>
-        <groupId>org.javassist</groupId>
-        <artifactId>javassist</artifactId>
-        <version>3.20.0-GA</version>
-    </dependency>
 
     <dependency>
       <groupId>de.awtools</groupId>
