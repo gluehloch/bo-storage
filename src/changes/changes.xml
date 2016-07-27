@@ -5,7 +5,8 @@
     <author email="andre.winkler@web.de">Andre Winkler</author>
   </properties>
   <body>
-    <release version="betoffice-storage-2.1.0-SNAPSHOT" date="2015-??-??"
+    <!-- RELEASED -->
+    <release version="betoffice-storage-2.1.0" date="2016-07-27"
       description="Update">
       <action dev="andrewinkler" type="update" date="2016-07-09">
         Update to Springframework 4 and Hibernate 5.
