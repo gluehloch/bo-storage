@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2013 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -73,9 +73,9 @@ public interface SeasonManagerService {
      * @param season
      *            Die betreffende Meisterschaft.
      * @param startIndex
-     *            Index des Spieltags ab dem gezählt wird.
+     *            Index des Spieltags ab dem gezählt wird (0..N-1).
      * @param endIndex
-     *            Index des Spieltags bis zu dem gezählt wird.
+     *            Index des Spieltags bis zu dem gezählt wird (0..N-1).
      * @return Das Ranking der Tipper.
      */
     public List<UserResult> calculateUserRanking(Season season, int startIndex,
@@ -86,11 +86,12 @@ public interface SeasonManagerService {
      *
      * @param season
      *            Die Meisterschaft.
-     * @param group
+     * @param groupType
      *            Die Liga/Gruppe die berechnet werden soll.
      * @return Eine sortierte Liste der Tabelle.
      */
-    public List<TeamResult> calculateTeamRanking(Season season, Group group);
+    public List<TeamResult> calculateTeamRanking(Season season,
+            GroupType groupType);
 
     /**
      * Startet die Tabellenberechnung der Mannschaften einer Meisterschaft über
@@ -98,7 +99,7 @@ public interface SeasonManagerService {
      *
      * @param season
      *            Die Meisterschaft.
-     * @param group
+     * @param groupType
      *            Die Liga/Gruppe die berechnet werden soll.
      * @param startIndex
      *            Index des Start-Spieltags (0..N-1).
@@ -106,8 +107,8 @@ public interface SeasonManagerService {
      *            Index des End-Spieltags (0..N-1).
      * @return Eine sortierte Liste der Tabelle.
      */
-    public List<TeamResult> calculateTeamRanking(Season season, Group group,
-            int startIndex, int endIndex);
+    public List<TeamResult> calculateTeamRanking(Season season,
+            GroupType groupType, int startIndex, int endIndex);
 
     /**
      * Sucht nach den teilnehmenden Spieler einer Meisterschaft.
@@ -186,6 +187,15 @@ public interface SeasonManagerService {
     public GameList findRound(Season season, int index);
 
     /**
+     * Liefert den letzten Spieltag einer Meisterschaft.
+     * 
+     * @param season
+     *            die betreffende Meisterschaft
+     * @return Der Spieltag
+     */
+    public GameList findLastRound(Season season);
+
+    /**
      * Liefert einen Spieltag für eine Meisterschaft.
      *
      * @param id
@@ -195,6 +205,24 @@ public interface SeasonManagerService {
     public GameList findRoundById(long id);
 
     /**
+     * Liefert den nächsten Spieltag.
+     * 
+     * @param id
+     *            Die ID des Spieltags
+     * @return Der nächste Spieltag.
+     */
+    public GameList findNextRound(long id);
+
+    /**
+     * Liefert den vorhergehenden Spieltag.
+     * 
+     * @param id
+     *            Die ID des Spieltags.
+     * @return Der vorhergehende Spieltag.
+     */
+    public GameList findPrevRound(long id);
+
+    /**
      * Liefert alle Spieltage einer Meisterschaft.
      *
      * @param season
@@ -202,6 +230,17 @@ public interface SeasonManagerService {
      * @return Die Spieltage der Meisterschaft.
      */
     public List<GameList> findRounds(Season season);
+
+    /**
+     * Liefert alle Spieltage einer Meisterschaft zu einer Gruppe.
+     * 
+     * @param season
+     *            Die betreffende Meisterschaft
+     * @param group
+     *            Die Spieltag fuer diese Gruppe.
+     * @return Die Spieltage der gesuchten Gruppe und Meisterschaft.
+     */
+    public List<GameList> findRounds(Season season, Group group);
 
     /**
      * Initialisiert die Liste der Spieltage, die zugehörigen Gruppen,
@@ -252,6 +291,26 @@ public interface SeasonManagerService {
      * @return Die aktiven Gruppen zu der gesuchten Meisterschaft.
      */
     public List<Group> findGroups(Season season);
+
+    /**
+     * Liefert alle Gruppentypen zu einer Meisterschaft.
+     * 
+     * @param season
+     *            Die betreffende Meisterschaft
+     * @return Die aktiven Gruppen der Meisterschaft
+     */
+    public List<GroupType> findGroupTypes(Season season);
+
+    /**
+     * Liefert die Gruppe zu einer Meisterschaft.
+     * 
+     * @param season
+     *            Die betreffende Meisterschaft
+     * @param groupType
+     *            Der Gruppentyp
+     * @return Die Gruppe zu der Meisterschaft
+     */
+    public Group findGroup(Season season, GroupType groupType);
 
     /**
      * Liefert die aktiven Gruppentypen der Meisterschaft.

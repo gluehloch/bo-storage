@@ -174,7 +174,7 @@ public class GameList extends AbstractStorageObject implements
      * @return Eine Liste aller Spiele der gefragten Gruppe. Diese Liste kann
      *         nicht modifiziert werden.
      */
-    public List<Game> getGamesOfGroup(final Group _group) {
+    public List<Game> unmodifiableList(final Group _group) {
         List<Game> list = new LinkedList<Game>();
 
         for (Game game : gameList) {
@@ -203,6 +203,21 @@ public class GameList extends AbstractStorageObject implements
      */
     public Game get(final int _index) {
         return (gameList.get(_index));
+    }
+
+    /**
+     * Liefert ein Spiel anhand der Datenbank ID.
+     *
+     * @param id Die Datenbank ID
+     * @return Ein Spiel aus diesem Spieltag.
+     */
+    public Game getById(final long id) {
+        for (Game game : gameList) {
+            if (game.getId() == id) {
+                return game;
+            }
+        }
+        return null;
     }
 
     /**
@@ -487,7 +502,7 @@ public class GameList extends AbstractStorageObject implements
     /**
      * Find the best round date of an array of dates.
      *
-     * @param matcheDates
+     * @param matchDates
      *            the dates
      * @return the best round date
      */

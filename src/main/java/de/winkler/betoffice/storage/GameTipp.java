@@ -313,6 +313,7 @@ public class GameTipp extends AbstractStorageObject implements
 
     // -- Comparator ----------------------------------------------------------
 
+    @Override 
     public int compare(GameTipp o1, GameTipp o2) {
         if (o1.getPoints() > o2.getPoints()) {
             return 1;

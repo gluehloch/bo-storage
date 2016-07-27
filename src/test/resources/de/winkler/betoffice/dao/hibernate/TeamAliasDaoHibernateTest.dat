@@ -6,7 +6,7 @@
 
 ### TAB bo_teamalias
 ### id | bo_aliasname | bo_team_ref
-    0  | RWE          | 1
-    1  | RWO          | 2
-    2  | S04          | 3
-    3  | Schalke      | 3
+    1  | RWE          | 1
+    2  | RWO          | 2
+    3  | S04          | 3
+    4  | Schalke      | 3

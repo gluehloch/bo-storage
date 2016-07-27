@@ -120,6 +120,8 @@ public class ChampionshipConfiguration extends AbstractStorageObject {
 
     /**
      * @see StorageObject#isValid()
+     * 
+     * @return valid?
      */
     public boolean isValid() {
         return true;

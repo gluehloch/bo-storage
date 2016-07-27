@@ -77,7 +77,7 @@ public class SpringBeanTest {
 	@Test
 	public void testSwingBetofficeStore() {
 		List<Season> championships = seasonManagerService.findAllSeasons();
-		assertEquals(20, championships.size());
+		assertEquals(22, championships.size());
 	}
 
 }

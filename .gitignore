@@ -9,3 +9,8 @@ database.properties
 tmp
 eclipse-target
 pirates
+bin
+.classpath
+.project
+.settings
+

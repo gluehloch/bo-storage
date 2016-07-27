@@ -1,26 +1,24 @@
 /*
- * $Id: AbstractCommonDao.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2008 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2015 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.dao.hibernate;
@@ -39,23 +37,35 @@ import de.winkler.betoffice.dao.CommonDao;
 /**
  * Utility Implementierung von {@link CommonDao}.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  *
- * @param <T> Der Typ den dieses DAO unterstützt.
+ * @param <T>
+ *            Der Typ den dieses DAO unterstützt.
  */
 @Transactional
 public abstract class AbstractCommonDao<T> implements CommonDao<T> {
-    
+
     private final Class<T> t;
-    
+
+    // -- sessionFactory ------------------------------------------------------
+
     private SessionFactory sessionFactory;
+
+    @Autowired
+    public void setSessionFactory(final SessionFactory _sessionFactory) {
+        sessionFactory = _sessionFactory;
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    // ------------------------------------------------------------------------
 
     AbstractCommonDao(final Class<T> _t) {
         t = _t;
     }
 
-    @SuppressWarnings("unchecked")
     public final T findById(final long id) {
         return (T) getSessionFactory().getCurrentSession().get(t, id);
     }
@@ -69,7 +79,7 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
     public final void deleteAll(final List<T> ts) {
         Session session = getSessionFactory().getCurrentSession();
         for (T t : ts) {
-            session.delete(t);   
+            session.delete(t);
         }
     }
 
@@ -95,8 +105,13 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
     public final void updateAll(final List<T> ts) {
         Session session = getSessionFactory().getCurrentSession();
         for (T t : ts) {
-            session.saveOrUpdate(t);   
+            session.saveOrUpdate(t);
         }
+    }
+
+    @Override
+    public final void refresh(final T t) {
+        getSessionFactory().getCurrentSession().refresh(t);
     }
 
     /**
@@ -118,26 +133,18 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
     /**
      * Lädt eine SQL Query aus den Java Resourcen.
      *
-     * @param query Query Resourcen Name.
+     * @param query
+     *            Query Resourcen Name.
      * @return Die Query oder eine {@link RuntimeException} falls nichts
-     *     gefunden werden konnte.
+     *         gefunden werden konnte.
      */
     protected static final String loadQuery(final String query) {
         try {
             return IOUtils.toString(AbstractCommonDao.class
-                .getResourceAsStream(query));
+                    .getResourceAsStream(query));
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    @Autowired
-    public void setSessionFactory(final SessionFactory _sessionFactory) {
-        sessionFactory = _sessionFactory;
-    }
- 
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
     }
 
 }

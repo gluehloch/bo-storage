@@ -48,16 +48,24 @@ final class DatabaseSetUpAndTearDown {
         dataSource = _dataSource;
     }
 
+    /**
+     * Here we delete and set up the test database. This is an expensive
+     * operation!.
+     * 
+     * @param _dataLoader
+     *            The data for the setup
+     * @throws Exception
+     *             Problems?
+     */
     public void setUp(final DataLoader _dataLoader) throws Exception {
         Connection conn = getConnection();
         mysql = new MySqlDatabasedTestSupport();
         try {
-            DeleteDatabase.deleteDatabase(conn);
-
             UserResult.nEqualValue = 13;
             UserResult.nTotoValue = 10;
             UserResult.nZeroValue = 0;
 
+            // Delete and setup of the test database!
             mysql = new MySqlDatabasedTestSupport();
             mysql.setUp(conn, _dataLoader);
         } finally {

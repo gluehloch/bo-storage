@@ -1,8 +1,7 @@
 /*
- * $Id: GroupTypeDao.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2008 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -34,10 +33,9 @@ import de.winkler.betoffice.storage.Season;
  * DAO Klasse für den Zugriff auf {@link de.winkler.betoffice.storage.GroupType}
  * Objekte.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  */
-public interface GroupTypeDao {
+public interface GroupTypeDao extends CommonDao<GroupType> {
 
     /**
      * Liefert eine Liste aller Gruppentypen.

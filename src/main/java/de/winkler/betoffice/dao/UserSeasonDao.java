@@ -1,8 +1,7 @@
 /*
- * $Id: UserSeasonDao.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2008 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -34,10 +33,9 @@ import de.winkler.betoffice.storage.UserSeason;
 /**
  * Verwaltet die Zuordnung Meisterschaft und Tippteilnehmer.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  */
-public interface UserSeasonDao {
+public interface UserSeasonDao extends CommonDao<UserSeason> {
 
 	/**
 	 * Liefert alle teilnehmenden User einer Meisterschaft.
@@ -45,41 +43,41 @@ public interface UserSeasonDao {
 	 * @param season Die Meisterschaft.
 	 * @return Eine Liste der Teilnehmer.
 	 */
-	public List<User> findUsers(Season season);
+	List<User> findUsers(Season season);
 
     /**
      * Legt einen neuen Teilnehmer an.
      *
      * @param userSeason Eine Meisterschaft-Teilnehmer Zuordnung.
      */
-    public void save(UserSeason userSeason);
+    void save(UserSeason userSeason);
 
     /**
      * Speichert mehrere neue Teilnehmer.
      *
      * @param userSeasons Eine Liste von Usern/Meisterschaft.
      */
-    public void saveAll(List<UserSeason> userSeasons);
+    void saveAll(List<UserSeason> userSeasons);
 
     /**
      * Ein Update.
      *
      * @param userSeason Ein Teilnehmer/Meisterschaft.
      */
-    public void update(UserSeason userSeason);
+    void update(UserSeason userSeason);
 
     /**
      * Löscht einen Teilnehmer.
      *
      * @param userSeason Ein Teilnehmer/Meisterschaft.
      */
-    public void delete(UserSeason userSeason);
+    void delete(UserSeason userSeason);
 
     /**
      * Löscht alle Teilnehmer.
      *
      * @param userSeasons Eine Liste von Usern/Meisterschaft.
      */
-    public void deleteAll(List<UserSeason> userSeasons);
+    void deleteAll(List<UserSeason> userSeasons);
 
 }

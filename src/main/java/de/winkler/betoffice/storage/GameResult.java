@@ -1,26 +1,25 @@
 /*
  * $Id: GameResult.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2008 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2008 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.storage;
@@ -34,11 +33,12 @@ import java.io.Serializable;
 /**
  * Verwaltet das Ergebnis eines Fussballspiels.
  *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author $Author: andrewinkler $
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  */
-public class GameResult extends AbstractStorageObject
-        implements Serializable, Cloneable {
+public class GameResult extends AbstractStorageObject implements Serializable,
+        Cloneable {
 
     /** serial version id */
     private static final long serialVersionUID = -4527677284167591700L;
@@ -55,8 +55,10 @@ public class GameResult extends AbstractStorageObject
      * Konstruktor. Wird ein unmögliches Ergebnis übergeben, wird eine
      * <code>IllegalArgumentException</code> geworfen.
      *
-     * @param home Tore der Heimmannschaft.
-     * @param guest Tore der Gastmannschaft.
+     * @param home
+     *            Tore der Heimmannschaft.
+     * @param guest
+     *            Tore der Gastmannschaft.
      */
     public GameResult(final int home, final int guest) {
         Validate.isTrue(home >= 0);
@@ -69,7 +71,8 @@ public class GameResult extends AbstractStorageObject
     /**
      * Copy-Konstruktor.
      *
-     * @param gameResult Das zu kopierende GameResult.
+     * @param gameResult
+     *            Das zu kopierende GameResult.
      */
     public GameResult(final GameResult gameResult) {
         this(gameResult.getHomeGoals(), gameResult.getGuestGoals());
@@ -94,7 +97,8 @@ public class GameResult extends AbstractStorageObject
     /**
      * Setzt die Tore der Heimmannschaft.
      *
-     * @param home Die Tore der Heimmannschaft.
+     * @param home
+     *            Die Tore der Heimmannschaft.
      */
     private void setHomeGoals(final int home) {
         homeGoals = home;
@@ -120,7 +124,8 @@ public class GameResult extends AbstractStorageObject
     /**
      * Setzt die Tore der Gastmannschaft.
      *
-     * @param guest Die Tore der Gastmannschaft.
+     * @param guest
+     *            Die Tore der Gastmannschaft.
      */
     private void setGuestGoals(final int guest) {
         guestGoals = guest;
@@ -155,6 +160,8 @@ public class GameResult extends AbstractStorageObject
     }
 
     /**
+     * @return valid?
+     * 
      * @see de.winkler.betoffice.storage.StorageObject#isValid()
      */
     public boolean isValid() {
@@ -164,9 +171,10 @@ public class GameResult extends AbstractStorageObject
     // -- Object --------------------------------------------------------------
 
     /**
-     * @param result Das zu vergleichende GameResult.
+     * @param result
+     *            Das zu vergleichende GameResult.
      * @return <code>true</code>, wenn beide GameResult gleich;
-     *     <code>false</code> bei GameResult ungleich.
+     *         <code>false</code> bei GameResult ungleich.
      */
     public boolean compare(final GameResult result) {
         if (result == null) {
@@ -174,7 +182,7 @@ public class GameResult extends AbstractStorageObject
         }
 
         if ((result.getHomeGoals() == homeGoals)
-            && (result.getGuestGoals() == guestGoals)) {
+                && (result.getGuestGoals() == guestGoals)) {
             return true;
         } else {
             return false;
@@ -201,7 +209,7 @@ public class GameResult extends AbstractStorageObject
         } else {
             GameResult gr = (GameResult) object;
             if ((getHomeGoals() == gr.getHomeGoals())
-                && (getGuestGoals() == gr.getGuestGoals())) {
+                    && (getGuestGoals() == gr.getGuestGoals())) {
                 return true;
             } else {
                 return false;

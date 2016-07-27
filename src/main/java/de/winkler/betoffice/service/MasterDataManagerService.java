@@ -40,306 +40,315 @@ import de.winkler.betoffice.storage.enums.TeamType;
  */
 public interface MasterDataManagerService {
 
-    /**
-     * Neuanlage einer Mannschaft.
-     *
-     * @param team
-     *            Die Mannschaft.
-     */
-    public void createTeam(Team team);
+	/**
+	 * Neuanlage einer Mannschaft.
+	 *
+	 * @param team
+	 *            Die Mannschaft.
+	 */
+	public void createTeam(Team team);
 
-    /**
-     * Löschen einer Mannschaft. Eine Mannschaft kann nur gelöscht werden, wenn
-     * sie keiner Meisterschaft zugeordnet ist.
-     *
-     * @param team
-     *            Die Mannschaft.
-     */
-    public void deleteTeam(Team team);
+	/**
+	 * Löschen einer Mannschaft. Eine Mannschaft kann nur gelöscht werden, wenn
+	 * sie keiner Meisterschaft zugeordnet ist.
+	 *
+	 * @param team
+	 *            Die Mannschaft.
+	 */
+	public void deleteTeam(Team team);
 
-    /**
-     * Aktualisierung der Daten einer Mannschaft.
-     *
-     * @param team
-     *            Die Mannschaft.
-     */
-    public void updateTeam(Team team);
+	/**
+	 * Aktualisierung der Daten einer Mannschaft.
+	 *
+	 * @param team
+	 *            Die Mannschaft.
+	 */
+	public void updateTeam(Team team);
 
-    /**
-     * Liefert alle bekannten Mannschaften.
-     *
-     * @return Die bekannten Mannschaften.
-     */
-    public List<Team> findAllTeams();
+	/**
+	 * Liefert alle bekannten Mannschaften.
+	 *
+	 * @return Die bekannten Mannschaften.
+	 */
+	public List<Team> findAllTeams();
 
-    /**
-     * Liefert eine Liste aller Mannschaften, die dem gesuchten {@link TeamType}
-     * entsprechen.
-     *
-     * @param teamType
-     *            Der gesuchte {@link TeamType}.
-     * @return Eine Liste mit Mannschaften.
-     */
-    public List<Team> findTeams(TeamType teamType);
+	/**
+	 * Liefert eine Liste aller Mannschaften, die dem gesuchten {@link TeamType}
+	 * entsprechen.
+	 *
+	 * @param teamType
+	 *            Der gesuchte {@link TeamType}.
+	 * @return Eine Liste mit Mannschaften.
+	 */
+	public List<Team> findTeams(TeamType teamType);
 
-    /**
-     * Liefert alle Alias Namen zu einer Mannschaft.
-     *
-     * @param team
-     *            Die gesuchte Mannschaft.
-     * @return Die Alias Namen der Mannschaft.
-     */
-    public List<TeamAlias> findAllTeamAlias(Team team);
+	/**
+	 * Liefert alle Alias Namen zu einer Mannschaft.
+	 *
+	 * @param team
+	 *            Die gesuchte Mannschaft.
+	 * @return Die Alias Namen der Mannschaft.
+	 */
+	public List<TeamAlias> findAllTeamAlias(Team team);
 
-    /**
-     * Sucht nach eine Mannschaft.
-     *
-     * @param name
-     *            Der Name der Mannschaft.
-     * @return Die Mannschaft
-     */
-    public Team findTeam(String name);
+	/**
+	 * Sucht nach eine Mannschaft.
+	 *
+	 * @param name
+	 *            Der Name der Mannschaft.
+	 * @return Die Mannschaft
+	 */
+	public Team findTeam(String name);
 
-    /**
-     * Sucht eine Mannschaft anhand seines Alias Namen.
-     *
-     * @param aliasName
-     *            Der Aliasname der Mannschaft.
-     * @return Die gesuchte Mannschaft.
-     */
-    public Team findTeamByAlias(String aliasName);
+	/**
+	 * Sucht eine Mannschaft anhand seines Alias Namen.
+	 *
+	 * @param aliasName
+	 *            Der Aliasname der Mannschaft.
+	 * @return Die gesuchte Mannschaft.
+	 */
+	public Team findTeamByAlias(String aliasName);
 
-    /**
-     * Liefert die Mannschaft zu einer ID.
-     *
-     * @param id
-     *            Die ID der gesuchten Mannschaft.
-     * @return Die gesuchte Mannschaft.
-     */
-    public Team findTeamById(long id);
+	/**
+	 * Liefert die Mannschaft zu einer ID.
+	 *
+	 * @param id
+	 *            Die ID der gesuchten Mannschaft.
+	 * @return Die gesuchte Mannschaft.
+	 */
+	public Team findTeamById(long id);
 
-    /**
-     * Liefert eine Mannschaft anhand der openliga id.
-     *
-     * @param id
-     *            Openligadb ID
-     * @return Die gesuchte Mannschaft
-     */
-    public Team findTeamByOpenligaid(long id);
+	/**
+	 * Liefert eine Mannschaft anhand der openliga id.
+	 *
+	 * @param id
+	 *            Openligadb ID
+	 * @return Die gesuchte Mannschaft
+	 */
+	public Team findTeamByOpenligaid(long id);
 
-    /**
-     * Erstellt einen neuen Team Alias Namen.
-     *
-     * @param team
-     *            Die Mannschaft, die einen neuen Alias Namen erhalten soll.
-     * @param teamAliasName
-     *            Der neue Alias Name für die Mannschaft.
-     * @return Das TeamAlias.
-     */
-    public TeamAlias createTeamAlias(Team team, String teamAliasName);
+	/**
+	 * Erstellt einen neuen Team Alias Namen.
+	 *
+	 * @param team
+	 *            Die Mannschaft, die einen neuen Alias Namen erhalten soll.
+	 * @param teamAliasName
+	 *            Der neue Alias Name für die Mannschaft.
+	 * @return Das TeamAlias.
+	 */
+	public TeamAlias createTeamAlias(Team team, String teamAliasName);
 
-    /**
-     * Entfernt einen Alias Namen.
-     *
-     * @param teamAlias
-     *            Der zu entfernende Alias Namen.
-     */
-    public void deleteTeamAlias(TeamAlias teamAlias);
+	/**
+	 * Entfernt einen Alias Namen.
+	 *
+	 * @param teamAlias
+	 *            Der zu entfernende Alias Namen.
+	 */
+	public void deleteTeamAlias(TeamAlias teamAlias);
 
-    /**
-     * Aktualisiert den Alias Namen einer Mannschaft.
-     *
-     * @param teamAlias
-     *            Der geänderte Alias Name.
-     */
-    public void updateTeamAlias(TeamAlias teamAlias);
+	/**
+	 * Aktualisiert den Alias Namen einer Mannschaft.
+	 *
+	 * @param teamAlias
+	 *            Der geänderte Alias Name.
+	 */
+	public void updateTeamAlias(TeamAlias teamAlias);
 
-    // ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
-    /**
-     * Neuanlage eines Teilnehmers.
-     *
-     * @param user
-     *            Ein Teilnehmer.
-     */
-    public void createUser(User user);
+	/**
+	 * Neuanlage eines Teilnehmers.
+	 *
+	 * @param user
+	 *            Ein Teilnehmer.
+	 */
+	public void createUser(User user);
 
-    /**
-     * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn
-     * dieser keiner Meisterschaft zugeordnet ist.
-     * 
-     * @param user
-     *            Ein Teilnehmer.
-     */
-    public void deleteUser(User user);
+	/**
+	 * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn
+	 * dieser keiner Meisterschaft zugeordnet ist.
+	 * 
+	 * @param user
+	 *            Ein Teilnehmer.
+	 */
+	public void deleteUser(User user);
 
-    /**
-     * Aktualisierung der Daten eines Teilnehmers.
-     *
-     * @param user
-     *            Ein Teilnehmer.
-     */
-    public void updateUser(User user);
+	/**
+	 * Aktualisierung der Daten eines Teilnehmers.
+	 *
+	 * @param user
+	 *            Ein Teilnehmer.
+	 */
+	public void updateUser(User user);
 
-    /**
-     * Liefert alle bekannten Teilnehmer zurück.
-     *
-     * @return Die bekannten Teilnehmer.
-     */
-    public List<User> findAllUsers();
+	/**
+	 * Liefert alle bekannten Teilnehmer zurück.
+	 *
+	 * @return Die bekannten Teilnehmer.
+	 */
+	public List<User> findAllUsers();
 
-    /**
-     * Sucht nach einem Benutzer mit gesuchtem Nickname.
-     *
-     * @param nickname
-     *            Der Nickname des gesuchten Teilnehmers.
-     * @return Der User oder <code>null</code> wenn keiner gefunden.
-     */
-    public User findUserByNickname(String nickname);
+	/**
+	 * Sucht nach einem Benutzer mit gesuchtem Nickname.
+	 *
+	 * @param nickname
+	 *            Der Nickname des gesuchten Teilnehmers.
+	 * @return Der User oder <code>null</code> wenn keiner gefunden.
+	 */
+	public User findUserByNickname(String nickname);
 
-    // ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
-    /**
-     * Neuanlage einer Gruppe (1. Liga, 2. Liga, Regionalliga, etc)
-     *
-     * @param groupType
-     *            Eine Gruppe.
-     */
-    public void createGroupType(GroupType groupType);
+	/**
+	 * Neuanlage einer Gruppe (1. Liga, 2. Liga, Regionalliga, etc)
+	 *
+	 * @param groupType
+	 *            Eine Gruppe.
+	 */
+	public void createGroupType(GroupType groupType);
 
-    /**
-     * Löscht einen Gruppentyp. Eine Gruppe kann nur gelöscht werden, wenn diese
-     * keiner Meisterschaft zugeordnet ist.
-     *
-     * @param groupType
-     *            Eine Gruppe.
-     */
-    public void deleteGroupType(GroupType groupType);
+	/**
+	 * Löscht einen Gruppentyp. Eine Gruppe kann nur gelöscht werden, wenn diese
+	 * keiner Meisterschaft zugeordnet ist.
+	 *
+	 * @param groupType
+	 *            Eine Gruppe.
+	 */
+	public void deleteGroupType(GroupType groupType);
 
-    /**
-     * Aktualisierung für eine Gruppe.
-     *
-     * @param groupType
-     *            Eine Gruppe.
-     */
-    public void updateGroupType(GroupType groupType);
+	/**
+	 * Aktualisierung für eine Gruppe.
+	 *
+	 * @param groupType
+	 *            Eine Gruppe.
+	 */
+	public void updateGroupType(GroupType groupType);
 
-    /**
-     * Liefert alle bekannten Gruppentypen.
-     *
-     * @return Alle Gruppentypen.
-     */
-    public List<GroupType> findAllGroupTypes();
+	/**
+	 * Liefert alle bekannten Gruppentypen.
+	 *
+	 * @return Alle Gruppentypen.
+	 */
+	public List<GroupType> findAllGroupTypes();
 
-    /**
-     * Liefert einen bestimmten Gruppentyp.
-     *
-     * @param name
-     *            Der Name der gesuchten Gruppe.
-     * @return Die gesuchte Gruppe.
-     */
-    public GroupType findGroupType(String name);
+	/**
+	 * Liefert einen bestimmten Gruppentyp.
+	 *
+	 * @param name
+	 *            Der Name der gesuchten Gruppe.
+	 * @return Die gesuchte Gruppe.
+	 */
+	public GroupType findGroupType(String name);
 
-    // ------------------------------------------------------------------------
+	/**
+	 * Liefert einen bestimmten Gruppentyp
+	 * 
+	 * @param groupTypeId
+	 *            Die ID der gesuchten Gruppe
+	 * @return Der entsprechende Gruppentyp
+	 */
+	public GroupType findGroupType(long groupTypeId);
 
-    /**
-     * Erstellt eine neue Spielstaette.
-     * 
-     * @param location
-     *            Eine Spielstaette.
-     */
-    public void createLocation(Location location);
+	// ------------------------------------------------------------------------
 
-    /**
-     * Loescht eine Spielstaette.
-     * 
-     * @param location
-     *            Die zu loeschende Spielstaette.
-     */
-    public void deleteLocation(Location location);
+	/**
+	 * Erstellt eine neue Spielstaette.
+	 * 
+	 * @param location
+	 *            Eine Spielstaette.
+	 */
+	public void createLocation(Location location);
 
-    /**
-     * Aendern einer Spielstaette.
-     * 
-     * @param location
-     *            Die zu aendernde Spielstaette
-     */
-    public void updateLocation(Location location);
+	/**
+	 * Loescht eine Spielstaette.
+	 * 
+	 * @param location
+	 *            Die zu loeschende Spielstaette.
+	 */
+	public void deleteLocation(Location location);
 
-    /**
-     * Liefert alle Spielstaetten.
-     * 
-     * @return Eine Spielstaette
-     */
-    public List<Location> findAllLocations();
+	/**
+	 * Aendern einer Spielstaette.
+	 * 
+	 * @param location
+	 *            Die zu aendernde Spielstaette
+	 */
+	public void updateLocation(Location location);
 
-    /**
-     * Findet eine Spielstaette.
-     * 
-     * @param id
-     *            Die ID der Spielstaette
-     * @return Eine Spielstaette
-     */
-    public Location findLocation(long id);
+	/**
+	 * Liefert alle Spielstaetten.
+	 * 
+	 * @return Eine Spielstaette
+	 */
+	public List<Location> findAllLocations();
 
-    /**
-     * Findet eine Spielstaette anhand der 'openligadbid'
-     * 
-     * @param openligaid
-     *            Die openligadb ID
-     * @return Eine Spielstaette
-     */
-    public Location findLocationByOpenligaid(long openligaid);
+	/**
+	 * Findet eine Spielstaette.
+	 * 
+	 * @param id
+	 *            Die ID der Spielstaette
+	 * @return Eine Spielstaette
+	 */
+	public Location findLocation(long id);
 
-    // -- player --------------------------------------------------------------
+	/**
+	 * Findet eine Spielstaette anhand der 'openligadbid'
+	 * 
+	 * @param openligaid
+	 *            Die openligadb ID
+	 * @return Eine Spielstaette
+	 */
+	public Location findLocationByOpenligaid(long openligaid);
 
-    /**
-     * Erstellt einen Spieler.
-     * 
-     * @param player
-     *            Ein Spieler
-     */
-    public void createPlayer(Player player);
+	// -- player --------------------------------------------------------------
 
-    /**
-     * Loescht einen Spieler
-     * 
-     * @param player
-     *            Ein Spieler
-     */
-    public void deletePlayer(Player player);
+	/**
+	 * Erstellt einen Spieler.
+	 * 
+	 * @param player
+	 *            Ein Spieler
+	 */
+	public void createPlayer(Player player);
 
-    /**
-     * Aendert einen Spieler.
-     * 
-     * @param player
-     *            Ein Spieler
-     */
-    public void updatePlayer(Player player);
+	/**
+	 * Loescht einen Spieler
+	 * 
+	 * @param player
+	 *            Ein Spieler
+	 */
+	public void deletePlayer(Player player);
 
-    /**
-     * Liefert eine Liste aller Spieler.
-     * 
-     * @return Eine Lister aller Spieler
-     */
-    public List<Player> findAllPlayers();
+	/**
+	 * Aendert einen Spieler.
+	 * 
+	 * @param player
+	 *            Ein Spieler
+	 */
+	public void updatePlayer(Player player);
 
-    /**
-     * Liefert einen Spieler
-     * 
-     * @param id
-     *            Die ID des Spielers
-     * @return Ein Spieler oder <code>null</code>
-     */
-    public Player findPlayer(long id);
+	/**
+	 * Liefert eine Liste aller Spieler.
+	 * 
+	 * @return Eine Lister aller Spieler
+	 */
+	public List<Player> findAllPlayers();
 
-    /**
-     * Liefert einen Spieler anhand der openligadb ID
-     * 
-     * @param openligaid
-     *            Die openligadb ID
-     * @return Ein Spieler
-     */
-    public Player findPlayerByOpenligaid(long openligaid);
+	/**
+	 * Liefert einen Spieler
+	 * 
+	 * @param id
+	 *            Die ID des Spielers
+	 * @return Ein Spieler oder <code>null</code>
+	 */
+	public Player findPlayer(long id);
+
+	/**
+	 * Liefert einen Spieler anhand der openligadb ID
+	 * 
+	 * @param openligaid
+	 *            Die openligadb ID
+	 * @return Ein Spieler
+	 */
+	public Player findPlayerByOpenligaid(long openligaid);
 
 }

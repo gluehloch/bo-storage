@@ -64,7 +64,7 @@ public class Goal extends AbstractStorageObject {
     /**
      * The index is under Hibernate control. Don´t use this method.
      * 
-     * @param _index
+     * @param index
      */
     public void setIndex(int index) {
         this.index = index;

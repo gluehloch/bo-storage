@@ -5,9 +5,43 @@
     <author email="andre.winkler@web.de">Andre Winkler</author>
   </properties>
   <body>
-    <!--
-         *** STILL UNDER DEVELOPMENT 2.0.0 (SNAPSHOT) ***
-    -->
+    <!-- RELEASED -->
+    <release version="betoffice-storage-2.1.0" date="2016-07-27"
+      description="Update">
+      <action dev="andrewinkler" type="update" date="2016-07-09">
+        Update to Springframework 4 and Hibernate 5.
+      </action>
+      <action dev="andrewinkler" type="update" date="2016-07-09">
+        Find the next tipp round by a date parameter. Find the last round
+        of a season.
+      </action>
+      <action dev="andrewinkler" type="update" date="2016-05-01">
+        Interface changes: SeasonManagerService#calculateTeamRanking
+      </action>
+      <action dev="andrewinkler" type="add" date="2015-11-13">
+        A new table bo_session to store user session data and security token..
+      </action>
+      <action dev="andrewinkler" type="add" date="2015-10-27">
+        An authentication service.
+      </action>
+      <action dev="andrewinkler" type="update" date="2015-05-15">
+        Error handling for service 'create season'.
+      </action>
+      <action dev="andrewinkler" type="add" date="2015-08-30">
+        A service to find the next tipp round.
+      </action>
+      <action dev="andrewinkler" type="add" date="2015-03-14">
+        A service method to get the previous and the next round.
+      </action>
+      <action dev="andrewinkler" type="add" date="2015-01-01">
+        A script to delete the database.
+      </action>
+      <action dev="andrewinkler" type="removed" date="2014-11-24">
+        Removed some DBUnit tests. The jar dependencies dbunit and unitils
+        are also removed.
+      </action>
+    </release>
+
     <release version="betoffice-storage-2.0.0" date="2014-10-26"
       description="Update">
       <action dev="andrewinkler" type="removed" date="2014-09-20">

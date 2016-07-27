@@ -1,0 +1,10 @@
+### TAB bo_user
+### id | bo_nickname | bo_name    | bo_surname | bo_password | bo_automat(bit) | bo_excluded(bit)
+    1  | Frosch      | Winkler    | Adam       | pst         | 0               | 0
+    2  | Hattwig     | Meier      | Erwin      | passwort    | 0               | 0
+    3  | Peter       | Winkelmann | Lars       | geheim      | 0               | 0
+    
+### TAB bo_session
+### id | bo_nickname | bo_token | bo_login            | bo_logout           | bo_remoteaddress | bo_browser | bo_failedlogins | bo_user_ref
+    1  | Frosch      | 4711     | 2015-11-14 00:00:00 | 2015-11-14 01:00:00 | 127.0.0.1        | firefoy    | 1               | 1
+    2  | Frosch      | 4712     | 2015-11-14 02:00:00 | 2015-11-14 02:10:00 | 127.0.0.1        | firefoy    | 1               | 1    

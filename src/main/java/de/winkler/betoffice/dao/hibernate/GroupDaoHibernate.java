@@ -1,46 +1,44 @@
 /*
- * $Id: GroupDaoHibernate.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.GroupDao;
 import de.winkler.betoffice.storage.Group;
+import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Team;
 
 /**
  * Implementierung von {@link GroupDao}.
  * 
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2012-07-27 19:20:45
- *          +0200 (Fri, 27 Jul 2012) $
+ * @author by Andre Winkler
  */
 @Repository("groupDao")
 public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
@@ -52,6 +50,14 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
 
     private static final String QUERY_TEAMS_BY_GROUP = AbstractCommonDao
             .loadQuery("query_teams_group.sql");
+
+    /**
+     * Sucht nach einer <code>Group</code>s anhand Meisterschaft und Gruppentyp.
+     */
+    private static final String QUERY_GROUP_BY_SEASON_AND_GROUPTYPE =
+            "select grp from Group as grp inner join grp.season as season inner join grp.groupType as gt"
+            + " where season.id = :seasonId"
+            + " and gt.id = :groupTypeId";
 
     public GroupDaoHibernate() {
         super(Group.class);
@@ -84,6 +90,15 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
         @SuppressWarnings("unchecked")
         List<Team> teams = query.list();
         return teams;
+    }
+
+    @Override
+    public Group findBySeasonAndGroupType(Season season, GroupType groupType) {
+        Query query = getSessionFactory().getCurrentSession().createQuery(
+                QUERY_GROUP_BY_SEASON_AND_GROUPTYPE);
+        query.setParameter("seasonId", season.getId());
+        query.setParameter("groupTypeId", groupType.getId());
+        return (Group) query.uniqueResult();
     }
 
 }

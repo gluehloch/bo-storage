@@ -1,7 +1,7 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
- * rights reserved.
+ * Project betoffice-storage
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
@@ -36,7 +36,7 @@ import de.winkler.betoffice.storage.enums.TeamType;
  *
  * @author by Andre Winkler
  */
-public interface TeamDao {
+public interface TeamDao extends CommonDao<Team> {
 
     /**
      * Sucht nach einer Mannschaft
