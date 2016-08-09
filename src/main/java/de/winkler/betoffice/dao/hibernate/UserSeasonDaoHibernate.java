@@ -60,7 +60,7 @@ public class UserSeasonDaoHibernate extends AbstractCommonDao<UserSeason>
         @SuppressWarnings("unchecked")
         List<User> users = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_USERS_BY_SEASON)
-                .setParameter("seasonId", season.getId()).list();
+                .setParameter("seasonId", season.getId()).getResultList();
         return users;
     }
 

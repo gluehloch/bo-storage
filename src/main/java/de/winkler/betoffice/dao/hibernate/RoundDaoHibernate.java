@@ -127,7 +127,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements
         List<GameList> objects = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMELIST_BY_SEASON_GROUP)
                 .setParameter("seasonId", season.getId())
-                .setParameter("groupId", group.getId()).list();
+                .setParameter("groupId", group.getId()).getResultList();
         return objects;
     }
 
@@ -137,7 +137,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements
         List<GameList> rounds = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMELIST_BY_SEASON_AND_INDEX)
                 .setParameter("seasonId", season.getId())
-                .setParameter("gameListIndex", Integer.valueOf(index)).list();
+                .setParameter("gameListIndex", Integer.valueOf(index)).getResultList();
 
         GameList result = null;
         if (!rounds.isEmpty()) {
@@ -152,7 +152,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements
         List<GameList> rounds = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_ALL_ROUND_OBJECTS)
                 .setParameter("seasonId", season.getId())
-                .setParameter("gameListIndex", Integer.valueOf(index)).list();
+                .setParameter("gameListIndex", Integer.valueOf(index)).getResultList();
 
         // TODO
         // The source on

@@ -5,6 +5,13 @@
     <author email="andre.winkler@web.de">Andre Winkler</author>
   </properties>
   <body>
+    <release version="betoffice-storage-2.1.1" date="2016-??-??"
+      description="Update">
+      <action dev="andrewinkler" type="update" date="2016-08-09">
+        Remove all deprecated methods and classes.
+      </action>
+    </release>
+
     <!-- RELEASED -->
     <release version="betoffice-storage-2.1.0" date="2016-07-27"
       description="Update">

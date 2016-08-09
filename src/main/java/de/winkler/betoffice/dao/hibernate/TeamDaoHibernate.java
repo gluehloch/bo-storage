@@ -64,7 +64,7 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team> implements
     @Override
     public List<Team> findAll() {
         return getSessionFactory().getCurrentSession()
-                .createQuery("from Team as team order by team.name").list();
+                .createQuery("from Team as team order by team.name").getResultList();
     }
 
     @Override
@@ -72,7 +72,7 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team> implements
     public List<Team> findTeams(TeamType teamType) {
         return getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_TEAM_BY_TYPE)
-                .setParameter("teamType", teamType).list();
+                .setParameter("teamType", teamType).getResultList();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team> implements
         @SuppressWarnings("unchecked")
         List<Team> teams = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_TEAM_BY_NAME).setParameter("teamName", name)
-                .list();
+                .getResultList();
         return first(teams);
     }
 
@@ -93,7 +93,7 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team> implements
                 .createSQLQuery(QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE)
                 .addEntity("team", Team.class)
                 .setParameter("season_id", season.getId())
-                .setParameter("grouptype_id", groupType.getId()).list();
+                .setParameter("grouptype_id", groupType.getId()).getResultList();
         return teams;
     }
 
@@ -102,7 +102,7 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team> implements
         @SuppressWarnings("unchecked")
         List<Team> teams = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_TEAM_BY_OPENLIGAID)
-                .setParameter("openligaid", openligaid).list();
+                .setParameter("openligaid", openligaid).getResultList();
         return first(teams);
     }
 

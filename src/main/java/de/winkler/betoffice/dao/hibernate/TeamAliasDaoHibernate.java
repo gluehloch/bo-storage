@@ -77,7 +77,7 @@ public class TeamAliasDaoHibernate extends AbstractCommonDao<TeamAlias>
                 .setParameter("alias_name", aliasName);
 
         @SuppressWarnings("unchecked")
-        List<Team> objects = query.list();
+        List<Team> objects = query.getResultList();
 
         if (objects.size() == 0) {
             return null;
@@ -91,7 +91,7 @@ public class TeamAliasDaoHibernate extends AbstractCommonDao<TeamAlias>
         @SuppressWarnings("unchecked")
         List<TeamAlias> teams = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_TEAMALIAS_BY_TEAM)
-                .setParameter("teamId", team.getId()).list();
+                .setParameter("teamId", team.getId()).getResultList();
         return teams;
     }
 

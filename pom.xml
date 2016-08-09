@@ -17,7 +17,7 @@
   <artifactId>betoffice-storage</artifactId>
   <name>betoffice storage</name>
   <packaging>jar</packaging>
-  <version>2.1.0</version>
+  <version>2.1.1-SNAPSHOT</version>
   <!-- Next TRUNK version <version>1.4.0</version> -->
 
   <description>

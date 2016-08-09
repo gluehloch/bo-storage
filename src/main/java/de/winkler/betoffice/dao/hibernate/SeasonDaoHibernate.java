@@ -123,7 +123,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
         @SuppressWarnings("unchecked")
         List<Season> seasons = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_SEASON_BY_NAME_AND_YEAR)
-                .setParameter("name", name).setParameter("year", year).list();
+                .setParameter("name", name).setParameter("year", year).getResultList();
 
         return first(seasons);
     }
@@ -133,7 +133,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
         @SuppressWarnings("unchecked")
         List<Season> seasons = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_ALL_SEASON_OBJECTS)
-                .setParameter("seasonId", season.getId()).list();
+                .setParameter("seasonId", season.getId()).getResultList();
         return first(seasons);
     }
 
@@ -142,7 +142,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
         @SuppressWarnings("unchecked")
         List<Season> seasons = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_ALL_SEASON_WITH_TIPP_OBJECTS)
-                .setParameter("seasonId", season.getId()).list();
+                .setParameter("seasonId", season.getId()).getResultList();
         return first(seasons);
     }
 
@@ -188,7 +188,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
         queryTeamPoints.setParameter("season_id", season.getId());
         queryTeamPoints.setParameter("grouptype_id", groupType.getId());
 
-        List<?> resultQueryTeamPoints = queryTeamPoints.list();
+        List<?> resultQueryTeamPoints = queryTeamPoints.getResultList();
         for (Object object : resultQueryTeamPoints) {
             Object[] row = (Object[]) object;
             Team team = (Team) row[0];
