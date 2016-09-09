@@ -33,6 +33,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.hibernate.jdbc.Work;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,14 +99,17 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(frankreich.getName(), equalTo("Frankreich"));
         assertThat(frankreich.getTeamType(), equalTo(TeamType.FIFA));
 
-        final ResourceWriter rw = new ResourceWriter(File.createTempFile(
-                "team", "dat"));
+        File teamExportFile = File.createTempFile("team", "dat");
+        final ResourceWriter rw = new ResourceWriter(teamExportFile);
         getSessionFactory().getCurrentSession().doWork(new Work() {
             @Override
             public void execute(Connection connection) throws SQLException {
                 rw.start(connection, "select * from bo_team", false);
             }
         });
+        
+        String fileToString = FileUtils.readFileToString(teamExportFile);
+        System.out.println(fileToString);
     }
 
     @Test

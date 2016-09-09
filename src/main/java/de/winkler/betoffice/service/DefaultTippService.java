@@ -119,12 +119,17 @@ public class DefaultTippService extends AbstractManagerService implements
             throw new BetofficeValidationException(messages);
         }
 
+        // Find related tipp ...
         for (GameTippDto tipp : tippDto.getGameTipps()) {
             Game game = getConfig().getMatchDao().findById(tipp.getGameId());
-            GameTipp gameTipp = game.addTipp(user,
-                    new GameResult(tipp.getHomeGoals(), tipp.getGuestGoals()),
-                    TippStatusType.USER);
-            getConfig().getGameTippDao().save(gameTipp);
+            
+            // Time point of tipp submit must be before kick off.
+            if (tippDto.getSubmitTime().isBefore(new DateTime(game.getDateTime().getTime()))) {
+                GameTipp gameTipp = game.addTipp(user,
+                        new GameResult(tipp.getHomeGoals(), tipp.getGuestGoals()),
+                        TippStatusType.USER);
+                getConfig().getGameTippDao().save(gameTipp);   
+            }
         }
     }
 

@@ -5,6 +5,17 @@
     <author email="andre.winkler@web.de">Andre Winkler</author>
   </properties>
   <body>
+  
+    <!-- Under construction -->
+    <release version="betoffice-storage-2.2.0" date="2016-??-??"
+      description="Update">
+      <action dev="andrewinkler" type="add" date="2016-??-??">
+        Tipp date and time validation. Don´t change a tipp of the past.
+        The class GameTipp gets two new attributes: createDateTime
+        and updateDateTime.
+      </action>
+    </release>
+  
     <!-- RELEASED -->
     <release version="betoffice-storage-2.1.0" date="2016-07-27"
       description="Update">

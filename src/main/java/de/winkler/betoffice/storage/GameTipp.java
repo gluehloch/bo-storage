@@ -1,31 +1,32 @@
 /*
  * $Id: GameTipp.java 3796 2013-08-05 03:58:02Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2010 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
  *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  *
  */
 
 package de.winkler.betoffice.storage;
 
 import java.util.Comparator;
+import java.util.Date;
 
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.enums.TotoResult;
@@ -33,15 +34,12 @@ import de.winkler.betoffice.storage.enums.TotoResult;
 /**
  * Verwaltet den Spieltipp/GameTipp eines Spiels eines Teilnehmers.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3796 $ $LastChangedDate: 2013-08-05 05:58:02 +0200 (Mon, 05 Aug 2013) $
+ * @author by Andre Winkler
  *
  * @todo Das implizite berechnen der Tipperpunkte macht keinen Sinn mehr.
- *
- * @hibernate.class table="bo_gametipp"
  */
-public class GameTipp extends AbstractStorageObject implements
-        Comparator<GameTipp> {
+public class GameTipp extends AbstractStorageObject
+        implements Comparator<GameTipp> {
 
     /** serial version id */
     private static final long serialVersionUID = -3043191976453282242L;
@@ -74,7 +72,8 @@ public class GameTipp extends AbstractStorageObject implements
     /**
      * Setzt den Primärschlüssel.
      *
-     * @param value Der Primärschlüssel.
+     * @param value
+     *            Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
@@ -99,10 +98,57 @@ public class GameTipp extends AbstractStorageObject implements
     /**
      * Setzt den Spieltipp.
      *
-     * @param value Der Tipp.
+     * @param value
+     *            Der Tipp.
      */
     private void setTipp(final GameResult value) {
         tipp = value;
+    }
+
+    // -- createTime ----------------------------------------------------------
+
+    private Date creationTime;
+
+    /**
+     * Date and time of the creation time point.
+     * 
+     * @return Date and time of the creation time point.
+     */
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    /**
+     * The creation time point.
+     * 
+     * @param date
+     *            the creation time point
+     */
+    public void setCreationTime(Date date) {
+        creationTime = date;
+    }
+
+    // -- updateTime ----------------------------------------------------------
+
+    private Date lastUpdateTime;
+
+    /**
+     * Date and time of the last update
+     * 
+     * @return date and time of the last update
+     */
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    /**
+     * Set a new update time point
+     * 
+     * @param _lastUpdateTime
+     *            the last update time point
+     */
+    public void setLastUpdateTime(Date _lastUpdateTime) {
+        lastUpdateTime = _lastUpdateTime;
     }
 
     // -- user ----------------------------------------------------------------
@@ -115,9 +161,7 @@ public class GameTipp extends AbstractStorageObject implements
      *
      * @return Der Teilnehmer.
      *
-     * @hibernate.many-to-one
-     *     column="bo_user_ref"
-     *     cascade="none"
+     * @hibernate.many-to-one column="bo_user_ref" cascade="none"
      */
     public User getUser() {
         return user;
@@ -126,8 +170,10 @@ public class GameTipp extends AbstractStorageObject implements
     /**
      * Setzt den User für diesen GameTipp.
      *
-     * @param value Der neue User.
-     * @throws IllegalArgumentException value als null-Parameter übergeben.
+     * @param value
+     *            Der neue User.
+     * @throws IllegalArgumentException
+     *             value als null-Parameter übergeben.
      */
     public void setUser(final User value) {
         user = value;
@@ -143,9 +189,7 @@ public class GameTipp extends AbstractStorageObject implements
      *
      * @return Das Spiel.
      *
-     * @hibernate.many-to-one
-     *     column="bo_game_ref"
-     *     cascade="all"
+     * @hibernate.many-to-one column="bo_game_ref" cascade="all"
      */
     public Game getGame() {
         return game;
@@ -155,7 +199,8 @@ public class GameTipp extends AbstractStorageObject implements
      * Setzt das Game für diesen GameTipp. Kann auch <code>null</code> sein.
      * Dann wurde dieser Tipp entfernt.
      *
-     * @param value Die neue Game Zuordnung.
+     * @param value
+     *            Die neue Game Zuordnung.
      */
     protected void setGame(final Game value) {
         game = value;
@@ -191,7 +236,8 @@ public class GameTipp extends AbstractStorageObject implements
     /**
      * Setzt den Status des Tipps (User, Auto, etc.).
      *
-     * @param value Der zu setzende Status.
+     * @param value
+     *            Der zu setzende Status.
      */
     private void setStatus(final TippStatusType value) {
         status = value;
@@ -211,9 +257,12 @@ public class GameTipp extends AbstractStorageObject implements
     /**
      * Setzt den Spieltipp neu.
      *
-     * @param homeGoals Der Tipp 'Tore der Heimmannschaft'.
-     * @param guestGoals Der Tipp 'Tore der Gastmannschaft'.
-     * @param theStatus Der Status des Tipps (User, Auto, etc.).
+     * @param homeGoals
+     *            Der Tipp 'Tore der Heimmannschaft'.
+     * @param guestGoals
+     *            Der Tipp 'Tore der Gastmannschaft'.
+     * @param theStatus
+     *            Der Status des Tipps (User, Auto, etc.).
      */
     public void setTipp(final int homeGoals, final int guestGoals,
             final TippStatusType theStatus) {
@@ -225,10 +274,13 @@ public class GameTipp extends AbstractStorageObject implements
     /**
      * Setzt den Spieltipp neu.
      *
-     * @param _result Der Tipp.
-     * @param _status Der Status des Tipps (User, Auto, etc.).
+     * @param _result
+     *            Der Tipp.
+     * @param _status
+     *            Der Status des Tipps (User, Auto, etc.).
      */
-    public void setTipp(final GameResult _result, final TippStatusType _status) {
+    public void setTipp(final GameResult _result,
+            final TippStatusType _status) {
         setStatus(_status);
         setTipp(_result);
     }
@@ -288,32 +340,9 @@ public class GameTipp extends AbstractStorageObject implements
         }
     }
 
-    // -- StorageObject -------------------------------------------------------
-
-    /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig
-     * gefüllt sind, damit es evt. Weiterverarbeitungen erfahren kann.
-     * Folgende Eigenschaften müssen gesetzt sein:
-     * <ul>
-     *   <li>user</li>
-     *   <li>status</li>
-     * </ul>
-     *
-     * @return true, Objekt in Ordnung; false, es ist was falsch.
-     */
-    public boolean isValid() {
-        if (user == null) {
-            return false;
-        } else if (TippStatusType.UNDEFINED.equals(status)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     // -- Comparator ----------------------------------------------------------
 
-    @Override 
+    @Override
     public int compare(GameTipp o1, GameTipp o2) {
         if (o1.getPoints() > o2.getPoints()) {
             return 1;
@@ -326,43 +355,17 @@ public class GameTipp extends AbstractStorageObject implements
 
     // -- Object --------------------------------------------------------------
 
-    //    public boolean equals(Object object) {
-    //        if (this == object) {
-    //            return true;
-    //        } else if (object == null) {
-    //            return false;
-    //        } else if (!(object instanceof GameTipp)) {
-    //            return false;
-    //        } else {
-    //            GameTipp _tipp = (GameTipp) object;
-    //            if ((_tipp.getUser().equals(getUser()))
-    //                    && (_tipp.getGame().equals(getGame()))
-    //                    && (_tipp.getStatus().equals(getStatus()))
-    //                    && (_tipp.getTipp().equals(getTipp()))) {
-    //                return true;
-    //            } else {
-    //                return false;
-    //            }
-    //        }
-    //    }
-    //
-    //    public int hashCode() {
-    //        int result = 17;
-    //        result = 37 * result + getUser().hashCode();
-    //        result = 37 * result + getGame().hashCode();
-    //        result = 37 * result + getStatus().hashCode();
-    //        result = 37 * result + getTipp().hashCode();
-    //        return result;
-    //    }
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        buf.append("Tipp: ");
-        buf.append(tipp);
-        buf.append(" Status: ");
-        buf.append(status);
-        return buf.toString();
+        return "GameTipp [id=" + id + ", tipp=" + tipp + ", creationTime="
+                + creationTime + ", lastUpdateTime=" + lastUpdateTime
+                + ", user=" + user + ", game=" + game + ", status=" + status
+                + "]";
     }
 
 }

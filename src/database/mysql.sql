@@ -130,6 +130,8 @@ create table bo_gametipp (
     bo_game_ref bigint,
     bo_status integer,
     bo_tipps_index integer,
+    bo_create DEFAULT CURRENT_TIMESTAMP,
+    bo_update ON UPDATE CURRENT_TIMESTAMP,
     primary key (id)
 ) ENGINE=InnoDB;
 
