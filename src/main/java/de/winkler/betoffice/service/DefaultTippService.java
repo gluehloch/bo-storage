@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2015 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -24,6 +24,7 @@
 package de.winkler.betoffice.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -65,29 +66,29 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
  * @author by Andre Winkler
  */
 @Service("tippService")
-public class DefaultTippService extends AbstractManagerService implements
-        TippService {
+public class DefaultTippService extends AbstractManagerService
+        implements TippService {
 
     /** Logger für die Klasse. */
     private final Logger log = LoggerFactory.make();
 
     @Override
     @Transactional
-    public GameTipp addTipp(Game match, User user, GameResult gr,
+    public GameTipp addTipp(String token, Game match, User user, GameResult gr,
             TippStatusType status) {
 
-        GameTipp gameTipp = match.addTipp(user, gr, status);
+        GameTipp gameTipp = match.addTipp(token, user, gr, status);
         getConfig().getGameTippDao().save(gameTipp);
         return gameTipp;
     }
 
     @Override
     @Transactional
-    public void addTipp(GameList round, User user, List<GameResult> tipps,
-            TippStatusType status) {
+    public void addTipp(String token, GameList round, User user,
+            List<GameResult> tipps, TippStatusType status) {
 
         for (int i = 0; i < round.size(); i++) {
-            addTipp(round.get(i), user, tipps.get(i), status);
+            addTipp(token, round.get(i), user, tipps.get(i), status);
         }
     }
 
@@ -97,19 +98,20 @@ public class DefaultTippService extends AbstractManagerService implements
         List<BetofficeValidationMessage> messages = new ArrayList<>();
 
         // Find related user by nick name...
-        User user = getConfig().getUserDao().findByNickname(
-                tippDto.getNickname());
+        User user = getConfig().getUserDao()
+                .findByNickname(tippDto.getNickname());
         if (user == null) {
             BetofficeValidationMessage msg = new BetofficeValidationMessage(
                     "Unknown user with nickname=[" + tippDto.getNickname()
-                            + "]", null, Severity.INFO);
+                            + "]",
+                    null, Severity.INFO);
             messages.add(msg);
             throw new BetofficeValidationException(messages);
         }
 
         // Find related round ...
-        GameList gameList = getConfig().getRoundDao().findById(
-                tippDto.getRoundId());
+        GameList gameList = getConfig().getRoundDao()
+                .findById(tippDto.getRoundId());
 
         if (gameList == null) {
             BetofficeValidationMessage msg = new BetofficeValidationMessage(
@@ -122,32 +124,38 @@ public class DefaultTippService extends AbstractManagerService implements
         // Find related tipp ...
         for (GameTippDto tipp : tippDto.getGameTipps()) {
             Game game = getConfig().getMatchDao().findById(tipp.getGameId());
-            
+
             // Time point of tipp submit must be before kick off.
-            if (tippDto.getSubmitTime().isBefore(new DateTime(game.getDateTime().getTime()))) {
-                GameTipp gameTipp = game.addTipp(user,
-                        new GameResult(tipp.getHomeGoals(), tipp.getGuestGoals()),
-                        TippStatusType.USER);
-                getConfig().getGameTippDao().save(gameTipp);   
+            if (game.getDateTime() != null && tippDto.getSubmitTime()
+                    .isBefore(new DateTime(game.getDateTime().getTime()))) {
+
+                GameTipp gameTipp = game
+                        .addTipp(tippDto.getToken(), user,
+                                new GameResult(tipp.getHomeGoals(),
+                                        tipp.getGuestGoals()),
+                                TippStatusType.USER);
+                getConfig().getGameTippDao().save(gameTipp);
             }
         }
     }
 
     @Override
     @Transactional
-    public void updateTipp(Game match, User user, GameResult gr,
+    public void updateTipp(String token, Game match, User user, GameResult gr,
             TippStatusType status) {
-        
+
         // TODO A performance killer?
         getConfig().getMatchDao().refresh(match);
-        
-        addTipp(match, user, gr, status);
+
+        addTipp(token, match, user, gr, status);
     }
 
     @Override
     @Transactional
-    public void updateTipp(List<GameTipp> tipps) {
+    public void updateTipp(String token, List<GameTipp> tipps) {
+        Date now = DateTime.now().toDate();
         for (GameTipp tipp : tipps) {
+            tipp.setLastUpdateTime(now);
             getConfig().getGameTippDao().update(tipp);
         }
     }
@@ -184,7 +192,8 @@ public class DefaultTippService extends AbstractManagerService implements
         if (user == null) {
             BetofficeValidationMessage msg = new BetofficeValidationMessage(
                     "Unknown user with nickname ->" + mail.getNickName()
-                            + "<-.", null, Severity.INFO);
+                            + "<-.",
+                    null, Severity.INFO);
             messages.add(msg);
             throw new BetofficeValidationException(messages);
         }
@@ -205,8 +214,8 @@ public class DefaultTippService extends AbstractManagerService implements
                     "The championship id of the tipp mail ->"
                             + mail.getChampionship()
                             + "<- is not equal to the expected championship from"
-                            + " the parameter ->" + season + "<-.", null,
-                    Severity.ERROR);
+                            + " the parameter ->" + season + "<-.",
+                    null, Severity.ERROR);
             messages.add(msg);
             throw new BetofficeValidationException(messages);
         }
@@ -235,10 +244,10 @@ public class DefaultTippService extends AbstractManagerService implements
         }
 
         // Spiel-Tipps parsen
-        StringTokenizer tokHome = new StringTokenizer(mail.getHomeGoals()
-                + MailContent.DELIM, MailContent.DELIM);
-        StringTokenizer tokGuest = new StringTokenizer(mail.getGuestGoals()
-                + MailContent.DELIM, MailContent.DELIM);
+        StringTokenizer tokHome = new StringTokenizer(
+                mail.getHomeGoals() + MailContent.DELIM, MailContent.DELIM);
+        StringTokenizer tokGuest = new StringTokenizer(
+                mail.getGuestGoals() + MailContent.DELIM, MailContent.DELIM);
 
         if (tokHome.countTokens() != tokGuest.countTokens()) {
             throw new RuntimeException("Mail contains has an invalid format.");
@@ -284,7 +293,8 @@ public class DefaultTippService extends AbstractManagerService implements
             }
 
             // Tipp-Objekt für das Spiel generieren.
-            game.addTipp(user, new GameResult(home, guest), TippStatusType.USER);
+            game.addTipp("#SUBMITTED_BY_MAIL#", user, new GameResult(home, guest),
+                    TippStatusType.USER);
 
             // nächstes Spiel
             gameNr++;
@@ -349,8 +359,8 @@ public class DefaultTippService extends AbstractManagerService implements
     @Override
     @Transactional
     public List<GameTipp> findTippsByRoundAndUser(GameList round, User user) {
-        return getConfig().getGameTippDao()
-                .findTippsByRoundAndUser(round, user);
+        return getConfig().getGameTippDao().findTippsByRoundAndUser(round,
+                user);
     }
 
     @Override

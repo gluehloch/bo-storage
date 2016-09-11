@@ -1,8 +1,7 @@
 /*
- * $Id: MediumTippGenerator.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2008 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -41,11 +40,12 @@ import java.util.List;
  * Automat den Durchschnitt, rundet das Ergebnis ab und verwendet
  * das Ergebnis als eigenen Tipp.
  *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
 public class MediumTippGenerator implements TippGenerator {
 
+    private final String BOT_MEDIUM_TIPP = "#BOT_MEDIUM_TIPP#";
+    
 	/** Der Teilnehmer für den die Tipps generiert werden. */
 	private final User user;
 
@@ -70,7 +70,7 @@ public class MediumTippGenerator implements TippGenerator {
 		for (Game game : games) {
 			GameResult gr = InfoCenter.getMediumTipp(game);
 			if (gr != null) {
-				game.addTipp(user, gr, TippStatusType.AUTO);
+				game.addTipp(BOT_MEDIUM_TIPP, user, gr, TippStatusType.AUTO);
 			}
 		}
 	}

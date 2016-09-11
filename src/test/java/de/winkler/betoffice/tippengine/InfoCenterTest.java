@@ -1,8 +1,7 @@
 /*
- * $Id: InfoCenterTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -48,11 +47,12 @@ import de.winkler.betoffice.test.DummyUsers;
 /**
  * Testet die Klasse InfoCenter.
  * 
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
 public class InfoCenterTest {
 
+    private static final String JUNIT_TOKEN = "#JUNIT#";
+    
     /** Der private Logger der Klasse. */
     private static Log log = LogFactory.getLog(InfoCenterTest.class);
 
@@ -192,19 +192,19 @@ public class InfoCenterTest {
 
         Game nurAutoTipp = new Game();
 
-        nurAutoTipp.addTipp(frosch, new GameResult(1, 0), TippStatusType.AUTO);
-        nurAutoTipp.addTipp(hattwig, new GameResult(1, 0), TippStatusType.AUTO);
+        nurAutoTipp.addTipp(JUNIT_TOKEN, frosch, new GameResult(1, 0), TippStatusType.AUTO);
+        nurAutoTipp.addTipp(JUNIT_TOKEN, hattwig, new GameResult(1, 0), TippStatusType.AUTO);
 
         assertTrue("Nur AUTO-Tipps vorhanden.", InfoCenter
             .getMediumTipp(nurAutoTipp) == null);
 
         Game g = new Game();
 
-        GameTipp tipp1 = g.addTipp(frosch, new GameResult(1, 0),
+        GameTipp tipp1 = g.addTipp(JUNIT_TOKEN, frosch, new GameResult(1, 0),
             TippStatusType.USER);
-        GameTipp tipp2 = g.addTipp(hattwig, new GameResult(1, 0),
+        GameTipp tipp2 = g.addTipp(JUNIT_TOKEN, hattwig, new GameResult(1, 0),
             TippStatusType.USER);
-        GameTipp tipp3 = g.addTipp(mrTipp, new GameResult(1, 0),
+        GameTipp tipp3 = g.addTipp(JUNIT_TOKEN, mrTipp, new GameResult(1, 0),
             TippStatusType.USER);
 
         assertEquals(InfoCenter.getMediumTipp(g), new GameResult(1, 0));

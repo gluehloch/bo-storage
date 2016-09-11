@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -31,6 +31,7 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
 
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.exception.StorageObjectExistsException;
@@ -441,8 +442,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * @hibernate.list cascade="all" lazy="false"
      * @hibernate.collection-index column="bo_tipps_index"
      * @hibernate.collection-key column="bo_game_ref"
-     * @hibernate.collection-one-to-many 
-     *                                   class="de.winkler.betoffice.storage.GameTipp"
+     * @hibernate.collection-one-to-many class="de.winkler.betoffice.storage.GameTipp"
      */
     protected List<GameTipp> getTippList() {
         return tippList;
@@ -487,6 +487,8 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /**
      * Fügt dem Spiel einen Tipp hinzu. Bestehende Tipps werden überschrieben.
      *
+     * @param token
+     *            Das Anmeldetoken mit dem dieser Spieltipp angelegt wird.
      * @param user
      *            Der Spieler von dem der Tipp kommt.
      * @param gr
@@ -495,9 +497,10 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *            Der Status des Tipps.
      * @return Ein neu erzeugter Tipp oder ein bereits abgegebener Tipp.
      */
-    public GameTipp addTipp(final User user, final GameResult gr,
-            final TippStatusType status) {
+    public GameTipp addTipp(String token, User user, GameResult gr,
+            TippStatusType status) {
 
+        Validate.notNull(token);
         Validate.notNull(user);
         Validate.notNull(gr);
         Validate.notNull(status);
@@ -506,7 +509,9 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
         if (containsTipp(user)) {
             try {
                 tipp = getGameTipp(user);
+                tipp.setToken(token);
                 tipp.setTipp(gr, status);
+                tipp.setLastUpdateTime(DateTime.now().toDate());
             } catch (StorageObjectNotFoundException ex) {
                 // Nach Abfrage nicht möglich!
                 log.error("storage object not found exception", ex);
@@ -514,9 +519,13 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
             }
         } else {
             tipp = new GameTipp();
+            tipp.setToken(token);
             tipp.setUser(user);
             tipp.setGame(this);
             tipp.setTipp(gr, status);
+            Date now = DateTime.now().toDate();
+            tipp.setLastUpdateTime(now);
+            tipp.setCreationTime(now);
 
             try {
                 addTipp(tipp);
@@ -547,12 +556,12 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
         Validate.notNull(tipp);
 
         if (containsTipp(tipp.getUser())) {
-            StringBuffer buf = new StringBuffer("'");
+            StringBuilder buf = new StringBuilder("'");
             buf.append(tipp.toString()).append("' already exists!");
             log.error(buf);
             throw new StorageObjectExistsException(buf.toString());
-        } else if (tipp.getGame() != this) { // TODO equals() wäre besser!
-            StringBuffer buf = new StringBuffer("'");
+        } else if (tipp.getGame() != this) { // TODO equals() wäre besser?
+            StringBuilder buf = new StringBuilder("'");
             buf.append(tipp.toString()).append("' game property failure!");
             log.error(buf);
             throw new IllegalArgumentException(buf.toString());

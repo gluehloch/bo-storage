@@ -1,8 +1,7 @@
 /*
- * $Id: MinTippGenerator.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -46,10 +45,11 @@ import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
  * Es wird der schlechteste Tipp des Spieltages ermittelt und dieser
  * dann dem User zugewiesen.
  * 
- * @author   $Author: andrewinkler $
- * @version  $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
 public class MinTippGenerator implements TippGenerator {
+
+    private final String BOT_MIN_TIPP = "#BOT_MIN_TIPP#";
 
     /** Der private Logger der Klasse. */
     private final Logger log = LoggerFactory.make();
@@ -132,7 +132,7 @@ public class MinTippGenerator implements TippGenerator {
                 }
             } catch (StorageObjectNotFoundException ex) {
                 // Dann einen neuen Tipp anlegen.
-                game.addTipp(user, minTippResult, TippStatusType.MIN);
+                game.addTipp(BOT_MIN_TIPP, user, minTippResult, TippStatusType.MIN);
             }
 
             if (log.isDebugEnabled()) {

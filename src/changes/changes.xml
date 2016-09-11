@@ -8,7 +8,7 @@
   
     <!-- Under construction -->
     <release version="betoffice-storage-2.2.0" date="2016-??-??"
-      description="Update">
+      description="Update - date and time check for tipp">
       <action dev="andrewinkler" type="add" date="2016-??-??">
         Tipp date and time validation. Don´t change a tipp of the past.
         The class GameTipp gets two new attributes: createDateTime
@@ -18,7 +18,7 @@
   
     <!-- RELEASED -->
     <release version="betoffice-storage-2.1.0" date="2016-07-27"
-      description="Update">
+      description="Update - Support for the AngularJS frontend">
       <action dev="andrewinkler" type="update" date="2016-07-09">
         Update to Springframework 4 and Hibernate 5.
       </action>

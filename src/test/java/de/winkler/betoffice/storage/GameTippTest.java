@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -45,6 +45,8 @@ import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
  * @author Andre Winkler
  */
 public class GameTippTest {
+
+    private static final String JUNIT_TOKEN = "#JUNIT#";
 
     private class TestSpec {
         private final GameResult testResult;
@@ -211,7 +213,7 @@ public class GameTippTest {
         assertTrue(TotoResult.EQUAL == tipp.getTotoResult());
         assertTrue(UserResult.nEqualValue == tipp.getPoints());
 
-        GameTipp tippD = game.addTipp(userD, gr11, TippStatusType.USER);
+        GameTipp tippD = game.addTipp(JUNIT_TOKEN, userD, gr11, TippStatusType.USER);
         assertTrue(TotoResult.EQUAL == tippD.getTotoResult());
 
         // Spiel auf ungültig setzen.
@@ -287,10 +289,10 @@ public class GameTippTest {
         allUsers.add(userD);
         allUsers.add(userE);
 
-        game.addTipp(userA, gr10, TippStatusType.USER);
-        game.addTipp(userB, gr01, TippStatusType.USER);
-        game.addTipp(userC, gr11, TippStatusType.USER);
-        game.addTipp(userD, gr21, TippStatusType.USER);
+        game.addTipp(JUNIT_TOKEN, userA, gr10, TippStatusType.USER);
+        game.addTipp(JUNIT_TOKEN, userB, gr01, TippStatusType.USER);
+        game.addTipp(JUNIT_TOKEN, userC, gr11, TippStatusType.USER);
+        game.addTipp(JUNIT_TOKEN, userD, gr21, TippStatusType.USER);
 
         UserResult.nEqualValue = 10;
         UserResult.nTotoValue = 20;

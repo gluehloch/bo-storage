@@ -25,6 +25,9 @@
     <property name="lastUpdateTime" type="java.util.Date" update="true"
       insert="true" column="bo_update" />
 
+    <property name="token" type="java.lang.String" update="true"
+      insert="true" column="bo_token" />
+
     <many-to-one name="user" class="de.winkler.betoffice.storage.User"
       cascade="none" outer-join="auto" update="true" insert="true" column="bo_user_ref" />
 

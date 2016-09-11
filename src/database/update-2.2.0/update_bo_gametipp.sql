@@ -3,3 +3,4 @@ select version();
 
 ALTER TABLE bo_gametipp ADD bo_create DATETIME DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE bo_gametipp ADD bo_update DATETIME ON UPDATE CURRENT_TIMESTAMP;
+ALTER TABLE bo_gametipp ADD bo_token VARCHAR(2048);

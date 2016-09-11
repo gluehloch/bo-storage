@@ -179,6 +179,29 @@ public class GameTipp extends AbstractStorageObject
         user = value;
     }
 
+    // -- token ---------------------------------------------------------------
+
+    private String token;
+
+    /**
+     * Liefert das Anmelde-Token mit dem dieser Tipp angelegt wurde.
+     * 
+     * @return Anmeldetoken. Verknüpft mit Session/bo_session.
+     */
+    public String getToken() {
+        return token;
+    }
+
+    /**
+     * Setzt das Token mit dem dieser Spieltipp angelegt wurde.
+     * 
+     * @param _token
+     *            Anmeldetoken
+     */
+    public void setToken(String _token) {
+        token = _token;
+    }
+
     // -- game ----------------------------------------------------------------
 
     /** Das getippte Spiel. */
