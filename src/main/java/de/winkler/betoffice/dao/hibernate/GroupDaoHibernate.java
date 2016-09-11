@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
+import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.GroupDao;
@@ -67,7 +68,7 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
     public List<Group> findAll() {
         @SuppressWarnings("unchecked")
         List<Group> groups = getSessionFactory().getCurrentSession()
-                .createQuery("from group").list();
+                .createQuery("from group").getResultList();
         return groups;
     }
 
@@ -76,19 +77,19 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
         @SuppressWarnings("unchecked")
         List<Group> objects = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GROUPS_FROM_SEASON)
-                .setParameter("seasonId", season.getId()).list();
+                .setParameter("seasonId", season.getId()).getResultList();
         return objects;
     }
 
     @Override
     public List<Team> findTeams(final Group group) {
-        SQLQuery query = getSessionFactory().getCurrentSession()
-                .createSQLQuery(QUERY_TEAMS_BY_GROUP)
-                .addEntity("team", Team.class);
+        NativeQuery<Team> query = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_TEAMS_BY_GROUP)
+                .addEntity(Team.class);
         query.setParameter("group_id", group.getId());
 
         @SuppressWarnings("unchecked")
-        List<Team> teams = query.list();
+        List<Team> teams = query.getResultList();
         return teams;
     }
 

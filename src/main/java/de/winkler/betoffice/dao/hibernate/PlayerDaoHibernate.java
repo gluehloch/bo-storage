@@ -58,7 +58,7 @@ public class PlayerDaoHibernate extends AbstractCommonDao<Player> implements
                 .getCurrentSession()
                 .createQuery(
                         "from Player as player where player.openligaid = :openligaid")
-                .setLong("openligaid", openligaid).list();
+                .setLong("openligaid", openligaid).getResultList();
         return first(players);
     }
 
@@ -69,7 +69,7 @@ public class PlayerDaoHibernate extends AbstractCommonDao<Player> implements
                 .getCurrentSession()
                 .createQuery(
                         "from Player as player left join fetch player.goals where player.id = :id")
-                .setLong("id", id).list();
+                .setLong("id", id).getResultList();
         return first(players);
     }
 

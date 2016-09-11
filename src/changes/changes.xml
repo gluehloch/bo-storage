@@ -14,8 +14,11 @@
         The class GameTipp gets two new attributes: createDateTime
         and updateDateTime.
       </action>
+      <action dev="andrewinkler" type="update" date="2016-08-09">
+        Remove all deprecated methods and classes.
+      </action>
     </release>
-  
+
     <!-- RELEASED -->
     <release version="betoffice-storage-2.1.0" date="2016-07-27"
       description="Update - Support for the AngularJS frontend">

@@ -55,7 +55,7 @@ public class SessionDaoHibernate extends AbstractCommonDao<Session> implements
                 .getCurrentSession()
                 .createQuery(
                         "from Session as session where session.nickname = :nickname order by session.login")
-                .setParameter("nickname", nickname).list();
+                .setParameter("nickname", nickname).getResultList();
     }
 
     /*
@@ -71,7 +71,7 @@ public class SessionDaoHibernate extends AbstractCommonDao<Session> implements
                 .getCurrentSession()
                 .createQuery(
                         "from Session as session where session.token = :sessionId")
-                .setParameter("sessionId", sessionId).list();
+                .setParameter("sessionId", sessionId).getResultList();
     }
 
 }

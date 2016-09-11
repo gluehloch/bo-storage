@@ -93,7 +93,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements
         @SuppressWarnings("unchecked")
         List<Game> games = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_MATCHES_BY_HOMETEAM)
-                .setParameter("homeTeamId", homeTeam.getId()).list();
+                .setParameter("homeTeamId", homeTeam.getId()).getResultList();
         return games;
     }
 
@@ -102,7 +102,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements
         @SuppressWarnings("unchecked")
         List<Game> games = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_MATCHES_BY_GUESTTEAM)
-                .setParameter("guestTeamId", guestTeam.getId()).list();
+                .setParameter("guestTeamId", guestTeam.getId()).getResultList();
         return games;
     }
 
@@ -112,7 +112,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements
         List<Game> games = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM)
                 .setParameter("homeTeamId", homeTeam.getId())
-                .setParameter("guestTeamId", guestTeam.getId()).list();
+                .setParameter("guestTeamId", guestTeam.getId()).getResultList();
 
         return games;
     }
@@ -133,7 +133,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements
                 .createQuery(QUERY_MATCH_BY_HOME_AND_GUEST_TEAM_AND_ROUND)
                 .setParameter("homeTeamId", homeTeam.getId())
                 .setParameter("guestTeamId", guestTeam.getId())
-                .setParameter("gameListId", round.getId()).list();
+                .setParameter("gameListId", round.getId()).getResultList();
         return ((Game) first(games));
     }
 

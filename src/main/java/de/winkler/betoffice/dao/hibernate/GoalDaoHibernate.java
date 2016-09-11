@@ -25,6 +25,7 @@ package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
 
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.GoalDao;
@@ -51,7 +52,7 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements
                 .getCurrentSession()
                 .createQuery(
                         "from Goal as goal inner join fetch goal.player order by goal.id")
-                .list();
+                .getResultList();
     }
 
     @SuppressWarnings("unchecked")
@@ -61,7 +62,7 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements
                 .getCurrentSession()
                 .createQuery(
                         "from Goal as goal where goal.openligaid = :openligaid")
-                .setLong("openligaid", openligaid).list();
+                .setParameter("openligaid", openligaid, StandardBasicTypes.LONG).getResultList();
         return first(goals);
     }
 
@@ -70,7 +71,7 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements
     public List<Goal> find(Game match) {
         List<Goal> goals = getSessionFactory().getCurrentSession()
                 .createQuery("from Goal as goal where goal.game.id = :matchId")
-                .setLong("matchId", match.getId()).list();
+                .setParameter("matchId", match.getId(), StandardBasicTypes.LONG).getResultList();
         return goals;
     }
 
