@@ -25,9 +25,8 @@ package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.GroupDao;
@@ -84,22 +83,20 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
     @Override
     public List<Team> findTeams(final Group group) {
         NativeQuery<Team> query = getSessionFactory().getCurrentSession()
-                .createNativeQuery(QUERY_TEAMS_BY_GROUP)
-                .addEntity(Team.class);
+                .createNativeQuery(QUERY_TEAMS_BY_GROUP, Team.class);
         query.setParameter("group_id", group.getId());
 
-        @SuppressWarnings("unchecked")
         List<Team> teams = query.getResultList();
         return teams;
     }
 
     @Override
     public Group findBySeasonAndGroupType(Season season, GroupType groupType) {
-        Query query = getSessionFactory().getCurrentSession().createQuery(
-                QUERY_GROUP_BY_SEASON_AND_GROUPTYPE);
+        Query<Group> query = getSessionFactory().getCurrentSession().createQuery(
+                QUERY_GROUP_BY_SEASON_AND_GROUPTYPE, Group.class);
         query.setParameter("seasonId", season.getId());
         query.setParameter("groupTypeId", groupType.getId());
-        return (Group) query.uniqueResult();
+        return (Group) query.getSingleResult();
     }
 
 }
