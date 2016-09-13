@@ -15,7 +15,8 @@
         and updateDateTime.
       </action>
       <action dev="andrewinkler" type="update" date="2016-08-09">
-        Remove all deprecated methods and classes.
+        Removed/Replaced all (some) deprecated methods and classes which
+        are using the latest Hibernate API.
       </action>
     </release>
 
