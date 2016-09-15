@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.SQLQuery;
+import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.SeasonDao;
@@ -49,8 +49,8 @@ import de.winkler.betoffice.storage.comparator.TeamPointsComparator;
  * @author by Andre Winkler
  */
 @Repository("seasonDao")
-public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
-        SeasonDao {
+public class SeasonDaoHibernate extends AbstractCommonDao<Season>
+        implements SeasonDao {
 
     /** Sucht nach einer Meisterschaft mit gesuchtem Namen und Jahrgang. */
     private static final String QUERY_SEASON_BY_NAME_AND_YEAR = "from "
@@ -66,8 +66,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
             + "left join fetch season.groups g "
             + "left join fetch g.groupType gt "
             + "left join fetch season.userSeason us "
-            + "left join fetch us.user u "
-            + "where season.id = :seasonId "
+            + "left join fetch us.user u " + "where season.id = :seasonId "
             + "order by gt.name, round.index";
 
     /**
@@ -81,8 +80,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
             + "left join fetch season.groups g "
             + "left join fetch g.groupType gt "
             + "left join fetch season.userSeason us "
-            + "left join fetch us.user u "
-            + "where season.id = :seasonId "
+            + "left join fetch us.user u " + "where season.id = :seasonId "
             + "order by gt.name, round.index";
 
     /** Sucht nach allen Gruppen einer Meisterschaft. */
@@ -112,38 +110,36 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
 
     @Override
     public List<Season> findAll() {
-        @SuppressWarnings("unchecked")
-        List<Season> objects = getSessionFactory().getCurrentSession()
-                .createQuery("from Season order by bo_year").list();
-        return objects;
+        List<Season> seasons = getSessionFactory().getCurrentSession()
+                .createQuery("from Season order by bo_year", Season.class)
+                .getResultList();
+        return seasons;
     }
 
     @Override
     public Season findByName(final String name, final String year) {
-        @SuppressWarnings("unchecked")
-        List<Season> seasons = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_SEASON_BY_NAME_AND_YEAR)
-                .setParameter("name", name).setParameter("year", year).getResultList();
+        Season season = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_SEASON_BY_NAME_AND_YEAR, Season.class)
+                .setParameter("name", name).setParameter("year", year)
+                .getSingleResult();
 
-        return first(seasons);
+        return season;
     }
 
     @Override
     public Season findRoundGroupTeamUser(Season season) {
-        @SuppressWarnings("unchecked")
-        List<Season> seasons = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_ALL_SEASON_OBJECTS)
-                .setParameter("seasonId", season.getId()).getResultList();
-        return first(seasons);
+        Season result = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_ALL_SEASON_OBJECTS, Season.class)
+                .setParameter("seasonId", season.getId()).getSingleResult();
+        return result;
     }
 
     @Override
     public Season findRoundGroupTeamUserTipp(Season season) {
-        @SuppressWarnings("unchecked")
-        List<Season> seasons = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_ALL_SEASON_WITH_TIPP_OBJECTS)
-                .setParameter("seasonId", season.getId()).getResultList();
-        return first(seasons);
+        Season result = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_ALL_SEASON_WITH_TIPP_OBJECTS, Season.class)
+                .setParameter("seasonId", season.getId()).getSingleResult();
+        return result;
     }
 
     @Override
@@ -152,9 +148,8 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
 
         Map<Team, TeamResult> resultMap = new HashMap<Team, TeamResult>();
 
-        SQLQuery queryTeamGoals = getSessionFactory()
-                .getCurrentSession()
-                .createSQLQuery(QUERY_TEAM_SEASON_GOALS)
+        NativeQuery queryTeamGoals = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_TEAM_SEASON_GOALS)
                 .addEntity("team", Team.class)
                 .addScalar("diff", org.hibernate.type.StandardBasicTypes.LONG)
                 .addScalar("pos_goals",
@@ -177,14 +172,14 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
             resultMap.put(team, tr);
         }
 
-        SQLQuery queryTeamPoints = getSessionFactory()
-                .getCurrentSession()
-                .createSQLQuery(QUERY_TEAM_SEASON_POINTS)
+        NativeQuery queryTeamPoints = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_TEAM_SEASON_POINTS)
                 .addEntity("team", Team.class)
                 .addScalar("win", org.hibernate.type.StandardBasicTypes.LONG)
                 .addScalar("remis", org.hibernate.type.StandardBasicTypes.LONG)
                 .addScalar("lost", org.hibernate.type.StandardBasicTypes.LONG)
-                .addScalar("points", org.hibernate.type.StandardBasicTypes.LONG);
+                .addScalar("points",
+                        org.hibernate.type.StandardBasicTypes.LONG);
         queryTeamPoints.setParameter("season_id", season.getId());
         queryTeamPoints.setParameter("grouptype_id", groupType.getId());
 
@@ -220,9 +215,8 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
 
         Map<Team, TeamResult> resultMap = new HashMap<Team, TeamResult>();
 
-        SQLQuery queryTeamGoals = getSessionFactory()
-                .getCurrentSession()
-                .createSQLQuery(QUERY_TEAM_SEASON_RANGE_GOALS)
+        NativeQuery queryTeamGoals = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_TEAM_SEASON_RANGE_GOALS)
                 .addEntity("team", Team.class)
                 .addScalar("diff", org.hibernate.type.StandardBasicTypes.LONG)
                 .addScalar("pos_goals",
@@ -234,7 +228,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
         queryTeamGoals.setParameter("start_index", startIndex);
         queryTeamGoals.setParameter("end_index", endIndex);
 
-        List<?> resultQueryTeamGoals = queryTeamGoals.list();
+        List<?> resultQueryTeamGoals = queryTeamGoals.getResultList();
         for (Object object : resultQueryTeamGoals) {
             Object[] row = (Object[]) object;
             Team team = (Team) row[0];
@@ -247,20 +241,20 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
             resultMap.put(team, tr);
         }
 
-        SQLQuery queryTeamPoints = getSessionFactory()
-                .getCurrentSession()
-                .createSQLQuery(QUERY_TEAM_SEASON_RANGE_POINTS)
+        NativeQuery queryTeamPoints = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_TEAM_SEASON_RANGE_POINTS)
                 .addEntity("team", Team.class)
                 .addScalar("win", org.hibernate.type.StandardBasicTypes.LONG)
                 .addScalar("remis", org.hibernate.type.StandardBasicTypes.LONG)
                 .addScalar("lost", org.hibernate.type.StandardBasicTypes.LONG)
-                .addScalar("points", org.hibernate.type.StandardBasicTypes.LONG);
+                .addScalar("points",
+                        org.hibernate.type.StandardBasicTypes.LONG);
         queryTeamPoints.setParameter("season_id", season.getId());
         queryTeamPoints.setParameter("grouptype_id", groupType.getId());
         queryTeamPoints.setParameter("start_index", startIndex);
         queryTeamPoints.setParameter("end_index", endIndex);
 
-        List<?> resultQueryTeamPoints = queryTeamPoints.list();
+        List<?> resultQueryTeamPoints = queryTeamPoints.getResultList();
         for (Object object : resultQueryTeamPoints) {
             Object[] row = (Object[]) object;
             Team team = (Team) row[0];
@@ -286,7 +280,8 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements
         return teamResultToList(resultMap);
     }
 
-    private List<TeamResult> teamResultToList(Map<Team, TeamResult> teamResults) {
+    private List<TeamResult> teamResultToList(
+            Map<Team, TeamResult> teamResults) {
         List<TeamResult> tr = new ArrayList<TeamResult>();
         tr.addAll(teamResults.values());
 
