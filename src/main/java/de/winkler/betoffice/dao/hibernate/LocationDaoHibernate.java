@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -36,30 +36,28 @@ import de.winkler.betoffice.storage.Location;
  * @author by Andre Winkler
  */
 @Repository("locationDao")
-public class LocationDaoHibernate extends AbstractCommonDao<Location> implements
-        LocationDao {
+public class LocationDaoHibernate extends AbstractCommonDao<Location>
+        implements LocationDao {
 
     public LocationDaoHibernate() {
         super(Location.class);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<Location> findAll() {
-        return getSessionFactory()
-                .getCurrentSession()
-                .createQuery("from Location as location order by location.name")
-                .list();
+        return getSessionFactory().getCurrentSession()
+                .createQuery("from Location as location order by location.name",
+                        Location.class)
+                .getResultList();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Location findByOpenligaid(long openligaid) {
-        List<Location> locations = getSessionFactory()
-                .getCurrentSession()
+        List<Location> locations = getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Location as location where location.openligaid = :openligaid")
-                .setParameter("openligaid", openligaid).list();
+                        "from Location as location where location.openligaid = :openligaid",
+                        Location.class)
+                .setParameter("openligaid", openligaid).getResultList();
         return first(locations);
     }
 
