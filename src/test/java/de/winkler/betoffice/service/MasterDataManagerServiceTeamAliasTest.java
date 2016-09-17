@@ -1,35 +1,39 @@
 /*
- * $Id: MasterDataManagerServiceTeamAliasTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
+ * $Id: MasterDataManagerServiceTeamAliasTest.java 3782 2013-07-27 08:44:32Z
+ * andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2010 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
  *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  *
  */
 
 package de.winkler.betoffice.service;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.sql.DataSource;
 
 import org.junit.After;
@@ -50,11 +54,11 @@ import de.winkler.betoffice.validation.BetofficeValidationException;
  * Test CRUD operations on storage object {@link TeamAlias}.
  * 
  * TODO: It would be interesting to test a more complex scenario. A user with
- * tips and other related informations. Does MySQL allow delete statements
- * here?
+ * tips and other related informations. Does MySQL allow delete statements here?
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/betoffice-datasource.xml",
@@ -104,26 +108,26 @@ public class MasterDataManagerServiceTeamAliasTest {
         List<TeamAlias> rweAliasNames = masterDataManagerService
                 .findAllTeamAlias(rwe);
         assertThat(rweAliasNames).hasSize(1);
-        assertThat(rweAliasNames.get(0).getAliasName()).isEqualTo(
-                "Rot Weiss Essen");
+        assertThat(rweAliasNames.get(0).getAliasName())
+                .isEqualTo("Rot Weiss Essen");
 
         List<TeamAlias> rwoAliasNames = masterDataManagerService
                 .findAllTeamAlias(rwo);
         assertThat(rwoAliasNames).hasSize(1);
-        assertThat(rwoAliasNames.get(0).getAliasName()).isEqualTo(
-                "Rot Weiss Oberhausen");
+        assertThat(rwoAliasNames.get(0).getAliasName())
+                .isEqualTo("Rot Weiss Oberhausen");
 
         TeamAlias rweAlias_2 = masterDataManagerService.createTeamAlias(rwe,
                 "Schreck vom Niederrhein");
-        assertThat(rweAlias_2.getAliasName()).isEqualTo(
-                "Schreck vom Niederrhein");
+        assertThat(rweAlias_2.getAliasName())
+                .isEqualTo("Schreck vom Niederrhein");
         List<TeamAlias> rweAliasNames_2 = masterDataManagerService
                 .findAllTeamAlias(rwe);
         assertThat(rweAliasNames_2).hasSize(2);
-        assertThat(rweAliasNames_2.get(0).getAliasName()).isEqualTo(
-                "Rot Weiss Essen");
-        assertThat(rweAliasNames_2.get(1).getAliasName()).isEqualTo(
-                "Schreck vom Niederrhein");
+        assertThat(rweAliasNames_2.get(0).getAliasName())
+                .isEqualTo("Rot Weiss Essen");
+        assertThat(rweAliasNames_2.get(1).getAliasName())
+                .isEqualTo("Schreck vom Niederrhein");
     }
 
     @Test
@@ -183,8 +187,13 @@ public class MasterDataManagerServiceTeamAliasTest {
         rweAliasNames = masterDataManagerService.findAllTeamAlias(rwe);
         assertThat(rweAliasNames).hasSize(0);
 
-        rwe = masterDataManagerService.findTeamByAlias("Rot Weiss Essen");
-        assertThat(rwe).isNull();
+        try {
+            rwe = masterDataManagerService.findTeamByAlias("Rot Weiss Essen");
+            fail("Expected a NoResultException");
+        } catch (NoResultException ex) {
+            assertNotNull(ex);
+        }
+
     }
 
     private Team createTeam(final String name, final String longname) {

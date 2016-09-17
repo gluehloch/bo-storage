@@ -71,9 +71,9 @@ public class TeamAliasDaoHibernate extends AbstractCommonDao<TeamAlias>
 
     @Override
     public Team findByAliasName(final String aliasName) {
-        Team team = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_TEAMALIAS_BY_NAME, Team.class)
-                .setParameter("team", Team.class)
+        Team team = (Team) getSessionFactory().getCurrentSession()
+                .createSQLQuery(QUERY_TEAMALIAS_BY_NAME)
+                .addEntity("team", Team.class)
                 .setParameter("alias_name", aliasName, StringType.INSTANCE)
                 .getSingleResult();
 

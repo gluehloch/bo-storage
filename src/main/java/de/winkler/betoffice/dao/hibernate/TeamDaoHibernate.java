@@ -88,8 +88,8 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
 
         @SuppressWarnings("unchecked")
         List<Team> teams = getSessionFactory().getCurrentSession()
-                .createNativeQuery(QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE)
-                .setParameter("team", Team.class)
+                .createSQLQuery(QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE)
+                .addEntity("team", Team.class)
                 .setParameter("season_id", season.getId())
                 .setParameter("grouptype_id", groupType.getId())
                 .getResultList();
