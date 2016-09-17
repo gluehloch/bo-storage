@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -25,7 +25,7 @@ package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.TeamAliasDao;
@@ -65,32 +65,25 @@ public class TeamAliasDaoHibernate extends AbstractCommonDao<TeamAlias>
     @SuppressWarnings("unchecked")
     @Override
     public List<TeamAlias> findAll() {
-        return (getSessionFactory().getCurrentSession().createQuery(
-                QUERY_TEAMALIAS_FINDALL).list());
+        return (getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_TEAMALIAS_FINDALL).getResultList());
     }
 
     @Override
     public Team findByAliasName(final String aliasName) {
-        Query query = getSessionFactory().getCurrentSession()
-                .createSQLQuery(QUERY_TEAMALIAS_BY_NAME)
-                .addEntity("team", Team.class)
-                .setParameter("alias_name", aliasName);
+        Team team = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_TEAMALIAS_BY_NAME, Team.class)
+                .setParameter("team", Team.class)
+                .setParameter("alias_name", aliasName, StringType.INSTANCE)
+                .getSingleResult();
 
-        @SuppressWarnings("unchecked")
-        List<Team> objects = query.getResultList();
-
-        if (objects.size() == 0) {
-            return null;
-        } else {
-            return objects.get(0);
-        }
+        return team;
     }
 
     @Override
     public List<TeamAlias> findAliasNames(final Team team) {
-        @SuppressWarnings("unchecked")
         List<TeamAlias> teams = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_TEAMALIAS_BY_TEAM)
+                .createQuery(QUERY_TEAMALIAS_BY_TEAM, TeamAlias.class)
                 .setParameter("teamId", team.getId()).getResultList();
         return teams;
     }

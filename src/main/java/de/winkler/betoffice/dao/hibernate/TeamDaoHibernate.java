@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -39,8 +39,8 @@ import de.winkler.betoffice.storage.enums.TeamType;
  * @author Andre Winkler
  */
 @Repository("teamDao")
-public class TeamDaoHibernate extends AbstractCommonDao<Team> implements
-        TeamDao {
+public class TeamDaoHibernate extends AbstractCommonDao<Team>
+        implements TeamDao {
 
     private static final String QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE = AbstractCommonDao
             .loadQuery("query_teams_by_season_and_grouptype.sql");
@@ -60,27 +60,25 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team> implements
         super(Team.class);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<Team> findAll() {
         return getSessionFactory().getCurrentSession()
-                .createQuery("from Team as team order by team.name").getResultList();
+                .createQuery("from Team as team order by team.name", Team.class)
+                .getResultList();
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<Team> findTeams(TeamType teamType) {
         return getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_TEAM_BY_TYPE)
+                .createQuery(QUERY_TEAM_BY_TYPE, Team.class)
                 .setParameter("teamType", teamType).getResultList();
     }
 
     @Override
     public Team findByName(final String name) {
-        @SuppressWarnings("unchecked")
         List<Team> teams = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_TEAM_BY_NAME).setParameter("teamName", name)
-                .getResultList();
+                .createQuery(QUERY_TEAM_BY_NAME, Team.class)
+                .setParameter("teamName", name).getResultList();
         return first(teams);
     }
 
@@ -90,20 +88,20 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team> implements
 
         @SuppressWarnings("unchecked")
         List<Team> teams = getSessionFactory().getCurrentSession()
-                .createSQLQuery(QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE)
-                .addEntity("team", Team.class)
+                .createNativeQuery(QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE)
+                .setParameter("team", Team.class)
                 .setParameter("season_id", season.getId())
-                .setParameter("grouptype_id", groupType.getId()).getResultList();
+                .setParameter("grouptype_id", groupType.getId())
+                .getResultList();
         return teams;
     }
 
     @Override
     public Team findByOpenligaid(long openligaid) {
-        @SuppressWarnings("unchecked")
-        List<Team> teams = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_TEAM_BY_OPENLIGAID)
-                .setParameter("openligaid", openligaid).getResultList();
-        return first(teams);
+        Team team = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_TEAM_BY_OPENLIGAID, Team.class)
+                .setParameter("openligaid", openligaid).getSingleResult();
+        return team;
     }
 
 }
