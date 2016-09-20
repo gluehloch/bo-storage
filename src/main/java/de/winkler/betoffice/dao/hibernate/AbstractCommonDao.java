@@ -25,10 +25,14 @@ package de.winkler.betoffice.dao.hibernate;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.NoResultException;
 
 import org.apache.commons.io.IOUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -138,13 +142,31 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
      * @return Die Query oder eine {@link RuntimeException} falls nichts
      *         gefunden werden konnte.
      */
-    protected static final String loadQuery(final String query) {
+    public static final String loadQuery(final String query) {
         try {
-            return IOUtils.toString(AbstractCommonDao.class
-                    .getResourceAsStream(query));
+            return IOUtils.toString(
+                    AbstractCommonDao.class.getResourceAsStream(query));
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    /**
+     * Wrap single result queries with an exception handler and an
+     * {@link Optional}.
+     * 
+     * @param query A Hibernate query
+     * @return The query single result
+     */
+    public static <T> Optional<T> singleResult(Query<T> query) {
+        Optional<T> optionalResult = null;
+        try {
+            T result = query.getSingleResult();
+            optionalResult = Optional.of(result);
+        } catch (NoResultException ex) {
+            optionalResult = Optional.empty();
+        }
+        return optionalResult;
     }
 
 }

@@ -24,6 +24,7 @@
 package de.winkler.betoffice.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
@@ -53,7 +54,7 @@ public interface SeasonDao extends CommonDao<Season> {
      *            Der gesuchte Jahrgang
      * @return Eine Meisterschaft.
      */
-    public Season findByName(String name, String year);
+    public Optional<Season> findByName(String name, String year);
 
     /**
      * Liefert eine Meisterschaft mit der gesuchten ID.
@@ -73,7 +74,7 @@ public interface SeasonDao extends CommonDao<Season> {
      * @return Eine Meisterschaft mit gesetzten Referenzen zu allen Spieltagen,
      *         Gruppen, Mannschaften und Teilnehmern.
      */
-    public Season findRoundGroupTeamUser(Season season);
+    public Optional<Season> findRoundGroupTeamUser(Season season);
 
     /**
      * Sucht nach den Gruppen-, Mannschafts- und Teilnehmerbeziehungen zu der
@@ -85,7 +86,7 @@ public interface SeasonDao extends CommonDao<Season> {
      *         Gruppen, Mannschaften und Teilnehmern, sowie alle Tipps für alle
      *         Teilnehmer.
      */
-    public Season findRoundGroupTeamUserTipp(Season season);
+    public Optional<Season> findRoundGroupTeamUserTipp(Season season);
 
     /**
      * Legt eine neue Meisterschaft an.

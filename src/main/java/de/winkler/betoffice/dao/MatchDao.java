@@ -25,6 +25,7 @@
 package de.winkler.betoffice.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
@@ -36,14 +37,6 @@ import de.winkler.betoffice.storage.Team;
  * @author by Andre Winkler
  */
 public interface MatchDao extends CommonDao<Game> {
-
-    /**
-     * Sucht nach einem Spiel.
-     *
-     * @param id Die Datenbank ID
-     * @return Das gesuchte Spiel
-     */
-    public Game findById(long id);
     
     /**
      * Sucht nach einer bestimmten Spielpaarung für einen Spieltag.
@@ -54,7 +47,7 @@ public interface MatchDao extends CommonDao<Game> {
      * @return Das gefundene Spiel oder <code>null</code>, wenn kein Spiel
      *     mit diesem Bedingungen vorhanden.
      */
-    public Game find(GameList round, Team homeTeam, Team guestTeam);
+    public Optional<Game> find(GameList round, Team homeTeam, Team guestTeam);
     
     /**
      * Sucht nach allen Spielpaarungen mit der beteiligten Heimmannschaft.

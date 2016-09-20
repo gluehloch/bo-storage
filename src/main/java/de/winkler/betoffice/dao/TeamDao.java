@@ -24,6 +24,7 @@
 package de.winkler.betoffice.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
@@ -80,7 +81,7 @@ public interface TeamDao extends CommonDao<Team> {
      *            Der gesuchte Name.
      * @return Eine Mannschaften.
      */
-    public Team findByName(String name);
+    public Optional<Team> findByName(String name);
 
     /**
      * Legt eine neue Mannschaft an.

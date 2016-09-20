@@ -24,7 +24,9 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.LocationDao;
@@ -52,13 +54,13 @@ public class LocationDaoHibernate extends AbstractCommonDao<Location>
     }
 
     @Override
-    public Location findByOpenligaid(long openligaid) {
-        List<Location> locations = getSessionFactory().getCurrentSession()
+    public Optional<Location> findByOpenligaid(long openligaid) {
+        Query<Location> query = getSessionFactory().getCurrentSession()
                 .createQuery(
                         "from Location as location where location.openligaid = :openligaid",
                         Location.class)
-                .setParameter("openligaid", openligaid).getResultList();
-        return first(locations);
+                .setParameter("openligaid", openligaid);
+        return singleResult(query);
     }
 
 }

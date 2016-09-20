@@ -9,7 +9,10 @@
     <!-- Under construction -->
     <release version="betoffice-storage-2.2.0" date="2016-??-??"
       description="Update - date and time check for tipp">
-      <action dev="andrewinkler" type="add" date="2016-??-??">
+      <action dev="andrewinkler" type="add" date="2016-09-20">
+        The DAOs return an java.util.Optional catching all NoResultExceptions.
+      </action>
+      <action dev="andrewinkler" type="add" date="2016-09-20">
         Tipp date and time validation. Don´t change a tipp of the past.
         The class GameTipp gets two new attributes: createDateTime
         and updateDateTime.

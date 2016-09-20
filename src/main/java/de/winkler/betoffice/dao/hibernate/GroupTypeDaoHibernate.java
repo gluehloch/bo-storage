@@ -25,7 +25,9 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.GroupTypeDao;
@@ -63,12 +65,12 @@ public class GroupTypeDaoHibernate extends AbstractCommonDao<GroupType>
     }
 
     @Override
-    public GroupType findByName(final String name) {
-        GroupType groupType = getSessionFactory().getCurrentSession()
+    public Optional<GroupType> findByName(final String name) {
+        Query<GroupType> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GROUPTYPE_BY_NAME, GroupType.class)
-                .setParameter("groupTypeName", name).getSingleResult();
+                .setParameter("groupTypeName", name);
 
-        return groupType;
+        return singleResult(query);
     }
 
     @Override

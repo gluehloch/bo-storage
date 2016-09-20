@@ -25,8 +25,10 @@ package de.winkler.betoffice.dao.hibernate;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 import org.hibernate.type.DateType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.LongType;
@@ -130,43 +132,41 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
     }
 
     @Override
-    public GameList findRound(Season season, int index) {
-        GameList round = getSessionFactory().getCurrentSession()
+    public Optional<GameList> findRound(Season season, int index) {
+        Query<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMELIST_BY_SEASON_AND_INDEX, GameList.class)
                 .setParameter("seasonId", season.getId(), LongType.INSTANCE)
                 .setParameter("gameListIndex", Integer.valueOf(index),
-                        IntegerType.INSTANCE)
-                .getSingleResult();
+                        IntegerType.INSTANCE);
 
-        return round;
+        return singleResult(query);
     }
 
     @Override
-    public GameList findAllRoundObjects(Season season, int index) {
-        GameList round = getSessionFactory().getCurrentSession()
+    public Optional<GameList> findAllRoundObjects(Season season, int index) {
+        Query<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_ALL_ROUND_OBJECTS, GameList.class)
                 .setParameter("seasonId", season.getId(), LongType.INSTANCE)
                 .setParameter("gameListIndex", Integer.valueOf(index),
-                        IntegerType.INSTANCE)
-                .getSingleResult();
+                        IntegerType.INSTANCE);
 
-        return round;
+        return singleResult(query);
     }
 
     @Override
-    public Long findNextTippRound(long seasonId, DateTime date) {
+    public Optional<Long> findNextTippRound(long seasonId, DateTime date) {
         NativeQuery query = getSessionFactory().getCurrentSession()
                 .createNativeQuery(QUERY_NEXT_ROUND_BY_DATE);
         query.setParameter("season_id", seasonId);
         query.setParameter("date", date.toDate(), DateType.INSTANCE);
         query.addScalar("datetime");
         query.addScalar("next_round_id");
-        
+
         Object object = query.uniqueResult();
         Object[] uniqueResult = (Object[]) object;
-        Long roundId = null;
+        Optional<Long> roundId = Optional.empty();
         if (uniqueResult != null && uniqueResult[1] != null) {
-            roundId = ((BigInteger) uniqueResult[1]).longValue();
+            roundId = Optional.of(((BigInteger) uniqueResult[1]).longValue());
         }
 
         return roundId;
@@ -178,16 +178,16 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
      * @see de.winkler.betoffice.dao.RoundDao#findNext(long)
      */
     @Override
-    public Long findNext(long id) {
+    public Optional<Long> findNext(long id) {
         NativeQuery query = getSessionFactory().getCurrentSession()
                 .createNativeQuery(QUERY_NEXT_ROUND);
         query.setParameter("roundId", id, LongType.INSTANCE);
         query.addScalar("next_round_id");
 
         BigInteger uniqueResult = (BigInteger) query.uniqueResult();
-        Long nextRoundId = null;
+        Optional<Long> nextRoundId = Optional.empty();
         if (uniqueResult != null) {
-            nextRoundId = uniqueResult.longValue();
+            nextRoundId = Optional.of(uniqueResult.longValue());
         }
 
         return nextRoundId;
@@ -199,28 +199,28 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
      * @see de.winkler.betoffice.dao.RoundDao#findPrevious(long)
      */
     @Override
-    public Long findPrevious(long id) {
+    public Optional<Long> findPrevious(long id) {
         NativeQuery query = getSessionFactory().getCurrentSession()
                 .createNativeQuery(QUERY_PREV_ROUND);
         query.setParameter("roundId", id, LongType.INSTANCE);
         query.addScalar("prev_round_id");
 
         BigInteger uniqueResult = (BigInteger) query.uniqueResult();
-        Long prevRoundId = null;
+        Optional<Long> prevRoundId = Optional.empty();
         if (uniqueResult != null) {
-            prevRoundId = uniqueResult.longValue();
+            prevRoundId = Optional.of(uniqueResult.longValue());
         }
 
         return prevRoundId;
     }
 
     @Override
-    public GameList findLastRound(Season season) {
-        GameList rounds = getSessionFactory().getCurrentSession()
+    public Optional<GameList> findLastRound(Season season) {
+        Query<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_LAST_GAMELIST_BY_SEASON, GameList.class)
-                .setParameter("seasonId", season.getId()).getSingleResult();
+                .setParameter("seasonId", season.getId());
 
-        return rounds;
+        return singleResult(query);
     }
 
 }

@@ -29,8 +29,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-import org.hibernate.SQLQuery;
+import javax.persistence.NoResultException;
+
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -92,11 +94,11 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
     }
 
     @Override
-    public User findByNickname(final String nickname) {
+    public Optional<User> findByNickname(final String nickname) {
         User user = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_USER_BY_NICKNAME, User.class)
                 .setParameter("nickName", nickname).getSingleResult();
-        return user;
+        return Optional.of(user);
     }
 
     @Override

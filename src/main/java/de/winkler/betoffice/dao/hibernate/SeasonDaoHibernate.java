@@ -28,8 +28,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.SeasonDao;
@@ -117,29 +119,28 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season>
     }
 
     @Override
-    public Season findByName(final String name, final String year) {
-        Season season = getSessionFactory().getCurrentSession()
+    public Optional<Season> findByName(final String name, final String year) {
+        Query<Season> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_SEASON_BY_NAME_AND_YEAR, Season.class)
-                .setParameter("name", name).setParameter("year", year)
-                .getSingleResult();
+                .setParameter("name", name).setParameter("year", year);
 
-        return season;
+        return singleResult(query);
     }
 
     @Override
-    public Season findRoundGroupTeamUser(Season season) {
-        Season result = getSessionFactory().getCurrentSession()
+    public Optional<Season> findRoundGroupTeamUser(Season season) {
+        Query<Season> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_ALL_SEASON_OBJECTS, Season.class)
-                .setParameter("seasonId", season.getId()).getSingleResult();
-        return result;
+                .setParameter("seasonId", season.getId());
+        return singleResult(query);
     }
 
     @Override
-    public Season findRoundGroupTeamUserTipp(Season season) {
-        Season result = getSessionFactory().getCurrentSession()
+    public Optional<Season> findRoundGroupTeamUserTipp(Season season) {
+        Query<Season> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_ALL_SEASON_WITH_TIPP_OBJECTS, Season.class)
-                .setParameter("seasonId", season.getId()).getSingleResult();
-        return result;
+                .setParameter("seasonId", season.getId());
+        return singleResult(query);
     }
 
     @Override

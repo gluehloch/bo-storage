@@ -24,7 +24,9 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.hibernate.query.Query;
 import org.hibernate.type.LongType;
 import org.springframework.stereotype.Repository;
 
@@ -44,33 +46,32 @@ public class PlayerDaoHibernate extends AbstractCommonDao<Player>
         super(Player.class);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<Player> findAll() {
         return getSessionFactory().getCurrentSession()
-                .createQuery("from Player as player order by player.name")
+                .createQuery("from Player as player order by player.name",
+                        Player.class)
                 .getResultList();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Player findByOpenligaid(long openligaid) {
-        List<Player> players = getSessionFactory().getCurrentSession()
+    public Optional<Player> findByOpenligaid(long openligaid) {
+        Query<Player> query = getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Player as player where player.openligaid = :openligaid")
-                .setParameter("openligaid", openligaid, LongType.INSTANCE)
-                .getResultList();
-        return first(players);
+                        "from Player as player where player.openligaid = :openligaid",
+                        Player.class)
+                .setParameter("openligaid", openligaid, LongType.INSTANCE);
+        return singleResult(query);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Player findAllGoalsOfPlayer(long id) {
-        List<Player> players = getSessionFactory().getCurrentSession()
+    public Optional<Player> findAllGoalsOfPlayer(long id) {
+        Query<Player> query = getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Player as player left join fetch player.goals where player.id = :id")
-                .setParameter("id", id, LongType.INSTANCE).getResultList();
-        return first(players);
+                        "from Player as player left join fetch player.goals where player.id = :id",
+                        Player.class)
+                .setParameter("id", id, LongType.INSTANCE);
+        return singleResult(query);
     }
 
 }

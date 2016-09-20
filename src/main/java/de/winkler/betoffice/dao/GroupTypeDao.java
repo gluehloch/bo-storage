@@ -25,6 +25,7 @@
 package de.winkler.betoffice.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
@@ -50,7 +51,7 @@ public interface GroupTypeDao extends CommonDao<GroupType> {
      * @param name Der gesuchte Name.
      * @return Ein Gruppentyp.
      */
-    public GroupType findByName(String name);
+    public Optional<GroupType> findByName(String name);
 
     /**
      * Liefert eine Liste der zugeordneten Gruppentypen einer Meisterschaft.

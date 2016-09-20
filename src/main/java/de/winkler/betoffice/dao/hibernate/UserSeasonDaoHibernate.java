@@ -1,8 +1,7 @@
 /*
- * $Id: UserSeasonDaoHibernate.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -37,9 +36,7 @@ import de.winkler.betoffice.storage.UserSeason;
 /**
  * Implementierung des {@link UserSeasonDao}.
  * 
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2012-07-24 06:07:32
- *          +0200 (Tue, 24 Jul 2012) $
+ * @author Andre Winkler
  */
 @Repository("userSasonDao")
 public class UserSeasonDaoHibernate extends AbstractCommonDao<UserSeason>
@@ -57,9 +54,8 @@ public class UserSeasonDaoHibernate extends AbstractCommonDao<UserSeason>
 
     @Override
     public List<User> findUsers(final Season season) {
-        @SuppressWarnings("unchecked")
         List<User> users = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_USERS_BY_SEASON)
+                .createQuery(QUERY_USERS_BY_SEASON, User.class)
                 .setParameter("seasonId", season.getId()).getResultList();
         return users;
     }
