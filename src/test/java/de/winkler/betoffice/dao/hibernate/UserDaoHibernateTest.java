@@ -26,10 +26,10 @@ package de.winkler.betoffice.dao.hibernate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.NoResultException;
 
@@ -66,9 +66,9 @@ public class UserDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testUserDaoHibernateFindByNickname() {
-        User user = userDaoHibernate.findByNickname("Frosch");
+        Optional<User> user = userDaoHibernate.findByNickname("Frosch");
         assertNotNull(user);
-        assertEquals("Adam", user.getSurname());
+        assertEquals("Adam", user.get().getSurname());
 
         try {
             user = userDaoHibernate.findByNickname("fehler");

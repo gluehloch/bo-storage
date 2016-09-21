@@ -28,6 +28,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -68,48 +69,49 @@ public class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testSeasonFindByName() {
-        Season season = null;
+        Optional<Season> season = null;
 
         season = seasonDaoHibernate.findByName("1. Bundesliga", "2000/2001");
-        assertEquals("1. Bundesliga", season.getName());
-        assertEquals("2000/2001", season.getYear());
+        assertEquals("1. Bundesliga", season.get().getName());
+        assertEquals("2000/2001", season.get().getYear());
 
         season = seasonDaoHibernate.findByName("1. Bundesliga", "2001/2002");
-        assertEquals("1. Bundesliga", season.getName());
-        assertEquals("2001/2002", season.getYear());
+        assertEquals("1. Bundesliga", season.get().getName());
+        assertEquals("2001/2002", season.get().getYear());
     }
 
     @Test
     public void testSeasonFindRoundGroupTeamUser() {
-        Season season = seasonDaoHibernate.findByName("1. Bundesliga",
+        Optional<Season> season = seasonDaoHibernate.findByName("1. Bundesliga",
                 "2000/2001");
-        season = seasonDaoHibernate.findRoundGroupTeamUser(season);
-        assertEquals("1. Bundesliga", season.getName());
-        assertEquals("2000/2001", season.getYear());
-        assertEquals(0, season.getGroups().size());
-        assertEquals(0, season.getUsers().size());
+        Season result = seasonDaoHibernate.findRoundGroupTeamUser(season.get());
+        assertEquals("1. Bundesliga", result.getName());
+        assertEquals("2000/2001", result.getYear());
+        assertEquals(0, result.getGroups().size());
+        assertEquals(0, result.getUsers().size());
     }
 
     @Test
     public void testSeasonFindRoundGroupTeamUserTipp() {
-        Season season = seasonDaoHibernate.findByName("1. Bundesliga",
+        Optional<Season> season = seasonDaoHibernate.findByName("1. Bundesliga",
                 "2000/2001");
-        season = seasonDaoHibernate.findRoundGroupTeamUserTipp(season);
-        assertEquals("1. Bundesliga", season.getName());
-        assertEquals("2000/2001", season.getYear());
-        assertEquals(0, season.getGroups().size());
-        assertEquals(0, season.getUsers().size());
+        Season result = seasonDaoHibernate
+                .findRoundGroupTeamUserTipp(season.get());
+        assertEquals("1. Bundesliga", result.getName());
+        assertEquals("2000/2001", result.getYear());
+        assertEquals(0, result.getGroups().size());
+        assertEquals(0, result.getUsers().size());
     }
 
     @Test
     public void testSeasonDaoHibernate() {
-        Season season = seasonDaoHibernate.findByName("1. Bundesliga",
+        Optional<Season> season = seasonDaoHibernate.findByName("1. Bundesliga",
                 "1999/2000");
-        Season season2 = seasonDaoHibernate.findById(season.getId());
+        Season season2 = seasonDaoHibernate.findById(season.get().getId());
 
-        assertEquals("1999/2000", season.getYear());
-        assertEquals("1. Bundesliga", season.getName());
-        assertEquals(TeamType.DFB, season.getTeamType());
+        assertEquals("1999/2000", season.get().getYear());
+        assertEquals("1. Bundesliga", season.get().getName());
+        assertEquals(TeamType.DFB, season.get().getTeamType());
         assertEquals("1999/2000", season2.getYear());
         assertEquals("1. Bundesliga", season2.getName());
         assertEquals(TeamType.DFB, season2.getTeamType());

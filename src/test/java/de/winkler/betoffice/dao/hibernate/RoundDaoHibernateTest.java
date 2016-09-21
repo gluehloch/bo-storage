@@ -28,6 +28,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import java.util.Optional;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -120,8 +122,8 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     @Test
     public void testFindLastRound() {
         Season season = seasonDao.findById(1l);
-        GameList lastRound = roundDao.findLastRound(season);
-        assertThat(lastRound.getId(), equalTo(5L));
+        Optional<GameList> lastRound = roundDao.findLastRound(season);
+        assertThat(lastRound.get().getId(), equalTo(5L));
     }
 
 }

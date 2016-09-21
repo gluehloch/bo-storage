@@ -32,6 +32,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.io.FileUtils;
 import org.hibernate.jdbc.Work;
@@ -68,14 +69,14 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testTeamDaoOpenligaidFinder() {
-        Team rwe = teamDao.findByOpenligaid(10);
-        assertThat(rwe.getName(), equalTo("RWE"));
-        Team rwo = teamDao.findByOpenligaid(20);
-        assertThat(rwo.getName(), equalTo("RWO"));
-        Team deutschland = teamDao.findByOpenligaid(30);
-        assertThat(deutschland.getName(), equalTo("Deutschland"));
-        Team frankreich = teamDao.findByOpenligaid(40);
-        assertThat(frankreich.getName(), equalTo("Frankreich"));
+        Optional<Team> rwe = teamDao.findByOpenligaid(10);
+        assertThat(rwe.get().getName(), equalTo("RWE"));
+        Optional<Team> rwo = teamDao.findByOpenligaid(20);
+        assertThat(rwo.get().getName(), equalTo("RWO"));
+        Optional<Team> deutschland = teamDao.findByOpenligaid(30);
+        assertThat(deutschland.get().getName(), equalTo("Deutschland"));
+        Optional<Team> frankreich = teamDao.findByOpenligaid(40);
+        assertThat(frankreich.get().getName(), equalTo("Frankreich"));
     }
 
     @Test
@@ -124,10 +125,10 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testTeamDaoFindTeam() {
-        Team team = teamDao.findByName("RWE");
-        assertEquals("RWE", team.getName());
+        Optional<Team> team = teamDao.findByName("RWE");
+        assertEquals("RWE", team.get().getName());
         team = teamDao.findByName("RWO");
-        assertEquals("RWO", team.getName());
+        assertEquals("RWO", team.get().getName());
     }
 
     @Test

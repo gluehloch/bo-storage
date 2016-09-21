@@ -40,15 +40,6 @@ import de.winkler.betoffice.storage.enums.TeamType;
 public interface TeamDao extends CommonDao<Team> {
 
 	/**
-	 * Sucht nach einer Mannschaft
-	 *
-	 * @param id
-	 *            Die Datenbank ID
-	 * @return Die gesuchte Mannschaft.
-	 */
-	Team findById(long id);
-
-	/**
 	 * Sucht nach allen Mannschaften zu einer Meisterschaft und Gruppe.
 	 *
 	 * @param season

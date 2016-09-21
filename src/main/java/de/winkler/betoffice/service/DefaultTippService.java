@@ -26,6 +26,7 @@ package de.winkler.betoffice.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.StringTokenizer;
 
 import javax.mail.MessagingException;
@@ -98,9 +99,10 @@ public class DefaultTippService extends AbstractManagerService
         List<BetofficeValidationMessage> messages = new ArrayList<>();
 
         // Find related user by nick name...
-        User user = getConfig().getUserDao()
+        Optional<User> user = getConfig().getUserDao()
                 .findByNickname(tippDto.getNickname());
-        if (user == null) {
+
+        if (!user.isPresent()) {
             BetofficeValidationMessage msg = new BetofficeValidationMessage(
                     "Unknown user with nickname=[" + tippDto.getNickname()
                             + "]",
@@ -130,7 +132,7 @@ public class DefaultTippService extends AbstractManagerService
                     .isBefore(new DateTime(game.getDateTime().getTime()))) {
 
                 GameTipp gameTipp = game
-                        .addTipp(tippDto.getToken(), user,
+                        .addTipp(tippDto.getToken(), user.get(),
                                 new GameResult(tipp.getHomeGoals(),
                                         tipp.getGuestGoals()),
                                 TippStatusType.USER);
@@ -188,8 +190,9 @@ public class DefaultTippService extends AbstractManagerService
         }
 
         // Find related user by nick name...
-        User user = getConfig().getUserDao().findByNickname(mail.getNickName());
-        if (user == null) {
+        Optional<User> user = getConfig().getUserDao()
+                .findByNickname(mail.getNickName());
+        if (!user.isPresent()) {
             BetofficeValidationMessage msg = new BetofficeValidationMessage(
                     "Unknown user with nickname ->" + mail.getNickName()
                             + "<-.",
@@ -199,7 +202,7 @@ public class DefaultTippService extends AbstractManagerService
         }
 
         // Password Check
-        if (!user.getPassword().equals(mail.getPwdA())) {
+        if (!user.get().getPassword().equals(mail.getPwdA())) {
             BetofficeValidationMessage msg = new BetofficeValidationMessage(
                     "Password does not match!", null, Severity.INFO);
             messages.add(msg);
@@ -236,9 +239,9 @@ public class DefaultTippService extends AbstractManagerService
         //
 
         // OLD but lazy
-        GameList round = getConfig().getRoundDao().findAllRoundObjects(season,
-                roundIndex - 1);
-        if (round == null) {
+        Optional<GameList> round = getConfig().getRoundDao()
+                .findAllRoundObjects(season, roundIndex - 1);
+        if (!round.isPresent()) {
             throw new RuntimeException("Unable to find the specified round ->"
                     + roundIndex + "<- of championship: ->" + season + "<-.");
         }
@@ -260,7 +263,7 @@ public class DefaultTippService extends AbstractManagerService
         while (tokHome.hasMoreTokens()) {
             Game game = null;
             try {
-                game = round.get(gameNr);
+                game = round.get().get(gameNr);
             } catch (IndexOutOfBoundsException ex) {
                 log.error("Vorgang abgebrochen!", ex);
                 throw new RuntimeException(ex);
@@ -293,13 +296,13 @@ public class DefaultTippService extends AbstractManagerService
             }
 
             // Tipp-Objekt für das Spiel generieren.
-            game.addTipp("#SUBMITTED_BY_MAIL#", user, new GameResult(home, guest),
-                    TippStatusType.USER);
+            game.addTipp("#SUBMITTED_BY_MAIL#", user.get(),
+                    new GameResult(home, guest), TippStatusType.USER);
 
             // nächstes Spiel
             gameNr++;
         }
-        getConfig().getRoundDao().save(round);
+        getConfig().getRoundDao().save(round.get());
     }
 
     @Override
@@ -314,9 +317,9 @@ public class DefaultTippService extends AbstractManagerService
             throw new RuntimeException("Unknown season id=" + championshipId);
         }
 
-        GameList round = getConfig().getRoundDao().findRound(season,
+        Optional<GameList> round = getConfig().getRoundDao().findRound(season,
                 roundNr - 1);
-        if (round == null) {
+        if (!round.isPresent()) {
             throw new RuntimeException("Unknown round nr=" + roundNr);
         }
 
@@ -373,9 +376,9 @@ public class DefaultTippService extends AbstractManagerService
     @Transactional(readOnly = true)
     public GameList findTippRound(long seasonId, DateTime date) {
         RoundDao roundDao = getConfig().getRoundDao();
-        Long roundId = roundDao.findNextTippRound(seasonId, date);
-        if (roundId != null) {
-            return roundDao.findById(roundId);
+        Optional<Long> roundId = roundDao.findNextTippRound(seasonId, date);
+        if (roundId.isPresent()) {
+            return roundDao.findById(roundId.get());
         } else {
             return null;
         }
