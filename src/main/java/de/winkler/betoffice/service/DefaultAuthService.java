@@ -24,6 +24,7 @@
 package de.winkler.betoffice.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -60,15 +61,15 @@ public class DefaultAuthService implements AuthService {
     public SecurityToken login(String name, String password, String sessionId,
             String address, String browserId) {
 
-        User user = userDao.findByNickname(name);
+        Optional<User> user = userDao.findByNickname(name);
         DateTime now = DateTime.now();
 
         SecurityToken securityToken = null;
-        if (user != null && user.comparePwd(password)) {
+        if (user.isPresent() && user.get().comparePwd(password)) {
             //
             // TODO Die Rolle muss bestimmt werden.
             //
-            securityToken = new SecurityToken(sessionId, user, Role.TIPPER, now);
+            securityToken = new SecurityToken(sessionId, user.get(), Role.TIPPER, now);
 
             Session session = new Session();
             session.setBrowser(browserId);
@@ -78,7 +79,7 @@ public class DefaultAuthService implements AuthService {
             session.setNickname(name);
             session.setRemoteAddress(address);
             session.setToken(securityToken.getToken());
-            session.setUser(user);
+            session.setUser(user.get());
 
             sessionDao.save(session);
         }

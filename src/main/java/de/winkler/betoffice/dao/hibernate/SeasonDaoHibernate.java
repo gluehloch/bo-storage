@@ -128,19 +128,19 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season>
     }
 
     @Override
-    public Optional<Season> findRoundGroupTeamUser(Season season) {
+    public Season findRoundGroupTeamUser(Season season) {
         Query<Season> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_ALL_SEASON_OBJECTS, Season.class)
                 .setParameter("seasonId", season.getId());
-        return singleResult(query);
+        return singleResult(query).get();
     }
 
     @Override
-    public Optional<Season> findRoundGroupTeamUserTipp(Season season) {
+    public Season findRoundGroupTeamUserTipp(Season season) {
         Query<Season> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_ALL_SEASON_WITH_TIPP_OBJECTS, Season.class)
                 .setParameter("seasonId", season.getId());
-        return singleResult(query);
+        return singleResult(query).get();
     }
 
     @Override

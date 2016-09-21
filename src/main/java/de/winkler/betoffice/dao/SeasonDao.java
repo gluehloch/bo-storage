@@ -74,7 +74,7 @@ public interface SeasonDao extends CommonDao<Season> {
      * @return Eine Meisterschaft mit gesetzten Referenzen zu allen Spieltagen,
      *         Gruppen, Mannschaften und Teilnehmern.
      */
-    public Optional<Season> findRoundGroupTeamUser(Season season);
+    public Season findRoundGroupTeamUser(Season season);
 
     /**
      * Sucht nach den Gruppen-, Mannschafts- und Teilnehmerbeziehungen zu der
@@ -86,7 +86,7 @@ public interface SeasonDao extends CommonDao<Season> {
      *         Gruppen, Mannschaften und Teilnehmern, sowie alle Tipps für alle
      *         Teilnehmer.
      */
-    public Optional<Season> findRoundGroupTeamUserTipp(Season season);
+    public Season findRoundGroupTeamUserTipp(Season season);
 
     /**
      * Legt eine neue Meisterschaft an.

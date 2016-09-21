@@ -24,7 +24,9 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.hibernate.query.Query;
 import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
 
@@ -71,13 +73,12 @@ public class TeamAliasDaoHibernate extends AbstractCommonDao<TeamAlias>
 
     @Override
     public Optional<Team> findByAliasName(final String aliasName) {
-        Team team = (Team) getSessionFactory().getCurrentSession()
-                .createSQLQuery(QUERY_TEAMALIAS_BY_NAME, Team.class)
+        Query<Team> query = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_TEAMALIAS_BY_NAME, Team.class)
                 .addEntity("team", Team.class)
-                .setParameter("alias_name", aliasName, StringType.INSTANCE)
-                .getSingleResult();
+                .setParameter("alias_name", aliasName, StringType.INSTANCE);
 
-        return team;
+        return singleResult(query);
     }
 
     @Override

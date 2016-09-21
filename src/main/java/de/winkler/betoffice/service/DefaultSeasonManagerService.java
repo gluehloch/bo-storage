@@ -26,6 +26,7 @@ package de.winkler.betoffice.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.DateTime;
@@ -137,7 +138,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public Game findMatch(GameList round, Team homeTeam, Team guestTeam) {
+    public Optional<Game> findMatch(GameList round, Team homeTeam, Team guestTeam) {
         return getConfig().getMatchDao().find(round, homeTeam, guestTeam);
     }
 
@@ -156,13 +157,13 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public GameList findRound(Season season, int index) {
+    public Optional<GameList> findRound(Season season, int index) {
         return (getConfig().getRoundDao().findRound(season, index));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public GameList findLastRound(Season season) {
+    public Optional<GameList> findLastRound(Season season) {
         return (getConfig().getRoundDao().findLastRound(season));
     }
 
@@ -174,22 +175,22 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public GameList findNextRound(long id) {
-        Long nextRoundId = getConfig().getRoundDao().findNext(id);
-        GameList nextGameList = null;
-        if (nextRoundId != null) {
-            nextGameList = getConfig().getRoundDao().findById(nextRoundId);
+    public Optional<GameList> findNextRound(long id) {
+        Optional<Long> nextRoundId = getConfig().getRoundDao().findNext(id);
+        Optional<GameList> nextGameList = Optional.empty();
+        if (nextRoundId.isPresent()) {
+            nextGameList = Optional.of(getConfig().getRoundDao().findById(nextRoundId.get()));
         }
         return nextGameList;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public GameList findPrevRound(long id) {
-        Long prevRoundId = getConfig().getRoundDao().findPrevious(id);
-        GameList prevGameList = null;
-        if (prevRoundId != null) {
-            prevGameList = getConfig().getRoundDao().findById(prevRoundId);
+    public Optional<GameList> findPrevRound(long id) {
+        Optional<Long> prevRoundId = getConfig().getRoundDao().findPrevious(id);
+        Optional<GameList> prevGameList = Optional.empty();
+        if (prevRoundId.isPresent()) {
+            prevGameList = Optional.of(getConfig().getRoundDao().findById(prevRoundId.get()));
         }
         return prevGameList;
     }
@@ -238,7 +239,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public Season findSeasonByName(String name, String year) {
+    public Optional<Season> findSeasonByName(String name, String year) {
         return getConfig().getSeasonDao().findByName(name, year);
     }
 
@@ -527,7 +528,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = false)
-    public Player findGoalsOfPlayer(long id) {
+    public Optional<Player> findGoalsOfPlayer(long id) {
         return getConfig().getPlayerDao().findAllGoalsOfPlayer(id);
     }
 
