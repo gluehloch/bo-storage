@@ -168,5 +168,19 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
         }
         return optionalResult;
     }
+    
+    /**
+     * Extract from a query result list the first element.
+     * 
+     * @param list A Hibernate query result list
+     * @return The query single result
+     */
+    public static <T> Optional<T> singleResult(List<T> list) {
+        Optional<T> optionalResult = Optional.empty();
+        if (list.size() > 0) {
+            optionalResult = Optional.of(list.get(0));
+        }
+        return optionalResult;
+    }
 
 }

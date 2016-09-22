@@ -1,8 +1,7 @@
 /*
- * $Id: MasterDataManagerServiceTeamTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2011 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -29,6 +28,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -53,8 +53,7 @@ import de.winkler.betoffice.validation.BetofficeValidationException;
  * tips and other related informations. Does MySQL allow delete statements
  * here?
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/betoffice-datasource.xml",
@@ -119,9 +118,9 @@ public class MasterDataManagerServiceTeamTest {
         rwe.setName("RWE_2010");
         masterDataManagerService.updateTeam(rwe);
 
-        Team rwe_2010 = masterDataManagerService.findTeam("RWE_2010");
+        Optional<Team> rwe_2010 = masterDataManagerService.findTeam("RWE_2010");
         assertThat(rwe_2010).isNotNull();
-        assertThat(rwe_2010.getName()).isEqualTo("RWE_2010");
+        assertThat(rwe_2010.get().getName()).isEqualTo("RWE_2010");
     }
 
     @Test
@@ -133,10 +132,10 @@ public class MasterDataManagerServiceTeamTest {
         rwe.setTeamType(TeamType.FIFA);
         masterDataManagerService.updateTeam(rwe);
 
-        Team rwe_2010 = masterDataManagerService.findTeam("RWE_2010");
+        Optional<Team> rwe_2010 = masterDataManagerService.findTeam("RWE_2010");
         assertThat(rwe_2010).isNotNull();
-        assertThat(rwe_2010.getName()).isEqualTo("RWE_2010");
-        assertThat(rwe_2010.getTeamType()).isEqualTo(TeamType.FIFA);
+        assertThat(rwe_2010.get().getName()).isEqualTo("RWE_2010");
+        assertThat(rwe_2010.get().getTeamType()).isEqualTo(TeamType.FIFA);
     }
 
     @Test

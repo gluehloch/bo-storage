@@ -163,7 +163,7 @@ public class MasterDataManagerServiceTeamAliasTest {
 
         Optional<Team> rwoByAlias = masterDataManagerService
                 .findTeamByAlias("An other value");
-        assertThat(rwoByAlias).isEqualTo(rwo);
+        assertThat(rwoByAlias.get()).isEqualTo(rwo);
     }
 
     @Test

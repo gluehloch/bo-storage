@@ -123,7 +123,7 @@ public class CalculateUserRankingServiceFinderTest {
         List<GameTipp> finalRoundTipps = tippService
                 .findTippsByRoundAndUser(finale, user.get());
 
-        assertEquals(user, finalRoundTipps.get(0).getUser());
+        assertEquals(user.get(), finalRoundTipps.get(0).getUser());
         assertEquals(0, finalRoundTipps.get(0).getTipp().getHomeGoals());
         assertEquals(2, finalRoundTipps.get(0).getTipp().getGuestGoals());
     }

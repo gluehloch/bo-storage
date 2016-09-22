@@ -1,25 +1,24 @@
 /*
- * $Id: SeasonManagerServiceTest.java 3796 2013-08-05 03:58:02Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
  *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  *
  */
 
@@ -29,6 +28,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -52,8 +52,7 @@ import de.winkler.betoffice.storage.User;
 /**
  * Testet das Verhalten von {@link DefaultSeasonManagerService}.
  *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3796 $ $Date: 2013-08-05 05:58:02 +0200 (Mon, 05 Aug 2013) $
+ * @author Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/betoffice-datasource.xml",
@@ -103,28 +102,31 @@ public class SeasonManagerServiceTest {
         Season season = seasonManagerService.findSeasonById(11);
         tippService.evaluateMailTipp(season, details);
 
-        GameList round = seasonManagerService.findRound(season, 0);
-        User user = masterDataManagerService.findUserByNickname("Frosch");
+        Optional<GameList> round = seasonManagerService.findRound(season, 0);
+        Optional<User> user = masterDataManagerService
+                .findUserByNickname("Frosch");
 
-        List<GameTipp> tipps = tippService.findTippsByRoundAndUser(round, user);
+        List<GameTipp> tipps = tippService.findTippsByRoundAndUser(round.get(),
+                user.get());
 
         assertThat(tipps.size()).isEqualTo(9);
 
         for (GameTipp tipp : tipps) {
             assertThat(tipp.getUser().getNickName()).isEqualTo("Frosch");
-            assertThat(tipp.getGame().getGameList()).isEqualTo(round);
+            assertThat(tipp.getGame().getGameList()).isEqualTo(round.get());
         }
     }
 
     @Test
     public void testAddGroupToBundesliga2006() {
-        Season buli = seasonManagerService.findSeasonByName(
-                "Fussball Bundesliga", "2006/2007");
-        buli = seasonManagerService.findRoundGroupTeamUserRelations(buli);
+        Optional<Season> buli = seasonManagerService
+                .findSeasonByName("Fussball Bundesliga", "2006/2007");
+        Season bundesliga = seasonManagerService
+                .findRoundGroupTeamUserRelations(buli.get());
         GroupType liga2 = new GroupType();
         liga2.setName("2. Liga");
         masterDataManagerService.createGroupType(liga2);
-        seasonManagerService.addGroupType(buli, liga2);
+        seasonManagerService.addGroupType(bundesliga, liga2);
     }
 
 }

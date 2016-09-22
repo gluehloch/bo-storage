@@ -29,6 +29,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -343,13 +344,18 @@ public class SeasonManagerServiceCreateSeasonTest {
         seasonManagerService.addMatch(buli_2010, roundIndex, date, bundesliga_1,
                 homeTeam, guestTeam, homeGoals, guestGoals);
 
-        GameList round = seasonManagerService.findRound(buli_2010, roundIndex);
-        Game match = seasonManagerService.findMatch(round, homeTeam, guestTeam);
+        Optional<GameList> round = seasonManagerService.findRound(buli_2010,
+                roundIndex);
+        assertThat(round.isPresent()).isTrue();
+        Optional<Game> match = seasonManagerService.findMatch(round.get(),
+                homeTeam, guestTeam);
+        assertThat(match.isPresent()).isTrue();
 
-        assertThat(match.getHomeTeam()).isEqualTo(homeTeam);
-        assertThat(match.getGuestTeam()).isEqualTo(guestTeam);
-        assertThat(match.getResult().getHomeGoals()).isEqualTo(homeGoals);
-        assertThat(match.getResult().getGuestGoals()).isEqualTo(guestGoals);
+        assertThat(match.get().getHomeTeam()).isEqualTo(homeTeam);
+        assertThat(match.get().getGuestTeam()).isEqualTo(guestTeam);
+        assertThat(match.get().getResult().getHomeGoals()).isEqualTo(homeGoals);
+        assertThat(match.get().getResult().getGuestGoals())
+                .isEqualTo(guestGoals);
     }
 
     private void createRounds() {
@@ -359,15 +365,12 @@ public class SeasonManagerServiceCreateSeasonTest {
 
         assertThat(seasonManagerService.findRounds(buli_2010)).hasSize(3);
 
-        assertThat(new DateTime(
-                seasonManagerService.findRound(buli_2010, 0).getDateTime()))
-                        .isEqualTo(DATE_01_09_2010);
-        assertThat(new DateTime(
-                seasonManagerService.findRound(buli_2010, 1).getDateTime()))
-                        .isEqualTo(DATE_08_09_2010);
-        assertThat(new DateTime(
-                seasonManagerService.findRound(buli_2010, 2).getDateTime()))
-                        .isEqualTo(DATE_15_09_2010);
+        assertThat(new DateTime(seasonManagerService.findRound(buli_2010, 0)
+                .get().getDateTime())).isEqualTo(DATE_01_09_2010);
+        assertThat(new DateTime(seasonManagerService.findRound(buli_2010, 1)
+                .get().getDateTime())).isEqualTo(DATE_08_09_2010);
+        assertThat(new DateTime(seasonManagerService.findRound(buli_2010, 2)
+                .get().getDateTime())).isEqualTo(DATE_15_09_2010);
     }
 
     private void addTeamsToBuli1() {
@@ -427,7 +430,8 @@ public class SeasonManagerServiceCreateSeasonTest {
         team.setName(name);
         team.setLongName(longname);
         masterDataManagerService.createTeam(team);
-        assertThat(masterDataManagerService.findTeam(name)).isEqualTo(team);
+        assertThat(masterDataManagerService.findTeam(name).get())
+                .isEqualTo(team);
         return team;
     }
 
@@ -435,7 +439,7 @@ public class SeasonManagerServiceCreateSeasonTest {
         GroupType groupType = new GroupType();
         groupType.setName(groupTypeName);
         masterDataManagerService.createGroupType(groupType);
-        assertThat(masterDataManagerService.findGroupType(groupTypeName))
+        assertThat(masterDataManagerService.findGroupType(groupTypeName).get())
                 .isEqualTo(groupType);
         return groupType;
     }
