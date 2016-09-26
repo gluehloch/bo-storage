@@ -26,6 +26,7 @@ package de.winkler.betoffice.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
@@ -157,7 +158,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public User findUserByNickname(final String nickname) {
+    public Optional<User> findUserByNickname(final String nickname) {
         return getConfig().getUserDao().findByNickname(nickname);
     }
 
@@ -187,7 +188,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public GroupType findGroupType(final String name) {
+    public Optional<GroupType> findGroupType(final String name) {
         return getConfig().getGroupTypeDao().findByName(name);
     }
 
@@ -199,7 +200,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public Team findTeam(final String name) {
+    public Optional<Team> findTeam(final String name) {
         return getConfig().getTeamDao().findByName(name);
     }
 
@@ -211,7 +212,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public Team findTeamByAlias(String aliasName) {
+    public Optional<Team> findTeamByAlias(String aliasName) {
         return getConfig().getTeamAliasDao().findByAliasName(aliasName);
     }
 
@@ -241,7 +242,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = false)
-    public Team findTeamByOpenligaid(long id) {
+    public Optional<Team> findTeamByOpenligaid(long id) {
         return getConfig().getTeamDao().findByOpenligaid(id);
     }
 
@@ -277,7 +278,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public Location findLocationByOpenligaid(long openligaid) {
+    public Optional<Location> findLocationByOpenligaid(long openligaid) {
         return getConfig().getLocationDao().findByOpenligaid(openligaid);
     }
 
@@ -313,7 +314,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public Player findPlayerByOpenligaid(long openligaid) {
+    public Optional<Player> findPlayerByOpenligaid(long openligaid) {
         return getConfig().getPlayerDao().findByOpenligaid(openligaid);
     }
 

@@ -24,6 +24,7 @@
 package de.winkler.betoffice.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Location;
@@ -98,7 +99,7 @@ public interface MasterDataManagerService {
 	 *            Der Name der Mannschaft.
 	 * @return Die Mannschaft
 	 */
-	public Team findTeam(String name);
+	public Optional<Team> findTeam(String name);
 
 	/**
 	 * Sucht eine Mannschaft anhand seines Alias Namen.
@@ -107,7 +108,7 @@ public interface MasterDataManagerService {
 	 *            Der Aliasname der Mannschaft.
 	 * @return Die gesuchte Mannschaft.
 	 */
-	public Team findTeamByAlias(String aliasName);
+	public Optional<Team> findTeamByAlias(String aliasName);
 
 	/**
 	 * Liefert die Mannschaft zu einer ID.
@@ -125,7 +126,7 @@ public interface MasterDataManagerService {
 	 *            Openligadb ID
 	 * @return Die gesuchte Mannschaft
 	 */
-	public Team findTeamByOpenligaid(long id);
+	public Optional<Team> findTeamByOpenligaid(long id);
 
 	/**
 	 * Erstellt einen neuen Team Alias Namen.
@@ -195,7 +196,7 @@ public interface MasterDataManagerService {
 	 *            Der Nickname des gesuchten Teilnehmers.
 	 * @return Der User oder <code>null</code> wenn keiner gefunden.
 	 */
-	public User findUserByNickname(String nickname);
+	public Optional<User> findUserByNickname(String nickname);
 
 	// ------------------------------------------------------------------------
 
@@ -238,7 +239,7 @@ public interface MasterDataManagerService {
 	 *            Der Name der gesuchten Gruppe.
 	 * @return Die gesuchte Gruppe.
 	 */
-	public GroupType findGroupType(String name);
+	public Optional<GroupType> findGroupType(String name);
 
 	/**
 	 * Liefert einen bestimmten Gruppentyp
@@ -298,7 +299,7 @@ public interface MasterDataManagerService {
 	 *            Die openligadb ID
 	 * @return Eine Spielstaette
 	 */
-	public Location findLocationByOpenligaid(long openligaid);
+	public Optional<Location> findLocationByOpenligaid(long openligaid);
 
 	// -- player --------------------------------------------------------------
 
@@ -349,6 +350,6 @@ public interface MasterDataManagerService {
 	 *            Die openligadb ID
 	 * @return Ein Spieler
 	 */
-	public Player findPlayerByOpenligaid(long openligaid);
+	public Optional<Player> findPlayerByOpenligaid(long openligaid);
 
 }

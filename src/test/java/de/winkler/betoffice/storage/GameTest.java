@@ -1,8 +1,7 @@
 /*
- * $Id: GameTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -45,10 +44,11 @@ import de.winkler.betoffice.storage.exception.StorageObjectNotValidException;
  * setter-Methoden setHomeTeam(), setGuestTeam(), setGroup() und
  * setGameNumber() wird verzichtet.
  *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
 public class GameTest {
+
+    private static final String JUNIT_TOKEN = "#JUNIT#";
 
     private Team homeTeam;
 
@@ -83,7 +83,7 @@ public class GameTest {
     public void testGameAddNewTipp() {
         GameTipp tippX;
         // Legt keinen neuen Tipp an, überschreibt den alten Tipp.
-        tippX = game1.addTipp(userA, gameResult10, TippStatusType.USER);
+        tippX = game1.addTipp(JUNIT_TOKEN, userA, gameResult10, TippStatusType.USER);
         assertNotNull(tippX.getGame());
         assertNotNull(tippX.getStatus());
         assertNotNull(tippX.getTipp());
@@ -97,7 +97,7 @@ public class GameTest {
         assertFalse(tippC.equals(tippX));
 
         // Legt keinen neuen Tipp an, überschreibt den alten Tipp.
-        tippX = game1.addTipp(userB, gameResult10, TippStatusType.USER);
+        tippX = game1.addTipp(JUNIT_TOKEN, userB, gameResult10, TippStatusType.USER);
         assertNotNull(tippX.getGame());
         assertNotNull(tippX.getStatus());
         assertNotNull(tippX.getTipp());
@@ -111,7 +111,7 @@ public class GameTest {
         assertFalse(tippC.equals(tippX));
 
         // Legt keinen neuen Tipp an, überschreibt den alten Tipp.
-        tippX = game1.addTipp(userC, gameResult10, TippStatusType.USER);
+        tippX = game1.addTipp(JUNIT_TOKEN, userC, gameResult10, TippStatusType.USER);
         assertNotNull(tippX.getGame());
         assertNotNull(tippX.getStatus());
         assertNotNull(tippX.getTipp());
@@ -127,7 +127,7 @@ public class GameTest {
         assertEquals(DateTime.parse("1971-03-24T20:00:00").toDate(), game1.getDateTime());
         
         try {
-            game1.addTipp(null, null, null);
+            game1.addTipp(JUNIT_TOKEN, null, null, null);
             fail("IllegalArgumentException erwartet");
         } catch (IllegalArgumentException ex) {
             // Ok
@@ -244,9 +244,9 @@ public class GameTest {
         season.addGameList(round);
         round.addGame(game1);
 
-        tippA = game1.addTipp(userA, gameResult01, TippStatusType.USER);
-        tippB = game1.addTipp(userB, gameResult01, TippStatusType.USER);
-        tippC = game1.addTipp(userC, gameResult01, TippStatusType.USER);
+        tippA = game1.addTipp(JUNIT_TOKEN, userA, gameResult01, TippStatusType.USER);
+        tippB = game1.addTipp(JUNIT_TOKEN, userB, gameResult01, TippStatusType.USER);
+        tippC = game1.addTipp(JUNIT_TOKEN, userC, gameResult01, TippStatusType.USER);
     }
 
 }

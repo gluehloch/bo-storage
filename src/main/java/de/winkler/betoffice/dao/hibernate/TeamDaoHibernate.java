@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -24,7 +24,9 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.TeamDao;
@@ -39,71 +41,60 @@ import de.winkler.betoffice.storage.enums.TeamType;
  * @author Andre Winkler
  */
 @Repository("teamDao")
-public class TeamDaoHibernate extends AbstractCommonDao<Team> implements
-        TeamDao {
+public class TeamDaoHibernate extends AbstractCommonDao<Team> implements TeamDao {
 
-    private static final String QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE = AbstractCommonDao
-            .loadQuery("query_teams_by_season_and_grouptype.sql");
+	private static final String QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE = AbstractCommonDao
+			.loadQuery("query_teams_by_season_and_grouptype.sql");
 
-    /** Sucht nach allen Teams mit einem bestimmten Namen. */
-    public static final String QUERY_TEAM_BY_NAME = "from Team as team where team.name = :teamName";
+	/** Sucht nach allen Teams mit einem bestimmten Namen. */
+	public static final String QUERY_TEAM_BY_NAME = "from Team as team where team.name = :teamName";
 
-    /** Sucht nach allen Teams mit einem bestimmten Typen. */
-    public static final String QUERY_TEAM_BY_TYPE = "from Team as team where team.teamType = :teamType order by team.name";
+	/** Sucht nach allen Teams mit einem bestimmten Typen. */
+	public static final String QUERY_TEAM_BY_TYPE = "from Team as team where team.teamType = :teamType order by team.name";
 
-    /** Sucht nach einer Mannschaft anhand der openligadb ID. */
-    public static final String QUERY_TEAM_BY_OPENLIGAID = "from Team as team where team.openligaid = :openligaid";
+	/** Sucht nach einer Mannschaft anhand der openligadb ID. */
+	public static final String QUERY_TEAM_BY_OPENLIGAID = "from Team as team where team.openligaid = :openligaid";
 
-    // ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
-    public TeamDaoHibernate() {
-        super(Team.class);
-    }
+	public TeamDaoHibernate() {
+		super(Team.class);
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<Team> findAll() {
-        return getSessionFactory().getCurrentSession()
-                .createQuery("from Team as team order by team.name").list();
-    }
+	@Override
+	public List<Team> findAll() {
+		return getSessionFactory().getCurrentSession().createQuery("from Team as team order by team.name", Team.class)
+				.getResultList();
+	}
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Team> findTeams(TeamType teamType) {
-        return getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_TEAM_BY_TYPE)
-                .setParameter("teamType", teamType).list();
-    }
+	@Override
+	public List<Team> findTeams(TeamType teamType) {
+		return getSessionFactory().getCurrentSession().createQuery(QUERY_TEAM_BY_TYPE, Team.class)
+				.setParameter("teamType", teamType).getResultList();
+	}
 
-    @Override
-    public Team findByName(final String name) {
-        @SuppressWarnings("unchecked")
-        List<Team> teams = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_TEAM_BY_NAME).setParameter("teamName", name)
-                .list();
-        return first(teams);
-    }
+	@Override
+	public Optional<Team> findByName(final String name) {
+		Query<Team> query = getSessionFactory().getCurrentSession().createQuery(QUERY_TEAM_BY_NAME, Team.class)
+				.setParameter("teamName", name);
+		return singleResult(query);
+	}
 
-    @Override
-    public List<Team> findTeamsBySeasonAndGroup(final Season season,
-            final GroupType groupType) {
+	@Override
+	public List<Team> findTeamsBySeasonAndGroup(final Season season, final GroupType groupType) {
 
-        @SuppressWarnings("unchecked")
-        List<Team> teams = getSessionFactory().getCurrentSession()
-                .createSQLQuery(QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE)
-                .addEntity("team", Team.class)
-                .setParameter("season_id", season.getId())
-                .setParameter("grouptype_id", groupType.getId()).list();
-        return teams;
-    }
+		@SuppressWarnings("unchecked")
+		List<Team> teams = getSessionFactory().getCurrentSession().createSQLQuery(QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE)
+				.addEntity("team", Team.class).setParameter("season_id", season.getId())
+				.setParameter("grouptype_id", groupType.getId()).getResultList();
+		return teams;
+	}
 
-    @Override
-    public Team findByOpenligaid(long openligaid) {
-        @SuppressWarnings("unchecked")
-        List<Team> teams = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_TEAM_BY_OPENLIGAID)
-                .setParameter("openligaid", openligaid).list();
-        return first(teams);
-    }
+	@Override
+	public Optional<Team> findByOpenligaid(long openligaid) {
+		Query<Team> query = getSessionFactory().getCurrentSession().createQuery(QUERY_TEAM_BY_OPENLIGAID, Team.class)
+				.setParameter("openligaid", openligaid);
+		return singleResult(query);
+	}
 
 }

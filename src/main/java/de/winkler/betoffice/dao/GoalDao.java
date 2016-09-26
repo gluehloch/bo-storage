@@ -24,6 +24,7 @@
 package de.winkler.betoffice.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.Goal;
@@ -57,6 +58,6 @@ public interface GoalDao extends CommonDao<Goal> {
      *            openligadb ID
      * @return A goal
      */
-    public Goal findByOpenligaid(long openligaid);
+    public Optional<Goal> findByOpenligaid(long openligaid);
 
 }

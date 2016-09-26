@@ -30,6 +30,7 @@ import static org.junit.Assert.fail;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -114,16 +115,16 @@ public class CreateNewSeasonTest {
         assertThat(seasonClone.getName(), equalTo(season.getName()));
         assertThat(seasonClone.getYear(), equalTo(season.getYear()));
 
-        Team stuttgart = mdms.findTeam("VfB Stuttgart");
-        Team hsv = mdms.findTeam("Hamburger SV");
-        Team deutschland = mdms.findTeam("Deutschland");
+        Optional<Team> stuttgart = mdms.findTeam("VfB Stuttgart");
+        Optional<Team> hsv = mdms.findTeam("Hamburger SV");
+        Optional<Team> deutschland = mdms.findTeam("Deutschland");
 
-        GroupType groupA = mdms.findGroupType("Gruppe A");
-        sms.addGroupType(season, groupA);
-        sms.addTeam(season, groupA, stuttgart);
-        sms.addTeam(season, groupA, hsv);
+        Optional<GroupType> groupA = mdms.findGroupType("Gruppe A");
+        sms.addGroupType(season, groupA.get());
+        sms.addTeam(season, groupA.get(), stuttgart.get());
+        sms.addTeam(season, groupA.get(), hsv.get());
         try {
-            sms.addTeam(season, groupA, deutschland);
+            sms.addTeam(season, groupA.get(), deutschland.get());
             fail("Expected a validation exception.");
         } catch (Exception ex) {
             // Ok!
@@ -146,30 +147,31 @@ public class CreateNewSeasonTest {
         assertThat(seasonClone.getName(), equalTo(season.getName()));
         assertThat(seasonClone.getYear(), equalTo(season.getYear()));
 
-        Team stuttgart = mdms.findTeam("VfB Stuttgart");
-        Team hsv = mdms.findTeam("Hamburger SV");
+        Optional<Team> stuttgart = mdms.findTeam("VfB Stuttgart");
+        Optional<Team> hsv = mdms.findTeam("Hamburger SV");
 
-        GroupType groupTypeA = mdms.findGroupType("Gruppe A");
-        GroupType groupTypeB = mdms.findGroupType("Gruppe B");
+        Optional<GroupType> groupTypeA = mdms.findGroupType("Gruppe A");
+        Optional<GroupType> groupTypeB = mdms.findGroupType("Gruppe B");
 
-        Group groupA = sms.addGroupType(season, groupTypeA);
-        /* Group groupB = */sms.addGroupType(season, groupTypeB);
+        Group groupA = sms.addGroupType(season, groupTypeA.get());
+        /* Group groupB = */sms.addGroupType(season, groupTypeB.get());
 
-        sms.addTeam(season, groupTypeA, stuttgart);
-        sms.addTeam(season, groupTypeA, hsv);
+        sms.addTeam(season, groupTypeA.get(), stuttgart.get());
+        sms.addTeam(season, groupTypeA.get(), hsv.get());
 
         List<GroupType> groupTypes = sms.findGroupTypesBySeason(season);
-        assertEquals(groupTypeA.getId(), groupTypes.get(0).getId());
-        assertEquals(groupTypeB.getId(), groupTypes.get(1).getId());
+        assertEquals(groupTypeA.get().getId(), groupTypes.get(0).getId());
+        assertEquals(groupTypeB.get().getId(), groupTypes.get(1).getId());
 
-        sms.removeGroupType(season, groupTypeB);
+        sms.removeGroupType(season, groupTypeB.get());
         groupTypes = sms.findGroupTypesBySeason(season);
-        assertEquals(groupTypeA.getId(), groupTypes.get(0).getId());
+        assertEquals(groupTypeA.get().getId(), groupTypes.get(0).getId());
         assertEquals(1, groupTypes.size());
 
         DateTime now = new DateTime();
-        GameList round = sms.addRound(season, now, groupTypeA);
-        Game match = sms.addMatch(round, now, groupA, stuttgart, hsv);
+        GameList round = sms.addRound(season, now, groupTypeA.get());
+        Game match = sms.addMatch(round, now, groupA, stuttgart.get(),
+                hsv.get());
         match.setResult(2, 2, true);
         match.setHalfTimeGoals(new GameResult(1, 1));
 
@@ -205,7 +207,7 @@ public class CreateNewSeasonTest {
         goal1.setResult(new GameResult(0, 1));
         sms.addGoal(match, goal1);
 
-        List<Game> matches = sms.findMatches(stuttgart, hsv);
+        List<Game> matches = sms.findMatches(stuttgart.get(), hsv.get());
         assertThat(matches.size(), equalTo(1));
         Game actualMatch = matches.get(0);
         assertThat(actualMatch.getResult().getHomeGoals(), equalTo(2));
@@ -216,18 +218,19 @@ public class CreateNewSeasonTest {
         assertThat(actualMatch.getGoals().size(), equalTo(1));
         assertThat(actualMatch.getLocation().getName(), equalTo("Imtecharena"));
 
-        Player playerByOpenligaid = masterDataManagerService
+        Optional<Player> playerByOpenligaid = masterDataManagerService
                 .findPlayerByOpenligaid(1L);
-        assertThat(playerByOpenligaid.getName(), equalTo("Mill"));
+        assertThat(playerByOpenligaid.get().getName(), equalTo("Mill"));
 
         List<Goal> goals = sms.findAllGoals();
         assertThat(goals.size(), equalTo(1));
         assertThat(goals.get(0).getPlayer().getName(), equalTo("Lippens"));
 
-        Player lippens = masterDataManagerService.findPlayerByOpenligaid(2L);
-        Player lippens2 = seasonManagerService.findGoalsOfPlayer(lippens
-                .getId());
-        assertThat(lippens2.getGoals().size(), equalTo(1));
+        Optional<Player> lippens = masterDataManagerService
+                .findPlayerByOpenligaid(2L);
+        Optional<Player> lippens2 = seasonManagerService
+                .findGoalsOfPlayer(lippens.get().getId());
+        assertThat(lippens2.get().getGoals().size(), equalTo(1));
     }
 
 }

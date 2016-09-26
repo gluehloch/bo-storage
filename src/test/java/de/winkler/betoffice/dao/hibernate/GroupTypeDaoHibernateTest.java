@@ -27,6 +27,7 @@ package de.winkler.betoffice.dao.hibernate;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -66,14 +67,14 @@ public class GroupTypeDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testGroupTypeDaoHibernateFindBySeason() {
-        Season season = seasonDao.findByName("4711", "1000");
-        List<GroupType> findBySeason = groupTypeDao.findBySeason(season);
+        Optional<Season> season = seasonDao.findByName("4711", "1000");
+        List<GroupType> findBySeason = groupTypeDao.findBySeason(season.get());
         assertEquals("1. Liga", findBySeason.get(0).getName());
         assertEquals("2. Liga", findBySeason.get(1).getName());
         assertEquals(2, findBySeason.size());
 
         season = seasonDao.findByName("4712", "1001");
-        findBySeason = groupTypeDao.findBySeason(season);
+        findBySeason = groupTypeDao.findBySeason(season.get());
         assertEquals("3. Liga", findBySeason.get(0).getName());
         assertEquals(1, findBySeason.size());
     }

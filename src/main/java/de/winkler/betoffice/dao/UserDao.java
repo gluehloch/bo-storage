@@ -25,6 +25,7 @@
 package de.winkler.betoffice.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Season;
@@ -51,7 +52,7 @@ public interface UserDao extends CommonDao<User> {
      * @param nickname Der gesuchte Nickname.
      * @return Ein Teilnehmer.
      */
-    public User findByNickname(String nickname);
+    public Optional<User> findByNickname(String nickname);
 
     /**
      * Legt einen neuen Teilnehmer an.

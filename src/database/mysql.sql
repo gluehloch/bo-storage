@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2014 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -27,7 +27,7 @@
  *
  * @author by Andre Winkler
  */
-select 'Start installation of betoffice 2.0.0 MySQL schema.' as INFO;
+select 'Start installation of betoffice 2.2.0 MySQL schema.' as INFO;
 select version();
 
 
@@ -36,6 +36,38 @@ alter table bo_user_season
     drop
     foreign key FKB2D710E5F5473151;
 */
+
+
+alter table bo_game drop foreign key fk_game_home_team;
+alter table bo_game drop foreign key fk_game_guest_team;
+alter table bo_game drop foreign key fk_game_group;
+alter table bo_game drop foreign key fk_game_gamelist;
+alter table bo_game drop foreign key fk_game_location;
+
+alter table bo_goal drop foreign key fk_goal_game;
+alter table bo_goal drop foreign key fk_goal_player;
+
+alter table bo_gamelist drop foreign key fk_gamelist_group;
+alter table bo_gamelist drop foreign key fk_gamelist_season;
+alter table bo_gamelist drop foreign key fk_gametipp_user;
+
+alter table bo_gametipp drop foreign key fk_gametipp_game;
+
+alter table bo_group drop foreign key fk_group_grouptype;
+alter table bo_group drop foreign key fk_group_season;
+
+alter table bo_team drop foreign key fk_team_location;
+
+alter table bo_team_group drop foreign key fk_team_group_group;
+alter table bo_team_group drop foreign key fk_team_group_team;
+
+alter table bo_teamalias drop foreign key fk_teamalias_team;
+alter table bo_user_season drop foreign key fk_user_season_user;
+alter table bo_user_season drop foreign key fk_user_season_season;
+
+alter table bo_session drop foreign key fk_session_user;
+
+
 
 drop table if exists bo_gametipp;
 drop table if exists bo_goal;
@@ -57,6 +89,21 @@ drop table if exists bo_team;
 
 drop table if exists bo_user;
 
+drop table if exists bo_session;
+
+create table bo_session (
+    id bigint not null auto_increment,
+    bo_nickname VARCHAR(255) not null comment 'Nickname',
+    bo_token VARCHAR(2048) not null comment 'Session Token',
+    bo_login datetime not null,
+    bo_logout datetime,
+    bo_remoteaddress VARCHAR(100),
+    bo_browser VARCHAR(200),
+    bo_failedlogins bigint,
+    bo_user_ref bigint,
+    primary key (id)
+) ENGINE=InnoDB;
+  
 create table bo_game (
     id bigint not NULL auto_increment,
     bo_date VARCHAR(255),
@@ -130,6 +177,9 @@ create table bo_gametipp (
     bo_game_ref bigint,
     bo_status integer,
     bo_tipps_index integer,
+    bo_create DATETIME DEFAULT CURRENT_TIMESTAMP,
+    bo_update DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    bo_token VARCHAR(2048),
     primary key (id)
 ) ENGINE=InnoDB;
 
@@ -297,7 +347,7 @@ alter table bo_team_group
 
 alter table bo_team_group
     add index bo_team_group_team (bo_team_ref),
-    add constraint bo_team_group_team
+    add constraint fk_team_group_team
     foreign key (bo_team_ref)
     references bo_team (id);
 
@@ -319,3 +369,8 @@ alter table bo_user_season
     foreign key (bo_season_ref)
     references bo_season (id);
 
+alter table bo_session
+    add index fk_session_user (bo_user_ref),
+    add constraint fk_session_user
+    foreign key (bo_user_ref)
+    references bo_user (id);

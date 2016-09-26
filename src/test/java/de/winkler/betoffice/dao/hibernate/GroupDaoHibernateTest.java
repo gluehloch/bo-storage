@@ -26,13 +26,13 @@ package de.winkler.betoffice.dao.hibernate;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.winkler.betoffice.dao.GroupDao;
-import de.winkler.betoffice.dao.GroupTypeDao;
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
@@ -48,9 +48,6 @@ public class GroupDaoHibernateTest extends AbstractDaoTestSupport {
     private GroupDao groupDao;
 
     @Autowired
-    private GroupTypeDao groupTypeDao;
-
-    @Autowired
     private SeasonDao seasonDaoHibernate;
 
     @Before
@@ -60,8 +57,8 @@ public class GroupDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testGroupDaoHibernateFindBySeason() {
-        Season season = seasonDaoHibernate.findByName("4711", "1000");
-        List<Group> groups = groupDao.findBySeason(season);
+        Optional<Season> season = seasonDaoHibernate.findByName("4711", "1000");
+        List<Group> groups = groupDao.findBySeason(season.get());
         assertEquals(2, groups.size());
         assertEquals("1. Liga", groups.get(0).getGroupType().getName());
         assertEquals("2. Liga", groups.get(1).getGroupType().getName());

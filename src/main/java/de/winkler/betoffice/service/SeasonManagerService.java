@@ -25,6 +25,7 @@ package de.winkler.betoffice.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.joda.time.DateTime;
 
@@ -164,7 +165,7 @@ public interface SeasonManagerService {
      *            Das Jahr der Meisterschaft.
      * @return Eine Meisterschaft.
      */
-    public Season findSeasonByName(String name, String year);
+    public Optional<Season> findSeasonByName(String name, String year);
 
     /**
      * Sucht nach einer bestimmten Meisterschaft.
@@ -184,7 +185,7 @@ public interface SeasonManagerService {
      *            Der Index des Spieltags (0 .. size-1).
      * @return Der Spieltag.
      */
-    public GameList findRound(Season season, int index);
+    public Optional<GameList> findRound(Season season, int index);
 
     /**
      * Liefert den letzten Spieltag einer Meisterschaft.
@@ -193,7 +194,7 @@ public interface SeasonManagerService {
      *            die betreffende Meisterschaft
      * @return Der Spieltag
      */
-    public GameList findLastRound(Season season);
+    public Optional<GameList> findLastRound(Season season);
 
     /**
      * Liefert einen Spieltag für eine Meisterschaft.
@@ -211,7 +212,7 @@ public interface SeasonManagerService {
      *            Die ID des Spieltags
      * @return Der nächste Spieltag.
      */
-    public GameList findNextRound(long id);
+    public Optional<GameList> findNextRound(long id);
 
     /**
      * Liefert den vorhergehenden Spieltag.
@@ -220,7 +221,7 @@ public interface SeasonManagerService {
      *            Die ID des Spieltags.
      * @return Der vorhergehende Spieltag.
      */
-    public GameList findPrevRound(long id);
+    public Optional<GameList> findPrevRound(long id);
 
     /**
      * Liefert alle Spieltage einer Meisterschaft.
@@ -344,7 +345,7 @@ public interface SeasonManagerService {
      * @return Das Spiel der beiden Mannschaften für den Spieltga. Liefert
      *         <code>null</code>, wenn kein Spiel gefunden werden konnte.
      */
-    public Game findMatch(GameList round, Team homeTeam, Team guestTeam);
+    public Optional<Game> findMatch(GameList round, Team homeTeam, Team guestTeam);
 
     /**
      * Sucht nach Spielen der vorgegebenen Mannschaften.
@@ -366,7 +367,7 @@ public interface SeasonManagerService {
      *            Die Spieler ID
      * @return Der Spieler inklusive aller seiner Tore.
      */
-    public Player findGoalsOfPlayer(long id);
+    public Optional<Player> findGoalsOfPlayer(long id);
 
     /**
      * Erstellt eine neue Spielzeit.<br>

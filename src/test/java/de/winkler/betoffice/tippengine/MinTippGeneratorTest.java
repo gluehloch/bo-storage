@@ -1,8 +1,7 @@
 /*
- * $Id: MinTippGeneratorTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -52,10 +51,11 @@ import de.winkler.betoffice.test.DummyUsers;
 /**
  * Testet die Klasse MinTippGenerator.
  *
- * @author   $Author: andrewinkler $
- * @version  $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
 public class MinTippGeneratorTest {
+
+    private static final String JUNIT_TOKEN = "#JUNIT#";
 
     private static final Date DATE_2002_01_01 = new DateTime(2002, 1, 1, 0, 0)
             .toDate();
@@ -214,28 +214,28 @@ public class MinTippGeneratorTest {
         }
 
         // Spiel 1
-        game1.addTipp(users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
-        game1.addTipp(users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
-        game1.addTipp(users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
-        game1.addTipp(users[DummyUsers.PETER], gr21, TippStatusType.USER);
+        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
+        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
+        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
+        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21, TippStatusType.USER);
 
         // Spiel 2
-        game2.addTipp(users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
-        game2.addTipp(users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
-        game2.addTipp(users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
-        game2.addTipp(users[DummyUsers.PETER], gr21, TippStatusType.USER);
+        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
+        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
+        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
+        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21, TippStatusType.USER);
 
         // Spiel 3
-        game3.addTipp(users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
-        game3.addTipp(users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
-        game3.addTipp(users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
-        game3.addTipp(users[DummyUsers.PETER], gr21, TippStatusType.USER);
+        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
+        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
+        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
+        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21, TippStatusType.USER);
 
         // Spiel 4
-        game4.addTipp(users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
-        game4.addTipp(users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
-        game4.addTipp(users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
-        game4.addTipp(users[DummyUsers.PETER], gr21, TippStatusType.USER);
+        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
+        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
+        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
+        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21, TippStatusType.USER);
     }
 
 }

@@ -24,7 +24,10 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.hibernate.query.Query;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.GoalDao;
@@ -37,40 +40,40 @@ import de.winkler.betoffice.storage.Goal;
  * @author by Andre Winkler
  */
 @Repository("goalDao")
-public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements
-        GoalDao {
+public class GoalDaoHibernate extends AbstractCommonDao<Goal>
+        implements GoalDao {
 
     public GoalDaoHibernate() {
         super(Goal.class);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<Goal> findAll() {
-        return getSessionFactory()
-                .getCurrentSession()
+        return getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Goal as goal inner join fetch goal.player order by goal.id")
-                .list();
+                        "from Goal as goal inner join fetch goal.player order by goal.id",
+                        Goal.class)
+                .getResultList();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Goal findByOpenligaid(long openligaid) {
-        List<Goal> goals = getSessionFactory()
-                .getCurrentSession()
+    public Optional<Goal> findByOpenligaid(long openligaid) {
+        Query<Goal> query = getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Goal as goal where goal.openligaid = :openligaid")
-                .setLong("openligaid", openligaid).list();
-        return first(goals);
+                        "from Goal as goal where goal.openligaid = :openligaid",
+                        Goal.class)
+                .setParameter("openligaid", openligaid,
+                        StandardBasicTypes.LONG);
+        return singleResult(query);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<Goal> find(Game match) {
         List<Goal> goals = getSessionFactory().getCurrentSession()
-                .createQuery("from Goal as goal where goal.game.id = :matchId")
-                .setLong("matchId", match.getId()).list();
+                .createQuery("from Goal as goal where goal.game.id = :matchId",
+                        Goal.class)
+                .setParameter("matchId", match.getId(), StandardBasicTypes.LONG)
+                .getResultList();
         return goals;
     }
 

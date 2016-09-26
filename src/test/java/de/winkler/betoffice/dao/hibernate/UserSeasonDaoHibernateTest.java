@@ -26,6 +26,7 @@ package de.winkler.betoffice.dao.hibernate;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,8 +57,8 @@ public class UserSeasonDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testUserSeasonDaoHibernate() {
-        Season season = seasonDao.findByName("1. Bundesliga", "1999/2000");
-        List<User> users = userSeasonDao.findUsers(season);
+        Optional<Season> season = seasonDao.findByName("1. Bundesliga", "1999/2000");
+        List<User> users = userSeasonDao.findUsers(season.get());
         assertEquals(3, users.size());
         assertEquals("Frosch", users.get(0).getNickName());
         assertEquals("Hattwig", users.get(1).getNickName());

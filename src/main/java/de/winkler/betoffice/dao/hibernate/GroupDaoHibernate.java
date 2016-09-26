@@ -24,10 +24,12 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.hibernate.Query;
-import org.hibernate.SQLQuery;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean;
 
 import de.winkler.betoffice.dao.GroupDao;
 import de.winkler.betoffice.storage.Group;
@@ -67,7 +69,7 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
     public List<Group> findAll() {
         @SuppressWarnings("unchecked")
         List<Group> groups = getSessionFactory().getCurrentSession()
-                .createQuery("from group").list();
+                .createQuery("from group").getResultList();
         return groups;
     }
 
@@ -76,29 +78,27 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
         @SuppressWarnings("unchecked")
         List<Group> objects = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GROUPS_FROM_SEASON)
-                .setParameter("seasonId", season.getId()).list();
+                .setParameter("seasonId", season.getId()).getResultList();
         return objects;
     }
 
     @Override
     public List<Team> findTeams(final Group group) {
-        SQLQuery query = getSessionFactory().getCurrentSession()
-                .createSQLQuery(QUERY_TEAMS_BY_GROUP)
-                .addEntity("team", Team.class);
+        NativeQuery<Team> query = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_TEAMS_BY_GROUP, Team.class);
         query.setParameter("group_id", group.getId());
 
-        @SuppressWarnings("unchecked")
-        List<Team> teams = query.list();
+        List<Team> teams = query.getResultList();
         return teams;
     }
 
     @Override
     public Group findBySeasonAndGroupType(Season season, GroupType groupType) {
-        Query query = getSessionFactory().getCurrentSession().createQuery(
-                QUERY_GROUP_BY_SEASON_AND_GROUPTYPE);
+        Query<Group> query = getSessionFactory().getCurrentSession().createQuery(
+                QUERY_GROUP_BY_SEASON_AND_GROUPTYPE, Group.class);
         query.setParameter("seasonId", season.getId());
         query.setParameter("groupTypeId", groupType.getId());
-        return (Group) query.uniqueResult();
+        return query.getSingleResult();
     }
 
 }

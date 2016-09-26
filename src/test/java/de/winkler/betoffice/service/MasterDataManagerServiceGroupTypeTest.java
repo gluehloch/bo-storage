@@ -29,6 +29,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -49,7 +50,8 @@ import de.winkler.betoffice.validation.BetofficeValidationException;
  * Test for class {@link DefaultMasterDataManagerService}.
  * 
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/betoffice-datasource.xml",
@@ -114,16 +116,16 @@ public class MasterDataManagerServiceGroupTypeTest {
         createGroupType("Regionalliga Nord");
         createGroupType("Regionalliga Süd");
 
-        GroupType regioNord = masterDataManagerService
+        Optional<GroupType> regioNord = masterDataManagerService
                 .findGroupType("Regionalliga Nord");
-        assertThat(regioNord.getName()).isEqualTo("Regionalliga Nord");
+        assertThat(regioNord.get().getName()).isEqualTo("Regionalliga Nord");
 
-        regioNord.setName("3. Bundesliga");
-        masterDataManagerService.updateGroupType(regioNord);
+        regioNord.get().setName("3. Bundesliga");
+        masterDataManagerService.updateGroupType(regioNord.get());
 
-        GroupType bundesliga_3 = masterDataManagerService
+        Optional<GroupType> bundesliga_3 = masterDataManagerService
                 .findGroupType("3. Bundesliga");
-        assertThat(bundesliga_3.getName()).isEqualTo("3. Bundesliga");
+        assertThat(bundesliga_3.get().getName()).isEqualTo("3. Bundesliga");
     }
 
     @Test

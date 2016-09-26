@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -23,12 +23,13 @@
 
 package de.winkler.betoffice.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-import junit.framework.Assert;
 
 import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
@@ -50,6 +51,8 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
  * @author Andre Winkler
  */
 public class DummyScenario {
+
+    private static final String JUNIT_TOKEN = "#JUNIT#";
 
     private static final Date DATE_2002_01_01 = new DateTime(2002, 1, 1, 0, 0)
             .toDate();
@@ -156,7 +159,8 @@ public class DummyScenario {
      * Team D: 1 Remis. TV 1:1
      * </ul>
      * </ul>
-     * </li> <li>Für die Tipper:
+     * </li>
+     * <li>Für die Tipper:
      * <ul>
      * <ul>
      * (1) User B: 2 Ergebnis
@@ -170,7 +174,9 @@ public class DummyScenario {
      * <ul>
      * (2) User D: 1 Toto
      * </ul>
-     * </ul></li> </ul>
+     * </ul>
+     * </li>
+     * </ul>
      * 
      * @throws Exception
      *             Da ging was schief.
@@ -253,7 +259,7 @@ public class DummyScenario {
         round1.setDateTime(new DateTime(2002, 12, 12, 0, 0).toDate());
         round1.setGroup(buli_1);
         season.addGameList(round1);
-        Assert.assertEquals(0, round1.unmodifiableList().size());
+        assertEquals(0, round1.unmodifiableList().size());
         round1.addGame(game1);
         round1.addGame(game2);
         round1.addGame(game3);
@@ -261,49 +267,49 @@ public class DummyScenario {
         round1.setGroup(buli_1);
 
         // Tipps erzeugen und eintragen.
-        Assert.assertNotNull(game1.getGameList().getSeason());
-        Assert.assertNotNull(game2.getGameList().getSeason());
-        Assert.assertNotNull(game3.getGameList().getSeason());
-        Assert.assertNotNull(game4.getGameList().getSeason());
+        assertNotNull(game1.getGameList().getSeason());
+        assertNotNull(game2.getGameList().getSeason());
+        assertNotNull(game3.getGameList().getSeason());
+        assertNotNull(game4.getGameList().getSeason());
 
         // Spiel 1
-        game1.addTipp(users.users()[DummyUsers.FROSCH], gr10,
+        game1.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.FROSCH], gr10,
                 TippStatusType.USER);
-        game1.addTipp(users.users()[DummyUsers.HATTWIG], gr01,
+        game1.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.HATTWIG], gr01,
                 TippStatusType.USER);
-        game1.addTipp(users.users()[DummyUsers.MRTIPP], gr11,
+        game1.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.MRTIPP], gr11,
                 TippStatusType.USER);
-        game1.addTipp(users.users()[DummyUsers.PETER], gr21,
+        game1.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.PETER], gr21,
                 TippStatusType.USER);
 
         // Spiel 2
-        game2.addTipp(users.users()[DummyUsers.FROSCH], gr10,
+        game2.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.FROSCH], gr10,
                 TippStatusType.USER);
-        game2.addTipp(users.users()[DummyUsers.HATTWIG], gr01,
+        game2.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.HATTWIG], gr01,
                 TippStatusType.USER);
-        game2.addTipp(users.users()[DummyUsers.MRTIPP], gr11,
+        game2.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.MRTIPP], gr11,
                 TippStatusType.USER);
-        game2.addTipp(users.users()[DummyUsers.PETER], gr21,
+        game2.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.PETER], gr21,
                 TippStatusType.USER);
 
         // Spiel 3
-        game3.addTipp(users.users()[DummyUsers.FROSCH], gr10,
+        game3.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.FROSCH], gr10,
                 TippStatusType.USER);
-        game3.addTipp(users.users()[DummyUsers.HATTWIG], gr01,
+        game3.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.HATTWIG], gr01,
                 TippStatusType.USER);
-        game3.addTipp(users.users()[DummyUsers.MRTIPP], gr11,
+        game3.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.MRTIPP], gr11,
                 TippStatusType.USER);
-        game3.addTipp(users.users()[DummyUsers.PETER], gr21,
+        game3.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.PETER], gr21,
                 TippStatusType.USER);
 
         // Spiel 4
-        game4.addTipp(users.users()[DummyUsers.FROSCH], gr10,
+        game4.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.FROSCH], gr10,
                 TippStatusType.USER);
-        game4.addTipp(users.users()[DummyUsers.HATTWIG], gr01,
+        game4.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.HATTWIG], gr01,
                 TippStatusType.USER);
-        game4.addTipp(users.users()[DummyUsers.MRTIPP], gr11,
+        game4.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.MRTIPP], gr11,
                 TippStatusType.USER);
-        game4.addTipp(users.users()[DummyUsers.PETER], gr21,
+        game4.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.PETER], gr21,
                 TippStatusType.USER);
 
         Validate.isTrue(getBuli_2().getTeams().size() == 3);

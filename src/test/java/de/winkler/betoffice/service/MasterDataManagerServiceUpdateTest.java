@@ -27,6 +27,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -82,34 +83,35 @@ public class MasterDataManagerServiceUpdateTest {
     @Test
     public void testDeleteTeamAliasName() {
         List<TeamAlias> teamAliasNames = null;
-        Team koeln = masterDataManagerService.findTeam("1.FC Köln");
-        assertThat(koeln).isNotNull();
+        Optional<Team> koeln = masterDataManagerService.findTeam("1.FC Köln");
+        assertThat(koeln.isPresent()).isTrue();
 
-        TeamAlias teamAlias = masterDataManagerService.createTeamAlias(koeln,
-                "Karnevalsverein");
-        teamAliasNames = masterDataManagerService.findAllTeamAlias(koeln);
+        TeamAlias teamAlias = masterDataManagerService
+                .createTeamAlias(koeln.get(), "Karnevalsverein");
+        teamAliasNames = masterDataManagerService.findAllTeamAlias(koeln.get());
         assertThat(teamAliasNames.size()).isEqualTo(4);
 
         masterDataManagerService.deleteTeamAlias(teamAlias);
-        teamAliasNames = masterDataManagerService.findAllTeamAlias(koeln);
+        teamAliasNames = masterDataManagerService.findAllTeamAlias(koeln.get());
         assertThat(teamAliasNames.size()).isEqualTo(3);
     }
 
     @Test
     public void testUpdateTeamAliasName() {
         List<TeamAlias> teamAliasNames = null;
-        Team koeln = masterDataManagerService.findTeam("1.FC Köln");
-        assertThat(koeln).isNotNull();
+        Optional<Team> koeln = masterDataManagerService.findTeam("1.FC Köln");
+        assertThat(koeln.isPresent()).isTrue();
 
-        TeamAlias teamAlias = masterDataManagerService.createTeamAlias(koeln,
-                "Karnevalsverein");
-        teamAliasNames = masterDataManagerService.findAllTeamAlias(koeln);
+        TeamAlias teamAlias = masterDataManagerService
+                .createTeamAlias(koeln.get(), "Karnevalsverein");
+        teamAliasNames = masterDataManagerService.findAllTeamAlias(koeln.get());
         assertThat(teamAliasNames.size()).isEqualTo(4);
 
         teamAlias.setAliasName("Fortuna Köln");
         masterDataManagerService.updateTeamAlias(teamAlias);
-        Team koeln2 = masterDataManagerService.findTeamByAlias("Fortuna Köln");
-        assertThat(koeln2.getName()).isEqualTo(koeln.getName());
+        Optional<Team> koeln2 = masterDataManagerService
+                .findTeamByAlias("Fortuna Köln");
+        assertThat(koeln2.get().getName()).isEqualTo(koeln.get().getName());
     }
 
 }

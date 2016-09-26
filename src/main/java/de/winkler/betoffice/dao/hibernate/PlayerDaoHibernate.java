@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -24,7 +24,10 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.hibernate.query.Query;
+import org.hibernate.type.LongType;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.PlayerDao;
@@ -36,41 +39,39 @@ import de.winkler.betoffice.storage.Player;
  * @author by Andre Winkler
  */
 @Repository("playerDao")
-public class PlayerDaoHibernate extends AbstractCommonDao<Player> implements
-        PlayerDao {
+public class PlayerDaoHibernate extends AbstractCommonDao<Player>
+        implements PlayerDao {
 
     public PlayerDaoHibernate() {
         super(Player.class);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<Player> findAll() {
         return getSessionFactory().getCurrentSession()
-                .createQuery("from Player as player order by player.name")
-                .list();
+                .createQuery("from Player as player order by player.name",
+                        Player.class)
+                .getResultList();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Player findByOpenligaid(long openligaid) {
-        List<Player> players = getSessionFactory()
-                .getCurrentSession()
+    public Optional<Player> findByOpenligaid(long openligaid) {
+        Query<Player> query = getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Player as player where player.openligaid = :openligaid")
-                .setLong("openligaid", openligaid).list();
-        return first(players);
+                        "from Player as player where player.openligaid = :openligaid",
+                        Player.class)
+                .setParameter("openligaid", openligaid, LongType.INSTANCE);
+        return singleResult(query);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Player findAllGoalsOfPlayer(long id) {
-        List<Player> players = getSessionFactory()
-                .getCurrentSession()
+    public Optional<Player> findAllGoalsOfPlayer(long id) {
+        Query<Player> query = getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Player as player left join fetch player.goals where player.id = :id")
-                .setLong("id", id).list();
-        return first(players);
+                        "from Player as player left join fetch player.goals where player.id = :id",
+                        Player.class)
+                .setParameter("id", id, LongType.INSTANCE);
+        return singleResult(query);
     }
 
 }

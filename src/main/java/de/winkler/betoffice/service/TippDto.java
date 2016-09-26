@@ -26,6 +26,8 @@ package de.winkler.betoffice.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 /**
  * Holds the tipp data.
  *
@@ -33,11 +35,28 @@ import java.util.List;
  */
 public class TippDto {
 
+    private DateTime submitTime;
+
     private long roundId;
     private String nickname;
     private String token;
 
     private List<GameTippDto> gameTipps = new ArrayList<>();
+
+    /**
+     * @return the submitTime
+     */
+    public DateTime getSubmitTime() {
+        return submitTime;
+    }
+
+    /**
+     * @param submitTime
+     *            the submitTime to set
+     */
+    public void setSubmitTime(DateTime submitTime) {
+        this.submitTime = submitTime;
+    }
 
     /**
      * @return the roundId
@@ -110,8 +129,9 @@ public class TippDto {
      */
     @Override
     public String toString() {
-        return "TippDto [roundId=" + roundId + ", nickname=" + nickname
-                + ", token=" + token + ", gameTipps=" + gameTipps + "]";
+        return "TippDto [submitTime=" + submitTime + ", roundId=" + roundId
+                + ", nickname=" + nickname + ", token=" + token + ", gameTipps="
+                + gameTipps + "]";
     }
 
     public static class GameTippDto {
