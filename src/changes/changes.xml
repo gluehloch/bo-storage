@@ -6,8 +6,8 @@
   </properties>
   <body>
   
-    <!-- Under construction -->
-    <release version="betoffice-storage-2.2.0" date="2016-??-??"
+    <!-- RELEASED -->
+    <release version="betoffice-storage-2.2.0" date="2016-09-26"
       description="Update - date and time check for tipp">
       <action dev="andrewinkler" type="add" date="2016-09-20">
         The DAOs return an java.util.Optional catching all NoResultExceptions.
