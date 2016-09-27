@@ -26,6 +26,7 @@ package de.winkler.betoffice.dao.hibernate;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -76,13 +77,13 @@ public class TeamAliasDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testTeamAliasDaoHibernateFindByAliasName() {
-        Team team = null;
+        Optional<Team> team = null;
         team = teamAliasDao.findByAliasName("Schalke");
-        assertEquals("FC Schalke 04", team.getName());
+        assertEquals("FC Schalke 04", team.get().getName());
 
         team = teamAliasDao.findByAliasName("RWE");
-        assertEquals("RWE", team.getName());
-        assertEquals("Rot-Weiss-Essen", team.getLongName());
+        assertEquals("RWE", team.get().getName());
+        assertEquals("Rot-Weiss-Essen", team.get().getLongName());
     }
 
 }

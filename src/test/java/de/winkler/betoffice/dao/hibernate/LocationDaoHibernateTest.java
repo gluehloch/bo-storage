@@ -28,6 +28,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -60,16 +61,16 @@ public class LocationDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testLocationFinderByOpenligaid() {
-        Location essen = locationDao.findByOpenligaid(1L);
-        assertThat(essen.getName(), equalTo("Stadion Essen"));
-        assertThat(essen.getCity(), equalTo("Essen"));
-        assertThat(essen.getGeodat(), equalTo("10.10.10.10"));
+        Optional<Location> essen = locationDao.findByOpenligaid(1L);
+        assertThat(essen.get().getName(), equalTo("Stadion Essen"));
+        assertThat(essen.get().getCity(), equalTo("Essen"));
+        assertThat(essen.get().getGeodat(), equalTo("10.10.10.10"));
 
-        Location bochum = locationDao.findByOpenligaid(2);
-        assertThat(bochum.getName(), equalTo("Ruhrstadion"));
-        assertThat(bochum.getCity(), equalTo("Bochum"));
-        assertThat(bochum.getGeodat(), equalTo("20.20.20.20"));
-        assertThat(bochum.getOpenligaid(), equalTo(2L));
+        Optional<Location> bochum = locationDao.findByOpenligaid(2);
+        assertThat(bochum.get().getName(), equalTo("Ruhrstadion"));
+        assertThat(bochum.get().getCity(), equalTo("Bochum"));
+        assertThat(bochum.get().getGeodat(), equalTo("20.20.20.20"));
+        assertThat(bochum.get().getOpenligaid(), equalTo(2L));
     }
 
     @Test

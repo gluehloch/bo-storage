@@ -4,91 +4,41 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class
-        name="de.winkler.betoffice.storage.GameTipp"
-        table="bo_gametipp"
-        dynamic-update="false"
-        dynamic-insert="false"
-    >
+  <class name="de.winkler.betoffice.storage.GameTipp" table="bo_gametipp"
+    dynamic-update="false" dynamic-insert="false">
 
-        <id
-            name="id"
-            column="id"
-            type="java.lang.Long"
-        >
-            <generator class="native">
-            </generator>
-        </id>
+    <id name="id" column="id" type="java.lang.Long">
+      <generator class="native" />
+    </id>
 
-        <component
-            name="tipp"
-            class="de.winkler.betoffice.storage.GameResult"
-        >
-        <property
-            name="homeGoals"
-            type="int"
-            update="true"
-            insert="true"
-            column="bo_homegoals"
-        />
+    <component name="tipp" class="de.winkler.betoffice.storage.GameResult">
+      <property name="homeGoals" type="int" update="true" insert="true"
+        column="bo_homegoals" />
 
-        <property
-            name="guestGoals"
-            type="int"
-            update="true"
-            insert="true"
-            column="bo_guestgoals"
-        />
+      <property name="guestGoals" type="int" update="true" insert="true"
+        column="bo_guestgoals" />
+    </component>
 
-        </component>
+    <property name="creationTime" type="java.util.Date" update="true"
+      insert="true" column="bo_create" />
 
-        <many-to-one
-            name="user"
-            class="de.winkler.betoffice.storage.User"
-            cascade="none"
-            outer-join="auto"
-            update="true"
-            insert="true"
-            column="bo_user_ref"
-        />
+    <property name="lastUpdateTime" type="java.util.Date" update="true"
+      insert="true" column="bo_update" />
 
-        <many-to-one
-            name="game"
-            class="de.winkler.betoffice.storage.Game"
-            cascade="all"
-            outer-join="auto"
-            update="true"
-            insert="true"
-            column="bo_game_ref"
-        />
+    <property name="token" type="java.lang.String" update="true"
+      insert="true" column="bo_token" />
 
-        <!--
-        <property
-            name="status"
-            type="de.winkler.betoffice.storage.enums.TippStatusType"
-            update="true"
-            insert="true"
-            column="bo_status"
-        />
-        -->
+    <many-to-one name="user" class="de.winkler.betoffice.storage.User"
+      cascade="none" outer-join="auto" update="true" insert="true" column="bo_user_ref" />
 
-        <property
-            name="status"
-            column="bo_status"
-            update="true"
-            insert="true"
-            >
-            <type name="org.hibernate.type.EnumType">
-                <param name="enumClass">de.winkler.betoffice.storage.enums.TippStatusType</param>
-            </type>
-        </property>
+    <many-to-one name="game" class="de.winkler.betoffice.storage.Game"
+      cascade="all" outer-join="auto" update="true" insert="true" column="bo_game_ref" />
 
-        <!--
-            To add non XDoclet property mappings, create a file named
-                hibernate-properties-GameTipp.xml
-            containing the additional properties and place it in your merge dir.
-        -->
-
-    </class>
+    <property name="status" column="bo_status" update="true" insert="true">
+      <type name="org.hibernate.type.EnumType">
+        <param name="enumClass">de.winkler.betoffice.storage.enums.TippStatusType</param>
+      </type>
+    </property>
+  </class>
 
 </hibernate-mapping>

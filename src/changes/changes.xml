@@ -5,9 +5,27 @@
     <author email="andre.winkler@web.de">Andre Winkler</author>
   </properties>
   <body>
+  
+    <!-- RELEASED -->
+    <release version="betoffice-storage-2.2.0" date="2016-09-26"
+      description="Update - date and time check for tipp">
+      <action dev="andrewinkler" type="add" date="2016-09-20">
+        The DAOs return an java.util.Optional catching all NoResultExceptions.
+      </action>
+      <action dev="andrewinkler" type="add" date="2016-09-20">
+        Tipp date and time validation. Don´t change a tipp of the past.
+        The class GameTipp gets two new attributes: createDateTime
+        and updateDateTime.
+      </action>
+      <action dev="andrewinkler" type="update" date="2016-08-09">
+        Removed/Replaced all (some) deprecated methods and classes which
+        are using the latest Hibernate API.
+      </action>
+    </release>
+
     <!-- RELEASED -->
     <release version="betoffice-storage-2.1.0" date="2016-07-27"
-      description="Update">
+      description="Update - Support for the AngularJS frontend">
       <action dev="andrewinkler" type="update" date="2016-07-09">
         Update to Springframework 4 and Hibernate 5.
       </action>

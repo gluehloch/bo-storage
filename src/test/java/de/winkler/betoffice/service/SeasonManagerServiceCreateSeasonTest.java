@@ -1,24 +1,24 @@
 /*
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2014 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
  *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  *
  */
 
@@ -29,6 +29,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -67,8 +68,10 @@ import de.winkler.betoffice.validation.BetofficeValidationException;
         "/betoffice-persistence.xml", "/test-mysql-piratestest.xml" })
 public class SeasonManagerServiceCreateSeasonTest {
 
-    private static final DateTime DATE_15_09_2010 = new DateTime(2010, 9, 15,
-            0, 0);
+    private static final String JUNIT_TOKEN = "#JUNIT#";
+
+    private static final DateTime DATE_15_09_2010 = new DateTime(2010, 9, 15, 0,
+            0);
     private static final DateTime DATE_08_09_2010 = new DateTime(2010, 9, 8, 0,
             0);
     private static final DateTime DATE_01_09_2010 = new DateTime(2010, 9, 1, 0,
@@ -242,19 +245,19 @@ public class SeasonManagerServiceCreateSeasonTest {
         List<GameResult> tipps = new ArrayList<GameResult>();
         tipps.add(new GameResult(2, 0));
         tipps.add(new GameResult(1, 1));
-        tippService.addTipp(round_01, frosch, tipps,
+        tippService.addTipp(JUNIT_TOKEN, round_01, frosch, tipps,
                 TippStatusType.USER);
 
         tipps.clear();
         tipps.add(new GameResult(1, 1));
         tipps.add(new GameResult(1, 1));
-        tippService.addTipp(round_02, frosch, tipps,
+        tippService.addTipp(JUNIT_TOKEN, round_02, frosch, tipps,
                 TippStatusType.USER);
 
         tipps.clear();
         tipps.add(new GameResult(1, 2));
         tipps.add(new GameResult(0, 1));
-        tippService.addTipp(round_03, frosch, tipps,
+        tippService.addTipp(JUNIT_TOKEN, round_03, frosch, tipps,
                 TippStatusType.USER);
 
         //
@@ -263,19 +266,19 @@ public class SeasonManagerServiceCreateSeasonTest {
         tipps.clear();
         tipps.add(new GameResult(1, 1));
         tipps.add(new GameResult(1, 1));
-        tippService.addTipp(round_01, peter, tipps,
+        tippService.addTipp(JUNIT_TOKEN, round_01, peter, tipps,
                 TippStatusType.USER);
 
         tipps.clear();
         tipps.add(new GameResult(2, 1));
         tipps.add(new GameResult(2, 1));
-        tippService.addTipp(round_02, peter, tipps,
+        tippService.addTipp(JUNIT_TOKEN, round_02, peter, tipps,
                 TippStatusType.USER);
 
         tipps.clear();
         tipps.add(new GameResult(1, 2));
         tipps.add(new GameResult(0, 1));
-        tippService.addTipp(round_03, peter, tipps,
+        tippService.addTipp(JUNIT_TOKEN, round_03, peter, tipps,
                 TippStatusType.USER);
 
         //
@@ -284,19 +287,19 @@ public class SeasonManagerServiceCreateSeasonTest {
         tipps.clear();
         tipps.add(new GameResult(2, 1));
         tipps.add(new GameResult(0, 0));
-        tippService.addTipp(round_01, mrTipp, tipps,
+        tippService.addTipp(JUNIT_TOKEN, round_01, mrTipp, tipps,
                 TippStatusType.USER);
 
         tipps.clear();
         tipps.add(new GameResult(2, 2));
         tipps.add(new GameResult(2, 2));
-        tippService.addTipp(round_02, mrTipp, tipps,
+        tippService.addTipp(JUNIT_TOKEN, round_02, mrTipp, tipps,
                 TippStatusType.USER);
 
         tipps.clear();
         tipps.add(new GameResult(1, 3));
         tipps.add(new GameResult(0, 2));
-        tippService.addTipp(round_03, mrTipp, tipps,
+        tippService.addTipp(JUNIT_TOKEN, round_03, mrTipp, tipps,
                 TippStatusType.USER);
 
         //
@@ -338,16 +341,21 @@ public class SeasonManagerServiceCreateSeasonTest {
             final Team homeTeam, final Team guestTeam, int homeGoals,
             int guestGoals) {
 
-        seasonManagerService.addMatch(buli_2010, roundIndex, date,
-                bundesliga_1, homeTeam, guestTeam, homeGoals, guestGoals);
+        seasonManagerService.addMatch(buli_2010, roundIndex, date, bundesliga_1,
+                homeTeam, guestTeam, homeGoals, guestGoals);
 
-        GameList round = seasonManagerService.findRound(buli_2010, roundIndex);
-        Game match = seasonManagerService.findMatch(round, homeTeam, guestTeam);
+        Optional<GameList> round = seasonManagerService.findRound(buli_2010,
+                roundIndex);
+        assertThat(round.isPresent()).isTrue();
+        Optional<Game> match = seasonManagerService.findMatch(round.get(),
+                homeTeam, guestTeam);
+        assertThat(match.isPresent()).isTrue();
 
-        assertThat(match.getHomeTeam()).isEqualTo(homeTeam);
-        assertThat(match.getGuestTeam()).isEqualTo(guestTeam);
-        assertThat(match.getResult().getHomeGoals()).isEqualTo(homeGoals);
-        assertThat(match.getResult().getGuestGoals()).isEqualTo(guestGoals);
+        assertThat(match.get().getHomeTeam()).isEqualTo(homeTeam);
+        assertThat(match.get().getGuestTeam()).isEqualTo(guestTeam);
+        assertThat(match.get().getResult().getHomeGoals()).isEqualTo(homeGoals);
+        assertThat(match.get().getResult().getGuestGoals())
+                .isEqualTo(guestGoals);
     }
 
     private void createRounds() {
@@ -357,15 +365,12 @@ public class SeasonManagerServiceCreateSeasonTest {
 
         assertThat(seasonManagerService.findRounds(buli_2010)).hasSize(3);
 
-        assertThat(
-                new DateTime(seasonManagerService.findRound(buli_2010, 0)
-                        .getDateTime())).isEqualTo(DATE_01_09_2010);
-        assertThat(
-                new DateTime(seasonManagerService.findRound(buli_2010, 1)
-                        .getDateTime())).isEqualTo(DATE_08_09_2010);
-        assertThat(
-                new DateTime(seasonManagerService.findRound(buli_2010, 2)
-                        .getDateTime())).isEqualTo(DATE_15_09_2010);
+        assertThat(new DateTime(seasonManagerService.findRound(buli_2010, 0)
+                .get().getDateTime())).isEqualTo(DATE_01_09_2010);
+        assertThat(new DateTime(seasonManagerService.findRound(buli_2010, 1)
+                .get().getDateTime())).isEqualTo(DATE_08_09_2010);
+        assertThat(new DateTime(seasonManagerService.findRound(buli_2010, 2)
+                .get().getDateTime())).isEqualTo(DATE_15_09_2010);
     }
 
     private void addTeamsToBuli1() {
@@ -425,7 +430,8 @@ public class SeasonManagerServiceCreateSeasonTest {
         team.setName(name);
         team.setLongName(longname);
         masterDataManagerService.createTeam(team);
-        assertThat(masterDataManagerService.findTeam(name)).isEqualTo(team);
+        assertThat(masterDataManagerService.findTeam(name).get())
+                .isEqualTo(team);
         return team;
     }
 
@@ -433,7 +439,7 @@ public class SeasonManagerServiceCreateSeasonTest {
         GroupType groupType = new GroupType();
         groupType.setName(groupTypeName);
         masterDataManagerService.createGroupType(groupType);
-        assertThat(masterDataManagerService.findGroupType(groupTypeName))
+        assertThat(masterDataManagerService.findGroupType(groupTypeName).get())
                 .isEqualTo(groupType);
         return groupType;
     }

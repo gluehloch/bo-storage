@@ -29,6 +29,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -115,38 +116,40 @@ public class SeasonManagerServiceFinderTest {
 
     @Test
     public void testFindMatches() {
-        Team stuttgart = masterDataManagerService.findTeam("VfB Stuttgart");
-        Team hsv = masterDataManagerService.findTeam("Hamburger SV");
+        Optional<Team> stuttgart = masterDataManagerService
+                .findTeam("VfB Stuttgart");
+        Optional<Team> hsv = masterDataManagerService.findTeam("Hamburger SV");
 
-        List<Game> matchesHsvStuttgart = seasonManagerService.findMatches(
-                stuttgart, hsv);
+        List<Game> matchesHsvStuttgart = seasonManagerService
+                .findMatches(stuttgart.get(), hsv.get());
         assertThat(matchesHsvStuttgart.size()).isEqualTo(14);
 
-        List<Game> matchesStuttgartHsv = seasonManagerService.findMatches(hsv,
-                stuttgart);
+        List<Game> matchesStuttgartHsv = seasonManagerService
+                .findMatches(hsv.get(), stuttgart.get());
         assertThat(matchesStuttgartHsv.size()).isEqualTo(14);
 
-        List<Game> allMatchesStuttgartHsv = seasonManagerService.findMatches(
-                stuttgart, hsv, true);
+        List<Game> allMatchesStuttgartHsv = seasonManagerService
+                .findMatches(stuttgart.get(), hsv.get(), true);
 
         assertThat(allMatchesStuttgartHsv.size()).isEqualTo(28);
     }
 
     @Test
     public void testFindMatchesWithSpinButFalse() {
-        Team stuttgart = masterDataManagerService.findTeam("VfB Stuttgart");
-        Team hsv = masterDataManagerService.findTeam("Hamburger SV");
+        Optional<Team> stuttgart = masterDataManagerService
+                .findTeam("VfB Stuttgart");
+        Optional<Team> hsv = masterDataManagerService.findTeam("Hamburger SV");
 
-        List<Game> matchesHsvStuttgart = seasonManagerService.findMatches(
-                stuttgart, hsv, false);
+        List<Game> matchesHsvStuttgart = seasonManagerService
+                .findMatches(stuttgart.get(), hsv.get(), false);
         assertThat(matchesHsvStuttgart.size()).isEqualTo(14);
 
-        List<Game> matchesStuttgartHsv = seasonManagerService.findMatches(hsv,
-                stuttgart, false);
+        List<Game> matchesStuttgartHsv = seasonManagerService
+                .findMatches(hsv.get(), stuttgart.get(), false);
         assertThat(matchesStuttgartHsv.size()).isEqualTo(14);
 
-        List<Game> allMatchesStuttgartHsv = seasonManagerService.findMatches(
-                stuttgart, hsv, true);
+        List<Game> allMatchesStuttgartHsv = seasonManagerService
+                .findMatches(stuttgart.get(), hsv.get(), true);
 
         assertThat(allMatchesStuttgartHsv.size()).isEqualTo(28);
     }
@@ -161,11 +164,11 @@ public class SeasonManagerServiceFinderTest {
      */
     @Test
     public void testFindWm2006() {
-        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland",
-                "2006");
-        assertThat(wm2006).isNotNull();
-        assertThat(wm2006.getYear()).isEqualTo("2006");
-        assertThat(wm2006.getName()).isEqualTo("WM Deutschland");
+        Optional<Season> wm2006 = seasonManagerService
+                .findSeasonByName("WM Deutschland", "2006");
+        assertThat(wm2006.isPresent()).isTrue();
+        assertThat(wm2006.get().getYear()).isEqualTo("2006");
+        assertThat(wm2006.get().getName()).isEqualTo("WM Deutschland");
 
         //
         // Die Anzahl der Spieltage kann nicht abgefragt werden!
@@ -176,29 +179,30 @@ public class SeasonManagerServiceFinderTest {
 
     @Test
     public void testFindActiveUsersWm2006() {
-        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland",
-                "2006");
+        Optional<Season> wm2006 = seasonManagerService
+                .findSeasonByName("WM Deutschland", "2006");
 
-        List<User> users = seasonManagerService.findActivatedUsers(wm2006);
+        List<User> users = seasonManagerService
+                .findActivatedUsers(wm2006.get());
         assertThat(users.size()).isEqualTo(11);
 
-        String[] usersWm2006 = new String[] { "Andi", "Bernd_das_Brot",
-                "chris", "Frosch", "Goddard", "Hattwig", "Jogi", "mrTipp",
-                "Peter", "Roenne", "Steffen" };
+        String[] usersWm2006 = new String[] { "Andi", "Bernd_das_Brot", "chris",
+                "Frosch", "Goddard", "Hattwig", "Jogi", "mrTipp", "Peter",
+                "Roenne", "Steffen" };
 
         for (int index = 0; index < usersWm2006.length; index++) {
-            assertThat(users.get(index).getNickName()).isEqualTo(
-                    usersWm2006[index]);
+            assertThat(users.get(index).getNickName())
+                    .isEqualTo(usersWm2006[index]);
         }
     }
 
     @Test
     public void testFindGroupTypesWm2006() {
-        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland",
-                "2006");
+        Optional<Season> wm2006 = seasonManagerService
+                .findSeasonByName("WM Deutschland", "2006");
 
         List<GroupType> groupTypes = seasonManagerService
-                .findGroupTypesBySeason(wm2006);
+                .findGroupTypesBySeason(wm2006.get());
         assertThat(groupTypes.size()).isEqualTo(13);
 
         String[] groupTypesWm2006 = new String[] { "Achtelfinale", "Finale",
@@ -207,46 +211,48 @@ public class SeasonManagerServiceFinderTest {
                 "Spiel um Platz 3", "Viertelfinale" };
 
         for (int index = 0; index < groupTypesWm2006.length; index++) {
-            assertThat(groupTypes.get(index).getName()).isEqualTo(
-                    groupTypesWm2006[index]);
+            assertThat(groupTypes.get(index).getName())
+                    .isEqualTo(groupTypesWm2006[index]);
         }
     }
 
     @Test
     public void testFindGroupWm2006() {
-        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland",
-                "2006");
+        Optional<Season> wm2006 = seasonManagerService
+                .findSeasonByName("WM Deutschland", "2006");
 
-        List<Group> groups = seasonManagerService.findGroups(wm2006);
+        List<Group> groups = seasonManagerService.findGroups(wm2006.get());
         assertThat(groups.size()).isEqualTo(13);
     }
 
     @Test
     public void testFindTeamsByGroupTypeWm2006() {
-        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland",
-                "2006");
+        Optional<Season> wm2006 = seasonManagerService
+                .findSeasonByName("WM Deutschland", "2006");
 
-        GroupType finale = masterDataManagerService.findGroupType("Finale");
-        Team italien = masterDataManagerService.findTeam("Italien");
-        Team frankreich = masterDataManagerService.findTeam("Frankreich");
+        Optional<GroupType> finale = masterDataManagerService
+                .findGroupType("Finale");
+        Optional<Team> italien = masterDataManagerService.findTeam("Italien");
+        Optional<Team> frankreich = masterDataManagerService
+                .findTeam("Frankreich");
 
-        List<Team> finalTeams = seasonManagerService.findTeamsByGroupType(
-                wm2006, finale);
+        List<Team> finalTeams = seasonManagerService
+                .findTeamsByGroupType(wm2006.get(), finale.get());
 
         assertThat(finalTeams.size()).isEqualTo(2);
-        assertThat(finalTeams.get(0)).isEqualTo(frankreich);
-        assertThat(finalTeams.get(1)).isEqualTo(italien);
+        assertThat(finalTeams.get(0)).isEqualTo(frankreich.get());
+        assertThat(finalTeams.get(1)).isEqualTo(italien.get());
     }
 
     @Test
     public void testFindTeamsByGroupWm2006() {
-        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland",
-                "2006");
-        List<Group> groups = seasonManagerService.findGroups(wm2006);
+        Optional<Season> wm2006 = seasonManagerService
+                .findSeasonByName("WM Deutschland", "2006");
+        List<Group> groups = seasonManagerService.findGroups(wm2006.get());
         assertThat(groups.size()).isEqualTo(13);
         Group achtelfinale = groups.get(0);
-        assertThat(achtelfinale.getGroupType().getName()).isEqualTo(
-                "Achtelfinale");
+        assertThat(achtelfinale.getGroupType().getName())
+                .isEqualTo("Achtelfinale");
 
         List<Team> teams = seasonManagerService.findTeamsByGroup(achtelfinale);
         assertThat(teams.size()).isEqualTo(16);
@@ -254,8 +260,8 @@ public class SeasonManagerServiceFinderTest {
 
     @Test
     public void testFindRoundWm2006() {
-        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland",
-                "2006");
+        Optional<Season> wm2006 = seasonManagerService
+                .findSeasonByName("WM Deutschland", "2006");
         //
         // This don´t work:
         //
@@ -264,73 +270,79 @@ public class SeasonManagerServiceFinderTest {
         // You would get a LazyInitializationException!
         //
 
-        List<GameList> rounds = seasonManagerService.findRounds(wm2006);
+        List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
         assertThat(rounds.size()).isEqualTo(25);
 
         GameList spieltag_1 = rounds.get(0);
-        assertThat(spieltag_1.getGroup().getGroupType().getName()).isEqualTo(
-                "Gruppe A");
+        assertThat(spieltag_1.getGroup().getGroupType().getName())
+                .isEqualTo("Gruppe A");
 
         GameList spieltag_2 = rounds.get(1);
-        assertThat(spieltag_2.getGroup().getGroupType().getName()).isEqualTo(
-                "Gruppe B");
+        assertThat(spieltag_2.getGroup().getGroupType().getName())
+                .isEqualTo("Gruppe B");
 
         GameList finale = rounds.get(24);
-        assertThat(finale.getGroup().getGroupType().getName()).isEqualTo(
-                "Finale");
+        assertThat(finale.getGroup().getGroupType().getName())
+                .isEqualTo("Finale");
 
-        Team italien = masterDataManagerService.findTeam("Italien");
-        Team frankreich = masterDataManagerService.findTeam("Frankreich");
+        Optional<Team> italien = masterDataManagerService.findTeam("Italien");
+        Optional<Team> frankreich = masterDataManagerService
+                .findTeam("Frankreich");
         Game finalRoundMatch = finale.get(0);
 
-        assertThat(finalRoundMatch.getHomeTeam()).isEqualTo(italien);
-        assertThat(finalRoundMatch.getGuestTeam()).isEqualTo(frankreich);
+        assertThat(finalRoundMatch.getHomeTeam()).isEqualTo(italien.get());
+        assertThat(finalRoundMatch.getGuestTeam()).isEqualTo(frankreich.get());
     }
 
     @Test
     public void testFindMatchWm2006() {
-        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland",
-                "2006");
+        Optional<Season> wm2006 = seasonManagerService
+                .findSeasonByName("WM Deutschland", "2006");
 
-        List<GameList> rounds = seasonManagerService.findRounds(wm2006);
+        List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
         assertThat(rounds.size()).isEqualTo(25);
 
-        Team italien = masterDataManagerService.findTeam("Italien");
-        Team frankreich = masterDataManagerService.findTeam("Frankreich");
+        Optional<Team> italien = masterDataManagerService.findTeam("Italien");
+        Optional<Team> frankreich = masterDataManagerService
+                .findTeam("Frankreich");
 
         GameList finale = rounds.get(24);
-        Game finalMatch = seasonManagerService.findMatch(finale, italien,
-                frankreich);
-        assertThat(finalMatch.getResult()).isEqualTo(new GameResult(5, 3));
+        Optional<Game> finalMatch = seasonManagerService.findMatch(finale,
+                italien.get(), frankreich.get());
+        assertThat(finalMatch.get().getResult())
+                .isEqualTo(new GameResult(5, 3));
 
-        Team deutschland = masterDataManagerService.findTeam("Deutschland");
-        Team portugal = masterDataManagerService.findTeam("Portugal");
+        Optional<Team> deutschland = masterDataManagerService
+                .findTeam("Deutschland");
+        Optional<Team> portugal = masterDataManagerService.findTeam("Portugal");
 
         GameList platz3 = rounds.get(23);
-        Game platz3Match = seasonManagerService.findMatch(platz3, deutschland,
-                portugal);
-        assertThat(platz3Match.getResult()).isEqualTo(new GameResult(3, 1));
+        Optional<Game> platz3Match = seasonManagerService.findMatch(platz3,
+                deutschland.get(), portugal.get());
+        assertThat(platz3Match.get().getResult())
+                .isEqualTo(new GameResult(3, 1));
     }
 
     @Test
     public void testCalculateTeamRanking() {
-        Season buli = seasonManagerService.findSeasonByName(
-                "Fussball Bundesliga", "2006/2007");
-        GameList round = seasonManagerService.findRound(buli, 0);
-        Group bundesliga = round.getGroup();
-        assertEquals(9, round.unmodifiableList(bundesliga).size());
+        Optional<Season> buli = seasonManagerService
+                .findSeasonByName("Fussball Bundesliga", "2006/2007");
+        Optional<GameList> round = seasonManagerService.findRound(buli.get(),
+                0);
+        Group bundesliga = round.get().getGroup();
+        assertEquals(9, round.get().unmodifiableList(bundesliga).size());
 
-        List<Group> groups = seasonManagerService.findGroups(buli);
+        List<Group> groups = seasonManagerService.findGroups(buli.get());
         List<TeamResult> teamResults = seasonManagerService
-                .calculateTeamRanking(buli, groups.get(0).getGroupType());
+                .calculateTeamRanking(buli.get(), groups.get(0).getGroupType());
 
         validateTeamResult(teamResults, 0, "VfB Stuttgart", 61, 37, 70);
         validateTeamResult(teamResults, 1, "FC Schalke 04", 53, 32, 68);
         validateTeamResult(teamResults, 2, "SV Werder Bremen", 76, 40, 66);
         validateTeamResult(teamResults, 17, "Borussia MGladbach", 23, 44, 26);
 
-        teamResults = seasonManagerService.calculateTeamRanking(buli, groups
-                .get(0).getGroupType(), 0, 4);
+        teamResults = seasonManagerService.calculateTeamRanking(buli.get(),
+                groups.get(0).getGroupType(), 0, 4);
         validateTeamResult(teamResults, 0, "FC Bayern München", 7, 4, 10);
         validateTeamResult(teamResults, 1, "FC Schalke 04", 6, 3, 10);
         validateTeamResult(teamResults, 2, "Hertha BSC Berlin", 8, 2, 9);
@@ -343,9 +355,9 @@ public class SeasonManagerServiceFinderTest {
         Object object = databaseMaintenanceService.executeHql("from Season");
         assertEquals(22, ((List<?>) object).size());
 
-        Object object2 = databaseMaintenanceService.executeHql("select s "
-                + "from Season s left join fetch s.groups as group "
-                + "where s.name = 'WM Deutschland' and s.year = 2006");
+        Object object2 = databaseMaintenanceService.executeHql(
+                "select s " + "from Season s left join fetch s.groups as group "
+                        + "where s.name = 'WM Deutschland' and s.year = 2006");
         assertEquals(13, ((List<?>) object2).size());
     }
 

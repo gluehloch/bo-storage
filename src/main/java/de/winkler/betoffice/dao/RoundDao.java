@@ -24,6 +24,7 @@
 package de.winkler.betoffice.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.joda.time.DateTime;
 
@@ -67,16 +68,7 @@ public interface RoundDao extends CommonDao<GameList> {
      *            Der Index des Spieltags (0 .. size-1).
      * @return Der Spieltag.
      */
-    public GameList findRound(Season season, int index);
-
-    /**
-     * Liefert einen Spieltag einer Meisterschaft.
-     *
-     * @param id
-     *            Die ID des Spieltags.
-     * @return Der Spieltag
-     */
-    public GameList findById(long id);
+    public Optional<GameList> findRound(Season season, int index);
 
     /**
      * Liefert den nächsten Spieltag der Meisterschaft.
@@ -85,7 +77,7 @@ public interface RoundDao extends CommonDao<GameList> {
      *            Die ID des aktuellen Spieltags.
      * @return Der nächste Spieltag.
      */
-    public Long findNext(long id);
+    public Optional<Long> findNext(long id);
 
     /**
      * Liefert den vorhergehenden Spieltag der Meisterschaft.
@@ -94,7 +86,7 @@ public interface RoundDao extends CommonDao<GameList> {
      *            Die ID des aktuellen Spieltags.
      * @return Der vorhergehende Spieltag.
      */
-    public Long findPrevious(long id);
+    public Optional<Long> findPrevious(long id);
 
     /**
      * Liefert einen Spieltag einer Meisterschaft inklusive aller abhöngigen
@@ -107,7 +99,7 @@ public interface RoundDao extends CommonDao<GameList> {
      *            Der Index des Spieltags (0 .. size-1).
      * @return Der Spieltag.
      */
-    public GameList findAllRoundObjects(Season season, int index);
+    public Optional<GameList> findAllRoundObjects(Season season, int index);
 
     /**
      * Legt eine neuen Spieltag persistent an.
@@ -158,7 +150,7 @@ public interface RoundDao extends CommonDao<GameList> {
      *            Das Bezugsdatum.
      * @return Der nächste zu tippende Spieltag.
      */
-    public Long findNextTippRound(long seasonId, DateTime date);
+    public Optional<Long> findNextTippRound(long seasonId, DateTime date);
 
     /**
      * Liefert die letzte Runde einer Meisterschaft-
@@ -167,6 +159,6 @@ public interface RoundDao extends CommonDao<GameList> {
      *            Die betreffende Meisterschaft
      * @return der letzte Spieltag einer Meisterschaft
      */
-    public GameList findLastRound(Season season);
+    public Optional<GameList> findLastRound(Season season);
 
 }

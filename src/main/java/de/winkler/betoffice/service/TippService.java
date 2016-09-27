@@ -70,6 +70,8 @@ public interface TippService {
     /**
      * Einen Tipp einer Spielpaarung hinzufügen/aktualisieren.
      *
+     * @param token
+     *            Das Anmeldetoken mit dem dieser Tipp angelegt wird.
      * @param match
      *            Die betreffende Partie.
      * @param user
@@ -82,12 +84,14 @@ public interface TippService {
      *
      * @see #updateTipp(Game, User, GameResult, TippStatusType)
      */
-    public GameTipp addTipp(Game match, User user, GameResult gr,
+    public GameTipp addTipp(String token, Game match, User user, GameResult gr,
             TippStatusType status);
 
     /**
      * Legt die Tipps für einen kompletten Spieltag in der Datenbank an.
      *
+     * @param token
+     *            Das Anmeldetoken mit dem dieser Tipp angelegt wird.
      * @param round
      *            Der betreffende Spieltag.
      * @param user
@@ -97,7 +101,7 @@ public interface TippService {
      * @param status
      *            Der Status für diese Tipps.
      */
-    public void addTipp(GameList round, User user, List<GameResult> tipps,
+    public void addTipp(String token, GameList round, User user, List<GameResult> tipps,
             TippStatusType status);
 
     /**
@@ -111,6 +115,8 @@ public interface TippService {
     /**
      * Einen Tipp einer Spielpaarung hinzufügen/aktualisieren.
      *
+     * @param token
+     *            Das Anmeldetoken mit dem dieser Tipp angelegt wird.
      * @param match
      *            Die betreffende Partie.
      * @param user
@@ -122,16 +128,18 @@ public interface TippService {
      *
      * @see #addTipp(Game, User, GameResult, TippStatusType)
      */
-    public void updateTipp(Game match, User user, GameResult gr,
+    public void updateTipp(String token, Game match, User user, GameResult gr,
             TippStatusType status);
 
     /**
      * Aktualisiert eine Liste von Tipps.
      *
+     * @param token
+     *            Das Anmeldetoken mit dem dieser Tipp angelegt wird.
      * @param tipps
      *            Eine Liste mit den zu aktualisierende Tipps.
      */
-    public void updateTipp(List<GameTipp> tipps);
+    public void updateTipp(String token, List<GameTipp> tipps);
 
     /**
      * Entfernt einen Spieltipp.

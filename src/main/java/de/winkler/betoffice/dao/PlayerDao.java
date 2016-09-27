@@ -24,6 +24,7 @@
 package de.winkler.betoffice.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.winkler.betoffice.storage.Player;
 
@@ -48,7 +49,7 @@ public interface PlayerDao extends CommonDao<Player> {
      *            openligadb ID
      * @return Ein Spieler
      */
-    public Player findByOpenligaid(long openligaid);
+    public Optional<Player> findByOpenligaid(long openligaid);
 
     /**
      * Liefert einen Spieler mit allen Toren.
@@ -57,6 +58,6 @@ public interface PlayerDao extends CommonDao<Player> {
      *            Die Spieler ID
      * @return Ein Spieler
      */
-    public Player findAllGoalsOfPlayer(long id);
+    public Optional<Player> findAllGoalsOfPlayer(long id);
 
 }

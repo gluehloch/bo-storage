@@ -32,6 +32,9 @@ public class Location extends AbstractStorageObject {
 
     private static final long serialVersionUID = -5731266845767848350L;
 
+    /** The unknown location or default/undefined location. */
+    public static final long UNKNOWN_LOCATION_ID = 1;
+    
     private Long id;
     private String name;
     private String city;

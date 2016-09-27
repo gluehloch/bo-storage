@@ -84,7 +84,7 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
         @SuppressWarnings("unchecked")
         List<GameTipp> tipps = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMETIPP_BY_MATCH)
-                .setParameter("gameId", match.getId()).list();
+                .setParameter("gameId", match.getId()).getResultList();
 
         return tipps;
     }
@@ -97,7 +97,7 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
         List<GameTipp> objects = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMETIPP_BY_SEASON_ROUND_AND_USER)
                 .setParameter("roundId", round.getId())
-                .setParameter("userId", user.getId()).list();
+                .setParameter("userId", user.getId()).getResultList();
         return objects;
     }
 

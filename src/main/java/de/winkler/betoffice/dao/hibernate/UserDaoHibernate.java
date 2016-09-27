@@ -1,25 +1,24 @@
 /*
- * $Id: UserDaoHibernate.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
  *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  *
  */
 
@@ -30,8 +29,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-import org.hibernate.SQLQuery;
+import javax.persistence.NoResultException;
+
+import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.UserDao;
@@ -47,12 +50,11 @@ import de.winkler.betoffice.storage.comparator.UserPointsComparator;
  * TODO: Die SQL Abfragen zur Bestimmung der Tipper-Punkte erfolgen mit zwei SQL
  * Abfragen. Eventuell könnte man diese zu einer zusammen fassen.
  * 
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
 @Repository("userDao")
-public class UserDaoHibernate extends AbstractCommonDao<User> implements
-        UserDao {
+public class UserDaoHibernate extends AbstractCommonDao<User>
+        implements UserDao {
 
     /** Sucht nach allen Usern mit einem bestimmten Nick-Namen. */
     private static final String QUERY_USER_BY_NICKNAME = "from "
@@ -85,19 +87,18 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements
 
     @Override
     public List<User> findAll() {
-        @SuppressWarnings("unchecked")
         List<User> users = getSessionFactory().getCurrentSession()
-                .createQuery("from User order by nickName").list();
+                .createQuery("from User order by nickName", User.class)
+                .getResultList();
         return users;
     }
 
     @Override
-    public User findByNickname(final String nickname) {
-        @SuppressWarnings("unchecked")
-        List<User> users = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_USER_BY_NICKNAME)
-                .setParameter("nickName", nickname).list();
-        return first(users);
+    public Optional<User> findByNickname(final String nickname) {
+        User user = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_USER_BY_NICKNAME, User.class)
+                .setParameter("nickName", nickname).getSingleResult();
+        return Optional.of(user);
     }
 
     @Override
@@ -110,11 +111,9 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements
         }
 
         /* count(*) as 'full_points', u.* */
-        SQLQuery query13 = getSessionFactory()
-                .getCurrentSession()
+        Query query13 = getSessionFactory().getCurrentSession()
                 .createSQLQuery(QUERY_SEASON_RANGE_13_POINTS)
-                .addEntity("user", User.class)
-                .addScalar("full_points",
+                .addEntity("user", User.class).addScalar("full_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query13.setParameter("season_id", season.getId());
         query13.setParameter("start_index", startIndex);
@@ -136,11 +135,9 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements
         }
 
         /* count(*) as 'half_points', u.* */
-        SQLQuery query10 = getSessionFactory()
-                .getCurrentSession()
-                .createSQLQuery(QUERY_SEASON_RANGE_10_POINTS)
-                .addEntity("user", User.class)
-                .addScalar("half_points",
+        NativeQuery query10 = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_SEASON_RANGE_10_POINTS)
+                .addEntity("user", User.class).addScalar("half_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query10.setParameter("season_id", season.getId());
         query10.setParameter("start_index", startIndex);
@@ -161,9 +158,8 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements
         }
 
         /* count(*) as 'count_matches' */
-        SQLQuery queryMatches = getSessionFactory()
-                .getCurrentSession()
-                .createSQLQuery(QUERY_SEASON_RANGE_COUNT_MATCHES)
+        NativeQuery queryMatches = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_SEASON_RANGE_COUNT_MATCHES)
                 .addScalar("count_matches",
                         org.hibernate.type.StandardBasicTypes.LONG);
         queryMatches.setParameter("season_id", season.getId());
@@ -192,11 +188,9 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements
         }
 
         /* count(*) as 'full_points', u.* */
-        SQLQuery query13 = getSessionFactory()
-                .getCurrentSession()
-                .createSQLQuery(QUERY_SEASON_13_POINTS)
-                .addEntity("user", User.class)
-                .addScalar("full_points",
+        NativeQuery query13 = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_SEASON_13_POINTS)
+                .addEntity("user", User.class).addScalar("full_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query13.setParameter("season_id", season.getId());
         List<?> resultQuery13 = query13.list();
@@ -215,11 +209,9 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements
         }
 
         /* count(*) as 'half_points', u.* */
-        SQLQuery query10 = getSessionFactory()
-                .getCurrentSession()
-                .createSQLQuery(QUERY_SEASON_10_POINTS)
-                .addEntity("user", User.class)
-                .addScalar("half_points",
+        NativeQuery query10 = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_SEASON_10_POINTS)
+                .addEntity("user", User.class).addScalar("half_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query10.setParameter("season_id", season.getId());
         List<?> resultQuery10 = query10.list();
@@ -238,9 +230,8 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements
         }
 
         /* count(*) as 'count_matches' */
-        SQLQuery queryMatches = getSessionFactory()
-                .getCurrentSession()
-                .createSQLQuery(QUERY_SEASON_COUNT_MATCHES)
+        NativeQuery queryMatches = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_SEASON_COUNT_MATCHES)
                 .addScalar("count_matches",
                         org.hibernate.type.StandardBasicTypes.LONG);
         queryMatches.setParameter("season_id", season.getId());
