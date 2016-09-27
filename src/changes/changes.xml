@@ -6,6 +6,13 @@
   </properties>
   <body>
   
+    <release version="betoffice-storage-2.2.1" date="2016-09-27"
+      description="Fix for UserDaoHibernate and the single result">
+      <action dev="andrewinkler" type="fix" date="2016-09-27">
+        findByNickname should not throw an exception.
+      </action>
+    </release>
+  
     <!-- RELEASED -->
     <release version="betoffice-storage-2.2.0" date="2016-09-26"
       description="Update - date and time check for tipp">
