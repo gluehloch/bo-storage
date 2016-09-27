@@ -95,10 +95,10 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
 
     @Override
     public Optional<User> findByNickname(final String nickname) {
-        User user = getSessionFactory().getCurrentSession()
+        Query<User> user = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_USER_BY_NICKNAME, User.class)
-                .setParameter("nickName", nickname).getSingleResult();
-        return Optional.of(user);
+                .setParameter("nickName", nickname);
+        return singleResult(user);
     }
 
     @Override
