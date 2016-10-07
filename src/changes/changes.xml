@@ -5,7 +5,16 @@
     <author email="andre.winkler@web.de">Andre Winkler</author>
   </properties>
   <body>
-  
+ 
+     <!-- Under construction -->
+     <release version="betoffice-storage-2.3.0" date="2016-??-??"
+      description="User roles">
+      <action dev="andrewinkler" type="update" date="2016-10-07">
+        Dependency clean up. DB connection pool is only a runtime dependency.
+      </action>
+    </release>
+
+    <!-- RELEASED --> 
     <release version="betoffice-storage-2.2.1" date="2016-09-27"
       description="Fix for UserDaoHibernate and the single result">
       <action dev="andrewinkler" type="fix" date="2016-09-27">
