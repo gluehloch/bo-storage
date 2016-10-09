@@ -38,6 +38,7 @@ import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.service.SecurityToken.Role;
 import de.winkler.betoffice.storage.Session;
 import de.winkler.betoffice.storage.User;
+import de.winkler.betoffice.storage.enums.RoleType;
 
 /**
  * Implementation of {@link AuthService}.
@@ -64,12 +65,14 @@ public class DefaultAuthService implements AuthService {
         Optional<User> user = userDao.findByNickname(name);
         DateTime now = DateTime.now();
 
+        
+        
         SecurityToken securityToken = null;
         if (user.isPresent() && user.get().comparePwd(password)) {
             //
             // TODO Die Rolle muss bestimmt werden.
             //
-            securityToken = new SecurityToken(sessionId, user.get(), Role.TIPPER, now);
+            securityToken = new SecurityToken(sessionId, user.get(), RoleType.TIPPER, now);
 
             Session session = new Session();
             session.setBrowser(browserId);

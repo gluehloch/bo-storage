@@ -1,10 +1,7 @@
 /*
- * $Header: https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage/src/main/java/de/winkler/betoffice/storage/UserResultOfDay.java 3782 2013-07-27 08:44:32Z andrewinkler $
- * $Revision: 3782 $
- * $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2007 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -35,8 +32,7 @@ import org.apache.commons.lang.Validate;
  * Verwaltet die Tippstatistik eines Teilnehmers für einen
  * Spieltag.
  * 
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
 public class UserResultOfDay extends AbstractStorageObject {
    

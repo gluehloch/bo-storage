@@ -1,7 +1,6 @@
 /*
- * $Id: GameResult.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2008 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -33,12 +32,10 @@ import java.io.Serializable;
 /**
  * Verwaltet das Ergebnis eines Fussballspiels.
  *
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
- *          2013) $
+ * @author Andre Winkler
  */
-public class GameResult extends AbstractStorageObject implements Serializable,
-        Cloneable {
+public class GameResult extends AbstractStorageObject
+        implements Serializable, Cloneable {
 
     /** serial version id */
     private static final long serialVersionUID = -4527677284167591700L;

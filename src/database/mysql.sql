@@ -252,6 +252,7 @@ create table bo_user_season (
     bo_season_ref bigint not null,
     bo_user_ref bigint not null,
     bo_wager integer,
+    bo_roletype integer,
     primary key (id)
 ) ENGINE=InnoDB;
 

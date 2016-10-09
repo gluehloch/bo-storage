@@ -46,6 +46,7 @@ import de.winkler.betoffice.storage.TeamResult;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
 import de.winkler.betoffice.storage.UserSeason;
+import de.winkler.betoffice.storage.enums.RoleType;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 import de.winkler.betoffice.validation.BetofficeValidationMessage;
 import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
@@ -352,6 +353,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
             if (!activeUsers.contains(user)) {
                 UserSeason userSeason = new UserSeason();
                 userSeason.setUser(user);
+                userSeason.setRoleType(RoleType.TIPPER);
                 season2.addUser(userSeason);
                 getConfig().getUserSeasonDao().save(userSeason);
             }

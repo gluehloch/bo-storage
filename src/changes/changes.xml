@@ -12,6 +12,10 @@
       <action dev="andrewinkler" type="update" date="2016-10-07">
         Dependency clean up. DB connection pool is only a runtime dependency.
       </action>
+      <action dev="andrewinkler" type="update" date="2016-10-09">
+        A user/season relation gets a new attribute: The user role (type).
+        The table bo_user_season gets a new column: bo_roletype.
+      </action>
     </release>
 
     <!-- RELEASED --> 

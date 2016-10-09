@@ -1,37 +1,35 @@
 /*
- * $Id: UserSeason.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
  *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  *
  */
 
 package de.winkler.betoffice.storage;
 
+import de.winkler.betoffice.storage.enums.RoleType;
+
 /**
  * Verwaltet die Beziehung zwischen <code>User</code> und <code>Season</code>.
  *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
- *
- * @hibernate.class table="bo_user_season"
+ * @author Andre Winkler
  */
 public class UserSeason extends AbstractStorageObject {
 
@@ -57,7 +55,8 @@ public class UserSeason extends AbstractStorageObject {
     /**
      * Setzt den Primärschlüssel.
      *
-     * @param value Der Primärschlüssel.
+     * @param value
+     *            Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
@@ -76,11 +75,9 @@ public class UserSeason extends AbstractStorageObject {
      *
      * @return Die Saison.
      *
-     * @hibernate.many-to-one
-     *     column="bo_season_ref"
-     *     cascade="none"
-     *     not-null="true"
-     *     class="de.winkler.betoffice.storage.Season"
+     * @hibernate.many-to-one column="bo_season_ref" cascade="none"
+     *                        not-null="true"
+     *                        class="de.winkler.betoffice.storage.Season"
      */
     public Season getSeason() {
         return season;
@@ -89,7 +86,8 @@ public class UserSeason extends AbstractStorageObject {
     /**
      * Setzt die Saison.
      *
-     * @param value Eine Saison.
+     * @param value
+     *            Eine Saison.
      */
     protected void setSeason(final Season value) {
         season = value;
@@ -115,13 +113,12 @@ public class UserSeason extends AbstractStorageObject {
     /**
      * Setzt den Teilnehmer.
      *
-     * @param value Der Teilnehmer.
+     * @param value
+     *            Der Teilnehmer.
      *
-     * @hibernate.many-to-one
-     *     column="bo_user_ref"
-     *     cascade="none"
-     *     not-null="true"
-     *     class="de.winkler.betoffice.storage.User"
+     * @hibernate.many-to-one column="bo_user_ref" cascade="none"
+     *                        not-null="true"
+     *                        class="de.winkler.betoffice.storage.User"
      */
     public void setUser(final User value) {
         user = value;
@@ -149,63 +146,43 @@ public class UserSeason extends AbstractStorageObject {
     /**
      * Setzt den Wetteinsatz.
      *
-     * @param value Der Wetteinsatz.
+     * @param value
+     *            Der Wetteinsatz.
      */
     public void setWager(int value) {
         wager = value;
     }
 
-    // ------------------------------------------------------------------------
+    // -- roleType ------------------------------------------------------------
+
+    /** The role for an user/season relation. Tipper is the default. */
+    private RoleType roleType = RoleType.TIPPER;
 
     /**
-     * @return valid?
+     * Gets the user role for a season.
      * 
-     * @see de.winkler.betoffice.storage.StorageObject#isValid()
+     * @return the user role
      */
-    public boolean isValid() {
-        if ((user != null) && (season != null)) {
-            return true;
-        } else {
-            return false;
-        }
+    public RoleType getRoleType() {
+        return roleType;
     }
-
-    // -- Object --------------------------------------------------------------
 
     /**
-     * @see Object#toString()
+     * Set the user role for a season.
+     * 
+     * @param roleType
+     *            role type for a user/season relation.
      */
-    public String toString() {
-        StringBuffer buf = new StringBuffer();
-        buf.append("User: ").append(getUser());
-        buf.append(", Season: ").append(getSeason());
-        return buf.toString();
+    public void setRoleType(RoleType roleType) {
+        this.roleType = roleType;
     }
 
-//    /**
-//     * @see Object#equals(java.lang.Object)
-//     */
-//    public final boolean equals(final Object object) {
-//        if (object == null) {
-//            return false;
-//        } else if (!(object instanceof UserSeason)) {
-//            return false;
-//        } else if ((getSeason().equals(((UserSeason) object).getSeason()))
-//                && (getUser().equals(((UserSeason) object).getUser()))) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-//
-//    /**
-//     * @see Object#hashCode()
-//     */
-//    public final int hashCode() {
-//        int result = 17;
-//        result = 37 * result + getSeason().hashCode();
-//        result = 37 * result + getUser().hashCode();
-//        return result;
-//    }
+    // -- Object -------------------------------------------------------------
+
+    @Override
+    public String toString() {
+        return "UserSeason [id=" + id + ", season=" + season + ", user=" + user
+                + ", wager=" + wager + ", roleType=" + roleType + "]";
+    }
 
 }

@@ -1,7 +1,6 @@
 /*
- * $Id: GameTipp.java 3796 2013-08-05 03:58:02Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2010 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
