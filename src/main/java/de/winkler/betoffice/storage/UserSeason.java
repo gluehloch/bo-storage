@@ -45,8 +45,6 @@ public class UserSeason extends AbstractStorageObject {
      * Liefert den Primärschlüssel.
      *
      * @return Der Primärschlüssel.
-     *
-     * @hibernate.id generator-class="native"
      */
     public Long getId() {
         return id;
@@ -64,9 +62,6 @@ public class UserSeason extends AbstractStorageObject {
 
     // -- season --------------------------------------------------------------
 
-    /** Der Name der Eigenschaft 'saison'. */
-    public static final String PROPERTY_SEASON = "season";
-
     /** Die zugeordnete Saison. */
     private Season season;
 
@@ -74,10 +69,6 @@ public class UserSeason extends AbstractStorageObject {
      * Liefert die zugeordnete Saison.
      *
      * @return Die Saison.
-     *
-     * @hibernate.many-to-one column="bo_season_ref" cascade="none"
-     *                        not-null="true"
-     *                        class="de.winkler.betoffice.storage.Season"
      */
     public Season getSeason() {
         return season;
@@ -94,9 +85,6 @@ public class UserSeason extends AbstractStorageObject {
     }
 
     // -- user ----------------------------------------------------------------
-
-    /** Der Name der Eigenschaft 'user'. */
-    public static final String PROPERTY_USER = "user";
 
     /** Der zugeordnete Teilnehmer. */
     private User user;
@@ -115,19 +103,12 @@ public class UserSeason extends AbstractStorageObject {
      *
      * @param value
      *            Der Teilnehmer.
-     *
-     * @hibernate.many-to-one column="bo_user_ref" cascade="none"
-     *                        not-null="true"
-     *                        class="de.winkler.betoffice.storage.User"
      */
     public void setUser(final User value) {
         user = value;
     }
 
     // -- wager ---------------------------------------------------------------
-
-    /** Der Name der Eigenschaft 'wager'. */
-    public static final String PROPERTY_WAGER = "wager";
 
     /** Der Wetteinsatz. */
     private int wager;
@@ -136,8 +117,6 @@ public class UserSeason extends AbstractStorageObject {
      * Liefert den Wetteinsatz.
      *
      * @return Der Wetteinsatz.
-     *
-     * @hibernate.property column="bo_wager"
      */
     public int getWager() {
         return wager;
