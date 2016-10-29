@@ -37,7 +37,7 @@ import org.apache.commons.lang.StringUtils;
 public class User extends AbstractStorageObject {
 
     /** serial version id */
-    private static long serialVersionUID = -1806113679051281041L;
+    private static final long serialVersionUID = -1806113679051281041L;
 
     /** Der Leerstring. */
     private static String EMPTY = "";
