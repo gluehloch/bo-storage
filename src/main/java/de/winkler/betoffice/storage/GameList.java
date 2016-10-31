@@ -47,8 +47,8 @@ import de.winkler.betoffice.storage.exception.StorageRuntimeException;
  *
  * @hibernate.class table="bo_gamelist"
  */
-public class GameList extends AbstractStorageObject implements
-        Comparable<GameList> {
+public class GameList extends AbstractStorageObject
+        implements Comparable<GameList> {
 
     /** serial version */
     private static final long serialVersionUID = -3629753274439214154L;
@@ -103,8 +103,7 @@ public class GameList extends AbstractStorageObject implements
      * @hibernate.list cascade="all" lazy="false"
      * @hibernate.collection-index column="bo_index"
      * @hibernate.collection-key column="bo_gamelist_ref"
-     * @hibernate.collection-one-to-many
-     *                                   class="de.winkler.betoffice.storage.Game"
+     * @hibernate.collection-one-to-many class="de.winkler.betoffice.storage.Game"
      */
     protected List<Game> getGameList() {
         return gameList;
@@ -208,7 +207,8 @@ public class GameList extends AbstractStorageObject implements
     /**
      * Liefert ein Spiel anhand der Datenbank ID.
      *
-     * @param id Die Datenbank ID
+     * @param id
+     *            Die Datenbank ID
      * @return Ein Spiel aus diesem Spieltag.
      */
     public Game getById(final long id) {
@@ -246,7 +246,7 @@ public class GameList extends AbstractStorageObject implements
      * Methode liefert den Index des Spieltags. Der Index wird berechnet und
      * spiegelt die Position innerhalb der <code>gameDayList</code> wieder.
      *
-     * @return Spieltagindex.
+     * @return Spieltagindex mit dem Wertebereich <code>(0 .. N-1)</code>.
      *
      * @hibernate.property column="bo_index" insert="true" update="true"
      */
