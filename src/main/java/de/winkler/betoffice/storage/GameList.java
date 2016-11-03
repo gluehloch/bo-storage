@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -44,8 +44,6 @@ import de.winkler.betoffice.storage.exception.StorageRuntimeException;
  * Verwaltet alle Spiele/Games/Matches eines Spieltags/GameList/Round.
  *
  * @author by Andre Winkler
- *
- * @hibernate.class table="bo_gamelist"
  */
 public class GameList extends AbstractStorageObject
         implements Comparable<GameList> {
@@ -89,9 +87,6 @@ public class GameList extends AbstractStorageObject
 
     // -- gameList ------------------------------------------------------------
 
-    /** Der Name der Eigenschaft 'gameList'. */
-    public static final String PROPERTY_GAMELIST = "gameList";
-
     /** Die Liste der Spiele. Enthält {@link Game} Objekte. */
     private List<Game> gameList = new ArrayList<Game>();
 
@@ -99,11 +94,6 @@ public class GameList extends AbstractStorageObject
      * Liefert die Liste der Spiele.
      *
      * @return Die Liste der Spiele.
-     *
-     * @hibernate.list cascade="all" lazy="false"
-     * @hibernate.collection-index column="bo_index"
-     * @hibernate.collection-key column="bo_gamelist_ref"
-     * @hibernate.collection-one-to-many class="de.winkler.betoffice.storage.Game"
      */
     protected List<Game> getGameList() {
         return gameList;
@@ -247,8 +237,6 @@ public class GameList extends AbstractStorageObject
      * spiegelt die Position innerhalb der <code>gameDayList</code> wieder.
      *
      * @return Spieltagindex mit dem Wertebereich <code>(0 .. N-1)</code>.
-     *
-     * @hibernate.property column="bo_index" insert="true" update="true"
      */
     public int getIndex() {
         return index;
@@ -293,9 +281,6 @@ public class GameList extends AbstractStorageObject
 
     // -- season --------------------------------------------------------------
 
-    /** Der Name der Eigenschatft 'season'. */
-    public static final String PROPERTY_SEASON = "season";
-
     /** Die Saison des Spieltags. */
     private Season season;
 
@@ -303,8 +288,6 @@ public class GameList extends AbstractStorageObject
      * Liefert das zugehörige <code>GameDayList</code> Objekt.
      *
      * @return Die zugehörige Saison.
-     *
-     * @hibernate.many-to-one column="bo_gamedaylist_ref" cascade="none"
      */
     public Season getSeason() {
         return season;
@@ -328,9 +311,6 @@ public class GameList extends AbstractStorageObject
 
     // -- group ---------------------------------------------------------------
 
-    /** Der Name der Eigenschaft 'group'. */
-    public static final String PROPERTY_GROUP = "group";
-
     /** Die Gruppe des Spieltags. */
     private Group group;
 
@@ -338,8 +318,6 @@ public class GameList extends AbstractStorageObject
      * Liefert die zugehörige Gruppe des Spieltags.
      *
      * @return Die zugehörige Gruppe.
-     *
-     * @hibernate.many-to-one column="bo_group_ref" cascade="none"
      */
     public Group getGroup() {
         return group;
