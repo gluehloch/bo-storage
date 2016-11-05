@@ -24,12 +24,10 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean;
 
 import de.winkler.betoffice.dao.GroupDao;
 import de.winkler.betoffice.storage.Group;
