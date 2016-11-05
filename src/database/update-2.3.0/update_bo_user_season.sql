@@ -3,3 +3,5 @@ select version();
 
 ALTER TABLE bo_user_season ADD bo_roletype INTEGER;
 ALTER TABLE bo_user ADD bo_admin BIT;
+
+-- TODO Set default value !!!
