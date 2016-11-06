@@ -24,10 +24,7 @@
 
 package de.winkler.betoffice.service;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
@@ -41,13 +38,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
-import de.winkler.betoffice.mail.MailContentDetails;
-import de.winkler.betoffice.mail.MailXMLParser;
-import de.winkler.betoffice.storage.GameList;
-import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
-import de.winkler.betoffice.storage.User;
 
 /**
  * Testet das Verhalten von {@link DefaultSeasonManagerService}.
@@ -85,36 +77,6 @@ public class SeasonManagerServiceTest {
     @After
     public void tearDown() throws SQLException {
         dsuatd.tearDown();
-    }
-
-    @Test
-    public void testMailEvaluation() {
-        MailContentDetails details = new MailContentDetails();
-        details.setChampionship("11");
-        details.setEvaluated(false);
-        details.setUsing(MailXMLParser.TIPP);
-        details.setRound("1");
-        details.setHomeGoals("9,8,7,6,5,4,3,2,1");
-        details.setGuestGoals("1,2,3,4,5,6,7,8,9");
-        details.setNickName("Frosch");
-        details.setPwdA("xxx");
-
-        Season season = seasonManagerService.findSeasonById(11);
-        tippService.evaluateMailTipp(season, details);
-
-        Optional<GameList> round = seasonManagerService.findRound(season, 0);
-        Optional<User> user = masterDataManagerService
-                .findUserByNickname("Frosch");
-
-        List<GameTipp> tipps = tippService.findTippsByRoundAndUser(round.get(),
-                user.get());
-
-        assertThat(tipps.size()).isEqualTo(9);
-
-        for (GameTipp tipp : tipps) {
-            assertThat(tipp.getUser().getNickName()).isEqualTo("Frosch");
-            assertThat(tipp.getGame().getGameList()).isEqualTo(round.get());
-        }
     }
 
     @Test

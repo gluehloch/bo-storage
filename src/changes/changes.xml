@@ -9,6 +9,9 @@
      <!-- Under construction -->
      <release version="betoffice-storage-2.3.0" date="2016-??-??"
       description="User roles">
+      <action dev="andrewinkler" type="remove" date="2016-11-06">
+        Removed the mail package.
+      </action>
       <action dev="andrewinkler" type="update" date="2016-10-07">
         Dependency clean up. DB connection pool is only a runtime dependency.
       </action>

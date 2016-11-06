@@ -36,6 +36,7 @@ import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.Session;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamAlias;
 import de.winkler.betoffice.storage.User;
@@ -75,6 +76,7 @@ public class BetofficeHibernateProperties extends HibernateProperties {
         classes.add(TeamAlias.class);
         classes.add(User.class);
         classes.add(UserSeason.class);
+        classes.add(Session.class);
         return super.createConfiguration(classes);
     }
 
