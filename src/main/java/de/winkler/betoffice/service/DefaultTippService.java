@@ -58,7 +58,7 @@ public class DefaultTippService extends AbstractManagerService
 
     /** Logger für die Klasse. */
     private final Logger log = LoggerFactory.make();
-
+    
     @Override
     @Transactional
     public GameTipp addTipp(String token, Game match, User user, GameResult gr,
@@ -96,7 +96,7 @@ public class DefaultTippService extends AbstractManagerService
             messages.add(msg);
             throw new BetofficeValidationException(messages);
         }
-
+        
         // Find related round ...
         GameList gameList = getConfig().getRoundDao()
                 .findById(tippDto.getRoundId());

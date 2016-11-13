@@ -80,7 +80,7 @@
     <dependency>
       <groupId>de.betoffice</groupId>
       <artifactId>betoffice-testutils</artifactId>
-      <version>0.2.0</version>
+      <version>0.3.0-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

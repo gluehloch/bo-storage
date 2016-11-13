@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.awtools.basic.LoggerFactory;
 import de.winkler.betoffice.dao.SessionDao;
 import de.winkler.betoffice.dao.UserDao;
+import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Session;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.RoleType;
@@ -64,14 +65,13 @@ public class DefaultAuthService implements AuthService {
         Optional<User> user = userDao.findByNickname(name);
         DateTime now = DateTime.now();
 
-        
-        
         SecurityToken securityToken = null;
         if (user.isPresent() && user.get().comparePwd(password)) {
-            //
-            // TODO Die Rolle muss bestimmt werden.
-            //
-            securityToken = new SecurityToken(sessionId, user.get(), RoleType.TIPPER, now);
+            User presentUser = user.get();
+            RoleType roleType = presentUser.isAdmin() ? RoleType.ADMIN
+                    : RoleType.TIPPER;
+            securityToken = new SecurityToken(sessionId, presentUser, roleType,
+                    now);
 
             Session session = new Session();
             session.setBrowser(browserId);
@@ -92,8 +92,8 @@ public class DefaultAuthService implements AuthService {
     @Transactional
     @Override
     public void logout(SecurityToken securityToken) {
-        List<Session> sessions = sessionDao.findBySessionId(securityToken
-                .getToken());
+        List<Session> sessions = sessionDao
+                .findBySessionId(securityToken.getToken());
 
         if (sessions.isEmpty()) {
             log.warn("Trying to logout with invalid securityToken=[{}]",
@@ -104,6 +104,27 @@ public class DefaultAuthService implements AuthService {
                 sessionDao.save(session);
             }
         }
+    }
+
+    @Override
+    public boolean validateSession(SecurityToken token) {
+        List<Session> sessions = sessionDao.findBySessionId(token.getToken());
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public RoleType findRole(SecurityToken token) {
+        if (validateSession(token)) {
+
+        }
+        return null;
+    }
+
+    @Override
+    public RoleType findRole(SecurityToken token, Season season) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

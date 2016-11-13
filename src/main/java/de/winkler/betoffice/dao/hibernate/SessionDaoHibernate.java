@@ -36,8 +36,8 @@ import de.winkler.betoffice.storage.Session;
  * @author by Andre Winkler
  */
 @Repository("sessionDao")
-public class SessionDaoHibernate extends AbstractCommonDao<Session> implements
-        SessionDao {
+public class SessionDaoHibernate extends AbstractCommonDao<Session>
+        implements SessionDao {
 
     SessionDaoHibernate() {
         super(Session.class);
@@ -51,10 +51,9 @@ public class SessionDaoHibernate extends AbstractCommonDao<Session> implements
     @SuppressWarnings("unchecked")
     @Override
     public List<Session> findByNickname(String nickname) {
-        return getSessionFactory()
-                .getCurrentSession()
+        return getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Session as session where session.nickname = :nickname order by session.login")
+                        "from Session as session where session.nickname = :nickname order by session.login desc")
                 .setParameter("nickname", nickname).getResultList();
     }
 
@@ -67,10 +66,9 @@ public class SessionDaoHibernate extends AbstractCommonDao<Session> implements
     @SuppressWarnings("unchecked")
     @Override
     public List<Session> findBySessionId(String sessionId) {
-        return getSessionFactory()
-                .getCurrentSession()
+        return getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Session as session where session.token = :sessionId")
+                        "from Session as session where session.token = :sessionId order by session.login desc")
                 .setParameter("sessionId", sessionId).getResultList();
     }
 
