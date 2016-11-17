@@ -96,7 +96,7 @@ public class DefaultAuthService implements AuthService {
                 .findBySessionId(securityToken.getToken());
 
         if (sessions.isEmpty()) {
-            log.warn("Trying to logout with invalid securityToken=[{}]",
+            log.warn("Trying to logout with an invalid securityToken=[{}]",
                     securityToken);
         } else {
             for (Session session : sessions) {
@@ -107,15 +107,26 @@ public class DefaultAuthService implements AuthService {
     }
 
     @Override
-    public boolean validateSession(SecurityToken token) {
-        List<Session> sessions = sessionDao.findBySessionId(token.getToken());
-        // TODO Auto-generated method stub
-        return false;
+    public boolean validateSession(String token) {
+        List<Session> sessions = sessionDao.findBySessionId(token);
+
+        if (sessions.isEmpty()) {
+            log.warn(
+                    "Trying to validate the session with an invalid securityToken=[{}]",
+                    token);
+            return false;
+        } else {
+            // TODO Hier koennte man noch mehr pruefen, wie z.B. Browser und IP?
+            // Dann waren mehr Parameter an diese Methode zu uebergeben.
+            // Vielleicht doch das ganze SecurityToken?
+            return true;
+        }
     }
 
     @Override
     public RoleType findRole(SecurityToken token) {
-        if (validateSession(token)) {
+        // TODO Und was wird das jetzt hier?
+        if (validateSession(token.getToken())) {
 
         }
         return null;

@@ -68,7 +68,7 @@ public interface AuthService {
      *            the championship
      * @return <code>true</code>, if it is a valid user session
      */
-    boolean validateSession(SecurityToken token);
+    boolean validateSession(String token);
 
     /**
      * Find the role for a user session.
