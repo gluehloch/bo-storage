@@ -67,8 +67,9 @@ public class SessionDaoHibernate extends AbstractCommonDao<Session>
     @Override
     public List<Session> findBySessionId(String sessionId) {
         return getSessionFactory().getCurrentSession()
-                .createQuery(
-                        "from Session as session where session.token = :sessionId order by session.login desc")
+                .createQuery("from Session as session "
+                        + "left join fetch session.user "
+                        + "where session.token = :sessionId order by session.login desc")
                 .setParameter("sessionId", sessionId).getResultList();
     }
 

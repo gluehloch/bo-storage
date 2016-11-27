@@ -107,35 +107,22 @@ public class DefaultAuthService implements AuthService {
     }
 
     @Override
-    public boolean validateSession(String token) {
+    public Optional<Session> validateSession(String token) {
         List<Session> sessions = sessionDao.findBySessionId(token);
 
         if (sessions.isEmpty()) {
             log.warn(
                     "Trying to validate the session with an invalid securityToken=[{}]",
                     token);
-            return false;
+            return Optional.empty();
         } else {
+            Session session = sessions.get(0);
+            session.getUser().getNickName();
             // TODO Hier koennte man noch mehr pruefen, wie z.B. Browser und IP?
-            // Dann waren mehr Parameter an diese Methode zu uebergeben.
+            // Dann waeren mehr Parameter an diese Methode zu uebergeben.
             // Vielleicht doch das ganze SecurityToken?
-            return true;
+            return Optional.of(session);
         }
-    }
-
-    @Override
-    public RoleType findRole(SecurityToken token) {
-        // TODO Und was wird das jetzt hier?
-        if (validateSession(token.getToken())) {
-
-        }
-        return null;
-    }
-
-    @Override
-    public RoleType findRole(SecurityToken token, Season season) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }

@@ -23,8 +23,9 @@
 
 package de.winkler.betoffice.service;
 
-import de.winkler.betoffice.storage.Season;
-import de.winkler.betoffice.storage.enums.RoleType;
+import java.util.Optional;
+
+import de.winkler.betoffice.storage.Session;
 
 /**
  * Authentication and authorization service.
@@ -66,28 +67,29 @@ public interface AuthService {
      *            a security token
      * @param season
      *            the championship
-     * @return <code>true</code>, if it is a valid user session
+     * @return a valid user session 
      */
-    boolean validateSession(String token);
+    Optional<Session> validateSession(String token);
 
-    /**
-     * Find the role for a user session.
-     * 
-     * @param token
-     *            a security token
-     * @return the role
-     */
-    RoleType findRole(SecurityToken token);
-
-    /**
-     * Find the role for a user session.
-     * 
-     * @param token
-     *            a security token
-     * @param season
-     *            a championship
-     * @return the role for the specific championship
-     */
-    RoleType findRole(SecurityToken token, Season season);
+//
+//    /**
+//     * Find the role for a user session.
+//     * 
+//     * @param token
+//     *            a security token
+//     * @return the role
+//     */
+//    RoleType findRole(SecurityToken token);
+//
+//    /**
+//     * Find the role for a user session.
+//     * 
+//     * @param token
+//     *            a security token
+//     * @param season
+//     *            a championship
+//     * @return the role for the specific championship
+//     */
+//    RoleType findRole(SecurityToken token, Season season);
 
 }
