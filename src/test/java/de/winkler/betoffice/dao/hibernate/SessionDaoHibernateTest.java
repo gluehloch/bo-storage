@@ -60,7 +60,7 @@ public class SessionDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(sessions.get(0).getFailedLogins(), equalTo(1));
 
         DateTime login = new DateTime(sessions.get(0).getLogin());
-        DateTime expectedLogin = new DateTime(2015, 11, 14, 0, 0, 0);
+        DateTime expectedLogin = new DateTime(2015, 11, 14, 2, 0, 0);
         assertThat(login, equalTo(expectedLogin));
     }
 
