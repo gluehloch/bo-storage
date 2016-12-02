@@ -1,8 +1,7 @@
 /*
- * $Id: SpringBeanTest.java 3850 2013-11-30 18:24:08Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -48,7 +47,6 @@ import de.winkler.betoffice.storage.Season;
  * Test for Spring´s JUnit and annotation support.
  * 
  * @author $Author: andrewinkler $
- * @version $Revision: 3850 $ $Date: 2013-11-30 19:24:08 +0100 (Sa, 30 Nov 2013) $
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/betoffice-datasource.xml",
