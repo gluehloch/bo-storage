@@ -1,8 +1,8 @@
 ### TAB bo_user
-### id | bo_nickname | bo_name    | bo_surname | bo_password | bo_automat(bit) | bo_excluded(bit)
-    1  | Frosch      | Winkler    | Adam       | pst         | 0               | 0
-    2  | Hattwig     | Meier      | Erwin      | passwort    | 0               | 0
-    3  | Peter       | Winkelmann | Lars       | geheim      | 0               | 0
+### id | bo_nickname | bo_name    | bo_surname | bo_password | bo_automat(bit) | bo_excluded(bit)| bo_admin
+    1  | Frosch      | Winkler    | Adam       | pst         | 0               | 0               | 1
+    2  | Hattwig     | Meier      | Erwin      | passwort    | 0               | 0               | 0
+    3  | Peter       | Winkelmann | Lars       | geheim      | 0               | 0               | 0
 
 ### TAB bo_season
 ### id | bo_name       | bo_year   | bo_mode | bo_teamtype
@@ -12,9 +12,9 @@
     4  | 1. Bundesliga"| 2002/2003"| 0       | 0
 
 ### TAB bo_user_season
-### id | bo_season_ref | bo_user_ref | bo_wager
-    1  | 1             | 1           | 0
-    2  | 1             | 2           | 0
-    3  | 1             | 3           | 0
-    4  | 2             | 1           | 0
-    5  | 2             | 2           | 0
+### id | bo_season_ref | bo_user_ref | bo_wager | bo_roletype
+    1  | 1             | 1           | 0        | 0
+    2  | 1             | 2           | 0        | 0
+    3  | 1             | 3           | 0        | 0
+    4  | 2             | 1           | 0        | 0
+    5  | 2             | 2           | 0        | 0
