@@ -13,7 +13,7 @@
   <artifactId>betoffice-storage</artifactId>
   <name>betoffice storage</name>
   <packaging>jar</packaging>
-  <version>2.3.0-SNAPSHOT</version>
+  <version>2.3.0</version>
 
   <description>
     Betoffice storage implementation. Cares for persistence and point
@@ -80,7 +80,7 @@
     <dependency>
       <groupId>de.betoffice</groupId>
       <artifactId>betoffice-testutils</artifactId>
-      <version>0.3.0-SNAPSHOT</version>
+      <version>0.3.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
