@@ -1,25 +1,24 @@
 /*
- * $Id: User.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
- * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
- *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
  *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  *
  */
 
@@ -33,10 +32,7 @@ import org.apache.commons.lang.StringUtils;
 /**
  * Die Klasse verwaltet einen Teilnehmer.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
- *
- * @hibernate.class table="bo_user"
+ * @author by Andre Winkler
  */
 public class User extends AbstractStorageObject {
 
@@ -44,7 +40,7 @@ public class User extends AbstractStorageObject {
     private static final long serialVersionUID = -1806113679051281041L;
 
     /** Der Leerstring. */
-    private static final String EMPTY = "";
+    private static String EMPTY = "";
 
     // -- Construction --------------------------------------------------------
 
@@ -59,27 +55,35 @@ public class User extends AbstractStorageObject {
      *
      * @param _nickname
      */
-    public User(final String _nickname) {
+    public User(String _nickname) {
         setNickName(_nickname);
     }
 
     /**
      * Konstruktor.
      *
-     * @param aName Der Username (Nachname).
-     * @param aSurname Der Vorname des Users.
-     * @param aNickname Der Nickname.
-     * @param aMail Die Mailadresse.
-     * @param aPhone Die Telefonnummer.
-     * @param aPwd Das Password.
-     * @param aTitle Der Titel.
-     * @param aIsAuto Automat?
-     * @param aIsExcluded Ausgeschlossen?
+     * @param aName
+     *            Der Username (Nachname).
+     * @param aSurname
+     *            Der Vorname des Users.
+     * @param aNickname
+     *            Der Nickname.
+     * @param aMail
+     *            Die Mailadresse.
+     * @param aPhone
+     *            Die Telefonnummer.
+     * @param aPwd
+     *            Das Password.
+     * @param aTitle
+     *            Der Titel.
+     * @param aIsAuto
+     *            Automat?
+     * @param aIsExcluded
+     *            Ausgeschlossen?
      */
-    public User(final String aName, final String aSurname,
-            final String aNickname, final String aMail, final String aPhone,
-            final String aPwd, final String aTitle, final boolean aIsAuto,
-            final boolean aIsExcluded) {
+    public User(String aName, String aSurname, String aNickname, String aMail,
+            String aPhone, String aPwd, String aTitle, boolean aIsAuto,
+            boolean aIsExcluded) {
 
         setName(aName);
         setSurname(aSurname);
@@ -111,9 +115,10 @@ public class User extends AbstractStorageObject {
     /**
      * Setzt den Primärschlüssel.
      *
-     * @param value Der Primärschlüssel.
+     * @param value
+     *            Der Primärschlüssel.
      */
-    protected void setId(final Long value) {
+    protected void setId(Long value) {
         id = value;
     }
 
@@ -136,9 +141,10 @@ public class User extends AbstractStorageObject {
     /**
      * Setzt den Nachnamen des Users.
      *
-     * @param value Der Nachname.
+     * @param value
+     *            Der Nachname.
      */
-    public void setName(final String value) {
+    public void setName(String value) {
         name = value;
     }
 
@@ -151,8 +157,6 @@ public class User extends AbstractStorageObject {
      * Liefert den Vornamen des Users.
      *
      * @return Der Vorname.
-     *
-     * @hibernate.property column="bo_surname"
      */
     public String getSurname() {
         return surname;
@@ -161,9 +165,10 @@ public class User extends AbstractStorageObject {
     /**
      * Setzt den Vornamen des Users.
      * 
-     * @param value Der Vorname.
+     * @param value
+     *            Der Vorname.
      */
-    public void setSurname(final String value) {
+    public void setSurname(String value) {
         surname = value;
     }
 
@@ -176,11 +181,6 @@ public class User extends AbstractStorageObject {
      * Liefert den Nickname des Users.
      *
      * @return Der Nickname.
-     *
-     * @hibernate.property
-     *     column="bo_nickname"
-     *     not-null="true"
-     *     unique="true"
      */
     public String getNickName() {
         return nickName;
@@ -189,9 +189,10 @@ public class User extends AbstractStorageObject {
     /**
      * Setzt den Nickname.
      *
-     * @param value Der Nickname.
+     * @param value
+     *            Der Nickname.
      */
-    public void setNickName(final String value) {
+    public void setNickName(String value) {
         nickName = value;
     }
 
@@ -204,8 +205,6 @@ public class User extends AbstractStorageObject {
      * Liefert die Mail Adresse.
      * 
      * @return Die Mail-Adresse.
-     *
-     * @hibernate.property column="bo_email"
      */
     public String getEmail() {
         return email;
@@ -214,9 +213,10 @@ public class User extends AbstractStorageObject {
     /**
      * Setzt die EMail Adresse.
      *
-     * @param value Die Mail-Adresse.
+     * @param value
+     *            Die Mail-Adresse.
      */
-    public void setEmail(final String value) {
+    public void setEmail(String value) {
         email = value;
     }
 
@@ -229,8 +229,6 @@ public class User extends AbstractStorageObject {
      * Liefert die Telefonnummer.
      *
      * @return Die Telefonnummer.
-     *
-     * @hibernate.property column="bo_phone"
      */
     public String getPhone() {
         return phone;
@@ -239,9 +237,10 @@ public class User extends AbstractStorageObject {
     /**
      * Setzt die Telefonnummer.
      *
-     * @param value Die Telefonnummer.
+     * @param value
+     *            Die Telefonnummer.
      */
-    public void setPhone(final String value) {
+    public void setPhone(String value) {
         phone = value;
     }
 
@@ -254,8 +253,6 @@ public class User extends AbstractStorageObject {
      * Liefert das Password.
      *
      * @return Das Password.
-     *
-     * @hibernate.property column="bo_password"
      */
     public String getPassword() {
         return password;
@@ -264,9 +261,10 @@ public class User extends AbstractStorageObject {
     /**
      * Setzt das Password.
      *
-     * @param value Das Password.
+     * @param value
+     *            Das Password.
      */
-    public void setPassword(final String value) {
+    public void setPassword(String value) {
         password = value;
     }
 
@@ -279,8 +277,6 @@ public class User extends AbstractStorageObject {
      * Automat oder kein Automat.
      *
      * @return true, ein Automat; false sonst.
-     *
-     * @hibernate.property column="bo_automat"
      */
     public boolean isAutomat() {
         return automat;
@@ -289,9 +285,10 @@ public class User extends AbstractStorageObject {
     /**
      * Setzt das Automaten-Flag.
      *
-     * @param value true Automat; false sonst.
+     * @param value
+     *            true Automat; false sonst.
      */
-    public void setAutomat(final boolean value) {
+    public void setAutomat(boolean value) {
         automat = value;
     }
 
@@ -304,8 +301,6 @@ public class User extends AbstractStorageObject {
      * User von Teilnahme ausgeschlossen?
      *
      * @return true ausgeschlossen; false sonst.
-     *
-     * @hibernate.property column="bo_excluded"
      */
     public boolean isExcluded() {
         return exclude;
@@ -314,9 +309,10 @@ public class User extends AbstractStorageObject {
     /**
      * Setzt das Flag 'Ausschluß'.
      *
-     * @param value true Ausschluß; false sonst.
+     * @param value
+     *            true Ausschluß; false sonst.
      */
-    public void setExcluded(final boolean value) {
+    public void setExcluded(boolean value) {
         exclude = value;
     }
 
@@ -329,8 +325,6 @@ public class User extends AbstractStorageObject {
      * Liefert den Titel des Users.
      *
      * @return Der Titel.
-     *
-     * @hibernate.property column="bo_title"
      */
     public String getTitle() {
         return title;
@@ -339,29 +333,46 @@ public class User extends AbstractStorageObject {
     /**
      * Setzt den Titel des Users.
      *
-     * @param value Der Titel.
+     * @param value
+     *            Der Titel.
      */
-    public void setTitle(final String value) {
+    public void setTitle(String value) {
         title = value;
     }
 
-    // -- usersChampionship----------------------------------------------------
+    // -- admin ---------------------------------------------------------------
+
+    /** Adminstrator Flag. */
+    private boolean admin = false;
+
+    /**
+     * Haben wir es hier mit einem Administrator zu tun?
+     * 
+     * @return <code>true</code>, wenn dies der Fall ist.
+     */
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    /**
+     * Setzt das Administrator Flag.
+     * 
+     * @param _admin
+     *            <code>true</code>, wenn dies ein Administrator werden soll.
+     */
+    public void setAdmin(boolean _admin) {
+        admin = _admin;
+    }
+
+    // -- userSeason ----------------------------------------------------------
 
     /** Die Teilnehmer, die dieser Saison zugeordnet sind. */
-    private Set<UserSeason> userSeason = new HashSet<UserSeason>();
+    private Set<UserSeason> userSeason = new HashSet<>();
 
     /**
      * Liefert die Beziehung Teilnehmer/Saison.
      *
      * @return Ein Menge von <code>UserSeason</code>.
-     *
-     * @hibernate.set
-     *     cascade="none"
-     *     inverse="true"
-     * @hibernate.collection-one-to-many
-     *     class="de.winkler.betoffice.storage.UserSeason"
-     * @hibernate.collection-key
-     *     column="bo_user_ref"
      */
     public Set<UserSeason> getUserSeason() {
         return userSeason;
@@ -370,9 +381,10 @@ public class User extends AbstractStorageObject {
     /**
      * Setzt die Beziehung Teilnehmer/Saison.
      *
-     * @param value Ein Menge von <code>UserSeason</code>.
+     * @param value
+     *            Ein Menge von <code>UserSeason</code>.
      */
-    protected void setUserSeason(final Set<UserSeason> value) {
+    protected void setUserSeason(Set<UserSeason> value) {
         userSeason = value;
     }
 
@@ -381,10 +393,11 @@ public class User extends AbstractStorageObject {
     /**
      * Vergleicht ein Password mit dem Password dieses Users.
      *
-     * @param value Das zu vergleichende Password.
+     * @param value
+     *            Das zu vergleichende Password.
      * @return true Passwörter sind gleich; false sonst.
      */
-    public boolean comparePwd(final String value) {
+    public boolean comparePwd(String value) {
         return (StringUtils.equals(value, password));
     }
 
@@ -407,26 +420,6 @@ public class User extends AbstractStorageObject {
         buf.append(": ");
         buf.append(password);
         return buf.toString();
-    }
-
-    // -- StorageObject -------------------------------------------------------    
-
-    /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig
-     * gefüllt sind, damit es evt. Weiterverarbeitungen erfahren kann.
-     * Folgende Eigenschaften müssen gesetzt sein:
-     * <ul>
-     *  <li>nickName</li>
-     * </ul>
-     *
-     * @return true, Objekt in Ordnung; false, es ist was falsch.
-     */
-    public boolean isValid() {
-        if (StringUtils.isBlank(nickName)) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
     // -- Object --------------------------------------------------------------

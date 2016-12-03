@@ -244,14 +244,16 @@ create table bo_user (
     bo_automat bit,
     bo_excluded bit,
     bo_title VARCHAR(255),
+    bo_admin INTEGER DEFAULT 0;
     primary key (id)
 ) ENGINE=InnoDB;
 
 create table bo_user_season (
     id bigint not NULL auto_increment,
-    bo_season_ref bigint not null,
-    bo_user_ref bigint not null,
-    bo_wager integer,
+    bo_season_ref bigint not NULL,
+    bo_user_ref bigint not NULL,
+    bo_wager INTEGER,
+    bo_roletype INTEGER DEFAULT 0,
     primary key (id)
 ) ENGINE=InnoDB;
 

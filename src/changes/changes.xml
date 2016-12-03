@@ -5,7 +5,25 @@
     <author email="andre.winkler@web.de">Andre Winkler</author>
   </properties>
   <body>
-  
+ 
+     <!-- Under construction -->
+      
+     <!-- RELEASED -->
+     <release version="betoffice-storage-2.3.0" date="2016-12-03"
+      description="User roles">
+      <action dev="andrewinkler" type="remove" date="2016-11-06">
+        Removed the mail package.
+      </action>
+      <action dev="andrewinkler" type="update" date="2016-10-07">
+        Dependency clean up. DB connection pool is only a runtime dependency.
+      </action>
+      <action dev="andrewinkler" type="update" date="2016-10-09">
+        A user/season relation gets a new attribute: The user role (type).
+        The table bo_user_season gets a new column: bo_roletype.
+      </action>
+    </release>
+
+    <!-- RELEASED --> 
     <release version="betoffice-storage-2.2.1" date="2016-09-27"
       description="Fix for UserDaoHibernate and the single result">
       <action dev="andrewinkler" type="fix" date="2016-09-27">

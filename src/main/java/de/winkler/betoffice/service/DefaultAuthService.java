@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2015 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -35,9 +35,10 @@ import org.springframework.transaction.annotation.Transactional;
 import de.awtools.basic.LoggerFactory;
 import de.winkler.betoffice.dao.SessionDao;
 import de.winkler.betoffice.dao.UserDao;
-import de.winkler.betoffice.service.SecurityToken.Role;
+import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Session;
 import de.winkler.betoffice.storage.User;
+import de.winkler.betoffice.storage.enums.RoleType;
 
 /**
  * Implementation of {@link AuthService}.
@@ -66,10 +67,11 @@ public class DefaultAuthService implements AuthService {
 
         SecurityToken securityToken = null;
         if (user.isPresent() && user.get().comparePwd(password)) {
-            //
-            // TODO Die Rolle muss bestimmt werden.
-            //
-            securityToken = new SecurityToken(sessionId, user.get(), Role.TIPPER, now);
+            User presentUser = user.get();
+            RoleType roleType = presentUser.isAdmin() ? RoleType.ADMIN
+                    : RoleType.TIPPER;
+            securityToken = new SecurityToken(sessionId, presentUser, roleType,
+                    now);
 
             Session session = new Session();
             session.setBrowser(browserId);
@@ -90,17 +92,36 @@ public class DefaultAuthService implements AuthService {
     @Transactional
     @Override
     public void logout(SecurityToken securityToken) {
-        List<Session> sessions = sessionDao.findBySessionId(securityToken
-                .getToken());
+        List<Session> sessions = sessionDao
+                .findBySessionId(securityToken.getToken());
 
         if (sessions.isEmpty()) {
-            log.warn("Trying to logout with invalid securityToken=[{}]",
+            log.warn("Trying to logout with an invalid securityToken=[{}]",
                     securityToken);
         } else {
             for (Session session : sessions) {
                 session.setLogout(DateTime.now().toDate());
                 sessionDao.save(session);
             }
+        }
+    }
+
+    @Override
+    public Optional<Session> validateSession(String token) {
+        List<Session> sessions = sessionDao.findBySessionId(token);
+
+        if (sessions.isEmpty()) {
+            log.warn(
+                    "Trying to validate the session with an invalid securityToken=[{}]",
+                    token);
+            return Optional.empty();
+        } else {
+            Session session = sessions.get(0);
+            session.getUser().getNickName();
+            // TODO Hier koennte man noch mehr pruefen, wie z.B. Browser und IP?
+            // Dann waeren mehr Parameter an diese Methode zu uebergeben.
+            // Vielleicht doch das ganze SecurityToken?
+            return Optional.of(session);
         }
     }
 

@@ -5,7 +5,7 @@ README.txt
 <> ACHTUNG: Diese Software ist ein Experiment!
 
 <> Lizenzbestimmnungen fuer das Projekt betoffice:
-   (C) 2000-2014 by Andre Winkler
+   (C) 2000-2016 by Andre Winkler
 
    Dieses Programm ist freie Software. Sie koennen es unter den Bedingungen der
    GNU General Public License, wie von der Free Software Foundation veroeffentlicht,

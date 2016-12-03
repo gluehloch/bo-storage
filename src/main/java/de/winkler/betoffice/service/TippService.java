@@ -27,13 +27,10 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-import de.winkler.betoffice.mail.MailContentDetails;
-import de.winkler.betoffice.mail.TippMailParameter;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.GameTipp;
-import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 
@@ -44,28 +41,6 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
  * @author by Andre Winkler
  */
 public interface TippService {
-
-    /**
-     * Sends the tipp mail (xml for betoffice and plain text as confirmation for
-     * the user.
-     *
-     * @param tippMailParameter
-     *            the mail parameters
-     * @param user
-     *            the user who created the tipp
-     */
-    public void sendMailTipp(User user, TippMailParameter tippMailParameter);
-
-    /**
-     * Startet die Mail-Auswertung. Es wird angenommen, daß eine Tipp-Mail hier
-     * übergeben wird.
-     *
-     * @param season
-     *            Die Meisterschaft, der die Mail zugeordnet wird.
-     * @param mail
-     *            Eine Tipp-Mail.
-     */
-    public void evaluateMailTipp(Season season, MailContentDetails mail);
 
     /**
      * Einen Tipp einer Spielpaarung hinzufügen/aktualisieren.

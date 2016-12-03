@@ -23,6 +23,10 @@
 
 package de.winkler.betoffice.service;
 
+import java.util.Optional;
+
+import de.winkler.betoffice.storage.Session;
+
 /**
  * Authentication and authorization service.
  *
@@ -45,7 +49,7 @@ public interface AuthService {
      *            browser id
      * @return a security token
      */
-    public SecurityToken login(String name, String password, String sessionId,
+    SecurityToken login(String name, String password, String sessionId,
             String address, String browserId);
 
     /**
@@ -54,6 +58,38 @@ public interface AuthService {
      * @param securityToken
      *            a security token
      */
-    public void logout(SecurityToken securityToken);
+    void logout(SecurityToken securityToken);
+
+    /**
+     * Vaidates the user session.
+     * 
+     * @param token
+     *            a security token
+     * @param season
+     *            the championship
+     * @return a valid user session 
+     */
+    Optional<Session> validateSession(String token);
+
+//
+//    /**
+//     * Find the role for a user session.
+//     * 
+//     * @param token
+//     *            a security token
+//     * @return the role
+//     */
+//    RoleType findRole(SecurityToken token);
+//
+//    /**
+//     * Find the role for a user session.
+//     * 
+//     * @param token
+//     *            a security token
+//     * @param season
+//     *            a championship
+//     * @return the role for the specific championship
+//     */
+//    RoleType findRole(SecurityToken token, Season season);
 
 }
