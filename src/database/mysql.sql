@@ -244,7 +244,7 @@ create table bo_user (
     bo_automat bit,
     bo_excluded bit,
     bo_title VARCHAR(255),
-    bo_admin INTEGER DEFAULT 0;
+    bo_admin INTEGER DEFAULT 0,
     primary key (id)
 ) ENGINE=InnoDB;
 

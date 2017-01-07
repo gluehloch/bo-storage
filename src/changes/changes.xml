@@ -7,6 +7,11 @@
   <body>
  
      <!-- Under construction -->
+     <release version="" date="" description="">
+       <action dev="andrewinkler" type="fix" date="2017-01-07">
+         Dockerize the test environment.
+       </action>
+     </release>
       
      <!-- RELEASED -->
      <release version="betoffice-storage-2.3.0" date="2016-12-03"
