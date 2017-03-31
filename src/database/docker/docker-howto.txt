@@ -17,11 +17,20 @@ docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=
 docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d  maryatdocker/docker-whale:latest
 docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb/awi:latest
 
+docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d gluehloch/mariadb-awi:latest
+
+-- Nach Vorbereitung des Images, commit ...
+docker run --name testtest -p 127.0.0.1:3306:3306  -d  gluehloch/mariadb-dbload
+
 *** Config the maria ***
 
 docker exec -it mariadbtest bash
 
 * Install the editor *
+
+Auf der Bash in dem Docker Container arbeiten:
+
+docker exec --it testtest bash
 
 ==> Per command line
 apt-get update
