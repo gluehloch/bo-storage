@@ -10,5 +10,5 @@ bin
 .classpath
 .project
 .settings
-
+.idea
 /betoffice-storage.iml
