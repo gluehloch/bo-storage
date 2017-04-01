@@ -177,6 +177,12 @@ public class DefaultTippService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
+    public GameList findTipp(GameList round, User user) {
+        return getConfig().getGameTippDao().findRound(round, user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public GameList findTippRound(long seasonId, DateTime date) {
         RoundDao roundDao = getConfig().getRoundDao();
         Optional<Long> roundId = roundDao.findNextTippRound(seasonId, date);

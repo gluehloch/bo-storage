@@ -627,7 +627,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
         // Suche nach einem bestimmten Spieltipp
         for (GameTipp currGameTipp : tippList) {
-            if (currGameTipp.getUser().equals(user)) {
+            if (currGameTipp != null && currGameTipp.getUser().equals(user)) {
                 return currGameTipp;
             }
         }

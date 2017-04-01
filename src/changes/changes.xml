@@ -7,7 +7,13 @@
   <body>
  
      <!-- Under construction -->
-      
+     <release version="betoffice-storage-2.4.0" date="2017-??-??"
+      description="Tipp finder">
+      <action dev="andrewinkler" type="update" date="2017-04-??">
+        The tipp finder brings the round with the games and tipps.
+      </action>
+    </release>
+
      <!-- RELEASED -->
      <release version="betoffice-storage-2.3.0" date="2016-12-03"
       description="User roles">

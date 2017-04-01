@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -34,71 +34,96 @@ import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.User;
 
 /**
- * Hibernate DAO fÃ¼r den Zugriff auf {@link GameTipp}.
+ * Hibernate DAO fuer den Zugriff auf {@link GameTipp}.
  *
  * @author by Andre Winkler
  */
 @Repository("gameTippDao")
-public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
-        GameTippDao {
+public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements GameTippDao {
 
-    /**
-     * Sucht nach allen Spieltipps zu einem Spiel.
-     */
-    private static final String QUERY_GAMETIPP_BY_MATCH = "from "
-            + "    GameTipp gametipp inner join fetch "
-            + "    gametipp.user inner join fetch " + "    gametipp.game "
-            + "where " + "    gametipp.game.id = :gameId";
+	/**
+	 * Sucht nach allen Spieltipps zu einem Spieltag.
+	 */
+	private static final String QUERY_GAMETIPP_BY_MATCH = "from " //
+			+ "    GameTipp gametipp inner join fetch " //
+			+ "    gametipp.user inner join fetch " //
+			+ "    gametipp.game " //
+			+ "where " //
+			+ "    gametipp.game.id = :gameId";
 
-    /**
-     * Sucht nach allen Spieltipps zu einem Spieltag von einem Teilnehmer. Hier
-     * auch das entsprechende SQL Statement:
-     *
-     * <pre>
-     * SELECT *
-     * FROM
-     *     bo_season s,
-     *     bo_gamelist gl,
-     *     bo_game g,
-     *     bo_gametipp t,
-     *     bo_user u
-     * WHERE
-     *         gl.bo_season_ref  = s.id
-     *     AND s.id              = :season_id
-     *     AND gl.bo_index       = 0
-     *     AND g.bo_gamelist_ref = gl.id
-     *     ADN g.id              = t.bo_game_ref
-     *     AND t.bo_user_ref     = u.id
-     *     AND u.bo_nickname     = :nickname;
-     * </pre>
-     */
-    private static final String QUERY_GAMETIPP_BY_SEASON_ROUND_AND_USER = AbstractCommonDao
-            .loadQuery("hql_gametipp_season_round_user.sql");
+	/**
+	 * Sucht nach allen Spieltipps zu einem Spieltag von einem Teilnehmer. Hier
+	 * auch das entsprechende SQL Statement:
+	 *
+	 * <pre>
+	 * SELECT *
+	 * FROM
+	 *     bo_season s,
+	 *     bo_gamelist gl,
+	 *     bo_game g,
+	 *     bo_gametipp t,
+	 *     bo_user u
+	 * WHERE
+	 *         gl.bo_season_ref  = s.id
+	 *     AND s.id              = :season_id
+	 *     AND gl.bo_index       = 0
+	 *     AND g.bo_gamelist_ref = gl.id
+	 *     ADN g.id              = t.bo_game_ref
+	 *     AND t.bo_user_ref     = u.id
+	 *     AND u.bo_nickname     = :nickname;
+	 * </pre>
+	 */
+	private static final String QUERY_GAMETIPP_BY_SEASON_ROUND_AND_USER = AbstractCommonDao
+			.loadQuery("hql_gametipp_season_round_user.sql");
 
-    public GameTippDaoHibernate() {
-        super(GameTipp.class);
-    }
+	private static final String QUERY_ROUND_GAME_TIPP_AND_USER = AbstractCommonDao
+			.loadQuery("hql_round_game_tipp_user.sql");
 
-    @Override
-    public List<GameTipp> findByMatch(final Game match) {
-        @SuppressWarnings("unchecked")
-        List<GameTipp> tipps = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_GAMETIPP_BY_MATCH)
-                .setParameter("gameId", match.getId()).getResultList();
+	public GameTippDaoHibernate() {
+		super(GameTipp.class);
+	}
 
-        return tipps;
-    }
+	@Override
+	public List<GameTipp> findByMatch(final Game match) {
+		@SuppressWarnings("unchecked")
+		List<GameTipp> tipps = getSessionFactory().getCurrentSession().createQuery(QUERY_GAMETIPP_BY_MATCH)
+				.setParameter("gameId", match.getId()).getResultList();
 
-    @Override
-    public List<GameTipp> findTippsByRoundAndUser(final GameList round,
-            final User user) {
+		return tipps;
+	}
 
-        @SuppressWarnings("unchecked")
-        List<GameTipp> objects = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_GAMETIPP_BY_SEASON_ROUND_AND_USER)
-                .setParameter("roundId", round.getId())
-                .setParameter("userId", user.getId()).getResultList();
-        return objects;
-    }
+	@Override
+	public List<GameTipp> findTippsByRoundAndUser(final GameList round, final User user) {
+		return findTippsByRoundAndUser(round.getId(), user);
+	}
+
+	@Override
+	public List<GameTipp> findTippsByRoundAndUser(final long roundId, final User user) {
+		@SuppressWarnings("unchecked")
+		List<GameTipp> objects = getSessionFactory().getCurrentSession()
+				.createQuery(QUERY_GAMETIPP_BY_SEASON_ROUND_AND_USER).setParameter("roundId", roundId)
+				.setParameter("userId", user.getId()).getResultList();
+		return objects;
+	}
+
+	@Override
+	public GameList findRound(GameList round, User user) {
+		@SuppressWarnings("unchecked")
+		List<GameList> rounds = getSessionFactory().getCurrentSession().createQuery(QUERY_ROUND_GAME_TIPP_AND_USER)
+				.setParameter("roundId", round.getId())
+				.setParameter("userId", user.getId()).getResultList();
+		
+		return rounds.get(0);
+	}
+
+	@Override
+	public GameList findRound(long roundId, long userId) {
+		@SuppressWarnings("unchecked")
+		List<GameList> rounds = getSessionFactory().getCurrentSession().createQuery(QUERY_ROUND_GAME_TIPP_AND_USER)
+				.setParameter("roundId", roundId)
+				.setParameter("userId", userId).getResultList();
+		
+		return rounds.get(0);
+	}
 
 }

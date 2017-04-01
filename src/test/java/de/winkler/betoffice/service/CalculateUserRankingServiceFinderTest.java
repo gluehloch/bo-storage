@@ -56,157 +56,161 @@ import de.winkler.betoffice.storage.UserResult;
  * @author by Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice-datasource.xml",
-        "/betoffice-persistence.xml", "/test-mysql-piratestest.xml" })
+@ContextConfiguration(locations = { "/betoffice-datasource.xml", "/betoffice-persistence.xml",
+		"/test-mysql-piratestest.xml" })
 public class CalculateUserRankingServiceFinderTest {
 
-    private final Logger log = LoggerFactory.make();
+	private final Logger log = LoggerFactory.make();
 
-    @Autowired
-    protected DataSource dataSource;
+	@Autowired
+	protected DataSource dataSource;
 
-    @Autowired
-    protected SeasonManagerService seasonManagerService;
+	@Autowired
+	protected SeasonManagerService seasonManagerService;
 
-    @Autowired
-    protected TippService tippService;
+	@Autowired
+	protected TippService tippService;
 
-    @Autowired
-    protected MasterDataManagerService masterDataManagerService;
+	@Autowired
+	protected MasterDataManagerService masterDataManagerService;
 
-    @Autowired
-    protected DatabaseMaintenanceService databaseMaintenanceService;
+	@Autowired
+	protected DatabaseMaintenanceService databaseMaintenanceService;
 
-    private DatabaseSetUpAndTearDown dsuatd;
+	private DatabaseSetUpAndTearDown dsuatd;
 
-    @Before
-    public void setUp() throws Exception {
-        dsuatd = new DatabaseSetUpAndTearDown(dataSource);
-        dsuatd.setUp(DataLoader.FULL);
-    }
+	@Before
+	public void setUp() throws Exception {
+		dsuatd = new DatabaseSetUpAndTearDown(dataSource);
+		dsuatd.setUp(DataLoader.FULL);
+	}
 
-    @After
-    public void tearDown() throws SQLException {
-        dsuatd.tearDown();
-    }
+	@After
+	public void tearDown() throws SQLException {
+		dsuatd.tearDown();
+	}
 
-    // ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
-    @Test
-    public void testFindTippsWm2006() {
-        Optional<Season> wm2006 = seasonManagerService
-                .findSeasonByName("WM Deutschland", "2006");
+	@Test
+	public void testFindTippsWm2006() {
+		Optional<Season> wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006");
 
-        List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
-        GameList finale = rounds.get(24);
+		List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
+		GameList finale = rounds.get(24);
 
-        List<GameTipp> tipps = tippService.findTippsByMatch(finale.get(0));
-        assertThat(tipps.size()).isEqualTo(8);
+		List<GameTipp> tipps = tippService.findTippsByMatch(finale.get(0));
+		assertThat(tipps.size()).isEqualTo(8);
 
-        String[] nicknames = new String[] { "Roenne", "Jogi", "Goddard",
-                "Peter", "mrTipp", "chris", "Frosch", "Hattwig" };
+		String[] nicknames = new String[] { "Roenne", "Jogi", "Goddard", "Peter", "mrTipp", "chris", "Frosch",
+				"Hattwig" };
 
-        for (int index = 0; index < nicknames.length; index++) {
-            assertThat(tipps.get(index).getUser().getNickName())
-                    .isEqualTo(nicknames[index]);
-        }
-    }
+		for (int index = 0; index < nicknames.length; index++) {
+			assertThat(tipps.get(index).getUser().getNickName()).isEqualTo(nicknames[index]);
+		}
+	}
 
-    @Test
-    public void testFindTippByFroschWm2006() {
-        Optional<Season> wm2006 = seasonManagerService
-                .findSeasonByName("WM Deutschland", "2006");
-        Optional<User> user = masterDataManagerService
-                .findUserByNickname("Frosch");
-        List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
-        GameList finale = rounds.get(24);
-        List<GameTipp> finalRoundTipps = tippService
-                .findTippsByRoundAndUser(finale, user.get());
+	@Test
+	public void testFindTippByFroschWm2006() {
+		Optional<Season> wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006");
+		Optional<User> frosch = masterDataManagerService.findUserByNickname("Frosch");
+		Optional<User> mrTipp = masterDataManagerService.findUserByNickname("mrTipp");
+		Optional<User> peter = masterDataManagerService.findUserByNickname("Peter");
 
-        assertEquals(user.get(), finalRoundTipps.get(0).getUser());
-        assertEquals(0, finalRoundTipps.get(0).getTipp().getHomeGoals());
-        assertEquals(2, finalRoundTipps.get(0).getTipp().getGuestGoals());
-    }
+		assertEquals("Frosch", frosch.get().getNickName());
+		assertEquals("mrTipp", mrTipp.get().getNickName());
+		assertEquals("Peter", peter.get().getNickName());
 
-    @Test
-    public void testFindTippByXtianWm2006() {
-        Optional<Season> wm2006 = seasonManagerService
-                .findSeasonByName("WM Deutschland", "2006");
-        Optional<User> user = masterDataManagerService
-                .findUserByNickname("Xtian");
-        List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
-        GameList finale = rounds.get(24);
-        List<GameTipp> finalRoundTipps = tippService
-                .findTippsByRoundAndUser(finale, user.get());
+		List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
+		GameList finale = rounds.get(24);
+		List<GameTipp> finalRoundTipps = tippService.findTippsByRoundAndUser(finale, frosch.get());
 
-        assertEquals(finalRoundTipps.size(), 0);
+		assertEquals(frosch.get(), finalRoundTipps.get(0).getUser());
+		assertEquals(0, finalRoundTipps.get(0).getTipp().getHomeGoals());
+		assertEquals(2, finalRoundTipps.get(0).getTipp().getGuestGoals());
 
-        // assertEquals(user, finalRoundTipps.get(0).getUser());
-        // assertEquals(0, finalRoundTipps.get(0).getTipp().getHomeGoals());
-        // assertEquals(2, finalRoundTipps.get(0).getTipp().getGuestGoals());
-    }
+		GameList froschTipps = tippService.findTipp(finale, frosch.get());
+		assertEquals(0, froschTipps.get(0).getGameTipp(frosch.get()).getTipp().getHomeGoals());
+		assertEquals(2, froschTipps.get(0).getGameTipp(frosch.get()).getTipp().getGuestGoals());
 
-    @Test
-    public void testCalculateUserRankingWm2006() {
-        Optional<Season> wm2006 = seasonManagerService
-                .findSeasonByName("WM Deutschland", "2006");
+		GameList mrTippTipps = tippService.findTipp(finale, mrTipp.get());
+		assertEquals(0, mrTippTipps.get(0).getGameTipp(mrTipp.get()).getTipp().getHomeGoals());
+		assertEquals(1, mrTippTipps.get(0).getGameTipp(mrTipp.get()).getTipp().getGuestGoals());
 
-        List<UserResult> userResults = seasonManagerService
-                .calculateUserRanking(wm2006.get());
-        validateUserResult(userResults, 0, "Frosch", 483, 11, 34, 1);
-        validateUserResult(userResults, 1, "Jogi", 477, 9, 36, 2);
-        validateUserResult(userResults, 2, "Hattwig", 471, 7, 38, 3);
-        validateUserResult(userResults, 3, "Roenne", 467, 9, 35, 4);
-        validateUserResult(userResults, 4, "Goddard", 415, 5, 35, 5);
-        validateUserResult(userResults, 5, "Peter", 408, 6, 33, 6);
-        validateUserResult(userResults, 6, "chris", 378, 6, 30, 7);
-        validateUserResult(userResults, 7, "Andi", 328, 6, 25, 8);
-        validateUserResult(userResults, 8, "Steffen", 325, 5, 26, 9);
-        validateUserResult(userResults, 9, "Bernd_das_Brot", 239, 3, 20, 10);
-        validateUserResult(userResults, 10, "mrTipp", 222, 4, 17, 11);
-    }
+		GameList peterTipps = tippService.findTipp(finale, peter.get());
+		assertEquals(1, peterTipps.get(0).getGameTipp(peter.get()).getTipp().getHomeGoals());
+		assertEquals(2, peterTipps.get(0).getGameTipp(peter.get()).getTipp().getGuestGoals());
+	}
 
-    @Test
-    public void testCalculateUserRankingBuli2006() {
-        Optional<Season> buli = seasonManagerService
-                .findSeasonByName("Fussball Bundesliga", "2006/2007");
+	@Test
+	public void testFindTippByXtianWm2006() {
+		Optional<Season> wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006");
+		Optional<User> user = masterDataManagerService.findUserByNickname("Xtian");
+		List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
+		GameList finale = rounds.get(24);
+		List<GameTipp> finalRoundTipps = tippService.findTippsByRoundAndUser(finale, user.get());
 
-        Optional<GameList> round = seasonManagerService.findRound(buli.get(),
-                0);
-        Group bundesliga = round.get().getGroup();
-        assertEquals(9, round.get().unmodifiableList(bundesliga).size());
+		assertEquals(finalRoundTipps.size(), 0);
 
-        List<UserResult> userResults = seasonManagerService
-                .calculateUserRanking(round.get());
+		// assertEquals(user, finalRoundTipps.get(0).getUser());
+		// assertEquals(0, finalRoundTipps.get(0).getTipp().getHomeGoals());
+		// assertEquals(2, finalRoundTipps.get(0).getTipp().getGuestGoals());
+	}
 
-        validateUserResult(userResults, 0, "Peter", 50, 0, 5, 1);
-        validateUserResult(userResults, 1, "Steffen", 46, 2, 2, 2);
-        validateUserResult(userResults, 2, "Frosch", 43, 1, 3, 3);
-        validateUserResult(userResults, 3, "Roenne", 43, 1, 3, 4);
+	@Test
+	public void testCalculateUserRankingWm2006() {
+		Optional<Season> wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006");
 
-        List<UserResult> userResultsRange = seasonManagerService
-                .calculateUserRanking(buli.get(), 0, 1);
+		List<UserResult> userResults = seasonManagerService.calculateUserRanking(wm2006.get());
+		validateUserResult(userResults, 0, "Frosch", 483, 11, 34, 1);
+		validateUserResult(userResults, 1, "Jogi", 477, 9, 36, 2);
+		validateUserResult(userResults, 2, "Hattwig", 471, 7, 38, 3);
+		validateUserResult(userResults, 3, "Roenne", 467, 9, 35, 4);
+		validateUserResult(userResults, 4, "Goddard", 415, 5, 35, 5);
+		validateUserResult(userResults, 5, "Peter", 408, 6, 33, 6);
+		validateUserResult(userResults, 6, "chris", 378, 6, 30, 7);
+		validateUserResult(userResults, 7, "Andi", 328, 6, 25, 8);
+		validateUserResult(userResults, 8, "Steffen", 325, 5, 26, 9);
+		validateUserResult(userResults, 9, "Bernd_das_Brot", 239, 3, 20, 10);
+		validateUserResult(userResults, 10, "mrTipp", 222, 4, 17, 11);
+	}
 
-        validateUserResult(userResultsRange, 0, "Peter", 119, 3, 8, 1);
-        validateUserResult(userResultsRange, 1, "chris", 106, 2, 8, 2);
-        validateUserResult(userResultsRange, 2, "Persistenz", 106, 2, 8, 3);
-        validateUserResult(userResultsRange, 3, "Frosch", 103, 1, 9, 4);
-    }
+	@Test
+	public void testCalculateUserRankingBuli2006() {
+		Optional<Season> buli = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007");
 
-    private void validateUserResult(final List<UserResult> userResults,
-            final int index, final String nickname, final int points,
-            final int win, final int totoWin, int tabPos) {
+		Optional<GameList> round = seasonManagerService.findRound(buli.get(), 0);
+		Group bundesliga = round.get().getGroup();
+		assertEquals(9, round.get().unmodifiableList(bundesliga).size());
 
-        assertEquals(nickname, userResults.get(index).getUser().getNickName());
-        assertEquals(points, userResults.get(index).getPoints());
-        assertEquals(win, userResults.get(index).getUserWin());
-        assertEquals(totoWin, userResults.get(index).getUserTotoWin());
-        assertEquals(tabPos, userResults.get(index).getTabPos());
+		List<UserResult> userResults = seasonManagerService.calculateUserRanking(round.get());
 
-        if (log.isDebugEnabled()) {
-            log.debug("Name: " + userResults.get(index).getUser().getNickName()
-                    + ", PTS: " + userResults.get(index).getPoints());
-        }
-    }
+		validateUserResult(userResults, 0, "Peter", 50, 0, 5, 1);
+		validateUserResult(userResults, 1, "Steffen", 46, 2, 2, 2);
+		validateUserResult(userResults, 2, "Frosch", 43, 1, 3, 3);
+		validateUserResult(userResults, 3, "Roenne", 43, 1, 3, 4);
+
+		List<UserResult> userResultsRange = seasonManagerService.calculateUserRanking(buli.get(), 0, 1);
+
+		validateUserResult(userResultsRange, 0, "Peter", 119, 3, 8, 1);
+		validateUserResult(userResultsRange, 1, "chris", 106, 2, 8, 2);
+		validateUserResult(userResultsRange, 2, "Persistenz", 106, 2, 8, 3);
+		validateUserResult(userResultsRange, 3, "Frosch", 103, 1, 9, 4);
+	}
+
+	private void validateUserResult(final List<UserResult> userResults, final int index, final String nickname,
+			final int points, final int win, final int totoWin, int tabPos) {
+
+		assertEquals(nickname, userResults.get(index).getUser().getNickName());
+		assertEquals(points, userResults.get(index).getPoints());
+		assertEquals(win, userResults.get(index).getUserWin());
+		assertEquals(totoWin, userResults.get(index).getUserTotoWin());
+		assertEquals(tabPos, userResults.get(index).getTabPos());
+
+		if (log.isDebugEnabled()) {
+			log.debug("Name: " + userResults.get(index).getUser().getNickName() + ", PTS: "
+					+ userResults.get(index).getPoints());
+		}
+	}
 
 }
