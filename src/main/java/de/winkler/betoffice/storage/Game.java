@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
@@ -625,24 +626,11 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
         Validate.notNull(user, "user als null Parameter");
 
-        // Suche nach einem bestimmten Spieltipp
-        for (GameTipp currGameTipp : tippList) {
-            if (currGameTipp != null && currGameTipp.getUser().equals(user)) {
-                return currGameTipp;
-            }
-        }
+        Optional<GameTipp> userTipp = tippList.stream()
+                .filter(tipp -> tipp != null && tipp.getUser().equals(user))
+                .findFirst();
 
-        if (log.isDebugEnabled()) {
-            StringBuffer buf = new StringBuffer();
-            buf.append("Game: ");
-            buf.append(this);
-            buf.append(" Keinen Tipp für ");
-            buf.append(user);
-            buf.append(" gefunden!");
-            log.debug(buf.toString());
-        }
-
-        throw new StorageObjectNotFoundException("Keinen Tipp gefunden");
+        return userTipp.isPresent() ? userTipp.get() : null;
     }
 
     /**

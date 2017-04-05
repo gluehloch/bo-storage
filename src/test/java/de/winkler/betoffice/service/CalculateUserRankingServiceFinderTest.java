@@ -130,6 +130,8 @@ public class CalculateUserRankingServiceFinderTest {
 		assertEquals(2, finalRoundTipps.get(0).getTipp().getGuestGoals());
 
 		GameList froschTipps = tippService.findTipp(finale, frosch.get());
+		// 7 Tipps von allen Teilnehmern. Nur einer ist nicht 'null'.
+		assertEquals(7, froschTipps.get(0).getTipps().size());
 		assertEquals(0, froschTipps.get(0).getGameTipp(frosch.get()).getTipp().getHomeGoals());
 		assertEquals(2, froschTipps.get(0).getGameTipp(frosch.get()).getTipp().getGuestGoals());
 
