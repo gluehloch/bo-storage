@@ -108,12 +108,7 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
 
 	@Override
 	public GameList findRound(GameList round, User user) {
-		@SuppressWarnings("unchecked")
-		List<GameList> rounds = getSessionFactory().getCurrentSession().createQuery(QUERY_ROUND_GAME_TIPP_AND_USER)
-				.setParameter("roundId", round.getId())
-				.setParameter("userId", user.getId()).getResultList();
-		
-		return rounds.get(0);
+		return findRound(round.getId(), user.getId());
 	}
 
 	@Override
