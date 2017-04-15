@@ -93,12 +93,12 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
 	}
 
 	@Override
-	public List<GameTipp> findTippsByRoundAndUser(final GameList round, final User user) {
+	public List<GameTipp> findTippsByRoundAndUser(GameList round, User user) {
 		return findTippsByRoundAndUser(round.getId(), user);
 	}
 
 	@Override
-	public List<GameTipp> findTippsByRoundAndUser(final long roundId, final User user) {
+	public List<GameTipp> findTippsByRoundAndUser(long roundId, User user) {
 		@SuppressWarnings("unchecked")
 		List<GameTipp> objects = getSessionFactory().getCurrentSession()
 				.createQuery(QUERY_GAMETIPP_BY_SEASON_ROUND_AND_USER).setParameter("roundId", roundId)
@@ -115,10 +115,13 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
 	public GameList findRound(long roundId, long userId) {
 		@SuppressWarnings("unchecked")
 		List<GameList> rounds = getSessionFactory().getCurrentSession().createQuery(QUERY_ROUND_GAME_TIPP_AND_USER)
-				.setParameter("roundId", roundId)
-				.setParameter("userId", userId).getResultList();
-		
-		return rounds.get(0);
+				.setParameter("roundId", roundId).setParameter("userId", userId).getResultList();
+
+		if (rounds.isEmpty()) {
+			return null;
+		} else {
+			return rounds.get(0);
+		}
 	}
 
 }

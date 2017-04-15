@@ -1,11 +1,13 @@
 select
-    round from GameList as round
-    left join fetch round.gameList game
-    left join fetch game.tippList tipp
-    left join fetch tipp.user u
-    left join fetch game.homeTeam
-    left join fetch game.guestTeam
-    left join fetch game.group
+    round
+from
+    GameList as round
+    join fetch round.gameList game
+    join fetch game.homeTeam
+    join fetch game.guestTeam
+    join fetch game.group
+    join fetch game.tippList tipp
+    join fetch tipp.user u
 where
     round.id = :roundId
-    and u.id = :userId
+    and tipp.user.id = :userId

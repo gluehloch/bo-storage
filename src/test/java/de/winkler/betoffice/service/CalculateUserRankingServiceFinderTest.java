@@ -117,6 +117,9 @@ public class CalculateUserRankingServiceFinderTest {
 		Optional<User> mrTipp = masterDataManagerService.findUserByNickname("mrTipp");
 		Optional<User> peter = masterDataManagerService.findUserByNickname("Peter");
 
+		List<User> users = seasonManagerService.findActivatedUsers(wm2006.get());
+		assertEquals(11, users.size());
+		
 		assertEquals("Frosch", frosch.get().getNickName());
 		assertEquals("mrTipp", mrTipp.get().getNickName());
 		assertEquals("Peter", peter.get().getNickName());
