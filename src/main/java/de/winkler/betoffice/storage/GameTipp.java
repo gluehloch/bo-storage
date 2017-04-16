@@ -43,15 +43,6 @@ public class GameTipp extends AbstractStorageObject
     /** serial version id */
     private static final long serialVersionUID = -3043191976453282242L;
 
-    // -- Construction --------------------------------------------------------
-
-    /**
-     * Ein Defaultkonstruktor. GameTipp wird nur von der Storage-Factory
-     * instanziert.
-     */
-    protected GameTipp() {
-    }
-
     // -- id ------------------------------------------------------------------
 
     /** Der Primärschlüssel. */
