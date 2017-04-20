@@ -70,7 +70,8 @@ public interface GameTippDao extends CommonDao<GameTipp> {
 	List<GameTipp> findTippsByRoundAndUser(long roundId, User user);
 
 	/**
-	 * Liefert alle Spieltipps zu einem Spieltag zu einem Teilnehmer.
+	 * Liefert alle Spieltipps zu einem Spieltag zu einem Teilnehmer. Falls keine
+	 * Tipps vorliegen, kann hier <code>null</code> zurueck gegeben werden.
 	 *
 	 * @param round
 	 *            Der Spieltag.
