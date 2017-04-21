@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -163,7 +162,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
 	 *         nicht modifiziert werden.
 	 */
 	public List<Game> unmodifiableList(final Group _group) {
-		List<Game> list = new LinkedList<Game>();
+		List<Game> list = new ArrayList<Game>();
 
 		for (Game game : gameList) {
 			if (game.getGroup().equals(_group)) {
