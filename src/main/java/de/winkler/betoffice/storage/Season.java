@@ -30,6 +30,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -501,12 +503,21 @@ public class Season extends AbstractStorageObject {
     }
 
     /**
-     * Liefert eine nicht-modifizierbare Liste aller Spieltage.
+     * Liefert eine Liste aller Spieltage.
      * 
      * @return Liste aller Spieltage (GameList).
      */
-    public List<GameList> unmodifiableGameList() {
+    public List<GameList> toGameList() {
         return Collections.unmodifiableList(gameList);
+    }
+
+    /**
+     * Liefert eine Liste aller Spieltage.
+     * 
+     * @return Liste aller Spieltage (GameList).
+     */
+    public List<GameList> toGameList(Predicate<GameList> filter) {
+        return gameList.stream().filter(filter).collect(Collectors.toList());
     }
 
     /**

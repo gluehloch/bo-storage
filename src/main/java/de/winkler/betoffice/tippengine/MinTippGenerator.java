@@ -55,7 +55,7 @@ public class MinTippGenerator implements TippGenerator {
     private final Logger log = LoggerFactory.make();
 
     public void generateTipp(final Season season) {
-        for (int i = 0; i < season.unmodifiableGameList().size(); i++) {
+        for (int i = 0; i < season.toGameList().size(); i++) {
             generateTipp(season.getGamesOfDay(i));
         }
     }
