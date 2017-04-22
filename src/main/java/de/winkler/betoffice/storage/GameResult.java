@@ -156,15 +156,6 @@ public class GameResult extends AbstractStorageObject
         }
     }
 
-    /**
-     * @return valid?
-     * 
-     * @see de.winkler.betoffice.storage.StorageObject#isValid()
-     */
-    public boolean isValid() {
-        return true;
-    }
-
     // -- Object --------------------------------------------------------------
 
     /**

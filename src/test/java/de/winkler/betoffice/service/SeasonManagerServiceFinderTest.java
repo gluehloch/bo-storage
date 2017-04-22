@@ -330,7 +330,7 @@ public class SeasonManagerServiceFinderTest {
         Optional<GameList> round = seasonManagerService.findRound(buli.get(),
                 0);
         Group bundesliga = round.get().getGroup();
-        assertEquals(9, round.get().unmodifiableList(bundesliga).size());
+        assertEquals(9, round.get().toList(bundesliga).size());
 
         List<Group> groups = seasonManagerService.findGroups(buli.get());
         List<TeamResult> teamResults = seasonManagerService

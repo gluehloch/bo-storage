@@ -116,15 +116,4 @@ public class ChampionshipConfiguration extends AbstractStorageObject {
         exportTemplate = value;
     }
 
-    // -- StorageObject -------------------------------------------------------
-
-    /**
-     * @see StorageObject#isValid()
-     * 
-     * @return valid?
-     */
-    public boolean isValid() {
-        return true;
-    }
-
 }
