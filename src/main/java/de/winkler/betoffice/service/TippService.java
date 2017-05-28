@@ -56,8 +56,6 @@ public interface TippService {
      * @param status
      *            Tipp-Status.
      * @return Der erstellte {@link GameTipp}.
-     *
-     * @see #updateTipp(Game, User, GameResult, TippStatusType)
      */
     public GameTipp addTipp(String token, Game match, User user, GameResult gr,
             TippStatusType status);
@@ -100,8 +98,6 @@ public interface TippService {
      *            Das getippte Endergebnis
      * @param status
      *            Tipp-Status.
-     *
-     * @see #addTipp(Game, User, GameResult, TippStatusType)
      */
     public void updateTipp(String token, Game match, User user, GameResult gr,
             TippStatusType status);
@@ -162,10 +158,10 @@ public interface TippService {
     /**
      * Liefert alle Spieltipps zu einem Spieltag von einem Teilnehmer.
      *
-     * @param round
+     * @param roundId
      *            Der Spieltag der für die Suche herangezogen werden soll.
      * 
-     * @param user
+     * @param userId
      *            Die Spieltipps von diesem User suchen.
      * 
      * @return Die Spieltipps.
