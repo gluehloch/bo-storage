@@ -60,8 +60,8 @@ import de.winkler.betoffice.storage.enums.SeasonType;
  * @author by Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice-datasource.xml",
-        "/betoffice-persistence.xml", "/test-mysql-piratestest.xml" })
+@ContextConfiguration(locations = { "/betoffice.xml",
+        "/test-mysql-piratestest.xml" })
 public class SeasonManagerServiceFinderTest {
 
     @Autowired

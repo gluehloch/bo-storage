@@ -25,14 +25,12 @@
 package de.winkler.betoffice.service;
 
 import org.joda.time.DateTime;
-import org.springframework.stereotype.Component;
 
 /**
  * Get current date and time.
  * 
  * @author Andre Winkler
  */
-@Component
 public class DefaultDateTimeProvider implements DateTimeProvider {
 
     @Override

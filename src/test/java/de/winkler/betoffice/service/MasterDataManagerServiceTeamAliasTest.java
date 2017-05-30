@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -55,8 +55,8 @@ import de.winkler.betoffice.validation.BetofficeValidationException;
  * @author Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice-datasource.xml",
-        "/betoffice-persistence.xml", "/test-mysql-piratestest.xml" })
+@ContextConfiguration(locations = { "/betoffice.xml",
+        "/test-mysql-piratestest.xml" })
 public class MasterDataManagerServiceTeamAliasTest {
 
     @Autowired
