@@ -239,6 +239,12 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     public void updateUser(final User user) {
         getConfig().getUserDao().update(user);
     }
+    
+    @Override
+    @Transactional
+    public User findUser(long userId) {
+        return getConfig().getUserDao().findById(userId);
+    }
 
     @Override
     @Transactional(readOnly = false)
