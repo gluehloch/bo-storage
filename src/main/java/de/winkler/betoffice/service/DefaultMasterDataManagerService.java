@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2014 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Location;
 import de.winkler.betoffice.storage.Player;
+import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamAlias;
 import de.winkler.betoffice.storage.User;
@@ -51,6 +52,19 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
 @Service("masterDataManagerService")
 public class DefaultMasterDataManagerService extends AbstractManagerService
         implements MasterDataManagerService {
+
+
+    @Override
+    @Transactional
+    public void createSeason(final Season season) {
+        getConfig().getSeasonDao().save(season);
+    }
+
+    @Override
+    @Transactional
+    public void updateSeason(final Season season) {
+        getConfig().getSeasonDao().update(season);
+    }
 
     @Override
     @Transactional

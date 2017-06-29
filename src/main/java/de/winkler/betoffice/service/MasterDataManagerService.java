@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -29,17 +29,36 @@ import java.util.Optional;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Location;
 import de.winkler.betoffice.storage.Player;
+import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamAlias;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.TeamType;
 
 /**
- * Verwaltet die Stammdaten von betoffice: Teilnehmer, Mannschaften und Ligen.
+ * Verwaltet die Stammdaten von betoffice: Meisterschaft, Teilnehmer,
+ * Mannschaften und Ligen.
  *
  * @author by Andre Winkler
  */
 public interface MasterDataManagerService {
+
+    /**
+     * Legt eine neue Meisterschaft an.
+     * 
+     * @param season
+     *            Die Meisterschaft
+     */
+    public void createSeason(Season season);
+
+    /**
+     * Aktualisiert eine Meisterschaft.
+     * 
+     * @param season Die Meisterschaft
+     */
+    public void updateSeason(Season season);
+
+    // ------------------------------------------------------------------------
 
     /**
      * Neuanlage einer Mannschaft.
