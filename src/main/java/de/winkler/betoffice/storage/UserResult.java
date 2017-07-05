@@ -1,8 +1,7 @@
 /*
- * $Id: UserResult.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -33,13 +32,9 @@ import de.awtools.basic.LoggerFactory;
  * UserResult verwaltet den Punktestand eines Teilnehmers
  * für eine Saison.
  *
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
-public class UserResult extends AbstractStorageObject {
-
-    /** serial version id */
-    private static final long serialVersionUID = 3018999724329773561L;
+public class UserResult {
 
     /** Der private Log4j Logger. */
     public static Logger log = LoggerFactory.make();

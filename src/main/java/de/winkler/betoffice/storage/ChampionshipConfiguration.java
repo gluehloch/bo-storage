@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2010 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -30,7 +30,7 @@ package de.winkler.betoffice.storage;
  *
  * @author Andre Winkler
  */
-public class ChampionshipConfiguration extends AbstractStorageObject {
+public class ChampionshipConfiguration {
 
     /** serial version id */
     private static final long serialVersionUID = 8221108184744478989L;

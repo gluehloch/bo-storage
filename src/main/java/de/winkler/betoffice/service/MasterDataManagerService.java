@@ -182,7 +182,7 @@ public interface MasterDataManagerService {
      * @param user
      *            Ein Teilnehmer.
      */
-    public void createUser(User user);
+    public User createUser(User user);
 
     /**
      * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn

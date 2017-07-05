@@ -9,6 +9,9 @@
      <!-- Under construction -->
      <release version="betoffice-storage-2.4.0" date="2017-??-??"
       description="Tipp finder">
+      <action dev="andrewinkler" type="update" date="2017-07-05">
+        StorageObject gets a new method: getId()
+      </action>
       <action dev="andrewinkler" type="update" date="2017-04-12">
         The tipp finder brings the round with the games and tipps.
       </action>

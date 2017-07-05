@@ -124,7 +124,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public void createUser(final User user) {
+    public User createUser(final User user) {
         List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
 
         if (StringUtils.isBlank(user.getNickName())) {
@@ -137,6 +137,8 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
         } else {
             throw new BetofficeValidationException(messages);
         }
+        
+        return user;
     }
 
     @Override
