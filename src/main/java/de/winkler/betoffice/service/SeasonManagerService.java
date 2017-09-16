@@ -200,7 +200,7 @@ public interface SeasonManagerService {
 	 *            Die ID des Spieltags.
 	 * @return Der Spieltag.
 	 */
-	public GameList findRoundById(long id);
+	public GameList findRound(long id);
 
 	/**
 	 * Liefert den nächsten Spieltag.
