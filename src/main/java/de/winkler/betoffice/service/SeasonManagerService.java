@@ -232,13 +232,11 @@ public interface SeasonManagerService {
 	/**
 	 * Liefert alle Spieltage einer Meisterschaft zu einer Gruppe.
 	 * 
-	 * @param season
-	 *            Die betreffende Meisterschaft
 	 * @param group
 	 *            Die Spieltag fuer diese Gruppe.
 	 * @return Die Spieltage der gesuchten Gruppe und Meisterschaft.
 	 */
-	public List<GameList> findRounds(Season season, Group group);
+	public List<GameList> findRounds(Group group);
 
 	/**
 	 * Initialisiert die Liste der Spieltage, die zugehörigen Gruppen,

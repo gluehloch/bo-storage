@@ -9,6 +9,10 @@
      <!-- Under construction -->
      <release version="betoffice-storage-2.4.0" date="2017-??-??"
       description="Tipp finder">
+      <action dev="andrewinkler" type="update" date="2017-09-23">
+        SeasonManagerService#findRounds(season, group) changed to
+        SeasonManagerService#findRounds(group). 
+      </action>
       <action dev="andrewinkler" type="update" date="2017-09-16">
         Renamed SeasonManagerService#findRoundById(long) to #findRound(long).
         Added new method to Game#setHalfTimeGoals(int,int).
