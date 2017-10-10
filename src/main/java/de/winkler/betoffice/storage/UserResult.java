@@ -54,9 +54,6 @@ public class UserResult {
     /** Der zugeordnete Teilnehmer/Tipper/User */
     private final User user;
 
-    /** Die zugeordnete Meisterschaft. */
-    private final Season season;
-
     /** Anzahl der 'Toto Tipp richtig'. */
     private int totoWin = 0;
 
@@ -73,31 +70,9 @@ public class UserResult {
      * Konstruktor.
      *
      * @param _user Der Teilnehmer.
-     * @param _season Die Saison.
      */
-    public UserResult(final User _user, final Season _season) {
+    public UserResult(final User _user) {
         user = _user;
-        season = _season;
-    }
-
-    /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig
-     * gefüllt sind, damit es evt. Weiterverarbeitungen erfahren kann.
-     * Folgende Eigenschaften müssen gesetzt sein:
-     * <ul>
-     *  <li>user</li>
-     *  <li>season</li>
-     * </ul>
-     * @return true, Objekt in Ordnung; false, es ist was falsch.
-     */
-    public boolean isValid() {
-        if (user == null) {
-            return false;
-        } else if (season == null) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
     public void setUserWin(final int _n) {
@@ -125,10 +100,6 @@ public class UserResult {
 
     public User getUser() {
         return user;
-    }
-
-    public Season getSeason() {
-        return season;
     }
 
     public int getUserWin() {
@@ -164,8 +135,7 @@ public class UserResult {
      */
     public String toString() {
         StringBuilder buf = new StringBuilder("[class=UserResult; ");
-        buf.append(", Season: ").append(getSeason().toString());
-        buf.append(", User: ").append(user);
+        buf.append("User: ").append(user);
         buf.append(", #10 Pts: ").append(getUserTotoWin());
         buf.append(", #13 Pts: ").append(getUserWin());
         buf.append(", #Tickets: ").append(getTicket());

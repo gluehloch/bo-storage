@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -30,8 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import javax.persistence.NoResultException;
 
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
@@ -107,7 +105,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
 
         Map<User, UserResult> resultMap = new HashMap<User, UserResult>();
         for (User user : users) {
-            resultMap.put(user, new UserResult(user, season));
+            resultMap.put(user, new UserResult(user));
         }
 
         /* count(*) as 'full_points', u.* */
@@ -128,7 +126,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
             if (resultMap.containsKey(user)) {
                 resultMap.get(user).setUserWin(fullPoints);
             } else {
-                UserResult ur = new UserResult(user, season);
+                UserResult ur = new UserResult(user);
                 ur.setUserWin(fullPoints);
                 resultMap.put(user, ur);
             }
@@ -151,7 +149,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
             if (resultMap.containsKey(user)) {
                 resultMap.get(user).setUserTotoWin(halfPoints);
             } else {
-                UserResult ur = new UserResult(user, season);
+                UserResult ur = new UserResult(user);
                 ur.setUserTotoWin(halfPoints);
                 resultMap.put(user, ur);
             }
@@ -184,7 +182,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
 
         Map<User, UserResult> resultMap = new HashMap<User, UserResult>();
         for (User user : users) {
-            resultMap.put(user, new UserResult(user, season));
+            resultMap.put(user, new UserResult(user));
         }
 
         /* count(*) as 'full_points', u.* */
@@ -202,7 +200,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
             if (resultMap.containsKey(user)) {
                 resultMap.get(user).setUserWin(fullPoints);
             } else {
-                UserResult ur = new UserResult(user, season);
+                UserResult ur = new UserResult(user);
                 ur.setUserWin(fullPoints);
                 resultMap.put(user, ur);
             }
@@ -223,7 +221,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
             if (resultMap.containsKey(user)) {
                 resultMap.get(user).setUserTotoWin(halfPoints);
             } else {
-                UserResult ur = new UserResult(user, season);
+                UserResult ur = new UserResult(user);
                 ur.setUserTotoWin(halfPoints);
                 resultMap.put(user, ur);
             }
