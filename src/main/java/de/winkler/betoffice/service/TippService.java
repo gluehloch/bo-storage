@@ -56,8 +56,6 @@ public interface TippService {
      * @param status
      *            Tipp-Status.
      * @return Der erstellte {@link GameTipp}.
-     *
-     * @see #updateTipp(Game, User, GameResult, TippStatusType)
      */
     public GameTipp addTipp(String token, Game match, User user, GameResult gr,
             TippStatusType status);
@@ -76,8 +74,8 @@ public interface TippService {
      * @param status
      *            Der Status für diese Tipps.
      */
-    public void addTipp(String token, GameList round, User user, List<GameResult> tipps,
-            TippStatusType status);
+    public void addTipp(String token, GameList round, User user,
+            List<GameResult> tipps, TippStatusType status);
 
     /**
      * Legt den Tipp für einen Spieler für einen kompletten Spieltag an.
@@ -100,8 +98,6 @@ public interface TippService {
      *            Das getippte Endergebnis
      * @param status
      *            Tipp-Status.
-     *
-     * @see #addTipp(Game, User, GameResult, TippStatusType)
      */
     public void updateTipp(String token, Game match, User user, GameResult gr,
             TippStatusType status);
@@ -145,6 +141,32 @@ public interface TippService {
      * @return Die Spieltipps.
      */
     public List<GameTipp> findTippsByRoundAndUser(GameList round, User user);
+
+    /**
+     * Liefert alle Spieltipps zu einem Spieltag von einem Teilnehmer.
+     *
+     * @param round
+     *            Der Spieltag der für die Suche herangezogen werden soll.
+     * 
+     * @param user
+     *            Die Spieltipps von diesem User suchen.
+     * 
+     * @return Die Spieltipps.
+     */
+    public GameList findTipp(GameList round, User user);
+
+    /**
+     * Liefert alle Spieltipps zu einem Spieltag von einem Teilnehmer.
+     *
+     * @param roundId
+     *            Der Spieltag der für die Suche herangezogen werden soll.
+     * 
+     * @param userId
+     *            Die Spieltipps von diesem User suchen.
+     * 
+     * @return Die Spieltipps.
+     */
+    public GameList findTipp(long roundId, long userId);
 
     /**
      * Ermittelt den naechsten zu tippenden Spieltag.

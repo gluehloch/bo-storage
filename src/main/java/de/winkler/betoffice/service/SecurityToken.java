@@ -48,7 +48,7 @@ public class SecurityToken {
      *            The session id
      * @param _user
      *            the logged in user
-     * @param _role
+     * @param _roleType
      *            Role of the user
      * @param _loginTime
      *            Zeitpunkt des einloggens.

@@ -46,18 +46,18 @@ import de.winkler.betoffice.storage.Season;
 /**
  * Test for Spring´s JUnit and annotation support.
  * 
- * @author $Author: andrewinkler $
+ * @author Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice-datasource.xml",
-		"/betoffice-persistence.xml", "/test-mysql-piratestest.xml" })
+@ContextConfiguration(locations = { "/betoffice.xml",
+        "/test-mysql-piratestest.xml" })
 public class SpringBeanTest {
 
     @Autowired
     protected DataSource dataSource;
 
-	@Autowired
-	private SeasonManagerService seasonManagerService;
+    @Autowired
+    private SeasonManagerService seasonManagerService;
 
     private DatabaseSetUpAndTearDown dsuatd;
 
@@ -72,10 +72,10 @@ public class SpringBeanTest {
         dsuatd.tearDown();
     }
 
-	@Test
-	public void testSwingBetofficeStore() {
-		List<Season> championships = seasonManagerService.findAllSeasons();
-		assertEquals(22, championships.size());
-	}
+    @Test
+    public void testSwingBetofficeStore() {
+        List<Season> championships = seasonManagerService.findAllSeasons();
+        assertEquals(22, championships.size());
+    }
 
 }

@@ -1,8 +1,7 @@
 /*
- * $Id: UserResult.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -33,13 +32,9 @@ import de.awtools.basic.LoggerFactory;
  * UserResult verwaltet den Punktestand eines Teilnehmers
  * für eine Saison.
  *
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
-public class UserResult extends AbstractStorageObject {
-
-    /** serial version id */
-    private static final long serialVersionUID = 3018999724329773561L;
+public class UserResult {
 
     /** Der private Log4j Logger. */
     public static Logger log = LoggerFactory.make();
@@ -59,9 +54,6 @@ public class UserResult extends AbstractStorageObject {
     /** Der zugeordnete Teilnehmer/Tipper/User */
     private final User user;
 
-    /** Die zugeordnete Meisterschaft. */
-    private final Season season;
-
     /** Anzahl der 'Toto Tipp richtig'. */
     private int totoWin = 0;
 
@@ -78,31 +70,9 @@ public class UserResult extends AbstractStorageObject {
      * Konstruktor.
      *
      * @param _user Der Teilnehmer.
-     * @param _season Die Saison.
      */
-    public UserResult(final User _user, final Season _season) {
+    public UserResult(final User _user) {
         user = _user;
-        season = _season;
-    }
-
-    /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig
-     * gefüllt sind, damit es evt. Weiterverarbeitungen erfahren kann.
-     * Folgende Eigenschaften müssen gesetzt sein:
-     * <ul>
-     *  <li>user</li>
-     *  <li>season</li>
-     * </ul>
-     * @return true, Objekt in Ordnung; false, es ist was falsch.
-     */
-    public boolean isValid() {
-        if (user == null) {
-            return false;
-        } else if (season == null) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
     public void setUserWin(final int _n) {
@@ -130,10 +100,6 @@ public class UserResult extends AbstractStorageObject {
 
     public User getUser() {
         return user;
-    }
-
-    public Season getSeason() {
-        return season;
     }
 
     public int getUserWin() {
@@ -169,8 +135,7 @@ public class UserResult extends AbstractStorageObject {
      */
     public String toString() {
         StringBuilder buf = new StringBuilder("[class=UserResult; ");
-        buf.append(", Season: ").append(getSeason().toString());
-        buf.append(", User: ").append(user);
+        buf.append("User: ").append(user);
         buf.append(", #10 Pts: ").append(getUserTotoWin());
         buf.append(", #13 Pts: ").append(getUserWin());
         buf.append(", #Tickets: ").append(getTicket());

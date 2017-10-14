@@ -35,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 import de.awtools.basic.LoggerFactory;
 import de.winkler.betoffice.dao.SessionDao;
 import de.winkler.betoffice.dao.UserDao;
-import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Session;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.RoleType;
@@ -48,7 +47,6 @@ import de.winkler.betoffice.storage.enums.RoleType;
 @Service("authService")
 public class DefaultAuthService implements AuthService {
 
-    /** Logger für die Klasse. */
     private final Logger log = LoggerFactory.make();
 
     @Autowired
@@ -57,6 +55,9 @@ public class DefaultAuthService implements AuthService {
     @Autowired
     private SessionDao sessionDao;
 
+    @Autowired
+    private DateTimeProvider dateTimeProvider;
+    
     @Transactional
     @Override
     public SecurityToken login(String name, String password, String sessionId,
@@ -100,7 +101,7 @@ public class DefaultAuthService implements AuthService {
                     securityToken);
         } else {
             for (Session session : sessions) {
-                session.setLogout(DateTime.now().toDate());
+                session.setLogout(dateTimeProvider.currentDateTime().toDate());
                 sessionDao.save(session);
             }
         }

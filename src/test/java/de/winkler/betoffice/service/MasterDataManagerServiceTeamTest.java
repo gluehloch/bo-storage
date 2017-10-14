@@ -50,14 +50,13 @@ import de.winkler.betoffice.validation.BetofficeValidationException;
  * Test CRUD operations on storage object {@link Team}.
  * 
  * TODO: It would be interesting to test a more complex scenario. A user with
- * tips and other related informations. Does MySQL allow delete statements
- * here?
+ * tips and other related informations. Does MySQL allow delete statements here?
  *
  * @author Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice-datasource.xml",
-        "/betoffice-persistence.xml", "/test-mysql-piratestest.xml" })
+@ContextConfiguration(locations = { "/betoffice.xml",
+        "/test-mysql-piratestest.xml" })
 public class MasterDataManagerServiceTeamTest {
 
     @Autowired

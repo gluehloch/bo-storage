@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang.Validate;
 import org.apache.commons.logging.Log;
@@ -270,6 +271,10 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     public void setHalfTimeGoals(GameResult _halfTimeGoals) {
         halfTimeGoals = _halfTimeGoals;
+    }
+
+    public void setHalfTimeGoals(int homeGoals, int guestGoals) {
+        setHalfTimeGoals(new GameResult(homeGoals, guestGoals));
     }
 
     // -- overTimeGoals -------------------------------------------------------
@@ -552,7 +557,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      */
     public void addTipp(final GameTipp tipp)
             throws StorageObjectExistsException {
-
         Validate.notNull(tipp);
 
         if (containsTipp(tipp.getUser())) {
@@ -622,27 +626,19 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      */
     public GameTipp getGameTipp(final User user)
             throws StorageObjectNotFoundException {
-
         Validate.notNull(user, "user als null Parameter");
 
-        // Suche nach einem bestimmten Spieltipp
-        for (GameTipp currGameTipp : tippList) {
-            if (currGameTipp.getUser().equals(user)) {
-                return currGameTipp;
-            }
-        }
+        Optional<GameTipp> userTipp = tippList.stream()
+                .filter(tipp -> tipp != null && tipp.getUser().equals(user))
+                .findFirst();
 
-        if (log.isDebugEnabled()) {
-            StringBuffer buf = new StringBuffer();
-            buf.append("Game: ");
-            buf.append(this);
-            buf.append(" Keinen Tipp für ");
-            buf.append(user);
-            buf.append(" gefunden!");
-            log.debug(buf.toString());
+        if (userTipp.isPresent()) {
+            return userTipp.get();
+        } else {
+            throw new StorageObjectNotFoundException(
+                    "Der Teilnehmer [" + user.getNickName()
+                            + "] hat keinen Spieltipp.");
         }
-
-        throw new StorageObjectNotFoundException("Keinen Tipp gefunden");
     }
 
     /**
@@ -674,13 +670,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * @return true, Tipp vorhanden; false, kein Tipp vorhanden.
      */
     public boolean containsTipp(User user) {
-        // Suche nach einem bestimmten Spieltipp
-        for (GameTipp currGameTipp : tippList) {
-            if (currGameTipp.getUser().equals(user)) {
-                return true;
-            }
-        }
-        return false;
+        return tippList.stream().anyMatch(tipp -> tipp.getUser().equals(user));
     }
 
     /**

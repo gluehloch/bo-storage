@@ -58,7 +58,7 @@ public class DefaultTippService extends AbstractManagerService
 
     /** Logger für die Klasse. */
     private final Logger log = LoggerFactory.make();
-    
+
     @Override
     @Transactional
     public GameTipp addTipp(String token, Game match, User user, GameResult gr,
@@ -173,6 +173,18 @@ public class DefaultTippService extends AbstractManagerService
     @Transactional(readOnly = true)
     public List<GameTipp> findTippsByMatch(Game match) {
         return getConfig().getGameTippDao().findByMatch(match);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public GameList findTipp(GameList round, User user) {
+        return getConfig().getGameTippDao().findRound(round, user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public GameList findTipp(long roundId, long userId) {
+        return getConfig().getGameTippDao().findRound(roundId, userId);
     }
 
     @Override

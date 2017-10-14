@@ -69,9 +69,16 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
      * Sucht nach allen Spieltagen einer Meisterschaft fuer eine bestimmte
      * Gruppe.
      */
-    private static final String QUERY_GAMELIST_BY_SEASON_GROUP = "from "
-            + "GameList as gamelist " + "where gamelist.season.id = :seasonId "
-            + "and gamelist.group.id = :groupId" + " order by gamelist.index";
+    private static final String QUERY_GAMELIST_BY_SEASON_GROUP =
+            "select "
+            + "    distinct round "
+            + "from "
+            + "    GameList as round "
+            + "    left join fetch round.gameList game "
+            + "where"
+            + "    game.group.id = :groupId "
+            + "order"
+            + "    by round.index";
 
     /**
      * Sucht einen Spieltag einer Meisterschaft.
@@ -87,7 +94,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
     private static final String QUERY_ALL_ROUND_OBJECTS = "select round from GameList as round "
             + "left join fetch round.gameList game "
             + "left join fetch game.tippList tipp "
-            + "left join fetch tipp.user u " + "left join fetch game.homeTeam "
+            + "left join fetch tipp.user u "
+            + "left join fetch game.homeTeam "
             + "left join fetch game.guestTeam " + "left join fetch game.group "
             + "where round.season.id = :seasonId and round.index = :gameListIndex";
 
@@ -122,10 +130,9 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
     }
 
     @Override
-    public List<GameList> findRounds(Season season, Group group) {
+    public List<GameList> findRounds(Group group) {
         List<GameList> objects = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMELIST_BY_SEASON_GROUP, GameList.class)
-                .setParameter("seasonId", season.getId(), LongType.INSTANCE)
                 .setParameter("groupId", group.getId(), LongType.INSTANCE)
                 .getResultList();
         return objects;

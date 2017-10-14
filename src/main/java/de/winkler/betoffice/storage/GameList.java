@@ -27,10 +27,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
@@ -163,15 +164,21 @@ public class GameList extends AbstractStorageObject
      * @return Eine Liste aller Spiele der gefragten Gruppe. Diese Liste kann
      *         nicht modifiziert werden.
      */
-    public List<Game> unmodifiableList(final Group _group) {
-        List<Game> list = new LinkedList<Game>();
+    public List<Game> toList(final Group _group) {
+        return toList(game -> game.getGroup().equals(_group));
+    }
 
-        for (Game game : gameList) {
-            if (game.getGroup().equals(_group)) {
-                list.add(game);
-            }
-        }
-        return Collections.unmodifiableList(list);
+    /**
+     * Liefert eine Liste der Spiele dieses Spieltags, die zu einer bestimmten
+     * Gruppe gehören.
+     *
+     * @param filter
+     *            Filterkriterium fuer die in Frage kommenden Spiele.
+     * @return Eine Liste aller Spiele der gefragten Gruppe. Diese Liste kann
+     *         nicht modifiziert werden.
+     */
+    public List<Game> toList(Predicate<Game> filter) {
+        return gameList.stream().filter(filter).collect(Collectors.toList());
     }
 
     /**

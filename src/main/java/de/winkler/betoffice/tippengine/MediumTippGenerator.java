@@ -59,7 +59,7 @@ public class MediumTippGenerator implements TippGenerator {
 	}
 
 	public void generateTipp(final Season season) {
-		List<GameList> gameDays = season.unmodifiableGameList();
+		List<GameList> gameDays = season.toGameList();
 		for (Iterator<GameList> i = gameDays.listIterator(); i.hasNext();) {
 			generateTipp(i.next());
 		}
