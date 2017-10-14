@@ -7,7 +7,9 @@
   <body>
  
      <!-- Under construction -->
-     <release version="betoffice-storage-2.4.0" date="2017-??-??"
+     
+     <!-- RELEASED -->
+     <release version="betoffice-storage-2.4.0" date="2017-11-14"
       description="Tipp finder">
       <action dev="andrewinkler" type="update" date="2017-10-10">
         Remove method UserResult#isValid(). Removed property
