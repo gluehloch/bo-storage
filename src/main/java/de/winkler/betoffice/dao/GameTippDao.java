@@ -61,7 +61,7 @@ public interface GameTippDao extends CommonDao<GameTipp> {
 	/**
 	 * Liefert alle Spieltipps zu einem Spieltag zu einem Teilnehmer.
 	 *
-	 * @param round
+	 * @param roundId
 	 *            Der Spieltag.
 	 * @param user
 	 *            Der Teilnehmer.
