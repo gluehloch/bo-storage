@@ -49,8 +49,7 @@ alter table bo_goal drop foreign key fk_goal_player;
 
 alter table bo_gamelist drop foreign key fk_gamelist_group;
 alter table bo_gamelist drop foreign key fk_gamelist_season;
-alter table bo_gamelist drop foreign key fk_gametipp_user;
-
+alter table bo_gametipp drop foreign key fk_gametipp_user;
 alter table bo_gametipp drop foreign key fk_gametipp_game;
 
 alter table bo_group drop foreign key fk_group_grouptype;
@@ -68,14 +67,12 @@ alter table bo_user_season drop foreign key fk_user_season_season;
 alter table bo_session drop foreign key fk_session_user;
 
 
-
 drop table if exists bo_gametipp;
 drop table if exists bo_goal;
 drop table if exists bo_game;
 drop table if exists bo_gamelist;
 
 drop table if exists bo_player;
-drop table if exists bo_location;
 
 drop table if exists bo_team_group;
 drop table if exists bo_group;
@@ -87,9 +84,10 @@ drop table if exists bo_season;
 drop table if exists bo_teamalias;
 drop table if exists bo_team;
 
+drop table if exists bo_location;
+drop table if exists bo_session;
 drop table if exists bo_user;
 
-drop table if exists bo_session;
 
 create table bo_session (
     id bigint not null auto_increment,
@@ -244,7 +242,7 @@ create table bo_user (
     bo_automat bit,
     bo_excluded bit,
     bo_title VARCHAR(255),
-    bo_admin INTEGER DEFAULT 0;
+    bo_admin INTEGER DEFAULT 0,
     primary key (id)
 ) ENGINE=InnoDB;
 
