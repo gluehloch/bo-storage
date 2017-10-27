@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -27,6 +27,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -36,6 +37,11 @@ import org.junit.Test;
  */
 public class SessionFactoryTest {
 
+    /**
+     * Der Test macht keinen Sinn, wenn nicht die Default-Datenbankverbindung
+     * zur Verfügung steht.
+     */
+    @Ignore
     @Test
     public void testSessionFactory() {
         SessionFactory sessionFactory = new Configuration().configure(
