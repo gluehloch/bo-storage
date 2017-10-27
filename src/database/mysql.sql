@@ -37,7 +37,7 @@ alter table bo_user_season
     foreign key FKB2D710E5F5473151;
 */
 
-
+/*
 alter table bo_game drop foreign key fk_game_home_team;
 alter table bo_game drop foreign key fk_game_guest_team;
 alter table bo_game drop foreign key fk_game_group;
@@ -65,6 +65,7 @@ alter table bo_user_season drop foreign key fk_user_season_user;
 alter table bo_user_season drop foreign key fk_user_season_season;
 
 alter table bo_session drop foreign key fk_session_user;
+*/
 
 
 drop table if exists bo_gametipp;
