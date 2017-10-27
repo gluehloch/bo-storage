@@ -36,18 +36,18 @@
     	<value>false</value>
     </property>
     <property name="driverClassName">
-      <value>${hibernate.connection.driver_class}</value>
+      <value>${hibernate_connection_driver_class}</value>
       <!-- Example: com.mysql.jdbc.Driver -->
     </property>
     <property name="url">
-      <value>${hibernate.connection.url}</value>
+      <value>${hibernate_connection_url}</value>
       <!-- Example: jdbc:mysql://localhost/piratestest -->
     </property>
     <property name="username">
-      <value>${hibernate.connection.username}</value>
+      <value>${hibernate_connection_username}</value>
     </property>
     <property name="password">
-      <value>${hibernate.connection.password}</value>
+      <value>${hibernate_connection_password}</value>
     </property>
   </bean>
 
