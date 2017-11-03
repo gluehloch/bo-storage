@@ -6,41 +6,46 @@
   </properties>
   <body>
  
-     <!-- Under construction -->
-     <release version="betoffice-storage-2.5.0" date="2017-??-??"
+    <!-- Under construction -->
+      <release version="betoffice-storage-2.5.0" date="2017-??-??"
       description="User experience">
       <action dev="andrewinkler" type="update" date="2017-11-03">
-        Seperate create and drop table SQL script.
-      </action>
+         Seperate create and drop table SQL script.
+       </action>
+       <action dev="andrewinkler" type="update" date="2017-11-03">
+         Changed the Hibernate property sepearator from dot to underscore.
+         So it is easier to overwrite the properties with an external
+         environment variable.
+       </action>
      </release>
       
      <!-- RELEASED -->
      <release version="betoffice-storage-2.4.0" date="2017-11-14"
       description="Tipp finder">
-      <action dev="andrewinkler" type="update" date="2017-10-10">
-        Remove method UserResult#isValid(). Removed property
-        UserResult#season.
-      </action>
-      <action dev="andrewinkler" type="update" date="2017-09-23">
-        SeasonManagerService#findRounds(season, group) changed to
-        SeasonManagerService#findRounds(group). 
-      </action>
-      <action dev="andrewinkler" type="update" date="2017-09-16">
-        Renamed SeasonManagerService#findRoundById(long) to #findRound(long).
-        Added new method to Game#setHalfTimeGoals(int,int).
-        Added new service to update a round games.
-      </action>
-      <action dev="andrewinkler" type="update" date="2017-07-05">
-        StorageObject gets a new method: getId()
-      </action>
-      <action dev="andrewinkler" type="update" date="2017-04-12">
-        The tipp finder brings the round with the games and tipps.
-      </action>
-      <action dev="andrewinkler" type="add" date="2017-05-21">
-        Date and time provider. To simulate date and times for
-        some test suites.
-      </action>
-    </release>
+       <action dev="andrewinkler" type="update" date="2017-10-10">
+         Remove method UserResult#isValid(). Removed property
+         UserResult#season.
+       </action>
+       <action dev="andrewinkler" type="update" date="2017-09-23">
+         SeasonManagerService#findRounds(season, group) changed to
+         SeasonManagerService#findRounds(group). 
+       </action>
+       <action dev="andrewinkler" type="update" date="2017-09-16">
+         Renamed SeasonManagerService#findRoundById(long) to #findRound(long).
+         Added new method to Game#setHalfTimeGoals(int,int).
+         Added new service to update a round games.
+       </action>
+       <action dev="andrewinkler" type="update" date="2017-07-05">
+         StorageObject gets a new method: getId()
+       </action>
+       <action dev="andrewinkler" type="update" date="2017-04-12">
+         The tipp finder brings the round with the games and tipps.
+       </action>
+       <action dev="andrewinkler" type="add" date="2017-05-21">
+         Date and time provider. To simulate date and times for
+         some test suites.
+       </action>
+     </release>
 
      <!-- RELEASED -->
      <release version="betoffice-storage-2.3.0" date="2016-12-03"
