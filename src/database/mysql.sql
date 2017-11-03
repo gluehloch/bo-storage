@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -27,45 +27,8 @@
  *
  * @author by Andre Winkler
  */
-select 'Start installation of betoffice 2.2.0 MySQL schema.' as INFO;
+select 'Start installation of betoffice 2.2.5 MySQL schema.' as INFO;
 select version();
-
-
-/*
-alter table bo_user_season
-    drop
-    foreign key FKB2D710E5F5473151;
-*/
-
-/*
-alter table bo_game drop foreign key fk_game_home_team;
-alter table bo_game drop foreign key fk_game_guest_team;
-alter table bo_game drop foreign key fk_game_group;
-alter table bo_game drop foreign key fk_game_gamelist;
-alter table bo_game drop foreign key fk_game_location;
-
-alter table bo_goal drop foreign key fk_goal_game;
-alter table bo_goal drop foreign key fk_goal_player;
-
-alter table bo_gamelist drop foreign key fk_gamelist_group;
-alter table bo_gamelist drop foreign key fk_gamelist_season;
-alter table bo_gametipp drop foreign key fk_gametipp_user;
-alter table bo_gametipp drop foreign key fk_gametipp_game;
-
-alter table bo_group drop foreign key fk_group_grouptype;
-alter table bo_group drop foreign key fk_group_season;
-
-alter table bo_team drop foreign key fk_team_location;
-
-alter table bo_team_group drop foreign key fk_team_group_group;
-alter table bo_team_group drop foreign key fk_team_group_team;
-
-alter table bo_teamalias drop foreign key fk_teamalias_team;
-alter table bo_user_season drop foreign key fk_user_season_user;
-alter table bo_user_season drop foreign key fk_user_season_season;
-
-alter table bo_session drop foreign key fk_session_user;
-*/
 
 
 drop table if exists bo_gametipp;
