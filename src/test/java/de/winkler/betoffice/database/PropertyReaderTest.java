@@ -58,14 +58,14 @@ public class PropertyReaderTest {
         Properties props = new Properties();
         props.load(is);
 
-        assertEquals("test", props.getProperty("hibernate.connection.username"));
-        assertEquals("test", props.getProperty("hibernate.connection.password"));
+        assertEquals("test", props.getProperty("hibernate_connection_username"));
+        assertEquals("test", props.getProperty("hibernate_connection_password"));
         assertEquals("jdbc:mysql://localhost/botest",
-                props.getProperty("hibernate.connection.url"));
+                props.getProperty("hibernate_connection_url"));
         assertEquals("com.mysql.jdbc.Driver",
-                props.getProperty("hibernate.connection.driver_class"));
+                props.getProperty("hibernate_connection_driver_class"));
         assertEquals("org.hibernate.dialect.MySQLDialect",
-                props.getProperty("hibernate.dialect"));
+                props.getProperty("hibernate_dialect"));
     }
 
     /**
@@ -82,8 +82,8 @@ public class PropertyReaderTest {
         PropertiesGlueConfig ph = new PropertiesGlueConfig(resource);
         ph.load();
 
-        assertEquals("test", ph.getProperty("hibernate.connection.username"));
-        assertEquals("test", ph.getProperty("hibernate.connection.password"));
+        assertEquals("test", ph.getProperty("hibernate_connection_username"));
+        assertEquals("test", ph.getProperty("hibernate_connection_password"));
     }
 
     /**
@@ -98,8 +98,8 @@ public class PropertyReaderTest {
         PropertiesGlueConfig pc = new PropertiesGlueConfig(resource);
         pc.load();
 
-        assertEquals("test", pc.getProperty("hibernate.connection.username"));
-        assertEquals("test", pc.getProperty("hibernate.connection.password"));
+        assertEquals("test", pc.getProperty("hibernate_connection_username"));
+        assertEquals("test", pc.getProperty("hibernate_connection_password"));
     }
 
     /**
@@ -117,8 +117,8 @@ public class PropertyReaderTest {
         pc.load();
         GlueConfig gc = pc.interpolatedConfiguration();
 
-        assertEquals("test", gc.getProperty("hibernate.connection.username"));
-        assertEquals("test", gc.getProperty("hibernate.connection.password"));
+        assertEquals("test", gc.getProperty("hibernate_connection_username"));
+        assertEquals("test", gc.getProperty("hibernate_connection_password"));
     }
 
 }
