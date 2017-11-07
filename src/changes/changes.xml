@@ -8,6 +8,10 @@
      <!-- Under construction -->
      <release version="betoffice-storage-2.5.0" date="2017-??-??"
       description="User experience">
+      <action dev="andrewinkler" type="update" date="2017-11-07">
+         The storage object Team gets some new properties: shortName
+         and xshortName.
+       </action>
       <action dev="andrewinkler" type="update" date="2017-11-03">
          Seperate create and drop table SQL script.
        </action>

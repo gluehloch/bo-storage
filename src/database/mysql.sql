@@ -175,6 +175,8 @@ create table bo_team (
     id bigint not NULL auto_increment,
     bo_name VARCHAR(255) not NULL unique,
     bo_longname VARCHAR(255),
+    bo_shortname VARCHAR(30),
+    bo_xshortname VARCHAR(3),
     bo_logo VARCHAR(255),
     bo_teamtype integer not null,
     bo_location_ref BIGINT NULL DEFAULT NULL,

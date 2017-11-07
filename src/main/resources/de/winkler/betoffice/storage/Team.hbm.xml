@@ -18,6 +18,12 @@
 		<property name="longName" type="java.lang.String" update="true"
 			insert="true" column="bo_longname" />
 
+        <property name="shortName" type="java.lang.String" update="true"
+            insert="true" column="bo_shortname" />
+            
+        <property name="xshortName" type="java.lang.String" update="true"
+            insert="true" column="bo_xshortname" />
+
 		<property name="logo" type="java.lang.String" update="true"
 			insert="true" column="bo_logo" />
 
