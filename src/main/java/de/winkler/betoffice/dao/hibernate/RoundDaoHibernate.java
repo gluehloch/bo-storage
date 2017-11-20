@@ -104,6 +104,13 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
             + "where r.bo_season_ref = :season_id "
             + "and r.id = m.bo_gamelist_ref " + "and m.bo_datetime >= :date) "
             + "as t";
+    
+    private static final String QUERY_LAST_ROUND_BY_DATE = "select max(t.bo_datetime) datetime, t.id last_round_id "
+            + "from (select r.bo_datetime, r.id from bo_gamelist r, bo_game m "
+            + "where r.bo_season_ref = :season_id "
+            + "and r.id = m.bo_gamelist_ref " + "and m.bo_datetime < :date) "
+            + "as t";
+
     /**
      * Search for the next game day id.
      */
