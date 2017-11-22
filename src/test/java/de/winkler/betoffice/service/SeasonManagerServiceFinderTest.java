@@ -98,8 +98,7 @@ public class SeasonManagerServiceFinderTest {
     public void testNextTippForm() {
         Season season = seasonManagerService.findSeasonById(11);
         DateTime date = new DateTime(2008, 5, 6, 1, 0, 0);
-        GameList findNextTippRound = tippService.findTippRound(season.getId(),
-                date);
+        GameList findNextTippRound = tippService.findNextTippRound(season.getId(), date);
         assertThat(findNextTippRound.getId()).isEqualTo(321);
     }
 

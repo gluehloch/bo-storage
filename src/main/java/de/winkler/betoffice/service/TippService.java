@@ -177,6 +177,17 @@ public interface TippService {
      *            Das Bezugsdatum
      * @return Der naechste zu tippende Spieltag
      */
-    public GameList findTippRound(long seasonId, DateTime date);
+    public GameList findNextTippRound(long seasonId, DateTime date);
+
+    /**
+     * Ermittelt den letzten zu tippenden Spieltag.
+     *
+     * @param seasonId
+     *            Die Bezugsmeisterschaft
+     * @param date
+     *            Das Bezugsdatum
+     * @return Der naechste zu tippende Spieltag
+     */
+    public GameList findPreviousTippRound(long seasonId, DateTime date);
 
 }
