@@ -6,7 +6,7 @@
   </properties>
   <body>
      <!-- Under construction -->
-     <release version="betoffice-storage-2.5.0" date="2017-??-??"
+     <release version="betoffice-storage-2.5.0" date="2017-11-24"
       description="User experience">
       <action dev="andrewinkler" type="add" date="2017-11-21">
          RoundDao gets a new finder: Find last tipp round.
