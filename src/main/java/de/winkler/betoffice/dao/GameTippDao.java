@@ -1,22 +1,22 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
  * ============================================================================
- *          GNU GENERAL PUBLIC LICENSE
+ *          GNU GENERAL  LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
  *
  *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
+ *   it under the terms of the GNU General  License as published by
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ *   GNU General  License for more details.
  *
- *   You should have received a copy of the GNU General Public License
+ *   You should have received a copy of the GNU General  License
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
@@ -38,56 +38,98 @@ import de.winkler.betoffice.storage.User;
  */
 public interface GameTippDao extends CommonDao<GameTipp> {
 
-    /**
-     * Liefert alle Spiel-Tipps zu einem Spiel.
-     *
-     * @param match Die Spiel-Tipps zu dieser Spielpaarung.
-     * @return Die Spiel-Tipps.
-     */
-    public List<GameTipp> findByMatch(Game match);
+	/**
+	 * Liefert alle Spiel-Tipps zu einem Spiel.
+	 *
+	 * @param match
+	 *            Die Spiel-Tipps zu dieser Spielpaarung.
+	 * @return Die Spiel-Tipps.
+	 */
+	List<GameTipp> findByMatch(Game match);
 
-    /**
-     * Liefert alle Spieltipps zu einem Spieltag zu einem Teilnehmer.
-     *
-     * @param round Der Spieltag.
-     * @param user Der Teilnehmer.
-     * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
-     */
-    public List<GameTipp> findTippsByRoundAndUser(GameList round, User user);
+	/**
+	 * Liefert alle Spieltipps zu einem Spieltag zu einem Teilnehmer.
+	 *
+	 * @param round
+	 *            Der Spieltag.
+	 * @param user
+	 *            Der Teilnehmer.
+	 * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
+	 */
+	List<GameTipp> findTippsByRoundAndUser(GameList round, User user);
 
-    /**
-     * Speichert einen Spiel-Tipp..
-     *
-     * @param gameTipp Ein Spiel-Tipp.
-     */
-    public void save(GameTipp gameTipp);
+	/**
+	 * Liefert alle Spieltipps zu einem Spieltag zu einem Teilnehmer.
+	 *
+	 * @param roundId
+	 *            Der Spieltag.
+	 * @param user
+	 *            Der Teilnehmer.
+	 * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
+	 */
+	List<GameTipp> findTippsByRoundAndUser(long roundId, User user);
 
-    /**
-     * Legt eine Liste von Spiel-Tipps an.
-     *
-     * @param gameTipps Ein Liste mit Spiel-Tipps.
-     */
-    public void saveAll(List<GameTipp> gameTipps);
+	/**
+	 * Liefert alle Spieltipps zu einem Spieltag zu einem Teilnehmer. Falls keine
+	 * Tipps vorliegen, kann hier <code>null</code> zurueck gegeben werden.
+	 *
+	 * @param round
+	 *            Der Spieltag.
+	 * @param user
+	 *            Der Teilnehmer.
+	 * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
+	 */
+	GameList findRound(GameList round, User user);
 
-    /**
-     * Eine Update-Operation.
-     *
-     * @param gameTipp Ein Spiel-Tipp.
-     */
-    public void update(GameTipp gameTipp);
+	/**
+	 * Liefert alle Spieltipps zu einem Spieltag zu einem Teilnehmer.
+	 *
+	 * @param roundId
+	 *            Der Spieltag.
+	 * @param userId
+	 *            Der Teilnehmer.
+	 * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
+	 */
+	GameList findRound(long roundId, long userId);
 
-    /**
-     * LÃ¶scht einen Spiel-Tipp.
-     *
-     * @param gameTipp Ein Spiel-Tipp.
-     */
-    public void delete(GameTipp gameTipp);
+	/**
+	 * Speichert einen Spiel-Tipp..
+	 *
+	 * @param gameTipp
+	 *            Ein Spiel-Tipp.
+	 */
+	void save(GameTipp gameTipp);
 
-    /**
-     * LÃ¶scht alle Spiel-Tipps.
-     *
-     * @param tipps Spiel-Tipps.
-     */
-    public void deleteAll(List<GameTipp> tipps);
+	/**
+	 * Legt eine Liste von Spiel-Tipps an.
+	 *
+	 * @param gameTipps
+	 *            Ein Liste mit Spiel-Tipps.
+	 */
+	void saveAll(List<GameTipp> gameTipps);
+
+	/**
+	 * Eine Update-Operation.
+	 *
+	 * @param gameTipp
+	 *            Ein Spiel-Tipp.
+	 */
+	void update(GameTipp gameTipp);
+
+	/**
+	 * Loescht einen Spiel-Tipp.
+	 *
+	 * @param gameTipp
+	 *            Ein Spiel-Tipp.
+	 */
+	void delete(GameTipp gameTipp);
+
+	/**
+	 * Loescht alle Spiel-Tipps.
+	 *
+	 * @param tipps
+	 *            Spiel-Tipps.
+	 */
+	void deleteAll(List<GameTipp> tipps);
 
 }

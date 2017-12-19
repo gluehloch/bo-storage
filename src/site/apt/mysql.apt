@@ -21,6 +21,19 @@ MySQL Übersicht und Kurzanleitung
   Folgende Abfrage ermittelt alle Tabellen aus dem Schema
   <<<pirates-test>>>:
 
+
+* MariaDB aufsetzen und einrichten
+
+  Damit der Datenbank Server Remote-Connections erlaubt, muss
+  in der Konfiguration der Datenbank (zumindest auf Ubuntu oder Debian
+  Systemen) die folgende Option definiert werden. Ansonsten werden
+  nur Verbindungen von localhost akzeptiert.
+
++------------------------------------------------------  
+[mysqld]
+  bind-address = 0.0.0.0
++------------------------------------------------------  
+
 +------------------------------------------------------
 SELECT *
 FROM information_schema.`TABLES` T, information_schema.SCHEMATA S

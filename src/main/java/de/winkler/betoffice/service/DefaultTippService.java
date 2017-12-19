@@ -58,7 +58,7 @@ public class DefaultTippService extends AbstractManagerService
 
     /** Logger für die Klasse. */
     private final Logger log = LoggerFactory.make();
-    
+
     @Override
     @Transactional
     public GameTipp addTipp(String token, Game match, User user, GameResult gr,
@@ -177,9 +177,33 @@ public class DefaultTippService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public GameList findTippRound(long seasonId, DateTime date) {
+    public GameList findTipp(GameList round, User user) {
+        return getConfig().getGameTippDao().findRound(round, user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public GameList findTipp(long roundId, long userId) {
+        return getConfig().getGameTippDao().findRound(roundId, userId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public GameList findNextTippRound(long seasonId, DateTime date) {
         RoundDao roundDao = getConfig().getRoundDao();
         Optional<Long> roundId = roundDao.findNextTippRound(seasonId, date);
+        if (roundId.isPresent()) {
+            return roundDao.findById(roundId.get());
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public GameList findPreviousTippRound(long seasonId, DateTime date) {
+        RoundDao roundDao = getConfig().getRoundDao();
+        Optional<Long> roundId = roundDao.findLastTippRound(seasonId, date);
         if (roundId.isPresent()) {
             return roundDao.findById(roundId.get());
         } else {

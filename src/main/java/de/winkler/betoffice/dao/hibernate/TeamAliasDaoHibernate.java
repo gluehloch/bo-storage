@@ -45,8 +45,8 @@ public class TeamAliasDaoHibernate extends AbstractCommonDao<TeamAlias>
 
     /** Sucht nach allen Teams mit einem bestimmten Namen. */
     private static final String QUERY_TEAMALIAS_BY_NAME = "select "
-            + "t.id, t.bo_name, t.bo_longname, t.bo_logo, "
-            + "t.bo_teamtype, t.bo_location_ref, t.bo_openligaid "
+            + "t.id, t.bo_name, t.bo_longname, t.bo_shortname, t.bo_xshortname, "
+            + "t.bo_logo, t.bo_teamtype, t.bo_location_ref, t.bo_openligaid "
             + "from bo_team t, bo_teamalias ta "
             + "where ta.bo_aliasname like :alias_name "
             + "  and ta.bo_team_ref = t.id";

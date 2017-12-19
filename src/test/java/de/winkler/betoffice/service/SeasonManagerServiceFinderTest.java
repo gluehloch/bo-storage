@@ -60,8 +60,8 @@ import de.winkler.betoffice.storage.enums.SeasonType;
  * @author by Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice-datasource.xml",
-        "/betoffice-persistence.xml", "/test-mysql-piratestest.xml" })
+@ContextConfiguration(locations = { "/betoffice.xml",
+        "/test-mysql-piratestest.xml" })
 public class SeasonManagerServiceFinderTest {
 
     @Autowired
@@ -98,8 +98,7 @@ public class SeasonManagerServiceFinderTest {
     public void testNextTippForm() {
         Season season = seasonManagerService.findSeasonById(11);
         DateTime date = new DateTime(2008, 5, 6, 1, 0, 0);
-        GameList findNextTippRound = tippService.findTippRound(season.getId(),
-                date);
+        GameList findNextTippRound = tippService.findNextTippRound(season.getId(), date);
         assertThat(findNextTippRound.getId()).isEqualTo(321);
     }
 
@@ -330,7 +329,7 @@ public class SeasonManagerServiceFinderTest {
         Optional<GameList> round = seasonManagerService.findRound(buli.get(),
                 0);
         Group bundesliga = round.get().getGroup();
-        assertEquals(9, round.get().unmodifiableList(bundesliga).size());
+        assertEquals(9, round.get().toList(bundesliga).size());
 
         List<Group> groups = seasonManagerService.findGroups(buli.get());
         List<TeamResult> teamResults = seasonManagerService

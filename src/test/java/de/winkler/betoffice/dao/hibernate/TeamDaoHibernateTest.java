@@ -46,7 +46,7 @@ import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.enums.TeamType;
 
 /**
- * A test class for {@link teamDao}.
+ * A test class for {@link TeamDao}.
  *
  * @author by Andre Winkler
  */

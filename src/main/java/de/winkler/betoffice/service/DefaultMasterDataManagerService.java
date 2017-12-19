@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2014 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Location;
 import de.winkler.betoffice.storage.Player;
+import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamAlias;
 import de.winkler.betoffice.storage.User;
@@ -51,6 +52,19 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
 @Service("masterDataManagerService")
 public class DefaultMasterDataManagerService extends AbstractManagerService
         implements MasterDataManagerService {
+
+
+    @Override
+    @Transactional
+    public void createSeason(final Season season) {
+        getConfig().getSeasonDao().save(season);
+    }
+
+    @Override
+    @Transactional
+    public void updateSeason(final Season season) {
+        getConfig().getSeasonDao().update(season);
+    }
 
     @Override
     @Transactional
@@ -110,7 +124,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public void createUser(final User user) {
+    public User createUser(final User user) {
         List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
 
         if (StringUtils.isBlank(user.getNickName())) {
@@ -123,6 +137,8 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
         } else {
             throw new BetofficeValidationException(messages);
         }
+        
+        return user;
     }
 
     @Override
@@ -238,6 +254,12 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     @Transactional
     public void updateUser(final User user) {
         getConfig().getUserDao().update(user);
+    }
+    
+    @Override
+    @Transactional
+    public User findUser(long userId) {
+        return getConfig().getUserDao().findById(userId);
     }
 
     @Override
