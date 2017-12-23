@@ -173,7 +173,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public GameList findRoundById(long id) {
+    public GameList findRound(long id) {
         return (getConfig().getRoundDao().findById(id));
     }
 
@@ -209,8 +209,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public List<GameList> findRounds(Season season, Group group) {
-        return (getConfig().getRoundDao().findRounds(season, group));
+    public List<GameList> findRounds(Group group) {
+        return (getConfig().getRoundDao().findRounds(group));
     }
 
     @Override
@@ -528,6 +528,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     public List<GameTipp> findTippsByRoundAndUser(GameList round, User user) {
         return getConfig().getGameTippDao().findTippsByRoundAndUser(round,
                 user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public GameList findTipp(GameList round, User user) {
+        return getConfig().getGameTippDao().findRound(round, user);
     }
 
     @Override

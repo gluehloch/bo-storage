@@ -64,8 +64,8 @@ import de.winkler.betoffice.validation.BetofficeValidationException;
  * @author Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice-datasource.xml",
-        "/betoffice-persistence.xml", "/test-mysql-piratestest.xml" })
+@ContextConfiguration(locations = { "/betoffice.xml",
+        "/test-mysql-piratestest.xml" })
 public class SeasonManagerServiceCreateSeasonTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -34,21 +34,23 @@ import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.User;
 
 /**
- * Hibernate DAO fÃ¼r den Zugriff auf {@link GameTipp}.
+ * Hibernate DAO fuer den Zugriff auf {@link GameTipp}.
  *
  * @author by Andre Winkler
  */
 @Repository("gameTippDao")
-public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
-        GameTippDao {
+public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp>
+        implements GameTippDao {
 
     /**
-     * Sucht nach allen Spieltipps zu einem Spiel.
+     * Sucht nach allen Spieltipps zu einem Spieltag.
      */
-    private static final String QUERY_GAMETIPP_BY_MATCH = "from "
-            + "    GameTipp gametipp inner join fetch "
-            + "    gametipp.user inner join fetch " + "    gametipp.game "
-            + "where " + "    gametipp.game.id = :gameId";
+    private static final String QUERY_GAMETIPP_BY_MATCH = "from " //
+            + "    GameTipp gametipp inner join fetch " //
+            + "    gametipp.user inner join fetch " //
+            + "    gametipp.game " //
+            + "where " //
+            + "    gametipp.game.id = :gameId";
 
     /**
      * Sucht nach allen Spieltipps zu einem Spieltag von einem Teilnehmer. Hier
@@ -75,6 +77,9 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
     private static final String QUERY_GAMETIPP_BY_SEASON_ROUND_AND_USER = AbstractCommonDao
             .loadQuery("hql_gametipp_season_round_user.sql");
 
+    private static final String QUERY_ROUND_GAME_TIPP_AND_USER = AbstractCommonDao
+            .loadQuery("hql_round_game_tipp_user.sql");
+
     public GameTippDaoHibernate() {
         super(GameTipp.class);
     }
@@ -90,15 +95,38 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
     }
 
     @Override
-    public List<GameTipp> findTippsByRoundAndUser(final GameList round,
-            final User user) {
+    public List<GameTipp> findTippsByRoundAndUser(GameList round, User user) {
+        return findTippsByRoundAndUser(round.getId(), user);
+    }
 
+    @Override
+    public List<GameTipp> findTippsByRoundAndUser(long roundId, User user) {
         @SuppressWarnings("unchecked")
         List<GameTipp> objects = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMETIPP_BY_SEASON_ROUND_AND_USER)
-                .setParameter("roundId", round.getId())
+                .setParameter("roundId", roundId)
                 .setParameter("userId", user.getId()).getResultList();
         return objects;
+    }
+
+    @Override
+    public GameList findRound(GameList round, User user) {
+        return findRound(round.getId(), user.getId());
+    }
+
+    @Override
+    public GameList findRound(long roundId, long userId) {
+        @SuppressWarnings("unchecked")
+        List<GameList> rounds = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_ROUND_GAME_TIPP_AND_USER)
+                .setParameter("roundId", roundId).setParameter("userId", userId)
+                .getResultList();
+
+        if (rounds.isEmpty()) {
+            return null;
+        } else {
+            return rounds.get(0);
+        }
     }
 
 }

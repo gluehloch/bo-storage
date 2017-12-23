@@ -34,8 +34,7 @@ import java.io.Serializable;
  *
  * @author Andre Winkler
  */
-public class GameResult extends AbstractStorageObject
-        implements Serializable, Cloneable {
+public class GameResult implements Serializable, Cloneable {
 
     /** serial version id */
     private static final long serialVersionUID = -4527677284167591700L;
@@ -154,15 +153,6 @@ public class GameResult extends AbstractStorageObject
         } else if (homeGoals < guestGoals) {
             toto = Toto.HOME_LOST;
         }
-    }
-
-    /**
-     * @return valid?
-     * 
-     * @see de.winkler.betoffice.storage.StorageObject#isValid()
-     */
-    public boolean isValid() {
-        return true;
     }
 
     // -- Object --------------------------------------------------------------

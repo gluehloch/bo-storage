@@ -1,8 +1,7 @@
 /*
- * $Id: UserPointsComparatorTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2011 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -40,8 +39,7 @@ import de.winkler.betoffice.storage.UserResult;
 /**
  * Testet den {@link Comparator} {@link UserPointsComparator}.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  */
 public class UserPointsComparatorTest {
 
@@ -60,10 +58,10 @@ public class UserPointsComparatorTest {
         season.setName("Bundesliga");
         season.setYear("2009/2010");
 
-        UserResult urFrosch = new UserResult(frosch, season);
-        UserResult urHattwig = new UserResult(hattwig, season);
-        UserResult urMrTipp = new UserResult(mrTipp, season);
-        UserResult urChris = new UserResult(chris, season);
+        UserResult urFrosch = new UserResult(frosch);
+        UserResult urHattwig = new UserResult(hattwig);
+        UserResult urMrTipp = new UserResult(mrTipp);
+        UserResult urChris = new UserResult(chris);
 
         urFrosch.setUserWin(10);
         urFrosch.setUserTotoWin(20);

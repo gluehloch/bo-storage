@@ -84,7 +84,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testFindTippRound() {
+    public void testFindNextTippRound() {
         // Everything as expected?
         DateTime matchDateTime = new DateTime(
                 matchDao.findById(1L).getDateTime());
@@ -115,6 +115,41 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(roundDao.findNextTippRound(1L,
                 new DateTime(2016, 5, 5, 16, 0, 0)).get(), equalTo(5L));
         assertThat(roundDao.findNextTippRound(1L,
+                new DateTime(2016, 5, 6, 16, 0, 0)).get(), equalTo(5L));
+    }
+
+    @Test
+    public void testFindLastTippRound() {
+        // Everything as expected?
+        DateTime matchDateTime = new DateTime(
+                matchDao.findById(1L).getDateTime());
+        assertThat(matchDateTime, equalTo(new DateTime(2016, 1, 5, 15, 0, 0)));
+        assertThat(matchDao.findById(18L).isPlayed(), is(true));
+        assertThat(matchDao.findById(19L).isPlayed(), is(true));
+        assertThat(matchDao.findById(20L).isPlayed(), is(false));
+
+        // Datum kurz vor dem Spieltag
+        assertThat(roundDao.findLastTippRound(1L,
+                new DateTime(2016, 1, 1, 0, 0, 0)).isPresent(), is(false));
+        assertThat(roundDao.findLastTippRound(1L,
+                new DateTime(2016, 2, 1, 0, 0, 0)).get(), equalTo(1L));
+        assertThat(roundDao.findLastTippRound(1L,
+                new DateTime(2016, 3, 1, 0, 0, 0)).get(), equalTo(2L));
+        assertThat(roundDao.findLastTippRound(1L,
+                new DateTime(2016, 4, 1, 0, 0, 0)).get(), equalTo(3L));
+        assertThat(roundDao.findLastTippRound(1L,
+                new DateTime(2016, 5, 1, 0, 0, 0)).get(), equalTo(4L));
+        assertThat(roundDao.findLastTippRound(1L,
+                new DateTime(2016, 6, 1, 0, 0, 0)).get(), equalTo(5L));
+
+        // Datum direkt am Spieltag
+        assertThat(roundDao.findLastTippRound(1L,
+                new DateTime(2016, 2, 5, 16, 0, 0)).get(), equalTo(1L));
+        assertThat(roundDao.findLastTippRound(1L,
+                new DateTime(2016, 5, 5, 13, 0, 0)).get(), equalTo(4L));
+        assertThat(roundDao.findLastTippRound(1L,
+                new DateTime(2016, 5, 5, 16, 0, 0)).get(), equalTo(4L));
+        assertThat(roundDao.findLastTippRound(1L,
                 new DateTime(2016, 5, 6, 16, 0, 0)).get(), equalTo(5L));
     }
 

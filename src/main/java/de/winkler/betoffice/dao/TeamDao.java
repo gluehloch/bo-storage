@@ -42,8 +42,8 @@ public interface TeamDao extends CommonDao<Team> {
 	/**
 	 * Sucht nach allen Mannschaften zu einer Meisterschaft und Gruppe.
 	 *
-	 * @param season
-	 * @param groupType
+	 * @param season Season
+	 * @param groupType GroupType
 	 * @return List of teams
 	 */
 	List<Team> findTeamsBySeasonAndGroup(Season season, GroupType groupType);

@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -34,10 +34,7 @@ import org.apache.commons.lang.Validate;
  * 
  * @author Andre Winkler
  */
-public class UserResultOfDay extends AbstractStorageObject {
-   
-    /** serial version id */
-    private static final long serialVersionUID = 6449129286293202392L;
+public class UserResultOfDay {
 
     /** Spieltag wurde vom Tipper getippt? */
     private boolean isTipped = false;

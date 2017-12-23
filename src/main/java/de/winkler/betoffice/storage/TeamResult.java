@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -36,8 +36,7 @@ import org.apache.commons.lang.Validate;
  *
  * @author Andre Winkler
  */
-public class TeamResult extends AbstractStorageObject implements
-        Comparable<TeamResult> {
+public class TeamResult implements Comparable<TeamResult> {
 
     /** serial version id */
     private static final long serialVersionUID = -6690928605407554417L;

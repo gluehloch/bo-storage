@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -104,9 +104,6 @@ public class Team extends AbstractStorageObject {
 
     // -- name ----------------------------------------------------------------
 
-    /** Der Name der Eigenschaft 'name'. */
-    public static final String PROPERTY_NAME = "name";
-
     /** Der Teamname. */
     private String name;
 
@@ -133,9 +130,6 @@ public class Team extends AbstractStorageObject {
 
     // -- longName ------------------------------------------------------------
 
-    /** Der Name der Eigenschaft 'longName'. */
-    public static final String PROPERTY_LONGNAME = "longName";
-
     /** Der Teamname in Langform. */
     private String longName;
 
@@ -160,10 +154,31 @@ public class Team extends AbstractStorageObject {
         longName = value;
     }
 
+    // -- shortName -----------------------------------------------------------
+    
+    private String shortName;
+    
+    public String getShortName() {
+        return shortName;
+    }
+    
+    public void setShortName(String value) {
+        shortName = value;
+    }
+    
+    // -- xshortName -----------------------------------------------------
+    
+    private String xshortName;
+    
+    public String getXshortName() {
+        return xshortName;
+    }
+    
+    public void setXshortName(String value) {
+        xshortName = value;
+    }
+    
     // -- logo ----------------------------------------------------------------
-
-    /** Der Name der Eigenschaft 'logo'. */
-    public static final String PROPERTY_LOGO = "logo";
 
     /** Der Name des Logo-Ressource. */
     private String logo;
@@ -190,9 +205,6 @@ public class Team extends AbstractStorageObject {
     }
 
     // -- groups --------------------------------------------------------------
-
-    /** Der Name der Eigenschaft 'groups'. */
-    public static final String PROPERTY_GROUPS = "groups";
 
     /** Die Gruppen, denen diese Mannschaft angehöret. */
     private Set<Group> groups = new HashSet<Group>();
@@ -319,34 +331,6 @@ public class Team extends AbstractStorageObject {
      */
     public void setOpenligaid(Long value) {
         openligaid = value;
-    }
-
-    // -- StorageObject -------------------------------------------------------
-
-    /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
-     * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
-     * Eigenschaften müssen gesetzt sein:
-     * <ul>
-     * <li>teamName</li>
-     * <li>teamLogoName</li>
-     * <li>logo</li>
-     * </ul>
-     *
-     * @return true, Objekt in Ordnung; false, es ist was falsch.
-     */
-    public boolean isValid() {
-        if (StringUtils.isBlank(name)) {
-            return false;
-        } else if (StringUtils.isBlank(longName)) {
-            return false;
-        } else if (StringUtils.isBlank(logo)) {
-            return false;
-        } else if (teamType == null) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
     // -- Object --------------------------------------------------------------

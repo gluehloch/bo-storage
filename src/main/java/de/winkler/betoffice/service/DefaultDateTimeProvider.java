@@ -22,16 +22,20 @@
  *
  */
 
-package de.winkler.betoffice.storage;
+package de.winkler.betoffice.service;
+
+import org.joda.time.DateTime;
 
 /**
- * <code>StorageObject</code> definiert die allgemeine Schnittstelle für alle
- * Fachklassen von betoffice.
+ * Get current date and time.
  * 
  * @author Andre Winkler
  */
-public interface StorageObject {
+public class DefaultDateTimeProvider implements DateTimeProvider {
 
-    Long getId();
+    @Override
+    public DateTime currentDateTime() {
+        return DateTime.now();
+    }
 
 }
