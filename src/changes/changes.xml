@@ -15,8 +15,6 @@
     </release>
 
     <!-- RELEASED -->
-    <release version="betoffice-storage-2.3.0" date="2016-12-03"
-     <!-- Under construction -->
      <release version="betoffice-storage-2.5.0" date="2017-11-24"
       description="User experience">
       <action dev="andrewinkler" type="add" date="2017-11-21">
@@ -66,7 +64,6 @@
 
      <!-- RELEASED -->
      <release version="betoffice-storage-2.3.0" date="2016-12-03"
->>>>>>> master
       description="User roles">
       <action dev="andrewinkler" type="remove" date="2016-11-06">
         Removed the mail package.
