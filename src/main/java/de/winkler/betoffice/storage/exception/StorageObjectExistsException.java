@@ -28,11 +28,12 @@ package de.winkler.betoffice.storage.exception;
 import de.winkler.betoffice.storage.StorageObject;
 
 /**
- * Es wird versucht ein Objekt zu erzeugen, bzw. ins Datenmodell zu
- * übernehmen, welches bereits in dieser Form existiert.
+ * Es wird versucht ein Objekt zu erzeugen, bzw. ins Datenmodell zu übernehmen,
+ * welches bereits in dieser Form existiert.
  *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author $Author: andrewinkler $
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  */
 public class StorageObjectExistsException extends StorageException {
 
@@ -52,7 +53,8 @@ public class StorageObjectExistsException extends StorageException {
     /**
      * Konstruktor.
      *
-     * @param obj Das existierende StorageObject.
+     * @param obj
+     *            Das existierende StorageObject.
      */
     public StorageObjectExistsException(StorageObject obj) {
         super();

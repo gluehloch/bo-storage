@@ -36,7 +36,7 @@ public enum RoleType {
 
     /** The administrator of a single season. */
     SEASON_ADMIN,
-    
+
     /** The super administrator role. */
     ADMIN
 

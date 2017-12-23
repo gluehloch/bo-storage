@@ -22,7 +22,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
- 
+
 package de.winkler.betoffice.test;
 
 import java.util.ArrayList;
@@ -32,28 +32,28 @@ import java.util.List;
 import de.winkler.betoffice.storage.Team;
 
 /**
- * Eine Utility Klasse für die Testunterstützung. Diese Klasse generiert
- * Mengen von StorageObjects.
- * <br>
+ * Eine Utility Klasse für die Testunterstützung. Diese Klasse generiert Mengen
+ * von StorageObjects. <br>
  * <strong>Nur zu Testzwecken zu verwenden!</strong>
  *
- * @author  $author$
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author $author$
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  */
 public final class DummyTeams {
 
     /** Eine Sammlung von Mannschaften. */
     public static final String[][] TEAM_PROPS = {
-        {"RWE", "Rot-Weiss-Essen", "rwe.gif"},
-        {"S04", "Schalke 04", "schalke.gif"},
-        {"MGladbach", "Borussia Mönchengladbach", "gladbach.gif"},
-        {"BVB", "Borussia Dortmund", "bvb.gif"},
-        {"FCB", "Bayern München", "bayern.gif"},
-        {"St.Pauli", "St.Pauli", "pauli.gif"},
-        {"1860", "1860 München", "loewen.gif"},
-        {"HSV", "Hamburger SV", "hsv.gif"},
-        {"Bochum", "VfL Bochum", "bochum.gif"},
-        {"Luebeck", "VfB Luebeck", "luebeck.gif"}
+            { "RWE", "Rot-Weiss-Essen", "rwe.gif" },
+            { "S04", "Schalke 04", "schalke.gif" },
+            { "MGladbach", "Borussia Mönchengladbach", "gladbach.gif" },
+            { "BVB", "Borussia Dortmund", "bvb.gif" },
+            { "FCB", "Bayern München", "bayern.gif" },
+            { "St.Pauli", "St.Pauli", "pauli.gif" },
+            { "1860", "1860 München", "loewen.gif" },
+            { "HSV", "Hamburger SV", "hsv.gif" },
+            { "Bochum", "VfL Bochum", "bochum.gif" },
+            { "Luebeck", "VfB Luebeck", "luebeck.gif" }
     };
 
     /** RWE steht an Index 0 in der Mannschaften. */
@@ -117,7 +117,8 @@ public final class DummyTeams {
     /**
      * Fügt eine weitere Testmannschaft den Mannschaften hinzu.
      *
-     * @param team Eine neue Testmannschaft.
+     * @param team
+     *            Eine neue Testmannschaft.
      */
     public void add(final Team team) {
         teams.add(team);
@@ -126,7 +127,8 @@ public final class DummyTeams {
     /**
      * Entfernt eine Testmannschaft.
      *
-     * @param team Eine Mannschaft.
+     * @param team
+     *            Eine Mannschaft.
      */
     public void delete(final Team team) {
         teams.remove(team);
@@ -135,7 +137,8 @@ public final class DummyTeams {
     /**
      * Erzeugt eine Latte an Mannschaften.
      *
-     * @param factory Eine <code>StorageFactory</code>.
+     * @param factory
+     *            Eine <code>StorageFactory</code>.
      */
     private void createTeams() {
         for (int i = 0; i < TEAM_PROPS.length; i++) {

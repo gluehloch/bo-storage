@@ -193,31 +193,31 @@ public class BoConfiguration {
     }
 
     // -- player --------------------------------------------------------------
-    
+
     private PlayerDao playerDao;
-    
+
     public PlayerDao getPlayerDao() {
         return playerDao;
     }
-    
+
     @Autowired
     public void setPlayerDao(PlayerDao _playerDao) {
         playerDao = _playerDao;
     }
-   
+
     // -- goal ----------------------------------------------------------------
-    
+
     private GoalDao goalDao;
-    
+
     public GoalDao getGoalDao() {
         return goalDao;
     }
-    
+
     @Autowired
     public void setGoalDao(GoalDao _goalDao) {
         goalDao = _goalDao;
     }
-    
+
     // -- maintenance ---------------------------------------------------------
 
     private MaintenanceDao maintenanceDao;

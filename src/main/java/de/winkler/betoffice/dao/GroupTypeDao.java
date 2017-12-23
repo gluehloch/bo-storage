@@ -48,7 +48,8 @@ public interface GroupTypeDao extends CommonDao<GroupType> {
     /**
      * Liefert einen Gruppetyp mit gesuchten Namen.
      *
-     * @param name Der gesuchte Name.
+     * @param name
+     *            Der gesuchte Name.
      * @return Ein Gruppentyp.
      */
     public Optional<GroupType> findByName(String name);
@@ -56,7 +57,8 @@ public interface GroupTypeDao extends CommonDao<GroupType> {
     /**
      * Liefert eine Liste der zugeordneten Gruppentypen einer Meisterschaft.
      *
-     * @param season Die gesuchte Meisterschaft.
+     * @param season
+     *            Die gesuchte Meisterschaft.
      * @return Die zugeordneten Gruppentypen der gesuchten Meisterschaft.
      */
     public List<GroupType> findBySeason(Season season);
@@ -64,35 +66,40 @@ public interface GroupTypeDao extends CommonDao<GroupType> {
     /**
      * Legt einen neuen Gruppetyp an.
      *
-     * @param groupType Ein Gruppentyp.
+     * @param groupType
+     *            Ein Gruppentyp.
      */
     public void save(GroupType groupType);
 
     /**
      * Legt eine Liste von Gruppentypen an.
      *
-     * @param groupTypes Ein Liste mit Gruppentypen.
+     * @param groupTypes
+     *            Ein Liste mit Gruppentypen.
      */
     public void saveAll(List<GroupType> groupTypes);
 
     /**
      * Eine Update-Operation.
      *
-     * @param groupType Ein Gruppentyp.
+     * @param groupType
+     *            Ein Gruppentyp.
      */
     public void update(GroupType groupType);
 
     /**
      * Löscht einen Gruppentyp.
      *
-     * @param groupType Ein Gruppentyp.
+     * @param groupType
+     *            Ein Gruppentyp.
      */
     public void delete(GroupType groupType);
 
     /**
      * Löscht alle Gruppentypen.
      *
-     * @param groupTypes Ein Gruppentyp.
+     * @param groupTypes
+     *            Ein Gruppentyp.
      */
     public void deleteAll(List<GroupType> groupTypes);
 

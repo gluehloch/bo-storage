@@ -31,7 +31,8 @@ import org.springframework.stereotype.Service;
  * Default-Implementierung für den {@link DatabaseMaintenanceService}.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 @Service("databaseMaintenanceService")
 public class DefaultDatabaseMaintenanceService extends AbstractManagerService
@@ -41,8 +42,8 @@ public class DefaultDatabaseMaintenanceService extends AbstractManagerService
         return getConfig().getMaintenanceDao().executeHql(hql);
     }
 
-	public Object executeSQL(String sqlQuery) {
+    public Object executeSQL(String sqlQuery) {
         return getConfig().getMaintenanceDao().executeSql(sqlQuery);
-	}
+    }
 
 }

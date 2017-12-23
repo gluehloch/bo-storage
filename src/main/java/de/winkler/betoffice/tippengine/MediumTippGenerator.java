@@ -35,44 +35,44 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Erster Automat des Wettbüros. Der Automat simuliert einen
- * Teilnehmer. Aus allen Tipps zu einem Spiel ermittelt der
- * Automat den Durchschnitt, rundet das Ergebnis ab und verwendet
- * das Ergebnis als eigenen Tipp.
+ * Erster Automat des Wettbüros. Der Automat simuliert einen Teilnehmer. Aus
+ * allen Tipps zu einem Spiel ermittelt der Automat den Durchschnitt, rundet das
+ * Ergebnis ab und verwendet das Ergebnis als eigenen Tipp.
  *
  * @author Andre Winkler
  */
 public class MediumTippGenerator implements TippGenerator {
 
     private final String BOT_MEDIUM_TIPP = "#BOT_MEDIUM_TIPP#";
-    
-	/** Der Teilnehmer für den die Tipps generiert werden. */
-	private final User user;
 
-	/**
-	 * Konstruktor.
-	 *
-	 * @param _user Der zu tippende Teilnehmer.
-	 */
-	public MediumTippGenerator(final User _user) {
-		user = _user;
-	}
+    /** Der Teilnehmer für den die Tipps generiert werden. */
+    private final User user;
 
-	public void generateTipp(final Season season) {
-		List<GameList> gameDays = season.toGameList();
-		for (Iterator<GameList> i = gameDays.listIterator(); i.hasNext();) {
-			generateTipp(i.next());
-		}
-	}
+    /**
+     * Konstruktor.
+     *
+     * @param _user
+     *            Der zu tippende Teilnehmer.
+     */
+    public MediumTippGenerator(final User _user) {
+        user = _user;
+    }
 
-	public void generateTipp(final GameList round) {
-		List<Game> games = round.unmodifiableList();
-		for (Game game : games) {
-			GameResult gr = InfoCenter.getMediumTipp(game);
-			if (gr != null) {
-				game.addTipp(BOT_MEDIUM_TIPP, user, gr, TippStatusType.AUTO);
-			}
-		}
-	}
+    public void generateTipp(final Season season) {
+        List<GameList> gameDays = season.toGameList();
+        for (Iterator<GameList> i = gameDays.listIterator(); i.hasNext();) {
+            generateTipp(i.next());
+        }
+    }
+
+    public void generateTipp(final GameList round) {
+        List<Game> games = round.unmodifiableList();
+        for (Game game : games) {
+            GameResult gr = InfoCenter.getMediumTipp(game);
+            if (gr != null) {
+                game.addTipp(BOT_MEDIUM_TIPP, user, gr, TippStatusType.AUTO);
+            }
+        }
+    }
 
 }

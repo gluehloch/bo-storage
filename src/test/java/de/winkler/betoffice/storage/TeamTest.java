@@ -32,7 +32,7 @@ import org.junit.Test;
 /**
  * Testklasse für die Klasse Team.
  *
- * @author  $Author: andrewinkler $
+ * @author $Author: andrewinkler $
  * @version $Revision: 3782 $
  */
 public class TeamTest {

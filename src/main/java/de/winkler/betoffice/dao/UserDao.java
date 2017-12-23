@@ -49,7 +49,8 @@ public interface UserDao extends CommonDao<User> {
     /**
      * Liefert einen Teilnehmer mit gesuchten Nickname.
      *
-     * @param nickname Der gesuchte Nickname.
+     * @param nickname
+     *            Der gesuchte Nickname.
      * @return Ein Teilnehmer.
      */
     public Optional<User> findByNickname(String nickname);
@@ -57,45 +58,54 @@ public interface UserDao extends CommonDao<User> {
     /**
      * Legt einen neuen Teilnehmer an.
      *
-     * @param user Ein neuer Teilnehmer.
+     * @param user
+     *            Ein neuer Teilnehmer.
      */
     public void save(User user);
 
     /**
      * Speichert mehrere neue Teilnehmer.
      *
-     * @param users Eine Liste von Usern.
+     * @param users
+     *            Eine Liste von Usern.
      */
     public void saveAll(List<User> users);
 
     /**
      * Ein Update.
      *
-     * @param user Ein Teilnehmer
+     * @param user
+     *            Ein Teilnehmer
      */
     public void update(User user);
 
     /**
      * Löscht einen Teilnehmer.
      *
-     * @param user Ein Teilnehmer.
+     * @param user
+     *            Ein Teilnehmer.
      */
     public void delete(User user);
 
     /**
      * Löscht alle Teilnehmer.
      *
-     * @param users Die Teilnehmer.
+     * @param users
+     *            Die Teilnehmer.
      */
     public void deleteAll(List<User> users);
 
     /**
      * Berechnet das Tipper-Ranking für eine Meisterschaft.
      *
-     * @param users Diese Teilnehmer werden im Ergebnis erwartet.
-     * @param season Die betreffende Meisterschaft.
-     * @param startIndex Index des Spieltags ab dem gezählt wird (0..N-1).
-     * @param endIndex Index des Spieltags bis zu dem gezählt wird (0..N-1).
+     * @param users
+     *            Diese Teilnehmer werden im Ergebnis erwartet.
+     * @param season
+     *            Die betreffende Meisterschaft.
+     * @param startIndex
+     *            Index des Spieltags ab dem gezählt wird (0..N-1).
+     * @param endIndex
+     *            Index des Spieltags bis zu dem gezählt wird (0..N-1).
      * @return Das Ranking der Tipper.
      */
     public List<UserResult> calculateUserRanking(List<User> users,
@@ -104,17 +114,22 @@ public interface UserDao extends CommonDao<User> {
     /**
      * Berechnet das Tipper-Ranking für eine Meisterschaft.
      *
-     * @param users Diese Teilnehmer werden im Ergebnis erwartet.
-     * @param season Die betreffende Meisterschaft.
+     * @param users
+     *            Diese Teilnehmer werden im Ergebnis erwartet.
+     * @param season
+     *            Die betreffende Meisterschaft.
      * @return Das Ranking der Tipper.
      */
-    public List<UserResult> calculateUserRanking(List<User> users, Season season);
+    public List<UserResult> calculateUserRanking(List<User> users,
+            Season season);
 
     /**
      * Berechnet das Tipper-Ranking für einen Spieltag.
      *
-     * @param users Diese Teilnehmer werden im Ergebnis erwartet.
-     * @param round Der betreffende Spieltag.
+     * @param users
+     *            Diese Teilnehmer werden im Ergebnis erwartet.
+     * @param round
+     *            Der betreffende Spieltag.
      * @return Das Ranking der Tipper.
      */
     public List<UserResult> calculateUserRanking(List<User> users,

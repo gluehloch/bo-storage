@@ -31,16 +31,18 @@ import de.winkler.betoffice.storage.Season;
  * Service für die automatische Generierung von Tipps.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public interface AutoTippService {
 
-	/**
-	 * Erstellt für eine Meisterschaft die sogenannten Minimum-Tipps. Alle
-	 * Teilnehmer, die keinen Tipp abgegeben haben, erhalten diesen Tipp.
-	 *
-	 * @param season Die betreffende Meisterschaft.
-	 */
-	public void generateMinTipps(final Season season);
+    /**
+     * Erstellt für eine Meisterschaft die sogenannten Minimum-Tipps. Alle
+     * Teilnehmer, die keinen Tipp abgegeben haben, erhalten diesen Tipp.
+     *
+     * @param season
+     *            Die betreffende Meisterschaft.
+     */
+    public void generateMinTipps(final Season season);
 
 }

@@ -53,7 +53,7 @@ public class UserPointsComparatorTest {
         mrTipp.setNickName("mrTipp");
         User chris = new User();
         chris.setNickName("chris");
-        
+
         Season season = new Season();
         season.setName("Bundesliga");
         season.setYear("2009/2010");
@@ -79,7 +79,8 @@ public class UserPointsComparatorTest {
         urChris.setUserTotoWin(18);
         urChris.setTicket(7);
 
-        List<UserResult> ur = AWTools.arrayList(urMrTipp, urChris, urFrosch, urHattwig);
+        List<UserResult> ur = AWTools.arrayList(urMrTipp, urChris, urFrosch,
+                urHattwig);
         Collections.sort(ur, new UserPointsComparator());
 
         Assert.assertEquals("Frosch", ur.get(0).getUser().getNickName());

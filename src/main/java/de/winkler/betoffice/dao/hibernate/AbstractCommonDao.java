@@ -155,7 +155,8 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
      * Wrap single result queries with an exception handler and an
      * {@link Optional}.
      * 
-     * @param query A Hibernate query
+     * @param query
+     *            A Hibernate query
      * @return The query single result
      */
     public static <T> Optional<T> singleResult(Query<T> query) {
@@ -168,11 +169,12 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
         }
         return optionalResult;
     }
-    
+
     /**
      * Extract from a query result list the first element.
      * 
-     * @param list A Hibernate query result list
+     * @param list
+     *            A Hibernate query result list
      * @return The query single result
      */
     public static <T> Optional<T> singleResult(List<T> list) {

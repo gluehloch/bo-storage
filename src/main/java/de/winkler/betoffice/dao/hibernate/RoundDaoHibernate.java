@@ -48,7 +48,8 @@ import de.winkler.betoffice.storage.Season;
  * @author by Andre Winkler
  */
 @Repository("roundDao")
-public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements RoundDao {
+public class RoundDaoHibernate extends AbstractCommonDao<GameList>
+        implements RoundDao {
 
     /**
      * Sucht nach allen Spieltagen einer Meisterschaft.
@@ -70,7 +71,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             + ")";
 
     /**
-     * Sucht nach allen Spieltagen einer Meisterschaft fuer eine bestimmte Gruppe.
+     * Sucht nach allen Spieltagen einer Meisterschaft fuer eine bestimmte
+     * Gruppe.
      */
     private static final String QUERY_GAMELIST_BY_SEASON_GROUP = "select "
             + "distinct round "
@@ -137,12 +139,14 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     /**
      * Search for the next game day id.
      */
-    private static final String QUERY_NEXT_ROUND = AbstractCommonDao.loadQuery("query_next_round.sql");
+    private static final String QUERY_NEXT_ROUND = AbstractCommonDao
+            .loadQuery("query_next_round.sql");
 
     /**
      * Search for the last game day id.
      */
-    private static final String QUERY_PREV_ROUND = AbstractCommonDao.loadQuery("query_prev_round.sql");
+    private static final String QUERY_PREV_ROUND = AbstractCommonDao
+            .loadQuery("query_prev_round.sql");
 
     public RoundDaoHibernate() {
         super(GameList.class);
@@ -152,7 +156,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     public List<GameList> findRounds(Season season) {
         List<GameList> objects = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMELIST_BY_SEASON, GameList.class)
-                .setParameter("seasonId", season.getId(), LongType.INSTANCE).getResultList();
+                .setParameter("seasonId", season.getId(), LongType.INSTANCE)
+                .getResultList();
         return objects;
     }
 
@@ -160,7 +165,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     public List<GameList> findRounds(Group group) {
         List<GameList> objects = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMELIST_BY_SEASON_GROUP, GameList.class)
-                .setParameter("groupId", group.getId(), LongType.INSTANCE).getResultList();
+                .setParameter("groupId", group.getId(), LongType.INSTANCE)
+                .getResultList();
         return objects;
     }
 
@@ -169,7 +175,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
         Query<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMELIST_BY_SEASON_AND_INDEX, GameList.class)
                 .setParameter("seasonId", season.getId(), LongType.INSTANCE)
-                .setParameter("gameListIndex", Integer.valueOf(index), IntegerType.INSTANCE);
+                .setParameter("gameListIndex", Integer.valueOf(index),
+                        IntegerType.INSTANCE);
 
         return singleResult(query);
     }
@@ -179,14 +186,16 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
         Query<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_ALL_ROUND_OBJECTS, GameList.class)
                 .setParameter("seasonId", season.getId(), LongType.INSTANCE)
-                .setParameter("gameListIndex", Integer.valueOf(index), IntegerType.INSTANCE);
+                .setParameter("gameListIndex", Integer.valueOf(index),
+                        IntegerType.INSTANCE);
 
         return singleResult(query);
     }
 
     @Override
     public Optional<Long> findNextTippRound(long seasonId, DateTime date) {
-        NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_NEXT_ROUND_BY_DATE);
+        NativeQuery query = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_NEXT_ROUND_BY_DATE);
         query.setParameter("season_id", seasonId);
         query.setParameter("date", date.toDate(), DateType.INSTANCE);
 
@@ -207,7 +216,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
 
     @Override
     public Optional<Long> findLastTippRound(long seasonId, DateTime date) {
-        NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_LAST_ROUND_BY_DATE);
+        NativeQuery query = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_LAST_ROUND_BY_DATE);
         query.setParameter("season_id", seasonId);
         query.setParameter("date", date.toDate(), DateType.INSTANCE);
 
@@ -232,7 +242,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
      */
     @Override
     public Optional<Long> findNext(long id) {
-        NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_NEXT_ROUND);
+        NativeQuery query = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_NEXT_ROUND);
         query.setParameter("roundId", id, LongType.INSTANCE);
         query.addScalar("next_round_id");
 
@@ -252,7 +263,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
      */
     @Override
     public Optional<Long> findPrevious(long id) {
-        NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_PREV_ROUND);
+        NativeQuery query = getSessionFactory().getCurrentSession()
+                .createNativeQuery(QUERY_PREV_ROUND);
         query.setParameter("roundId", id, LongType.INSTANCE);
         query.addScalar("prev_round_id");
 

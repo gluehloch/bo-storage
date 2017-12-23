@@ -35,7 +35,8 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
  * Test for class {@link BetofficeValidationException}.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public class BetofficeValidationMessageTest {
 

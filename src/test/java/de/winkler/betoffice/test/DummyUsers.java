@@ -32,22 +32,27 @@ import java.util.List;
 import de.winkler.betoffice.storage.User;
 
 /**
- * Verwaltet die Properties von betoffice.
- * <br>
+ * Verwaltet die Properties von betoffice. <br>
  * <strong>Nur zu Testzwecken zu verwenden!</strong>
  *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author $Author: andrewinkler $
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  */
 public final class DummyUsers {
 
     /** Die vordefinierten Teilnehmereigenschaften. */
     public static final Object[][] USER_PROPS = {
-            {"Frosch", "Andre", "Winkler", "awi", "040-76751624", Boolean.FALSE},
-            {"MrTipp", "Markus", "Rohloff", "tipper", "040-76751624", Boolean.FALSE},
-            {"Peter", "Peter", "Groth", "peter", "0201-30 86 10", Boolean.FALSE},
-            {"Hattwig", "Lars", "Hattwig", "eisbär", "030-66 55 44", Boolean.FALSE},
-            {"Automat", "Automat", "Automat", "Automat", "Automat", Boolean.TRUE}
+            { "Frosch", "Andre", "Winkler", "awi", "040-76751624",
+                    Boolean.FALSE },
+            { "MrTipp", "Markus", "Rohloff", "tipper", "040-76751624",
+                    Boolean.FALSE },
+            { "Peter", "Peter", "Groth", "peter", "0201-30 86 10",
+                    Boolean.FALSE },
+            { "Hattwig", "Lars", "Hattwig", "eisbär", "030-66 55 44",
+                    Boolean.FALSE },
+            { "Automat", "Automat", "Automat", "Automat", "Automat",
+                    Boolean.TRUE }
     };
 
     /** Frosch steht an Index 0 in der Teilnehmerliste. */
@@ -71,7 +76,7 @@ public final class DummyUsers {
     public DummyUsers() {
         createUsers();
     }
-    
+
     /**
      * Liefert die generierten Teilnehmer.
      *
@@ -93,7 +98,8 @@ public final class DummyUsers {
     /**
      * Fügt einen weiteren Testteilnehmer den Teilnehmern hinzu.
      *
-     * @param user Ein neuer Testteilnehmer.
+     * @param user
+     *            Ein neuer Testteilnehmer.
      */
     public void add(final User user) {
         users.add(user);
@@ -102,7 +108,8 @@ public final class DummyUsers {
     /**
      * Entfernt einen Teilnehmer.
      *
-     * @param user Der zu entfernende Teilnehmer.
+     * @param user
+     *            Der zu entfernende Teilnehmer.
      */
     public void delete(final User user) {
         users.remove(user);

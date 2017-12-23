@@ -36,7 +36,7 @@ import java.util.ArrayList;
 /**
  * Testet die Klasse GameResult.
  *
- * @author  $Author: andrewinkler $
+ * @author $Author: andrewinkler $
  * @version $Revision: 3782 $
  */
 public class GameResultTest {
@@ -78,16 +78,16 @@ public class GameResultTest {
 
             public boolean executeTest() {
                 return (game1.compare(game2) == equal) &&
-                    // (game11.compare(game22) == equal) &&
-                    (game1.compare(game1) == true) &&
-                    (game2.compare(game2) == true) &&
-                    // (game11.compare(game11) == true) &&
-                    // (game22.compare(game22) == true) &&
-                    (game1.compare(gameA1) == true) &&
-                    (game2.compare(gameA2) == true) &&
-                    (game1.compare(gameA2) == equal) &&
-                    (game1.getToto() == gameA1.getToto()) &&
-                    (game2.getToto() == gameA2.getToto());
+                // (game11.compare(game22) == equal) &&
+                        (game1.compare(game1) == true) &&
+                        (game2.compare(game2) == true) &&
+                        // (game11.compare(game11) == true) &&
+                        // (game22.compare(game22) == true) &&
+                        (game1.compare(gameA1) == true) &&
+                        (game2.compare(gameA2) == true) &&
+                        (game1.compare(gameA2) == equal) &&
+                        (game1.getToto() == gameA1.getToto()) &&
+                        (game2.getToto() == gameA2.getToto());
             }
 
             @Override
@@ -123,7 +123,7 @@ public class GameResultTest {
                 new TestSpec(3, 1, 1, 0, false),
                 new TestSpec(2, 2, 1, 1, false),
                 new TestSpec(4, 5, 2, 5, false)
-            };
+        };
 
         ArrayList<TestSpec> failedTests = new ArrayList<TestSpec>();
 
@@ -258,7 +258,8 @@ public class GameResultTest {
         try {
             clone1 = (GameResult) res00.clone();
             clone2 = (GameResult) res31.clone();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
 }

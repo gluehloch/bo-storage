@@ -46,7 +46,8 @@ public interface GoalDao extends CommonDao<Goal> {
     /**
      * Get a list of all goals of a match
      * 
-     * @param match The match
+     * @param match
+     *            The match
      * @return the goals
      */
     public List<Goal> find(Game match);

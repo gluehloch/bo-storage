@@ -29,7 +29,8 @@ package de.winkler.betoffice.storage;
  * Verwaltet die Alias-Namen von Mannschaften.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public class TeamAlias extends AbstractStorageObject {
 
@@ -63,7 +64,8 @@ public class TeamAlias extends AbstractStorageObject {
     /**
      * Setzt den Primärschlüssel.
      *
-     * @param value Der Primärschlüssel.
+     * @param value
+     *            Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
@@ -71,7 +73,9 @@ public class TeamAlias extends AbstractStorageObject {
 
     // -- StorageObject -------------------------------------------------------
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see de.winkler.betoffice.storage.StorageObject#isValid()
      */
     public boolean isValid() {
@@ -91,10 +95,7 @@ public class TeamAlias extends AbstractStorageObject {
      *
      * @return Der Alias Teamname.
      *
-     * @hibernate.property
-     *     column="bo_aliasName"
-     *     not-null="true"
-     *     unique="true"
+     * @hibernate.property column="bo_aliasName" not-null="true" unique="true"
      */
     public String getAliasName() {
         return aliasName;
@@ -103,7 +104,8 @@ public class TeamAlias extends AbstractStorageObject {
     /**
      * Setzt den Alias Teamnamen.
      *
-     * @param value Der Alias Teamname.
+     * @param value
+     *            Der Alias Teamname.
      */
     public void setAliasName(final String value) {
         aliasName = value;
@@ -126,7 +128,8 @@ public class TeamAlias extends AbstractStorageObject {
     /**
      * Setzt die zugeordnete Mannschaft.
      *
-     * @param value Eine Mannschaft.
+     * @param value
+     *            Eine Mannschaft.
      */
     public void setTeam(final Team value) {
         team = value;

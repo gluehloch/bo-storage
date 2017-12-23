@@ -108,7 +108,7 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
                 rw.start(connection, "select * from bo_team", false);
             }
         });
-        
+
         String fileToString = FileUtils.readFileToString(teamExportFile);
         System.out.println(fileToString);
     }

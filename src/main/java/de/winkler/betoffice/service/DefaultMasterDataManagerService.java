@@ -53,7 +53,6 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
 public class DefaultMasterDataManagerService extends AbstractManagerService
         implements MasterDataManagerService {
 
-
     @Override
     @Transactional
     public void createSeason(final Season season) {
@@ -73,7 +72,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
         if (StringUtils.isBlank(groupType.getName())) {
             messages.add(new BetofficeValidationMessage(
-                "Name ist nicht gesetzt.", "nickName", Severity.ERROR));
+                    "Name ist nicht gesetzt.", "nickName", Severity.ERROR));
         }
 
         if (messages.isEmpty()) {
@@ -90,7 +89,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
         if (StringUtils.isBlank(team.getName())) {
             messages.add(new BetofficeValidationMessage(
-                "Name ist nicht gesetzt.", "nickName", Severity.ERROR));
+                    "Name ist nicht gesetzt.", "nickName", Severity.ERROR));
         }
 
         if (messages.isEmpty()) {
@@ -102,11 +101,12 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public TeamAlias createTeamAlias(final Team team, final String teamAliasName) {
+    public TeamAlias createTeamAlias(final Team team,
+            final String teamAliasName) {
         List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
         if (StringUtils.isBlank(teamAliasName)) {
             messages.add(new BetofficeValidationMessage(
-                "Alias Name nicht gesetzt.", "aliasName", Severity.ERROR));
+                    "Alias Name nicht gesetzt.", "aliasName", Severity.ERROR));
         }
 
         TeamAlias teamAlias = null;
@@ -129,7 +129,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
         if (StringUtils.isBlank(user.getNickName())) {
             messages.add(new BetofficeValidationMessage(
-                "Nickname ist nicht gesetzt.", "nickName", Severity.ERROR));
+                    "Nickname ist nicht gesetzt.", "nickName", Severity.ERROR));
         }
 
         if (messages.isEmpty()) {
@@ -137,7 +137,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
         } else {
             throw new BetofficeValidationException(messages);
         }
-        
+
         return user;
     }
 
@@ -158,7 +158,6 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     public void deleteUser(final User user) {
         getConfig().getUserDao().delete(user);
     }
-
 
     @Override
     @Transactional
@@ -208,11 +207,11 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
         return getConfig().getGroupTypeDao().findByName(name);
     }
 
-	@Override
+    @Override
     @Transactional(readOnly = true)
-	public GroupType findGroupType(long groupTypeId) {
-		return (getConfig().getGroupTypeDao().findById(groupTypeId));
-	}
+    public GroupType findGroupType(long groupTypeId) {
+        return (getConfig().getGroupTypeDao().findById(groupTypeId));
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -249,13 +248,13 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     public void updateTeamAlias(final TeamAlias teamAlias) {
         getConfig().getTeamAliasDao().update(teamAlias);
     }
- 
+
     @Override
     @Transactional
     public void updateUser(final User user) {
         getConfig().getUserDao().update(user);
     }
-    
+
     @Override
     @Transactional
     public User findUser(long userId) {

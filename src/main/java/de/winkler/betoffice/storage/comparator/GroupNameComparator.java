@@ -30,24 +30,27 @@ import de.winkler.betoffice.storage.Group;
 import java.util.Comparator;
 
 /**
- * Vergleicht zu {@link de.winkler.betoffice.storage.Group}s über den Namen
- * des GroupTypes miteinander.
+ * Vergleicht zu {@link de.winkler.betoffice.storage.Group}s über den Namen des
+ * GroupTypes miteinander.
  * 
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public class GroupNameComparator implements Comparator<Group> {
 
     /**
      * Vergleicht zwei Gruppen miteinander.
      *
-     * @param group1 Eine Gruppe.
-     * @param group2 Eine Gruppe.
+     * @param group1
+     *            Eine Gruppe.
+     * @param group2
+     *            Eine Gruppe.
      * @return -1, 0 oder +1. Vergleich der Gruppennamen.
      */
     public int compare(Group group1, Group group2) {
         return (group1.getGroupType().getName().compareTo(group2.getGroupType()
-            .getName()));
+                .getName()));
     }
 
     public boolean equals(Object obj) {

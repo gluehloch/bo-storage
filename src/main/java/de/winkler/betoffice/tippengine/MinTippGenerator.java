@@ -41,9 +41,9 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
 
 /**
- * Klasse zur Generierung eines Min-Tipps für mehrere User.
- * Es wird der schlechteste Tipp des Spieltages ermittelt und dieser
- * dann dem User zugewiesen.
+ * Klasse zur Generierung eines Min-Tipps für mehrere User. Es wird der
+ * schlechteste Tipp des Spieltages ermittelt und dieser dann dem User
+ * zugewiesen.
  * 
  * @author Andre Winkler
  */
@@ -78,7 +78,7 @@ public class MinTippGenerator implements TippGenerator {
 
         if (log.isDebugEnabled()) {
             log.debug(new StringBuffer("Min-Tipp von User: ").append(minUser)
-                .toString());
+                    .toString());
         }
 
         List<Game> games = round.unmodifiableList();
@@ -132,7 +132,8 @@ public class MinTippGenerator implements TippGenerator {
                 }
             } catch (StorageObjectNotFoundException ex) {
                 // Dann einen neuen Tipp anlegen.
-                game.addTipp(BOT_MIN_TIPP, user, minTippResult, TippStatusType.MIN);
+                game.addTipp(BOT_MIN_TIPP, user, minTippResult,
+                        TippStatusType.MIN);
             }
 
             if (log.isDebugEnabled()) {

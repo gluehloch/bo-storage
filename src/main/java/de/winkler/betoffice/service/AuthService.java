@@ -67,29 +67,29 @@ public interface AuthService {
      *            a security token
      * @param season
      *            the championship
-     * @return a valid user session 
+     * @return a valid user session
      */
     Optional<Session> validateSession(String token);
 
-//
-//    /**
-//     * Find the role for a user session.
-//     * 
-//     * @param token
-//     *            a security token
-//     * @return the role
-//     */
-//    RoleType findRole(SecurityToken token);
-//
-//    /**
-//     * Find the role for a user session.
-//     * 
-//     * @param token
-//     *            a security token
-//     * @param season
-//     *            a championship
-//     * @return the role for the specific championship
-//     */
-//    RoleType findRole(SecurityToken token, Season season);
+    //
+    // /**
+    // * Find the role for a user session.
+    // *
+    // * @param token
+    // * a security token
+    // * @return the role
+    // */
+    // RoleType findRole(SecurityToken token);
+    //
+    // /**
+    // * Find the role for a user session.
+    // *
+    // * @param token
+    // * a security token
+    // * @param season
+    // * a championship
+    // * @return the role for the specific championship
+    // */
+    // RoleType findRole(SecurityToken token, Season season);
 
 }

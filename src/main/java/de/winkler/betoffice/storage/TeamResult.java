@@ -27,12 +27,11 @@ package de.winkler.betoffice.storage;
 import org.apache.commons.lang.Validate;
 
 /**
- * TeamResult verwaltet die errechneten Daten einer Mannschaft für
- * eine Saison und Gruppe. Zwei TeamResults, die im Sinne von
- * <code>compareTo()</code> gleich sind, sind ebenfalls im Sinne
- * der Methode <code>equals()</code> gleich. Das Attribut tabPos
- * wird berechnet und wird für die Auswertung von <code>equals()</code>
- * und <code>hashCode()</code> nicht verwendet.
+ * TeamResult verwaltet die errechneten Daten einer Mannschaft für eine Saison
+ * und Gruppe. Zwei TeamResults, die im Sinne von <code>compareTo()</code>
+ * gleich sind, sind ebenfalls im Sinne der Methode <code>equals()</code>
+ * gleich. Das Attribut tabPos wird berechnet und wird für die Auswertung von
+ * <code>equals()</code> und <code>hashCode()</code> nicht verwendet.
  *
  * @author Andre Winkler
  */
@@ -42,7 +41,7 @@ public class TeamResult implements Comparable<TeamResult> {
     private static final long serialVersionUID = -6690928605407554417L;
 
     private final Season season;
-    
+
     private final GroupType groupType;
 
     private final Team team;
@@ -85,7 +84,8 @@ public class TeamResult implements Comparable<TeamResult> {
     }
 
     /**
-     * @param posGoals the posGoals to set
+     * @param posGoals
+     *            the posGoals to set
      */
     public void setPosGoals(int posGoals) {
         this.posGoals = posGoals;
@@ -99,7 +99,8 @@ public class TeamResult implements Comparable<TeamResult> {
     }
 
     /**
-     * @param negGoals the negGoals to set
+     * @param negGoals
+     *            the negGoals to set
      */
     public void setNegGoals(int negGoals) {
         this.negGoals = negGoals;
@@ -120,7 +121,8 @@ public class TeamResult implements Comparable<TeamResult> {
     }
 
     /**
-     * @param win the win to set
+     * @param win
+     *            the win to set
      */
     public void setWin(int win) {
         this.win = win;
@@ -134,7 +136,8 @@ public class TeamResult implements Comparable<TeamResult> {
     }
 
     /**
-     * @param lost the lost to set
+     * @param lost
+     *            the lost to set
      */
     public void setLost(int lost) {
         this.lost = lost;
@@ -148,7 +151,8 @@ public class TeamResult implements Comparable<TeamResult> {
     }
 
     /**
-     * @param remis the remis to set
+     * @param remis
+     *            the remis to set
      */
     public void setRemis(int remis) {
         this.remis = remis;
@@ -183,13 +187,17 @@ public class TeamResult implements Comparable<TeamResult> {
     //
 
     /**
-     * Vergleicht zwei Objekte team1 und team2 auf deren Rangfolge.
-     * Rückgabe von -1, wenn team1 schlechter als team2; +1, wenn team1
-     * besser als team2; 0, wenn beide gleich stark.
-     * @param team1 Ein TeamResult.
-     * @param team2 Ein TeamResult.
+     * Vergleicht zwei Objekte team1 und team2 auf deren Rangfolge. Rückgabe von
+     * -1, wenn team1 schlechter als team2; +1, wenn team1 besser als team2; 0,
+     * wenn beide gleich stark.
+     * 
+     * @param team1
+     *            Ein TeamResult.
+     * @param team2
+     *            Ein TeamResult.
      * @return -1,0,+1
-     * @throws IllegalArgumentException Null Parameter übergeben.
+     * @throws IllegalArgumentException
+     *             Null Parameter übergeben.
      */
     public static int isBetterAs(TeamResult team1, TeamResult team2) {
         Validate.notNull(team1, "team1 ist null");
@@ -243,7 +251,8 @@ public class TeamResult implements Comparable<TeamResult> {
     /**
      * Vergleicht diesen TeamResult mit einem anderen.
      *
-     * @param obj Ein TeamResult.
+     * @param obj
+     *            Ein TeamResult.
      * @return Wenn '0': Objekte sind gleich.
      */
     public int compareTo(final TeamResult obj) {

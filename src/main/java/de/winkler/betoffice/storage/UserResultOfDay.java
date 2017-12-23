@@ -29,8 +29,7 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
 import org.apache.commons.lang.Validate;
 
 /**
- * Verwaltet die Tippstatistik eines Teilnehmers für einen
- * Spieltag.
+ * Verwaltet die Tippstatistik eines Teilnehmers für einen Spieltag.
  * 
  * @author Andre Winkler
  */
@@ -38,33 +37,34 @@ public class UserResultOfDay {
 
     /** Spieltag wurde vom Tipper getippt? */
     private boolean isTipped = false;
-    
+
     /** Anzahl der richtigen Tipps (ohne Toto-Tipps). */
     private int win = 0;
-    
+
     /** Anzahl der richtigen Toto-Tipps. */
     private int toto = 0;
-    
+
     /** Anzahl der zu tippende Spiele des Spieltags. */
     private int tipps = 0;
-    
+
     /** Der Tipper. */
     private User user;
 
     /** Was für ein Tipp? */
     private TippStatusType status;
-       
+
     /** Erzeugt ein UserResultOfDay. */
     protected UserResultOfDay() {
     }
-    
+
     /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig
-     * gefüllt sind, damit es evt. Weiterverarbeitungen erfahren kann.
-     * Folgende Eigenschaften müssen gesetzt sein:
+     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
+     * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
+     * Eigenschaften müssen gesetzt sein:
      * <ul>
-     *  <li>user</li>
+     * <li>user</li>
      * </ul>
+     * 
      * @return true, Objekt in Ordnung; false, es ist was falsch.
      */
     public boolean isValid() {
@@ -74,55 +74,55 @@ public class UserResultOfDay {
             return true;
         }
     }
-            
+
     public boolean getIsTipped() {
         return isTipped;
     }
-    
+
     public int getWin() {
         return win;
     }
-    
+
     public int getToto() {
         return toto;
     }
-    
+
     public int getTipps() {
         return tipps;
     }
-    
+
     public int getLost() {
         return tipps - (win + toto);
     }
-    
+
     public User getUser() {
         return user;
     }
-    
+
     public long getPoints() {
-        return win * UserResult.nEqualValue + 
-               toto * UserResult.nTotoValue;
+        return win * UserResult.nEqualValue +
+                toto * UserResult.nTotoValue;
     }
-    
+
     public double getBeautyPoints() {
-        return ((double)getPoints()) / ((double)UserResult.nDivisor);
+        return ((double) getPoints()) / ((double) UserResult.nDivisor);
     }
-    
+
     protected void setWin(int value) {
         isTipped = true;
         win = value;
     }
-    
+
     protected void setToto(int value) {
         isTipped = true;
         toto = value;
     }
-    
+
     protected void setTipps(int value) {
         isTipped = true;
         tipps = value;
     }
-    
+
     protected void setUser(User value) {
         Validate.notNull(value);
         user = value;
@@ -131,7 +131,8 @@ public class UserResultOfDay {
     /**
      * Setzt den <code>GameTppStatus</code> für diesen Spieltag-Tipp.
      *
-     * @param value Ein <code>GameTippStatus</code>.
+     * @param value
+     *            Ein <code>GameTippStatus</code>.
      */
     public final void setStatus(final TippStatusType value) {
         Validate.notNull(value);
@@ -164,5 +165,5 @@ public class UserResultOfDay {
         buf.append(getStatus().toString());
         return buf.toString();
     }
-    
+
 }

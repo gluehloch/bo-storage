@@ -31,9 +31,6 @@ package de.winkler.betoffice.storage.enums;
  */
 public enum GoalType {
 
-    REGULAR,
-    PENALTY,
-    OVERTIME,
-    OWNGOAL;
+    REGULAR, PENALTY, OVERTIME, OWNGOAL;
 
 }

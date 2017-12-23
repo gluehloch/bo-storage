@@ -33,10 +33,11 @@ import java.util.Comparator;
  * Vergleicht zwei Teilnehmer mit ihrem Namen.
  * 
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public class UserNameComparator implements Comparator<User> {
-    
+
     public int compare(final User userA, final User userB) {
         return (userA.getNickName().toLowerCase().compareTo(
                 userB.getNickName().toLowerCase()));

@@ -30,8 +30,9 @@ import org.apache.commons.lang.StringUtils;
 /**
  * Beschreibt einen Gruppentyp (1. Liga, 2. Liga, Regionalliga Nord, etc.).
  * 
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author $Author: andrewinkler $
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  *
  * @hibernate.class table="bo_grouptype"
  */
@@ -60,7 +61,8 @@ public class GroupType extends AbstractStorageObject implements
     /**
      * Setzt den Primärschlüssel.
      *
-     * @param value Der Primärschlüssel.
+     * @param value
+     *            Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
@@ -76,10 +78,7 @@ public class GroupType extends AbstractStorageObject implements
      *
      * @return Name der Gruppe.
      *
-     * @hibernate.property
-     *     column="bo_name"
-     *     not-null="true"
-     *     unique="true"
+     * @hibernate.property column="bo_name" not-null="true" unique="true"
      */
     public String getName() {
         return name;
@@ -88,7 +87,8 @@ public class GroupType extends AbstractStorageObject implements
     /**
      * Setzt den Namen der Gruppe.
      *
-     * @param value Name der Gruppe.
+     * @param value
+     *            Name der Gruppe.
      */
     public void setName(final String value) {
         name = value;
@@ -97,11 +97,11 @@ public class GroupType extends AbstractStorageObject implements
     // -- StorageObject -------------------------------------------------------
 
     /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig
-     * gefüllt sind, damit es evt. Weiterverarbeitungen erfahren kann.
-     * Folgende Eigenschaften müssen gesetzt sein:
+     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
+     * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
+     * Eigenschaften müssen gesetzt sein:
      * <ul>
-     *  <li>name</li>
+     * <li>name</li>
      * </ul>
      *
      * @return true, Objekt in Ordnung; false, es ist was falsch.

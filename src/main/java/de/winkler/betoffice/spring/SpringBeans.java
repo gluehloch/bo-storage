@@ -35,66 +35,71 @@ import de.awtools.basic.LoggerFactory;
  * Kapselt den Zugriff auf die Beans mit Spring.
  *
  * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  */
 public class SpringBeans {
 
-	private final Logger log = LoggerFactory.make();
+    private final Logger log = LoggerFactory.make();
 
-	/** Die BeanFactory. */
-	private final FileSystemXmlApplicationContext applicationContext;
+    /** Die BeanFactory. */
+    private final FileSystemXmlApplicationContext applicationContext;
 
-	/**
-	 * Initialisierung.
-	 *
-	 * @param applicationResource Enthält die Spring-Konfigurationen.
-	 */
-	public SpringBeans(final String applicationResource) {
-		this(new String[] { applicationResource });
-	}
+    /**
+     * Initialisierung.
+     *
+     * @param applicationResource
+     *            Enthält die Spring-Konfigurationen.
+     */
+    public SpringBeans(final String applicationResource) {
+        this(new String[] { applicationResource });
+    }
 
-	/**
-	 * Initialisierung.
-	 *
-	 * @param applicationResources Enthält die Spring-Konfigurationen.
-	 */
-	public SpringBeans(final String[] applicationResources) {
-		if (log.isInfoEnabled()) {
-			for (String resource : applicationResources) {
-				log.info("ApplicationResource..: {}", resource);
-			}
-		}
+    /**
+     * Initialisierung.
+     *
+     * @param applicationResources
+     *            Enthält die Spring-Konfigurationen.
+     */
+    public SpringBeans(final String[] applicationResources) {
+        if (log.isInfoEnabled()) {
+            for (String resource : applicationResources) {
+                log.info("ApplicationResource..: {}", resource);
+            }
+        }
 
-		FileSystemXmlApplicationContext context = null;
-		try {
-			context = new FileSystemXmlApplicationContext(applicationResources);
-		} catch (BeansException ex) {
-			log.error("BeanException", ex);
-			throw new RuntimeException(ex);
-		}
+        FileSystemXmlApplicationContext context = null;
+        try {
+            context = new FileSystemXmlApplicationContext(applicationResources);
+        } catch (BeansException ex) {
+            log.error("BeanException", ex);
+            throw new RuntimeException(ex);
+        }
 
-		applicationContext = context;
-	}
+        applicationContext = context;
+    }
 
-	/**
-	 * Liefert die <code>BeanFactory</code>.
-	 *
-	 * @return Eine <code>BeanFactory</code>.
-	 */
-	protected final FileSystemXmlApplicationContext getBeanFactory() {
-		return applicationContext;
-	}
+    /**
+     * Liefert die <code>BeanFactory</code>.
+     *
+     * @return Eine <code>BeanFactory</code>.
+     */
+    protected final FileSystemXmlApplicationContext getBeanFactory() {
+        return applicationContext;
+    }
 
-	/**
-	 * Liefert ein Objekt zu der gesuchten <code>beanId</code>.
-	 *
-	 * @param <T> Der erwartete Typ.
-	 * @param beanId Die ID des Objekts.
-	 * @return Ein Objekt passend zu der gesuchten ID.
-	 */
-	@SuppressWarnings("unchecked")
-	public final <T> T getBean(final String beanId) {
-		return (T) getBeanFactory().getBean(beanId);
-	}
+    /**
+     * Liefert ein Objekt zu der gesuchten <code>beanId</code>.
+     *
+     * @param <T>
+     *            Der erwartete Typ.
+     * @param beanId
+     *            Die ID des Objekts.
+     * @return Ein Objekt passend zu der gesuchten ID.
+     */
+    @SuppressWarnings("unchecked")
+    public final <T> T getBean(final String beanId) {
+        return (T) getBeanFactory().getBean(beanId);
+    }
 
 }

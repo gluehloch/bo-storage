@@ -25,12 +25,11 @@
 package de.winkler.betoffice.storage.enums;
 
 /**
- * Repräsentiert den GameTipp-Zustand eines Tipps. Ist er ungültig
- * (INVALID), ein normaler Tipp eines Spielers (USERTIPP), ein
- * automatisch generierter Tipp für einen Automaten-Tipper (AUTO), ein
- * automatisch generierter MIN-Tipp für einen Mitspieler (MINTIPP) für
- * eine vergessene Tippabgabe oder etwa im Zustand undefiniert
- * (UNDEFINED).
+ * Repräsentiert den GameTipp-Zustand eines Tipps. Ist er ungültig (INVALID),
+ * ein normaler Tipp eines Spielers (USERTIPP), ein automatisch generierter Tipp
+ * für einen Automaten-Tipper (AUTO), ein automatisch generierter MIN-Tipp für
+ * einen Mitspieler (MINTIPP) für eine vergessene Tippabgabe oder etwa im
+ * Zustand undefiniert (UNDEFINED).
  *
  * @author Andre Winkler
  */
@@ -38,19 +37,19 @@ public enum TippStatusType {
 
     /** Enumeration INVALID. Ein ungültiger Tipp. Wird nicht gezählt. */
     INVALID("INVALID"),
-    
+
     /** Enumeration USERTIPP. Eine normaler Tipp. */
     USER("USERTIPP"),
-    
+
     /** Enumeration AUTO. Eine generierter Tipp von einem Automaten. */
     AUTO("AUTOTIPP"),
-    
+
     /** Enumeration MINTIPP. Ein generierter Tipp von einem Automaten */
     MIN("MIN"),
-    
+
     /** Enumeration UNDEFINED */
     UNDEFINED("UNDEFINED");
-    
+
     private final String name;
 
     private TippStatusType(final String _name) {
@@ -60,5 +59,5 @@ public enum TippStatusType {
     public String toString() {
         return name;
     }
-   
+
 }

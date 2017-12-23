@@ -54,8 +54,7 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
     /**
      * Sucht nach einer <code>Group</code>s anhand Meisterschaft und Gruppentyp.
      */
-    private static final String QUERY_GROUP_BY_SEASON_AND_GROUPTYPE =
-            "select grp from Group as grp inner join grp.season as season inner join grp.groupType as gt"
+    private static final String QUERY_GROUP_BY_SEASON_AND_GROUPTYPE = "select grp from Group as grp inner join grp.season as season inner join grp.groupType as gt"
             + " where season.id = :seasonId"
             + " and gt.id = :groupTypeId";
 
@@ -92,8 +91,9 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
 
     @Override
     public Group findBySeasonAndGroupType(Season season, GroupType groupType) {
-        Query<Group> query = getSessionFactory().getCurrentSession().createQuery(
-                QUERY_GROUP_BY_SEASON_AND_GROUPTYPE, Group.class);
+        Query<Group> query = getSessionFactory().getCurrentSession()
+                .createQuery(
+                        QUERY_GROUP_BY_SEASON_AND_GROUPTYPE, Group.class);
         query.setParameter("seasonId", season.getId());
         query.setParameter("groupTypeId", groupType.getId());
         return query.getSingleResult();

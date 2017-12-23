@@ -213,7 +213,8 @@ public class GameTippTest {
         assertTrue(TotoResult.EQUAL == tipp.getTotoResult());
         assertTrue(UserResult.nEqualValue == tipp.getPoints());
 
-        GameTipp tippD = game.addTipp(JUNIT_TOKEN, userD, gr11, TippStatusType.USER);
+        GameTipp tippD = game.addTipp(JUNIT_TOKEN, userD, gr11,
+                TippStatusType.USER);
         assertTrue(TotoResult.EQUAL == tippD.getTotoResult());
 
         // Spiel auf ungültig setzen.

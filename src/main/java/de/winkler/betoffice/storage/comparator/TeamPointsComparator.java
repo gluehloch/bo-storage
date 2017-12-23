@@ -30,25 +30,28 @@ import de.winkler.betoffice.storage.TeamResult;
 import java.util.Comparator;
 
 /**
- * Vergleicht zwei Mannschaften
- * (@link de.winkler.betoffice.storage.TeamResult}) miteinander.
+ * Vergleicht zwei Mannschaften (@link de.winkler.betoffice.storage.TeamResult})
+ * miteinander.
  * 
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public class TeamPointsComparator implements Comparator<TeamResult> {
 
     /**
      * Vergleicht zwei TeamResults miteinander.
      *
-     * @param team1 Ein TeamResult.
-     * @param team2 Ein TeamResult.
+     * @param team1
+     *            Ein TeamResult.
+     * @param team2
+     *            Ein TeamResult.
      * @return -1, 0 oder +1..
      */
     public int compare(TeamResult team1, TeamResult team2) {
         return (TeamResult.isBetterAs(team1, team2) * -1);
     }
-    
+
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

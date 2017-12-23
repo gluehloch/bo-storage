@@ -33,8 +33,9 @@ import org.apache.commons.lang.Validate;
 /**
  * Verwaltet die Daten einer Gruppe.
  *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author $Author: andrewinkler $
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  *
  * @hibernate.class table="bo_group"
  */
@@ -62,7 +63,8 @@ public class Group extends AbstractStorageObject {
     /**
      * Setzt den Primärschlüssel.
      *
-     * @param value Der Primärschlüssel.
+     * @param value
+     *            Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
@@ -81,11 +83,9 @@ public class Group extends AbstractStorageObject {
      *
      * @return Die Saison zu dieser Gruppe.
      *
-     * @hibernate.many-to-one
-     *     column="bo_season_ref"
-     *     cascade="none"
-     *     not-null="true"
-     *     class="de.winkler.betoffice.storage.Season"
+     * @hibernate.many-to-one column="bo_season_ref" cascade="none"
+     *                        not-null="true"
+     *                        class="de.winkler.betoffice.storage.Season"
      */
     public Season getSeason() {
         return season;
@@ -94,7 +94,8 @@ public class Group extends AbstractStorageObject {
     /**
      * Setzt die Saison. Wird von {@link Season#addGroup(Group)} aufgerufen.
      *
-     * @param value Eine Saison.
+     * @param value
+     *            Eine Saison.
      */
     protected void setSeason(final Season value) {
         Validate.notNull(value);
@@ -114,16 +115,11 @@ public class Group extends AbstractStorageObject {
      *
      * @return Die Mannschaften dieser Gruppe.
      *
-     * @hibernate.set
-     *     role="teams"
-     *     table="bo_team_group"
-     *     cascade="none"
-     *     inverse="false"
-     * @hibernate.collection-key
-     *     column="bo_group_ref"
-     * @hibernate.collection-many-to-many
-     *     class="de.winkler.betoffice.storage.Team"
-     *     column="bo_team_ref"
+     * @hibernate.set role="teams" table="bo_team_group" cascade="none"
+     *                inverse="false"
+     * @hibernate.collection-key column="bo_group_ref"
+     * @hibernate.collection-many-to-many class="de.winkler.betoffice.storage.Team"
+     *                                    column="bo_team_ref"
      */
     public Set<Team> getTeams() {
         return teams;
@@ -132,7 +128,8 @@ public class Group extends AbstractStorageObject {
     /**
      * Setzt die Mannschaften dieser Gruppe neu.
      *
-     * @param value Die Mannschaften dieser Gruppe.
+     * @param value
+     *            Die Mannschaften dieser Gruppe.
      */
     protected void setTeams(final Set<Team> value) {
         teams = value;
@@ -141,7 +138,8 @@ public class Group extends AbstractStorageObject {
     /**
      * Fügt eine Mannschaft der Gruppe hinzu.
      *
-     * @param value Eine Mannschaft.
+     * @param value
+     *            Eine Mannschaft.
      */
     public void addTeam(final Team value) {
         Validate.notNull(value);
@@ -152,7 +150,8 @@ public class Group extends AbstractStorageObject {
     /**
      * Entfernt eine Mannschaft aus der Gruppe.
      *
-     * @param value Eine Mannschaft.
+     * @param value
+     *            Eine Mannschaft.
      */
     public void removeTeam(final Team value) {
         Validate.notNull(value);
@@ -163,7 +162,8 @@ public class Group extends AbstractStorageObject {
     /**
      * Prüft, ob das angegebene Team in dieser Saison zu dieser Gruppe gehört.
      *
-     * @param team Das zu untersuchende Team.
+     * @param team
+     *            Das zu untersuchende Team.
      * @return true, gehört zu Gruppe; false sonst.
      */
     public boolean isGroupMember(final Team team) {
@@ -183,11 +183,9 @@ public class Group extends AbstractStorageObject {
      *
      * @return Der Gruppentyp.
      *
-     * @hibernate.many-to-one
-     *     column="bo_grouptype_ref"
-     *     cascade="none"
-     *     not-null="true"
-     *     class="de.winkler.betoffice.storage.GroupType"
+     * @hibernate.many-to-one column="bo_grouptype_ref" cascade="none"
+     *                        not-null="true"
+     *                        class="de.winkler.betoffice.storage.GroupType"
      */
     public GroupType getGroupType() {
         return groupType;
@@ -196,7 +194,8 @@ public class Group extends AbstractStorageObject {
     /**
      * Setzt den Gruppentyp.
      *
-     * @param value Der Gruppentyp.
+     * @param value
+     *            Der Gruppentyp.
      */
     public void setGroupType(final GroupType value) {
         groupType = value;
@@ -205,12 +204,12 @@ public class Group extends AbstractStorageObject {
     // -- StorageObject -------------------------------------------------------
 
     /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig
-     * gefüllt sind, damit es evt. Weiterverarbeitungen erfahren kann.
-     * Folgende Eigenschaften müssen gesetzt sein:
+     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
+     * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
+     * Eigenschaften müssen gesetzt sein:
      * <ul>
-     *  <li>groupType</li>
-     *  <li>season</li>
+     * <li>groupType</li>
+     * <li>season</li>
      * </ul>
      *
      * @return true, Objekt in Ordnung; false, es ist was falsch.
