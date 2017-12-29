@@ -29,7 +29,8 @@ package de.winkler.betoffice.storage.exception;
  * Allgemeine RuntimeException für das 'storage' Paket.
  *
  * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  */
 public class StorageRuntimeException extends RuntimeException {
 

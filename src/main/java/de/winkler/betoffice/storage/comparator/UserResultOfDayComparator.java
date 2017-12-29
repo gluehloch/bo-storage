@@ -33,15 +33,18 @@ import java.util.Comparator;
  * Vergleicht zwei UserResultOfDay Objekte miteinander.
  * 
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public class UserResultOfDayComparator implements Comparator<UserResultOfDay> {
 
     /**
      * Vergleicht zwei UserResults miteinander.
      *
-     * @param u1 UserResultOfDay Nr 1.
-     * @param u2 UserResultOfDay Nr 2.
+     * @param u1
+     *            UserResultOfDay Nr 1.
+     * @param u2
+     *            UserResultOfDay Nr 2.
      * @return -1, u1 &lt; u2; 0, u1 == u2; +1, u1 &gt; u2.
      */
     public int compare(UserResultOfDay u1, UserResultOfDay u2) {
@@ -51,7 +54,7 @@ public class UserResultOfDayComparator implements Comparator<UserResultOfDay> {
         if (u2.getUser().isExcluded()) {
             return -1;
         }
-        
+
         if (u1.getPoints() > u2.getPoints()) {
             return -1;
         } else {

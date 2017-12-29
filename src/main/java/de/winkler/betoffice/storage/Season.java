@@ -239,8 +239,7 @@ public class Season extends AbstractStorageObject {
      * @return Eine Menge mit Gruppen der Saison.
      * 
      * @hibernate.set cascade="all" inverse="true"
-     * @hibernate.collection-one-to-many 
-     *                                   class="de.winkler.betoffice.storage.Group"
+     * @hibernate.collection-one-to-many class="de.winkler.betoffice.storage.Group"
      * @hibernate.collection-key column="bo_season_ref"
      */
     public Set<Group> getGroups() {
@@ -385,8 +384,7 @@ public class Season extends AbstractStorageObject {
      * @return Ein Menge von <code>UserSeason</code>.
      * 
      * @hibernate.set cascade="all" inverse="true"
-     * @hibernate.collection-one-to-many 
-     *                                   class="de.winkler.betoffice.storage.UserSeason"
+     * @hibernate.collection-one-to-many class="de.winkler.betoffice.storage.UserSeason"
      * @hibernate.collection-key column="bo_season_ref"
      */
     public Set<UserSeason> getUserSeason() {
@@ -444,7 +442,8 @@ public class Season extends AbstractStorageObject {
      *         gefunden.
      */
     public UserSeason removeUser(final User user) {
-        for (Iterator<UserSeason> i = getUserSeason().iterator(); i.hasNext();) {
+        for (Iterator<UserSeason> i = getUserSeason().iterator(); i
+                .hasNext();) {
             UserSeason tmp = i.next();
             if (tmp.getUser().equals(user)) {
                 // Darf hier nicht geschehen: Sonst geht das DAO Delete nicht!
@@ -484,8 +483,7 @@ public class Season extends AbstractStorageObject {
      * @hibernate.list cascade="all" lazy="true"
      * @hibernate.collection-index column="bo_index"
      * @hibernate.collection-key column="bo_gamedaylist_ref"
-     * @hibernate.collection-one-to-many 
-     *                                   class="de.winkler.betoffice.storage.GameList"
+     * @hibernate.collection-one-to-many class="de.winkler.betoffice.storage.GameList"
      */
     protected List<GameList> getGameList() {
         return gameList;

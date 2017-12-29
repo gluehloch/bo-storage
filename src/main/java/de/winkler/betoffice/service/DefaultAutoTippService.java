@@ -34,15 +34,16 @@ import de.winkler.betoffice.tippengine.MinTippGenerator;
  * Service für die automatische Generierung von Tipps.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 @Service("autoTippService")
 public class DefaultAutoTippService extends AbstractManagerService implements
-		AutoTippService {
+        AutoTippService {
 
-	public void generateMinTipps(final Season season) {
-		MinTippGenerator mtg = new MinTippGenerator();
-		mtg.generateTipp(season);
-	}
+    public void generateMinTipps(final Season season) {
+        MinTippGenerator mtg = new MinTippGenerator();
+        mtg.generateTipp(season);
+    }
 
 }

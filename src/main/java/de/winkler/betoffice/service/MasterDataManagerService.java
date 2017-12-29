@@ -54,7 +54,8 @@ public interface MasterDataManagerService {
     /**
      * Aktualisiert eine Meisterschaft.
      * 
-     * @param season Die Meisterschaft
+     * @param season
+     *            Die Meisterschaft
      */
     public void updateSeason(Season season);
 

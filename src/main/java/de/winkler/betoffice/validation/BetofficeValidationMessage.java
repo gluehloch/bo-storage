@@ -29,51 +29,52 @@ package de.winkler.betoffice.validation;
  * Eine Validierungsnachricht.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public class BetofficeValidationMessage {
 
-	public enum Severity {
-		ERROR, WARNING, INFO
-	};
+    public enum Severity {
+        ERROR, WARNING, INFO
+    };
 
-	private final String message;
-	private final String propertyName;
-	private final Severity severity;
+    private final String message;
+    private final String propertyName;
+    private final Severity severity;
 
-	/**
-	 * @param _message
-	 * @param _propertyName
-	 * @param _severity
-	 */
-	public BetofficeValidationMessage(final String _message,
-			final String _propertyName, final Severity _severity) {
+    /**
+     * @param _message
+     * @param _propertyName
+     * @param _severity
+     */
+    public BetofficeValidationMessage(final String _message,
+            final String _propertyName, final Severity _severity) {
 
-		super();
-		message = _message;
-		propertyName = _propertyName;
-		severity = _severity;
-	}
+        super();
+        message = _message;
+        propertyName = _propertyName;
+        severity = _severity;
+    }
 
-	/**
-	 * @return the message
-	 */
-	public String getMessage() {
-		return message;
-	}
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
 
-	/**
-	 * @return the propertyName
-	 */
-	public String getPropertyName() {
-		return propertyName;
-	}
+    /**
+     * @return the propertyName
+     */
+    public String getPropertyName() {
+        return propertyName;
+    }
 
-	/**
-	 * @return the severity
-	 */
-	public Severity getSeverity() {
-		return severity;
-	}
+    /**
+     * @return the severity
+     */
+    public Severity getSeverity() {
+        return severity;
+    }
 
 }

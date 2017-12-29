@@ -31,8 +31,9 @@ import java.io.Serializable;
 /**
  * Enumeration Toto.
  * 
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author $Author: andrewinkler $
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  */
 public final class Toto implements Comparable<Toto>, Serializable {
 
@@ -64,14 +65,16 @@ public final class Toto implements Comparable<Toto>, Serializable {
     public static final Toto UNDEFINED = new Toto("UNDEFINED", -1);
 
     /** Ein Array mit allen Enumerations. */
-    private static final Toto[] PRIVATE_VALUES =
-        { HOME_WIN, HOME_LOST, REMIS, UNDEFINED };
+    private static final Toto[] PRIVATE_VALUES = { HOME_WIN, HOME_LOST, REMIS,
+            UNDEFINED };
 
     /**
      * Erzeugt ein Toto.
      *
-     * @param name Name der Aufzählung.
-     * @param toto Der Toto-Wert der Aufzählung.
+     * @param name
+     *            Name der Aufzählung.
+     * @param toto
+     *            Der Toto-Wert der Aufzählung.
      */
     private Toto(String name, int toto) {
         this.name = name;
@@ -88,8 +91,8 @@ public final class Toto implements Comparable<Toto>, Serializable {
     }
 
     /**
-     * Liefert den Ordinalwert. Nicht zu verwechseln mit den Toto
-     * Werten 1,0 und 2.
+     * Liefert den Ordinalwert. Nicht zu verwechseln mit den Toto Werten 1,0 und
+     * 2.
      *
      * @return Ordinalwert.
      */
@@ -100,7 +103,8 @@ public final class Toto implements Comparable<Toto>, Serializable {
     /**
      * Vergleicht zwei TotoResults miteinander.
      *
-     * @param obj Der zu vergleichende TotoResult.
+     * @param obj
+     *            Der zu vergleichende TotoResult.
      * @return Siehe {@link Comparable#compareTo(java.lang.Object)}.
      */
     public int compareTo(Toto obj) {
@@ -108,12 +112,12 @@ public final class Toto implements Comparable<Toto>, Serializable {
     }
 
     /**
-     * Methode für die Deserialisierung dieser Klasse. Verhindert das
-     * nach der Deserialisierung doppelte Konstanten nebeneinander
-     * existieren.
+     * Methode für die Deserialisierung dieser Klasse. Verhindert das nach der
+     * Deserialisierung doppelte Konstanten nebeneinander existieren.
      *
      * @return Ein Objekt.
-     * @throws ObjectStreamException Da ging was schief.
+     * @throws ObjectStreamException
+     *             Da ging was schief.
      */
     private Object readResolve() throws ObjectStreamException {
         return PRIVATE_VALUES[ordinal];

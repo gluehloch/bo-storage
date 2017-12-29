@@ -140,7 +140,7 @@ public class Goal extends AbstractStorageObject {
     }
 
     // -- goalType ------------------------------------------------------------
-    
+
     private GoalType goalType;
 
     /**
@@ -198,7 +198,9 @@ public class Goal extends AbstractStorageObject {
 
     // ------------------------------------------------------------------------
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override

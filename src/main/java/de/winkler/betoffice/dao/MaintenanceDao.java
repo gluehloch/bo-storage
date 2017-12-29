@@ -34,7 +34,8 @@ public interface MaintenanceDao {
     /**
      * Setzt einen HQL Befehl direkt auf der Datenbank ab.
      *
-     * @param hql Ein HQL Befehl.
+     * @param hql
+     *            Ein HQL Befehl.
      * @return Rückgabeergebnis.
      */
     public Object executeHql(String hql);
@@ -42,7 +43,8 @@ public interface MaintenanceDao {
     /**
      * Setzt einen nativen SQL Befehl auf die Datenbank ab.
      *
-     * @param sqlQuery Der SQL Befehl.
+     * @param sqlQuery
+     *            Der SQL Befehl.
      * @return Rückgabaergbenis.
      */
     public Object executeSql(String sqlQuery);

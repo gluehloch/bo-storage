@@ -58,8 +58,10 @@ public class PropertyReaderTest {
         Properties props = new Properties();
         props.load(is);
 
-        assertEquals("test", props.getProperty("hibernate_connection_username"));
-        assertEquals("test", props.getProperty("hibernate_connection_password"));
+        assertEquals("test",
+                props.getProperty("hibernate_connection_username"));
+        assertEquals("test",
+                props.getProperty("hibernate_connection_password"));
         assertEquals("jdbc:mysql://localhost/botest",
                 props.getProperty("hibernate_connection_url"));
         assertEquals("com.mysql.jdbc.Driver",

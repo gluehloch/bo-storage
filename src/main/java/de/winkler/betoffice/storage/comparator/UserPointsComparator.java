@@ -36,7 +36,8 @@ import de.winkler.betoffice.storage.UserResult;
  * Die Klasse legt eine Ordnung über alle Teilnehmer.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public final class UserPointsComparator implements Comparator<UserResult> {
 
@@ -45,8 +46,10 @@ public final class UserPointsComparator implements Comparator<UserResult> {
     /**
      * Vergleicht zwei UserResults miteinander.
      *
-     * @param u1 User Nr 1.
-     * @param u2 User Nr 2.
+     * @param u1
+     *            User Nr 1.
+     * @param u2
+     *            User Nr 2.
      * @return -1, o1 &lt; o2; 0, o1 == o2; +1, o1 &gt; o2.
      */
     public int compare(final UserResult u1, final UserResult u2) {
@@ -62,20 +65,23 @@ public final class UserPointsComparator implements Comparator<UserResult> {
                 retcode = 1;
             } else if (u1.getUserWin() == u2.getUserWin()) {
                 retcode = u1.getUser().getNickName().toLowerCase().compareTo(
-                    u2.getUser().getNickName().toLowerCase());
+                        u2.getUser().getNickName().toLowerCase());
             } else {
                 throw new IllegalStateException();
             }
         }
 
         if (log.isDebugEnabled()) {
-        	if (retcode < 0) {
-	            log.debug(u1.getUser().getNickName() + " > " + u2.getUser().getNickName());
-        	} else if (retcode > 0) {
-        		log.debug(u2.getUser().getNickName() + " > " + u1.getUser().getNickName());
-        	} else {
-        		log.debug(u1.getUser().getNickName() + " == " + u2.getUser().getNickName());
-        	}
+            if (retcode < 0) {
+                log.debug(u1.getUser().getNickName() + " > "
+                        + u2.getUser().getNickName());
+            } else if (retcode > 0) {
+                log.debug(u2.getUser().getNickName() + " > "
+                        + u1.getUser().getNickName());
+            } else {
+                log.debug(u1.getUser().getNickName() + " == "
+                        + u2.getUser().getNickName());
+            }
         }
 
         return retcode;

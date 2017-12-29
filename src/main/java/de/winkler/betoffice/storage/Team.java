@@ -70,7 +70,8 @@ public class Team extends AbstractStorageObject {
      * @param _logo
      *            Das Logo/Bezeichner der Logo-Datei.
      */
-    public Team(final String _name, final String _longName, final String _logo) {
+    public Team(final String _name, final String _longName,
+            final String _logo) {
         setName(_name);
         setLongName(_longName);
         setLogo(_logo);
@@ -155,29 +156,29 @@ public class Team extends AbstractStorageObject {
     }
 
     // -- shortName -----------------------------------------------------------
-    
+
     private String shortName;
-    
+
     public String getShortName() {
         return shortName;
     }
-    
+
     public void setShortName(String value) {
         shortName = value;
     }
-    
+
     // -- xshortName -----------------------------------------------------
-    
+
     private String xshortName;
-    
+
     public String getXshortName() {
         return xshortName;
     }
-    
+
     public void setXshortName(String value) {
         xshortName = value;
     }
-    
+
     // -- logo ----------------------------------------------------------------
 
     /** Der Name des Logo-Ressource. */
@@ -217,8 +218,7 @@ public class Team extends AbstractStorageObject {
      * @hibernate.set role="groups" table="bo_team_group" cascade="none"
      *                inverse="true"
      * @hibernate.collection-key column="bo_team_ref"
-     * @hibernate.collection-many-to-many 
-     *                                    class="de.winkler.betoffice.storage.Group"
+     * @hibernate.collection-many-to-many class="de.winkler.betoffice.storage.Group"
      *                                    column="bo_group_ref"
      */
     public Set<Group> getGroups() {

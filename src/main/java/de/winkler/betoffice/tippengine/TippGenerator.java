@@ -32,24 +32,27 @@ import de.winkler.betoffice.storage.Season;
  * Interface for a tipp generator.
  * 
  * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  */
 public interface TippGenerator {
 
-	/**
-	 * Erzeugt für die gesamte Saison Min-Tipps für alle Tipper, die
-	 * ihren Tipp nicht abgegeben haben.
-	 *
-	 * @param season Die auszuwertende Meisterschaft.
-	 */
-	public void generateTipp(final Season season);
+    /**
+     * Erzeugt für die gesamte Saison Min-Tipps für alle Tipper, die ihren Tipp
+     * nicht abgegeben haben.
+     *
+     * @param season
+     *            Die auszuwertende Meisterschaft.
+     */
+    public void generateTipp(final Season season);
 
-	/**
-	 * Erzeugt für alle User, die ihren Tipp nicht abgegeben haben,
-	 * einen Min-Tipp. Zudem darf der User nicht gesperrt sein.
-	 *
-	 * @param round Der Spieltag für die Tipp Generierung.
-	 */
-	public void generateTipp(final GameList round);
+    /**
+     * Erzeugt für alle User, die ihren Tipp nicht abgegeben haben, einen
+     * Min-Tipp. Zudem darf der User nicht gesperrt sein.
+     *
+     * @param round
+     *            Der Spieltag für die Tipp Generierung.
+     */
+    public void generateTipp(final GameList round);
 
 }

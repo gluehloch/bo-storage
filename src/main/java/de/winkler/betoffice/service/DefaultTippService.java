@@ -96,7 +96,7 @@ public class DefaultTippService extends AbstractManagerService
             messages.add(msg);
             throw new BetofficeValidationException(messages);
         }
-        
+
         // Find related round ...
         GameList gameList = getConfig().getRoundDao()
                 .findById(tippDto.getRoundId());

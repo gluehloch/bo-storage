@@ -44,104 +44,106 @@ import de.winkler.betoffice.spring.SpringBeans;
 public class BetofficeStore {
 
     private final Logger log = LoggerFactory.make();
-    
-	/** Liefert den Zugriff auf den Spring-Kontext. */
-	private final SpringBeans springBeans;
 
-	/** Service für den Zugriff auf die Daten einer Meisterschaft. */
-	private final SeasonManagerService sms;
+    /** Liefert den Zugriff auf den Spring-Kontext. */
+    private final SpringBeans springBeans;
 
-	/** Service zur Verwaltung von Spieltipps. */
-	private final TippService tippService;
+    /** Service für den Zugriff auf die Daten einer Meisterschaft. */
+    private final SeasonManagerService sms;
 
-	/** Service für den Zugriff auf die Stammdaten. */
-	private final MasterDataManagerService mdms;
+    /** Service zur Verwaltung von Spieltipps. */
+    private final TippService tippService;
 
-	/** Service für das Anlegen von automatisierten Tipps. */
-	private final AutoTippService autoTippService;
+    /** Service für den Zugriff auf die Stammdaten. */
+    private final MasterDataManagerService mdms;
 
-	/**
-	 * Startet das Spring-Wiring. Es wird die Default-Spring-Konfiguration
-	 * verwendet. Daten werden persistent angelegt.
-	 *
-	 * @param appContextUserProperties Eine Datei mit Benutzereinstellungen.
-	 */
-	public BetofficeStore(final String appContextUserProperties) {
-		this(new String[] { appContextUserProperties });
-	}
+    /** Service für das Anlegen von automatisierten Tipps. */
+    private final AutoTippService autoTippService;
 
-	/**
-	 * Startet das Spring-Wiring.
-	 *
-	 * @param applicationResources Die Spring-Konfigurationen.
-	 */
-	public BetofficeStore(final String[] applicationResources) {
-	    List<String> confs = new ArrayList<String>();
-	    confs.add("classpath:betoffice-datasource.xml");
-	    confs.add("classpath:betoffice-persistence.xml");
-	    for (String resource : applicationResources) {
-	        confs.add(resource);
-	    }
-	    
-	    String[] resources = confs.toArray(new String[confs.size()]);
+    /**
+     * Startet das Spring-Wiring. Es wird die Default-Spring-Konfiguration
+     * verwendet. Daten werden persistent angelegt.
+     *
+     * @param appContextUserProperties
+     *            Eine Datei mit Benutzereinstellungen.
+     */
+    public BetofficeStore(final String appContextUserProperties) {
+        this(new String[] { appContextUserProperties });
+    }
 
-	    if (log.isInfoEnabled()) {
-	        for (String resource : resources) {
-	            log.info("Resource: " + resource);
-	        }
-	    }
+    /**
+     * Startet das Spring-Wiring.
+     *
+     * @param applicationResources
+     *            Die Spring-Konfigurationen.
+     */
+    public BetofficeStore(final String[] applicationResources) {
+        List<String> confs = new ArrayList<String>();
+        confs.add("classpath:betoffice-datasource.xml");
+        confs.add("classpath:betoffice-persistence.xml");
+        for (String resource : applicationResources) {
+            confs.add(resource);
+        }
 
-		springBeans = new SpringBeans(resources);
+        String[] resources = confs.toArray(new String[confs.size()]);
 
-		sms = springBeans.getBean("seasonManagerService");
-		mdms = springBeans.getBean("masterDataManagerService");
-		autoTippService = springBeans.getBean("autoTippService");
-		tippService = springBeans.getBean("tippService");
-	}
+        if (log.isInfoEnabled()) {
+            for (String resource : resources) {
+                log.info("Resource: " + resource);
+            }
+        }
 
-	/**
-	 * Liefert die über Spring konfigurierten Objekte.
-	 *
-	 * @return Die Spring Beans.
-	 */
-	public final SpringBeans getBeans() {
-		return springBeans;
-	}
+        springBeans = new SpringBeans(resources);
 
-	/**
-	 * Service für den Zugriff auf die Daten einer Meisterschaft.
-	 *
-	 * @return Ein Service.
-	 */
-	public final SeasonManagerService getSeasonManagerService() {
-		return sms;
-	}
+        sms = springBeans.getBean("seasonManagerService");
+        mdms = springBeans.getBean("masterDataManagerService");
+        autoTippService = springBeans.getBean("autoTippService");
+        tippService = springBeans.getBean("tippService");
+    }
 
-	/**
-	 * Service fuer die Verwaltung von Spieltipps.
-	 *
-	 * @return Ein Service.
-	 */
-	public final TippService getTippService() {
-	    return tippService;
-	}
+    /**
+     * Liefert die über Spring konfigurierten Objekte.
+     *
+     * @return Die Spring Beans.
+     */
+    public final SpringBeans getBeans() {
+        return springBeans;
+    }
 
-	/**
-	 * Service für den Zugriff auf die Stammdaten.
-	 *
-	 * @return Ein Service.
-	 */
-	public final MasterDataManagerService getMasterDataManagerService() {
-		return mdms;
-	}
+    /**
+     * Service für den Zugriff auf die Daten einer Meisterschaft.
+     *
+     * @return Ein Service.
+     */
+    public final SeasonManagerService getSeasonManagerService() {
+        return sms;
+    }
 
-	/**
-	 * Service für das automatisierte erstellen von Tipps.
-	 *
-	 * @return Ein Service.
-	 */
-	public final AutoTippService getAutoTippService() {
-		return autoTippService;
-	}
+    /**
+     * Service fuer die Verwaltung von Spieltipps.
+     *
+     * @return Ein Service.
+     */
+    public final TippService getTippService() {
+        return tippService;
+    }
+
+    /**
+     * Service für den Zugriff auf die Stammdaten.
+     *
+     * @return Ein Service.
+     */
+    public final MasterDataManagerService getMasterDataManagerService() {
+        return mdms;
+    }
+
+    /**
+     * Service für das automatisierte erstellen von Tipps.
+     *
+     * @return Ein Service.
+     */
+    public final AutoTippService getAutoTippService() {
+        return autoTippService;
+    }
 
 }

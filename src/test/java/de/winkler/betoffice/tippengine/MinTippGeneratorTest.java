@@ -78,9 +78,9 @@ public class MinTippGeneratorTest {
     public void testGenerateTipp() throws StorageObjectNotFoundException {
         TippGenerator gen = new MinTippGenerator();
 
-        // User A: 39 Punkte 
+        // User A: 39 Punkte
         // User B: 13 Punkte
-        // User C:  0 Punkte
+        // User C: 0 Punkte
         // User D: 30 Punkte
         game1.setResult(gr10);
         game1.setPlayed(true);
@@ -108,8 +108,8 @@ public class MinTippGeneratorTest {
         assertEquals(gr11, game3.getGameTipp(userMinTipp).getTipp());
         assertEquals(gr11, game4.getGameTipp(userMinTipp).getTipp());
 
-        // User A: 26 Punkte 
-        // User B:  0 Punkte
+        // User A: 26 Punkte
+        // User B: 0 Punkte
         // User C: 26 Punkte
         // User D: 20 Punkte
         game1.setResult(gr11);
@@ -214,28 +214,44 @@ public class MinTippGeneratorTest {
         }
 
         // Spiel 1
-        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
-        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
-        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
-        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21, TippStatusType.USER);
+        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10,
+                TippStatusType.USER);
+        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01,
+                TippStatusType.USER);
+        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11,
+                TippStatusType.USER);
+        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21,
+                TippStatusType.USER);
 
         // Spiel 2
-        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
-        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
-        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
-        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21, TippStatusType.USER);
+        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10,
+                TippStatusType.USER);
+        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01,
+                TippStatusType.USER);
+        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11,
+                TippStatusType.USER);
+        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21,
+                TippStatusType.USER);
 
         // Spiel 3
-        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
-        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
-        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
-        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21, TippStatusType.USER);
+        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10,
+                TippStatusType.USER);
+        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01,
+                TippStatusType.USER);
+        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11,
+                TippStatusType.USER);
+        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21,
+                TippStatusType.USER);
 
         // Spiel 4
-        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
-        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
-        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
-        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21, TippStatusType.USER);
+        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10,
+                TippStatusType.USER);
+        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01,
+                TippStatusType.USER);
+        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11,
+                TippStatusType.USER);
+        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21,
+                TippStatusType.USER);
     }
 
 }

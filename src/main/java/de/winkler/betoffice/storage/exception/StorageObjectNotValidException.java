@@ -31,8 +31,9 @@ import de.winkler.betoffice.storage.StorageObject;
  * Diese Exception wird im Zusammenhang mit der <code>checkValidity()</code>.
  * der StorageObjects geworfen.
  *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author $Author: andrewinkler $
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  */
 public class StorageObjectNotValidException extends StorageRuntimeException {
 
@@ -49,7 +50,8 @@ public class StorageObjectNotValidException extends StorageRuntimeException {
     /**
      * Konstruktor.
      *
-     * @param obj Das ungültige StorageObject.
+     * @param obj
+     *            Das ungültige StorageObject.
      */
     public StorageObjectNotValidException(final StorageObject obj) {
         super("Not valid: " + obj.toString());

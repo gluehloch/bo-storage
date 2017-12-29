@@ -36,7 +36,8 @@ import de.awtools.basic.LoggerFactory;
  * Messung der Performance einzelner Service Methoden.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 @Aspect
 public class PerformanceMeasurement {

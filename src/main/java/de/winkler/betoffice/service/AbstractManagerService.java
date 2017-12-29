@@ -31,7 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Utility Klasse für alle Manager-Services.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public abstract class AbstractManagerService {
 
@@ -43,7 +44,8 @@ public abstract class AbstractManagerService {
     /**
      * Setzt die Konfiguration.
      *
-     * @param _config Die Konfiguration.
+     * @param _config
+     *            Die Konfiguration.
      */
     @Autowired
     public final void setConfig(final BoConfiguration _config) {

@@ -22,17 +22,10 @@
 
   <inceptionYear>2000</inceptionYear>
 
-  <!--
-  <scm>
-    <connection>
-      scm:svn:https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage
-    </connection>
-    <developerConnection>
-      scm:svn:https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage
-    </developerConnection>
-    <url>https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage</url>
-  </scm>
-   -->
+  <!-- <scm> <connection> scm:svn:https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage 
+    </connection> <developerConnection> scm:svn:https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage 
+    </developerConnection> <url>https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage</url> 
+    </scm> -->
 
   <dependencies>
     <!-- Some problems with an old version -->
@@ -48,7 +41,7 @@
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.31</version>
       <scope>test</scope>
-    </dependency> 
+    </dependency>
 
     <!-- Database Connection Pool -->
     <dependency>
@@ -69,7 +62,7 @@
       <artifactId>betoffice-testutils</artifactId>
       <version>0.4.0</version>
       <scope>test</scope>
-    </dependency>   
+    </dependency>
   </dependencies>
 
   <distributionManagement>

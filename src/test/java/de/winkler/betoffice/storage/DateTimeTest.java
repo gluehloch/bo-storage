@@ -37,7 +37,8 @@ import org.junit.Test;
  * Tests for class {@link DateTime}.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public class DateTimeTest {
 
@@ -45,14 +46,15 @@ public class DateTimeTest {
     public void testDateTime() {
         DateTime dateTime = new DateTime("1971-03-24T21:15:16");
         Date date = dateTime.toDate();
-        
+
         DateTime dateTimeAfter = new DateTime("1971-03-24T21:16:17");
         Date dateAfter = dateTimeAfter.toDate();
-        
+
         assertTrue(dateTimeAfter.isAfter(dateTime));
         assertTrue(dateAfter.after(date));
-        
-        DateTime dateTimeWithConstructor = new DateTime(1971, 3, 24, 21, 15, 16);
+
+        DateTime dateTimeWithConstructor = new DateTime(1971, 3, 24, 21, 15,
+                16);
         assertEquals(dateTime, dateTimeWithConstructor);
     }
 

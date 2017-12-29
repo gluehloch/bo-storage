@@ -57,7 +57,7 @@ public class DefaultAuthService implements AuthService {
 
     @Autowired
     private DateTimeProvider dateTimeProvider;
-    
+
     @Transactional
     @Override
     public SecurityToken login(String name, String password, String sessionId,

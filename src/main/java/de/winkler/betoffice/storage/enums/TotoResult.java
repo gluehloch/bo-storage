@@ -32,7 +32,8 @@ import java.io.Serializable;
  * Enumeration TotoResult.
  * 
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public final class TotoResult implements Comparable<TotoResult>, Serializable {
 
@@ -64,14 +65,16 @@ public final class TotoResult implements Comparable<TotoResult>, Serializable {
     public static final TotoResult UNDEFINED = new TotoResult("UNDEFINED", -1);
 
     /** Ein Array mit allen Enumerations. */
-    private static final TotoResult[] PRIVATE_VALUES =
-        { EQUAL, TOTO, ZERO, UNDEFINED };
+    private static final TotoResult[] PRIVATE_VALUES = { EQUAL, TOTO, ZERO,
+            UNDEFINED };
 
     /**
      * Erzeugt ein TotoResult.
      *
-     * @param name Name der Aufzählung.
-     * @param totoValue Der Toto-Wert der Aufzählung.
+     * @param name
+     *            Name der Aufzählung.
+     * @param totoValue
+     *            Der Toto-Wert der Aufzählung.
      */
     private TotoResult(String name, int totoValue) {
         this.name = name;
@@ -90,7 +93,8 @@ public final class TotoResult implements Comparable<TotoResult>, Serializable {
     /**
      * Vergleicht zwei TotoResults miteinander.
      *
-     * @param obj Der zu vergleichende TotoResult.
+     * @param obj
+     *            Der zu vergleichende TotoResult.
      * @return Siehe {@link Comparable#compareTo(java.lang.Object)}.
      */
     public int compareTo(TotoResult obj) {
@@ -98,12 +102,12 @@ public final class TotoResult implements Comparable<TotoResult>, Serializable {
     }
 
     /**
-     * Methode für die Deserialisierung dieser Klasse. Verhindert das
-     * nach der Deserialisierung doppelte Konstanten nebeneinander
-     * existieren.
+     * Methode für die Deserialisierung dieser Klasse. Verhindert das nach der
+     * Deserialisierung doppelte Konstanten nebeneinander existieren.
      *
      * @return Ein Objekt.
-     * @throws ObjectStreamException Da ging was schief.
+     * @throws ObjectStreamException
+     *             Da ging was schief.
      */
     private Object readResolve() throws ObjectStreamException {
         return PRIVATE_VALUES[ordinal];

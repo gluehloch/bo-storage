@@ -57,7 +57,8 @@ public class UserSeasonDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testUserSeasonDaoHibernate() {
-        Optional<Season> season = seasonDao.findByName("1. Bundesliga", "1999/2000");
+        Optional<Season> season = seasonDao.findByName("1. Bundesliga",
+                "1999/2000");
         List<User> users = userSeasonDao.findUsers(season.get());
         assertEquals(3, users.size());
         assertEquals("Frosch", users.get(0).getNickName());

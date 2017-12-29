@@ -29,14 +29,16 @@ package de.winkler.betoffice.service;
  * Ausführung von benutzerseitigen HQL Skripten auf der Datenbank.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public interface DatabaseMaintenanceService {
 
     /**
      * Setzt einen HQL Befehl direkt auf der Datenbank ab.
      *
-     * @param hql Ein HQL Befehl.
+     * @param hql
+     *            Ein HQL Befehl.
      * @return Rückgabeergebnis.
      */
     public Object executeHql(String hql);
@@ -44,7 +46,8 @@ public interface DatabaseMaintenanceService {
     /**
      * Setzt einen nativen SQL Befehl auf die Datenbank ab.
      *
-     * @param sqlQuery Der SQL Befehl.
+     * @param sqlQuery
+     *            Der SQL Befehl.
      * @return Rückgabaergbenis.
      */
     public Object executeSQL(String sqlQuery);

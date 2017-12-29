@@ -39,87 +39,89 @@ import de.winkler.betoffice.storage.enums.TeamType;
  */
 public interface TeamDao extends CommonDao<Team> {
 
-	/**
-	 * Sucht nach allen Mannschaften zu einer Meisterschaft und Gruppe.
-	 *
-	 * @param season Season
-	 * @param groupType GroupType
-	 * @return List of teams
-	 */
-	List<Team> findTeamsBySeasonAndGroup(Season season, GroupType groupType);
+    /**
+     * Sucht nach allen Mannschaften zu einer Meisterschaft und Gruppe.
+     *
+     * @param season
+     *            Season
+     * @param groupType
+     *            GroupType
+     * @return List of teams
+     */
+    List<Team> findTeamsBySeasonAndGroup(Season season, GroupType groupType);
 
-	/**
-	 * Liefert eine Liste alle Mannschaften.
-	 *
-	 * @return Eine Liste aller Mannschaften.
-	 */
-	List<Team> findAll();
+    /**
+     * Liefert eine Liste alle Mannschaften.
+     *
+     * @return Eine Liste aller Mannschaften.
+     */
+    List<Team> findAll();
 
-	/**
-	 * Liefert alle Mannschaften, die vom Typ {@link TeamType} sind.
-	 *
-	 * @param teamType
-	 *            Der gesuchte Mannschaftstyp.
-	 * @return Eine Liste mit Mannschaften.
-	 */
-	List<Team> findTeams(TeamType teamType);
+    /**
+     * Liefert alle Mannschaften, die vom Typ {@link TeamType} sind.
+     *
+     * @param teamType
+     *            Der gesuchte Mannschaftstyp.
+     * @return Eine Liste mit Mannschaften.
+     */
+    List<Team> findTeams(TeamType teamType);
 
-	/**
-	 * Liefert eine Mannschaften mit gesuchten Namen.
-	 *
-	 * @param name
-	 *            Der gesuchte Name.
-	 * @return Eine Mannschaften.
-	 */
-	Optional<Team> findByName(String name);
+    /**
+     * Liefert eine Mannschaften mit gesuchten Namen.
+     *
+     * @param name
+     *            Der gesuchte Name.
+     * @return Eine Mannschaften.
+     */
+    Optional<Team> findByName(String name);
 
-	/**
-	 * Legt eine neue Mannschaft an.
-	 *
-	 * @param team
-	 *            Ein Mannschaft.
-	 */
-	void save(Team team);
+    /**
+     * Legt eine neue Mannschaft an.
+     *
+     * @param team
+     *            Ein Mannschaft.
+     */
+    void save(Team team);
 
-	/**
-	 * Legt mehrere neue Mannschaften an.
-	 *
-	 * @param teams
-	 *            Eine Liste von Mannschaften.
-	 */
-	void saveAll(List<Team> teams);
+    /**
+     * Legt mehrere neue Mannschaften an.
+     *
+     * @param teams
+     *            Eine Liste von Mannschaften.
+     */
+    void saveAll(List<Team> teams);
 
-	/**
-	 * Eine Update-Operation.
-	 *
-	 * @param team
-	 *            Eine Mannschaft.
-	 */
-	void update(Team team);
+    /**
+     * Eine Update-Operation.
+     *
+     * @param team
+     *            Eine Mannschaft.
+     */
+    void update(Team team);
 
-	/**
-	 * Löscht eine Mannschaft.
-	 *
-	 * @param value
-	 *            Die zu löschende Mannschaft.
-	 */
-	void delete(Team value);
+    /**
+     * Löscht eine Mannschaft.
+     *
+     * @param value
+     *            Die zu löschende Mannschaft.
+     */
+    void delete(Team value);
 
-	/**
-	 * Löscht alle Mannschaften.
-	 *
-	 * @param teams
-	 *            Die zu löschenden Mannschaften.
-	 */
-	void deleteAll(List<Team> teams);
+    /**
+     * Löscht alle Mannschaften.
+     *
+     * @param teams
+     *            Die zu löschenden Mannschaften.
+     */
+    void deleteAll(List<Team> teams);
 
-	/**
-	 * Sucht nach einer Mannschaft anhand der Openligadb ID.
-	 *
-	 * @param id
-	 *            Die Openligadb ID
-	 * @return Eine Mannschaft.
-	 */
-	Optional<Team> findByOpenligaid(long id);
+    /**
+     * Sucht nach einer Mannschaft anhand der Openligadb ID.
+     *
+     * @param id
+     *            Die Openligadb ID
+     * @return Eine Mannschaft.
+     */
+    Optional<Team> findByOpenligaid(long id);
 
 }

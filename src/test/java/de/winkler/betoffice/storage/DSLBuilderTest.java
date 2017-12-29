@@ -31,23 +31,26 @@ import org.junit.Test;
  * TODO.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public class DSLBuilderTest {
 
-	@Test
-	public void testDslBuilder() {
-		/* Some examples:
-		 * 
-		 * Finder
-
-		List<Game> match = findMatches(team("Rot-Weiss-Essen").versusTeam("Schalke 04"));
-
-           Factory
-           
-        championship("Bundesliga 2007/2008).round("24.10.2008")
-        addMatch(home("RWE").guest("S04")).result(home(2).guest(0))
-		*/
-	}
+    @Test
+    public void testDslBuilder() {
+        /*
+         * Some examples:
+         * 
+         * Finder
+         * 
+         * List<Game> match =
+         * findMatches(team("Rot-Weiss-Essen").versusTeam("Schalke 04"));
+         * 
+         * Factory
+         * 
+         * championship("Bundesliga 2007/2008).round("24.10.2008")
+         * addMatch(home("RWE").guest("S04")).result(home(2).guest(0))
+         */
+    }
 
 }

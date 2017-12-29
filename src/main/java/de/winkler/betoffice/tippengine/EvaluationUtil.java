@@ -33,75 +33,78 @@ import de.winkler.betoffice.storage.UserResult;
 /**
  * Liefert ein paar statistische Werte zu gemachten Tipps.
  *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author $Author: andrewinkler $
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  */
 public class EvaluationUtil {
 
-	/** Das zu bewertende UserResult. */
-	private UserResult result;
+    /** Das zu bewertende UserResult. */
+    private UserResult result;
 
-	/**
-	 * Konstruktor.
-	 *
-	 * @param value Das zu bearbeitende UserResult.
-	 */
-	public EvaluationUtil(final UserResult value) {
-		Validate.notNull(value, "value ist 'null'.");
-		result = value;
-	}
+    /**
+     * Konstruktor.
+     *
+     * @param value
+     *            Das zu bearbeitende UserResult.
+     */
+    public EvaluationUtil(final UserResult value) {
+        Validate.notNull(value, "value ist 'null'.");
+        result = value;
+    }
 
-	/**
-	 * Formatiert einen <code>double</code> Wert.
-	 *
-	 * @param _value Der zu formatierende Wert.
-	 * @return Der formatierte Wert.
-	 */
-	public String format(final double _value) {
-	    NumberUtils numberUtils = new NumberUtils();
-		return numberUtils.formatDouble(_value);
-	}
+    /**
+     * Formatiert einen <code>double</code> Wert.
+     *
+     * @param _value
+     *            Der zu formatierende Wert.
+     * @return Der formatierte Wert.
+     */
+    public String format(final double _value) {
+        NumberUtils numberUtils = new NumberUtils();
+        return numberUtils.formatDouble(_value);
+    }
 
-	/**
-	 * Prozentanteil der Tickets aller Tipps einer Saison.
-	 *
-	 * @return % der Tickets.
-	 */
-	public double getTicketPercent() {
-		if (result.getTippedGames() == 0) {
-			return 0;
-		} else {
-			return ((double) result.getTicket() / (double) result
-				.getTippedGames()) * 100;
-		}
-	}
+    /**
+     * Prozentanteil der Tickets aller Tipps einer Saison.
+     *
+     * @return % der Tickets.
+     */
+    public double getTicketPercent() {
+        if (result.getTippedGames() == 0) {
+            return 0;
+        } else {
+            return ((double) result.getTicket() / (double) result
+                    .getTippedGames()) * 100;
+        }
+    }
 
-	/**
-	 * Prozentanteil der Toto-Wertung aller Tipps einer Saison.
-	 *
-	 * @return % mit Toto-Wertung.
-	 */
-	public double getTotoPercent() {
-		if (result.getTippedGames() == 0) {
-			return 0;
-		} else {
-			return ((double) result.getUserTotoWin() / (double) result
-				.getTippedGames()) * 100;
-		}
-	}
+    /**
+     * Prozentanteil der Toto-Wertung aller Tipps einer Saison.
+     *
+     * @return % mit Toto-Wertung.
+     */
+    public double getTotoPercent() {
+        if (result.getTippedGames() == 0) {
+            return 0;
+        } else {
+            return ((double) result.getUserTotoWin() / (double) result
+                    .getTippedGames()) * 100;
+        }
+    }
 
-	/**
-	 * Prozentanteil der BigPoints aller Tipps einer Saison.
-	 *
-	 * @return % der BigPoints.
-	 */
-	public double getWinPercent() {
-		if (result.getTippedGames() == 0) {
-			return 0;
-		} else {
-			return ((double) result.getUserWin() / (double) result
-				.getTippedGames()) * 100;
-		}
-	}
+    /**
+     * Prozentanteil der BigPoints aller Tipps einer Saison.
+     *
+     * @return % der BigPoints.
+     */
+    public double getWinPercent() {
+        if (result.getTippedGames() == 0) {
+            return 0;
+        } else {
+            return ((double) result.getUserWin() / (double) result
+                    .getTippedGames()) * 100;
+        }
+    }
 
 }

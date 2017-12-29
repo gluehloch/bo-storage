@@ -37,33 +37,38 @@ import de.winkler.betoffice.storage.Team;
  * @author by Andre Winkler
  */
 public interface MatchDao extends CommonDao<Game> {
-    
+
     /**
      * Sucht nach einer bestimmten Spielpaarung für einen Spieltag.
      *
-     * @param round Der zu untersuchende Spieltag.
-     * @param homeTeam Die Heimmannschaft.
-     * @param guestTeam Die Gastmannschaft.
-     * @return Das gefundene Spiel oder <code>null</code>, wenn kein Spiel
-     *     mit diesem Bedingungen vorhanden.
+     * @param round
+     *            Der zu untersuchende Spieltag.
+     * @param homeTeam
+     *            Die Heimmannschaft.
+     * @param guestTeam
+     *            Die Gastmannschaft.
+     * @return Das gefundene Spiel oder <code>null</code>, wenn kein Spiel mit
+     *         diesem Bedingungen vorhanden.
      */
     public Optional<Game> find(GameList round, Team homeTeam, Team guestTeam);
-    
+
     /**
      * Sucht nach allen Spielpaarungen mit der beteiligten Heimmannschaft.
      *
-     * @param homeTeam Die gesuchte Heimmannschaft.
+     * @param homeTeam
+     *            Die gesuchte Heimmannschaft.
      * @return Eine Liste von {@link de.winkler.betoffice.storage.Game}
-     *     Objekten.
+     *         Objekten.
      */
     public List<Game> findByHomeTeam(Team homeTeam);
 
     /**
      * Sucht nach allen Spielpaarungen mit der beteiligten Gastmannschaft.
      *
-     * @param guestTeam Die gesuchte Gastmannschaft.
+     * @param guestTeam
+     *            Die gesuchte Gastmannschaft.
      * @return Eine Liste von {@link de.winkler.betoffice.storage.Game}
-     *     Objekten.
+     *         Objekten.
      */
     public List<Game> findByGuestTeam(Team guestTeam);
 
@@ -71,55 +76,64 @@ public interface MatchDao extends CommonDao<Game> {
      * Sucht nach allen Spielpaarungen mit der beteiligten Heim- und
      * Gastmannschaft.
      *
-     * @param homeTeam Die gesuchte Heimmannschaft.
-     * @param guestTeam Die gesuchte Gastmannschaft.
+     * @param homeTeam
+     *            Die gesuchte Heimmannschaft.
+     * @param guestTeam
+     *            Die gesuchte Gastmannschaft.
      * @return Eine Liste von {@link de.winkler.betoffice.storage.Game}
-     *     Objekten.
+     *         Objekten.
      */
     public List<Game> find(Team homeTeam, Team guestTeam);
 
     /**
      * Sucht nach allen Spielpaarungen mit den beteiligten Mannschaften.
      *
-     * @param team1 Die erste gesuchte Mannschaft (Heim wie auswärts).
-     * @param team2 Die zweite gesuchte Mannschaft (Heim wie auswärts).
+     * @param team1
+     *            Die erste gesuchte Mannschaft (Heim wie auswärts).
+     * @param team2
+     *            Die zweite gesuchte Mannschaft (Heim wie auswärts).
      * @return Eine Liste von {@link de.winkler.betoffice.storage.Game}
-     *     Objekten.
+     *         Objekten.
      */
     public List<Game> findAll(Team team1, Team team2);
 
     /**
      * Legt eine neue Spielpaarung persistent an.
      *
-     * @param match Eine Spielpaarung.
+     * @param match
+     *            Eine Spielpaarung.
      */
     public void save(Game match);
 
     /**
      * Legt mehrere neue Spielpaarungen an.
      *
-     * @param matches Eine Liste von Spielpaarungen.
+     * @param matches
+     *            Eine Liste von Spielpaarungen.
      */
     public void saveAll(List<Game> matches);
 
     /**
      * Eine Update-Operation.
      *
-     * @param match Eine Spielpaarung.
+     * @param match
+     *            Eine Spielpaarung.
      */
     public void update(Game match);
 
     /**
      * Löscht eine Spielpaarung.
      *
-     * @param match Die zu löschende Spielpaarung.
+     * @param match
+     *            Die zu löschende Spielpaarung.
      */
     public void delete(Game match);
 
     /**
      * Löscht alle übergebenen Spielpaarungen.
      *
-     * @param matches Die zu Spielpaarungen.
+     * @param matches
+     *            Die zu Spielpaarungen.
      */
     public void deleteAll(List<Game> matches);
 

@@ -42,8 +42,9 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
  * Eine Helferklasse. Hier befinden sich die Methoden um den besten,
  * schlechtesten und den Durchschnittstipp zu ermitteln.
  *
- * @author   $Author: andrewinkler $
- * @version  $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author $Author: andrewinkler $
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  */
 public final class InfoCenter {
 
@@ -54,11 +55,15 @@ public final class InfoCenter {
     /**
      * Ermittelt den besten abgegebenen Tipp des Spieltages.
      *
-     * @param gamelist Der auszuwertende Spieltag.
-     * @param users Die zu bewertenden Teilnehmer.
+     * @param gamelist
+     *            Der auszuwertende Spieltag.
+     * @param users
+     *            Die zu bewertenden Teilnehmer.
      * @return Der Spieler, der den besten Tipp abgegeben hat. Oder
-     *     <code>null</code>, wenn eine leere Teilnehmerliste übergeben wurde.
-     * @throws IllegalArgumentException Falls gamelist gleich null.
+     *         <code>null</code>, wenn eine leere Teilnehmerliste übergeben
+     *         wurde.
+     * @throws IllegalArgumentException
+     *             Falls gamelist gleich null.
      */
     public static User getMaxTipp(final GameList gamelist,
             final List<User> users) {
@@ -87,10 +92,12 @@ public final class InfoCenter {
      * die von menschlichen Teilnehmern abgegeben wurden, werden zur Berechnung
      * herangezogen.
      *
-     * @param gamelist Der auszuwertende Spieltag.
-     * @param users Die zu bewertenden Teilnehmer.
-     * @return Der Tagestipp, der den schlechtesten Tipp abgegeben hat. Kann
-     *      0 sein, wenn kein 'echter', gültiger Tagestipp vorhanden ist.
+     * @param gamelist
+     *            Der auszuwertende Spieltag.
+     * @param users
+     *            Die zu bewertenden Teilnehmer.
+     * @return Der Tagestipp, der den schlechtesten Tipp abgegeben hat. Kann 0
+     *         sein, wenn kein 'echter', gültiger Tagestipp vorhanden ist.
      */
     public static UserResultOfDay getMinTipp(final GameList gamelist,
             final List<User> users) {
@@ -123,14 +130,15 @@ public final class InfoCenter {
     }
 
     /**
-     * Ermittelt den Mitteltipp für ein Spiel. Vorausgesetzt, es sind
-     * Tipps für das Spiel vorhanden. Zur Berechnung werden nur USER
-     * Tipps herangezogen.
+     * Ermittelt den Mitteltipp für ein Spiel. Vorausgesetzt, es sind Tipps für
+     * das Spiel vorhanden. Zur Berechnung werden nur USER Tipps herangezogen.
      *
-     * @param game Das Spiel für den der Mitteltipp erzeugt werden soll.
-     * @return Der Mitteltipp. null wenn keine Tipps vorhanden,
-     *     sonst den Mitteltipp.
-     * @throws IllegalArgumentException game ist gleich <null>.
+     * @param game
+     *            Das Spiel für den der Mitteltipp erzeugt werden soll.
+     * @return Der Mitteltipp. null wenn keine Tipps vorhanden, sonst den
+     *         Mitteltipp.
+     * @throws IllegalArgumentException
+     *             game ist gleich <null>.
      */
     public static GameResult getMediumTipp(final Game game) {
         Validate.notNull(game, "game ist null");
@@ -152,7 +160,7 @@ public final class InfoCenter {
 
         if (counter != 0) {
             return new GameResult(Math.round(homeGoals / counter), Math
-                .round(guestGoals / counter));
+                    .round(guestGoals / counter));
         } else {
             return null;
         }

@@ -22,7 +22,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
- 
+
 package de.winkler.betoffice.storage.comparator;
 
 import de.winkler.betoffice.storage.GroupType;
@@ -34,21 +34,24 @@ import java.util.Comparator;
  * Objekte. Zum Vergleich wird der Gruppenname herangezogen.
  * 
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public class GroupTypeNameComparator implements Comparator<GroupType> {
 
     /**
      * Vergleicht zwei Gruppen miteinander.
      *
-     * @param o1 Eine Gruppe.
-     * @param o2 Eine Gruppe.
+     * @param o1
+     *            Eine Gruppe.
+     * @param o2
+     *            Eine Gruppe.
      * @return -1, 0 oder +1. Vergleich der Gruppennamen.
      */
     public int compare(GroupType o1, GroupType o2) {
         return (o1.getName().compareTo(o2.getName()));
     }
-    
+
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

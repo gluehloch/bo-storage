@@ -13,67 +13,71 @@
         Dockerize the test environment.
       </action>
     </release>
-
+    
     <!-- RELEASED -->
-     <release version="betoffice-storage-2.5.0" date="2017-11-24"
+    <release version="betoffice-storage-2.5.0" date="2017-11-24"
       description="User experience">
       <action dev="andrewinkler" type="add" date="2017-11-21">
-         RoundDao gets a new finder: Find last tipp round.
-       </action>
+        RoundDao gets a new finder: Find last tipp round.
+      </action>
       <action dev="andrewinkler" type="add" date="2017-11-07">
-         The storage object team gets some new properties: shortName
-         and xshortName.
-       </action>
+        The storage object team gets some new properties: shortName
+        and xshortName.
+      </action>
       <action dev="andrewinkler" type="update" date="2017-11-03">
-         Seperate create and drop table SQL script.
-       </action>
-       <action dev="andrewinkler" type="update" date="2017-11-03">
-         Changed the Hibernate property sepearator from dot to underscore.
-         So it is easier to overwrite the properties with an external
-         environment variable.
-       </action>
-     </release>
-      
-     <!-- RELEASED -->
-     <release version="betoffice-storage-2.4.0" date="2017-11-14"
-      description="Tipp finder">
-       <action dev="andrewinkler" type="update" date="2017-10-10">
-         Remove method UserResult#isValid(). Removed property
-         UserResult#season.
-       </action>
-       <action dev="andrewinkler" type="update" date="2017-09-23">
-         SeasonManagerService#findRounds(season, group) changed to
-         SeasonManagerService#findRounds(group). 
-       </action>
-       <action dev="andrewinkler" type="update" date="2017-09-16">
-         Renamed SeasonManagerService#findRoundById(long) to #findRound(long).
-         Added new method to Game#setHalfTimeGoals(int,int).
-         Added new service to update a round games.
-       </action>
-       <action dev="andrewinkler" type="update" date="2017-07-05">
-         StorageObject gets a new method: getId()
-       </action>
-       <action dev="andrewinkler" type="update" date="2017-04-12">
-         The tipp finder brings the round with the games and tipps.
-       </action>
-       <action dev="andrewinkler" type="add" date="2017-05-21">
-         Date and time provider. To simulate date and times for
-         some test suites.
-       </action>
-     </release>
+        Seperate create and drop table SQL script.
+      </action>
+      <action dev="andrewinkler" type="update" date="2017-11-03">
+        Changed the Hibernate property sepearator from dot to underscore.
+        So it is easier to overwrite the properties with an external
+        environment variable.
+      </action>
+    </release>
 
-     <!-- RELEASED -->
-     <release version="betoffice-storage-2.3.0" date="2016-12-03"
+    <!-- RELEASED -->
+    <release version="betoffice-storage-2.4.0" date="2017-11-14"
+      description="Tipp finder">
+      <action dev="andrewinkler" type="update" date="2017-10-10">
+        Remove method UserResult#isValid(). Removed property
+        UserResult#season.
+      </action>
+      <action dev="andrewinkler" type="update" date="2017-09-23">
+        SeasonManagerService#findRounds(season, group) changed to
+        SeasonManagerService#findRounds(group).
+      </action>
+      <action dev="andrewinkler" type="update" date="2017-09-16">
+        Renamed SeasonManagerService#findRoundById(long) to #findRound(long).
+        Added new method to Game#setHalfTimeGoals(int,int).
+        Added new service to update a round games.
+      </action>
+      <action dev="andrewinkler" type="update" date="2017-07-05">
+        StorageObject gets a new method: getId()
+      </action>
+      <action dev="andrewinkler" type="update" date="2017-04-12">
+        The tipp finder brings the round with the games and tipps.
+      </action>
+      <action dev="andrewinkler" type="add" date="2017-05-21">
+        Date and time provider. To simulate date and times for
+        some test suites.
+      </action>
+    </release>
+
+    <!-- RELEASED -->
+    <release version="betoffice-storage-2.3.0" date="2016-12-03"
       description="User roles">
       <action dev="andrewinkler" type="remove" date="2016-11-06">
-        Removed the mail package.
+        Removed the
+        mail package.
       </action>
       <action dev="andrewinkler" type="update" date="2016-10-07">
-        Dependency clean up. DB connection pool is only a runtime dependency.
+        Dependency
+        clean up. DB connection pool is only a runtime dependency.
       </action>
       <action dev="andrewinkler" type="update" date="2016-10-09">
-        A user/season relation gets a new attribute: The user role (type).
-        The table bo_user_season gets a new column: bo_roletype.
+        A user/season
+        relation gets a new attribute: The user role (type).
+        The table
+        bo_user_season gets a new column: bo_roletype.
       </action>
     </release>
 
@@ -81,7 +85,8 @@
     <release version="betoffice-storage-2.2.1" date="2016-09-27"
       description="Fix for UserDaoHibernate and the single result">
       <action dev="andrewinkler" type="fix" date="2016-09-27">
-        findByNickname should not throw an exception.
+        findByNickname
+        should not throw an exception.
       </action>
     </release>
 
@@ -89,12 +94,16 @@
     <release version="betoffice-storage-2.2.0" date="2016-09-26"
       description="Update - date and time check for tipp">
       <action dev="andrewinkler" type="add" date="2016-09-20">
-        The DAOs return an java.util.Optional catching all NoResultExceptions.
+        The DAOs return
+        an java.util.Optional catching all NoResultExceptions.
       </action>
       <action dev="andrewinkler" type="add" date="2016-09-20">
-        Tipp date and time validation. Don´t change a tipp of the past.
-        The class GameTipp gets two new attributes: createDateTime
-        and updateDateTime.
+        Tipp date and
+        time validation. Don´t change a tipp of the past.
+        The class
+        GameTipp gets two new attributes: createDateTime
+        and
+        updateDateTime.
       </action>
       <action dev="andrewinkler" type="update" date="2016-08-09">
         Removed/Replaced all (some) deprecated methods and classes which
@@ -106,61 +115,84 @@
     <release version="betoffice-storage-2.1.0" date="2016-07-27"
       description="Update - Support for the AngularJS frontend">
       <action dev="andrewinkler" type="update" date="2016-07-09">
-        Update to Springframework 4 and Hibernate 5.
+        Update to
+        Springframework 4 and Hibernate 5.
       </action>
       <action dev="andrewinkler" type="update" date="2016-07-09">
-        Find the next tipp round by a date parameter. Find the last round
+        Find the next
+        tipp round by a date parameter. Find the last round
         of a season.
       </action>
       <action dev="andrewinkler" type="update" date="2016-05-01">
-        Interface changes: SeasonManagerService#calculateTeamRanking
+        Interface
+        changes: SeasonManagerService#calculateTeamRanking
       </action>
       <action dev="andrewinkler" type="add" date="2015-11-13">
+<<<<<<< HEAD
         A new table bo_session to store user session data and security
         token..
+=======
+        A new table
+        bo_session to store user session data and security token..
+>>>>>>> master
       </action>
       <action dev="andrewinkler" type="add" date="2015-10-27">
-        An authentication service.
+        An
+        authentication service.
       </action>
       <action dev="andrewinkler" type="update" date="2015-05-15">
-        Error handling for service 'create season'.
+        Error
+        handling for service 'create season'.
       </action>
       <action dev="andrewinkler" type="add" date="2015-08-30">
-        A service to find the next tipp round.
+        A service to
+        find the next tipp round.
       </action>
       <action dev="andrewinkler" type="add" date="2015-03-14">
-        A service method to get the previous and the next round.
+        A service method
+        to get the previous and the next round.
       </action>
       <action dev="andrewinkler" type="add" date="2015-01-01">
-        A script to delete the database.
+        A script to
+        delete the database.
       </action>
       <action dev="andrewinkler" type="removed" date="2014-11-24">
-        Removed some DBUnit tests. The jar dependencies dbunit and unitils
-        are also removed.
+        Removed some
+        DBUnit tests. The jar dependencies dbunit and unitils
+        are also
+        removed.
       </action>
     </release>
 
     <release version="betoffice-storage-2.0.0" date="2014-10-26"
       description="Update">
       <action dev="andrewinkler" type="removed" date="2014-09-20">
-        Added the tables bo_goal, bo_player and bo_location.
+        Added the
+        tables bo_goal, bo_player and bo_location.
       </action>
       <action dev="andrewinkler" type="removed" date="2014-09-19">
-        MySQL ISAM scripts.
+        MySQL ISAM
+        scripts.
       </action>
       <action dev="andrewinkler" type="add" date="2014-09-19">
-        Added half-time, over-time and penalty goals.
+        Added half-time,
+        over-time and penalty goals.
       </action>
       <action dev="andrewinkler" type="add" date="2014-09-16">
-        The tables bo_gamelist, bo_team and bo_game get a new column:
-        bo_openligaid (The Openligadb identificaton).
+        The tables
+        bo_gamelist, bo_team and bo_game get a new column:
+        bo_openligaid
+        (The Openligadb identificaton).
       </action>
       <action dev="andrewinkler" type="removed" date="2014-08-19">
-        Removed the dependencies DBUnit and Unitils. Added betoffice-testutils.
+        Removed the
+        dependencies DBUnit and Unitils. Added betoffice-testutils.
       </action>
       <action dev="andrewinkler" type="removed" date="2014-08-19">
-        Removed the property currentGameList from class Season (and also
-        removed from the database table season#bo_current_ref).
+        Removed the
+        property currentGameList from class Season (and also
+        removed from
+        the database table season#bo_current_ref).
       </action>
     </release>
 
@@ -169,18 +201,22 @@
     <release version="betoffice-storage-1.3.2" date="2014-04-27"
       description="Update">
       <action dev="andrewinkler" type="add" date="2014-03-07">
-        Added MasterDataManagerService#findTeamById(...)
+        Added
+        MasterDataManagerService#findTeamById(...)
       </action>
     </release>
 
     <release version="betoffice-storage-1.3.1a" date="2014-03-07"
       description="Update">
       <action dev="andrewinkler" type="add" date="2014-03-07">
-        A shell script to copy and deploy the production database to
-        a local MySQL instance.
+        A shell script
+        to copy and deploy the production database to
+        a local MySQL
+        instance.
       </action>
       <action dev="andrewinkler" type="update" date="2014-01-11">
-        Update to betoffice-parent-pom 1.2.3 (Surefire plugin).
+        Update to
+        betoffice-parent-pom 1.2.3 (Surefire plugin).
       </action>
     </release>
 
@@ -194,91 +230,121 @@
     <release version="betoffice-storage-1.3.0" date="2013-12-15"
       description="Update">
       <action dev="andrewinkler" type="add" date="2013-11-29">
-        Calculate the next game day. Makes it easier for the user to
-        navigate to the current tipp form.
+        Calculate the
+        next game day. Makes it easier for the user to
+        navigate to the
+        current tipp form.
       </action>
       <action dev="andrewinkler" type="update" date="2013-11-09">
-        Apache´s basic DataSource does not use auto commit anymore.
+        Apache´s
+        basic DataSource does not use auto commit anymore.
       </action>
       <action dev="andrewinkler" type="update" date="2013-11-04">
-        New finder method for seasonmanagerservice: findByRoundId(...).
+        New finder
+        method for seasonmanagerservice: findByRoundId(...).
       </action>
       <action dev="andrewinkler" type="update" date="2013-08-04">
-        The property password of class TippMailParameter could be empty.
+        The property
+        password of class TippMailParameter could be empty.
       </action>
       <action dev="andrewinkler" type="update" date="2013-08-04">
-        Moved the tipp finder to class TippService.
+        Moved the
+        tipp finder to class TippService.
       </action>
     </release>
 
     <release version="betoffice-storage-1.2.1" date="2013-07-27"
       description="Bugfix">
       <action dev="andrewinkler" type="add" date="2013-05-30">
-        Store the tipp mail before sending the confirmation mail
+        Store the tipp
+        mail before sending the confirmation mail
         to the user.
       </action>
       <action dev="andrewinkler" type="update" date="2013-03-31">
-        Added a dependency to spring-jdbc. The missing dependency caused
-        a JUnit runtime error (betoffice-exchange).
+        Added a
+        dependency to spring-jdbc. The missing dependency caused
+        a JUnit
+        runtime error (betoffice-exchange).
       </action>
       <action dev="andrewinkler" type="update" date="2013-03-31">
-        Moved the Hibernate and commons-dbcp dependencies from the parent
-        POM to betoffice-storage. The aim is to remove all dependencies
-        for the DataSource definition. Updated to commons-dbcp-1.5.4.
+        Moved the
+        Hibernate and commons-dbcp dependencies from the parent
+        POM to
+        betoffice-storage. The aim is to remove all dependencies
+        for the
+        DataSource definition. Updated to commons-dbcp-1.5.4.
       </action>
     </release>
 
     <release version="betoffice-storage-1.2.0" date="2013-03-27"
       description="Service seperation. Java 7 compilation">
       <action dev="andrewinkler" type="update" date="2013-03-17">
-        Moved the confirmation mail function to betoffice-storage.
+        Moved the
+        confirmation mail function to betoffice-storage.
       </action>
       <action dev="andrewinkler" type="add" date="2013-02-16">
-        Added BetofficeMailer for sending confirmation mails.
+        Added
+        BetofficeMailer for sending confirmation mails.
       </action>
       <action dev="andrewinkler" type="update" date="2012-11-25">
-        Java 7 compilation.
+        Java 7
+        compilation.
       </action>
       <action dev="andrewinkler" type="add" date="2012-11-05">
-        Seperated the 'add tipp' service.
+        Seperated the
+        'add tipp' service.
       </action>
     </release>
 
     <release version="betoffice-storage-1.1.5" date="2013-03-18"
       description="Bugfix.">
       <action dev="andrewinkler" type="fix" date="2013-03-18">
-        Bugfix for MailDownloadManager. Missing sending time causes
-        a NullPointerException. This error happens if the new
-        tomcat server backend sends a confirmation email. This error
-        will be fixed with version 1.2.0.
+        Bugfix for
+        MailDownloadManager. Missing sending time causes
+        a
+        NullPointerException. This error happens if the new
+        tomcat server
+        backend sends a confirmation email. This error
+        will be fixed with
+        version 1.2.0.
       </action>
     </release>
 
     <release version="betoffice-storage-1.1.4" date="2012-09-27"
       description="Create automatic a round.">
       <action dev="andrewinkler" type="update" date="2012-09-19">
-        Real datetime columns for date informations for table bo_gamelist.
+        Real datetime
+        columns for date informations for table bo_gamelist.
       </action>
       <action dev="andrewinkler" type="update" date="2012-09-07">
-        Real datetime columns for date informations for table bo_game.
+        Real datetime
+        columns for date informations for table bo_game.
       </action>
       <action dev="andrewinkler" type="update" date="2012-08-07">
-        Used the spring annotations for service and repository.
+        Used the
+        spring annotations for service and repository.
       </action>
       <action dev="andrewinkler" type="fix" date="2012-06-28">
-        Updated the mysql connector to version 5.1.20.
+        Updated the
+        mysql connector to version 5.1.20.
       </action>
       <action dev="andrewinkler" type="fix" date="2012-01-21">
-        Fix for the mail download manager. Ignore unknown mail content.
+        Fix for the mail
+        download manager. Ignore unknown mail content.
       </action>
       <action dev="andrewinkler" type="remove" date="2012-03-04">
-        Removed the Groovy dependencies for some test cases. Moved the
-        test cases to a new project betoffice-groovy. The same procedure
-        for the dependency Derby.
+        Removed the
+        Groovy dependencies for some test cases. Moved the
+        test cases to
+        a new project betoffice-groovy. The same procedure
+        for the
+        dependency Derby.
       </action>
       <action dev="andrewinkler" type="update" date="2012-03-17">
-        Distinct users for production and test database. Created a new
-        database script for the test database.
+        Distinct
+        users for production and test database. Created a new
+        database
+        script for the test database.
       </action>
     </release>
 
@@ -298,22 +364,29 @@
     <release version="betoffice-storage-1.1.2" date="2011-03-20"
       description="Code clean up.">
       <action dev="awinkler2" type="add" date="2011-02-07">
-        Moved the Hibernate mapping definitions from file
-        betoffice-datasource.xml to betoffice-persistence.xml.
+        Moved the Hibernate
+        mapping definitions from file
+        betoffice-datasource.xml to
+        betoffice-persistence.xml.
       </action>
       <action dev="awinkler2" type="add" date="2011-01-25">
-        Season and Team classes get a new property 'teamType'.
+        Season and Team
+        classes get a new property 'teamType'.
       </action>
       <action dev="awinkler2" type="update" date="2011-01-16">
-        Removed to copyTo() method of interface StorageObject.
+        Removed to
+        copyTo() method of interface StorageObject.
       </action>
       <action dev="awinkler2" type="update" date="2010-08-24">
-        Refactored the SeasonManagerService tests. Added some tests to get
-        a better test coverage for DefaultMasterDataService and
+        Refactored the
+        SeasonManagerService tests. Added some tests to get
+        a better test
+        coverage for DefaultMasterDataService and
         DefaultSeasonDataService.
       </action>
       <action dev="awinkler2" type="remove" date="2010-08-22">
-        Removed the PropertyChangeEvent handling from all storage objects.
+        Removed the
+        PropertyChangeEvent handling from all storage objects.
       </action>
     </release>
 
@@ -324,65 +397,87 @@
         if there were no rounds for the season.
       </action>
       <action dev="awinkler2" type="add" date="2010-08-14">
-        A new MySql script to convert the table character encoding.
+        A new MySql script
+        to convert the table character encoding.
       </action>
       <action dev="awinkler2" type="update" date="2010-08-12">
-        A new service method to find a match of a special round.
+        A new service
+        method to find a match of a special round.
       </action>
       <action dev="awinkler2" type="update" date="2010-08-10">
-        Some new service methods to work with team alias names.
+        Some new service
+        methods to work with team alias names.
       </action>
       <action dev="awinkler2" type="add" date="2010-08-10">
-        Comparator for class TeamAlias.
+        Comparator for
+        class TeamAlias.
       </action>
       <action dev="awinkler2" type="update" date="2010-08-01">
-        The GroupDaoHibernate#findBySeason() method returns the groups of
-        the season. The reference to season and group type is also resolved.
+        The
+        GroupDaoHibernate#findBySeason() method returns the groups of
+        the season. The reference to season and group type is also
+        resolved.
       </action>
       <action dev="awinkler2" type="update" date="2010-08-01">
-        Changed the fetching strategy between Game and GameList to lazy=false.
+        Changed the
+        fetching strategy between Game and GameList to lazy=false.
       </action>
       <action dev="awinkler2" type="update" date="2010-08-01">
-        Removed some dependencies: commons-logging was substituted by slf4j.
+        Removed some
+        dependencies: commons-logging was substituted by slf4j.
       </action>
     </release>
 
     <release version="betoffice-storage-1.1.0" date="2010-07-14"
       description="Stabilisierung.">
       <action dev="awinkler2" type="update" date="2010-07-14">
-        Prepare for release. No changes. No fixes.
+        Prepare for
+        release. No changes. No fixes.
       </action>
     </release>
 
     <release version="betoffice-storage-1.1.0-rc5" date="2010-07-04"
       description="Stabilisierung.">
       <action dev="awinkler2" type="fix" date="2010-06-27">
-        Fix for ticket #4: Table calculation - Goal difference.
+        Fix for ticket #4:
+        Table calculation - Goal difference.
       </action>
       <action dev="awinkler2" type="fix" date="2010-06-23">
-        Fixed the file encoding of the apt sites.
+        Fixed the file
+        encoding of the apt sites.
       </action>
     </release>
 
     <release version="betoffice-storage-1.1.0-rc4" date="2010-06-17"
       description="Stabilisierung.">
       <action dev="awinkler2" type="fix" date="2010-06-15">
-        Die DAO Methode RoundDaoHibernate#findRounds() sortiert die
+        Die DAO Methode
+        RoundDaoHibernate#findRounds() sortiert die
         Spieltage.
       </action>
       <action dev="awinkler2" type="update" date="2010-06-09">
+<<<<<<< HEAD
         Die Service Methode SeasonManagerService#addMatch(...) um die
         zusätzlichen, optionalen Parameter homeGoals und guestGoals
         erweitert.
+=======
+        Die Service
+        Methode SeasonManagerService#addMatch(...) um die
+        zusätzlichen,
+        optionalen Parameter homeGoals und guestGoals erweitert.
+>>>>>>> master
       </action>
       <action dev="awinkler2" type="update" date="2010-06-03">
-        Die Methode calculateUserRanking(...) der Klasse UserDao erhalten
-        einen zusätzlichen Parameter List mit den zu erwartenden Teilnehmern
+        Die Methode
+        calculateUserRanking(...) der Klasse UserDao erhalten
+        einen
+        zusätzlichen Parameter List mit den zu erwartenden Teilnehmern
         der Auswertung. Das erleichtert die SQL Abfragen. Eventuell wird
         dieser Punkt in späteren Releases wieder überarbeitet.
       </action>
       <action dev="awinkler2" type="update" date="2010-05-15">
-        BetofficeStore wird immer mit den Spring Konfigurationen
+        BetofficeStore
+        wird immer mit den Spring Konfigurationen
         betoffice-datasource.xml und betoffice-persistence.xml
         gestartet.
       </action>
@@ -391,71 +486,109 @@
     <release version="betoffice-storage-1.1.0-rc3" date="2010-05-11"
       description="Stabilisierung.">
       <action dev="awinkler2" type="fix" date="2010-04-23">
-        Spring: FileSystemApplicationContext statt BeanFactory und alle
-        seltsamen Probleme lösen sich in Luft auf. In diesem Zuge wurde auch
+        Spring:
+        FileSystemApplicationContext statt BeanFactory und alle
+        seltsamen Probleme lösen sich in Luft auf. In diesem Zuge wurde
+        auch
         gleich die Klasse SpringBean komplett umgestellt.
       </action>
       <action dev="awinkler2" type="add" date="2009-12-17">
-        Datenbank Konvertierungsskript angepasst. Das Encoding wird für die
+        Datenbank
+        Konvertierungsskript angepasst. Das Encoding wird für die
         Datenbank und alle Tabellen auf UTF-8 umgestellt.
       </action>
       <action dev="awinkler2" type="add" date="2009-12-15">
+<<<<<<< HEAD
         Neue Service Methode #findRoundGroupTeamUserTippRelations(...). Diese
         sucht und lädt alle Objekte zur einer Meisterschaft inklusive
         aller
+=======
+        Neue Service
+        Methode #findRoundGroupTeamUserTippRelations(...). Diese
+        sucht
+        und lädt alle Objekte zur einer Meisterschaft inklusive aller
+>>>>>>> master
         Tipps von allen aktiven Teilnehmern.
       </action>
       <action dev="awinkler2" type="add" date="2009-11-20">
-        Neue Service Methode #addTipp(...) für das Anlegen aller Tipps eines
+        Neue Service
+        Methode #addTipp(...) für das Anlegen aller Tipps eines
         Spieltags für einen Teilnehmer.
       </action>
       <action dev="awinkler2" type="add" date="2009-11-22">
-        Beispielskript für das Backup einer MySQL Datenbank unter Unix/Linux.
+        Beispielskript für
+        das Backup einer MySQL Datenbank unter Unix/Linux.
       </action>
       <action dev="awinkler2" type="update" date="2009-11-24">
-        Aus den StorageException werden RuntimeException.
+        Aus den
+        StorageException werden RuntimeException.
       </action>
     </release>
 
     <release version="betoffice-storage-1.1.0-rc2" date="2009-11-15"
       description="Stabilisierung.">
       <action dev="awinkler2" type="add" date="2009-09-30">
-        Neue Service Methode #findTeamsByGroupType(Season, GroupType) in
+        Neue Service
+        Methode #findTeamsByGroupType(Season, GroupType) in
         SeasonManagerService.
       </action>
       <action dev="awinkler2" type="add" date="2009-08-29">
-        Umstellung auf UTF-8 für alle Sourcen.
+        Umstellung auf
+        UTF-8 für alle Sourcen.
       </action>
       <action dev="awinkler2" type="add" date="2009-08-18">
+<<<<<<< HEAD
         Neue Service Methode #findTamByAlias(String) in
         MasterDataManagerService.
+=======
+        Neue Service
+        Methode #findTamByAlias(String) in MasterDataManagerService.
+>>>>>>> master
       </action>
       <action dev="awinkler2" type="add" date="2009-07-31">
-        Neue Service Methode #updateMatch(Collection) in SeasonManagerService.
+        Neue Service
+        Methode #updateMatch(Collection) in SeasonManagerService.
       </action>
       <action dev="awinkler2" type="update" date="2009-08-13">
+<<<<<<< HEAD
         Umbau der Service Methoden: Einige Methoden gehen nun davon aus,
         dass die Objektreferenzen von Season gesetzt sind. Ist eine
         Meisterschaft ausgewählt, so werden deren Referenzen geladen.
         Diese
         beinhalten alle Gruppen, Mannschaften, Tippteilnehmer und alle
+=======
+        Umbau der
+        Service Methoden: Einige Methoden gehen nun davon aus,
+        dass die
+        Objektreferenzen von Season gesetzt sind. Ist eine
+        Meisterschaft
+        ausgewählt, so werden deren Referenzen geladen. Diese
+        beinhalten
+        alle Gruppen, Mannschaften, Tippteilnehmer und alle
+>>>>>>> master
         Spieltage.
       </action>
       <action dev="awinkler2" type="add" date="2009-07-31">
-        Neue Service Methode #findGroupTypesBySeason().
+        Neue Service
+        Methode #findGroupTypesBySeason().
       </action>
       <action dev="awinkler2" type="add" date="2009-07-30">
-        Service Methoden zur Auswertung der Meisterschaft (Team und User
-        Ranking). Berechnung erfolgt nur noch über SQL Abfragen. Die Klasse
+        Service Methoden
+        zur Auswertung der Meisterschaft (Team und User
+        Ranking).
+        Berechnung erfolgt nur noch über SQL Abfragen. Die Klasse
         EvalualtionUtils entfällt ersatzlos.
       </action>
       <action dev="awinkler2" type="remove" date="2009-07-29">
-        StorageContext verwaltet nicht mehr die aktuell geöffnete Meisterschaft
+        StorageContext
+        verwaltet nicht mehr die aktuell geöffnete Meisterschaft
         der GUI.
       </action>
       <action dev="andrewinkler" type="add" date="2009-06-24">
-        Ein Package 'validation' zur Weiterverarbeitung von
-        Validierungsnachrichten für das Frontend, generiert aus der
+        Ein Package
+        'validation' zur Weiterverarbeitung von
+        Validierungsnachrichten
+        für das Frontend, generiert aus der
         Service-Schnittstelle.
       </action>
     </release>
@@ -463,47 +596,71 @@
     <release version="betoffice-storage-1.1.0-rc1" date="2009-05-05"
       description="Umstellung auf Service-Charakter.">
       <action dev="awinkler2" type="add" date="2008-07-18">
-        Die erstellte Site wird nach Ausfuehrung des Maven Goals target per
-        Ant-FTP auf den Server transferiert.
+        Die erstellte Site
+        wird nach Ausfuehrung des Maven Goals target per
+        Ant-FTP auf den
+        Server transferiert.
       </action>
       <action dev="awinkler2" type="update" date="2008-07-16">
-        Die Default MySQL Datenbank verwendet zukuenftig den Typ InnoDB.
+        Die Default
+        MySQL Datenbank verwendet zukuenftig den Typ InnoDB.
       </action>
       <action dev="awinkler2" type="add" date="2008-01-06">
+<<<<<<< HEAD
         Im ersten Schritt wird betoffice-tippengine wieder in
         betoffice-storage
         integriert. Das Projekt betoffice-tippengine greift auf die inneren
         Datenstrukturen von betoffice-storgae zu, was sich nicht so gut
         mit
+=======
+        Im ersten Schritt
+        wird betoffice-tippengine wieder in betoffice-storage
+        integriert. Das Projekt betoffice-tippengine greift auf die
+        inneren
+        Datenstrukturen von betoffice-storgae zu, was sich nicht
+        so gut mit
+>>>>>>> master
         dem Gedanken einer Service-Schnittstelle vereinbart.
       </action>
       <action dev="awinkler2" type="add" date="2008-01-06">
-        Aenderung der Datenbankstruktur: Loeschen der Tabelle BO_GAMEDAYLIST
-        und Umbenennung der Spalte bo_gamedaylist_ref nach bo_season_ref in
+        Aenderung der
+        Datenbankstruktur: Loeschen der Tabelle BO_GAMEDAYLIST
+        und
+        Umbenennung der Spalte bo_gamedaylist_ref nach bo_season_ref in
         der Tabelle BO_GAMELIST
       </action>
       <action dev="awinkler2" type="update" date="2008-01-04">
-        Testdaten fuer den Integrationstest aus der Produktion mit
-        Unterstuetzung von DBUnit.
+        Testdaten fuer
+        den Integrationstest aus der Produktion mit
+        Unterstuetzung von
+        DBUnit.
       </action>
       <action dev="awinkler2" type="add" date="2007-11-26">
+<<<<<<< HEAD
         Umbau der Service-Klassen. Umstellung auf deklarative
+=======
+        Umbau der
+        Service-Klassen. Umstellung auf deklarative
+>>>>>>> master
         Spring-Transaktionen. Eine Meisterschaft wird bei Restore aus
         der
         Datenbank nicht komplett geladen, sondern nur Season.
       </action>
       <action dev="awinkler2" type="add" date="2007-12-03">
-        Groovy als Test-Sprache.
+        Groovy als
+        Test-Sprache.
       </action>
     </release>
 
     <release version="betoffice-storage-1.0.2" date="2007-11-20"
       description="Bugfix and little enhancement release.">
       <action dev="awinkler2" type="update" date="2007-09-27">
-        Die Klasse ObjectState aus dem Datenmodell entfernt.
+        Die Klasse
+        ObjectState aus dem Datenmodell entfernt.
       </action>
       <action dev="awinkler2" type="update" date="2007-11-17">
-        Ein paar Generics eingestreut.
+        Ein paar
+        Generics eingestreut.
       </action>
     </release>
 
@@ -513,14 +670,25 @@
         UserResultOfDayComparator auf Generics umgestellt.
       </action>
       <action dev="awinkler2" type="add" date="2007-04-15">
-        Klasse fuer das Anlegen des Datenbankschemas. Testmethode, ob Schema
-        vorhanden ist.
+        Klasse fuer das
+        Anlegen des Datenbankschemas. Testmethode, ob Schema
+        vorhanden
+        ist.
       </action>
       <action dev="awinkler2" type="fix" date="2007-05-15">
+<<<<<<< HEAD
         User referenzierte UserSeason mit dem falschen Schluessel. Hibernate
         legte zwei Constraints an: Einen Richtigen und einen Falschen.
         Unter
         MySQL war dies kein Problem. Mit Derby sind die Constraints aber
+=======
+        User referenzierte
+        UserSeason mit dem falschen Schluessel. Hibernate
+        legte zwei
+        Constraints an: Einen Richtigen und einen Falschen. Unter
+        MySQL
+        war dies kein Problem. Mit Derby sind die Constraints aber
+>>>>>>> master
         bindend.
       </action>
     </release>
@@ -528,32 +696,48 @@
     <release version="betoffice-storage-1.0.0" date="2006-05-??"
       description="Auslagerung als Projekt 'betoffice-storage'">
       <action dev="awinkler2" type="update" date="2006-12-18">
-        Umstellung auf Maven2, Hibernate3 und Springframework 2.0
+        Umstellung auf
+        Maven2, Hibernate3 und Springframework 2.0
       </action>
       <action dev="awinkler2" type="info" date="2006-05-02">
-        Alle Kollektionen sind lazy="false" definiert.
-        Optimierungsmöglichkeiten? Probleme für den Client bei Lazy und
-        Session Handling (bsp. das neu berechnen der Tippergebnisse nach
-        umsetzen eines Spielergebnisses.
+        Alle Kollektionen
+        sind lazy="false" definiert.
+        Optimierungsmöglichkeiten? Probleme
+        für den Client bei Lazy und
+        Session Handling (bsp. das neu
+        berechnen der Tippergebnisse nach
+        umsetzen eines
+        Spielergebnisses.
       </action>
       <action dev="awinkler2" type="add" date="2005-07-12">
-        Die Tests für die Hibernate-Persistenz laufen 'endlich' erfolgreich
-        durch. Interessanterweise waren die letzten Probleme hausgemacht
-        und konnten nicht auf Hibernate abgewälzt werden.
+        Die Tests für die
+        Hibernate-Persistenz laufen 'endlich' erfolgreich
+        durch.
+        Interessanterweise waren die letzten Probleme hausgemacht
+        und
+        konnten nicht auf Hibernate abgewälzt werden.
       </action>
       <action dev="awinkler2" type="add" date="2005-03-31">
-        Umstellung von 'commons-discovery' auf das 'Spring Framework'.
+        Umstellung von
+        'commons-discovery' auf das 'Spring Framework'.
       </action>
       <action dev="awinkler2" type="add" date="2005-03-24">
-        Aufsplitterung Projekt 'betoffice' nach 'betoffice-storage'.
+        Aufsplitterung
+        Projekt 'betoffice' nach 'betoffice-storage'.
       </action>
     </release>
   </body>
   <footer>
     <legal>
       Copyright (c) @year@ The 'betoffice-storage' Project
+<<<<<<< HEAD
       All rights reserved. $Revision: 3949 $ $Date: 2014-04-27 22:47:23 +0200
       (Sun, 27 Apr 2014) $
+=======
+      All
+      rights reserved. $Revision: 3949 $ $Date: 2014-04-27 22:47:23
+      +0200 (Sun, 27 Apr 2014) $
+>>>>>>> master
     </legal>
   </footer>
 </document>

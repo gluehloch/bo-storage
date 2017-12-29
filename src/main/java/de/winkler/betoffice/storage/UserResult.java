@@ -29,8 +29,7 @@ import org.slf4j.Logger;
 import de.awtools.basic.LoggerFactory;
 
 /**
- * UserResult verwaltet den Punktestand eines Teilnehmers
- * für eine Saison.
+ * UserResult verwaltet den Punktestand eines Teilnehmers für eine Saison.
  *
  * @author Andre Winkler
  */
@@ -69,7 +68,8 @@ public class UserResult {
     /**
      * Konstruktor.
      *
-     * @param _user Der Teilnehmer.
+     * @param _user
+     *            Der Teilnehmer.
      */
     public UserResult(final User _user) {
         user = _user;

@@ -32,29 +32,29 @@ import java.util.List;
 import de.winkler.betoffice.storage.GroupType;
 
 /**
- * Stellt ein paar Gruppentypen zu Testzwecken zur Verfügung. 
- * <br>
+ * Stellt ein paar Gruppentypen zu Testzwecken zur Verfügung. <br>
  * <strong>Nur zu Testzwecken zu verwenden!</strong>
  *
- * @author  $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @author $Author: andrewinkler $
+ * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
+ *          2013) $
  */
 public final class DummyGroups {
 
     /** Eine Sammlung von Mannschaften. */
     public static final String[][] GROUPTYPE_PROPS = {
-        {"1. Bundesliga"},
-        {"2. Bundesliga"},
-        {"Regionalliga Nord"},
-        {"Regionalliga Süd"},
-        {"Oberliga Nordrhein"},
-        {"Bayernliga"},
-        {"Finale"},
-        {"Halbfinale"},
-        {"Viertelfinale"},
-        {"Achtelfinale"}
+            { "1. Bundesliga" },
+            { "2. Bundesliga" },
+            { "Regionalliga Nord" },
+            { "Regionalliga Süd" },
+            { "Oberliga Nordrhein" },
+            { "Bayernliga" },
+            { "Finale" },
+            { "Halbfinale" },
+            { "Viertelfinale" },
+            { "Achtelfinale" }
     };
-    
+
     /** 1. Bundesliga steht an Index 0 in der Ligen. */
     public static final int BULI_1 = 0;
 
@@ -70,7 +70,7 @@ public final class DummyGroups {
     /** OL Nordrhein steht an Index 4 in der Ligen. */
     public static final int OL_NORDRHEIN = 4;
 
-    /** OL Bayern  steht an Index 5 in der Ligen. */
+    /** OL Bayern steht an Index 5 in der Ligen. */
     public static final int OL_BAYERN = 5;
 
     /** Finale steht an Index 6 in der Ligen. */
@@ -113,7 +113,8 @@ public final class DummyGroups {
     /**
      * Einen neue Testliga den Ligen hinzufügen.
      *
-     * @param groupType Eine neue Testliga.
+     * @param groupType
+     *            Eine neue Testliga.
      */
     public void add(final GroupType groupType) {
         groupTypes.add(groupType);
@@ -122,7 +123,8 @@ public final class DummyGroups {
     /**
      * Entfernt eine Liga.
      *
-     * @param groupType Die zu entfernende Liga.
+     * @param groupType
+     *            Die zu entfernende Liga.
      */
     public void delete(final GroupType groupType) {
         groupTypes.remove(groupType);

@@ -33,19 +33,22 @@ import java.util.Comparator;
  * Sortiert die Spieltage nach deren Index.
  *
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul 2013) $
+ * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
+ *          +0200 (Sat, 27 Jul 2013) $
  */
 public class GameDayComparator implements Comparator<GameList> {
 
     /**
      * Vergleicht zwei GameList miteinander.
      *
-     * @param o1 GameList Nr 1.
-     * @param o2 GameList Nr 2.
+     * @param o1
+     *            GameList Nr 1.
+     * @param o2
+     *            GameList Nr 2.
      * @return -1, o1 &lt; o2; 0, o1 == o2; +1, o1 &gt; o2.
      */
     public int compare(GameList o1, GameList o2) {
-        if ( o1.getIndex () > o2.getIndex () ) {
+        if (o1.getIndex() > o2.getIndex()) {
             return 1;
         } else {
             return -1;
@@ -59,5 +62,5 @@ public class GameDayComparator implements Comparator<GameList> {
             return false;
         }
     }
-    
+
 }

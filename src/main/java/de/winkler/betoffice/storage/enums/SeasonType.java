@@ -53,7 +53,7 @@ public enum SeasonType {
     EC("EC");
 
     private String name;
-    
+
     private SeasonType(final String _name) {
         name = _name;
     }

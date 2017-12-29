@@ -52,7 +52,7 @@ import de.winkler.betoffice.test.DummyUsers;
 public class InfoCenterTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
-    
+
     /** Der private Logger der Klasse. */
     private static Log log = LogFactory.getLog(InfoCenterTest.class);
 
@@ -86,12 +86,12 @@ public class InfoCenterTest {
         // Bei einer Standardeinstellung 13/10/0 ergeben sich
         // folgende Werte:
         Game game = scene.getSeason().getGamesOfDay(0).unmodifiableList()
-            .get(0);
+                .get(0);
         GameTipp tipp = game.getGameTipp(frosch);
         assertEquals(tipp.getTipp().getToto(), game.getResult().getToto());
 
         UserResultOfDay urod = scene.getSeason().getGamesOfDay(0)
-            .getUserPoints(frosch);
+                .getUserPoints(frosch);
 
         log.error(game.getGameTipp(frosch));
         log.error("Fertig: " + game.isPlayed());
@@ -103,23 +103,23 @@ public class InfoCenterTest {
         log.error("TotoResult: " + tipp.getTotoResult());
 
         assertEquals(1, scene.getSeason().getGamesOfDay(0)
-            .getUserPoints(frosch).getToto());
+                .getUserPoints(frosch).getToto());
         assertEquals(0, scene.getSeason().getGamesOfDay(0)
-            .getUserPoints(frosch).getWin());
+                .getUserPoints(frosch).getWin());
         assertEquals(4, scene.getSeason().getGamesOfDay(0)
-            .getUserPoints(frosch).getTipps());
+                .getUserPoints(frosch).getTipps());
 
         assertEquals(10, scene.getSeason().getGamesOfDay(0).getUserPoints(
-            frosch).getPoints());
+                frosch).getPoints());
         assertEquals(13, scene.getSeason().getGamesOfDay(0).getUserPoints(
-            hattwig).getPoints());
+                hattwig).getPoints());
         assertEquals(23, scene.getSeason().getGamesOfDay(0).getUserPoints(
-            mrTipp).getPoints());
+                mrTipp).getPoints());
         assertEquals(13, scene.getSeason().getGamesOfDay(0)
-            .getUserPoints(peter).getPoints());
+                .getUserPoints(peter).getPoints());
 
         assertEquals(mrTipp, InfoCenter.getMaxTipp(scene.getSeason()
-            .getGamesOfDay(0), scene.getUsers().toList()));
+                .getGamesOfDay(0), scene.getUsers().toList()));
     }
 
     @Test
@@ -150,7 +150,7 @@ public class InfoCenterTest {
         // User C hat keinen Tipp richtig. Alle anderen mind. einen
         // Tipp richtig.
         assertEquals(mrTipp, InfoCenter.getMinTipp(
-            scene.getSeason().getGamesOfDay(0), users).getUser());
+                scene.getSeason().getGamesOfDay(0), users).getUser());
 
         // User A: 26 Punkte
         // User B: 0 Punkte
@@ -171,7 +171,7 @@ public class InfoCenterTest {
         // User C hat keinen Tipp richtig. Alle anderen mind. einen
         // einen Tipp richtig.
         assertEquals(hattwig, InfoCenter.getMinTipp(
-            scene.getSeason().getGamesOfDay(0), users).getUser());
+                scene.getSeason().getGamesOfDay(0), users).getUser());
     }
 
     @Test
@@ -188,24 +188,26 @@ public class InfoCenterTest {
 
         Game ohneTipp = new Game();
         assertTrue("Kein Tipp vorhanden.",
-            InfoCenter.getMediumTipp(ohneTipp) == null);
+                InfoCenter.getMediumTipp(ohneTipp) == null);
 
         Game nurAutoTipp = new Game();
 
-        nurAutoTipp.addTipp(JUNIT_TOKEN, frosch, new GameResult(1, 0), TippStatusType.AUTO);
-        nurAutoTipp.addTipp(JUNIT_TOKEN, hattwig, new GameResult(1, 0), TippStatusType.AUTO);
+        nurAutoTipp.addTipp(JUNIT_TOKEN, frosch, new GameResult(1, 0),
+                TippStatusType.AUTO);
+        nurAutoTipp.addTipp(JUNIT_TOKEN, hattwig, new GameResult(1, 0),
+                TippStatusType.AUTO);
 
         assertTrue("Nur AUTO-Tipps vorhanden.", InfoCenter
-            .getMediumTipp(nurAutoTipp) == null);
+                .getMediumTipp(nurAutoTipp) == null);
 
         Game g = new Game();
 
         GameTipp tipp1 = g.addTipp(JUNIT_TOKEN, frosch, new GameResult(1, 0),
-            TippStatusType.USER);
+                TippStatusType.USER);
         GameTipp tipp2 = g.addTipp(JUNIT_TOKEN, hattwig, new GameResult(1, 0),
-            TippStatusType.USER);
+                TippStatusType.USER);
         GameTipp tipp3 = g.addTipp(JUNIT_TOKEN, mrTipp, new GameResult(1, 0),
-            TippStatusType.USER);
+                TippStatusType.USER);
 
         assertEquals(InfoCenter.getMediumTipp(g), new GameResult(1, 0));
 

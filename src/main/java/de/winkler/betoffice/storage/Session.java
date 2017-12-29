@@ -32,7 +32,7 @@ import java.util.Date;
  * @author by Andre Winkler
  */
 public class Session {
-    
+
     // -- id ------------------------------------------------------------------
 
     /** Der Primärschlüssel. */
@@ -58,75 +58,75 @@ public class Session {
     protected void setId(final Long value) {
         id = value;
     }
-    
+
     // -- nickname ------------------------------------------------------------
-    
+
     private String nickname;
-    
+
     public String getNickname() {
         return nickname;
     }
-    
+
     public void setNickname(String value) {
         nickname = value;
     }
-    
+
     // -- token ---------------------------------------------------------------
-    
+
     private String token;
-    
+
     public String getToken() {
         return token;
     }
-    
+
     public void setToken(String value) {
         token = value;
     }
 
     // -- login ---------------------------------------------------------------
-    
+
     private Date login;
-    
+
     public Date getLogin() {
         return login;
     }
-    
+
     public void setLogin(Date date) {
         login = date;
     }
 
     // -- logout --------------------------------------------------------------
-    
+
     private Date logout;
-    
+
     public Date getLogout() {
         return logout;
     }
-    
+
     public void setLogout(Date value) {
         logout = value;
     }
-    
+
     // -- remoteAddress -------------------------------------------------------
-    
+
     private String remoteAddress;
-    
+
     public String getRemoteAddress() {
         return remoteAddress;
     }
-    
+
     public void setRemoteAddress(String ip) {
         remoteAddress = ip;
     }
-    
+
     // -- browser -------------------------------------------------------------
-    
+
     private String browser;
-    
+
     public String getBrowser() {
         return browser;
     }
-    
+
     public void setBrowser(String value) {
         browser = value;
     }
@@ -134,15 +134,15 @@ public class Session {
     // -- failedLogins --------------------------------------------------------
 
     private int failedLogins;
-    
+
     public int getFailedLogins() {
         return failedLogins;
     }
-    
+
     public void setFailedLogins(int value) {
         failedLogins = value;
     }
-    
+
     // -- user ----------------------------------------------------------------
 
     /** Der eingeloggte Spieler. */
@@ -153,9 +153,7 @@ public class Session {
      *
      * @return Der Teilnehmer.
      *
-     * @hibernate.many-to-one
-     *     column="bo_user_ref"
-     *     cascade="none"
+     * @hibernate.many-to-one column="bo_user_ref" cascade="none"
      */
     public User getUser() {
         return user;
@@ -164,8 +162,10 @@ public class Session {
     /**
      * Setzt den User für diesen GameTipp.
      *
-     * @param value Der neue User.
-     * @throws IllegalArgumentException value als null-Parameter übergeben.
+     * @param value
+     *            Der neue User.
+     * @throws IllegalArgumentException
+     *             value als null-Parameter übergeben.
      */
     public void setUser(final User value) {
         user = value;
