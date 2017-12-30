@@ -12,7 +12,11 @@ docker tag <imageid> betoffice/mariadb:latest
 docker tag 7d9495d03763 maryatdocker/docker-whale:latest
 
 *** Run the image ***
+docker run --name bodata -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mariadb:latest
 
+TODO: Das Schema wird derzeit nicht angelegt und ist nicht teil eines Images.
+
+*** Some examples ***
 docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d  <your-image-id>
 docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d  maryatdocker/docker-whale:latest
 docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb/awi:latest
