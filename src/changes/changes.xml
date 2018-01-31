@@ -14,6 +14,13 @@
       </action>
     </release>
     
+    <release version="betoffice-storage-2.5.1" date="2018-01-30"
+      description="FIX: Add and remove user from season">
+      <action dev="andrewinkler" type="fix" date="2018-01-30">
+        FIX for adding and removing users from a season.
+      </action>
+    </release>
+    
     <!-- RELEASED -->
     <release version="betoffice-storage-2.5.0" date="2017-11-24"
       description="User experience">
