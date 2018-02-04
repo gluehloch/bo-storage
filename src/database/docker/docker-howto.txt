@@ -19,7 +19,13 @@ docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=
 
 docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d gluehloch/mariadb-awi:latest
 
+
+docker run --name bodata -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb:latest
+
+
 -- Nach Vorbereitung des Images, commit ...
+-- Die Adresse 127.0.0.1 ist nicht korrekt, wenn die Instanz von 'außen' erreichbar sein soll.
+-- Besser ist die IP Adresse des Containers: Also z.B. 192.168.99.100
 docker run --name testtest -p 127.0.0.1:3306:3306  -d  gluehloch/mariadb-dbload
 
 *** Config the maria ***
@@ -43,7 +49,15 @@ RUN ["apt-get", "update"]
 RUN ["apt-get", "install", "-y", "vim"]
 
 
+In der MariaDB Konfiguration müssen dann noch die folgenden Einstellungen vorgenommen werden.
+Die folgenden Zeilen müssen kommentiert bleiben.
+[mysqld]
+    ...
+    #skip-networking
+    ...
+    #bind-address = <some ip-address>
 
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
 
 ************* MARIA DB Anpassungen *****************************
 innodb_buffer_pool_size = 64M
