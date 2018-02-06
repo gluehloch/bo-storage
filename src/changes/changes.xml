@@ -136,13 +136,8 @@
         changes: SeasonManagerService#calculateTeamRanking
       </action>
       <action dev="andrewinkler" type="add" date="2015-11-13">
-<<<<<<< HEAD
         A new table bo_session to store user session data and security
         token..
-=======
-        A new table
-        bo_session to store user session data and security token..
->>>>>>> master
       </action>
       <action dev="andrewinkler" type="add" date="2015-10-27">
         An
