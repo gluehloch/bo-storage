@@ -13,15 +13,16 @@ docker tag 7d9495d03763 maryatdocker/docker-whale:latest
 
 *** Run the image ***
 
+---> ACHTUNG: Die IP Adresse ist anzupassen. So werden die Ports nur auf LOCALHOST freigeschaltet.
 docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d  <your-image-id>
 docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d  maryatdocker/docker-whale:latest
 docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb/awi:latest
-
 docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d gluehloch/mariadb-awi:latest
 
-
+---> bodata Name für die betoffice Datenbank.
 docker run --name bodata -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb:latest
 
+---> botom-1.1.1 / botomcat
 
 -- Nach Vorbereitung des Images, commit ...
 -- Die Adresse 127.0.0.1 ist nicht korrekt, wenn die Instanz von 'außen' erreichbar sein soll.
