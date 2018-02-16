@@ -4,16 +4,7 @@
     <title>Change Notes</title>
     <author email="andre.winkler@web.de">Andre Winkler</author>
   </properties>
-  <body>
-
-    <!-- Under construction -->
-    <release version="betoffice-storage-2.x.y" date="2017-xx-yy"
-      description="Dockerize the environment">
-      <action dev="andrewinkler" type="fix" date="2017-01-07">
-        Dockerize the test environment.
-      </action>
-    </release>
-    
+  <body>    
     <!-- Under construction. -->
     <release version="betoffice-storage-2.5.1" date="2018-01-30"
       description="FIX: Add and remove user from season">
