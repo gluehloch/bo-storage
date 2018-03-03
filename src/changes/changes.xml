@@ -6,7 +6,9 @@
   </properties>
   <body>    
     <!-- Under construction. -->
-    <release version="betoffice-storage-2.5.1" date="2018-01-30"
+    
+    <!-- RELEASED -->
+    <release version="betoffice-storage-2.5.1" date="2018-03-03"
       description="FIX: Add and remove user from season">
       <action dev="andrewinkler" type="fix" date="2018-01-30">
         FIX for adding and removing users from a season.
