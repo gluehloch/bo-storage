@@ -356,15 +356,15 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         List<User> activeUsers = findActivatedUsers(season);
         Season season2 = findRoundGroupTeamUserRelations(season);
 
-        for (User user : users) {
-            if (!activeUsers.contains(user)) {
-                UserSeason userSeason = new UserSeason();
-                userSeason.setUser(user);
-                userSeason.setRoleType(RoleType.TIPPER);
-                season2.addUser(userSeason);
-                getConfig().getUserSeasonDao().save(userSeason);
-            }
-        }
+        users.stream()
+             .filter(user -> !activeUsers.contains(user))
+             .forEach(user -> {
+                 UserSeason userSeason = new UserSeason();
+                 userSeason.setUser(user);
+                 userSeason.setRoleType(RoleType.TIPPER);
+                 season2.addUser(userSeason);
+                 getConfig().getUserSeasonDao().save(userSeason);
+             });
     }
 
     @Override
@@ -446,13 +446,15 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     @Override
     @Transactional
     public void removeUsers(Season season, Collection<User> users) {
-        List<User> activeUsers = season.getUsers();
-        for (User user : users) {
-            if (activeUsers.contains(user)) {
-                UserSeason userSeason = season.removeUser(user);
-                getConfig().getUserSeasonDao().delete(userSeason);
-            }
-        }
+        List<User> activeUsers = findActivatedUsers(season);
+        Season season2 = findRoundGroupTeamUserRelations(season);
+
+        users.stream()
+             .filter(user -> activeUsers.contains(user))
+             .forEach(user -> {
+                 UserSeason userSeason = season2.removeUser(user);
+                 getConfig().getUserSeasonDao().delete(userSeason);
+             });
     }
 
     @Override
