@@ -11,6 +11,9 @@
       <action dev="andrewinkler" type="fix" date="2018-03-04">
         Updated to the latest stable Spring and Hibernate versions.
       </action>
+      <action dev="andrewinkler" type="removed" date="2018-03-17">
+        Removed BoConfiguration.
+      </action>
     </release>
 
     <!-- RELEASED -->

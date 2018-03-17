@@ -30,11 +30,15 @@ import java.util.Optional;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.awtools.basic.LoggerFactory;
+import de.winkler.betoffice.dao.GameTippDao;
+import de.winkler.betoffice.dao.MatchDao;
 import de.winkler.betoffice.dao.RoundDao;
+import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.service.TippDto.GameTippDto;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
@@ -59,13 +63,25 @@ public class DefaultTippService extends AbstractManagerService
     /** Logger für die Klasse. */
     private final Logger log = LoggerFactory.make();
 
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private RoundDao roundDao;
+
+    @Autowired
+    private MatchDao matchDao;
+    
+    @Autowired
+    private GameTippDao gameTippDao;
+
     @Override
     @Transactional
     public GameTipp addTipp(String token, Game match, User user, GameResult gr,
             TippStatusType status) {
 
         GameTipp gameTipp = match.addTipp(token, user, gr, status);
-        getConfig().getGameTippDao().save(gameTipp);
+        gameTippDao.save(gameTipp);
         return gameTipp;
     }
 
@@ -85,8 +101,7 @@ public class DefaultTippService extends AbstractManagerService
         List<BetofficeValidationMessage> messages = new ArrayList<>();
 
         // Find related user by nick name...
-        Optional<User> user = getConfig().getUserDao()
-                .findByNickname(tippDto.getNickname());
+        Optional<User> user = userDao.findByNickname(tippDto.getNickname());
 
         if (!user.isPresent()) {
             BetofficeValidationMessage msg = new BetofficeValidationMessage(
@@ -98,8 +113,7 @@ public class DefaultTippService extends AbstractManagerService
         }
 
         // Find related round ...
-        GameList gameList = getConfig().getRoundDao()
-                .findById(tippDto.getRoundId());
+        GameList gameList = roundDao.findById(tippDto.getRoundId());
 
         if (gameList == null) {
             BetofficeValidationMessage msg = new BetofficeValidationMessage(
@@ -111,7 +125,7 @@ public class DefaultTippService extends AbstractManagerService
 
         // Find related tipp ...
         for (GameTippDto tipp : tippDto.getGameTipps()) {
-            Game game = getConfig().getMatchDao().findById(tipp.getGameId());
+            Game game = matchDao.findById(tipp.getGameId());
 
             // Time point of tipp submit must be before kick off.
             if (game.getDateTime() != null && tippDto.getSubmitTime()
@@ -122,7 +136,7 @@ public class DefaultTippService extends AbstractManagerService
                                 new GameResult(tipp.getHomeGoals(),
                                         tipp.getGuestGoals()),
                                 TippStatusType.USER);
-                getConfig().getGameTippDao().save(gameTipp);
+                gameTippDao.save(gameTipp);
             }
         }
     }
@@ -133,7 +147,7 @@ public class DefaultTippService extends AbstractManagerService
             TippStatusType status) {
 
         // TODO A performance killer?
-        getConfig().getMatchDao().refresh(match);
+        matchDao.refresh(match);
 
         addTipp(token, match, user, gr, status);
     }
@@ -144,7 +158,7 @@ public class DefaultTippService extends AbstractManagerService
         Date now = DateTime.now().toDate();
         for (GameTipp tipp : tipps) {
             tipp.setLastUpdateTime(now);
-            getConfig().getGameTippDao().update(tipp);
+            gameTippDao.update(tipp);
         }
     }
 
@@ -154,7 +168,7 @@ public class DefaultTippService extends AbstractManagerService
         try {
             GameTipp gameTipp = match.getGameTipp(user);
             match.removeTipp(gameTipp);
-            getConfig().getGameTippDao().delete(gameTipp);
+            gameTippDao.delete(gameTipp);
         } catch (StorageObjectNotFoundException ex) {
             log.info("Zu der Spielpaarung " + match + " besitzt der User "
                     + user + " keine Spieltipps.");
@@ -165,32 +179,31 @@ public class DefaultTippService extends AbstractManagerService
     @Override
     @Transactional
     public List<GameTipp> findTippsByRoundAndUser(GameList round, User user) {
-        return getConfig().getGameTippDao().findTippsByRoundAndUser(round,
+        return gameTippDao.findTippsByRoundAndUser(round,
                 user);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<GameTipp> findTippsByMatch(Game match) {
-        return getConfig().getGameTippDao().findByMatch(match);
+        return gameTippDao.findByMatch(match);
     }
 
     @Override
     @Transactional(readOnly = true)
     public GameList findTipp(GameList round, User user) {
-        return getConfig().getGameTippDao().findRound(round, user);
+        return gameTippDao.findRound(round, user);
     }
 
     @Override
     @Transactional(readOnly = true)
     public GameList findTipp(long roundId, long userId) {
-        return getConfig().getGameTippDao().findRound(roundId, userId);
+        return gameTippDao.findRound(roundId, userId);
     }
 
     @Override
     @Transactional(readOnly = true)
     public GameList findNextTippRound(long seasonId, DateTime date) {
-        RoundDao roundDao = getConfig().getRoundDao();
         Optional<Long> roundId = roundDao.findNextTippRound(seasonId, date);
         if (roundId.isPresent()) {
             return roundDao.findById(roundId.get());
@@ -202,7 +215,6 @@ public class DefaultTippService extends AbstractManagerService
     @Override
     @Transactional(readOnly = true)
     public GameList findPreviousTippRound(long seasonId, DateTime date) {
-        RoundDao roundDao = getConfig().getRoundDao();
         Optional<Long> roundId = roundDao.findLastTippRound(seasonId, date);
         if (roundId.isPresent()) {
             return roundDao.findById(roundId.get());
