@@ -25,26 +25,26 @@ where
   )
   and
   (
-  (
-    /* Toto 1 */
-        m.bo_homegoals > m.bo_guestgoals
-    /* User Toto 1*/
-    and t.bo_homegoals > t.bo_guestgoals
-  )
-  or
-  (
-    /* Toto 0 */
-        m.bo_homegoals = m.bo_guestgoals
-    /* User Toto 0 */
-    and t.bo_homegoals = t.bo_guestgoals
-  )
-  or
-  (
-    /* Toto 2 */
-        m.bo_homegoals < m.bo_guestgoals
-    /* User Toto 2 */
-    and t.bo_homegoals < t.bo_guestgoals
-  )
+    (
+      /* Toto 1 */
+          m.bo_homegoals > m.bo_guestgoals
+      /* User Toto 1*/
+      and t.bo_homegoals > t.bo_guestgoals
+    )
+    or
+    (
+      /* Toto 0 */
+          m.bo_homegoals = m.bo_guestgoals
+      /* User Toto 0 */
+      and t.bo_homegoals = t.bo_guestgoals
+    )
+    or
+    (
+      /* Toto 2 */
+          m.bo_homegoals < m.bo_guestgoals
+      /* User Toto 2 */
+      and t.bo_homegoals < t.bo_guestgoals
+    )
   )
 group by
   u.bo_nickname
