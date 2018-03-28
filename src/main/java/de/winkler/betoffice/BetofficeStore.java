@@ -81,6 +81,7 @@ public class BetofficeStore {
         List<String> confs = new ArrayList<String>();
         confs.add("classpath:betoffice-datasource.xml");
         confs.add("classpath:betoffice-persistence.xml");
+        confs.add("file:hibernate.xml");
         for (String resource : applicationResources) {
             confs.add(resource);
         }

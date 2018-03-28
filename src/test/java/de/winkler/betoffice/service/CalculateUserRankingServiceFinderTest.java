@@ -27,8 +27,10 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.sql.DataSource;
 
@@ -101,11 +103,10 @@ public class CalculateUserRankingServiceFinderTest {
         GameList finale = rounds.get(24);
 
         List<GameTipp> tipps = tippService.findTippsByMatch(finale.get(0));
-        assertThat(tipps.size()).isEqualTo(8);
+        assertThat(tipps).hasSize(8);
 
         String[] nicknames = new String[] { "Roenne", "Jogi", "Goddard",
-                "Peter", "mrTipp", "chris", "Frosch",
-                "Hattwig" };
+                "Peter", "mrTipp", "chris", "Frosch", "Hattwig" };
 
         for (int index = 0; index < nicknames.length; index++) {
             assertThat(tipps.get(index).getUser().getNickName())
