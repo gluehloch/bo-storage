@@ -44,6 +44,30 @@
     <property name="password">
       <value>betoffice</value>
     </property>
+<!--
+    hibernate_dialect = org.hibernate.dialect.MySQLDialect
+-->    
   </bean>
 
+<!--
+  <bean id="myDataSource"
+    class="org.apache.commons.dbcp.BasicDataSource"
+    destroy-method="close">
+    <property name="defaultAutoCommit">
+    	<value>false</value>
+    </property>
+    <property name="driverClassName">
+      <value>${hibernate_connection_driver_class}</value>
+    </property>
+    <property name="url">
+      <value>${hibernate_connection_url}</value>
+    </property>
+    <property name="username">
+      <value>${hibernate_connection_username}</value>
+    </property>
+    <property name="password">
+      <value>${hibernate_connection_password}</value>
+    </property>
+  </bean>  
+-->
 </beans>
