@@ -8,6 +8,9 @@
     <!-- Under construction. -->
     <release version="betoffice-storage-2.5.2" date="2018-??-??"
       description="Spring and Hibernate version update">
+      <action dev="andrewinkler" type="update" date="2018-03-29">
+        Groovy support reactivated: maintenance.groovy
+      </action>
       <action dev="andrewinkler" type="fix" date="2018-03-04">
         Updated to the latest stable Spring and Hibernate versions.
       </action>
