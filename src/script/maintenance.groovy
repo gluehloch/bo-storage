@@ -5,36 +5,15 @@
 @Grab(group='xml-apis', module='xml-apis', version='1.0.b2')
 @Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.5.1')
 
-import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
-import org.springframework.beans.factory.BeanFactory
 
-import de.winkler.betoffice.BetofficeStore
+def context = new ClassPathXmlApplicationContext(
+	['classpath:/betoffice-persistence.xml', 'classpath:/betoffice-datasource.xml', 'file:hibernate.xml'] as String[])
+def maintenanceService = context.getBean('databaseMaintenanceService')
+def seasonService = context.getBean('seasonManagerService')
 
-// import de.winkler.betoffice.test.database.MySqlDatabasedTestSupport
-// import de.winkler.betoffice.test.database.MySqlDatabasedTestSupport.DataLoader
+def seasonOptional = seasonService.findSeasonByName('Fussball Bundesliga', '2016/2017')
+def season = seasonOptional.get()
 
-/*
-BetofficeStore betofficeStore = new BetofficeStore();
-betofficeStore.main(new String[0]);
-def service = main.seasonManagerService
-
-// findSeasonByName(String name, String year);
-def liga = service.find('Bundesliga', '2016/2017');
-print liga.name
-*/
-
-try {
-	// def mysql = new MySqlDatabasedTestSupport()
-	def context = new ClassPathXmlApplicationContext(
-	    ['classpath:/betoffice-persistence.xml', 'classpath:/betoffice-datasource.xml', 'file:hibernate.xml'] as String[])
-	def maintenanceService = context.getBean('databaseMaintenanceService')
-	def seasonService = context.getBean('seasonManagerService')
-
-	def seasonOptional = seasonService.findSeasonByName('Fussball Bundesliga', '2016/2017')
-	def season = seasonOptional.get()
-	print season.name + " - " + season.year
-} catch (Exception ex) {
-    ex.printStackTrace()
-}
+print season.name + " - " + season.year
 
