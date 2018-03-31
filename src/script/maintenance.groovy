@@ -3,6 +3,8 @@
 @Grab(group='commons-dbcp', module='commons-dbcp', version='1.4')
 @Grab(group='mysql', module='mysql-connector-java', version='5.1.31')
 @Grab(group='xml-apis', module='xml-apis', version='1.0.b2')
+
+@Grab(group='de.awtools', module='awtools-basic', version='1.4.0-SNAPSHOT')
 @Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.5.1')
 
 import org.springframework.context.support.ClassPathXmlApplicationContext
