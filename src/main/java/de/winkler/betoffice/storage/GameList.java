@@ -36,10 +36,10 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 
-import de.awtools.basic.LoggerFactory;
 import de.winkler.betoffice.storage.enums.TotoResult;
 import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
 import de.winkler.betoffice.storage.exception.StorageRuntimeException;
+import de.winkler.betoffice.util.LoggerFactory;
 
 /**
  * Verwaltet alle Spiele/Games/Matches eines Spieltags/GameList/Round.

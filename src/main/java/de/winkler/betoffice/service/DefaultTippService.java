@@ -34,7 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.awtools.basic.LoggerFactory;
 import de.winkler.betoffice.dao.GameTippDao;
 import de.winkler.betoffice.dao.MatchDao;
 import de.winkler.betoffice.dao.RoundDao;
@@ -47,6 +46,7 @@ import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
+import de.winkler.betoffice.util.LoggerFactory;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 import de.winkler.betoffice.validation.BetofficeValidationMessage;
 import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;

@@ -92,7 +92,8 @@ def e = season.addGroupType(wm2018, gruppeE);
 def f = season.addGroupType(wm2018, gruppeF);
 def g = season.addGroupType(wm2018, gruppeG);
 def h = season.addGroupType(wm2018, gruppeH);
- 
+
+/*
 season.addTeam(wm2018, a, russland);
 season.addTeam(wm2018, a, saudiArabien);
 season.addTeam(wm2018, a, uruguay);

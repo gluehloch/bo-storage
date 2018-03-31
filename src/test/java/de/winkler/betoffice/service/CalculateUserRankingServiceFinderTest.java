@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2018 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -27,10 +27,8 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import javax.sql.DataSource;
 
@@ -43,7 +41,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import de.awtools.basic.LoggerFactory;
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameTipp;
@@ -51,6 +48,7 @@ import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
+import de.winkler.betoffice.util.LoggerFactory;
 
 /**
  * Test of the finder methods of {@link SeasonManagerService}.

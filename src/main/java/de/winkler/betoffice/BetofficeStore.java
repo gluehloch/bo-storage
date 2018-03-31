@@ -29,12 +29,12 @@ import java.util.List;
 
 import org.slf4j.Logger;
 
-import de.awtools.basic.LoggerFactory;
 import de.winkler.betoffice.service.AutoTippService;
 import de.winkler.betoffice.service.MasterDataManagerService;
 import de.winkler.betoffice.service.SeasonManagerService;
 import de.winkler.betoffice.service.TippService;
 import de.winkler.betoffice.spring.SpringBeans;
+import de.winkler.betoffice.util.LoggerFactory;
 
 /**
  * Verwaltet die Betoffice Services.

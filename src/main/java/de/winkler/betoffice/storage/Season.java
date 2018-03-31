@@ -38,9 +38,9 @@ import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 
-import de.awtools.basic.LoggerFactory;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
+import de.winkler.betoffice.util.LoggerFactory;
 
 /**
  * Verwaltet die Daten einer Saison.

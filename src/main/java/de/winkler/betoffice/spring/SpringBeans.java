@@ -1,8 +1,7 @@
 /*
- * $Id: SpringBeans.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2018 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -29,14 +28,13 @@ import org.slf4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import de.awtools.basic.LoggerFactory;
+import de.winkler.betoffice.util.LoggerFactory;
+
 
 /**
  * Kapselt den Zugriff auf die Beans mit Spring.
  *
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
- *          2013) $
+ * @author Andre Winkler
  */
 public class SpringBeans {
 

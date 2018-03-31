@@ -1,8 +1,7 @@
 /*
- * $Id: PerformanceMeasurement.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2012 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2018 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -30,14 +29,12 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 
-import de.awtools.basic.LoggerFactory;
+import de.winkler.betoffice.util.LoggerFactory;
 
 /**
  * Messung der Performance einzelner Service Methoden.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
- *          +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  */
 @Aspect
 public class PerformanceMeasurement {

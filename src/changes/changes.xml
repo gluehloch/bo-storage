@@ -15,7 +15,8 @@
         Updated to the latest stable Spring and Hibernate versions.
       </action>
       <action dev="andrewinkler" type="removed" date="2018-03-17">
-        Removed BoConfiguration.
+        Removed BoConfiguration. Removed the dependency to
+        awtools-basic.
       </action>
     </release>
 

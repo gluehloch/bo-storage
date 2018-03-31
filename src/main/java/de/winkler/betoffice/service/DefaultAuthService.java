@@ -32,12 +32,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.awtools.basic.LoggerFactory;
 import de.winkler.betoffice.dao.SessionDao;
 import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.storage.Session;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.RoleType;
+import de.winkler.betoffice.util.LoggerFactory;
 
 /**
  * Implementation of {@link AuthService}.

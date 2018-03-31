@@ -29,7 +29,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 
-import de.awtools.basic.LoggerFactory;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -39,6 +38,7 @@ import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResultOfDay;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
+import de.winkler.betoffice.util.LoggerFactory;
 
 /**
  * Klasse zur Generierung eines Min-Tipps für mehrere User. Es wird der

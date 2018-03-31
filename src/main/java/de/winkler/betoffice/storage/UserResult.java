@@ -26,7 +26,7 @@ package de.winkler.betoffice.storage;
 
 import org.slf4j.Logger;
 
-import de.awtools.basic.LoggerFactory;
+import de.winkler.betoffice.util.LoggerFactory;
 
 /**
  * UserResult verwaltet den Punktestand eines Teilnehmers für eine Saison.
