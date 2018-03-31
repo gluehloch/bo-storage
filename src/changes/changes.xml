@@ -176,32 +176,24 @@
     <release version="betoffice-storage-2.0.0" date="2014-10-26"
       description="Update">
       <action dev="andrewinkler" type="removed" date="2014-09-20">
-        Added the
-        tables bo_goal, bo_player and bo_location.
+        Added the tables bo_goal, bo_player and bo_location.
       </action>
       <action dev="andrewinkler" type="removed" date="2014-09-19">
-        MySQL ISAM
-        scripts.
+        MySQL ISAM scripts.
       </action>
       <action dev="andrewinkler" type="add" date="2014-09-19">
-        Added half-time,
-        over-time and penalty goals.
+        Added half-time, over-time and penalty goals.
       </action>
       <action dev="andrewinkler" type="add" date="2014-09-16">
-        The tables
-        bo_gamelist, bo_team and bo_game get a new column:
-        bo_openligaid
-        (The Openligadb identificaton).
+        The tables bo_gamelist, bo_team and bo_game get a new column:
+        bo_openligaid (The Openligadb identificaton).
       </action>
       <action dev="andrewinkler" type="removed" date="2014-08-19">
-        Removed the
-        dependencies DBUnit and Unitils. Added betoffice-testutils.
+        Removed the dependencies DBUnit and Unitils. Added betoffice-testutils.
       </action>
       <action dev="andrewinkler" type="removed" date="2014-08-19">
-        Removed the
-        property currentGameList from class Season (and also
-        removed from
-        the database table season#bo_current_ref).
+        Removed the property currentGameList from class Season (and also
+        removed from the database table season#bo_current_ref).
       </action>
     </release>
 
