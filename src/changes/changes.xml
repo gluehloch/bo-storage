@@ -6,7 +6,9 @@
   </properties>
   <body>    
     <!-- Under construction. -->
-    <release version="betoffice-storage-2.5.2" date="2018-??-??"
+    
+    <!-- RELEASED -->
+    <release version="betoffice-storage-2.5.2" date="2018-03-31"
       description="Spring and Hibernate version update">
       <action dev="andrewinkler" type="update" date="2018-03-29">
         Groovy support reactivated: maintenance.groovy
