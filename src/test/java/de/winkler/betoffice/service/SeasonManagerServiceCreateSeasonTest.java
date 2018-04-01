@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2018 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -28,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +43,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import de.awtools.basic.AWTools;
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
@@ -146,7 +146,7 @@ public class SeasonManagerServiceCreateSeasonTest {
         addTeamsToBuli1();
         createUsers();
 
-        List<Team> removeTeams = AWTools.arrayList(rwe, schalke);
+        List<Team> removeTeams = Arrays.asList(rwe, schalke);
         seasonManagerService.removeTeams(buli_2010, bundesliga_1, removeTeams);
 
         List<Team> teams = seasonManagerService.findTeamsByGroupType(buli_2010,
@@ -208,7 +208,7 @@ public class SeasonManagerServiceCreateSeasonTest {
         User frosch = createUser("Frosch", "Andre", "Winkler");
         User peter = createUser("Peter", "Peter", "Groth");
 
-        List<User> users = AWTools.arrayList(frosch, peter);
+        List<User> users = Arrays.asList(frosch, peter);
         seasonManagerService.addUsers(buli_2010, users);
 
         users = seasonManagerService.findActivatedUsers(buli_2010);

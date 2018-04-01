@@ -27,13 +27,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Properties;
 
 import org.junit.Test;
-
-import de.awtools.config.GlueConfig;
-import de.awtools.config.PropertiesGlueConfig;
 
 /**
  * Testet das Auslesen der Property-Dateien.
@@ -68,59 +64,6 @@ public class PropertyReaderTest {
                 props.getProperty("hibernate_connection_driver_class"));
         assertEquals("org.hibernate.dialect.MySQLDialect",
                 props.getProperty("hibernate_dialect"));
-    }
-
-    /**
-     * Genau der gleiche Test funktioniert im Projekt gluehloch-util. Verlaesst
-     * der Code das Projekt und wird z.B. hier ausgefuehrt, liefert der Test
-     * einen Fehler zurueck.
-     *
-     * @throws Exception
-     *             Ups.
-     */
-    @Test
-    public void testReadPropertyFileByPropertyHolder() throws Exception {
-        URL resource = this.getClass().getResource(PROPERTY_FILE);
-        PropertiesGlueConfig ph = new PropertiesGlueConfig(resource);
-        ph.load();
-
-        assertEquals("test", ph.getProperty("hibernate_connection_username"));
-        assertEquals("test", ph.getProperty("hibernate_connection_password"));
-    }
-
-    /**
-     * Mit Commons-Configuration geht es auch noch.
-     *
-     * @throws Exception
-     *             Ups.
-     */
-    @Test
-    public void testReadPropertyFileByCommonsConfiguration() throws Exception {
-        URL resource = this.getClass().getResource(PROPERTY_FILE);
-        PropertiesGlueConfig pc = new PropertiesGlueConfig(resource);
-        pc.load();
-
-        assertEquals("test", pc.getProperty("hibernate_connection_username"));
-        assertEquals("test", pc.getProperty("hibernate_connection_password"));
-    }
-
-    /**
-     * Mit Commons-Configuration und interpoliert geht es auch noch?
-     *
-     * @throws Exception
-     *             Ups.
-     */
-    @Test
-    public void testReadPropertyFileByCommonsConfigurationInterpolated()
-            throws Exception {
-
-        URL resource = this.getClass().getResource(PROPERTY_FILE);
-        PropertiesGlueConfig pc = new PropertiesGlueConfig(resource);
-        pc.load();
-        GlueConfig gc = pc.interpolatedConfiguration();
-
-        assertEquals("test", gc.getProperty("hibernate_connection_username"));
-        assertEquals("test", gc.getProperty("hibernate_connection_password"));
     }
 
 }

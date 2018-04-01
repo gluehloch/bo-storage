@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2018 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -24,6 +24,7 @@
 
 package de.winkler.betoffice.storage.comparator;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -31,7 +32,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.awtools.basic.AWTools;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
@@ -79,8 +79,7 @@ public class UserPointsComparatorTest {
         urChris.setUserTotoWin(18);
         urChris.setTicket(7);
 
-        List<UserResult> ur = AWTools.arrayList(urMrTipp, urChris, urFrosch,
-                urHattwig);
+        List<UserResult> ur = Arrays.asList(urMrTipp, urChris, urFrosch, urHattwig);
         Collections.sort(ur, new UserPointsComparator());
 
         Assert.assertEquals("Frosch", ur.get(0).getUser().getNickName());
