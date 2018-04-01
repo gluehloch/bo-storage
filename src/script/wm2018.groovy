@@ -98,7 +98,6 @@ season.addTeam(wm2018, a, russland);
 season.addTeam(wm2018, a, saudiArabien);
 season.addTeam(wm2018, a, uruguay);
 season.addTeam(wm2018, a, aegypten);
-// TODO Shortcut:
 
 with (wm2018) do {
     addTeam a, russland, saudiArabien, uruguay, aegypten;

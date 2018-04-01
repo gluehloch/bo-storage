@@ -23,7 +23,7 @@
 
 package de.winkler.betoffice.service;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.SQLException;
