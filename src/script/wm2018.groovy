@@ -1,10 +1,17 @@
 @Grab(group='org.slf4j', module='slf4j-api', version='1.6.1')
+
+// Die naechsten 4 Imports kann man vielleicht mal in Frage stellen.
+@Grab(group='javax.activation', module='activation', version='1.1')
+@Grab(group='commons-logging', module='commons-logging', version='1.2')
+@Grab(group='dom4j', module='dom4j', version='1.6.1')
+@Grab(group='jaxen', module='jaxen', version='1.1')
+
 @Grab(group='commons-pool', module='commons-pool', version='1.5.4')
 @Grab(group='commons-dbcp', module='commons-dbcp', version='1.4')
 @Grab(group='mysql', module='mysql-connector-java', version='5.1.31')
 @Grab(group='xml-apis', module='xml-apis', version='1.0.b2')
 
-@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.5.2-SNAPSHOT')
+@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.5.3-SNAPSHOT')
 
 import org.springframework.context.support.ClassPathXmlApplicationContext
 
@@ -19,7 +26,7 @@ def seasonService = context.getBean('seasonManagerService')
 
 
 def wm2018 = new Season();
-wm2018.name = 'WM'
+wm2018.name = 'WM Russland'
 wm2018.year = 2018
 wm2018.mode = SeasonType.WC
 wm2018.teamType = TeamType.FIFA
