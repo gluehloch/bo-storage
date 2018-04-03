@@ -6,7 +6,20 @@
   </properties>
   <body>    
     <!-- Under construction. -->
-    
+    <release version="betoffice-storage-2,.5.6" date="2018-??-??"
+     description="Suppoert for KO games">
+      <action dev="andrewinkler" type="update" date="2018-03-29">
+        Overtime and penalty goals should be optional and nullable.
+      </action>
+    </release>
+
+    <release version="betoffice-storage-2.5.3" date="2018-??-??"
+     description="Minor changes">
+      <action dev="andrewinkler" type="update" date="2018-03-29">
+        Replaced fest assert with assertj
+      </action>
+    </release>
+
     <!-- RELEASED -->
     <release version="betoffice-storage-2.5.2" date="2018-03-31"
       description="Spring and Hibernate version update">
