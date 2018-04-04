@@ -1,4 +1,4 @@
-SELECT
+EXPLAIN SELECT
   COUNT(*) AS 'half_points', u.*
 FROM
   bo_gamelist gl
@@ -33,6 +33,10 @@ FROM
       END as bo_guestgoals
     FROM
       bo_game mt
+    /* Wird das trotzdem optimiert?
+    WHERE
+      mt.id = m.id
+     */
   ) as gameresult ON (gameresult.id = m.id)
   JOIN bo_gametipp t ON (t.bo_game_ref = m.id)
   JOIN bo_season s ON (gl.bo_season_ref = s.id)
@@ -76,3 +80,4 @@ GROUP BY
   u.bo_nickname
 ORDER BY
   COUNT(*) DESC;
+
