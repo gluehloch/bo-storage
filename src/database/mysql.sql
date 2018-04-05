@@ -86,6 +86,7 @@ create table bo_game (
     bo_penaltyhomegoals integer,
     bo_penaltyguestgoals integer,
     bo_location_ref bigint,
+    bo_ko tinyint(1) NOT NULL DEFAULT 0,
     primary key (id)
 ) ENGINE=InnoDB;
 
