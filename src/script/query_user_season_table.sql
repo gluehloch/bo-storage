@@ -1,4 +1,4 @@
-EXPLAIN SELECT
+SELECT
   COUNT(*) AS 'half_points', u.*
 FROM
   bo_gamelist gl

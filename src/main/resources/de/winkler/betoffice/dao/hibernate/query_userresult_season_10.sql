@@ -39,7 +39,7 @@ FROM
   JOIN bo_user_season us ON (us.bo_season_ref = s.id)
   JOIN bo_user u ON (t.bo_user_ref = u.id)
 WHERE
-      s.id = 26 /*:season_id*/
+      s.id = :season_id
   AND us.bo_user_ref = u.id
   AND m.bo_isplayed = 1
   AND t.bo_status <> 0
@@ -52,21 +52,21 @@ WHERE
   AND
   (
     (
-      /* Toto 1 */
+      /* Heimmannschaft gewinnt. Toto 1. */
           gameresult.bo_homegoals > gameresult.bo_guestgoals
       /* User Toto 1*/
       AND t.bo_homegoals > t.bo_guestgoals
     )
     OR
     (
-      /* Toto 0 */
+      /* Unentschieden. Toto 0. */
           gameresult.bo_homegoals = gameresult.bo_guestgoals
       /* User Toto 0 */
       AND t.bo_homegoals = t.bo_guestgoals
     )
     OR
     (
-      /* Toto 2 */
+      /* Gastmannschaft gewinnt. Toto 2. */
           gameresult.bo_homegoals < gameresult.bo_guestgoals
       /* User Toto 2 */
       AND t.bo_homegoals < t.bo_guestgoals
