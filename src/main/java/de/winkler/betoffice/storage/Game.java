@@ -510,7 +510,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *            true, dann ist das ein KO Spiel.
      */
     public void setKo(final boolean value) {
-        played = value;
+        ko = value;
     }
 
     // ------------------------------------------------------------------------
