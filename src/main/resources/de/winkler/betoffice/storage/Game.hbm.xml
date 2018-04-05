@@ -65,6 +65,9 @@
 		<property name="played" type="boolean" update="true" insert="true"
 			column="bo_isplayed" />
 
+        <property name="ko" type="boolean" update="true" insert="true"
+            column="bo_ko" />
+
 		<many-to-one name="gameList" class="de.winkler.betoffice.storage.GameList"
 			cascade="none" outer-join="auto" update="true" insert="true"
 			column="bo_gamelist_ref" not-null="false" lazy="false" />

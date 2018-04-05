@@ -487,6 +487,32 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
         openligaid = value;
     }
 
+    // -- KO Game -------------------------------------------------------------
+
+    /** Ist das ein sogenanntes KO Spiel? Pokalspiel? */
+    private boolean ko = false;
+
+    /**
+     * Ist das ein KO Spiel?
+     *
+     * @return true, dann ist das ein KO Spiel
+     *
+     * @hibernate.property column="bo_ko"
+     */
+    public boolean isKo() {
+        return ko;
+    }
+
+    /**
+     * Setzt das Flag fuer ein KO Spiel.
+     *
+     * @param value
+     *            true, dann ist das ein KO Spiel.
+     */
+    public void setKo(final boolean value) {
+        played = value;
+    }
+
     // ------------------------------------------------------------------------
 
     /**
