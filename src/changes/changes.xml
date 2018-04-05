@@ -6,6 +6,12 @@
   </properties>
   <body>    
     <!-- Under construction. -->
+    <release version="betoffice-storage-2.5.2" date="2018-??-??"
+      description="Fest Assert to AssertJ">
+      <action dev="andrewinkler" type="update" date="2018-04-01">
+        Replaced fest assert with assertj
+      </action>
+    </release>
     
     <!-- RELEASED -->
     <release version="betoffice-storage-2.5.2" date="2018-03-31"
