@@ -27,7 +27,7 @@
  *
  * @author by Andre Winkler
  */
-select 'Start installation of betoffice 2.2.5 MySQL schema.' as INFO;
+select 'Start installation of betoffice 2.6.0 MySQL schema.' as INFO;
 select version();
 
 
