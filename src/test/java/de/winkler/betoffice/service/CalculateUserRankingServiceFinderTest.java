@@ -82,6 +82,7 @@ public class CalculateUserRankingServiceFinderTest {
     @Before
     public void setUp() throws Exception {
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
+        dsuatd.tearDown();
         dsuatd.setUp(DataLoader.FULL);
     }
 
