@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2018 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -24,7 +24,7 @@
 
 package de.winkler.betoffice.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -40,7 +40,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
-import de.winkler.betoffice.service.SeasonManagerService;
 import de.winkler.betoffice.storage.Season;
 
 /**
@@ -75,7 +74,7 @@ public class SpringBeanTest {
     @Test
     public void testSwingBetofficeStore() {
         List<Season> championships = seasonManagerService.findAllSeasons();
-        assertEquals(22, championships.size());
+        assertThat(championships).hasSize(7);
     }
 
 }
