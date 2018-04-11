@@ -11,15 +11,11 @@
       <action dev="andrewinkler" type="update" date="2018-04-04">
         Introduction of ko games. Need a new 'ko' flag for table game.
       </action>
-    </release>
-
-    <release version="betoffice-storage-2.5.3" date="2018-??-??"
-     description="Minor changes">
       <action dev="andrewinkler" type="update" date="2018-03-29">
-        Replaced fest assert with assertj
+        Replaced fest assert with assertj.
       </action>
     </release>
-
+    
     <!-- RELEASED -->
     <release version="betoffice-storage-2.5.2" date="2018-03-31"
       description="Spring and Hibernate version update">
