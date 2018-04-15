@@ -8,12 +8,15 @@
     <!-- Under construction. -->
     <release version="betoffice-storage-2.6.0" date="2018-??-??"
      description="Suppoert for KO games">
+      <action dev="andrewinkler" type="add" date="2018-04-14">
+        A new service method to find and update a game/match.
+      </action>
       <action dev="andrewinkler" type="update" date="2018-04-04">
         Introduction of ko games. Need a new 'ko' flag for table game.
       </action>
       <action dev="andrewinkler" type="update" date="2018-03-29">
         Replaced fest assert with assertj.
-      </action>
+      </action>1
     </release>
     
     <!-- RELEASED -->

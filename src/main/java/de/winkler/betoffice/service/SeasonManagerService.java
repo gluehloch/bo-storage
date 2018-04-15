@@ -345,6 +345,15 @@ public interface SeasonManagerService {
     public List<Game> findMatches(Team homeTeam, Team guestTeam);
 
     /**
+     * Sucht nach einem Spiel.
+     * 
+     * @param gameId
+     *            Die technische ID des Spiels/game/match.
+     * @return Das Spiel.
+     */
+    public Game findMatch(Long gameId);
+
+    /**
      * Sucht nach einem Spiel für einen Spieltag.
      *
      * @param round

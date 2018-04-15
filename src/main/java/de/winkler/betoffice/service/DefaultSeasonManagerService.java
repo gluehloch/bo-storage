@@ -186,6 +186,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
+    public Game findMatch(Long gameId) {
+        return matchDao.findById(gameId);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Game> findMatch(GameList round, Team homeTeam,
             Team guestTeam) {
         return matchDao.find(round, homeTeam, guestTeam);
