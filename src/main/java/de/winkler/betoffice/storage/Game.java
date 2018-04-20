@@ -289,6 +289,10 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     public void setOverTimeGoals(GameResult _overTimeGoals) {
         overTimeGoals = _overTimeGoals;
     }
+    
+    public void setOverTimeGoals(int homeGoals, int guestGoals) {
+        setOverTimeGoals(new GameResult(homeGoals, guestGoals));
+    }
 
     // -- penaltyGoals --------------------------------------------------------
 
@@ -301,6 +305,10 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     public void setPenaltyGoals(GameResult _penaltyGoals) {
         penaltyGoals = _penaltyGoals;
+    }
+    
+    public void setPenaltyGoals(int homeGoals, int guestGoals) {
+        setPenaltyGoals(homeGoals, guestGoals);
     }
 
     // -- location -------------------------------------------------------------
