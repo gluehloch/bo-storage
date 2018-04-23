@@ -308,7 +308,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     }
     
     public void setPenaltyGoals(int homeGoals, int guestGoals) {
-        setPenaltyGoals(homeGoals, guestGoals);
+        setPenaltyGoals(new GameResult(homeGoals, guestGoals));
     }
 
     // -- location -------------------------------------------------------------
