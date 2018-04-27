@@ -39,6 +39,7 @@ if (seasonOptional.present) {
     def wm2018_ = seasonService.createSeason(wm2018);
     season = wm2018_
 }
+def wm2018 = season
 
 print season.name + " - " + season.year
 
@@ -209,6 +210,12 @@ validate suedkorea
 def tunesien = master.findTeam('Tunesien').get();
 validate tunesien
 
+try {
+    def a = seasonService.findGroup wm2018, gruppeA
+    validate a
+} catch (javax.persistence.NoResultException ex) {
+    seasonService.addGroupType wm2018, gruppeA
+}
 /*
 def a = season.addGroupType(wm2018, gruppeA);
 def b = season.addGroupType(wm2018, gruppeB);
