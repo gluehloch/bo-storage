@@ -95,49 +95,119 @@ if (!aegypten.present) {
 } else {
     aegypten = aegypten.get()
 }
-validate(aegypten)
+validate aegypten
 
 def argentinien = master.findTeam('Argentinien').get();
-validate(argentinien)
+validate argentinien
 def australien = master.findTeam('Australien').get();
-validate(australien)
+validate australien
 def belgien = master.findTeam('Belgien').get();
-validate(belgien)
+validate belgien
 
-def brasilien = master.findTeam('Brasilien');
-def costaRica = master.findTeam('Costa Rica');
-def daenemark = master.findTeam('Dänemark');
-def uruguay = master.findTeam('Uruguay');
+def brasilien = master.findTeam('Brasilien').get();
+validate brasilien
+def costaRica = master.findTeam('Costa Rica').get();
+validate costaRica
+def daenemark = master.findTeam('Dänemark').get();
+validate daenemark
+def uruguay = master.findTeam('Uruguay').get();
+validate uruguay
 
-def deutschland = master.findTeam('Deutschland');
-def england = master.findTeam('England');
-def frankreich = master.findTeam('Frankreich');
-def iran = master.findTeam('Iran');
+def deutschland = master.findTeam('Deutschland').get();
+validate deutschland
+def england = master.findTeam('England').get();
+validate england
+def frankreich = master.findTeam('Frankreich').get();
+validate frankreich
+def iran = master.findTeam('Iran').get();
+validate iran
 
-def island = master.findTeam('Island');
-def japan = master.findTeam('Japan');
-def kolumbien = master.findTeam('Kolumbien');
-def kroatien = master.findTeam('Kroatien');
+def island = master.findTeam('Island').get();
+validate island
+def japan = master.findTeam('Japan').get();
+validate japan
+def kolumbien = master.findTeam('Kolumbien').get();
+validate kolumbien
+def kroatien = master.findTeam('Kroatien').get();
+validate kroatien
 
-def marokko = master.findTeam('Marokko');
-def mexiko = master.findTeam('Mexiko');
-def nigeria = master.findTeam('Nigeria');
-def panama = master.findTeam('Panama');
+def marokko = master.findTeam('Marokko')
+if (!marokko.present) {
+    def team = new Team()
+    team.name = 'Marokko'
+    team.longName = 'Marokko'
+    team.shortName = 'Marokko'
+    team.xshortName = 'MRK'
+    team.logo = 'marokko.gif'
+    team.teamType = TeamType.FIFA
+    master.updateTeam(team)
+    marokko = team
+} else {
+    marokko = marokko.get()
+}
+validate marokko
 
-def peru = master.findTeam('Peru');
-def polen = master.findTeam('Polen');
-def portugal = master.findTeam('Portugal');
-def russland = master.findTeam('Russland');
+def mexiko = master.findTeam('Mexiko').get();
+validate mexiko
+def nigeria = master.findTeam('Nigeria').get();
+validate nigeria
+
+def panama = master.findTeam 'Panama'
+if (!panama.present) {
+    def team = new Team()
+    team.name = 'Panama'
+    team.longName = 'Panama'
+    team.shortName = 'Panama'
+    team.xshortName = 'PAN'
+    team.logo = 'panama.gif'
+    team.teamType = TeamType.FIFA
+    master.updateTeam(team)
+    panama = team
+} else {
+    panama = panama.get()
+}
+validate panama
+
+def peru = master.findTeam 'Peru';
+if (!peru.present) {
+    def team = new Team()
+    team.name = 'Peru'
+    team.longName = 'Peru'
+    team.shortName = 'Peru'
+    team.xshortName = 'PRU'
+    team.logo = 'peru.gif'
+    team.teamType = TeamType.FIFA
+    master.updateTeam(team)
+    peru = team
+} else {
+    peru = peru.get()
+}
+validate peru
+
+def polen = master.findTeam('Polen').get();
+validate polen
+def portugal = master.findTeam('Portugal').get();
+validate portugal
+def russland = master.findTeam('Russland').get();
+validate russland
  
-def saudiArabien = master.findTeam('Saudi Arabien');
-def schweden = master.findTeam('Schweden');
-def schweiz = master.findTeam('Schweiz');
-def senegal = master.findTeam('Senegal');
+def saudiArabien = master.findTeam('Saudi Arabien').get();
+validate saudiArabien
+def schweden = master.findTeam('Schweden').get();
+validate schweden
+def schweiz = master.findTeam('Schweiz').get();
+validate schweiz
+def senegal = master.findTeam('Senegal').get();
+validate senegal
 
-def serbien = master.findTeam('Serbien');
-def spanien = master.findTeam('Spanien');
-def suedkorea = master.findTeam('Südkorea');
-def tunesien = master.findTeam('Tunesien');
+def serbien = master.findTeam('Serbien').get();
+validate serbien
+def spanien = master.findTeam('Spanien').get();
+validate spanien
+def suedkorea = master.findTeam('Rep.Korea').get();
+validate suedkorea
+def tunesien = master.findTeam('Tunesien').get();
+validate tunesien
 
 /*
 def a = season.addGroupType(wm2018, gruppeA);
