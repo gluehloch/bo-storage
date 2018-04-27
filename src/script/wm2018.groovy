@@ -1,3 +1,4 @@
+// groovy -c UTF-8 wm2018.groovy
 @Grab(group='org.slf4j', module='slf4j-api', version='1.6.1')
 
 // Die naechsten 4 Imports kann man vielleicht mal in Frage stellen.
@@ -11,7 +12,7 @@
 @Grab(group='mysql', module='mysql-connector-java', version='5.1.31')
 @Grab(group='xml-apis', module='xml-apis', version='1.0.b2')
 
-@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.5.3-SNAPSHOT')
+@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.6.0-SNAPSHOT')
 
 import org.springframework.context.support.ClassPathXmlApplicationContext
 
@@ -25,72 +26,120 @@ def master = context.getBean('masterDataManagerService');
 def seasonService = context.getBean('seasonManagerService')
 
 
-def wm2018 = new Season();
-wm2018.name = 'WM Russland'
-wm2018.year = 2018
-wm2018.mode = SeasonType.WC
-wm2018.teamType = TeamType.FIFA
-
-def wm2018_ = seasonService.createSeason(wm2018);
 def seasonOptional = seasonService.findSeasonByName('WM Russland', '2018')
 def season = seasonOptional.get()
+if (seasonOptional.present) {
+    season = seasonOptional.get()
+} else {
+    def wm2018 = new Season();
+    wm2018.name = 'WM Russland'
+    wm2018.year = 2018
+    wm2018.mode = SeasonType.WC
+    wm2018.teamType = TeamType.FIFA
+    def wm2018_ = seasonService.createSeason(wm2018);
+    season = wm2018_
+}
+
 print season.name + " - " + season.year
 
+def validate(object) {
+    if (object == null) {
+        throw new NullPointerException();
+    } else {
+        println object
+    }
+}
+
  // def bundesliga = master.findGroupType('1. Bundesliga');
-def gruppeA = master.findGroupType('Gruppe A');
-def gruppeB = master.findGroupType('Gruppe B');
-def gruppeC = master.findGroupType('Gruppe C');
-def gruppeD = master.findGroupType('Gruppe D');
-def gruppeE = master.findGroupType('Gruppe E');
-def gruppeF = master.findGroupType('Gruppe F');
-def gruppeG = master.findGroupType('Gruppe G');
-def gruppeH = master.findGroupType('Gruppe H');
-def achtelfinale = master.findGroupType('Achtelfinale');
-def viertelfinale = master.findGroupType('Viertelfinale');
-def halbfinale = master.findGroupType('Halbfinale');
-def finale = master.findGroupType('Finale');
-def platz3 = master.findGroupType('Spiel um Platz 3');
+def gruppeA = master.findGroupType('Gruppe A').get();
+validate(gruppeA)
+def gruppeB = master.findGroupType('Gruppe B').get();
+validate(gruppeB)
+def gruppeC = master.findGroupType('Gruppe C').get();
+validate(gruppeC)
+def gruppeD = master.findGroupType('Gruppe D').get();
+validate(gruppeD)
+def gruppeE = master.findGroupType('Gruppe E').get();
+validate(gruppeE)
+def gruppeF = master.findGroupType('Gruppe F').get();
+validate(gruppeF)
+def gruppeG = master.findGroupType('Gruppe G').get();
+validate(gruppeG)
+def gruppeH = master.findGroupType('Gruppe H').get();
+validate(gruppeH)
+def achtelfinale = master.findGroupType('Achtelfinale').get();
+validate(achtelfinale)
+def viertelfinale = master.findGroupType('Viertelfinale').get();
+validate(viertelfinale)
+def halbfinale = master.findGroupType('Halbfinale').get();
+validate(halbfinale)
+def finale = master.findGroupType('Finale').get();
+validate(finale)
+def platz3 = master.findGroupType('Spiel um Platz 3').get();
+validate(platz3)
 
-def aegypten = master.findTeamByAlias('Ägypten');
-def argentinien = master.findTeamByAlias('Argentinien');
-def australien = master.findTeamByAlias('Australien');
-def belgien = master.findTeamByAlias('Belgien');
+def oesterreich = master.findTeam('Österreich').get()
+println oesterreich
 
-def brasilien = master.findTeamByAlias('Brasilien');
-def costaRica = master.findTeamByAlias('Costa Rica');
-def daenemark = master.findTeamByAlias('Dänemark');
-def uruguay = master.findTeamByAlias('Uruguay');
+def aegypten = master.findTeam('Ägypten')
+if (!aegypten.present) {
+    def team = new Team()
+    team.name = 'Ägypten'
+    team.longName = 'Ägypten'
+    team.shortName = 'Ägypten'
+    team.xshortName = 'AGP'
+    team.logo = 'aegypten.gif'
+    team.teamType = TeamType.FIFA
+    master.updateTeam(team)
+    aegypten = team
+} else {
+    aegypten = aegypten.get()
+}
+validate(aegypten)
 
-def deutschland = master.findTeamByAlias('Deutschland');
-def england = master.findTeamByAlias('England');
-def frankreich = master.findTeamByAlias('Frankreich');
-def iran = master.findTeamByAlias('Iran');
+def argentinien = master.findTeam('Argentinien').get();
+validate(argentinien)
+def australien = master.findTeam('Australien').get();
+validate(australien)
+def belgien = master.findTeam('Belgien').get();
+validate(belgien)
 
-def island = master.findTeamByAlias('Island');
-def japan = master.findTeamByAlias('Japan');
-def kolumbien = master.findTeamByAlias('Kolumbien');
-def kroatien = master.findTeamByAlias('Kroatien');
+def brasilien = master.findTeam('Brasilien');
+def costaRica = master.findTeam('Costa Rica');
+def daenemark = master.findTeam('Dänemark');
+def uruguay = master.findTeam('Uruguay');
 
-def marokko = master.findTeamByAlias('Marokko');
-def mexiko = master.findTeamByAlias('Mexiko');
-def nigeria = master.findTeamByAlias('Nigeria');
-def panama = master.findTeamByAlias('Panama');
+def deutschland = master.findTeam('Deutschland');
+def england = master.findTeam('England');
+def frankreich = master.findTeam('Frankreich');
+def iran = master.findTeam('Iran');
 
-def peru = master.findTeamByAlias('Peru');
-def polen = master.findTeamByAlias('Polen');
-def portugal = master.findTeamByAlias('Portugal');
-def russland = master.findTeamByAlias('Russland');
+def island = master.findTeam('Island');
+def japan = master.findTeam('Japan');
+def kolumbien = master.findTeam('Kolumbien');
+def kroatien = master.findTeam('Kroatien');
+
+def marokko = master.findTeam('Marokko');
+def mexiko = master.findTeam('Mexiko');
+def nigeria = master.findTeam('Nigeria');
+def panama = master.findTeam('Panama');
+
+def peru = master.findTeam('Peru');
+def polen = master.findTeam('Polen');
+def portugal = master.findTeam('Portugal');
+def russland = master.findTeam('Russland');
  
-def saudiArabien = master.findTeamByAlias('Saudi Arabien');
-def schweden = master.findTeamByAlias('Schweden');
-def schweiz = master.findTeamByAlias('Schweiz');
-def senegal = master.findTeamByAlias('Senegal');
+def saudiArabien = master.findTeam('Saudi Arabien');
+def schweden = master.findTeam('Schweden');
+def schweiz = master.findTeam('Schweiz');
+def senegal = master.findTeam('Senegal');
 
-def serbien = master.findTeamByAlias('Serbien');
-def spanien = master.findTeamByAlias('Spanien');
-def suedkorea = master.findTeamByAlias('Südkorea');
-def tunesien = master.findTeamByAlias('Tunesien');
+def serbien = master.findTeam('Serbien');
+def spanien = master.findTeam('Spanien');
+def suedkorea = master.findTeam('Südkorea');
+def tunesien = master.findTeam('Tunesien');
 
+/*
 def a = season.addGroupType(wm2018, gruppeA);
 def b = season.addGroupType(wm2018, gruppeB);
 def c = season.addGroupType(wm2018, gruppeC);
@@ -99,6 +148,7 @@ def e = season.addGroupType(wm2018, gruppeE);
 def f = season.addGroupType(wm2018, gruppeF);
 def g = season.addGroupType(wm2018, gruppeG);
 def h = season.addGroupType(wm2018, gruppeH);
+*/
 
 /*
 season.addTeam(wm2018, a, russland);
