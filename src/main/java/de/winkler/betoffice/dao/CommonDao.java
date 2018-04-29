@@ -94,7 +94,16 @@ public interface CommonDao<T> {
     void deleteAll(List<T> ts);
 
     /**
-     * Re-associate an entity with the session. Should be used careful.
+     * Re-associate an entity with the session.
+     * 
+     * Copied from the Hibernate documentation:
+     * 
+     * Re-read the state of the given instance from the underlying database.
+     * It is inadvisable to use this to implement long-running sessions that
+     * span many business tasks. This method is, however, useful in certain
+     * special circumstances. For example where a database trigger alters the
+     * object state upon insert or update after executing direct SQL
+     * (eg. a mass update) in the same session after inserting a Blob or Clob 
      * 
      * @param t
      *            T

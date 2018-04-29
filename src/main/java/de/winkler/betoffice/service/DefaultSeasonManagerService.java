@@ -538,6 +538,9 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         if (groupType == null) {
             throw new IllegalArgumentException("Parameter groupType is null!");
         }
+        
+        // seasonDao.refresh(season);
+        Season persistentSeason = findSeasonById(season.getId());
 
         Group group = season.getGroup(groupType);
         if (group == null) {

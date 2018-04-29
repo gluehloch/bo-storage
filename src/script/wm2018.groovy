@@ -213,9 +213,11 @@ validate tunesien
 try {
     def a = seasonService.findGroup wm2018, gruppeA
     validate a
+    println a
 } catch (javax.persistence.NoResultException ex) {
     seasonService.addGroupType wm2018, gruppeA
 }
+
 /*
 def a = season.addGroupType(wm2018, gruppeA);
 def b = season.addGroupType(wm2018, gruppeB);

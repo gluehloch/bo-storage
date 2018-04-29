@@ -397,9 +397,20 @@ public class SeasonManagerServiceCreateSeasonTest {
     private void createGroups() {
         buli_1_group = seasonManagerService.addGroupType(buli_2010,
                 bundesliga_1);
+        assertThat(buli_1_group).isNotNull();
+        assertThat(buli_1_group.getSeason()).isEqualTo(buli_2010);
+        assertThat(buli_1_group.getGroupType()).isEqualTo(bundesliga_1);
+
         buli_2_group = seasonManagerService.addGroupType(buli_2010,
                 bundesliga_2);
-        assertThat(buli_2010.getGroups()).hasSize(2);
+        assertThat(buli_2_group).isNotNull();
+        assertThat(buli_2_group.getSeason()).isEqualTo(buli_2010);
+        assertThat(buli_2_group.getGroupType()).isEqualTo(bundesliga_2);
+
+        List<Group> groups = seasonManagerService.findGroups(buli_2010);
+        assertThat(groups).hasSize(2);
+        assertThat(groups).containsExactlyInAnyOrder(buli_1_group,
+                buli_2_group);
     }
 
     private void createSeason() {
