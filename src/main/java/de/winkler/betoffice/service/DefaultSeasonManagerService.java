@@ -28,6 +28,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,37 +76,37 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Autowired
     private UserSeasonDao userSeasonDao;
-    
+
     @Autowired
     private UserDao userDao;
-    
+
     @Autowired
     private SeasonDao seasonDao;
-    
+
     @Autowired
     private TeamDao teamDao;
-    
+
     @Autowired
     private GroupDao groupDao;
-    
+
     @Autowired
     private GroupTypeDao groupTypeDao;
-    
+
     @Autowired
     private RoundDao roundDao;
-    
+
     @Autowired
     private MatchDao matchDao;
-    
+
     @Autowired
     private GameTippDao gameTippDao;
-    
+
     @Autowired
     private PlayerDao playerDao;
-    
+
     @Autowired
     private GoalDao goalDao;
-    
+
     @Override
     @Transactional(readOnly = true)
     public List<UserResult> calculateUserRanking(GameList round) {
@@ -189,7 +191,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     public Game findMatch(Long gameId) {
         return matchDao.findById(gameId);
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public Optional<Game> findMatch(GameList round, Team homeTeam,
@@ -408,14 +410,14 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         Season season2 = findRoundGroupTeamUserRelations(season);
 
         users.stream()
-             .filter(user -> !activeUsers.contains(user))
-             .forEach(user -> {
-                 UserSeason userSeason = new UserSeason();
-                 userSeason.setUser(user);
-                 userSeason.setRoleType(RoleType.TIPPER);
-                 season2.addUser(userSeason);
-                 userSeasonDao.save(userSeason);
-             });
+                .filter(user -> !activeUsers.contains(user))
+                .forEach(user -> {
+                    UserSeason userSeason = new UserSeason();
+                    userSeason.setUser(user);
+                    userSeason.setRoleType(RoleType.TIPPER);
+                    season2.addUser(userSeason);
+                    userSeasonDao.save(userSeason);
+                });
     }
 
     @Override
@@ -501,11 +503,11 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         Season season2 = findRoundGroupTeamUserRelations(season);
 
         users.stream()
-             .filter(user -> activeUsers.contains(user))
-             .forEach(user -> {
-                 UserSeason userSeason = season2.removeUser(user);
-                 userSeasonDao.delete(userSeason);
-             });
+                .filter(user -> activeUsers.contains(user))
+                .forEach(user -> {
+                    UserSeason userSeason = season2.removeUser(user);
+                    userSeasonDao.delete(userSeason);
+                });
     }
 
     @Override
@@ -538,17 +540,27 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         if (groupType == null) {
             throw new IllegalArgumentException("Parameter groupType is null!");
         }
-        
-        // seasonDao.refresh(season);
-        Season persistentSeason = findSeasonById(season.getId());
 
-        Group group = season.getGroup(groupType);
-        if (group == null) {
-            group = new Group();
-            group.setGroupType(groupType);
-            season.addGroup(group);
-            groupDao.save(group);
-        }
+        // TODO Interessanter Code: Eine NoResultException fuehrt zu einem
+        // Transaktions-Rollback (UnexpectedRollbackException). Vermutlich
+        // ist Spring fuer diese Funktion zustaendig. Das Catch der
+        // NoResultException kann die Rollback Exception nicht verhinden.
+        // Komisch.
+        //
+//        try {
+//        Group group = groupDao.findBySeasonAndGroupType(season, groupType);
+//        return group;
+//        } catch (NoResultException ex) {
+//        // Ok. Create a new group.
+//        }
+
+        seasonDao.refresh(season);
+        // Season persistentSeason = findSeasonById(season.getId());
+
+        Group group = new Group();
+        group.setGroupType(groupType);
+        season.addGroup(group);
+        groupDao.save(group);
 
         return group;
     }

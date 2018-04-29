@@ -212,10 +212,10 @@ validate tunesien
 
 try {
     def a = seasonService.findGroup wm2018, gruppeA
-    validate a
-    println a
+    println a.id
 } catch (javax.persistence.NoResultException ex) {
-    seasonService.addGroupType wm2018, gruppeA
+    def group = seasonService.addGroupType wm2018, gruppeA
+    println group.id
 }
 
 /*
