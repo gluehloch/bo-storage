@@ -34,6 +34,10 @@ class Service {
         seasonService = context.getBean('seasonManagerService')
     }
 
+    def createSeason(season) {
+        seasonService.createSeason(season);
+    }
+
     def findGroupType(groupType) {
         return masterService.findGroupType(groupType).get()
     }
@@ -44,6 +48,10 @@ class Service {
         } catch (javax.persistence.NoResultException ex) {
             return null
         }        
+    }
+
+    def addGroupType(season, group) {
+        seasonService.addGroupType(season, group)
     }
 
     def findTeam(teamName) {
@@ -65,23 +73,20 @@ def validate(object) {
 
 Service service = new Service();
 
-
+def wm2018
 def seasonOptional = service.seasonService.findSeasonByName('WM Russland', '2018')
-def season = seasonOptional.get()
 if (seasonOptional.present) {
-    season = seasonOptional.get()
+    wm2018 = seasonOptional.get()
 } else {
-    def wm2018 = new Season();
+    wm2018 = new Season();
     wm2018.name = 'WM Russland'
     wm2018.year = 2018
     wm2018.mode = SeasonType.WC
     wm2018.teamType = TeamType.FIFA
-    def wm2018_ = service.season.createSeason(wm2018);
-    season = wm2018_
+    wm2018 = service.createSeason(wm2018);
 }
-def wm2018 = season
 
-print season.name + " - " + season.year
+print wm2018.name + " - " + wm2018.year
 
  // def bundesliga = master.findGroupType('1. Bundesliga');
 def gruppeA = service.findGroupType('Gruppe A');
@@ -112,7 +117,7 @@ validate finale
 def platz3 = service.findGroupType('Spiel um Platz 3');
 validate platz3
 
-def oesterreich = master.findTeam('Österreich').get()
+def oesterreich = service.findTeam('Österreich').get()
 println oesterreich
 
 def aegypten = service.findTeam('Ägypten')
@@ -244,15 +249,15 @@ def tunesien = service.findTeam('Tunesien').get();
 validate tunesien
 
 
-def wm2018_gruppe_A = service.findGroup wm2018, gruppaA
+def wm2018_gruppe_A = service.findGroup wm2018, gruppeA
 if (wm2018_gruppe_A == null) {
-    wm2018_gruppe_A = seasonService.addGroupType wm2018, gruppeA
+    wm2018_gruppe_A = service.addGroupType wm2018, gruppeA
 }
 println "Gruppe A: $wm2018_gruppe_A.id"
 
-def wm2018_gruppe_B = service.findGroup wm2018, gruppaA
+def wm2018_gruppe_B = service.findGroup wm2018, gruppeB
 if (wm2018_gruppe_B == null) {
-    wm2018_gruppe_B = seasonService.addGroupType wm2018, gruppeA
+    wm2018_gruppe_B = service.addGroupType wm2018, gruppeB
 }
 println "Gruppe B: $wm2018_gruppe_B.id"
 
