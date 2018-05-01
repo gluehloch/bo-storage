@@ -50,9 +50,17 @@ class Service {
         }        
     }
 
-    def addGroupType(season, group) {
-        seasonService.addGroupType(season, group)
+    def addGroupType(season, groupType) {
+        seasonService.addGroupType(season, groupType)
     }
+
+    def addGroup(season, groupType) {
+        def group = seasonService.findGroup season, groupType
+        if (group == null) {
+            group = service.addGroupType wm2018, gruppeA
+        }
+        return group
+    }  
 
     def findTeam(teamName) {
         return masterService.findTeam(teamName)
