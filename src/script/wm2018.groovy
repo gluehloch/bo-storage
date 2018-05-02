@@ -274,7 +274,7 @@ println "Gruppe F: $wm2018_gruppe_F.id"
 def wm2018_gruppe_G = service.addGroup wm2018, gruppeG
 println "Gruppe G: $wm2018_gruppe_G.id"
 
-def wm2018_gruppeH = service.addGroup wm2018, gruppeH
+def wm2018_gruppe_H = service.addGroup wm2018, gruppeH
 println "Gruppe H: $wm2018_gruppe_H.id"
 
 
