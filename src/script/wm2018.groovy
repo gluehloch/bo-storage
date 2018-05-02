@@ -57,7 +57,7 @@ class Service {
     def addGroup(season, groupType) {
         def group = seasonService.findGroup season, groupType
         if (group == null) {
-            group = service.addGroupType season, groupType
+            group = seasonService.addGroupType season, groupType
         }
         return group
     }  
@@ -257,29 +257,30 @@ def tunesien = service.findTeam('Tunesien').get();
 validate tunesien
 
 
-def wm2018_gruppe_A = service.findGroup wm2018, gruppeA
-if (wm2018_gruppe_A == null) {
-    wm2018_gruppe_A = service.addGroupType wm2018, gruppeA
-}
+def wm2018_gruppe_A = service.addGroup wm2018, gruppeA
 println "Gruppe A: $wm2018_gruppe_A.id"
 
-def wm2018_gruppe_B = service.findGroup wm2018, gruppeB
-if (wm2018_gruppe_B == null) {
-    wm2018_gruppe_B = service.addGroupType wm2018, gruppeB
-}
+def wm2018_gruppe_B = service.addGroup wm2018, gruppeB
 println "Gruppe B: $wm2018_gruppe_B.id"
 
+def wm2018_gruppe_C = service.addGroup wm2018, gruppeC
+println "Gruppe C: $wm2018_gruppe_C.id"
 
-/*
-def a = season.addGroupType(wm2018, gruppeA);
-def b = season.addGroupType(wm2018, gruppeB);
-def c = season.addGroupType(wm2018, gruppeC);
-def d = season.addGroupType(wm2018, gruppeD);
-def e = season.addGroupType(wm2018, gruppeE);
-def f = season.addGroupType(wm2018, gruppeF);
-def g = season.addGroupType(wm2018, gruppeG);
-def h = season.addGroupType(wm2018, gruppeH);
-*/
+def wm2018_gruppe_D = service.addGroup wm2018, gruppeD
+println "Gruppe D: $wm2018_gruppe_D.id"
+
+def wm2018_gruppe_E = service.addGroup wm2018, gruppeE
+println "Gruppe E: $wm2018_gruppe_E.id"
+
+def wm2018_gruppe_F = service.addGroup wm2018, gruppeF
+println "Gruppe F: $wm2018_gruppe_F.id"
+
+def wm2018_gruppe_G = service.addGroup wm2018, gruppeG
+println "Gruppe G: $wm2018_gruppe_G.id"
+
+def wm2018_gruppeH = service.addGroup wm2018, gruppeH
+println "Gruppe H: $wm2018_gruppe_H.id"
+
 
 /*
 season.addTeam(wm2018, a, russland);
