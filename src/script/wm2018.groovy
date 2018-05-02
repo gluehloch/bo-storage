@@ -50,12 +50,8 @@ class Service {
         }        
     }
 
-    def addGroupType(season, groupType) {
-        seasonService.addGroupType(season, groupType)
-    }
-
     def addGroup(season, groupType) {
-        def group = seasonService.findGroup season, groupType
+        def group = findGroup season, groupType
         if (group == null) {
             group = seasonService.addGroupType season, groupType
         }
