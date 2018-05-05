@@ -17,7 +17,7 @@
 			not-null="true" />
 
 		<set name="teams" table="bo_team_group" lazy="false" inverse="false"
-			cascade="none" sort="unsorted">
+			cascade="all,save-update,delete,delete-orphan" sort="unsorted">
 
 			<key column="bo_group_ref" />
 

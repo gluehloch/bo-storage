@@ -1,4 +1,8 @@
 // groovy -c UTF-8 wm2018.groovy
+// Copy the current JAR to the grape repository:
+// cp ./target/betoffice-storage-2.6.0-SNAPSHOT.jar \
+//   /cygdrive/c/Users/winkler/.groovy/grapes/de.winkler.betoffice/betoffice-storage/jars/betoffice-storage-2.6.0-SNAPSHOT.jar
+
 @Grab(group='org.slf4j', module='slf4j-api', version='1.6.1')
 
 // Die naechsten 4 Imports kann man vielleicht mal in Frage stellen.
@@ -62,8 +66,20 @@ class Service {
         return masterService.findTeam(teamName)
     }
 
+    def findTeams(season, groupType) {
+        return seasonService.findTeams(season, groupType)
+    }
+
     def updateTeam(team) {
         masterService.updateTeam(team)
+    }
+
+    def addTeam(season, groupType, team) {
+        seasonService.addTeam(season, groupType, team)
+    }
+
+    def addTeams(season, groupType, teams) {
+        seasonService.addTeams(season, groupType, teams)
     }
 }
 
@@ -278,12 +294,22 @@ def wm2018_gruppe_H = service.addGroup wm2018, gruppeH
 println "Gruppe H: $wm2018_gruppe_H.id"
 
 
-/*
-season.addTeam(wm2018, a, russland);
-season.addTeam(wm2018, a, saudiArabien);
-season.addTeam(wm2018, a, uruguay);
-season.addTeam(wm2018, a, aegypten);
+service.addTeams(wm2018, gruppeA, [russland, saudiArabien, uruguay, aegypten])
+def teams_gruppe_a = service.findTeams(wm2018, gruppeA)
+println "Teams Gruppe A"
+for (team in teams_gruppe_a) {
+    println team
+}
 
+
+/*
+service.addTeam(wm2018, gruppeA, russland);
+service.addTeam(wm2018, gruppeA, saudiArabien);
+service.addTeam(wm2018, gruppeA, uruguay);
+service.addTeam(wm2018, gruppeA, aegypten);
+*/
+
+/*
 with (wm2018) do {
     addTeam a, russland, saudiArabien, uruguay, aegypten;
 }

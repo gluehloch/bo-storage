@@ -33,9 +33,7 @@ import org.apache.commons.lang.Validate;
 /**
  * Verwaltet die Daten einer Gruppe.
  *
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
- *          2013) $
+ * @author Andre Winkler
  *
  * @hibernate.class table="bo_group"
  */

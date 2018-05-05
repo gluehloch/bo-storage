@@ -28,8 +28,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.NoResultException;
-
 import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,13 +161,13 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public List<Team> findTeamsByGroup(Group group) {
+    public List<Team> findTeams(Group group) {
         return groupDao.findTeams(group);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Team> findTeamsByGroupType(Season season, GroupType groupType) {
+    public List<Team> findTeams(Season season, GroupType groupType) {
         return teamDao.findTeamsBySeasonAndGroup(season,
                 groupType);
     }
@@ -375,7 +373,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public void addTeam(Season season, GroupType groupType, Team team) {
+    public Group addTeam(Season season, GroupType groupType, Team team) {
         List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
 
         if (!season.getTeamType().equals(team.getTeamType())) {
@@ -385,9 +383,11 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         }
 
         if (messages.size() == 0) {
-            Group group = season.getGroup(groupType);
+            Group group = groupDao.findBySeasonAndGroupType(season, groupType);
+            // Group group = season.getGroup(groupType);
             group.addTeam(team);
             groupDao.update(group);
+            return group;
         } else {
             throw new BetofficeValidationException(messages);
         }
@@ -395,12 +395,11 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public void addTeams(Season season, GroupType groupType,
+    public Group addTeams(Season season, GroupType groupType,
             Collection<Team> teams) {
 
-        for (Team team : teams) {
-            addTeam(season, groupType, team);
-        }
+        teams.stream().forEach(team -> addTeam(season, groupType, team));
+        return groupDao.findBySeasonAndGroupType(season, groupType);
     }
 
     @Override
@@ -481,8 +480,10 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     @Override
     @Transactional
     public void removeTeam(Season season, GroupType groupType, Team team) {
-        Group group = season.getGroup(groupType);
+        Group group = groupDao.findBySeasonAndGroupType(season, groupType);
         group.removeTeam(team);
+//        Group group = season.getGroup(groupType);
+//        group.removeTeam(team);
         groupDao.update(group);
     }
 
@@ -491,9 +492,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     public void removeTeams(Season season, GroupType groupType,
             Collection<Team> teams) {
 
-        for (Team team : teams) {
-            removeTeam(season, groupType, team);
-        }
+        teams.stream().forEach(team -> removeTeam(season, groupType, team));
     }
 
     @Override

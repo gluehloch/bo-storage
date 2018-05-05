@@ -8,6 +8,9 @@
     <!-- Under construction. -->
     <release version="betoffice-storage-2.6.0" date="2018-??-??"
      description="Suppoert for KO games">
+      <action dev="andrewinkler" type="fix" date="2018-05-05">
+        Add and remove teams from a group.
+      </action>
       <action dev="andrewinkler" type="add" date="2018-04-14">
         A new service method to find and update a game/match.
       </action>
@@ -16,7 +19,7 @@
       </action>
       <action dev="andrewinkler" type="update" date="2018-03-29">
         Replaced fest assert with assertj.
-      </action>1
+      </action>
     </release>
     
     <!-- RELEASED -->

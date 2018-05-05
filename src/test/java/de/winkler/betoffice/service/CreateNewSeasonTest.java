@@ -23,6 +23,7 @@
 
 package de.winkler.betoffice.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -120,9 +121,10 @@ public class CreateNewSeasonTest {
         Optional<Team> deutschland = mdms.findTeam("Deutschland");
 
         Optional<GroupType> groupA = mdms.findGroupType("Gruppe A");
-        sms.addGroupType(season, groupA.get());
-        sms.addTeam(season, groupA.get(), stuttgart.get());
-        sms.addTeam(season, groupA.get(), hsv.get());
+        Group group = sms.addGroupType(season, groupA.get());
+        group = sms.addTeam(season, groupA.get(), stuttgart.get());
+        group = sms.addTeam(season, groupA.get(), hsv.get());
+        assertThat(group.getTeams()).hasSize(2);
         try {
             sms.addTeam(season, groupA.get(), deutschland.get());
             fail("Expected a validation exception.");
@@ -154,10 +156,10 @@ public class CreateNewSeasonTest {
         Optional<GroupType> groupTypeB = mdms.findGroupType("Gruppe B");
 
         Group groupA = sms.addGroupType(season, groupTypeA.get());
-        /* Group groupB = */sms.addGroupType(season, groupTypeB.get());
+        /* Group groupB =*/ sms.addGroupType(season, groupTypeB.get());
 
-        sms.addTeam(season, groupTypeA.get(), stuttgart.get());
-        sms.addTeam(season, groupTypeA.get(), hsv.get());
+        groupA = sms.addTeam(season, groupTypeA.get(), stuttgart.get());
+        groupA = sms.addTeam(season, groupTypeA.get(), hsv.get());
 
         List<GroupType> groupTypes = sms.findGroupTypesBySeason(season);
         assertEquals(groupTypeA.get().getId(), groupTypes.get(0).getId());

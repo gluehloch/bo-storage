@@ -141,7 +141,7 @@ public interface SeasonManagerService {
      *            Die Mannschaften dieser Gruppe ermitteln.
      * @return Ein Liste aller Mannschaften dieser Gruppe.
      */
-    public List<Team> findTeamsByGroup(Group group);
+    public List<Team> findTeams(Group group);
 
     /**
      * Liefert die Mannschaften für einen Gruppentyp einer bestimmten
@@ -154,7 +154,7 @@ public interface SeasonManagerService {
      * @return Eine Lister aller Mannschaften des gesuchten Gruppentyps und
      *         Meisterschaft.
      */
-    public List<Team> findTeamsByGroupType(Season season, GroupType groupType);
+    public List<Team> findTeams(Season season, GroupType groupType);
 
     /**
      * Sucht nach einer bestimmten Meisterschaft.
@@ -490,8 +490,9 @@ public interface SeasonManagerService {
      *            Eine Gruppe.
      * @param team
      *            Die zu aktivierenden Mannschaft.
+     * @return Die Gruppe mit der ergaenzten Mannschaft
      */
-    public void addTeam(Season season, GroupType groupType, Team team);
+    public Group addTeam(Season season, GroupType groupType, Team team);
 
     /**
      * Mannschaften einer Gruppe hinzufügen.
@@ -503,7 +504,7 @@ public interface SeasonManagerService {
      * @param teams
      *            Die zu aktivierenden Mannschaften.
      */
-    public void addTeams(Season season, GroupType groupType,
+    public Group addTeams(Season season, GroupType groupType,
             Collection<Team> teams);
 
     /**

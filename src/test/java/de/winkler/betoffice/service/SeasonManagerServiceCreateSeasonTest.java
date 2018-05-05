@@ -149,8 +149,7 @@ public class SeasonManagerServiceCreateSeasonTest {
         List<Team> removeTeams = Arrays.asList(rwe, schalke);
         seasonManagerService.removeTeams(buli_2010, bundesliga_1, removeTeams);
 
-        List<Team> teams = seasonManagerService.findTeamsByGroupType(buli_2010,
-                bundesliga_1);
+        List<Team> teams = seasonManagerService.findTeams(buli_2010, bundesliga_1);
         assertThat(teams).hasSize(2);
         assertThat(teams.get(0)).isEqualTo(hsv);
         assertThat(teams.get(1)).isEqualTo(burghausen);
@@ -185,7 +184,8 @@ public class SeasonManagerServiceCreateSeasonTest {
         teams.add(schalke);
         teams.add(burghausen);
         teams.add(rwe);
-        seasonManagerService.addTeams(buli_2010, bundesliga_1, teams);
+        buli_1_group = seasonManagerService.addTeams(buli_2010, bundesliga_1,
+                teams);
         assertThat(buli_1_group.getTeams()).hasSize(4);
     }
 
@@ -374,11 +374,13 @@ public class SeasonManagerServiceCreateSeasonTest {
     }
 
     private void addTeamsToBuli1() {
-        seasonManagerService.addTeam(buli_2010, bundesliga_1, hsv);
-        seasonManagerService.addTeam(buli_2010, bundesliga_1, schalke);
-        seasonManagerService.addTeam(buli_2010, bundesliga_1, burghausen);
-        seasonManagerService.addTeam(buli_2010, bundesliga_1, rwe);
-        assertThat(buli_1_group.getTeams()).hasSize(4);
+        Group group = seasonManagerService.addTeam(buli_2010, bundesliga_1,
+                hsv);
+        group = seasonManagerService.addTeam(buli_2010, bundesliga_1, schalke);
+        group = seasonManagerService.addTeam(buli_2010, bundesliga_1,
+                burghausen);
+        group = seasonManagerService.addTeam(buli_2010, bundesliga_1, rwe);
+        assertThat(group.getTeams()).hasSize(4);
         List<Group> groups = seasonManagerService.findGroups(buli_2010);
         assertThat(groups.get(0).getTeams()).hasSize(4);
     }

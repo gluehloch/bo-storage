@@ -237,8 +237,8 @@ public class SeasonManagerServiceFinderTest {
         Optional<Team> frankreich = masterDataManagerService
                 .findTeam("Frankreich");
 
-        List<Team> finalTeams = seasonManagerService
-                .findTeamsByGroupType(wm2006.get(), finale.get());
+        List<Team> finalTeams = seasonManagerService.findTeams(wm2006.get(),
+                finale.get());
 
         assertThat(finalTeams.size()).isEqualTo(2);
         assertThat(finalTeams.get(0)).isEqualTo(frankreich.get());
@@ -255,7 +255,7 @@ public class SeasonManagerServiceFinderTest {
         assertThat(achtelfinale.getGroupType().getName())
                 .isEqualTo("Achtelfinale");
 
-        List<Team> teams = seasonManagerService.findTeamsByGroup(achtelfinale);
+        List<Team> teams = seasonManagerService.findTeams(achtelfinale);
         assertThat(teams.size()).isEqualTo(16);
     }
 
