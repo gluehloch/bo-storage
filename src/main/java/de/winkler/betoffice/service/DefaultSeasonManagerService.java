@@ -363,9 +363,13 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     @Transactional
     public GameList addRound(Season season, DateTime date,
             GroupType groupType) {
+        
         GameList round = new GameList();
         round.setDateTime(date.toDate());
-        round.setGroup(season.getGroup(groupType));
+        
+        Group group = groupDao.findBySeasonAndGroupType(season, groupType);
+        round.setGroup(group);
+
         season.addGameList(round);
         roundDao.save(round);
         return round;
