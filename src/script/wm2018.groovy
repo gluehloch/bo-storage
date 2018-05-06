@@ -302,36 +302,25 @@ println "Gruppe H: $wm2018_gruppe_H.id"
 
 
 wm2018_gruppe_A = service.addTeams(wm2018, gruppeA, [russland, saudiArabien, uruguay, aegypten])
-def teams_gruppe_a = service.findTeams(wm2018, gruppeA)
 printTeams(wm2018_gruppe_A)
 
-wm2018_gruppe_A = service.addTeams(wm2018, gruppeB, [marokko, iran, spanien, portugal]);
-def teams_gruppe_b = service.findTeams(2018, gruppeB)
+wm2018_gruppe_B = service.addTeams(wm2018, gruppeB, [marokko, iran, spanien, portugal]);
 printTeams(wm2018_gruppe_B)
 
-wm2018_gruppe_B = service.addTeams(wm2018, gruppeC, [frankreich, peru, australien, daenemark])
-def teams_gruppe_c = service.findTeams(2018, gruppeC)
+wm2018_gruppe_C = service.addTeams(wm2018, gruppeC, [frankreich, peru, australien, daenemark])
 printTeams(wm2018_gruppe_C)
 
-wm2018_gruppe_C = service.addTeams(wm2018, gruppeD, [argentinien, island, kroatien, nigeria])
-def teams_gruppe_d = service.findTeams(2018, gruppeD)
+wm2018_gruppe_D = service.addTeams(wm2018, gruppeD, [argentinien, island, kroatien, nigeria])
 printTeams(wm2018_gruppe_D)
 
-/*
-season.addTeam(wm2018, e, costaRica);
-season.addTeam(wm2018, e, serbien);
-season.addTeam(wm2018, e, brasilien);
-season.addTeam(wm2018, e, schweiz);
-season.addTeam(wm2018, f, deutschland);
-season.addTeam(wm2018, f, mexiko);
-season.addTeam(wm2018, f, schweden);
-season.addTeam(wm2018, f, suedkorea);
-season.addTeam(wm2018, g, belgien);
-season.addTeam(wm2018, g, panama);
-season.addTeam(wm2018, g, tunesien);
-season.addTeam(wm2018, g, england);
-season.addTeam(wm2018, h, kolumbien);
-season.addTeam(wm2018, h, japan);
-season.addTeam(wm2018, h, polen);
-season.addTeam(wm2018, h, senegal);
-*/
+wm2018_gruppe_E = service.addTeams(wm2018, gruppeE, [costaRica, serbien, brasilien, schweiz])
+printTeams(wm2018_gruppe_E)
+
+wm2018_gruppe_F = service.addTeams(wm2018, gruppeF, [deutschland, mexiko, schweden, suedkorea])
+printTeams(wm2018_gruppe_F)
+
+wm2018_gruppe_G = service.addTeams(wm2018, gruppeG, [belgien, panama, tunesien, england])
+printTeams(wm2018_gruppe_G)
+
+wm2018_gruppe_H = service.addTeams(wm2018, gruppeH, [kolumbien, japan, polen, senegal])
+printTeams(wm2018_gruppe_H)
