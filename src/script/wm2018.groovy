@@ -91,6 +91,13 @@ def validate(object) {
     }
 }
 
+def printTeams(group) {
+    println "Teams $group"
+    for (team in group.teams) {
+        println team
+    }
+}
+
 Service service = new Service();
 
 def wm2018
@@ -294,38 +301,23 @@ def wm2018_gruppe_H = service.addGroup wm2018, gruppeH
 println "Gruppe H: $wm2018_gruppe_H.id"
 
 
-service.addTeams(wm2018, gruppeA, [russland, saudiArabien, uruguay, aegypten])
+wm2018_gruppe_A = service.addTeams(wm2018, gruppeA, [russland, saudiArabien, uruguay, aegypten])
 def teams_gruppe_a = service.findTeams(wm2018, gruppeA)
-println "Teams Gruppe A"
-for (team in teams_gruppe_a) {
-    println team
-}
+printTeams(wm2018_gruppe_A)
 
+wm2018_gruppe_A = service.addTeams(wm2018, gruppeB, [marokko, iran, spanien, portugal]);
+def teams_gruppe_b = service.findTeams(2018, gruppeB)
+printTeams(wm2018_gruppe_B)
+
+wm2018_gruppe_B = service.addTeams(wm2018, gruppeC, [frankreich, peru, australien, daenemark])
+def teams_gruppe_c = service.findTeams(2018, gruppeC)
+printTeams(wm2018_gruppe_C)
+
+wm2018_gruppe_C = service.addTeams(wm2018, gruppeD, [argentinien, island, kroatien, nigeria])
+def teams_gruppe_d = service.findTeams(2018, gruppeD)
+printTeams(wm2018_gruppe_D)
 
 /*
-service.addTeam(wm2018, gruppeA, russland);
-service.addTeam(wm2018, gruppeA, saudiArabien);
-service.addTeam(wm2018, gruppeA, uruguay);
-service.addTeam(wm2018, gruppeA, aegypten);
-*/
-
-/*
-with (wm2018) do {
-    addTeam a, russland, saudiArabien, uruguay, aegypten;
-}
-
-season.addTeam(wm2018, b, marokko);
-season.addTeam(wm2018, b, iran);
-season.addTeam(wm2018, b, spanien);
-season.addTeam(wm2018, b, portugal);
-season.addTeam(wm2018, c, frankreich);
-season.addTeam(wm2018, c, peru);
-season.addTeam(wm2018, c, australien);
-season.addTeam(wm2018, c, daenemark);
-season.addTeam(wm2018, d, argentinien);
-season.addTeam(wm2018, d, island);
-season.addTeam(wm2018, d, kroatien);
-season.addTeam(wm2018, d, nigeria);
 season.addTeam(wm2018, e, costaRica);
 season.addTeam(wm2018, e, serbien);
 season.addTeam(wm2018, e, brasilien);
