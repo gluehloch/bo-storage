@@ -20,6 +20,9 @@
 
 import org.springframework.context.support.ClassPathXmlApplicationContext
 
+import org.joda.time.*;
+import org.joda.time.format.*;
+
 import de.winkler.betoffice.storage.*
 import de.winkler.betoffice.storage.enums.*
 
@@ -38,6 +41,12 @@ class Service {
         seasonService = context.getBean('seasonManagerService')
     }
 
+    def toDate(dateTimeAsString) {
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
+        DateTime dateTime = formatter.parseDateTime(dateTimeAsString)
+        return dateTime
+    }
+
     def createSeason(season) {
         seasonService.createSeason(season);
     }
@@ -51,7 +60,7 @@ class Service {
             return seasonService.findGroup(season, group)
         } catch (javax.persistence.NoResultException ex) {
             return null
-        }        
+        }
     }
 
     def addGroup(season, groupType) {
@@ -60,7 +69,7 @@ class Service {
             group = seasonService.addGroupType season, groupType
         }
         return group
-    }  
+    }
 
     def findTeam(teamName) {
         return masterService.findTeam(teamName)
@@ -80,6 +89,17 @@ class Service {
 
     def addTeams(season, groupType, teams) {
         seasonService.addTeams(season, groupType, teams)
+    }
+
+    def addRound(season, date, groupType) {
+        return seasonService.addRound(season, toDate(date), groupType)
+    }
+
+    def addMatch(round, date, group, homeTeam, guestTeam) {
+      /*
+      seasonService.addMatch(GameList round, DateTime date, Group group,
+              Team homeTeam, Team guestTeam) {
+      */
     }
 }
 
@@ -125,7 +145,7 @@ validate gruppeC
 def gruppeD = service.findGroupType('Gruppe D');
 validate gruppeD
 def gruppeE = service.findGroupType('Gruppe E');
-validate gruppeE 
+validate gruppeE
 def gruppeF = service.findGroupType('Gruppe F');
 validate gruppeF
 def gruppeG = service.findGroupType('Gruppe G');
@@ -256,7 +276,7 @@ def portugal = service.findTeam('Portugal').get();
 validate portugal
 def russland = service.findTeam('Russland').get();
 validate russland
- 
+
 def saudiArabien = service.findTeam('Saudi Arabien').get();
 validate saudiArabien
 def schweden = service.findTeam('Schweden').get();
@@ -324,3 +344,16 @@ printTeams(wm2018_gruppe_G)
 
 wm2018_gruppe_H = service.addTeams(wm2018, gruppeH, [kolumbien, japan, polen, senegal])
 printTeams(wm2018_gruppe_H)
+
+
+def round_2018_06_19 = service.addRound(wm2018, '2018-06-19 17:00:00', gruppeA)
+def round_2018_06_20 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeB)
+def round_2018_06_21 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeC)
+def round_2018_06_22 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeD)
+def round_2018_06_23 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeE)
+def round_2018_06_24 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeF)
+def round_2018_06_25 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeG)
+def round_2018_06_26 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeH)
+def round_2018_06_27 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeA)
+def round_2018_06_28 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeB)
+def round_2018_06_29 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeC)
