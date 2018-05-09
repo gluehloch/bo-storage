@@ -55,6 +55,14 @@ class Service {
         return masterService.findGroupType(groupType).get()
     }
 
+    def findRoundGroupTeamUserRelations(season) {
+        return seasonService.findRoundGroupTeamUserRelations(season)
+    }
+
+    def findRound(season, index) {
+        return seasonService.findRound(season, index)
+    }
+
     def findGroup(season, group) {
         try {
             return seasonService.findGroup(season, group)
@@ -122,7 +130,7 @@ Service service = new Service();
 
 def wm2018
 def seasonOptional = service.seasonService.findSeasonByName('WM Russland', '2018')
-if (seasonOptional.present) {
+if (seasonOptional.isPresent()) {
     wm2018 = seasonOptional.get()
 } else {
     wm2018 = new Season();
@@ -133,7 +141,7 @@ if (seasonOptional.present) {
     wm2018 = service.createSeason(wm2018);
 }
 
-print wm2018.name + " - " + wm2018.year
+println wm2018.name + " - " + wm2018.year
 
  // def bundesliga = master.findGroupType('1. Bundesliga');
 def gruppeA = service.findGroupType('Gruppe A');
@@ -320,6 +328,7 @@ println "Gruppe G: $wm2018_gruppe_G.id"
 def wm2018_gruppe_H = service.addGroup wm2018, gruppeH
 println "Gruppe H: $wm2018_gruppe_H.id"
 
+wm2018 = service.findRoundGroupTeamUserRelations(wm2018)
 
 wm2018_gruppe_A = service.addTeams(wm2018, gruppeA, [russland, saudiArabien, uruguay, aegypten])
 printTeams(wm2018_gruppe_A)
@@ -345,15 +354,90 @@ printTeams(wm2018_gruppe_G)
 wm2018_gruppe_H = service.addTeams(wm2018, gruppeH, [kolumbien, japan, polen, senegal])
 printTeams(wm2018_gruppe_H)
 
+def round_2018_06_19 = service.findRound(wm2018, 0)
+if (round_2018_06_19.isPresent()) {
+    round_2018_06_19 = round_2018_06_19.get()
+} else {
+    round_2018_06_19 = service.addRound(wm2018, '2018-06-19 17:00:00', gruppeA)
+}
+println "Runde $round_2018_06_19.dateTime"
 
-def round_2018_06_19 = service.addRound(wm2018, '2018-06-19 17:00:00', gruppeA)
-def round_2018_06_20 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeB)
-def round_2018_06_21 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeC)
-def round_2018_06_22 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeD)
-def round_2018_06_23 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeE)
-def round_2018_06_24 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeF)
-def round_2018_06_25 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeG)
-def round_2018_06_26 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeH)
-def round_2018_06_27 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeA)
-def round_2018_06_28 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeB)
-def round_2018_06_29 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeC)
+def round_2018_06_20 = service.findRound(wm2018, 1)
+if (round_2018_06_20.isPresent()) {
+    round_2018_06_20 = round_2018_06_20.get()
+} else {
+    round_2018_06_20 = service.addRound(wm2018, '2018-06-20 14:00:00', gruppeB)
+}
+println "Runde $round_2018_06_20.dateTime"
+
+def round_2018_06_21 = service.findRound(wm2018, 2)
+if (round_2018_06_21.isPresent()) {
+    round_2018_06_21 = round_2018_06_21.get()
+} else {
+    round_2018_06_21 = service.addRound(wm2018, '2018-06-21 14:00:00', gruppeC)
+}
+println "Runde $round_2018_06_21.dateTime"
+
+def round_2018_06_22 = service.findRound(wm2018, 3)
+if (round_2018_06_22.isPresent()) {
+    round_2018_06_22 = round_2018_06_22.get()
+} else {
+    round_2018_06_22 = service.addRound(wm2018, '2018-06-22 14:00:00', gruppeD)
+}
+println "Runde $round_2018_06_22.dateTime"
+
+def round_2018_06_23 = service.findRound(wm2018, 4)
+if (round_2018_06_23.isPresent()) {
+    round_2018_06_23 = round_2018_06_23.get()
+} else {
+    round_2018_06_23 = service.addRound(wm2018, '2018-06-23 14:00:00', gruppeE)
+}
+println "Runde $round_2018_06_23.dateTime"
+
+def round_2018_06_24 = service.findRound(wm2018, 5)
+if (round_2018_06_24.isPresent()) {
+    round_2018_06_24 = round_2018_06_24.get()
+} else {
+    round_2018_06_24 = service.addRound(wm2018, '2018-06-24 14:00:00', gruppeF)
+}
+println "Runde $round_2018_06_24.dateTime"
+
+def round_2018_06_25 = service.findRound(wm2018, 6)
+if (round_2018_06_25.isPresent()) {
+    round_2018_06_25 = round_2018_06_25.get()
+} else {
+    round_2018_06_25 = service.addRound(wm2018, '2018-06-25 14:00:00', gruppeG)
+}
+println "Runde $round_2018_06_25.dateTime"
+
+def round_2018_06_26 = service.findRound(wm2018, 7)
+if (round_2018_06_26.isPresent()) {
+    round_2018_06_26 = round_2018_06_26.get()
+} else {
+    round_2018_06_26 = service.addRound(wm2018, '2018-06-26 14:00:00', gruppeH)
+}
+println "Runde $round_2018_06_26.dateTime"
+
+def round_2018_06_27 = service.findRound(wm2018, 8)
+if (round_2018_06_27.isPresent()) {
+    round_2018_06_27 = round_2018_06_27.get()
+} else {
+    round_2018_06_27 = service.addRound(wm2018, '2018-06-27 14:00:00', gruppeA)
+}
+println "Runde $round_2018_06_27.dateTime"
+
+def round_2018_06_28 = service.findRound(wm2018, 9)
+if (round_2018_06_28.isPresent()) {
+    round_2018_06_28 = round_2018_06_28.get()
+} else {
+    round_2018_06_28 = service.addRound(wm2018, '2018-06-28 14:00:00', gruppeB)
+}
+println "Runde $round_2018_06_28.dateTime"
+
+def round_2018_06_29 = service.findRound(wm2018, 10)
+if (round_2018_06_29.isPresent()) {
+    round_2018_06_29 = round_2018_06_29.get()
+} else {
+    round_2018_06_29 = service.addRound(wm2018, '2018-06-29 14:00:00', gruppeC)
+}
+println "Runde $round_2018_06_29.dateTime"

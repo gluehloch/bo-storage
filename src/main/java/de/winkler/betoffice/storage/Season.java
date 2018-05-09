@@ -608,7 +608,7 @@ public class Season extends AbstractStorageObject {
         Validate.notNull(newRound.getGroup(),
                 "The group field of newRound is null.");
 
-        for (GameList gl : gameList) {
+        for (GameList gl : getGameList()) {
             if (gl.getDateTime() != null
                     && gl.getDateTime().equals(newRound.getDateTime())
                     && gl.getGroup().equals(newRound.getGroup())) {
