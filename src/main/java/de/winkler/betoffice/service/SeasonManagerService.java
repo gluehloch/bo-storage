@@ -397,8 +397,9 @@ public interface SeasonManagerService {
      *
      * @param season
      *            Eine Spielzeit.
+     * @return Die angelegt Spielzeit. Mit Datenbank-ID.
      */
-    public void createSeason(Season season);
+    public Season createSeason(Season season);
 
     /**
      * Löscht eine Spielzeit.<br>

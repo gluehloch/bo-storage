@@ -429,9 +429,10 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public void createSeason(Season season) {
+    public Season createSeason(Season season) {
         try {
             seasonDao.save(season);
+            return season;
         } catch (ConstraintViolationException ex) {
             List<BetofficeValidationMessage> messages = new ArrayList<>();
             messages.add(new BetofficeValidationMessage(

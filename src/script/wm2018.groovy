@@ -104,10 +104,7 @@ class Service {
     }
 
     def addMatch(round, date, group, homeTeam, guestTeam) {
-      /*
-      seasonService.addMatch(GameList round, DateTime date, Group group,
-              Team homeTeam, Team guestTeam) {
-      */
+      return seasonService.addMatch(round, toDate(date), group, homeTeam, guestTeam)
     }
 }
 
@@ -354,90 +351,188 @@ printTeams(wm2018_gruppe_G)
 wm2018_gruppe_H = service.addTeams(wm2018, gruppeH, [kolumbien, japan, polen, senegal])
 printTeams(wm2018_gruppe_H)
 
-def round_2018_06_19 = service.findRound(wm2018, 0)
+def round_2018_06_14 = service.findRound(wm2018, 0)
+if (round_2018_06_14.isPresent()) {
+    round_2018_06_14 = round_2018_06_14.get()
+} else {
+    round_2018_06_14 = service.addRound(wm2018, '2018-06-14 17:00:00', gruppeA)
+}
+println "Runde $round_2018_06_14.dateTime"
+
+def round_2018_06_15 = service.findRound(wm2018, 1)
+if (round_2018_06_15.isPresent()) {
+    round_2018_06_15 = round_2018_06_15.get()
+} else {
+    round_2018_06_15 = service.addRound(wm2018, '2018-06-15 14:00:00', gruppeB)
+}
+println "Runde $round_2018_06_15.dateTime"
+
+def round_2018_06_16 = service.findRound(wm2018, 2)
+if (round_2018_06_16.isPresent()) {
+    round_2018_06_16 = round_2018_06_16.get()
+} else {
+    round_2018_06_16 = service.addRound(wm2018, '2018-06-16 14:00:00', gruppeC)
+}
+println "Runde $round_2018_06_16.dateTime"
+
+def round_2018_06_17 = service.findRound(wm2018, 3)
+if (round_2018_06_17.isPresent()) {
+    round_2018_06_17 = round_2018_06_17.get()
+} else {
+    round_2018_06_17 = service.addRound(wm2018, '2018-06-17 14:00:00', gruppeD)
+}
+println "Runde $round_2018_06_17.dateTime"
+
+def round_2018_06_18 = service.findRound(wm2018, 4)
+if (round_2018_06_18.isPresent()) {
+    round_2018_06_18 = round_2018_06_18.get()
+} else {
+    round_2018_06_18 = service.addRound(wm2018, '2018-06-18 14:00:00', gruppeE)
+}
+println "Runde $round_2018_06_18.dateTime"
+
+def round_2018_06_19 = service.findRound(wm2018, 5)
 if (round_2018_06_19.isPresent()) {
     round_2018_06_19 = round_2018_06_19.get()
 } else {
-    round_2018_06_19 = service.addRound(wm2018, '2018-06-19 17:00:00', gruppeA)
+    round_2018_06_19 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeF)
 }
 println "Runde $round_2018_06_19.dateTime"
 
-def round_2018_06_20 = service.findRound(wm2018, 1)
+def round_2018_06_20 = service.findRound(wm2018, 6)
 if (round_2018_06_20.isPresent()) {
     round_2018_06_20 = round_2018_06_20.get()
 } else {
-    round_2018_06_20 = service.addRound(wm2018, '2018-06-20 14:00:00', gruppeB)
+    round_2018_06_20 = service.addRound(wm2018, '2018-06-20 14:00:00', gruppeG)
 }
 println "Runde $round_2018_06_20.dateTime"
 
-def round_2018_06_21 = service.findRound(wm2018, 2)
+def round_2018_06_21 = service.findRound(wm2018, 7)
 if (round_2018_06_21.isPresent()) {
     round_2018_06_21 = round_2018_06_21.get()
 } else {
-    round_2018_06_21 = service.addRound(wm2018, '2018-06-21 14:00:00', gruppeC)
+    round_2018_06_21 = service.addRound(wm2018, '2018-06-21 14:00:00', gruppeH)
 }
 println "Runde $round_2018_06_21.dateTime"
 
-def round_2018_06_22 = service.findRound(wm2018, 3)
+def round_2018_06_22 = service.findRound(wm2018, 8)
 if (round_2018_06_22.isPresent()) {
     round_2018_06_22 = round_2018_06_22.get()
 } else {
-    round_2018_06_22 = service.addRound(wm2018, '2018-06-22 14:00:00', gruppeD)
+    round_2018_06_22 = service.addRound(wm2018, '2018-06-22 14:00:00', gruppeA)
 }
 println "Runde $round_2018_06_22.dateTime"
 
-def round_2018_06_23 = service.findRound(wm2018, 4)
+def round_2018_06_23 = service.findRound(wm2018, 9)
 if (round_2018_06_23.isPresent()) {
     round_2018_06_23 = round_2018_06_23.get()
 } else {
-    round_2018_06_23 = service.addRound(wm2018, '2018-06-23 14:00:00', gruppeE)
+    round_2018_06_23 = service.addRound(wm2018, '2018-06-23 14:00:00', gruppeB)
 }
 println "Runde $round_2018_06_23.dateTime"
 
-def round_2018_06_24 = service.findRound(wm2018, 5)
+def round_2018_06_24 = service.findRound(wm2018, 10)
 if (round_2018_06_24.isPresent()) {
     round_2018_06_24 = round_2018_06_24.get()
 } else {
-    round_2018_06_24 = service.addRound(wm2018, '2018-06-24 14:00:00', gruppeF)
+    round_2018_06_24 = service.addRound(wm2018, '2018-06-24 14:00:00', gruppeC)
 }
 println "Runde $round_2018_06_24.dateTime"
 
-def round_2018_06_25 = service.findRound(wm2018, 6)
+def round_2018_06_25 = service.findRound(wm2018, 11)
 if (round_2018_06_25.isPresent()) {
     round_2018_06_25 = round_2018_06_25.get()
 } else {
-    round_2018_06_25 = service.addRound(wm2018, '2018-06-25 14:00:00', gruppeG)
+    round_2018_06_25 = service.addRound(wm2018, '2018-06-25 14:00:00', gruppeA)
 }
 println "Runde $round_2018_06_25.dateTime"
 
-def round_2018_06_26 = service.findRound(wm2018, 7)
+def round_2018_06_26 = service.findRound(wm2018, 12)
 if (round_2018_06_26.isPresent()) {
     round_2018_06_26 = round_2018_06_26.get()
 } else {
-    round_2018_06_26 = service.addRound(wm2018, '2018-06-26 14:00:00', gruppeH)
+    round_2018_06_26 = service.addRound(wm2018, '2018-06-26 14:00:00', gruppeC)
 }
 println "Runde $round_2018_06_26.dateTime"
 
-def round_2018_06_27 = service.findRound(wm2018, 8)
+def round_2018_06_27 = service.findRound(wm2018, 13)
 if (round_2018_06_27.isPresent()) {
     round_2018_06_27 = round_2018_06_27.get()
 } else {
-    round_2018_06_27 = service.addRound(wm2018, '2018-06-27 14:00:00', gruppeA)
+    round_2018_06_27 = service.addRound(wm2018, '2018-06-27 14:00:00', gruppeE)
 }
 println "Runde $round_2018_06_27.dateTime"
 
-def round_2018_06_28 = service.findRound(wm2018, 9)
+def round_2018_06_28 = service.findRound(wm2018, 14)
 if (round_2018_06_28.isPresent()) {
     round_2018_06_28 = round_2018_06_28.get()
 } else {
-    round_2018_06_28 = service.addRound(wm2018, '2018-06-28 14:00:00', gruppeB)
+    round_2018_06_28 = service.addRound(wm2018, '2018-06-28 14:00:00', gruppeG)
 }
 println "Runde $round_2018_06_28.dateTime"
 
-def round_2018_06_29 = service.findRound(wm2018, 10)
-if (round_2018_06_29.isPresent()) {
-    round_2018_06_29 = round_2018_06_29.get()
-} else {
-    round_2018_06_29 = service.addRound(wm2018, '2018-06-29 14:00:00', gruppeC)
-}
-println "Runde $round_2018_06_29.dateTime"
+
+
+service.addMatch(round_2018_06_14, '2018-06-14 17:00:00', wm2018_gruppe_A, russland, saudiArabien)
+
+service.addMatch(round_2018_06_15, '2018-06-15 14:00:00', wm2018_gruppe_A, aegypten, uruguay)
+service.addMatch(round_2018_06_15, '2018-06-15 17:00:00', wm2018_gruppe_B, marokko, iran)
+service.addMatch(round_2018_06_15, '2018-06-15 20:00:00', wm2018_gruppe_B, portugal, spanien)
+
+service.addMatch(round_2018_06_16, '2018-06-16 12:00:00', wm2018_gruppe_C, frankreich, australien)
+service.addMatch(round_2018_06_16, '2018-06-16 15:00:00', wm2018_gruppe_D, argentinien, island)
+service.addMatch(round_2018_06_16, '2018-06-16 18:00:00', wm2018_gruppe_C, peru, daenemark)
+service.addMatch(round_2018_06_16, '2018-06-16 21:00:00', wm2018_gruppe_D, kroatien, nigeria)
+
+service.addMatch(round_2018_06_17, '2018-06-17 14:00:00', wm2018_gruppe_E, costaRica, serbien)
+service.addMatch(round_2018_06_17, '2018-06-17 17:00:00', wm2018_gruppe_F, deutschland, mexiko)
+service.addMatch(round_2018_06_17, '2018-06-17 20:00:00', wm2018_gruppe_E, brasilien, schweiz)
+
+service.addMatch(round_2018_06_18, '2018-06-18 14:00:00', wm2018_gruppe_F, schweden, suedkorea)
+service.addMatch(round_2018_06_18, '2018-06-18 17:00:00', wm2018_gruppe_G, belgien, panama)
+service.addMatch(round_2018_06_18, '2018-06-18 20:00:00', wm2018_gruppe_G, tunesien, england)
+
+service.addMatch(round_2018_06_19, '2018-06-19 14:00:00', wm2018_gruppe_H, kolumbien, japan)
+service.addMatch(round_2018_06_19, '2018-06-19 17:00:00', wm2018_gruppe_H, polen, senegal)
+service.addMatch(round_2018_06_19, '2018-06-19 20:00:00', wm2018_gruppe_A, russland, aegypten)
+
+service.addMatch(round_2018_06_20, '2018-06-20 14:00:00', wm2018_gruppe_B, portugal, marokko)
+service.addMatch(round_2018_06_20, '2018-06-20 17:00:00', wm2018_gruppe_A, uruguay, saudiArabien)
+service.addMatch(round_2018_06_20, '2018-06-20 20:00:00', wm2018_gruppe_B, iran, spanien)
+
+service.addMatch(round_2018_06_21, '2018-06-21 14:00:00', wm2018_gruppe_C, daenemark, australien)
+service.addMatch(round_2018_06_21, '2018-06-21 17:00:00', wm2018_gruppe_C, frankreich, peru)
+service.addMatch(round_2018_06_21, '2018-06-21 20:00:00', wm2018_gruppe_D, argentinien, kroatien)
+
+service.addMatch(round_2018_06_22, '2018-06-22 14:00:00', wm2018_gruppe_E, brasilien, costaRica)
+service.addMatch(round_2018_06_22, '2018-06-22 17:00:00', wm2018_gruppe_D, nigeria, island)
+service.addMatch(round_2018_06_22, '2018-06-22 20:00:00', wm2018_gruppe_E, serbien, schweiz)
+
+service.addMatch(round_2018_06_23, '2018-06-23 14:00:00', wm2018_gruppe_G, belgien, tunesien)
+service.addMatch(round_2018_06_23, '2018-06-23 17:00:00', wm2018_gruppe_F, suedkorea, mexiko)
+service.addMatch(round_2018_06_23, '2018-06-23 20:00:00', wm2018_gruppe_F, deutschland, schweden)
+
+service.addMatch(round_2018_06_24, '2018-06-24 14:00:00', wm2018_gruppe_G, england, panama)
+service.addMatch(round_2018_06_24, '2018-06-24 17:00:00', wm2018_gruppe_H, japan, senegal)
+service.addMatch(round_2018_06_24, '2018-06-24 20:00:00', wm2018_gruppe_H, polen, kolumbien)
+
+// Letzter Gruppenspieltag
+service.addMatch(round_2018_06_25, '2018-06-25 16:00:00', wm2018_gruppe_A, uruguay, russland)
+service.addMatch(round_2018_06_25, '2018-06-25 16:00:00', wm2018_gruppe_A, saudiArabien, aegypten)
+service.addMatch(round_2018_06_25, '2018-06-25 20:00:00', wm2018_gruppe_B, spanien, marokko)
+service.addMatch(round_2018_06_25, '2018-06-25 20:00:00', wm2018_gruppe_B, iran, portugal)
+
+service.addMatch(round_2018_06_26, '2018-06-26 16:00:00', wm2018_gruppe_C, daenemark, frankreich)
+service.addMatch(round_2018_06_26, '2018-06-26 16:00:00', wm2018_gruppe_C, australien, peru)
+service.addMatch(round_2018_06_26, '2018-06-26 20:00:00', wm2018_gruppe_D, island, kroatien)
+service.addMatch(round_2018_06_26, '2018-06-26 20:00:00', wm2018_gruppe_D, nigeria, argentinien)
+
+service.addMatch(round_2018_06_27, '2018-06-27 16:00:00', wm2018_gruppe_F, mexiko, schweden)
+service.addMatch(round_2018_06_27, '2018-06-27 16:00:00', wm2018_gruppe_F, suedkorea, deutschland)
+service.addMatch(round_2018_06_27, '2018-06-27 20:00:00', wm2018_gruppe_E, serbien, brasilien)
+service.addMatch(round_2018_06_27, '2018-06-27 20:00:00', wm2018_gruppe_E, schweiz, costaRica)
+
+service.addMatch(round_2018_06_28, '2018-06-28 16:00:00', wm2018_gruppe_H, senegal, kolumbien)
+service.addMatch(round_2018_06_28, '2018-06-28 16:00:00', wm2018_gruppe_H, japan, polen)
+service.addMatch(round_2018_06_28, '2018-06-28 20:00:00', wm2018_gruppe_G, england, belgien)
+service.addMatch(round_2018_06_28, '2018-06-28 20:00:00', wm2018_gruppe_G, panama, tunesien)
