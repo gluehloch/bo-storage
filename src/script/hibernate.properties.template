@@ -1,0 +1,17 @@
+# Datenbankeinstellungen fuer die JUnit Tests
+# Falls die Werte durch Umgebungsvariablen umgeschrieben werden sollen,
+# muss das folgende Format fuer die Schluesseleigenschaften verwendet
+# werden:
+#
+# hibernate_connection_username=test
+# hibernate_connection_password=test
+# hibernate_connection_url 
+# hibernate_connection_driver_class 
+# hibernate_dialect 
+#
+hibernate_connection_username = betoffice
+hibernate_connection_password = betoffice
+hibernate_connection_url = jdbc:mysql://192.168.99.136//betoffice1/
+-# hibernate_connection_url = jdbc:mysql://192.168.0.136/betoffice
+hibernate_connection_driver_class = com.mysql.jdbc.Driver
+hibernate_dialect = org.hibernate.dialect.MySQLDialect
