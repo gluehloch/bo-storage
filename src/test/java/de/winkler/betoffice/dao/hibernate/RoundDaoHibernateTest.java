@@ -23,10 +23,9 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.joda.time.DateTime;
@@ -38,6 +37,8 @@ import de.winkler.betoffice.dao.MatchDao;
 import de.winkler.betoffice.dao.RoundDao;
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.Group;
+import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
 
 /**
@@ -62,25 +63,62 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
+    public void testCreateRound() {
+        Season season = seasonDao.findById(1);
+        season = seasonDao.findRoundGroupTeamUser(season);
+
+        final Date now = new DateTime(2018, 5, 22, 17, 0, 0).toDate();
+
+        final GameList newRound = new GameList();
+        newRound.setDateTime(now);
+
+        GroupType liga1 = season.getGroupTypes().get(0);
+        Group liga1_1000 = season.getGroup(liga1);
+        newRound.setGroup(liga1_1000);
+        season.addGameList(newRound);
+
+        // Achtung: dateTime ist vom Typ java.util.Date
+        assertThat(newRound.getDateTime()).isInstanceOf(Date.class);
+        assertThat(newRound.getDateTime())
+                .isNotInstanceOf(java.sql.Timestamp.class);
+        assertThat(newRound.getDateTime()).isEqualTo(now);
+
+        roundDao.save(newRound);
+        roundDao.refresh(newRound);
+        
+        assertThat(newRound.getDateTime().getTime()).isEqualTo(now.getTime());
+
+        // nach save und flush aber ein java.util.Timestamp
+        assertThat(newRound.getDateTime()).isInstanceOf(Date.class);
+        assertThat(newRound.getDateTime())
+                .isInstanceOf(java.sql.Timestamp.class);
+        assertThat(newRound.getDateTime()).isNotEqualTo(now);
+        assertThat(now).isEqualTo(newRound.getDateTime());
+        
+        // oder besser
+        assertThat(newRound.getDateTime().compareTo(now)).isEqualTo(0);
+    }
+
+    @Test
     public void testFindNextRound() {
-        assertThat(roundDao.findNext(0).isPresent(), is(false));
-        assertThat(roundDao.findNext(1).get(), equalTo(2L));
-        assertThat(roundDao.findNext(2).get(), equalTo(3L));
-        assertThat(roundDao.findNext(3).get(), equalTo(4L));
-        assertThat(roundDao.findNext(4).get(), equalTo(5L));
-        assertThat(roundDao.findNext(5).isPresent(), is(false));
-        assertThat(roundDao.findNext(6).isPresent(), is(false));
+        assertThat(roundDao.findNext(0).isPresent()).isFalse();
+        assertThat(roundDao.findNext(1).get()).isEqualTo(2L);
+        assertThat(roundDao.findNext(2).get()).isEqualTo(3L);
+        assertThat(roundDao.findNext(3).get()).isEqualTo(4L);
+        assertThat(roundDao.findNext(4).get()).isEqualTo(5L);
+        assertThat(roundDao.findNext(5).isPresent()).isFalse();
+        assertThat(roundDao.findNext(6).isPresent()).isFalse();
     }
 
     @Test
     public void testFindPreviousRound() {
-        assertThat(roundDao.findPrevious(0).isPresent(), is(false));
-        assertThat(roundDao.findPrevious(1).isPresent(), is(false));
-        assertThat(roundDao.findPrevious(2).get(), equalTo(1L));
-        assertThat(roundDao.findPrevious(3).get(), equalTo(2L));
-        assertThat(roundDao.findPrevious(4).get(), equalTo(3L));
-        assertThat(roundDao.findPrevious(5).get(), equalTo(4L));
-        assertThat(roundDao.findPrevious(6).isPresent(), is(false));
+        assertThat(roundDao.findPrevious(0).isPresent()).isFalse();
+        assertThat(roundDao.findPrevious(1).isPresent()).isFalse();
+        assertThat(roundDao.findPrevious(2).get()).isEqualTo(1L);
+        assertThat(roundDao.findPrevious(3).get()).isEqualTo(2L);
+        assertThat(roundDao.findPrevious(4).get()).isEqualTo(3L);
+        assertThat(roundDao.findPrevious(5).get()).isEqualTo(4L);
+        assertThat(roundDao.findPrevious(6).isPresent()).isFalse();
     }
 
     @Test
@@ -88,34 +126,34 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         // Everything as expected?
         DateTime matchDateTime = new DateTime(
                 matchDao.findById(1L).getDateTime());
-        assertThat(matchDateTime, equalTo(new DateTime(2016, 1, 5, 15, 0, 0)));
-        assertThat(matchDao.findById(18L).isPlayed(), is(true));
-        assertThat(matchDao.findById(19L).isPlayed(), is(true));
-        assertThat(matchDao.findById(20L).isPlayed(), is(false));
+        assertThat(matchDateTime).isEqualTo(new DateTime(2016, 1, 5, 15, 0, 0));
+        assertThat(matchDao.findById(18L).isPlayed()).isTrue();
+        assertThat(matchDao.findById(19L).isPlayed()).isTrue();
+        assertThat(matchDao.findById(20L).isPlayed()).isFalse();
 
         // Datum kurz vor dem Spieltag
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 1, 1, 0, 0, 0)).get(), equalTo(1L));
+                new DateTime(2016, 1, 1, 0, 0, 0)).get()).isEqualTo(1L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 2, 1, 0, 0, 0)).get(), equalTo(2L));
+                new DateTime(2016, 2, 1, 0, 0, 0)).get()).isEqualTo(2L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 3, 1, 0, 0, 0)).get(), equalTo(3L));
+                new DateTime(2016, 3, 1, 0, 0, 0)).get()).isEqualTo(3L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 4, 1, 0, 0, 0)).get(), equalTo(4L));
+                new DateTime(2016, 4, 1, 0, 0, 0)).get()).isEqualTo(4L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 5, 1, 0, 0, 0)).get(), equalTo(5L));
+                new DateTime(2016, 5, 1, 0, 0, 0)).get()).isEqualTo(5L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 6, 1, 0, 0, 0)).isPresent(), is(false));
+                new DateTime(2016, 6, 1, 0, 0, 0)).isPresent()).isFalse();
 
         // Datum direkt am Spieltag
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 2, 5, 16, 0, 0)).get(), equalTo(2L));
+                new DateTime(2016, 2, 5, 16, 0, 0)).get()).isEqualTo(2L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 5, 5, 13, 0, 0)).get(), equalTo(5L));
+                new DateTime(2016, 5, 5, 13, 0, 0)).get()).isEqualTo(5L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 5, 5, 16, 0, 0)).get(), equalTo(5L));
+                new DateTime(2016, 5, 5, 16, 0, 0)).get()).isEqualTo(5L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 5, 6, 16, 0, 0)).get(), equalTo(5L));
+                new DateTime(2016, 5, 6, 16, 0, 0)).get()).isEqualTo(5L);
     }
 
     @Test
@@ -123,41 +161,41 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         // Everything as expected?
         DateTime matchDateTime = new DateTime(
                 matchDao.findById(1L).getDateTime());
-        assertThat(matchDateTime, equalTo(new DateTime(2016, 1, 5, 15, 0, 0)));
-        assertThat(matchDao.findById(18L).isPlayed(), is(true));
-        assertThat(matchDao.findById(19L).isPlayed(), is(true));
-        assertThat(matchDao.findById(20L).isPlayed(), is(false));
+        assertThat(matchDateTime).isEqualTo(new DateTime(2016, 1, 5, 15, 0, 0));
+        assertThat(matchDao.findById(18L).isPlayed()).isTrue();
+        assertThat(matchDao.findById(19L).isPlayed()).isTrue();
+        assertThat(matchDao.findById(20L).isPlayed()).isFalse();
 
         // Datum kurz vor dem Spieltag
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 1, 1, 0, 0, 0)).isPresent(), is(false));
+                new DateTime(2016, 1, 1, 0, 0, 0)).isPresent()).isFalse();
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 2, 1, 0, 0, 0)).get(), equalTo(1L));
+                new DateTime(2016, 2, 1, 0, 0, 0)).get()).isEqualTo(1L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 3, 1, 0, 0, 0)).get(), equalTo(2L));
+                new DateTime(2016, 3, 1, 0, 0, 0)).get()).isEqualTo(2L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 4, 1, 0, 0, 0)).get(), equalTo(3L));
+                new DateTime(2016, 4, 1, 0, 0, 0)).get()).isEqualTo(3L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 5, 1, 0, 0, 0)).get(), equalTo(4L));
+                new DateTime(2016, 5, 1, 0, 0, 0)).get()).isEqualTo(4L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 6, 1, 0, 0, 0)).get(), equalTo(5L));
+                new DateTime(2016, 6, 1, 0, 0, 0)).get()).isEqualTo(5L);
 
         // Datum direkt am Spieltag
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 2, 5, 16, 0, 0)).get(), equalTo(1L));
+                new DateTime(2016, 2, 5, 16, 0, 0)).get()).isEqualTo(1L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 5, 5, 13, 0, 0)).get(), equalTo(4L));
+                new DateTime(2016, 5, 5, 13, 0, 0)).get()).isEqualTo(4L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 5, 5, 16, 0, 0)).get(), equalTo(4L));
+                new DateTime(2016, 5, 5, 16, 0, 0)).get()).isEqualTo(4L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 5, 6, 16, 0, 0)).get(), equalTo(5L));
+                new DateTime(2016, 5, 6, 16, 0, 0)).get()).isEqualTo(5L);
     }
 
     @Test
     public void testFindLastRound() {
         Season season = seasonDao.findById(1l);
         Optional<GameList> lastRound = roundDao.findLastRound(season);
-        assertThat(lastRound.get().getId(), equalTo(5L));
+        assertThat(lastRound.get().getId()).isEqualTo(5L);
     }
 
 }
