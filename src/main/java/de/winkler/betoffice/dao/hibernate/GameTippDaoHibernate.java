@@ -80,15 +80,17 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp>
     private static final String QUERY_ROUND_GAME_TIPP_AND_USER = AbstractCommonDao
             .loadQuery("hql_round_game_tipp_user.sql");
 
+    private static final String QUERY_ROUND_GAME_TIPP = AbstractCommonDao
+            .loadQuery("hql_round_game_tipp.sql");
+
     public GameTippDaoHibernate() {
         super(GameTipp.class);
     }
 
     @Override
     public List<GameTipp> findByMatch(final Game match) {
-        @SuppressWarnings("unchecked")
         List<GameTipp> tipps = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_GAMETIPP_BY_MATCH)
+                .createQuery(QUERY_GAMETIPP_BY_MATCH, GameTipp.class)
                 .setParameter("gameId", match.getId()).getResultList();
 
         return tipps;
@@ -101,9 +103,8 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp>
 
     @Override
     public List<GameTipp> findTippsByRoundAndUser(long roundId, User user) {
-        @SuppressWarnings("unchecked")
         List<GameTipp> objects = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_GAMETIPP_BY_SEASON_ROUND_AND_USER)
+                .createQuery(QUERY_GAMETIPP_BY_SEASON_ROUND_AND_USER, GameTipp.class)
                 .setParameter("roundId", roundId)
                 .setParameter("userId", user.getId()).getResultList();
         return objects;
@@ -116,12 +117,26 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp>
 
     @Override
     public GameList findRound(long roundId, long userId) {
-        @SuppressWarnings("unchecked")
         List<GameList> rounds = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_ROUND_GAME_TIPP_AND_USER)
-                .setParameter("roundId", roundId).setParameter("userId", userId)
+                .createQuery(QUERY_ROUND_GAME_TIPP_AND_USER, GameList.class)
+                .setParameter("roundId", roundId)
+                .setParameter("userId", userId)
                 .getResultList();
 
+        if (rounds.isEmpty()) {
+            return null;
+        } else {
+            return rounds.get(0);
+        }
+    }
+
+    @Override
+    public GameList findRound(long roundId) {
+        List<GameList> rounds = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_ROUND_GAME_TIPP, GameList.class)
+                .setParameter("roundId", roundId)
+                .getResultList();
+        
         if (rounds.isEmpty()) {
             return null;
         } else {

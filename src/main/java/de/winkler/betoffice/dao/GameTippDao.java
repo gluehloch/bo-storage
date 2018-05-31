@@ -94,43 +94,12 @@ public interface GameTippDao extends CommonDao<GameTipp> {
     GameList findRound(long roundId, long userId);
 
     /**
-     * Speichert einen Spiel-Tipp..
-     *
-     * @param gameTipp
-     *            Ein Spiel-Tipp.
+     * Liefert alle Spieltipps zu einem Spieltag.
+     * 
+     * @param roundId
+     *            Der Spieltag.
+     * @return Eine List mit allen Tipps zu dem gesuchten Spieltag.
      */
-    void save(GameTipp gameTipp);
-
-    /**
-     * Legt eine Liste von Spiel-Tipps an.
-     *
-     * @param gameTipps
-     *            Ein Liste mit Spiel-Tipps.
-     */
-    void saveAll(List<GameTipp> gameTipps);
-
-    /**
-     * Eine Update-Operation.
-     *
-     * @param gameTipp
-     *            Ein Spiel-Tipp.
-     */
-    void update(GameTipp gameTipp);
-
-    /**
-     * Loescht einen Spiel-Tipp.
-     *
-     * @param gameTipp
-     *            Ein Spiel-Tipp.
-     */
-    void delete(GameTipp gameTipp);
-
-    /**
-     * Loescht alle Spiel-Tipps.
-     *
-     * @param tipps
-     *            Spiel-Tipps.
-     */
-    void deleteAll(List<GameTipp> tipps);
+    GameList findRound(long roundId);
 
 }
