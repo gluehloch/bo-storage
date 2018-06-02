@@ -213,19 +213,25 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     @Override
     @Transactional(readOnly = true)
     public Optional<GameList> findRound(Season season, int index) {
-        return (roundDao.findRound(season, index));
+        return roundDao.findRound(season, index);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<GameList> findLastRound(Season season) {
-        return (roundDao.findLastRound(season));
+        return roundDao.findLastRound(season);
     }
 
     @Override
     @Transactional(readOnly = true)
     public GameList findRound(long id) {
-        return (roundDao.findById(id));
+        return roundDao.findById(id);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<GameList> findRoundGameAndTipp(long roundId) {
+        return roundDao.findAllRoundObjects(roundId);
     }
 
     @Override
@@ -255,19 +261,19 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     @Override
     @Transactional(readOnly = true)
     public List<GameList> findRounds(Season season) {
-        return (roundDao.findRounds(season));
+        return roundDao.findRounds(season);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<GameList> findRounds(Group group) {
-        return (roundDao.findRounds(group));
+        return roundDao.findRounds(group);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Group> findGroups(Season season) {
-        return (groupDao.findBySeason(season));
+        return groupDao.findBySeason(season);
     }
 
     @Override

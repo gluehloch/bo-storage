@@ -104,6 +104,21 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
             + "left join fetch game.group "
             + "where round.season.id = :seasonId and round.index = :gameListIndex";
 
+    /**
+     * Sucht nach allen Gruppen, Spielen, Mannschaften, Tipps und Tippteilnehmer
+     * einer Spielrunde/Spieltag.
+     * 
+     * @see #QUERY_ALL_ROUND_OBJECTS
+     */
+    private static final String QUERY_ALL_ROUND_OBJECTS_BY_ID = "select round from GameList as round "
+            + "left join fetch round.gameList game "
+            + "left join fetch game.tippList tipp "
+            + "left join fetch tipp.user u "
+            + "left join fetch game.homeTeam "
+            + "left join fetch game.guestTeam "
+            + "left join fetch game.group "
+            + "where round.id = :roundId";
+
     /** Findet den naechsten zu tippenden Spieltag. */
     private static final String QUERY_NEXT_ROUND_BY_DATE = "select gl.bo_datetime datetime, gl.id last_round_id "
             + "from bo_gamelist gl "
@@ -191,6 +206,15 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
 
         return singleResult(query);
     }
+    
+    @Override
+    public Optional<GameList> findAllRoundObjects(long roundId) {
+        Query<GameList> query = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_ALL_ROUND_OBJECTS_BY_ID, GameList.class)
+                .setParameter("roundId", roundId, LongType.INSTANCE);
+
+        return singleResult(query);
+    }    
 
     @Override
     public Optional<Long> findNextTippRound(long seasonId, DateTime date) {

@@ -3,20 +3,20 @@
  * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
- * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * GNU GENERAL  LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
  * 
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
+ * the terms of the GNU General  License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE. See the GNU General  License for more
  * details.
  * 
- * You should have received a copy of the GNU General Public License along with
+ * You should have received a copy of the GNU General  License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
@@ -57,7 +57,7 @@ public interface SeasonManagerService {
      *            Die betreffende Meisterschaft.
      * @return Das Ranking der Tipper.
      */
-    public List<UserResult> calculateUserRanking(Season season);
+     List<UserResult> calculateUserRanking(Season season);
 
     /**
      * Berechnet das Tipper-Ranking für einen Spieltag.
@@ -66,7 +66,7 @@ public interface SeasonManagerService {
      *            Der betreffende Spieltag.
      * @return Das Ranking der Tipper.
      */
-    public List<UserResult> calculateUserRanking(GameList round);
+     List<UserResult> calculateUserRanking(GameList round);
 
     /**
      * Berechnet das Tipper-Ranking für einen Spieltag.
@@ -79,7 +79,7 @@ public interface SeasonManagerService {
      *            Index des Spieltags bis zu dem gezählt wird (0..N-1).
      * @return Das Ranking der Tipper.
      */
-    public List<UserResult> calculateUserRanking(Season season, int startIndex,
+     List<UserResult> calculateUserRanking(Season season, int startIndex,
             int endIndex);
 
     /**
@@ -91,7 +91,7 @@ public interface SeasonManagerService {
      *            Die Liga/Gruppe die berechnet werden soll.
      * @return Eine sortierte Liste der Tabelle.
      */
-    public List<TeamResult> calculateTeamRanking(Season season,
+     List<TeamResult> calculateTeamRanking(Season season,
             GroupType groupType);
 
     /**
@@ -108,7 +108,7 @@ public interface SeasonManagerService {
      *            Index des End-Spieltags (0..N-1).
      * @return Eine sortierte Liste der Tabelle.
      */
-    public List<TeamResult> calculateTeamRanking(Season season,
+     List<TeamResult> calculateTeamRanking(Season season,
             GroupType groupType, int startIndex, int endIndex);
 
     /**
@@ -118,21 +118,21 @@ public interface SeasonManagerService {
      *            Die betreffende Meisterschaft.
      * @return Eine Liste der teilnehmenden Spieler für die Meisterschaft.
      */
-    public List<User> findActivatedUsers(Season season);
+     List<User> findActivatedUsers(Season season);
 
     /**
      * Sucht nach allen Meisterschaften.
      *
      * @return Eine Liste aller Meisterschaften.
      */
-    public List<Season> findAllSeasons();
+     List<Season> findAllSeasons();
 
     /**
      * Liefert alle bekannten Tore.
      * 
      * @return Eine Liste aller Tore.
      */
-    public List<Goal> findAllGoals();
+     List<Goal> findAllGoals();
 
     /**
      * Liefert alle Mannschaften einer Gruppe.
@@ -141,7 +141,7 @@ public interface SeasonManagerService {
      *            Die Mannschaften dieser Gruppe ermitteln.
      * @return Ein Liste aller Mannschaften dieser Gruppe.
      */
-    public List<Team> findTeams(Group group);
+     List<Team> findTeams(Group group);
 
     /**
      * Liefert die Mannschaften für einen Gruppentyp einer bestimmten
@@ -154,7 +154,7 @@ public interface SeasonManagerService {
      * @return Eine Lister aller Mannschaften des gesuchten Gruppentyps und
      *         Meisterschaft.
      */
-    public List<Team> findTeams(Season season, GroupType groupType);
+     List<Team> findTeams(Season season, GroupType groupType);
 
     /**
      * Sucht nach einer bestimmten Meisterschaft.
@@ -165,7 +165,7 @@ public interface SeasonManagerService {
      *            Das Jahr der Meisterschaft.
      * @return Eine Meisterschaft.
      */
-    public Optional<Season> findSeasonByName(String name, String year);
+     Optional<Season> findSeasonByName(String name, String year);
 
     /**
      * Sucht nach einer bestimmten Meisterschaft.
@@ -174,7 +174,7 @@ public interface SeasonManagerService {
      *            Die ID der Meisterschaft.
      * @return Eine Meisterschaft.
      */
-    public Season findSeasonById(long id);
+     Season findSeasonById(long id);
 
     /**
      * Liefert einen Spieltag für eine Meisterschaft.
@@ -185,7 +185,7 @@ public interface SeasonManagerService {
      *            Der Index des Spieltags (0 .. size-1).
      * @return Der Spieltag.
      */
-    public Optional<GameList> findRound(Season season, int index);
+     Optional<GameList> findRound(Season season, int index);
 
     /**
      * Liefert den letzten Spieltag einer Meisterschaft.
@@ -194,16 +194,26 @@ public interface SeasonManagerService {
      *            die betreffende Meisterschaft
      * @return Der Spieltag
      */
-    public Optional<GameList> findLastRound(Season season);
+     Optional<GameList> findLastRound(Season season);
 
     /**
      * Liefert einen Spieltag für eine Meisterschaft.
      *
-     * @param id
+     * @param roundId
      *            Die ID des Spieltags.
      * @return Der Spieltag.
      */
-    public GameList findRound(long id);
+     GameList findRound(long roundId);
+
+    /**
+     * Liefert einen Spieltag einer Meisterschaft inklusive der Spiel und der
+     * Spieltipps.
+     * 
+     * @param roundId
+     *            Die ID des Spieltags
+     * @return Der Spieltag
+     */
+     Optional<GameList> findRoundGameAndTipp(long roundId);
 
     /**
      * Liefert den nächsten Spieltag.
@@ -212,7 +222,7 @@ public interface SeasonManagerService {
      *            Die ID des Spieltags
      * @return Der nächste Spieltag.
      */
-    public Optional<GameList> findNextRound(long id);
+     Optional<GameList> findNextRound(long id);
 
     /**
      * Liefert den vorhergehenden Spieltag.
@@ -221,7 +231,7 @@ public interface SeasonManagerService {
      *            Die ID des Spieltags.
      * @return Der vorhergehende Spieltag.
      */
-    public Optional<GameList> findPrevRound(long id);
+     Optional<GameList> findPrevRound(long id);
 
     /**
      * Liefert alle Spieltage einer Meisterschaft.
@@ -230,7 +240,7 @@ public interface SeasonManagerService {
      *            Die betreffende Meisterschaft.
      * @return Die Spieltage der Meisterschaft.
      */
-    public List<GameList> findRounds(Season season);
+     List<GameList> findRounds(Season season);
 
     /**
      * Liefert alle Spieltage einer Meisterschaft zu einer Gruppe.
@@ -239,7 +249,7 @@ public interface SeasonManagerService {
      *            Die Spieltag fuer diese Gruppe.
      * @return Die Spieltage der gesuchten Gruppe und Meisterschaft.
      */
-    public List<GameList> findRounds(Group group);
+     List<GameList> findRounds(Group group);
 
     /**
      * Initialisiert die Liste der Spieltage, die zugehörigen Gruppen,
@@ -249,7 +259,7 @@ public interface SeasonManagerService {
      *            Die Spieltage dieser Meisterschaft werden geladen.
      * @return Die übergebene Meisterschaft.
      */
-    public Season findRoundGroupTeamUserRelations(Season season);
+     Season findRoundGroupTeamUserRelations(Season season);
 
     /**
      * Liefert alle Spieltipps zu einer Spielpaarung.
@@ -258,7 +268,7 @@ public interface SeasonManagerService {
      *            Die Spielpaarung deren Spieltipps gesucht werden.
      * @return Die Spieltipps.
      */
-    public List<GameTipp> findTippsByMatch(Game match);
+     List<GameTipp> findTippsByMatch(Game match);
 
     /**
      * Liefert alle Spieltipps zu einem Spieltag von einem Teilnehmer.
@@ -269,7 +279,7 @@ public interface SeasonManagerService {
      *            Die Spieltipps von diesem User suchen.
      * @return Die Spieltipps.
      */
-    public List<GameTipp> findTippsByRoundAndUser(GameList round, User user);
+     List<GameTipp> findTippsByRoundAndUser(GameList round, User user);
 
     /**
      * Liefert alle Spieltipps zu einem Spieltag von einem Teilnehmer.
@@ -282,7 +292,7 @@ public interface SeasonManagerService {
      * 
      * @return Die Spieltipps.
      */
-    public GameList findTipp(GameList round, User user);
+     GameList findTipp(GameList round, User user);
 
     /**
      * Initialisiert die Liste der Spieltage, die zugehörigen Gruppen,
@@ -293,7 +303,7 @@ public interface SeasonManagerService {
      *            Die Spieltage dieser Meisterschaft werden geladen.
      * @return Die übergebene Meisterschaft.
      */
-    public Season findRoundGroupTeamUserTippRelations(Season season);
+     Season findRoundGroupTeamUserTippRelations(Season season);
 
     /**
      * Liefert die Gruppen zu einer Meisterschaft.
@@ -302,7 +312,7 @@ public interface SeasonManagerService {
      *            Die betreffende Meisterschaft.
      * @return Die aktiven Gruppen zu der gesuchten Meisterschaft.
      */
-    public List<Group> findGroups(Season season);
+     List<Group> findGroups(Season season);
 
     /**
      * Liefert alle Gruppentypen zu einer Meisterschaft.
@@ -311,7 +321,7 @@ public interface SeasonManagerService {
      *            Die betreffende Meisterschaft
      * @return Die aktiven Gruppen der Meisterschaft
      */
-    public List<GroupType> findGroupTypes(Season season);
+     List<GroupType> findGroupTypes(Season season);
 
     /**
      * Liefert die Gruppe zu einer Meisterschaft.
@@ -322,7 +332,7 @@ public interface SeasonManagerService {
      *            Der Gruppentyp
      * @return Die Gruppe zu der Meisterschaft
      */
-    public Group findGroup(Season season, GroupType groupType);
+     Group findGroup(Season season, GroupType groupType);
 
     /**
      * Liefert die aktiven Gruppentypen der Meisterschaft.
@@ -331,7 +341,7 @@ public interface SeasonManagerService {
      *            Die betreffende Meisterschaft.
      * @return Die aktiven Gruppentypen zu der gesuchten Meisterschaft.
      */
-    public List<GroupType> findGroupTypesBySeason(Season season);
+     List<GroupType> findGroupTypesBySeason(Season season);
 
     /**
      * Sucht nach Spielen der vorgegebenen Mannschaften.
@@ -342,7 +352,7 @@ public interface SeasonManagerService {
      *            Die Gastmannschaft.
      * @return Die gemeinsamen Spiele.
      */
-    public List<Game> findMatches(Team homeTeam, Team guestTeam);
+     List<Game> findMatches(Team homeTeam, Team guestTeam);
 
     /**
      * Sucht nach einem Spiel.
@@ -351,7 +361,7 @@ public interface SeasonManagerService {
      *            Die technische ID des Spiels/game/match.
      * @return Das Spiel.
      */
-    public Game findMatch(Long gameId);
+     Game findMatch(Long gameId);
 
     /**
      * Sucht nach einem Spiel für einen Spieltag.
@@ -365,7 +375,7 @@ public interface SeasonManagerService {
      * @return Das Spiel der beiden Mannschaften für den Spieltga. Liefert
      *         <code>null</code>, wenn kein Spiel gefunden werden konnte.
      */
-    public Optional<Game> findMatch(GameList round, Team homeTeam,
+     Optional<Game> findMatch(GameList round, Team homeTeam,
             Team guestTeam);
 
     /**
@@ -379,7 +389,7 @@ public interface SeasonManagerService {
      *            Heim- und Gastmannschaft vertauschen?
      * @return Die gemeinsamen Spiele.
      */
-    public List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin);
+     List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin);
 
     /**
      * Liefert einen Spieler inklusive aller seiner Tore.
@@ -388,7 +398,7 @@ public interface SeasonManagerService {
      *            Die Spieler ID
      * @return Der Spieler inklusive aller seiner Tore.
      */
-    public Optional<Player> findGoalsOfPlayer(long id);
+     Optional<Player> findGoalsOfPlayer(long id);
 
     /**
      * Erstellt eine neue Spielzeit.<br>
@@ -399,7 +409,7 @@ public interface SeasonManagerService {
      *            Eine Spielzeit.
      * @return Die angelegt Spielzeit. Mit Datenbank-ID.
      */
-    public Season createSeason(Season season);
+     Season createSeason(Season season);
 
     /**
      * Löscht eine Spielzeit.<br>
@@ -409,14 +419,14 @@ public interface SeasonManagerService {
      * @param season
      *            Eine Spielzeit.
      */
-    public void deleteSeason(Season season);
+     void deleteSeason(Season season);
 
     /**
      * Aktualisierung einer Meisterschaft.
      *
      * @param season
      */
-    public void updateSeason(Season season);
+     void updateSeason(Season season);
 
     /**
      * Tippteilnehmer einer Spielzeit hinzufügen.
@@ -426,7 +436,7 @@ public interface SeasonManagerService {
      * @param users
      *            Die zu aktivierenden Teilnehmer.
      */
-    public void addUsers(Season season, Collection<User> users);
+     void addUsers(Season season, Collection<User> users);
 
     /**
      * Tippteilnehmer aus einer Spielzeit entfernen.
@@ -436,7 +446,7 @@ public interface SeasonManagerService {
      * @param users
      *            Die zu deaktivierenden Teilnehmer.
      */
-    public void removeUsers(Season season, Collection<User> users);
+     void removeUsers(Season season, Collection<User> users);
 
     /**
      * Hinzufügen einer Gruppe zu einer Meisterschaft.
@@ -447,7 +457,7 @@ public interface SeasonManagerService {
      *            Diese Gruppe hinzufügen.
      * @return Die Meisterschaft mit einer neuen Gruppe.
      */
-    public Group addGroupType(Season season, GroupType groupType);
+     Group addGroupType(Season season, GroupType groupType);
 
     /**
      * Hinzufügen mehrerer Gruppe zu einer Meisterschaft.
@@ -457,7 +467,7 @@ public interface SeasonManagerService {
      * @param groupTypes
      *            Diese Gruppe hinzufügen.
      */
-    public void addGroupType(Season season, Collection<GroupType> groupTypes);
+     void addGroupType(Season season, Collection<GroupType> groupTypes);
 
     /**
      * Entfernt eine Gruppe aus einer Meisterschaft. Die Mannschaften zu dieser
@@ -468,7 +478,7 @@ public interface SeasonManagerService {
      * @param groupType
      *            Diese Gruppe entfernen.
      */
-    public void removeGroupType(Season season, GroupType groupType);
+     void removeGroupType(Season season, GroupType groupType);
 
     /**
      * Entfernt Gruppen aus einer Meisterschaft. Die Mannschaften zu dieser
@@ -479,7 +489,7 @@ public interface SeasonManagerService {
      * @param groupTypes
      *            Diese Gruppe entfernen.
      */
-    public void removeGroupType(Season season,
+     void removeGroupType(Season season,
             Collection<GroupType> groupTypes);
 
     /**
@@ -493,7 +503,7 @@ public interface SeasonManagerService {
      *            Die zu aktivierenden Mannschaft.
      * @return Die Gruppe mit der ergaenzten Mannschaft
      */
-    public Group addTeam(Season season, GroupType groupType, Team team);
+     Group addTeam(Season season, GroupType groupType, Team team);
 
     /**
      * Mannschaften einer Gruppe hinzufügen.
@@ -505,7 +515,7 @@ public interface SeasonManagerService {
      * @param teams
      *            Die zu aktivierenden Mannschaften.
      */
-    public Group addTeams(Season season, GroupType groupType,
+     Group addTeams(Season season, GroupType groupType,
             Collection<Team> teams);
 
     /**
@@ -518,7 +528,7 @@ public interface SeasonManagerService {
      * @param team
      *            Die zu deaktivierenden Mannschaft.
      */
-    public void removeTeam(Season season, GroupType groupType, Team team);
+     void removeTeam(Season season, GroupType groupType, Team team);
 
     /**
      * Mannschaften aus einer Gruppe entfernen.
@@ -530,7 +540,7 @@ public interface SeasonManagerService {
      * @param teams
      *            Die zu deaktivierenden Mannschaften.
      */
-    public void removeTeams(Season season, GroupType groupType,
+     void removeTeams(Season season, GroupType groupType,
             Collection<Team> teams);
 
     /**
@@ -546,7 +556,7 @@ public interface SeasonManagerService {
      *            einzelne Spielpaarungen des Spieltags abweichen!
      * @return Der angelegte Spieltag.
      */
-    public GameList addRound(Season season, DateTime date, GroupType groupType);
+     GameList addRound(Season season, DateTime date, GroupType groupType);
 
     /**
      * Entfernt einen Spieltag.
@@ -556,7 +566,7 @@ public interface SeasonManagerService {
      * @param round
      *            Der zu entfernende Spieltag.
      */
-    public void removeRound(Season season, GameList round);
+     void removeRound(Season season, GameList round);
 
     /**
      * Eine neue Spielpaarung der Meisterschaft hinzufügen.
@@ -573,7 +583,7 @@ public interface SeasonManagerService {
      *            Die Gastmannschaft.
      * @return Eine Spielpaarung.
      */
-    public Game addMatch(GameList round, DateTime date, Group group,
+     Game addMatch(GameList round, DateTime date, Group group,
             Team homeTeam, Team guestTeam);
 
     /**
@@ -596,7 +606,7 @@ public interface SeasonManagerService {
      *            Tore der Gastmannschaft.
      * @return Eine Spielpaarung.
      */
-    public Game addMatch(GameList round, DateTime date, Group group,
+     Game addMatch(GameList round, DateTime date, Group group,
             Team homeTeam, Team guestTeam, int homeGoals,
             int guestGoals);
 
@@ -617,7 +627,7 @@ public interface SeasonManagerService {
      *            Die Gastmannschaft.
      * @return Eine Spielpaarung.
      */
-    public Game addMatch(Season season, int round, DateTime date,
+     Game addMatch(Season season, int round, DateTime date,
             GroupType groupType, Team homeTeam, Team guestTeam);
 
     /**
@@ -641,7 +651,7 @@ public interface SeasonManagerService {
      *            Die Tore der Gastmannschaft.
      * @return Eine Spielpaarung.
      */
-    public Game addMatch(Season season, int round, DateTime date,
+     Game addMatch(Season season, int round, DateTime date,
             GroupType groupType, Team homeTeam, Team guestTeam,
             int homeGoals, int guestGoals);
 
@@ -651,7 +661,7 @@ public interface SeasonManagerService {
      * @param match
      *            Die zu aktualisierende Spielpaarung.
      */
-    public void updateMatch(Game match);
+     void updateMatch(Game match);
 
     /**
      * Aktualisiert die übergebenen Spielpaarungen.
@@ -659,7 +669,7 @@ public interface SeasonManagerService {
      * @param modifiedMatches
      *            Die zu aktualisierenden Spielpaarungen.
      */
-    public void updateMatch(Collection<Game> modifiedMatches);
+     void updateMatch(Collection<Game> modifiedMatches);
 
     /**
      * Entfernt eine Spielpaarung aus der Spieltagsliste.
@@ -667,7 +677,7 @@ public interface SeasonManagerService {
      * @param match
      *            Eine Spielpaarung.
      */
-    public void removeMatch(Game match);
+     void removeMatch(Game match);
 
     /**
      * Ergaenzt eine Spielpaarung um ein Tor.
@@ -677,6 +687,6 @@ public interface SeasonManagerService {
      * @param goal
      *            Ein Tor
      */
-    public void addGoal(Game match, Goal goal);
+     void addGoal(Game match, Goal goal);
 
 }
