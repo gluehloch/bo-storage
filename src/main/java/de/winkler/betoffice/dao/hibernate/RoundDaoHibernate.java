@@ -67,9 +67,22 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
             + "where gamelist.season.id = :seasonId "
             + "and gamelist.index = "
             + "("
-            + "  select max(index) from gamelist gl2 where  gl2.season.id = :seasonId "
+            + "  select max(index) from gamelist gl2 "
+            + "  where gl2.season.id = :seasonId "
             + ")";
 
+    /**
+     * Sucht nach dem ersten Spieltag einer Meisterschaft.
+     */
+    private static final String QUERY_FIRST_GAMELIST_BY_SEASON = "from "
+            + "GameList as gamelist "
+            + "where gamelist.season.id = :seasonId "
+            + "and gamelist.index = "
+            + "("
+            + "  select min(index) from gamelist gl2 "
+            + "  where gl2.season.id = :seasonId "
+            + ")";
+    
     /**
      * Sucht nach allen Spieltagen einer Meisterschaft fuer eine bestimmte
      * Gruppe.
@@ -258,7 +271,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
         }
         return result;
     }
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -306,8 +319,15 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
         Query<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_LAST_GAMELIST_BY_SEASON, GameList.class)
                 .setParameter("seasonId", season.getId());
-
         return singleResult(query);
     }
 
+    @Override
+    public Optional<GameList> findFirstRound(Season season) {
+        Query<GameList> query = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_FIRST_GAMELIST_BY_SEASON, GameList.class)
+                .setParameter("seasonId", season.getId());
+        return singleResult(query);
+    }
+    
 }

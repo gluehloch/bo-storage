@@ -137,8 +137,17 @@ public interface RoundDao extends CommonDao<GameList> {
      * 
      * @param season
      *            Die betreffende Meisterschaft
-     * @return der letzte Spieltag einer Meisterschaft
+     * @return der letzte Spieltag der Meisterschaft
      */
     Optional<GameList> findLastRound(Season season);
+
+    /**
+     * Liefert die erste Runde einer Meisterschaft.
+     * 
+     * @param season
+     *            Die betrefffende Meisterschaft
+     * @return der erste Spieltag der Meisterschaft
+     */
+    Optional<GameList> findFirstRound(Season season);
 
 }

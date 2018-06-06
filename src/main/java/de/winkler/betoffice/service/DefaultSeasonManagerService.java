@@ -224,6 +224,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
+    public Optional<GameList> findFirstRound(Season season) {
+        return roundDao.findFirstRound(season);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
     public GameList findRound(long id) {
         return roundDao.findById(id);
     }
