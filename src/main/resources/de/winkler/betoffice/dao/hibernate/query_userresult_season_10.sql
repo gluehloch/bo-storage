@@ -46,8 +46,8 @@ WHERE
   /* Alle 13 Punkte Tipps ausschliessen. */
   AND NOT
   (
-        t.bo_homegoals  = m.bo_homegoals
-    AND t.bo_guestgoals = m.bo_guestgoals
+        t.bo_homegoals  = gameresult.bo_homegoals
+    AND t.bo_guestgoals = gameresult.bo_guestgoals
   )
   AND
   (
