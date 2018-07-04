@@ -282,7 +282,7 @@ println "Viertelfinale: $wm2018_viertelfinale.id"
 
 wm2018 = service.findRoundGroupTeamUserRelations(wm2018)
 
-wm2018_viertelfinale = service.addTeams(wm2018, achtelfinale, [
+wm2018_viertelfinale = service.addTeams(wm2018, viertelfinale, [
     uruguay, frankreich, brasilien, belgien, schweden, england,
     russland, kroatien
 ])
@@ -301,7 +301,7 @@ def round_2018_07_07 = service.findRound(wm2018, 20)
 if (round_2018_07_07.isPresent()) {
     round_2018_07_07 = round_2018_07_07.get()
 } else {
-    round_2018_07_07 = service.addRound(wm2018, '2018-07-06 16:00:00', viertelfinale)
+    round_2018_07_07 = service.addRound(wm2018, '2018-07-07 16:00:00', viertelfinale)
 }
 println "Runde $round_2018_07_06.dateTime"
 
@@ -309,5 +309,5 @@ println "Runde $round_2018_07_06.dateTime"
 service.addMatch(round_2018_07_06, '2018-07-06 16:00:00', wm2018_viertelfinale, uruguay, frankreich)
 service.addMatch(round_2018_07_06, '2018-07-06 20:00:00', wm2018_viertelfinale, brasilien, belgien)
 
-service.addMatch(round_2018_07_07, '2018-07-07 16:00:00', wm2018_achtelfinale, schweden, england)
-service.addMatch(round_2018_07_07, '2018-07-07 20:00:00', wm2018_achtelfinale, russland, kroatien)
+service.addMatch(round_2018_07_07, '2018-07-07 16:00:00', wm2018_viertelfinale, schweden, england)
+service.addMatch(round_2018_07_07, '2018-07-07 20:00:00', wm2018_viertelfinale, russland, kroatien)
