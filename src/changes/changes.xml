@@ -6,10 +6,10 @@
   </properties>
   <body>    
     <!-- Under construction. -->
-    <release version="betoffice-storage-2.6.2" date="2018-??-??"
+    <release version="betoffice-storage-2.6.2" date="2018-07-08"
      description="Suppoert for KO games">
       <action dev="andrewinkler" type="add" date="2018-07-08">
-        Fix: Tipp point calculation ignore overtime and penalties.
+        Fix: Tipp point calculation ignores overtime and penalties.
       </action>
     </release>    
 

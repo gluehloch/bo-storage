@@ -1,8 +1,7 @@
 /*
- * $Id: GameResultTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2007 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2018 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -36,8 +35,7 @@ import java.util.ArrayList;
 /**
  * Testet die Klasse GameResult.
  *
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $
+ * @author Andre Winkler
  */
 public class GameResultTest {
 
@@ -202,7 +200,7 @@ public class GameResultTest {
         assertEquals(res01.getToto().intValue(), 2);
         assertEquals(res11.getToto().intValue(), 0);
     }
-
+    
     @Test
     public void testClone() {
         // Testet die Methode clone()

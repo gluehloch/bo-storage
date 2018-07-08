@@ -154,6 +154,10 @@ public class GameResult implements Serializable, Cloneable {
             toto = Toto.HOME_LOST;
         }
     }
+    
+    public boolean isRemis() {
+    	return homeGoals == guestGoals;
+    }
 
     // -- Object --------------------------------------------------------------
 
