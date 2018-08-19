@@ -149,8 +149,8 @@ validate bundesligaGroupType
 def augsburg = service.findTeam('FC Augsburg').get();
 validate augsburg
 
-def herhtaBSC = service.findTeam('Hertha BSC Berlin').get();
-validate herhtaBSC
+def herthaBSC = service.findTeam('Hertha BSC Berlin').get();
+validate herthaBSC
 
 def werderBremen = service.findTeam('SV Werder Bremen').get();
 validate werderBremen
@@ -199,3 +199,28 @@ validate vfbStuttgart
 
 def vflWolfsburg = service.findTeam('VfL Wolfsburg').get();
 validate vflWolfsburg
+
+def bundesliga2018group = service.addGroup bundesliga, bundesligaGroupType
+bundesliga = service.findRoundGroupTeamUserRelations(bundesliga)
+// println "Gruppe Bundesliga 2018: $bundesliga2018group"
+
+bundesliga2018group = service.addTeams(bundesliga, bundesligaGroupType, [
+    augsburg,
+    herthaBSC,
+    vflWolfsburg,
+    vfbStuttgart,
+    schalke,
+    fcNuernberg,
+    bayernMuenchen,
+    borussaGladbach,
+    fsvMainz05,
+    bayer04Leverkusen,
+    rbLeipzig,
+    tsgHoffenheim,
+    werderBremen,
+    hannover96,
+    borussiaDortmund,
+    fortunaDuesseldorf,
+    eintrachtFrankfurt,
+    scFreiburg
+])
