@@ -16,7 +16,9 @@
 @Grab(group='mysql', module='mysql-connector-java', version='5.1.31')
 @Grab(group='xml-apis', module='xml-apis', version='1.0.b2')
 
-@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.6.0-SNAPSHOT')
+// @Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.6.0-SNAPSHOT')
+@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.6.0')
+// @Grab(group='de.betoffice', module='betoffice-openligadb', version='1.5.5')
 
 import org.springframework.context.support.ClassPathXmlApplicationContext
 
@@ -32,6 +34,7 @@ class Service {
     def maintenanceService
     def masterService
     def seasonService
+    // def openligadbUpdateService
 
     public Service() {
         context = new ClassPathXmlApplicationContext(
@@ -39,6 +42,7 @@ class Service {
         maintenanceService = context.getBean('databaseMaintenanceService')
         masterService = context.getBean('masterDataManagerService')
         seasonService = context.getBean('seasonManagerService')
+        // openligadbUpdateService = context.getBean('openligadbUpdateService')
     }
 
     def toDate(dateTimeAsString) {
@@ -224,3 +228,24 @@ bundesliga2018group = service.addTeams(bundesliga, bundesligaGroupType, [
     eintrachtFrankfurt,
     scFreiburg
 ])
+
+def round_2018_08_25 = service.findRound(bundesliga, 0)
+if (round_2018_08_25.isPresent()) {
+    round_2018_08_25 = round_2018_08_25.get()
+} else {
+    round_2018_08_25 = service.addRound(bundesliga, '2018-08-24 20:30:00', bundesligaGroupType)
+}
+println "Runde $round_2018_08_25.dateTime"
+
+
+service.addMatch(round_2018_08_25, '2018-08-24 20:30:00', bundesliga2018group, bayernMuenchen, tsgHoffenheim)
+
+service.addMatch(round_2018_08_25, '2018-08-25 15:30:00', bundesliga2018group, herthaBSC, fcNuernberg)
+service.addMatch(round_2018_08_25, '2018-08-25 15:30:00', bundesliga2018group, werderBremen, hannover96)
+service.addMatch(round_2018_08_25, '2018-08-25 15:30:00', bundesliga2018group, scFreiburg, eintrachtFrankfurt)
+service.addMatch(round_2018_08_25, '2018-08-25 15:30:00', bundesliga2018group, vflWolfsburg, schalke)
+service.addMatch(round_2018_08_25, '2018-08-25 15:30:00', bundesliga2018group, fortunaDuesseldorf, augsburg)
+service.addMatch(round_2018_08_25, '2018-08-25 18:30:00', bundesliga2018group, borussaGladbach, bayer04Leverkusen)
+
+service.addMatch(round_2018_08_25, '2018-08-26 15:30:00', bundesliga2018group, fsvMainz05, vfbStuttgart)
+service.addMatch(round_2018_08_25, '2018-08-26 18:00:00', bundesliga2018group, borussiaDortmund, rbLeipzig)
