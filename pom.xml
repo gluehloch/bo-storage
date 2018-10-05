@@ -8,13 +8,13 @@
   <parent>
     <groupId>de.winkler.betoffice</groupId>
     <artifactId>betoffice-maven-parent</artifactId>
-    <version>1.8.0</version>
+    <version>1.9.0-java10</version>
   </parent>
 
   <artifactId>betoffice-storage</artifactId>
   <name>betoffice storage</name>
   <packaging>jar</packaging>
-  <version>2.6.2</version>
+  <version>2.6.3-SNAPSHOT</version>
 
   <description>
     Betoffice storage implementation. Cares for persistence and point
@@ -29,6 +29,28 @@
     </scm> -->
 
   <dependencies>
+  
+	<dependency>
+	    <groupId>javax.xml.bind</groupId>
+	    <artifactId>jaxb-api</artifactId>
+	    <version>2.2.11</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.sun.xml.bind</groupId>
+	    <artifactId>jaxb-core</artifactId>
+	    <version>2.2.11</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.sun.xml.bind</groupId>
+	    <artifactId>jaxb-impl</artifactId>
+	    <version>2.2.11</version>
+	</dependency>
+	<dependency>
+	    <groupId>javax.activation</groupId>
+	    <artifactId>activation</artifactId>
+	    <version>1.1.1</version>
+	</dependency>  
+  
     <!-- Some problems with an old version -->
     <dependency>
       <groupId>com.ibm.icu</groupId>
@@ -66,7 +88,7 @@
     <dependency>
       <groupId>de.betoffice</groupId>
       <artifactId>betoffice-testutils</artifactId>
-      <version>0.5.1</version>
+      <version>0.5.2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

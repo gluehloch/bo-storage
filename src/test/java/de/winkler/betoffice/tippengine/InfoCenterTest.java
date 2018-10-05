@@ -78,8 +78,8 @@ public class InfoCenterTest {
     public void testMaxTipp() throws Exception {
         try {
             InfoCenter.getMaxTipp(null, null);
-            fail("IllegalArgumentException erwartet.");
-        } catch (IllegalArgumentException e) {
+            fail("NullPointerException erwartet.");
+        } catch (NullPointerException e) {
             // in Ordnung
         }
 
@@ -126,8 +126,8 @@ public class InfoCenterTest {
     public void testMinTipp() {
         try {
             InfoCenter.getMaxTipp(null, null);
-            fail("IllegalArgumentException erwartet.");
-        } catch (IllegalArgumentException e) {
+            fail("NullPointerException erwartet.");
+        } catch (NullPointerException e) {
             // in Ordnung
         }
 
@@ -178,8 +178,8 @@ public class InfoCenterTest {
     public void testMediumTipp() {
         try {
             InfoCenter.getMediumTipp(null);
-            fail("IllegalArgumentException erwartet.");
-        } catch (IllegalArgumentException e) {
+            fail("NullPointerException erwartet.");
+        } catch (NullPointerException e) {
             // in Ordnung
         }
 

@@ -25,7 +25,7 @@ package de.winkler.betoffice.storage;
 
 import de.winkler.betoffice.storage.enums.Toto;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 import java.io.Serializable;
 

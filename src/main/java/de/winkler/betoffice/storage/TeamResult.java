@@ -24,7 +24,7 @@
 
 package de.winkler.betoffice.storage;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 /**
  * TeamResult verwaltet die errechneten Daten einer Mannschaft für eine Saison

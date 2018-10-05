@@ -26,8 +26,6 @@ package de.winkler.betoffice.storage;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
-
 import de.winkler.betoffice.storage.enums.TeamType;
 
 /**

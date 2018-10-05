@@ -132,8 +132,8 @@ public class GameTest {
 
         try {
             game1.addTipp(JUNIT_TOKEN, null, null, null);
-            fail("IllegalArgumentException erwartet");
-        } catch (IllegalArgumentException ex) {
+            fail("NullPointerException erwartet");
+        } catch (NullPointerException ex) {
             // Ok
         }
     }
