@@ -8,9 +8,8 @@ where
   and gl.bo_season_ref   = s.id
   and s.id               = g.bo_season_ref
   and g.bo_grouptype_ref = gt.id;
-  
-select * from bo_season;
 
+select * from bo_season;
 
 select
   (select bo_name from bo_team where id = g.bo_hometeam_ref) as home,
@@ -19,3 +18,4 @@ select
   g.bo_guestgoals
 from
   bo_game g;
+  
