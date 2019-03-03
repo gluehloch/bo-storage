@@ -23,6 +23,9 @@
 
 package de.winkler.betoffice.storage;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
 /**
  * Verwaltet die administrativen Daten einer Meisterschaft. Zum Beispiel die
  * Info, in welches Verzeichnis ein Export geht oder welches Export-Templates zu
@@ -30,15 +33,29 @@ package de.winkler.betoffice.storage;
  *
  * @author Andre Winkler
  */
+@Embeddable
 public class ChampionshipConfiguration {
-
-    /** serial version id */
-    private static final long serialVersionUID = 8221108184744478989L;
-
-    // -- openligadb leagueShortcut -------------------------------------------
 
     /** The openligadb league shortcut ('bl1' for 'Fussball Bundesliga'). */
     private String openligaLeagueShortcut;
+
+    /** The openligadb league-season value (Something like '2014'). */
+    private String openligaLeagueSeason;
+
+    /** Das zu verwendende Export-Template. */
+    @Deprecated(forRemoval = true)
+    @Column(name = "bo_exporttemplate")
+    private String exportTemplate;
+
+    /**
+     * Ein Exportverzeichnis für eine Meisterschaft. Ist i.d.R. eine relative
+     * Pfadangabe.
+     */
+    @Deprecated(forRemoval = true)
+    @Column(name = "bo_exportdirectory")
+    private String exportDirectory;
+
+    // -- openligadb leagueShortcut -------------------------------------------
 
     public String getOpenligaLeagueShortcut() {
         return openligaLeagueShortcut;
@@ -49,9 +66,6 @@ public class ChampionshipConfiguration {
     }
 
     // -- openligadb leagueSeason ---------------------------------------------
-
-    /** The openligadb league-season value (Something like '2014'). */
-    private String openligaLeagueSeason;
 
     public String getOpenligaLeagueSeason() {
         return openligaLeagueSeason;
@@ -64,18 +78,11 @@ public class ChampionshipConfiguration {
     // -- exportDirectory -----------------------------------------------------
 
     /**
-     * Ein Exportverzeichnis für eine Meisterschaft. Ist i.d.R. eine relative
-     * Pfadangabe.
-     */
-    private String exportDirectory;
-
-    /**
      * Liefert das Exportverzeichnis.
      *
      * @return Das Exportverzeichnis.
-     *
-     * @hibernate.property column="bo_exportdirectory"
      */
+    @Deprecated(forRemoval = true)
     public String getExportDirectory() {
         return exportDirectory;
     }
@@ -86,22 +93,19 @@ public class ChampionshipConfiguration {
      * @param value
      *            Das Exportverzeichnis.
      */
+    @Deprecated(forRemoval = true)
     public void setExportDirectory(final String value) {
         exportDirectory = value;
     }
 
     // -- exportTemplate ------------------------------------------------------
 
-    /** Das zu verwendende Export-Template. */
-    private String exportTemplate;
-
     /**
      * Liefert das Export-Template.
      *
      * @return Das Export-Template.
-     *
-     * @hibernate.property column="bo_exporttemplate"
      */
+    @Deprecated(forRemoval = true)
     public String getExportTemplate() {
         return exportTemplate;
     }
@@ -112,6 +116,7 @@ public class ChampionshipConfiguration {
      * @param value
      *            Das Export-Template.
      */
+    @Deprecated(forRemoval = true)
     public void setExportTemplate(final String value) {
         exportTemplate = value;
     }

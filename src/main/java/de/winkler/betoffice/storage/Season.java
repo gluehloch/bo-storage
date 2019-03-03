@@ -33,28 +33,73 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.Validate;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
 
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
-import de.winkler.betoffice.util.LoggerFactory;
 
 /**
  * Verwaltet die Daten einer Saison.
  * 
  * @author by Andre Winkler
- * @hibernate.class table="bo_season"
  */
+@Entity
+@Table(name = "bo_season")
 public class Season extends AbstractStorageObject {
 
     /** serial version */
     private static final long serialVersionUID = -8992251563826611291L;
 
-    /** Der Logger der Klasse. */
-    private static Logger log = LoggerFactory.make();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+
+    @Embedded
+    private ChampionshipConfiguration championshipConfiguration = new ChampionshipConfiguration();
+
+    /** Spielmodus der Saison. (Bundesliga, Pokal, WM,...) ` */
+    @Enumerated
+    @Column(name = "bo_mode")
+    private SeasonType mode = SeasonType.LEAGUE;
+
+    /** Mannschaftstyp. (DFB, FIFA) ` */
+    @Enumerated
+    @Column(name = "bo_teamtype")
+    private TeamType teamType = TeamType.DFB;
+
+    /** Bezeichner Jahrgang/Datum der Saison. */
+    @NotNull
+    @Column(name = "bo_year")
+    private String year;
+
+    /** Bezeichner der Saison. */
+    @NotNull
+    @Column(name = "bo_name")
+    private String name;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "bo_season_ref")
+    private Set<Group> groups = new HashSet<Group>();
+
+    /** Die Teilnehmer, die dieser Saison zugeordnet sind. */
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "bo_season_ref")
+    private Set<UserSeason> userSeason = new HashSet<UserSeason>();
 
     // -- Construction --------------------------------------------------------
 
@@ -65,9 +110,6 @@ public class Season extends AbstractStorageObject {
     }
 
     // -- id ------------------------------------------------------------------
-
-    /** Der Primärschlüssel. */
-    private Long id;
 
     /**
      * Liefert den Primärschlüssel.
@@ -91,9 +133,6 @@ public class Season extends AbstractStorageObject {
     }
 
     // -- championshipConfiguration -------------------------------------------
-
-    /** Die Meisterschaftskonfiguration. */
-    private ChampionshipConfiguration championshipConfiguration = new ChampionshipConfiguration();
 
     /**
      * Liefert die Meisterschaftskonfiguration.
@@ -120,15 +159,10 @@ public class Season extends AbstractStorageObject {
 
     // -- year ----------------------------------------------------------------
 
-    /** Bezeichner Jahrgang/Datum der Saison. */
-    private String year;
-
     /**
      * Jahrgang der Spielzeit (Format: 2001/2002).
      * 
      * @return Jahrgang der Spielzeit.
-     * 
-     * @hibernate.property column="bo_year"
      */
     public String getYear() {
         return year;
@@ -141,21 +175,15 @@ public class Season extends AbstractStorageObject {
      *            Der Jahrgang.
      */
     public void setYear(final String value) {
-        Validate.notNull(value);
         year = value.trim();
     }
 
     // -- name ----------------------------------------------------------------
 
-    /** Bezeichner der Saison. */
-    private String name;
-
     /**
      * Bezeichnung der Spielzeit (z.B. 1. Bundesliga).
      * 
      * @return Bezeichnung der Spielzeit.
-     * 
-     * @hibernate.property column="bo_name"
      */
     public String getName() {
         return name;
@@ -168,23 +196,15 @@ public class Season extends AbstractStorageObject {
      *            Name der Spielzeit.
      */
     public void setName(final String value) {
-        Validate.notNull(value);
         name = value.trim();
     }
 
     // -- mode ----------------------------------------------------------------
 
-    /** Spielmodus der Saison. (Bundesliga, Pokal, WM,...) ` */
-    private SeasonType mode = SeasonType.LEAGUE;
-
     /**
      * Liefert den Modus der Saison.
      * 
      * @return Der Modus.
-     * 
-     * @hibernate.property column="bo_mode"
-     *                     type="de.winkler.betoffice.storage.enums.SeasonType"
-     *                     not-null="true"
      */
     public SeasonType getMode() {
         return mode;
@@ -202,17 +222,10 @@ public class Season extends AbstractStorageObject {
 
     // -- teamType ------------------------------------------------------------
 
-    /** Mannschaftstyp. (DFB, FIFA) ` */
-    private TeamType teamType = TeamType.DFB;
-
     /**
      * Liefert den Mannschaftstyp, der für diese Meisterschaft akzeptiert wird.
      * 
      * @return Der akzeptierte TeamType.
-     * 
-     * @hibernate.property column="bo_teamtype"
-     *                     type="de.winkler.betoffice.storage.enums.TeamType"
-     *                     not-null="true"
      */
     public TeamType getTeamType() {
         return teamType;
@@ -230,17 +243,10 @@ public class Season extends AbstractStorageObject {
 
     // -- groups --------------------------------------------------------------
 
-    /** Die Gruppen, die dieser Saison zugeordnet sind. */
-    private Set<Group> groups = new HashSet<Group>();
-
     /**
      * Liefert die Gruppen dieser Saison.
      * 
      * @return Eine Menge mit Gruppen der Saison.
-     * 
-     * @hibernate.set cascade="all" inverse="true"
-     * @hibernate.collection-one-to-many class="de.winkler.betoffice.storage.Group"
-     * @hibernate.collection-key column="bo_season_ref"
      */
     public Set<Group> getGroups() {
         return groups;
@@ -374,9 +380,6 @@ public class Season extends AbstractStorageObject {
     }
 
     // -- userSeason ----------------------------------------------------------
-
-    /** Die Teilnehmer, die dieser Saison zugeordnet sind. */
-    private Set<UserSeason> userSeason = new HashSet<UserSeason>();
 
     /**
      * Liefert die Beziehung Teilnehmer/Saison.
@@ -566,14 +569,6 @@ public class Season extends AbstractStorageObject {
         }
 
         for (GameList currGameList : gameList) {
-            if (log.isDebugEnabled()) {
-                StringBuffer buf = new StringBuffer();
-                buf.append("Untersuche Spieltag '");
-                buf.append(currGameList);
-                buf.append("' ");
-                log.debug(buf.toString());
-            }
-
             if (currGameList.getIndex() == StorageConst.INDEX_UNDEFINED) {
                 String dateTime = new DateTime(currGameList.getDateTime())
                         .toString("dd.MM.yyyy HH:mm", Locale.GERMANY);
@@ -586,8 +581,7 @@ public class Season extends AbstractStorageObject {
             }
         }
 
-        log.error("Round number " + dayNr + " not found!");
-        throw new IllegalStateException("Fatal coding error. See your logs!");
+        throw new IllegalStateException();
     }
 
     /**
@@ -616,7 +610,6 @@ public class Season extends AbstractStorageObject {
                 String error = String
                         .format("Round [%s] with same date and group is already there.",
                                 newRound.toString());
-                log.error(error);
                 throw new IllegalArgumentException(error);
             }
         }
@@ -625,10 +618,6 @@ public class Season extends AbstractStorageObject {
         newRound.setSeason(this);
         newRound.setIndex(gameList.size());
         gameList.add(newRound);
-
-        if (log.isDebugEnabled()) {
-            log.debug("Neuen Spieltag '" + newRound + "' hinzugefügt.");
-        }
     }
 
     /**
@@ -654,41 +643,11 @@ public class Season extends AbstractStorageObject {
         if (!gameList.contains(_gameList)) {
             StringBuilder buf = new StringBuilder(_gameList.toString());
             buf.append(" nicht vorhanden!");
-            log.error(buf.toString());
             throw new IllegalArgumentException(buf.toString());
         }
 
-        // ... und aus Spieltagliste nehmen.
         gameList.remove(_gameList);
         _gameList.setSeason(null);
-
-        if (log.isDebugEnabled()) {
-            log.debug("Spieltag '" + _gameList + "' entfernt.");
-        }
-    }
-
-    // -- StorageObject -------------------------------------------------------
-
-    /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
-     * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
-     * Eigenschaften müssen gesetzt sein:
-     * <ul>
-     * <li>year</li>
-     * <li>name</li>
-     * </ul>
-     * Der Spielmodus ist per default auf 'Liga' eingestellt.
-     * 
-     * @return true, Objekt in Ordnung; false, es ist was falsch.
-     */
-    public boolean isValid() {
-        if (StringUtils.isBlank(year)) {
-            return false;
-        } else if (StringUtils.isBlank(name)) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
     // -- Object --------------------------------------------------------------

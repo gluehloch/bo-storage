@@ -1,103 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>de.winkler.betoffice</groupId>
-    <artifactId>betoffice-maven-parent</artifactId>
-    <version>1.9.0-java11</version>
-  </parent>
+	<parent>
+		<groupId>de.winkler.betoffice</groupId>
+		<artifactId>betoffice-maven-parent</artifactId>
+		<version>1.9.0-java11</version>
+	</parent>
 
-  <artifactId>betoffice-storage</artifactId>
-  <name>betoffice storage</name>
-  <packaging>jar</packaging>
-  <version>2.6.3-SNAPSHOT</version>
+	<artifactId>betoffice-storage</artifactId>
+	<name>betoffice storage</name>
+	<packaging>jar</packaging>
+	<version>2.6.3-SNAPSHOT</version>
 
-  <description>
+	<description>
     Betoffice storage implementation. Cares for persistence and point
     calculation for teams and users.
   </description>
 
-  <inceptionYear>2000</inceptionYear>
+	<inceptionYear>2000</inceptionYear>
 
-  <!-- <scm> <connection> scm:svn:https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage 
-    </connection> <developerConnection> scm:svn:https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage 
-    </developerConnection> <url>https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage</url> 
-    </scm> -->
+	<!-- <scm> <connection> scm:svn:https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage 
+		</connection> <developerConnection> scm:svn:https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage 
+		</developerConnection> <url>https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage</url> 
+		</scm> -->
 
-  <dependencies>
-  
-	<dependency>
-	    <groupId>javax.xml.bind</groupId>
-	    <artifactId>jaxb-api</artifactId>
-	    <version>2.2.11</version>
-	</dependency>
-	<dependency>
-	    <groupId>com.sun.xml.bind</groupId>
-	    <artifactId>jaxb-core</artifactId>
-	    <version>2.2.11</version>
-	</dependency>
-	<dependency>
-	    <groupId>com.sun.xml.bind</groupId>
-	    <artifactId>jaxb-impl</artifactId>
-	    <version>2.2.11</version>
-	</dependency>
-	<dependency>
-	    <groupId>javax.activation</groupId>
-	    <artifactId>activation</artifactId>
-	    <version>1.1.1</version>
-	</dependency>  
-  
-    <!-- Some problems with an old version -->
-    <dependency>
-      <groupId>com.ibm.icu</groupId>
-      <artifactId>icu4j</artifactId>
-      <version>4.8.1.1</version>
-    </dependency>
+	<dependencies>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.2.11</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-core</artifactId>
+			<version>2.2.11</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.2.11</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 
-    <!-- MySQL Datenbank Treiber -->
-    <!-- <dependency> <groupId>org.mariadb.jdbc</groupId> <artifactId>mariadb-java-client</artifactId> 
-      <version>2.2.3</version> </dependency> -->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.31</version>
-      <!-- Produces some problems with the server timezone. 
-      <version>6.0.6</version>
-      -->
-      <scope>test</scope>
-    </dependency>
+		<!-- Some problems with an old version -->
+		<dependency>
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
+			<version>4.8.1.1</version>
+		</dependency>
 
-    <!-- Database Connection Pool -->
-    <dependency>
-      <groupId>commons-dbcp</groupId>
-      <artifactId>commons-dbcp</artifactId>
-      <version>1.4</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-pool</groupId>
-      <artifactId>commons-pool</artifactId>
-      <version>1.5.4</version>
-      <scope>test</scope>
-    </dependency>
+		<!-- MySQL Datenbank Treiber -->
+		<!-- <dependency> <groupId>org.mariadb.jdbc</groupId> <artifactId>mariadb-java-client</artifactId> 
+			<version>2.2.3</version> </dependency> -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.31</version>
+			<!-- Produces some problems with the server timezone. <version>6.0.6</version> -->
+			<scope>test</scope>
+		</dependency>
 
-    <dependency>
-      <groupId>de.betoffice</groupId>
-      <artifactId>betoffice-testutils</artifactId>
-      <version>0.5.2-SNAPSHOT</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+		<!-- Database Connection Pool -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.5.4</version>
+			<scope>test</scope>
+		</dependency>
 
-  <distributionManagement>
-    <site>
-      <id>gluehloch-repository</id>
-      <url>scp://maven.gluehloch.de/var/www/projects.gluehloch/betoffice/core/betoffice-storage</url>
-    </site>
-  </distributionManagement>
+		<dependency>
+			<groupId>de.betoffice</groupId>
+			<artifactId>betoffice-testutils</artifactId>
+			<version>0.5.2-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<distributionManagement>
+		<site>
+			<id>gluehloch-repository</id>
+			<url>scp://maven.gluehloch.de/var/www/projects.gluehloch/betoffice/core/betoffice-storage</url>
+		</site>
+	</distributionManagement>
 
 </project>
