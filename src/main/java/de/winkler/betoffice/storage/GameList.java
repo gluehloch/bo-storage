@@ -33,6 +33,9 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 
@@ -46,6 +49,8 @@ import de.winkler.betoffice.util.LoggerFactory;
  *
  * @author by Andre Winkler
  */
+@Entity
+@Table(name = "bo_gamelist")
 public class GameList extends AbstractStorageObject
         implements Comparable<GameList> {
 
@@ -55,15 +60,32 @@ public class GameList extends AbstractStorageObject
     /** Der private Logger der Klasse. */
     private static Logger log = LoggerFactory.make();
 
+    /** Der Primärschlüssel. */
+    private Long id;
+
+    /** Die Liste der Spiele. Enthält {@link Game} Objekte. */
+    private List<Game> gameList = new ArrayList<Game>();
+
+    private int index;
+
+    /** http://www.openligadb.de */
+    private Long openligaid;
+
+    /** date and time of game play */
+    private Date dateTime;
+
+    /** Die Saison des Spieltags. */
+    private Season season;
+
+    /** Die Gruppe des Spieltags. */
+    private Group group;
+
     // -- Construction --------------------------------------------------------
 
     public GameList() {
     }
 
     // -- id ------------------------------------------------------------------
-
-    /** Der Primärschlüssel. */
-    private Long id;
 
     /**
      * Liefert den Primärschlüssel.
@@ -87,9 +109,6 @@ public class GameList extends AbstractStorageObject
     }
 
     // -- gameList ------------------------------------------------------------
-
-    /** Die Liste der Spiele. Enthält {@link Game} Objekte. */
-    private List<Game> gameList = new ArrayList<Game>();
 
     /**
      * Liefert die Liste der Spiele.
@@ -237,8 +256,6 @@ public class GameList extends AbstractStorageObject
 
     // -- index ---------------------------------------------------------------
 
-    private int index;
-
     /**
      * Methode liefert den Index des Spieltags. Der Index wird berechnet und
      * spiegelt die Position innerhalb der <code>gameDayList</code> wieder.
@@ -264,9 +281,6 @@ public class GameList extends AbstractStorageObject
 
     // -- dateTime ------------------------------------------------------------
 
-    /** date and time of game play */
-    private Date dateTime;
-
     /**
      * Returns date and time of the game.
      *
@@ -287,9 +301,6 @@ public class GameList extends AbstractStorageObject
     }
 
     // -- season --------------------------------------------------------------
-
-    /** Die Saison des Spieltags. */
-    private Season season;
 
     /**
      * Liefert das zugehörige <code>GameDayList</code> Objekt.
@@ -318,9 +329,6 @@ public class GameList extends AbstractStorageObject
 
     // -- group ---------------------------------------------------------------
 
-    /** Die Gruppe des Spieltags. */
-    private Group group;
-
     /**
      * Liefert die zugehörige Gruppe des Spieltags.
      *
@@ -341,9 +349,6 @@ public class GameList extends AbstractStorageObject
     }
 
     // -- openligaid ----------------------------------------------------------
-
-    /** http://www.openligadb.de */
-    private Long openligaid;
 
     /**
      * Get openligadb ID.

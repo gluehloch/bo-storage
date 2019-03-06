@@ -25,30 +25,44 @@
 
 package de.winkler.betoffice.storage;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.NaturalId;
 
 /**
  * Beschreibt einen Gruppentyp (1. Liga, 2. Liga, Regionalliga Nord, etc.).
- *
- * @hibernate.class table="bo_grouptype"
  */
+@Entity
+@Table(name = "bo_grouptype")
 public class GroupType extends AbstractStorageObject implements
         Comparable<GroupType> {
 
     /** serial version */
     private static final long serialVersionUID = -8513852915020891940L;
 
-    // -- id ------------------------------------------------------------------
-
-    /** Der Primärschlüssel. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
+
+    @NotNull
+    @NaturalId
+    @Column(name = "name")
+    private String name;
+
+    // -- id ------------------------------------------------------------------
 
     /**
      * Liefert den Primärschlüssel.
      *
      * @return Der Primärschlüssel.
-     *
-     * @hibernate.id generator-class="native"
      */
     public Long getId() {
         return id;
@@ -66,15 +80,10 @@ public class GroupType extends AbstractStorageObject implements
 
     // -- name ----------------------------------------------------------------
 
-    /** Der Name der Gruppe. */
-    private String name;
-
     /**
      * Liest den Namen der Gruppe.
      *
      * @return Name der Gruppe.
-     *
-     * @hibernate.property column="bo_name" not-null="true" unique="true"
      */
     public String getName() {
         return name;

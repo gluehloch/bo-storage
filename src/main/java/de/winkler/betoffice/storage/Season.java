@@ -43,6 +43,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -100,6 +101,12 @@ public class Season extends AbstractStorageObject {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bo_season_ref")
     private Set<UserSeason> userSeason = new HashSet<UserSeason>();
+
+    /** Eine Liste der Spieltage/GameList. */
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "bo_season_ref")
+    @OrderBy("index")
+    private List<GameList> gameList = new ArrayList<GameList>();
 
     // -- Construction --------------------------------------------------------
 
@@ -473,9 +480,6 @@ public class Season extends AbstractStorageObject {
     }
 
     // -- gameDayList ---------------------------------------------------------
-
-    /** Eine Liste der Spieltage/GameList. */
-    private List<GameList> gameList = new ArrayList<GameList>();
 
     /**
      * Liefert alle Spieltage. Eine <code>List</code> von {@link GameList}
