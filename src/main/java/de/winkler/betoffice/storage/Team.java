@@ -26,6 +26,15 @@ package de.winkler.betoffice.storage;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import de.winkler.betoffice.storage.enums.TeamType;
 
 /**
@@ -35,11 +44,50 @@ import de.winkler.betoffice.storage.enums.TeamType;
  *
  * @hibernate.class table="bo_team"
  */
+@Entity
+@Table(name = "bo_team")
 public class Team extends AbstractStorageObject {
 
     /** serial version id */
     private static final long serialVersionUID = -3181346057831881080L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+
+    @Column(name = "bo_name")
+    private String name;
+    
+    @Column(name = "bo_longname")
+    private String longName;
+    
+    @Column(name = "bo_shortname")
+    private String shortName;
+    
+    @Column(name = "bo_xshortname")
+    private String xshortName;
+
+    /** Die ID / der Name des Logo-Ressource. */
+    @Column(name = "bo_logo")
+    private String logo;
+
+    /** Mannschaftstyp. (DFB, FIFA) ` */
+    @Column(name = "bo_teamtype")
+    @Enumerated
+    private TeamType teamType = TeamType.DFB;
+
+    /** http://www.openligadb.de */
+    @Column(name = "bo_openligaid")
+    private Long openligaid;
+
+    /** Die Gruppen, denen diese Mannschaft angehöret. */
+    private Set<Group> groups = new HashSet<Group>();
+    
+    /** Heimspiel Stadion */
+    private Location location;
+   
+    
     // -- Construction --------------------------------------------------------
 
     /**
@@ -77,9 +125,6 @@ public class Team extends AbstractStorageObject {
 
     // -- id ------------------------------------------------------------------
 
-    /** Der Primärschlüssel. */
-    private Long id;
-
     /**
      * Liefert den Primärschlüssel.
      *
@@ -102,9 +147,6 @@ public class Team extends AbstractStorageObject {
     }
 
     // -- name ----------------------------------------------------------------
-
-    /** Der Teamname. */
-    private String name;
 
     /**
      * Liefert den Teamnamen.
@@ -129,9 +171,6 @@ public class Team extends AbstractStorageObject {
 
     // -- longName ------------------------------------------------------------
 
-    /** Der Teamname in Langform. */
-    private String longName;
-
     /**
      * Liefert den Teamnamen in der Langbezeichnung.
      *
@@ -155,8 +194,6 @@ public class Team extends AbstractStorageObject {
 
     // -- shortName -----------------------------------------------------------
 
-    private String shortName;
-
     public String getShortName() {
         return shortName;
     }
@@ -167,8 +204,6 @@ public class Team extends AbstractStorageObject {
 
     // -- xshortName -----------------------------------------------------
 
-    private String xshortName;
-
     public String getXshortName() {
         return xshortName;
     }
@@ -178,9 +213,6 @@ public class Team extends AbstractStorageObject {
     }
 
     // -- logo ----------------------------------------------------------------
-
-    /** Der Name des Logo-Ressource. */
-    private String logo;
 
     /**
      * Liefert das Logo.
@@ -204,9 +236,6 @@ public class Team extends AbstractStorageObject {
     }
 
     // -- groups --------------------------------------------------------------
-
-    /** Die Gruppen, denen diese Mannschaft angehöret. */
-    private Set<Group> groups = new HashSet<Group>();
 
     /**
      * Liefert die Gruppen, denen diese Mannschaft angehört.
@@ -257,9 +286,6 @@ public class Team extends AbstractStorageObject {
 
     // -- teamType ------------------------------------------------------------
 
-    /** Mannschaftstyp. (DFB, FIFA) ` */
-    private TeamType teamType = TeamType.DFB;
-
     /**
      * Liefert den Mannschaftstyp.
      *
@@ -285,9 +311,6 @@ public class Team extends AbstractStorageObject {
 
     // -- location ------------------------------------------------------------
 
-    /** Heimspiel Stadion */
-    private Location location;
-
     /**
      * Liefert das Heimstadion.
      * 
@@ -308,9 +331,6 @@ public class Team extends AbstractStorageObject {
     }
 
     // -- openligaid ----------------------------------------------------------
-
-    /** http://www.openligadb.de */
-    private Long openligaid;
 
     /**
      * Get openligadb ID.

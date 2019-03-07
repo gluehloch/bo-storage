@@ -26,17 +26,57 @@ package de.winkler.betoffice.storage;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  * Holds user session data.
  *
  * @author by Andre Winkler
  */
+@Entity
+@Table(name = "bo_session")
 public class Session {
 
-    // -- id ------------------------------------------------------------------
-
-    /** Der Primärschlüssel. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
+
+    @Column(name = "bo_nickname")
+    private String nickname;
+    
+    @Column(name = "bo_token")
+    private String token;
+
+    @Column(name = "bo_login")
+    private Date login;
+    
+    @Column(name = "bo_logout")
+    private Date logout;
+    
+    @Column(name = "bo_remoteaddress")
+    private String remoteAddress;
+    
+    @Column(name = "bo_browser")
+    private String browser;
+
+    @Column(name = "bo_failedLogins")
+    private int failedLogins;
+
+    /** Der eingeloggte Spieler. Referenziert die Spalte {@code BO_USER#bo_user_ref} */
+    @ManyToOne
+    @JoinColumn(name = "bo_user_ref")
+    private User user;
+
+    // -- id ------------------------------------------------------------------
 
     /**
      * Liefert den Primärschlüssel.
@@ -61,8 +101,6 @@ public class Session {
 
     // -- nickname ------------------------------------------------------------
 
-    private String nickname;
-
     public String getNickname() {
         return nickname;
     }
@@ -72,8 +110,6 @@ public class Session {
     }
 
     // -- token ---------------------------------------------------------------
-
-    private String token;
 
     public String getToken() {
         return token;
@@ -85,8 +121,6 @@ public class Session {
 
     // -- login ---------------------------------------------------------------
 
-    private Date login;
-
     public Date getLogin() {
         return login;
     }
@@ -96,8 +130,6 @@ public class Session {
     }
 
     // -- logout --------------------------------------------------------------
-
-    private Date logout;
 
     public Date getLogout() {
         return logout;
@@ -109,8 +141,6 @@ public class Session {
 
     // -- remoteAddress -------------------------------------------------------
 
-    private String remoteAddress;
-
     public String getRemoteAddress() {
         return remoteAddress;
     }
@@ -120,8 +150,6 @@ public class Session {
     }
 
     // -- browser -------------------------------------------------------------
-
-    private String browser;
 
     public String getBrowser() {
         return browser;
@@ -133,8 +161,6 @@ public class Session {
 
     // -- failedLogins --------------------------------------------------------
 
-    private int failedLogins;
-
     public int getFailedLogins() {
         return failedLogins;
     }
@@ -144,9 +170,6 @@ public class Session {
     }
 
     // -- user ----------------------------------------------------------------
-
-    /** Der eingeloggte Spieler. */
-    private User user;
 
     /**
      * Liefert den zugehoerigen Teilnehmer.
