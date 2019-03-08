@@ -37,9 +37,11 @@ import javax.persistence.Embeddable;
 public class ChampionshipConfiguration {
 
     /** The openligadb league shortcut ('bl1' for 'Fussball Bundesliga'). */
+    @Column(name = "bo_openligaleagueshortcut")
     private String openligaLeagueShortcut;
 
     /** The openligadb league-season value (Something like '2014'). */
+    @Column(name = "bo_openligaleagueSeason")
     private String openligaLeagueSeason;
 
     /** Das zu verwendende Export-Template. */

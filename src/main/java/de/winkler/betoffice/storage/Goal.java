@@ -23,6 +23,19 @@
 
 package de.winkler.betoffice.storage;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import de.winkler.betoffice.storage.enums.GoalType;
 
 /**
@@ -30,13 +43,49 @@ import de.winkler.betoffice.storage.enums.GoalType;
  *
  * @author by Andre Winkler
  */
+@Entity
+@Table(name = "bo_goal")
 public class Goal extends AbstractStorageObject {
 
     private static final long serialVersionUID = -3103409341667493346L;
 
-    // -- id ------------------------------------------------------------------
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
+
+    @Column(name = "bo_index")
+    private int index;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(column = @Column(name = "bo_homegoals"), name = "homeGoals"),
+            @AttributeOverride(column = @Column(name = "bo_guestgoals"), name = "guestGoals")
+    })
+    private GameResult result;
+
+    @Column(name = "bo_minute")
+    private Integer minute;
+
+    @ManyToOne
+    @JoinColumn(name = "bo_game_ref")
+    private Game game;
+
+    @ManyToOne
+    @JoinColumn(name = "bo_player_ref")
+    private Player player;
+
+    @Enumerated
+    @Column(name = "bo_goaltype")
+    private GoalType goalType;
+
+    @Column(name = "bo_comment")
+    private String comment;
+
+    @Column(name = "bo_openligaid")
+    private Long openligaid;
+
+    // -- id ------------------------------------------------------------------
 
     /**
      * @return the id
@@ -55,8 +104,6 @@ public class Goal extends AbstractStorageObject {
 
     // ------------------------------------------------------------------------
 
-    private int index;
-
     public int getIndex() {
         return index;
     }
@@ -72,8 +119,6 @@ public class Goal extends AbstractStorageObject {
 
     // -- result --------------------------------------------------------------
 
-    private GameResult result;
-
     public GameResult getResult() {
         return result;
     }
@@ -83,8 +128,6 @@ public class Goal extends AbstractStorageObject {
     }
 
     // -- minute --------------------------------------------------------------
-
-    private Integer minute;
 
     /**
      * @return the minute
@@ -103,8 +146,6 @@ public class Goal extends AbstractStorageObject {
 
     // -- game ----------------------------------------------------------------
 
-    private Game game;
-
     /**
      * @return the game
      */
@@ -121,8 +162,6 @@ public class Goal extends AbstractStorageObject {
     }
 
     // -- player --------------------------------------------------------------
-
-    private Player player;
 
     /**
      * @return the player
@@ -141,8 +180,6 @@ public class Goal extends AbstractStorageObject {
 
     // -- goalType ------------------------------------------------------------
 
-    private GoalType goalType;
-
     /**
      * @return the goalType
      */
@@ -160,8 +197,6 @@ public class Goal extends AbstractStorageObject {
 
     // -- comment -------------------------------------------------------------
 
-    private String comment;
-
     /**
      * @return the comment
      */
@@ -178,8 +213,6 @@ public class Goal extends AbstractStorageObject {
     }
 
     // -- openligaid ----------------------------------------------------------
-
-    private Long openligaid;
 
     /**
      * @return the openligaid

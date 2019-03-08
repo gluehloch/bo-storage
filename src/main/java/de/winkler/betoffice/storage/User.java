@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -341,7 +341,7 @@ public class User extends AbstractStorageObject {
     // -- title ---------------------------------------------------------------
 
     /** Der eventuelle Meistertitel etc. */
-    private String title = EMPTY;
+    private String title;
 
     /**
      * Liefert den Titel des Users.

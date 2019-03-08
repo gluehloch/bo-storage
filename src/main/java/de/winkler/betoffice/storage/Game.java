@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -29,6 +29,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,9 +57,9 @@ import de.winkler.betoffice.storage.exception.StorageRuntimeException;
  * Kapselt alle Daten eines Fussballspiels.
  *
  * @author by Andre Winkler
- *
- * @hibernate.class table="bo_game"
  */
+@Entity
+@Table(name = "bo_game")
 public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     /** serial version id */
@@ -67,15 +80,77 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /** Punkte für ein Remis. */
     public static final int REMIS = 1;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+
+    /** date and time of game play */
+    @Column(name = "bo_datetime")
+    private Date dateTime;
+
+    /** Die zugehörige Gruppe. */
+    @ManyToOne
+    @JoinColumn(name = "bo_group_ref")
+    private Group group;
+
+    /** Die Heimmannschaft. */
+    @ManyToOne
+    @JoinColumn(name = "bo_hometeam_ref")
+    private Team homeTeam;
+
+    /** Die Gastmannschaft. */
+    @ManyToOne
+    @JoinColumn(name = "bo_guestteam_ref")
+    private Team guestTeam;
+
+    /** Spiel beendet? */
+    @Column(name = "bo_isplayed")
+    private boolean played = false;
+
+    /** Das Spielergebnis. */
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(column = @Column(name = "bo_homegoals"), name = "homeGoals"),
+            @AttributeOverride(column = @Column(name = "bo_guestgoals"), name = "guestGoals")
+    })
+    private GameResult result = new GameResult();
+
+    /** The half-time goals. */
+    @AttributeOverrides({
+            @AttributeOverride(column = @Column(name = "bo_halftimehomegoals"), name = "homeGoals"),
+            @AttributeOverride(column = @Column(name = "bo_halftimeguestgoals"), name = "guestGoals")
+    })
+    private GameResult halfTimeGoals = new GameResult();
+
+    /** The over-time goals. */
+    @AttributeOverrides({
+            @AttributeOverride(column = @Column(name = "bo_overtimehomegoals"), name = "homeGoals"),
+            @AttributeOverride(column = @Column(name = "bo_overtimeguestgoals"), name = "guestGoals")
+    })
+    private GameResult overTimeGoals = new GameResult();
+
+    /** The penalty goals after over-time. */
+    @AttributeOverrides({
+            @AttributeOverride(column = @Column(name = "bo_penaltyhomegoals"), name = "homeGoals"),
+            @AttributeOverride(column = @Column(name = "bo_penaltyguestgoals"), name = "guestGoals")
+    })
+    private GameResult penaltyGoals = new GameResult();
+
+    @ManyToOne
+    @JoinColumn(name = "bo_location_ref")
+    private Location location;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bo_gamelist_ref")
+    private GameList ofGameList;
+
     // -- Construction --------------------------------------------------------
 
     public Game() {
     }
 
     // -- id ------------------------------------------------------------------
-
-    /** Der Primärschlüssel. */
-    private Long id;
 
     /**
      * Liefert den Primärschlüssel.
@@ -100,9 +175,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     // -- dateTime ------------------------------------------------------------
 
-    /** date and time of game play */
-    private Date dateTime;
-
     /**
      * Returns date and time of the game.
      *
@@ -123,9 +195,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     }
 
     // -- group ---------------------------------------------------------------
-
-    /** Die zugehörige Gruppe. */
-    private Group group;
 
     /**
      * Liefert die Gruppe zu diesem Spiel.
@@ -150,9 +219,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     // -- homeTeam ------------------------------------------------------------
 
-    /** Die Heimmannschaft. */
-    private Team homeTeam;
-
     /**
      * Liefert die Heimmannschaft.
      *
@@ -176,9 +242,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     // -- guestTeam -----------------------------------------------------------
 
-    /** Die Gastmannschaft. */
-    private Team guestTeam;
-
     /**
      * Liefert die Gastmannschaft.
      *
@@ -201,9 +264,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     }
 
     // -- result --------------------------------------------------------------
-
-    /** Das Spielergebnis. */
-    private GameResult result = new GameResult();
 
     /**
      * Liefert das Spielergebniss.
@@ -262,9 +322,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     // -- halfTimeGoals -------------------------------------------------------
 
-    /** The half-time goals. */
-    private GameResult halfTimeGoals = new GameResult();
-
     public GameResult getHalfTimeGoals() {
         return halfTimeGoals;
     }
@@ -279,9 +336,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     // -- overTimeGoals -------------------------------------------------------
 
-    /** The over-time goals. */
-    private GameResult overTimeGoals = new GameResult();
-
     public GameResult getOverTimeGoals() {
         return overTimeGoals;
     }
@@ -289,15 +343,12 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     public void setOverTimeGoals(GameResult _overTimeGoals) {
         overTimeGoals = _overTimeGoals;
     }
-    
+
     public void setOverTimeGoals(int homeGoals, int guestGoals) {
         setOverTimeGoals(new GameResult(homeGoals, guestGoals));
     }
 
     // -- penaltyGoals --------------------------------------------------------
-
-    /** The penalty goals after over-time. */
-    private GameResult penaltyGoals = new GameResult();
 
     public GameResult getPenaltyGoals() {
         return penaltyGoals;
@@ -306,15 +357,12 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     public void setPenaltyGoals(GameResult _penaltyGoals) {
         penaltyGoals = _penaltyGoals;
     }
-    
+
     public void setPenaltyGoals(int homeGoals, int guestGoals) {
         setPenaltyGoals(new GameResult(homeGoals, guestGoals));
     }
 
     // -- location -------------------------------------------------------------
-
-    /** The location of the match. */
-    private Location location;
 
     public Location getLocation() {
         return location;
@@ -325,9 +373,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     }
 
     // -- played --------------------------------------------------------------
-
-    /** Spiel beendet? */
-    private boolean played = false;
 
     /**
      * 'Spiel beendet'.
@@ -351,9 +396,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     }
 
     // -- ofGameList ----------------------------------------------------------
-
-    /** Zugehöriger Spieltag. */
-    private GameList ofGameList;
 
     /**
      * Liefert den Spieltag für dieses Spiel.

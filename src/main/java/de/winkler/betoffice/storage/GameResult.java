@@ -23,17 +23,20 @@
 
 package de.winkler.betoffice.storage;
 
-import de.winkler.betoffice.storage.enums.Toto;
+import java.io.Serializable;
+
+import javax.persistence.Embeddable;
 
 import org.apache.commons.lang3.Validate;
 
-import java.io.Serializable;
+import de.winkler.betoffice.storage.enums.Toto;
 
 /**
  * Verwaltet das Ergebnis eines Fussballspiels.
  *
  * @author Andre Winkler
  */
+@Embeddable
 public class GameResult implements Serializable, Cloneable {
 
     /** serial version id */
@@ -154,9 +157,9 @@ public class GameResult implements Serializable, Cloneable {
             toto = Toto.HOME_LOST;
         }
     }
-    
+
     public boolean isRemis() {
-    	return homeGoals == guestGoals;
+        return homeGoals == guestGoals;
     }
 
     // -- Object --------------------------------------------------------------

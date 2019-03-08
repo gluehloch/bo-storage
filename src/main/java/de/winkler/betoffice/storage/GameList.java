@@ -33,7 +33,15 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.Validate;
@@ -60,25 +68,31 @@ public class GameList extends AbstractStorageObject
     /** Der private Logger der Klasse. */
     private static Logger log = LoggerFactory.make();
 
-    /** Der Primärschlüssel. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    /** Die Liste der Spiele. Enthält {@link Game} Objekte. */
-    private List<Game> gameList = new ArrayList<Game>();
-
+    @Column(name = "bo_index")
     private int index;
 
-    /** http://www.openligadb.de */
+    @Column(name = "bo_openligaid")
     private Long openligaid;
 
-    /** date and time of game play */
+    @Column(name = "bo_datetime")
     private Date dateTime;
 
-    /** Die Saison des Spieltags. */
+    @ManyToOne
+    @JoinColumn(name = "bo_season_ref")
     private Season season;
 
-    /** Die Gruppe des Spieltags. */
+    @ManyToOne
+    @JoinColumn(name = "bo_group_ref")
     private Group group;
+
+    @OneToMany(mappedBy = "bo_gamelist_ref")
+    @OrderBy("bo_index")
+    private List<Game> gameList = new ArrayList<>();
 
     // -- Construction --------------------------------------------------------
 

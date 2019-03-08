@@ -27,6 +27,19 @@ package de.winkler.betoffice.storage;
 import java.util.Comparator;
 import java.util.Date;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.enums.TotoResult;
 
@@ -37,333 +50,368 @@ import de.winkler.betoffice.storage.enums.TotoResult;
  *
  * @todo Das implizite berechnen der Tipperpunkte macht keinen Sinn mehr.
  */
-public class GameTipp extends AbstractStorageObject implements Comparator<GameTipp> {
+@Entity
+@Table(name = "bo_gametipp")
+public class GameTipp extends AbstractStorageObject
+        implements Comparator<GameTipp> {
 
-	/** serial version id */
-	private static final long serialVersionUID = -3043191976453282242L;
+    /** serial version id */
+    private static final long serialVersionUID = -3043191976453282242L;
 
-	// -- id ------------------------------------------------------------------
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
 
-	/** Der Primärschlüssel. */
-	private Long id;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(column = @Column(name = "bo_homegoals"), name = "homeGoals"),
+            @AttributeOverride(column = @Column(name = "bo_guestgoals"), name = "guestGoals")
+    })
+    private GameResult tipp = new GameResult();
 
-	/**
-	 * Liefert den Primärschlüssel.
-	 *
-	 * @return Der Primärschlüssel.
-	 *
-	 * @hibernate.id generator-class="native"
-	 */
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "bo_create")
+    private Date creationTime;
 
-	/**
-	 * Setzt den Primärschlüssel.
-	 *
-	 * @param value Der Primärschlüssel.
-	 */
-	protected void setId(final Long value) {
-		id = value;
-	}
+    @Column(name = "bo_update")
+    private Date lastUpdateTime;
 
-	// -- tipp ----------------------------------------------------------------
+    @ManyToOne
+    @JoinColumn(name = "bo_user_ref")
+    private User user;
 
-	/** Das getippte Ergebnis. */
-	private GameResult tipp = new GameResult();
+    @Column(name = "bo_token")
+    private String token;
 
-	/**
-	 * Liefert den Tipp.
-	 *
-	 * @return Der Tipp.
-	 *
-	 * @hibernate.component
-	 */
-	public GameResult getTipp() {
-		return tipp;
-	}
+    @ManyToOne
+    @JoinColumn(name = "bo_game_ref")
+    private Game game;
 
-	/**
-	 * Setzt den Spieltipp.
-	 *
-	 * @param value Der Tipp.
-	 */
-	private void setTipp(final GameResult value) {
-		tipp = value;
-	}
+    @Enumerated
+    @Column(name = "bo_status")
+    private TippStatusType status = TippStatusType.UNDEFINED;
 
-	// -- createTime ----------------------------------------------------------
+    // -- id ------------------------------------------------------------------
 
-	private Date creationTime;
+    /**
+     * Liefert den Primärschlüssel.
+     *
+     * @return Der Primärschlüssel.
+     *
+     * @hibernate.id generator-class="native"
+     */
+    public Long getId() {
+        return id;
+    }
 
-	/**
-	 * Date and time of the creation time point.
-	 * 
-	 * @return Date and time of the creation time point.
-	 */
-	public Date getCreationTime() {
-		return creationTime;
-	}
+    /**
+     * Setzt den Primärschlüssel.
+     *
+     * @param value
+     *            Der Primärschlüssel.
+     */
+    protected void setId(final Long value) {
+        id = value;
+    }
 
-	/**
-	 * The creation time point.
-	 * 
-	 * @param date the creation time point
-	 */
-	public void setCreationTime(Date date) {
-		creationTime = date;
-	}
+    // -- tipp ----------------------------------------------------------------
 
-	// -- updateTime ----------------------------------------------------------
+    /**
+     * Liefert den Tipp.
+     *
+     * @return Der Tipp.
+     *
+     * @hibernate.component
+     */
+    public GameResult getTipp() {
+        return tipp;
+    }
 
-	private Date lastUpdateTime;
+    /**
+     * Setzt den Spieltipp.
+     *
+     * @param value
+     *            Der Tipp.
+     */
+    private void setTipp(final GameResult value) {
+        tipp = value;
+    }
 
-	/**
-	 * Date and time of the last update
-	 * 
-	 * @return date and time of the last update
-	 */
-	public Date getLastUpdateTime() {
-		return lastUpdateTime;
-	}
+    // -- createTime ----------------------------------------------------------
 
-	/**
-	 * Set a new update time point
-	 * 
-	 * @param _lastUpdateTime the last update time point
-	 */
-	public void setLastUpdateTime(Date _lastUpdateTime) {
-		lastUpdateTime = _lastUpdateTime;
-	}
+    /**
+     * Date and time of the creation time point.
+     * 
+     * @return Date and time of the creation time point.
+     */
+    public Date getCreationTime() {
+        return creationTime;
+    }
 
-	// -- user ----------------------------------------------------------------
+    /**
+     * The creation time point.
+     * 
+     * @param date
+     *            the creation time point
+     */
+    public void setCreationTime(Date date) {
+        creationTime = date;
+    }
 
-	/** Der Spieler, der das Spiel getippt hat. */
-	private User user;
+    // -- updateTime ----------------------------------------------------------
 
-	/**
-	 * Liefert den zugehörigen Teilnehmer.
-	 *
-	 * @return Der Teilnehmer.
-	 *
-	 * @hibernate.many-to-one column="bo_user_ref" cascade="none"
-	 */
-	public User getUser() {
-		return user;
-	}
+    /**
+     * Date and time of the last update
+     * 
+     * @return date and time of the last update
+     */
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
 
-	/**
-	 * Setzt den User für diesen GameTipp.
-	 *
-	 * @param value Der neue User.
-	 * @throws IllegalArgumentException value als null-Parameter übergeben.
-	 */
-	public void setUser(final User value) {
-		user = value;
-	}
+    /**
+     * Set a new update time point
+     * 
+     * @param _lastUpdateTime
+     *            the last update time point
+     */
+    public void setLastUpdateTime(Date _lastUpdateTime) {
+        lastUpdateTime = _lastUpdateTime;
+    }
 
-	// -- token ---------------------------------------------------------------
+    // -- user ----------------------------------------------------------------
 
-	private String token;
+    /**
+     * Liefert den zugehörigen Teilnehmer.
+     *
+     * @return Der Teilnehmer.
+     *
+     * @hibernate.many-to-one column="bo_user_ref" cascade="none"
+     */
+    public User getUser() {
+        return user;
+    }
 
-	/**
-	 * Liefert das Anmelde-Token mit dem dieser Tipp angelegt wurde.
-	 * 
-	 * @return Anmeldetoken. Verknüpft mit Session/bo_session.
-	 */
-	public String getToken() {
-		return token;
-	}
+    /**
+     * Setzt den User für diesen GameTipp.
+     *
+     * @param value
+     *            Der neue User.
+     * @throws IllegalArgumentException
+     *             value als null-Parameter übergeben.
+     */
+    public void setUser(final User value) {
+        user = value;
+    }
 
-	/**
-	 * Setzt das Token mit dem dieser Spieltipp angelegt wurde.
-	 * 
-	 * @param _token Anmeldetoken
-	 */
-	public void setToken(String _token) {
-		token = _token;
-	}
+    // -- token ---------------------------------------------------------------
 
-	// -- game ----------------------------------------------------------------
+    /**
+     * Liefert das Anmelde-Token mit dem dieser Tipp angelegt wurde.
+     * 
+     * @return Anmeldetoken. Verknüpft mit Session/bo_session.
+     */
+    public String getToken() {
+        return token;
+    }
 
-	/** Das getippte Spiel. */
-	private Game game;
+    /**
+     * Setzt das Token mit dem dieser Spieltipp angelegt wurde.
+     * 
+     * @param _token
+     *            Anmeldetoken
+     */
+    public void setToken(String _token) {
+        token = _token;
+    }
 
-	/**
-	 * Liefert das zugehörige Spiel.
-	 *
-	 * @return Das Spiel.
-	 *
-	 * @hibernate.many-to-one column="bo_game_ref" cascade="all"
-	 */
-	public Game getGame() {
-		return game;
-	}
+    // -- game ----------------------------------------------------------------
 
-	/**
-	 * Setzt das Game für diesen GameTipp. Kann auch <code>null</code> sein. Dann
-	 * wurde dieser Tipp entfernt.
-	 *
-	 * @param value Die neue Game Zuordnung.
-	 */
-	protected void setGame(final Game value) {
-		game = value;
-	}
+    /**
+     * Liefert das zugehörige Spiel.
+     *
+     * @return Das Spiel.
+     *
+     * @hibernate.many-to-one column="bo_game_ref" cascade="all"
+     */
+    public Game getGame() {
+        return game;
+    }
 
-	// -- totoResult ----------------------------------------------------------
+    /**
+     * Setzt das Game für diesen GameTipp. Kann auch <code>null</code> sein.
+     * Dann wurde dieser Tipp entfernt.
+     *
+     * @param value
+     *            Die neue Game Zuordnung.
+     */
+    protected void setGame(final Game value) {
+        game = value;
+    }
 
-	/**
-	 * Liefert den Wert-Zustand des Tipps.
-	 *
-	 * @return Der Wert-Zustand der Tipps.
-	 */
-	public TotoResult getTotoResult() {
-		return calcTippResult();
-	}
+    // -- totoResult ----------------------------------------------------------
 
-	// -- status --------------------------------------------------------------
+    /**
+     * Liefert den Wert-Zustand des Tipps.
+     *
+     * @return Der Wert-Zustand der Tipps.
+     */
+    public TotoResult getTotoResult() {
+        return calcTippResult();
+    }
 
-	/** Status des Tipps: Undefined, Invalid, Auto, User. */
-	private TippStatusType status = TippStatusType.UNDEFINED;
+    // -- status --------------------------------------------------------------
 
-	/**
-	 * Liefert den Status des Tipps (User, Auto, etc.).
-	 *
-	 * @return Der Status.
-	 *
-	 * @hibernate.property column="bo_status"
-	 */
-	public TippStatusType getStatus() {
-		return status;
-	}
+    /**
+     * Liefert den Status des Tipps (User, Auto, etc.).
+     *
+     * @return Der Status.
+     *
+     * @hibernate.property column="bo_status"
+     */
+    public TippStatusType getStatus() {
+        return status;
+    }
 
-	/**
-	 * Setzt den Status des Tipps (User, Auto, etc.).
-	 *
-	 * @param value Der zu setzende Status.
-	 */
-	private void setStatus(final TippStatusType value) {
-		status = value;
-	}
+    /**
+     * Setzt den Status des Tipps (User, Auto, etc.).
+     *
+     * @param value
+     *            Der zu setzende Status.
+     */
+    private void setStatus(final TippStatusType value) {
+        status = value;
+    }
 
-	/**
-	 * Ungültiger Spieltipp?
-	 *
-	 * @return <code>true</code>, wenn GameTippStatus == INVALID.
-	 */
-	public boolean isInvalid() {
-		return (TippStatusType.INVALID.equals(getStatus()));
-	}
+    /**
+     * Ungültiger Spieltipp?
+     *
+     * @return <code>true</code>, wenn GameTippStatus == INVALID.
+     */
+    public boolean isInvalid() {
+        return (TippStatusType.INVALID.equals(getStatus()));
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Setzt den Spieltipp neu.
-	 *
-	 * @param homeGoals  Der Tipp 'Tore der Heimmannschaft'.
-	 * @param guestGoals Der Tipp 'Tore der Gastmannschaft'.
-	 * @param theStatus  Der Status des Tipps (User, Auto, etc.).
-	 */
-	public void setTipp(final int homeGoals, final int guestGoals, final TippStatusType theStatus) {
+    /**
+     * Setzt den Spieltipp neu.
+     *
+     * @param homeGoals
+     *            Der Tipp 'Tore der Heimmannschaft'.
+     * @param guestGoals
+     *            Der Tipp 'Tore der Gastmannschaft'.
+     * @param theStatus
+     *            Der Status des Tipps (User, Auto, etc.).
+     */
+    public void setTipp(final int homeGoals, final int guestGoals,
+            final TippStatusType theStatus) {
 
-		setStatus(theStatus);
-		setTipp(new GameResult(homeGoals, guestGoals));
-	}
+        setStatus(theStatus);
+        setTipp(new GameResult(homeGoals, guestGoals));
+    }
 
-	/**
-	 * Setzt den Spieltipp neu.
-	 *
-	 * @param _result Der Tipp.
-	 * @param _status Der Status des Tipps (User, Auto, etc.).
-	 */
-	public void setTipp(final GameResult _result, final TippStatusType _status) {
-		setStatus(_status);
-		setTipp(_result);
-	}
+    /**
+     * Setzt den Spieltipp neu.
+     *
+     * @param _result
+     *            Der Tipp.
+     * @param _status
+     *            Der Status des Tipps (User, Auto, etc.).
+     */
+    public void setTipp(final GameResult _result,
+            final TippStatusType _status) {
+        setStatus(_status);
+        setTipp(_result);
+    }
 
-	/**
-	 * Rückgabe der erzielten Punkte des Teilnehmers für das getippte Spiel.
-	 *
-	 * @return Punktestand für dieses Spiel.
-	 */
-	public long getPoints() {
-		if (getTotoResult().equals(TotoResult.EQUAL)) {
-			return UserResult.nEqualValue;
-		} else if (getTotoResult().equals(TotoResult.TOTO)) {
-			return UserResult.nTotoValue;
-		} else if (getTotoResult().equals(TotoResult.ZERO)) {
-			return UserResult.nZeroValue;
-		} else if (getTotoResult().equals(TotoResult.UNDEFINED)) {
-			return UserResult.nZeroValue;
-		} else {
-			throw new IllegalStateException();
-		}
-	}
+    /**
+     * Rückgabe der erzielten Punkte des Teilnehmers für das getippte Spiel.
+     *
+     * @return Punktestand für dieses Spiel.
+     */
+    public long getPoints() {
+        if (getTotoResult().equals(TotoResult.EQUAL)) {
+            return UserResult.nEqualValue;
+        } else if (getTotoResult().equals(TotoResult.TOTO)) {
+            return UserResult.nTotoValue;
+        } else if (getTotoResult().equals(TotoResult.ZERO)) {
+            return UserResult.nZeroValue;
+        } else if (getTotoResult().equals(TotoResult.UNDEFINED)) {
+            return UserResult.nZeroValue;
+        } else {
+            throw new IllegalStateException();
+        }
+    }
 
-	/**
-	 * Berechnet den Toto-Wert des Tipps.
-	 *
-	 * @return Der Toto-Wert für diesen Tipp.
-	 */
-	private TotoResult calcTippResult() {
-		if (game == null || tipp == null) {
-			return TotoResult.UNDEFINED;
-		}
+    /**
+     * Berechnet den Toto-Wert des Tipps.
+     *
+     * @return Der Toto-Wert für diesen Tipp.
+     */
+    private TotoResult calcTippResult() {
+        if (game == null || tipp == null) {
+            return TotoResult.UNDEFINED;
+        }
 
-		if (!game.isPlayed()) {
-			return TotoResult.UNDEFINED;
-		}
+        if (!game.isPlayed()) {
+            return TotoResult.UNDEFINED;
+        }
 
-		if (game.isKo()) {
-			if (!game.getResult().isRemis()) {
-				// In der normalen Spielzeit beendet.
-				return calcTotoResult(game.getResult());
-			} else if (game.getResult().isRemis() && !game.getOverTimeGoals().isRemis()) {
-				// Verlaengerung
-				return calcTotoResult(game.getOverTimeGoals());
-			} else if (game.getResult().isRemis() && game.getOverTimeGoals().isRemis()) {
-				// Elfmeterschiessen
-				return calcTotoResult(game.getPenaltyGoals());
-			}
-		}
+        if (game.isKo()) {
+            if (!game.getResult().isRemis()) {
+                // In der normalen Spielzeit beendet.
+                return calcTotoResult(game.getResult());
+            } else if (game.getResult().isRemis()
+                    && !game.getOverTimeGoals().isRemis()) {
+                // Verlaengerung
+                return calcTotoResult(game.getOverTimeGoals());
+            } else if (game.getResult().isRemis()
+                    && game.getOverTimeGoals().isRemis()) {
+                // Elfmeterschiessen
+                return calcTotoResult(game.getPenaltyGoals());
+            }
+        }
 
-		return calcTotoResult(game.getResult());
-	}
+        return calcTotoResult(game.getResult());
+    }
 
-	private TotoResult calcTotoResult(GameResult gameResult) {
-		if (gameResult.equals(tipp)) {
-			return TotoResult.EQUAL; // 13 Punkte
-		} else if (gameResult.getToto().equals(tipp.getToto())) {
-			return TotoResult.TOTO; // 10 Punkte
-		} else {
-			return TotoResult.ZERO; // 0 Punkte
-		}
-	}
+    private TotoResult calcTotoResult(GameResult gameResult) {
+        if (gameResult.equals(tipp)) {
+            return TotoResult.EQUAL; // 13 Punkte
+        } else if (gameResult.getToto().equals(tipp.getToto())) {
+            return TotoResult.TOTO; // 10 Punkte
+        } else {
+            return TotoResult.ZERO; // 0 Punkte
+        }
+    }
 
-	// -- Comparator ----------------------------------------------------------
+    // -- Comparator ----------------------------------------------------------
 
-	@Override
-	public int compare(GameTipp o1, GameTipp o2) {
-		if (o1.getPoints() > o2.getPoints()) {
-			return 1;
-		} else if (o1.getPoints() == o2.getPoints()) {
-			return 0;
-		} else {
-			return -1;
-		}
-	}
+    @Override
+    public int compare(GameTipp o1, GameTipp o2) {
+        if (o1.getPoints() > o2.getPoints()) {
+            return 1;
+        } else if (o1.getPoints() == o2.getPoints()) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
 
-	// -- Object --------------------------------------------------------------
+    // -- Object --------------------------------------------------------------
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "GameTipp [id=" + id + ", tipp=" + tipp + ", creationTime=" + creationTime + ", lastUpdateTime="
-				+ lastUpdateTime + ", user=" + user + ", game=" + game + ", status=" + status + "]";
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "GameTipp [id=" + id + ", tipp=" + tipp + ", creationTime="
+                + creationTime + ", lastUpdateTime="
+                + lastUpdateTime + ", user=" + user + ", game=" + game
+                + ", status=" + status + "]";
+    }
 
 }
