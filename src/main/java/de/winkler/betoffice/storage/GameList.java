@@ -90,7 +90,7 @@ public class GameList extends AbstractStorageObject
     @JoinColumn(name = "bo_group_ref")
     private Group group;
 
-    @OneToMany(mappedBy = "bo_gamelist_ref")
+    @OneToMany(mappedBy = "ofGameList")
     @OrderBy("bo_index")
     private List<Game> gameList = new ArrayList<>();
 

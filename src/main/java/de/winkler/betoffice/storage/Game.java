@@ -24,10 +24,11 @@
 package de.winkler.betoffice.storage;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -40,6 +41,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.Validate;
@@ -144,6 +147,13 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "bo_gamelist_ref")
     private GameList ofGameList;
+
+    @OneToMany(mappedBy = "game")
+    @OrderBy("bo_index")
+    private List<Goal> goals = new ArrayList<>();
+
+    @OneToMany(mappedBy = "game")
+    private Set<GameTipp> tippList = new HashSet<>();
 
     // -- Construction --------------------------------------------------------
 
@@ -460,8 +470,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     // -- goals ---------------------------------------------------------------
 
-    private List<Goal> goals = new ArrayList<Goal>();
-
     public List<Goal> getGoals() {
         return goals;
     }
@@ -486,20 +494,12 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     // -- tippList ------------------------------------------------------------
 
-    /** Liste mit den Tipps der User zu diesem Spiel. */
-    private List<GameTipp> tippList = new ArrayList<GameTipp>();
-
     /**
      * Liefert die Liste der Tipps.
      *
      * @return Die Tipp-Liste.
-     *
-     * @hibernate.list cascade="all" lazy="false"
-     * @hibernate.collection-index column="bo_tipps_index"
-     * @hibernate.collection-key column="bo_game_ref"
-     * @hibernate.collection-one-to-many class="de.winkler.betoffice.storage.GameTipp"
      */
-    protected List<GameTipp> getTippList() {
+    protected Set<GameTipp> getTippList() {
         return tippList;
     }
 
@@ -509,7 +509,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * @param value
      *            Die Tipp-Liste.
      */
-    protected void setTippList(final List<GameTipp> value) {
+    protected void setTippList(final Set<GameTipp> value) {
         tippList = value;
     }
 
@@ -750,17 +750,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     }
 
     /**
-     * Gibt den Tipp an Position <code>index</code> zurück.
-     *
-     * @param index
-     *            Index des Tipps.
-     * @return Der Tipp an Position <code>index</code>.
-     */
-    public GameTipp getGameTipp(final int index) {
-        return (tippList.get(index));
-    }
-
-    /**
      * Liefert die Anzahl der abgegebenen Tipps für dieses Spiel.
      *
      * @return Anzahl der Tipps.
@@ -774,8 +763,8 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *
      * @return Eine nicht modifizierbare Kopie der internen Tipp-Liste.
      */
-    public List<GameTipp> getTipps() {
-        return Collections.unmodifiableList(tippList);
+    public Set<GameTipp> getTipps() {
+        return tippList;
     }
 
     // -- Comparable ----------------------------------------------------------

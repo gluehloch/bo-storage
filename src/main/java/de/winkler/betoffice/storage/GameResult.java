@@ -26,6 +26,7 @@ package de.winkler.betoffice.storage;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.Validate;
 
@@ -134,6 +135,7 @@ public class GameResult implements Serializable, Cloneable {
     // -- toto ----------------------------------------------------------------
 
     /** Das Toto-Ergebnis. Dieser Wert wird berechnet. */
+    @Transient
     private Toto toto = Toto.REMIS;
 
     /**

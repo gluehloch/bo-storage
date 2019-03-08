@@ -49,16 +49,16 @@ public class Location extends AbstractStorageObject {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "bo_name")
     private String name;
 
-    @Column(name = "city")
+    @Column(name = "bo_city")
     private String city;
 
-    @Column(name = "geodat")
+    @Column(name = "bo_geodat")
     private String geodat;
 
-    @Column(name = "openligaid")
+    @Column(name = "bo_openligaid")
     private Long openligaid;
 
     /**

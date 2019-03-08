@@ -24,6 +24,17 @@
 
 package de.winkler.betoffice.storage;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import de.winkler.betoffice.storage.enums.RoleType;
 
 /**
@@ -31,15 +42,35 @@ import de.winkler.betoffice.storage.enums.RoleType;
  *
  * @author Andre Winkler
  */
+@Entity
+@Table(name = "bo_user_season")
 public class UserSeason extends AbstractStorageObject {
 
     /** serial version */
     private static final long serialVersionUID = -3145117873775029160L;
 
-    // -- id ------------------------------------------------------------------
-
-    /** Der Primärschlüssel. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bo_season_ref")
+    private Season season;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bo_user_ref")
+    private User user;
+
+    @Column(name = "bo_wager")
+    private int wager;
+
+    /** The role for an user/season relation. Tipper is the default. */
+    @Column(name = "bo_roletype")
+    @Enumerated
+    private RoleType roleType = RoleType.TIPPER;
+
+    // -- id ------------------------------------------------------------------
 
     /**
      * Liefert den Primärschlüssel.
@@ -62,9 +93,6 @@ public class UserSeason extends AbstractStorageObject {
 
     // -- season --------------------------------------------------------------
 
-    /** Die zugeordnete Saison. */
-    private Season season;
-
     /**
      * Liefert die zugeordnete Saison.
      *
@@ -85,9 +113,6 @@ public class UserSeason extends AbstractStorageObject {
     }
 
     // -- user ----------------------------------------------------------------
-
-    /** Der zugeordnete Teilnehmer. */
-    private User user;
 
     /**
      * Liefert den Teilnehmer.
@@ -110,9 +135,6 @@ public class UserSeason extends AbstractStorageObject {
 
     // -- wager ---------------------------------------------------------------
 
-    /** Der Wetteinsatz. */
-    private int wager;
-
     /**
      * Liefert den Wetteinsatz.
      *
@@ -133,9 +155,6 @@ public class UserSeason extends AbstractStorageObject {
     }
 
     // -- roleType ------------------------------------------------------------
-
-    /** The role for an user/season relation. Tipper is the default. */
-    private RoleType roleType = RoleType.TIPPER;
 
     /**
      * Gets the user role for a season.
