@@ -65,12 +65,14 @@ public class Group extends AbstractStorageObject {
     @JoinColumn(name = "bo_season_ref")
     private Season season;
 
+    // @formatter:off
     // Die N:M Mittlertabelle bo_team(id) <-> bo_team_group(bo_team_ref, bo_group_ref) <-> bo_group(id)
     @ManyToMany(mappedBy = "bo_team_ref", cascade = CascadeType.ALL)
     @JoinTable(name = "bo_team_group", 
         joinColumns = @JoinColumn(name = "bo_group_ref"), // FK column which references bo_group#id
         inverseJoinColumns = @JoinColumn(name = "bo_team_ref")) // FK column reverse side bo_team#id
     private Set<Team> teams = new HashSet<>();
+    // @formatter:on
 
     @ManyToOne
     @JoinColumn(name = "bo_grouptype_ref")

@@ -26,9 +26,7 @@ package de.winkler.betoffice.storage;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -38,7 +36,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import de.winkler.betoffice.storage.enums.TeamType;
@@ -64,13 +61,13 @@ public class Team extends AbstractStorageObject {
 
     @Column(name = "bo_name")
     private String name;
-    
+
     @Column(name = "bo_longname")
     private String longName;
-    
+
     @Column(name = "bo_shortname")
     private String shortName;
-    
+
     @Column(name = "bo_xshortname")
     private String xshortName;
 
@@ -85,18 +82,20 @@ public class Team extends AbstractStorageObject {
     @Column(name = "bo_openligaid")
     private Long openligaid;
 
+    // @formatter:off
     // Die N:M Mittlertabelle bo_team(id) <-> bo_team_group(bo_team_ref, bo_group_ref) <-> bo_group(id)
     @ManyToMany(mappedBy = "bo_team_ref")
     @JoinTable(name = "bo_team_group",
         joinColumns = @JoinColumn(name = "bo_team_ref"), // FK column which references bo_team#id
         inverseJoinColumns = @JoinColumn(name = "bo_group_ref")) // FK column reverse side bo_group#id
     private Set<Group> groups = new HashSet<>();
-    
+    // @formatter:on
+
     /** Heimspiel Stadion */
     @ManyToOne
+    @JoinColumn(name = "bo_location_ref")
     private Location location;
-   
-    
+
     // -- Construction --------------------------------------------------------
 
     /**
