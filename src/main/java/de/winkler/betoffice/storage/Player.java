@@ -52,13 +52,13 @@ public class Player extends AbstractStorageObject {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "bo_name")
     private String name;
 
-    @Column(name = "vorname")
+    @Column(name = "bo_vorname")
     private String vorname;
 
-    @Column(name = "openligaid")
+    @Column(name = "bo_openligaid")
     private Long openligaid;
 
     @OneToMany(cascade = CascadeType.ALL)

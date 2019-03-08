@@ -54,7 +54,7 @@ public class GroupType extends AbstractStorageObject implements
 
     @NotNull
     @NaturalId
-    @Column(name = "name")
+    @Column(name = "bo_name")
     private String name;
 
     // -- id ------------------------------------------------------------------

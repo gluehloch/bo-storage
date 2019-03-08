@@ -83,6 +83,18 @@ public class User extends AbstractStorageObject {
     @Column(name = "bo_automat")
     private boolean automat = false;
 
+    /** Gültigkeitsflag. */
+    @Column(name = "bo_excluded")
+    private boolean exclude = false;
+
+    /** Adminstrator Flag. */
+    @Column(name = "bo_admin")
+    private boolean admin = false;
+
+    /** Der eventuelle Meistertitel etc. */
+    @Column(name = "bo_title")
+    private String title;
+
     /** Die Teilnehmer, die dieser Saison zugeordnet sind. */
     @OneToMany
     @JoinColumn(name = "bo_user_ref")
@@ -316,9 +328,6 @@ public class User extends AbstractStorageObject {
 
     // -- excluded ------------------------------------------------------------
 
-    /** Gültigkeitsflag. */
-    private boolean exclude = false;
-
     /**
      * User von Teilnahme ausgeschlossen?
      *
@@ -340,9 +349,6 @@ public class User extends AbstractStorageObject {
 
     // -- title ---------------------------------------------------------------
 
-    /** Der eventuelle Meistertitel etc. */
-    private String title;
-
     /**
      * Liefert den Titel des Users.
      *
@@ -363,9 +369,6 @@ public class User extends AbstractStorageObject {
     }
 
     // -- admin ---------------------------------------------------------------
-
-    /** Adminstrator Flag. */
-    private boolean admin = false;
 
     /**
      * Haben wir es hier mit einem Administrator zu tun?

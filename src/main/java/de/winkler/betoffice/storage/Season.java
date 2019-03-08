@@ -100,13 +100,13 @@ public class Season extends AbstractStorageObject {
     /** Die Teilnehmer, die dieser Saison zugeordnet sind. */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bo_season_ref")
-    private Set<UserSeason> userSeason = new HashSet<UserSeason>();
+    private Set<UserSeason> userSeason = new HashSet<>();
 
     /** Eine Liste der Spieltage/GameList. */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bo_season_ref")
-    @OrderBy("index")
-    private List<GameList> gameList = new ArrayList<GameList>();
+    @OrderBy("bo_index")
+    private List<GameList> gameList = new ArrayList<>();
 
     // -- Construction --------------------------------------------------------
 

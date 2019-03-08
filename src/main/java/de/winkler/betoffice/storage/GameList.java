@@ -33,8 +33,10 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -90,7 +92,7 @@ public class GameList extends AbstractStorageObject
     @JoinColumn(name = "bo_group_ref")
     private Group group;
 
-    @OneToMany(mappedBy = "ofGameList")
+    @OneToMany(mappedBy = "gameList", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderBy("bo_index")
     private List<Game> gameList = new ArrayList<>();
 

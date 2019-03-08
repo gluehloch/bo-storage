@@ -394,7 +394,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     @Override
     @Transactional
     public Group addTeam(Season season, GroupType groupType, Team team) {
-        List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
+        List<BetofficeValidationMessage> messages = new ArrayList<>();
 
         if (!season.getTeamType().equals(team.getTeamType())) {
             messages.add(new BetofficeValidationMessage(

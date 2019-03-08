@@ -146,7 +146,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "bo_gamelist_ref")
-    private GameList ofGameList;
+    private GameList gameList;
 
     @OneToMany(mappedBy = "game")
     @OrderBy("bo_index")
@@ -154,6 +154,14 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     @OneToMany(mappedBy = "game")
     private Set<GameTipp> tippList = new HashSet<>();
+
+    /** http://www.openligadb.de */
+    @Column(name = "bo_openligaid")
+    private Long openligaid;
+
+    /** Ist das ein sogenanntes KO Spiel? Pokalspiel? */
+    @Column(name = "bo_ko")
+    private boolean ko = false;
 
     // -- Construction --------------------------------------------------------
 
@@ -417,7 +425,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *                        class="de.winkler.betoffice.storage.GameList"
      */
     public GameList getGameList() {
-        return ofGameList;
+        return gameList;
     }
 
     /**
@@ -433,7 +441,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * @see GameList#addGame(Game)
      */
     protected void setGameList(final GameList value) {
-        ofGameList = value;
+        gameList = value;
     }
 
     // -- index ---------------------------------------------------------------
@@ -515,9 +523,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     // -- openligaid ----------------------------------------------------------
 
-    /** http://www.openligadb.de */
-    private Long openligaid;
-
     /**
      * Get openligadb ID.
      *
@@ -538,9 +543,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     }
 
     // -- KO Game -------------------------------------------------------------
-
-    /** Ist das ein sogenanntes KO Spiel? Pokalspiel? */
-    private boolean ko = false;
 
     /**
      * Ist das ein KO Spiel?
