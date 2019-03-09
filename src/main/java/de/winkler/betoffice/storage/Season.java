@@ -33,18 +33,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.Validate;
@@ -95,7 +84,7 @@ public class Season extends AbstractStorageObject {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bo_season_ref")
-    private Set<Group> groups = new HashSet<Group>();
+    private Set<Group> groups = new HashSet<>();
 
     /** Die Teilnehmer, die dieser Saison zugeordnet sind. */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -105,7 +94,7 @@ public class Season extends AbstractStorageObject {
     /** Eine Liste der Spieltage/GameList. */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bo_season_ref")
-    @OrderBy("bo_index")
+    @OrderColumn(name = "bo_index")
     private List<GameList> gameList = new ArrayList<>();
 
     // -- Construction --------------------------------------------------------
@@ -486,11 +475,6 @@ public class Season extends AbstractStorageObject {
      * Objekten.
      * 
      * @return Die Spieltage.
-     * 
-     * @hibernate.list cascade="all" lazy="true"
-     * @hibernate.collection-index column="bo_index"
-     * @hibernate.collection-key column="bo_gamedaylist_ref"
-     * @hibernate.collection-one-to-many class="de.winkler.betoffice.storage.GameList"
      */
     protected List<GameList> getGameList() {
         return gameList;

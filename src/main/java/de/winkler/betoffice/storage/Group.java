@@ -31,6 +31,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -61,20 +62,20 @@ public class Group extends AbstractStorageObject {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "bo_season_ref")
     private Season season;
 
     // @formatter:off
     // Die N:M Mittlertabelle bo_team(id) <-> bo_team_group(bo_team_ref, bo_group_ref) <-> bo_group(id)
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "bo_team_group", 
         joinColumns = @JoinColumn(name = "bo_group_ref"), // FK column which references bo_group#id
         inverseJoinColumns = @JoinColumn(name = "bo_team_ref")) // FK column reverse side bo_team#id
     private Set<Team> teams = new HashSet<>();
     // @formatter:on
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "bo_grouptype_ref")
     private GroupType groupType;
 

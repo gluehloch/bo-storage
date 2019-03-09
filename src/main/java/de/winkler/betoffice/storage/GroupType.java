@@ -25,6 +25,8 @@
 
 package de.winkler.betoffice.storage;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +36,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.NaturalId;
 
 /**
  * Beschreibt einen Gruppentyp (1. Liga, 2. Liga, Regionalliga Nord, etc.).
@@ -53,7 +54,6 @@ public class GroupType extends AbstractStorageObject implements
     private Long id;
 
     @NotNull
-    @NaturalId
     @Column(name = "bo_name")
     private String name;
 
