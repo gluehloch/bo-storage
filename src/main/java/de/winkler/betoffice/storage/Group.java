@@ -231,6 +231,16 @@ public class Group extends AbstractStorageObject {
     }
 
     public boolean equals(final Object object) {
+//        if (object == null) {
+//            return false;
+//        } else if (!(object instanceof Group)) {
+//            return false;
+//        } else {
+//            Group group = (Group) object;
+//            return group.getId().equals(getId());
+//                    
+//        }
+
         if (object == null) {
             return false;
         } else if (!(object instanceof Group)) {
@@ -247,6 +257,7 @@ public class Group extends AbstractStorageObject {
     }
 
     public int hashCode() {
+        //return 37;
         int result = 17;
         result = 37 * result + getGroupType().hashCode();
         result = 37 * result + getSeason().hashCode();

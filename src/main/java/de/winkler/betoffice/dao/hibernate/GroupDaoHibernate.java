@@ -57,12 +57,13 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
     private static final String QUERY_GROUP_BY_SEASON_AND_GROUPTYPE =
             "select grp "
             + " from Group as grp "
-            + " inner join fetch grp.season as season "
-            + " inner join fetch grp.groupType as gt "
-            + " left join fetch grp.teams teams "
+            + "   inner join fetch grp.season as season "
+            + "   inner join fetch grp.groupType as gt "
+            + "   left join fetch grp.teams teams "
+            + "   left join fetch teams.groups groups "
             + " where "
-            + " season.id = :seasonId"
-            + " and gt.id = :groupTypeId";
+            + "   season.id = :seasonId"
+            + "   and gt.id = :groupTypeId";
 
     public GroupDaoHibernate() {
         super(Group.class);

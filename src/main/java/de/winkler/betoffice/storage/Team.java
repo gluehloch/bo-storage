@@ -85,10 +85,11 @@ public class Team extends AbstractStorageObject {
 
     // @formatter:off
     // Die N:M Mittlertabelle bo_team(id) <-> bo_team_group(bo_team_ref, bo_group_ref) <-> bo_group(id)
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "bo_team_group",
-        joinColumns = @JoinColumn(name = "bo_team_ref"), // FK column which references bo_team#id
-        inverseJoinColumns = @JoinColumn(name = "bo_group_ref")) // FK column reverse side bo_group#id
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "bo_team_group",
+//        joinColumns = @JoinColumn(name = "bo_team_ref"), // FK column which references bo_team#id
+//        inverseJoinColumns = @JoinColumn(name = "bo_group_ref")) // FK column reverse side bo_group#id
+    @ManyToMany(mappedBy = "teams")
     private Set<Group> groups = new HashSet<>();
     // @formatter:on
 
