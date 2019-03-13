@@ -23,19 +23,13 @@
 
 package de.winkler.betoffice.storage;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -89,8 +83,8 @@ public class Team extends AbstractStorageObject {
 //    @JoinTable(name = "bo_team_group",
 //        joinColumns = @JoinColumn(name = "bo_team_ref"), // FK column which references bo_team#id
 //        inverseJoinColumns = @JoinColumn(name = "bo_group_ref")) // FK column reverse side bo_group#id
-    @ManyToMany(mappedBy = "teams")
-    private Set<Group> groups = new HashSet<>();
+//    @ManyToMany(mappedBy = "teams")
+//    private Set<Group> groups = new HashSet<>();
     // @formatter:on
 
     /** Heimspiel Stadion */
