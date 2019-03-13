@@ -102,7 +102,6 @@ public class GameResult implements Serializable, Cloneable {
      */
     private void setHomeGoals(final int home) {
         homeGoals = home;
-        setToto();
     }
 
     // -- guestGoals ----------------------------------------------------------
@@ -129,7 +128,6 @@ public class GameResult implements Serializable, Cloneable {
      */
     private void setGuestGoals(final int guest) {
         guestGoals = guest;
-        setToto();
     }
 
     // -- toto ----------------------------------------------------------------
@@ -137,6 +135,8 @@ public class GameResult implements Serializable, Cloneable {
     /** Das Toto-Ergebnis. Dieser Wert wird berechnet. */
     @Transient
     private Toto toto = Toto.REMIS;
+    @Transient
+    private boolean calculated = false;
 
     /**
      * Liefert den Toto-Wert von diesem Spielergebnis.
@@ -144,6 +144,10 @@ public class GameResult implements Serializable, Cloneable {
      * @return Der Toto-Wert.
      */
     public Toto getToto() {
+        if (!calculated) {
+            setToto();
+            calculated = true;
+        }
         return toto;
     }
 
