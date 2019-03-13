@@ -38,11 +38,11 @@ import de.winkler.betoffice.storage.TeamAlias;
 public interface TeamAliasDao extends CommonDao<TeamAlias> {
 
     /**
-     * Liefert eine Liste alle Mannschafts Aliasnamen.
-     *
-     * @return Eine Liste aller Mannschafts Aliasnamen.
+     * Find all team alias ordered by alias name.
+     * 
+     * @return All team alias
      */
-    public List<TeamAlias> findAll();
+    List<TeamAlias> findAll();
 
     /**
      * Liefert eine Mannschaften mit gesuchten Aliasnamen.
@@ -51,7 +51,7 @@ public interface TeamAliasDao extends CommonDao<TeamAlias> {
      *            Der gesuchte Aliasname.
      * @return Eine Mannschaften.
      */
-    public Optional<Team> findByAliasName(String aliasName);
+    Optional<Team> findByAliasName(String aliasName);
 
     /**
      * Liefert die Alias Namen einer Mannschaft.
@@ -60,46 +60,6 @@ public interface TeamAliasDao extends CommonDao<TeamAlias> {
      *            Die gesuchte Mannschaft.
      * @return Die Alias Namen der Mannschaft.
      */
-    public List<TeamAlias> findAliasNames(Team team);
-
-    /**
-     * Legt eine neuen Aliasnamen an.
-     *
-     * @param team
-     *            Ein Mannschaft.
-     */
-    public void save(TeamAlias team);
-
-    /**
-     * Legt mehrere neue Aliasnamen an.
-     *
-     * @param teams
-     *            Eine Liste von Mannschaften.
-     */
-    public void saveAll(List<TeamAlias> teams);
-
-    /**
-     * Eine Update-Operation.
-     *
-     * @param aliasName
-     *            Ein Aliasname.
-     */
-    public void update(TeamAlias aliasName);
-
-    /**
-     * Löscht eine Mannschaft.
-     *
-     * @param value
-     *            Der zu löschende Aliasname.
-     */
-    public void delete(TeamAlias value);
-
-    /**
-     * Löscht alle Mannschaften.
-     *
-     * @param aliasNames
-     *            Der zu löschende Aliasname.
-     */
-    public void deleteAll(List<TeamAlias> aliasNames);
+    List<TeamAlias> findAliasNames(Team team);
 
 }

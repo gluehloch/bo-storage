@@ -154,7 +154,6 @@ public class Group extends AbstractStorageObject {
     public void addTeam(final Team value) {
         Validate.notNull(value);
         teams.add(value);
-        value.addGroup(this);
     }
 
     /**
@@ -166,7 +165,6 @@ public class Group extends AbstractStorageObject {
     public void removeTeam(final Team value) {
         Validate.notNull(value);
         teams.remove(value);
-        value.removeGroup(this);
     }
 
     /**

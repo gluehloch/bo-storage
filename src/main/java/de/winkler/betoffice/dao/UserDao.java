@@ -40,11 +40,11 @@ import de.winkler.betoffice.storage.UserResult;
 public interface UserDao extends CommonDao<User> {
 
     /**
-     * Liefert eine Liste alle Teilnehmer.
-     *
-     * @return Eine Liste aller Teilnehmer.
+     * A list of users ordered by nickname.
+     * 
+     * @return a list of users
      */
-    public List<User> findAll();
+    List<User> findAll();
 
     /**
      * Liefert einen Teilnehmer mit gesuchten Nickname.
@@ -53,47 +53,7 @@ public interface UserDao extends CommonDao<User> {
      *            Der gesuchte Nickname.
      * @return Ein Teilnehmer.
      */
-    public Optional<User> findByNickname(String nickname);
-
-    /**
-     * Legt einen neuen Teilnehmer an.
-     *
-     * @param user
-     *            Ein neuer Teilnehmer.
-     */
-    public void save(User user);
-
-    /**
-     * Speichert mehrere neue Teilnehmer.
-     *
-     * @param users
-     *            Eine Liste von Usern.
-     */
-    public void saveAll(List<User> users);
-
-    /**
-     * Ein Update.
-     *
-     * @param user
-     *            Ein Teilnehmer
-     */
-    public void update(User user);
-
-    /**
-     * Löscht einen Teilnehmer.
-     *
-     * @param user
-     *            Ein Teilnehmer.
-     */
-    public void delete(User user);
-
-    /**
-     * Löscht alle Teilnehmer.
-     *
-     * @param users
-     *            Die Teilnehmer.
-     */
-    public void deleteAll(List<User> users);
+    Optional<User> findByNickname(String nickname);
 
     /**
      * Berechnet das Tipper-Ranking für eine Meisterschaft.
@@ -108,8 +68,8 @@ public interface UserDao extends CommonDao<User> {
      *            Index des Spieltags bis zu dem gezählt wird (0..N-1).
      * @return Das Ranking der Tipper.
      */
-    public List<UserResult> calculateUserRanking(List<User> users,
-            Season season, int startIndex, int endIndex);
+    List<UserResult> calculateUserRanking(List<User> users, Season season,
+            int startIndex, int endIndex);
 
     /**
      * Berechnet das Tipper-Ranking für eine Meisterschaft.
@@ -120,8 +80,7 @@ public interface UserDao extends CommonDao<User> {
      *            Die betreffende Meisterschaft.
      * @return Das Ranking der Tipper.
      */
-    public List<UserResult> calculateUserRanking(List<User> users,
-            Season season);
+    List<UserResult> calculateUserRanking(List<User> users, Season season);
 
     /**
      * Berechnet das Tipper-Ranking für einen Spieltag.
@@ -132,7 +91,6 @@ public interface UserDao extends CommonDao<User> {
      *            Der betreffende Spieltag.
      * @return Das Ranking der Tipper.
      */
-    public List<UserResult> calculateUserRanking(List<User> users,
-            GameList round);
+    List<UserResult> calculateUserRanking(List<User> users, GameList round);
 
 }

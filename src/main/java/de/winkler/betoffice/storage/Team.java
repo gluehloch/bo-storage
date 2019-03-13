@@ -245,55 +245,6 @@ public class Team extends AbstractStorageObject {
         logo = value;
     }
 
-    // -- groups --------------------------------------------------------------
-
-    /**
-     * Liefert die Gruppen, denen diese Mannschaft angehört.
-     *
-     * @return Die Gruppen.
-     *
-     * @hibernate.set role="groups" table="bo_team_group" cascade="none"
-     *                inverse="true"
-     * @hibernate.collection-key column="bo_team_ref"
-     * @hibernate.collection-many-to-many class="de.winkler.betoffice.storage.Group"
-     *                                    column="bo_group_ref"
-     */
-    public Set<Group> getGroups() {
-        return groups;
-    }
-
-    /**
-     * Setzt die Gruppen, denen diese Mannschaft angehört neu.
-     *
-     * @param value
-     *            Die Gruppen.
-     */
-    protected void setGroups(final Set<Group> value) {
-        groups = value;
-    }
-
-    /**
-     * Ordnet die Mannschaft einer bestimmten Gruppe zu. Wird aus der Methode
-     * {@link Group#addTeam(Team)} aufgerufen.
-     *
-     * @param value
-     *            Die zugeordnete Gruppe.
-     */
-    protected void addGroup(final Group value) {
-        groups.add(value);
-    }
-
-    /**
-     * Entfernt eine Mannschaft aus einer bestimmten Gruppe. Wird aus der
-     * Methode {@link Group#removeTeam(Team)} aufgerufen.
-     *
-     * @param value
-     *            Die zugeordnete Gruppe.
-     */
-    protected void removeGroup(final Group value) {
-        groups.remove(value);
-    }
-
     // -- teamType ------------------------------------------------------------
 
     /**

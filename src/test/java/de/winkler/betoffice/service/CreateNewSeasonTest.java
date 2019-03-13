@@ -201,7 +201,7 @@ public class CreateNewSeasonTest {
 
         Goal goal1 = new Goal();
         goal1.setIndex(0);
-        goal1.setComment("RWE mach wieder ein Tor.");
+        goal1.setComment("RWE macht wieder ein Tor.");
         goal1.setGoalType(GoalType.REGULAR);
         goal1.setMinute(55);
         goal1.setOpenligaid(5711L);
