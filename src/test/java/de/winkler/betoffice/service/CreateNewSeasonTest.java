@@ -127,7 +127,7 @@ public class CreateNewSeasonTest {
         assertThat(group.getTeams()).hasSize(2);
         try {
             sms.addTeam(season, groupA.get(), deutschland.get());
-            fail("Expected a validation exception.");
+            fail("Expected a vaGlidation exception.");
         } catch (Exception ex) {
             // Ok!
         }

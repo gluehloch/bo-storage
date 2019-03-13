@@ -144,6 +144,9 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     @JoinColumn(name = "bo_location_ref")
     private Location location;
 
+    @Column(name = "bo_index")
+    private int index;
+
     @ManyToOne
     @JoinColumn(name = "bo_gamelist_ref")
     private GameList gameList;
