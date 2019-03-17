@@ -26,20 +26,44 @@ package de.winkler.betoffice.storage;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 /**
  * The player of a football match.
  *
  * @author by Andre Winkler
  */
+@Entity
+@Table(name = "bo_player")
 public class Player extends AbstractStorageObject {
 
     private static final long serialVersionUID = 7264908918810836616L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
+
+    @Column(name = "bo_name")
     private String name;
+
+    @Column(name = "bo_vorname")
     private String vorname;
-    private Set<Goal> goals = new HashSet<>();
+
+    @Column(name = "bo_openligaid")
     private Long openligaid;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bo_player_ref")
+    private Set<Goal> goals = new HashSet<>();
 
     /**
      * @return the id

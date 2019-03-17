@@ -3,20 +3,20 @@
  * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
- * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * GNU GENERAL  LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
  * 
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
+ * the terms of the GNU General  License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE. See the GNU General  License for more
  * details.
  * 
- * You should have received a copy of the GNU General Public License along with
+ * You should have received a copy of the GNU General  License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
@@ -39,11 +39,11 @@ import de.winkler.betoffice.storage.TeamResult;
 public interface SeasonDao extends CommonDao<Season> {
 
     /**
-     * Liefert eine Liste aller Meisterschaften.
-     *
-     * @return Eine Liste aller Meisterschaften.
+     * Find all seasons ordered by year.
+     * 
+     * @return All seasons.
      */
-    public List<Season> findAll();
+    List<Season> findAll();
 
     /**
      * Liefert eine Meisterschaft mit gesuchten Namen und Jahrgang.
@@ -54,7 +54,7 @@ public interface SeasonDao extends CommonDao<Season> {
      *            Der gesuchte Jahrgang
      * @return Eine Meisterschaft.
      */
-    public Optional<Season> findByName(String name, String year);
+    Optional<Season> findByName(String name, String year);
 
     /**
      * Sucht nach den Gruppen-, Mannschafts- und Teilnehmerbeziehungen zu der
@@ -65,7 +65,7 @@ public interface SeasonDao extends CommonDao<Season> {
      * @return Eine Meisterschaft mit gesetzten Referenzen zu allen Spieltagen,
      *         Gruppen, Mannschaften und Teilnehmern.
      */
-    public Season findRoundGroupTeamUser(Season season);
+    Season findRoundGroupTeamUser(Season season);
 
     /**
      * Sucht nach den Gruppen-, Mannschafts- und Teilnehmerbeziehungen zu der
@@ -77,31 +77,7 @@ public interface SeasonDao extends CommonDao<Season> {
      *         Gruppen, Mannschaften und Teilnehmern, sowie alle Tipps für alle
      *         Teilnehmer.
      */
-    public Season findRoundGroupTeamUserTipp(Season season);
-
-    /**
-     * Legt eine neue Meisterschaft an.
-     *
-     * @param season
-     *            Eine Meisterschaft.
-     */
-    public void save(Season season);
-
-    /**
-     * Eine Update-Operation.
-     *
-     * @param season
-     *            Eine Season.
-     */
-    public void update(Season season);
-
-    /**
-     * Löscht eine Meisterschaft.
-     *
-     * @param season
-     *            Eine Meisterschaft.
-     */
-    public void delete(Season season);
+    Season findRoundGroupTeamUserTipp(Season season);
 
     /**
      * Startet die Tabellenberechnung der Mannschaften einer Meisterschaft.
@@ -112,8 +88,7 @@ public interface SeasonDao extends CommonDao<Season> {
      *            Die Liga/Gruppe die berechnet werden soll.
      * @return Eine sortierte Liste der Tabelle.
      */
-    public List<TeamResult> calculateTeamRanking(Season season,
-            GroupType groupType);
+    List<TeamResult> calculateTeamRanking(Season season, GroupType groupType);
 
     /**
      * Startet die Tabellenberechnung der Mannschaften einer Meisterschaft über
@@ -129,7 +104,7 @@ public interface SeasonDao extends CommonDao<Season> {
      *            Index des End-Spieltags (0..N-1).
      * @return Eine sortierte Liste der Tabelle.
      */
-    public List<TeamResult> calculateTeamRanking(Season season,
-            GroupType groupType, int startIndex, int endIndex);
+    List<TeamResult> calculateTeamRanking(Season season, GroupType groupType,
+            int startIndex, int endIndex);
 
 }

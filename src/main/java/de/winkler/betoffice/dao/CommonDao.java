@@ -51,7 +51,7 @@ public interface CommonDao<T> {
      * @param t
      *            Ein neues T.
      */
-    void save(T t);
+    T save(T t);
 
     /**
      * Speichert mehrere neue Ts.

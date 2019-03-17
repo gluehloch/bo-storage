@@ -23,8 +23,15 @@
 
 package de.winkler.betoffice.storage;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import de.winkler.betoffice.storage.enums.TeamType;
 
@@ -35,10 +42,55 @@ import de.winkler.betoffice.storage.enums.TeamType;
  *
  * @hibernate.class table="bo_team"
  */
+@Entity
+@Table(name = "bo_team")
 public class Team extends AbstractStorageObject {
 
     /** serial version id */
     private static final long serialVersionUID = -3181346057831881080L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+
+    @Column(name = "bo_name")
+    private String name;
+
+    @Column(name = "bo_longname")
+    private String longName;
+
+    @Column(name = "bo_shortname")
+    private String shortName;
+
+    @Column(name = "bo_xshortname")
+    private String xshortName;
+
+    /** Die ID / der Name des Logo-Ressource. */
+    @Column(name = "bo_logo")
+    private String logo;
+
+    @Column(name = "bo_teamtype")
+    @Enumerated
+    private TeamType teamType = TeamType.DFB;
+
+    @Column(name = "bo_openligaid")
+    private Long openligaid;
+
+    // @formatter:off
+    // Die N:M Mittlertabelle bo_team(id) <-> bo_team_group(bo_team_ref, bo_group_ref) <-> bo_group(id)
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "bo_team_group",
+//        joinColumns = @JoinColumn(name = "bo_team_ref"), // FK column which references bo_team#id
+//        inverseJoinColumns = @JoinColumn(name = "bo_group_ref")) // FK column reverse side bo_group#id
+//    @ManyToMany(mappedBy = "teams")
+//    private Set<Group> groups = new HashSet<>();
+    // @formatter:on
+
+    /** Heimspiel Stadion */
+    @ManyToOne
+    @JoinColumn(name = "bo_location_ref")
+    private Location location;
 
     // -- Construction --------------------------------------------------------
 
@@ -77,9 +129,6 @@ public class Team extends AbstractStorageObject {
 
     // -- id ------------------------------------------------------------------
 
-    /** Der Primärschlüssel. */
-    private Long id;
-
     /**
      * Liefert den Primärschlüssel.
      *
@@ -102,9 +151,6 @@ public class Team extends AbstractStorageObject {
     }
 
     // -- name ----------------------------------------------------------------
-
-    /** Der Teamname. */
-    private String name;
 
     /**
      * Liefert den Teamnamen.
@@ -129,9 +175,6 @@ public class Team extends AbstractStorageObject {
 
     // -- longName ------------------------------------------------------------
 
-    /** Der Teamname in Langform. */
-    private String longName;
-
     /**
      * Liefert den Teamnamen in der Langbezeichnung.
      *
@@ -155,8 +198,6 @@ public class Team extends AbstractStorageObject {
 
     // -- shortName -----------------------------------------------------------
 
-    private String shortName;
-
     public String getShortName() {
         return shortName;
     }
@@ -167,8 +208,6 @@ public class Team extends AbstractStorageObject {
 
     // -- xshortName -----------------------------------------------------
 
-    private String xshortName;
-
     public String getXshortName() {
         return xshortName;
     }
@@ -178,9 +217,6 @@ public class Team extends AbstractStorageObject {
     }
 
     // -- logo ----------------------------------------------------------------
-
-    /** Der Name des Logo-Ressource. */
-    private String logo;
 
     /**
      * Liefert das Logo.
@@ -203,62 +239,7 @@ public class Team extends AbstractStorageObject {
         logo = value;
     }
 
-    // -- groups --------------------------------------------------------------
-
-    /** Die Gruppen, denen diese Mannschaft angehöret. */
-    private Set<Group> groups = new HashSet<Group>();
-
-    /**
-     * Liefert die Gruppen, denen diese Mannschaft angehört.
-     *
-     * @return Die Gruppen.
-     *
-     * @hibernate.set role="groups" table="bo_team_group" cascade="none"
-     *                inverse="true"
-     * @hibernate.collection-key column="bo_team_ref"
-     * @hibernate.collection-many-to-many class="de.winkler.betoffice.storage.Group"
-     *                                    column="bo_group_ref"
-     */
-    public Set<Group> getGroups() {
-        return groups;
-    }
-
-    /**
-     * Setzt die Gruppen, denen diese Mannschaft angehört neu.
-     *
-     * @param value
-     *            Die Gruppen.
-     */
-    protected void setGroups(final Set<Group> value) {
-        groups = value;
-    }
-
-    /**
-     * Ordnet die Mannschaft einer bestimmten Gruppe zu. Wird aus der Methode
-     * {@link Group#addTeam(Team)} aufgerufen.
-     *
-     * @param value
-     *            Die zugeordnete Gruppe.
-     */
-    protected void addGroup(final Group value) {
-        groups.add(value);
-    }
-
-    /**
-     * Entfernt eine Mannschaft aus einer bestimmten Gruppe. Wird aus der
-     * Methode {@link Group#removeTeam(Team)} aufgerufen.
-     *
-     * @param value
-     *            Die zugeordnete Gruppe.
-     */
-    protected void removeGroup(final Group value) {
-        groups.remove(value);
-    }
-
     // -- teamType ------------------------------------------------------------
-
-    /** Mannschaftstyp. (DFB, FIFA) ` */
-    private TeamType teamType = TeamType.DFB;
 
     /**
      * Liefert den Mannschaftstyp.
@@ -285,9 +266,6 @@ public class Team extends AbstractStorageObject {
 
     // -- location ------------------------------------------------------------
 
-    /** Heimspiel Stadion */
-    private Location location;
-
     /**
      * Liefert das Heimstadion.
      * 
@@ -308,9 +286,6 @@ public class Team extends AbstractStorageObject {
     }
 
     // -- openligaid ----------------------------------------------------------
-
-    /** http://www.openligadb.de */
-    private Long openligaid;
 
     /**
      * Get openligadb ID.

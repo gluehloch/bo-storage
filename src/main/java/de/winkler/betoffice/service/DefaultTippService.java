@@ -75,10 +75,27 @@ public class DefaultTippService extends AbstractManagerService
     @Autowired
     private GameTippDao gameTippDao;
 
+    /**
+     * TODO Is this a good service?
+     *
+     * @param token
+     *            Das Anmeldetoken mit dem dieser Tipp angelegt wird.
+     * @param match
+     *            Die betreffende Partie.
+     * @param user
+     *            Der Tipper.
+     * @param gr
+     *            Das getippte Endergebnis
+     * @param status
+     *            Tipp-Status.
+     * @return
+     */
     @Override
     @Transactional
     public GameTipp addTipp(String token, Game match, User user, GameResult gr,
             TippStatusType status) {
+
+        matchDao.refresh(match);
 
         GameTipp gameTipp = match.addTipp(token, user, gr, status);
         gameTippDao.save(gameTipp);

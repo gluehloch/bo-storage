@@ -127,7 +127,7 @@ public class CreateNewSeasonTest {
         assertThat(group.getTeams()).hasSize(2);
         try {
             sms.addTeam(season, groupA.get(), deutschland.get());
-            fail("Expected a validation exception.");
+            fail("Expected a vaGlidation exception.");
         } catch (Exception ex) {
             // Ok!
         }
@@ -201,7 +201,7 @@ public class CreateNewSeasonTest {
 
         Goal goal1 = new Goal();
         goal1.setIndex(0);
-        goal1.setComment("RWE mach wieder ein Tor.");
+        goal1.setComment("RWE macht wieder ein Tor.");
         goal1.setGoalType(GoalType.REGULAR);
         goal1.setMinute(55);
         goal1.setOpenligaid(5711L);

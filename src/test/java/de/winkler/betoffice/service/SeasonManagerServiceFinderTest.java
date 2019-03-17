@@ -24,7 +24,6 @@
 package de.winkler.betoffice.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -113,6 +112,14 @@ public class SeasonManagerServiceFinderTest {
         Season fullSeason = seasonManagerService
                 .findRoundGroupTeamUserTippRelations(season);
         assertNotNull(fullSeason);
+
+        Optional<GroupType> bundesliga = masterDataManagerService
+                .findGroupType("1. Liga");
+        assertThat(bundesliga.get().getName()).isEqualTo("1. Liga");
+
+        assertThat(fullSeason.getGroup(bundesliga.get()).getTeams())
+                .hasSize(18);
+        assertThat(fullSeason.getGamesOfDay(0).size()).isEqualTo(9);
     }
 
     @Test

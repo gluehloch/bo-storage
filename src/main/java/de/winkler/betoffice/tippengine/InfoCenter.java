@@ -146,11 +146,8 @@ public final class InfoCenter {
         int homeGoals = 0;
         int guestGoals = 0;
         int counter = 0;
-        int tipps = game.tippSize();
 
-        for (int n = 0; n < tipps; n++) {
-            GameTipp tipp = game.getGameTipp(n);
-
+        for (GameTipp tipp : game.getTipps()) {
             if (TippStatusType.USER.equals(tipp.getStatus())) {
                 counter++;
                 homeGoals += tipp.getTipp().getHomeGoals();

@@ -23,17 +23,21 @@
 
 package de.winkler.betoffice.storage;
 
-import de.winkler.betoffice.storage.enums.Toto;
+import java.io.Serializable;
+
+import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.Validate;
 
-import java.io.Serializable;
+import de.winkler.betoffice.storage.enums.Toto;
 
 /**
  * Verwaltet das Ergebnis eines Fussballspiels.
  *
  * @author Andre Winkler
  */
+@Embeddable
 public class GameResult implements Serializable, Cloneable {
 
     /** serial version id */
@@ -98,7 +102,6 @@ public class GameResult implements Serializable, Cloneable {
      */
     private void setHomeGoals(final int home) {
         homeGoals = home;
-        setToto();
     }
 
     // -- guestGoals ----------------------------------------------------------
@@ -125,13 +128,15 @@ public class GameResult implements Serializable, Cloneable {
      */
     private void setGuestGoals(final int guest) {
         guestGoals = guest;
-        setToto();
     }
 
     // -- toto ----------------------------------------------------------------
 
     /** Das Toto-Ergebnis. Dieser Wert wird berechnet. */
+    @Transient
     private Toto toto = Toto.REMIS;
+    @Transient
+    private boolean calculated = false;
 
     /**
      * Liefert den Toto-Wert von diesem Spielergebnis.
@@ -139,6 +144,10 @@ public class GameResult implements Serializable, Cloneable {
      * @return Der Toto-Wert.
      */
     public Toto getToto() {
+        if (!calculated) {
+            setToto();
+            calculated = true;
+        }
         return toto;
     }
 
@@ -154,9 +163,9 @@ public class GameResult implements Serializable, Cloneable {
             toto = Toto.HOME_LOST;
         }
     }
-    
+
     public boolean isRemis() {
-    	return homeGoals == guestGoals;
+        return homeGoals == guestGoals;
     }
 
     // -- Object --------------------------------------------------------------

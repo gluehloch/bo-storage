@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -27,6 +27,15 @@ package de.winkler.betoffice.storage;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -34,13 +43,62 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author by Andre Winkler
  */
+@Entity
+@Table(name = "bo_user")
 public class User extends AbstractStorageObject {
 
     /** serial version id */
     private static final long serialVersionUID = -1806113679051281041L;
 
-    /** Der Leerstring. */
-    private static String EMPTY = "";
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+
+    /** Der Nachname des Users. */
+    @Column(name = "bo_name")
+    private String name;
+
+    /** Der Vorname des Users. */
+    @Column(name = "bo_surname")
+    private String surname;
+
+    /** Der Nickname des Users. */
+    @Column(name = "bo_nickname")
+    private String nickName;
+
+    /** Die EMailadresse des Users. */
+    @Column(name = "bo_email")
+    private String email;
+
+    /** Die Telefonnummer des Users. */
+    @Column(name = "bo_phone")
+    private String phone;
+
+    /** Das Password des Users. */
+    @Column(name = "bo_password")
+    private String password;
+
+    /** Flag ob User ein Automat ist. */
+    @Column(name = "bo_automat")
+    private boolean automat = false;
+
+    /** Gültigkeitsflag. */
+    @Column(name = "bo_excluded")
+    private boolean exclude = false;
+
+    /** Adminstrator Flag. */
+    @Column(name = "bo_admin")
+    private boolean admin = false;
+
+    /** Der eventuelle Meistertitel etc. */
+    @Column(name = "bo_title")
+    private String title;
+
+    /** Die Teilnehmer, die dieser Saison zugeordnet sind. */
+    @OneToMany
+    @JoinColumn(name = "bo_user_ref")
+    private Set<UserSeason> userSeason = new HashSet<>();
 
     // -- Construction --------------------------------------------------------
 
@@ -98,9 +156,6 @@ public class User extends AbstractStorageObject {
 
     // -- id ------------------------------------------------------------------
 
-    /** Der Primärschlüssel. */
-    private Long id;
-
     /**
      * Liefert den Primärschlüssel.
      *
@@ -123,9 +178,6 @@ public class User extends AbstractStorageObject {
     }
 
     // -- name ----------------------------------------------------------------
-
-    /** Der Nachname des Users. */
-    private String name = EMPTY;
 
     /**
      * Liefert den Nachnamen des Users.
@@ -150,9 +202,6 @@ public class User extends AbstractStorageObject {
 
     // -- surname -------------------------------------------------------------
 
-    /** Der Vorname des Users. */
-    private String surname = EMPTY;
-
     /**
      * Liefert den Vornamen des Users.
      *
@@ -173,9 +222,6 @@ public class User extends AbstractStorageObject {
     }
 
     // -- nickName ------------------------------------------------------------
-
-    /** Der Nickname des Users. */
-    private String nickName = EMPTY;
 
     /**
      * Liefert den Nickname des Users.
@@ -198,9 +244,6 @@ public class User extends AbstractStorageObject {
 
     // -- email ---------------------------------------------------------------
 
-    /** Die EMailadresse des Users. */
-    private String email = EMPTY;
-
     /**
      * Liefert die Mail Adresse.
      * 
@@ -221,9 +264,6 @@ public class User extends AbstractStorageObject {
     }
 
     // -- phone ---------------------------------------------------------------
-
-    /** Die Telefonnummer des Users. */
-    private String phone = EMPTY;
 
     /**
      * Liefert die Telefonnummer.
@@ -246,9 +286,6 @@ public class User extends AbstractStorageObject {
 
     // -- password ------------------------------------------------------------
 
-    /** Das Password des Users. */
-    private String password = EMPTY;
-
     /**
      * Liefert das Password.
      *
@@ -269,9 +306,6 @@ public class User extends AbstractStorageObject {
     }
 
     // -- automat -------------------------------------------------------------
-
-    /** Flag ob User ein Automat ist. */
-    private boolean automat = false;
 
     /**
      * Automat oder kein Automat.
@@ -294,9 +328,6 @@ public class User extends AbstractStorageObject {
 
     // -- excluded ------------------------------------------------------------
 
-    /** Gültigkeitsflag. */
-    private boolean exclude = false;
-
     /**
      * User von Teilnahme ausgeschlossen?
      *
@@ -317,9 +348,6 @@ public class User extends AbstractStorageObject {
     }
 
     // -- title ---------------------------------------------------------------
-
-    /** Der eventuelle Meistertitel etc. */
-    private String title = EMPTY;
 
     /**
      * Liefert den Titel des Users.
@@ -342,9 +370,6 @@ public class User extends AbstractStorageObject {
 
     // -- admin ---------------------------------------------------------------
 
-    /** Adminstrator Flag. */
-    private boolean admin = false;
-
     /**
      * Haben wir es hier mit einem Administrator zu tun?
      * 
@@ -365,9 +390,6 @@ public class User extends AbstractStorageObject {
     }
 
     // -- userSeason ----------------------------------------------------------
-
-    /** Die Teilnehmer, die dieser Saison zugeordnet sind. */
-    private Set<UserSeason> userSeason = new HashSet<>();
 
     /**
      * Liefert die Beziehung Teilnehmer/Saison.

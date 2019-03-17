@@ -39,20 +39,13 @@ import de.winkler.betoffice.storage.Season;
 public interface GroupTypeDao extends CommonDao<GroupType> {
 
     /**
-     * Liefert eine Liste aller Gruppentypen.
-     *
-     * @return Eine Liste aller Gruppentypen.
-     */
-    public List<GroupType> findAll();
-
-    /**
      * Liefert einen Gruppetyp mit gesuchten Namen.
      *
      * @param name
      *            Der gesuchte Name.
      * @return Ein Gruppentyp.
      */
-    public Optional<GroupType> findByName(String name);
+    Optional<GroupType> findByName(String name);
 
     /**
      * Liefert eine Liste der zugeordneten Gruppentypen einer Meisterschaft.
@@ -61,46 +54,13 @@ public interface GroupTypeDao extends CommonDao<GroupType> {
      *            Die gesuchte Meisterschaft.
      * @return Die zugeordneten Gruppentypen der gesuchten Meisterschaft.
      */
-    public List<GroupType> findBySeason(Season season);
+    List<GroupType> findBySeason(Season season);
 
     /**
-     * Legt einen neuen Gruppetyp an.
-     *
-     * @param groupType
-     *            Ein Gruppentyp.
+     * All group types sorted name.
+     * 
+     * @return all group types
      */
-    public void save(GroupType groupType);
-
-    /**
-     * Legt eine Liste von Gruppentypen an.
-     *
-     * @param groupTypes
-     *            Ein Liste mit Gruppentypen.
-     */
-    public void saveAll(List<GroupType> groupTypes);
-
-    /**
-     * Eine Update-Operation.
-     *
-     * @param groupType
-     *            Ein Gruppentyp.
-     */
-    public void update(GroupType groupType);
-
-    /**
-     * Löscht einen Gruppentyp.
-     *
-     * @param groupType
-     *            Ein Gruppentyp.
-     */
-    public void delete(GroupType groupType);
-
-    /**
-     * Löscht alle Gruppentypen.
-     *
-     * @param groupTypes
-     *            Ein Gruppentyp.
-     */
-    public void deleteAll(List<GroupType> groupTypes);
+    List<GroupType> findAll();
 
 }

@@ -58,44 +58,4 @@ public interface UserSeasonDao extends CommonDao<UserSeason> {
      */
     Optional<UserSeason> findUserSeason(Season season, User user);
 
-    /**
-     * Legt einen neuen Teilnehmer an.
-     *
-     * @param userSeason
-     *            Eine Meisterschaft-Teilnehmer Zuordnung.
-     */
-    void save(UserSeason userSeason);
-
-    /**
-     * Speichert mehrere neue Teilnehmer.
-     *
-     * @param userSeasons
-     *            Eine Liste von Usern/Meisterschaft.
-     */
-    void saveAll(List<UserSeason> userSeasons);
-
-    /**
-     * Ein Update.
-     *
-     * @param userSeason
-     *            Ein Teilnehmer/Meisterschaft.
-     */
-    void update(UserSeason userSeason);
-
-    /**
-     * Löscht einen Teilnehmer.
-     *
-     * @param userSeason
-     *            Ein Teilnehmer/Meisterschaft.
-     */
-    void delete(UserSeason userSeason);
-
-    /**
-     * Löscht alle Teilnehmer.
-     *
-     * @param userSeasons
-     *            Eine Liste von Usern/Meisterschaft.
-     */
-    void deleteAll(List<UserSeason> userSeasons);
-
 }

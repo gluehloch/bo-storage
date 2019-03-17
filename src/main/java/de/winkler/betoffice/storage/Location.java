@@ -23,11 +23,20 @@
 
 package de.winkler.betoffice.storage;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Holds the location of a footbal stadium
  *
  * @author by Andre Winkler
  */
+@Entity
+@Table(name = "bo_location")
 public class Location extends AbstractStorageObject {
 
     private static final long serialVersionUID = -5731266845767848350L;
@@ -35,10 +44,21 @@ public class Location extends AbstractStorageObject {
     /** The unknown location or default/undefined location. */
     public static final long UNKNOWN_LOCATION_ID = 1;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
+
+    @Column(name = "bo_name")
     private String name;
+
+    @Column(name = "bo_city")
     private String city;
+
+    @Column(name = "bo_geodat")
     private String geodat;
+
+    @Column(name = "bo_openligaid")
     private Long openligaid;
 
     /**

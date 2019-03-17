@@ -88,8 +88,9 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
     }
 
     @Override
-    public final void save(final T t) {
+    public final T save(final T t) {
         getSessionFactory().getCurrentSession().saveOrUpdate(t);
+        return t;
     }
 
     @Override

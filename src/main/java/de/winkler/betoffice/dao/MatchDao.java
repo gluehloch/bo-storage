@@ -97,44 +97,4 @@ public interface MatchDao extends CommonDao<Game> {
      */
     public List<Game> findAll(Team team1, Team team2);
 
-    /**
-     * Legt eine neue Spielpaarung persistent an.
-     *
-     * @param match
-     *            Eine Spielpaarung.
-     */
-    public void save(Game match);
-
-    /**
-     * Legt mehrere neue Spielpaarungen an.
-     *
-     * @param matches
-     *            Eine Liste von Spielpaarungen.
-     */
-    public void saveAll(List<Game> matches);
-
-    /**
-     * Eine Update-Operation.
-     *
-     * @param match
-     *            Eine Spielpaarung.
-     */
-    public void update(Game match);
-
-    /**
-     * Löscht eine Spielpaarung.
-     *
-     * @param match
-     *            Die zu löschende Spielpaarung.
-     */
-    public void delete(Game match);
-
-    /**
-     * Löscht alle übergebenen Spielpaarungen.
-     *
-     * @param matches
-     *            Die zu Spielpaarungen.
-     */
-    public void deleteAll(List<Game> matches);
-
 }

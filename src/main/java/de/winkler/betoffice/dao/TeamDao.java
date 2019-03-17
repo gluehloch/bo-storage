@@ -40,6 +40,13 @@ import de.winkler.betoffice.storage.enums.TeamType;
 public interface TeamDao extends CommonDao<Team> {
 
     /**
+     * All teams ordered by team name.
+     * 
+     * @return a list of team names
+     */
+    List<Team> findAll();
+
+    /**
      * Sucht nach allen Mannschaften zu einer Meisterschaft und Gruppe.
      *
      * @param season
@@ -49,13 +56,6 @@ public interface TeamDao extends CommonDao<Team> {
      * @return List of teams
      */
     List<Team> findTeamsBySeasonAndGroup(Season season, GroupType groupType);
-
-    /**
-     * Liefert eine Liste alle Mannschaften.
-     *
-     * @return Eine Liste aller Mannschaften.
-     */
-    List<Team> findAll();
 
     /**
      * Liefert alle Mannschaften, die vom Typ {@link TeamType} sind.
@@ -74,46 +74,6 @@ public interface TeamDao extends CommonDao<Team> {
      * @return Eine Mannschaften.
      */
     Optional<Team> findByName(String name);
-
-    /**
-     * Legt eine neue Mannschaft an.
-     *
-     * @param team
-     *            Ein Mannschaft.
-     */
-    void save(Team team);
-
-    /**
-     * Legt mehrere neue Mannschaften an.
-     *
-     * @param teams
-     *            Eine Liste von Mannschaften.
-     */
-    void saveAll(List<Team> teams);
-
-    /**
-     * Eine Update-Operation.
-     *
-     * @param team
-     *            Eine Mannschaft.
-     */
-    void update(Team team);
-
-    /**
-     * Löscht eine Mannschaft.
-     *
-     * @param value
-     *            Die zu löschende Mannschaft.
-     */
-    void delete(Team value);
-
-    /**
-     * Löscht alle Mannschaften.
-     *
-     * @param teams
-     *            Die zu löschenden Mannschaften.
-     */
-    void deleteAll(List<Team> teams);
 
     /**
      * Sucht nach einer Mannschaft anhand der Openligadb ID.

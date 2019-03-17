@@ -28,6 +28,19 @@ package de.winkler.betoffice.storage;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import org.apache.commons.lang3.Validate;
 
 /**
@@ -37,15 +50,36 @@ import org.apache.commons.lang3.Validate;
  *
  * @hibernate.class table="bo_group"
  */
+@Entity
+@Table(name = "bo_group")
 public class Group extends AbstractStorageObject {
 
     /** serial version */
     private static final long serialVersionUID = 2621079132943084772L;
 
-    // -- id ------------------------------------------------------------------
-
-    /** Der Primärschlüssel. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bo_season_ref")
+    private Season season;
+
+    // @formatter:off
+    // Die N:M Mittlertabelle bo_team(id) <-> bo_team_group(bo_team_ref, bo_group_ref) <-> bo_group(id)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "bo_team_group", 
+        joinColumns = @JoinColumn(name = "bo_group_ref"), // FK column which references bo_group#id
+        inverseJoinColumns = @JoinColumn(name = "bo_team_ref")) // FK column reverse side bo_team#id
+    private Set<Team> teams = new HashSet<>();
+    // @formatter:on
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bo_grouptype_ref")
+    private GroupType groupType;
+
+    // -- id ------------------------------------------------------------------
 
     /**
      * Liefert den Primärschlüssel.
@@ -70,20 +104,10 @@ public class Group extends AbstractStorageObject {
 
     // -- seasons -------------------------------------------------------------
 
-    /** Der Name der Eigenschaft 'season'. */
-    public static final String PROPERTY_SEASON = "season";
-
-    /** Die Saison die dieser Gruppe zugeordnet ist. */
-    private Season season;
-
     /**
      * Liefert die Saison zu dieser Gruppe.
      *
      * @return Die Saison zu dieser Gruppe.
-     *
-     * @hibernate.many-to-one column="bo_season_ref" cascade="none"
-     *                        not-null="true"
-     *                        class="de.winkler.betoffice.storage.Season"
      */
     public Season getSeason() {
         return season;
@@ -102,22 +126,10 @@ public class Group extends AbstractStorageObject {
 
     // -- teams ---------------------------------------------------------------
 
-    /** Der Name der Eigenschaft 'teams'. */
-    public static final String PROPERTY_TEAMS = "teams";
-
-    /** Die dieser Gruppe zugeordneten Mannschaften. */
-    private Set<Team> teams = new HashSet<Team>();
-
     /**
      * Liefert die Mannschaften dieser Gruppe.
      *
      * @return Die Mannschaften dieser Gruppe.
-     *
-     * @hibernate.set role="teams" table="bo_team_group" cascade="none"
-     *                inverse="false"
-     * @hibernate.collection-key column="bo_group_ref"
-     * @hibernate.collection-many-to-many class="de.winkler.betoffice.storage.Team"
-     *                                    column="bo_team_ref"
      */
     public Set<Team> getTeams() {
         return teams;
@@ -142,7 +154,6 @@ public class Group extends AbstractStorageObject {
     public void addTeam(final Team value) {
         Validate.notNull(value);
         teams.add(value);
-        value.addGroup(this);
     }
 
     /**
@@ -154,7 +165,6 @@ public class Group extends AbstractStorageObject {
     public void removeTeam(final Team value) {
         Validate.notNull(value);
         teams.remove(value);
-        value.removeGroup(this);
     }
 
     /**
@@ -170,20 +180,10 @@ public class Group extends AbstractStorageObject {
 
     // -- type ----------------------------------------------------------------
 
-    /** Der Name der Eigenschaft 'groupType'. */
-    public static final String PROPERTY_GROUPTYPE = "groupType";
-
-    /** Der Gruppentyp. */
-    private GroupType groupType;
-
     /**
      * Liefert den Gruppentyp.
      *
      * @return Der Gruppentyp.
-     *
-     * @hibernate.many-to-one column="bo_grouptype_ref" cascade="none"
-     *                        not-null="true"
-     *                        class="de.winkler.betoffice.storage.GroupType"
      */
     public GroupType getGroupType() {
         return groupType;
@@ -229,6 +229,16 @@ public class Group extends AbstractStorageObject {
     }
 
     public boolean equals(final Object object) {
+//        if (object == null) {
+//            return false;
+//        } else if (!(object instanceof Group)) {
+//            return false;
+//        } else {
+//            Group group = (Group) object;
+//            return group.getId().equals(getId());
+//                    
+//        }
+
         if (object == null) {
             return false;
         } else if (!(object instanceof Group)) {
@@ -245,6 +255,7 @@ public class Group extends AbstractStorageObject {
     }
 
     public int hashCode() {
+        //return 37;
         int result = 17;
         result = 37 * result + getGroupType().hashCode();
         result = 37 * result + getSeason().hashCode();

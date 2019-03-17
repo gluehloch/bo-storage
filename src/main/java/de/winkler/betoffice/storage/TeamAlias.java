@@ -1,8 +1,7 @@
 /*
- * $Id: TeamAlias.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -25,17 +24,38 @@
 
 package de.winkler.betoffice.storage;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  * Verwaltet die Alias-Namen von Mannschaften.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
- *          +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  */
+@Entity
+@Table(name = "bo_teamalias")
 public class TeamAlias extends AbstractStorageObject {
 
     /** serial version id */
     private static final long serialVersionUID = -1276165156151976261L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
+
+    @Column(name = "bo_aliasname")
+    private String aliasName;
+
+    @ManyToOne
+    @JoinColumn(name = "bo_team_ref")
+    private Team team;
 
     // -- Construction --------------------------------------------------------
 
@@ -46,9 +66,6 @@ public class TeamAlias extends AbstractStorageObject {
     }
 
     // -- id ------------------------------------------------------------------
-
-    /** Der Primärschlüssel. */
-    private Long id;
 
     /**
      * Liefert den Primärschlüssel.
@@ -84,12 +101,6 @@ public class TeamAlias extends AbstractStorageObject {
 
     // -- aliasName -----------------------------------------------------------
 
-    /** Der Name der Eigenschaft 'aliasName'. */
-    public static final String PROPERTY_ALIASNAME = "aliasName";
-
-    /** Der Team-Alias Name. */
-    private String aliasName;
-
     /**
      * Liefert den Alias Namen.
      *
@@ -112,10 +123,7 @@ public class TeamAlias extends AbstractStorageObject {
     }
 
     // -- team ----------------------------------------------------------------
-
-    /** Die zugeordnete Mannschaft. */
-    private Team team;
-
+    
     /**
      * Liefert die zugeordnete Mannschaft.
      *
