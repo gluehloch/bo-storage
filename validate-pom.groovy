@@ -12,3 +12,8 @@ println "Parent POM:"
 println "    ${pom.parent.groupId}:${pom.parent.artifactId}:${pom.parent.version}"
 println "Project POM:"
 println "    ${derivedGroupId}:${pom.artifactId}:${pom.version}"
+
+
+// Check: Contains SNAPSHOT references?
+// Check: changes.xml No ??-?? dates declated?
+// Check: Expected version defined? Take version as parameter.
