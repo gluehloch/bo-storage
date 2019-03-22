@@ -52,6 +52,12 @@ pom.dependencies.dependency.each { dependency ->
     }
 }
 
+def sout = new StringBuilder(), serr = new StringBuilder()
+def proc = 'git status'.execute()
+proc.consumeProcessOutput(sout, serr)
+proc.waitForOrKill(1000)
+println "out> $sout err> $serr"
+
 if (enableWarning) {
     red()
     println """
@@ -62,9 +68,5 @@ if (enableWarning) {
     println "Release me!"
 }
 
-// println("\033[31;1mHello\033[0m, \033[32;1;2mworld!\033[0m");
-// println("\033[31mRed\033[32m, Green\033[33m, Yellow\033[34m, Blue\033[0m");
-
-// Check: Contains SNAPSHOT references?
 // Check: changes.xml No ??-?? dates declated?
 // Check: Expected version defined? Take version as parameter.
