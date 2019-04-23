@@ -9,18 +9,8 @@
 
   <!--+
     ! =========================================================================
-    ! Enthaelt die Verbindungseinstellungen zur Datenbank; Organisiert die
-    ! Hibernate Konfiguration (Mapping-Dateien); Initialisiert das Hibernate
-    ! Transaktionsmanagement; Stellt die DAOs, die Betoffice Konfiguration und
-    ! das Transaktionsmanagement in der Configuration zur Verfuegung.
-    ! Diese Spring Konfiguration ist ueber die folgenden Eigenschaften
-    ! parametrisierbar:
-    !
-    ! ${database.driver.class} = Database Driver Class Name
-    ! ${database.url} = Database JDBC URL
-    ! ${database.user} = Database User
-    ! ${database.password} = Database User Password
-    !
+    ! Enthaelt die Verbindungseinstellungen zur Datenbank und stellt eine
+    ! DataSource zur Verfuegung.
     ! =========================================================================
     +-->
 
@@ -36,18 +26,17 @@
     	<value>false</value>
     </property>
     <property name="driverClassName">
-      <value>${hibernate_connection_driver_class}</value>
+      <value>${betoffice.persistence.classname}</value>
       <!-- Example: com.mysql.jdbc.Driver -->
     </property>
     <property name="url">
-      <value>${hibernate_connection_url}</value>
-      <!-- Example: jdbc:mysql://localhost/piratestest -->
+      <value>${betoffice.persistence.url}</value>
     </property>
     <property name="username">
-      <value>${hibernate_connection_username}</value>
+      <value>${betoffice.persistence.username}</value>
     </property>
     <property name="password">
-      <value>${hibernate_connection_password}</value>
+      <value>${betoffice.persistence.password}</value>
     </property>
   </bean>
 

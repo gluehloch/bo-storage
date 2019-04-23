@@ -56,8 +56,7 @@ import de.winkler.betoffice.util.LoggerFactory;
  * @author by Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice.xml",
-        "/test-mysql-piratestest.xml" })
+@ContextConfiguration(locations = { "/betoffice-test-properties.xml", "/betoffice.xml" })
 public class CalculateUserRankingServiceFinderTest {
 
     private final Logger log = LoggerFactory.make();
