@@ -55,9 +55,7 @@ import de.winkler.betoffice.util.LoggerFactory;
  *
  * @author by Andre Winkler
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice-test-properties.xml", "/betoffice.xml" })
-public class CalculateUserRankingServiceFinderTest {
+public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
 
     private final Logger log = LoggerFactory.make();
 
