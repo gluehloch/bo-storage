@@ -47,10 +47,7 @@ import de.winkler.betoffice.storage.Team;
  *
  * @author Andre Winkler
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice.xml",
-        "/test-mysql-piratestest.xml" })
-public class UnicodeServiceTest {
+public class UnicodeServiceTest extends AbstractServiceTest {
 
     @Autowired
     protected DataSource dataSource;

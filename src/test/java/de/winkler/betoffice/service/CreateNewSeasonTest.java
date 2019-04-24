@@ -39,10 +39,7 @@ import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.betoffice.database.data.DeleteDatabase;
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
@@ -65,10 +62,7 @@ import de.winkler.betoffice.storage.enums.TeamType;
  *
  * @author by Andre Winkler
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice.xml",
-        "/test-mysql-piratestest.xml" })
-public class CreateNewSeasonTest {
+public class CreateNewSeasonTest extends AbstractServiceTest {
 
     @Autowired
     protected DataSource dataSource;
