@@ -23,7 +23,7 @@
 
 package de.winkler.betoffice.database;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.InputStream;
@@ -39,7 +39,7 @@ import org.junit.Test;
 public class PropertyReaderTest {
 
     /** This file is supported by betoffice-testutils. */
-    private static final String PROPERTY_FILE = "/de/betoffice/database/test/test-mysql-piratestest.properties";
+    private static final String PROPERTY_FILE = "/botest.properties";
 
     /**
      * Der Test mit {@link Properties} funktioniert.
@@ -54,16 +54,16 @@ public class PropertyReaderTest {
         Properties props = new Properties();
         props.load(is);
 
-        assertEquals("test",
-                props.getProperty("hibernate_connection_username"));
-        assertEquals("test",
-                props.getProperty("hibernate_connection_password"));
-        assertEquals("jdbc:mysql://localhost/botest",
-                props.getProperty("hibernate_connection_url"));
-        assertEquals("com.mysql.jdbc.Driver",
-                props.getProperty("hibernate_connection_driver_class"));
-        assertEquals("org.hibernate.dialect.MySQLDialect",
-                props.getProperty("hibernate_dialect"));
+        assertThat(props.getProperty("betoffice.persistence.username"))
+                .isEqualTo("test");
+        assertThat(props.getProperty("betoffice.persistence.password"))
+                .isEqualTo("test");
+        assertThat(props.getProperty("betoffice.persistence.url"))
+                .isEqualTo("jdbc:mysql://192.168.99.100/botest");
+        assertThat(props.getProperty("betoffice.persistence.classname"))
+                .isEqualTo("com.mysql.jdbc.Driver");
+        assertThat(props.getProperty("betoffice.persistence.dialect"))
+                .isEqualTo("org.hibernate.dialect.MySQLDialect");
     }
 
 }

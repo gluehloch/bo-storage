@@ -10,7 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice-test-properties.xml", "/betoffice.xml" })
+@ContextConfiguration(locations = { "/betoffice-test-properties.xml",
+        "/betoffice.xml" })
 public abstract class AbstractServiceTest {
 
 }

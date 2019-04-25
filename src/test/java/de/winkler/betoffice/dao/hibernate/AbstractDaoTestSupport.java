@@ -46,8 +46,7 @@ import de.dbload.Dbload;
  * @author by Andre Winkler
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice.xml",
-        "/test-mysql-piratestest.xml" })
+@ContextConfiguration(locations = { "/betoffice-test-properties.xml", "/betoffice.xml" })
 public abstract class AbstractDaoTestSupport extends
         AbstractTransactionalJUnit4SpringContextTests {
 
