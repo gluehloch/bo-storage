@@ -35,9 +35,9 @@ import java.util.Optional;
 import javax.sql.DataSource;
 
 import org.joda.time.DateTime;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
@@ -88,13 +88,13 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
 
     private DatabaseSetUpAndTearDown dsuatd;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
         dsuatd.setUp(DataLoader.EMPTY);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws SQLException {
         dsuatd.tearDown();
     }
@@ -143,7 +143,8 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         List<Team> removeTeams = Arrays.asList(rwe, schalke);
         seasonManagerService.removeTeams(buli_2010, bundesliga_1, removeTeams);
 
-        List<Team> teams = seasonManagerService.findTeams(buli_2010, bundesliga_1);
+        List<Team> teams = seasonManagerService.findTeams(buli_2010,
+                bundesliga_1);
         assertThat(teams).hasSize(2);
         assertThat(teams.get(0)).isEqualTo(hsv);
         assertThat(teams.get(1)).isEqualTo(burghausen);

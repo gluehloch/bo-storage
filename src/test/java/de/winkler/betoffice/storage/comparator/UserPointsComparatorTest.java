@@ -24,13 +24,14 @@
 
 package de.winkler.betoffice.storage.comparator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
@@ -79,13 +80,14 @@ public class UserPointsComparatorTest {
         urChris.setUserTotoWin(18);
         urChris.setTicket(7);
 
-        List<UserResult> ur = Arrays.asList(urMrTipp, urChris, urFrosch, urHattwig);
+        List<UserResult> ur = Arrays.asList(urMrTipp, urChris, urFrosch,
+                urHattwig);
         Collections.sort(ur, new UserPointsComparator());
 
-        Assert.assertEquals("Frosch", ur.get(0).getUser().getNickName());
-        Assert.assertEquals("Hattwig", ur.get(1).getUser().getNickName());
-        Assert.assertEquals("mrTipp", ur.get(2).getUser().getNickName());
-        Assert.assertEquals("chris", ur.get(3).getUser().getNickName());
+        assertEquals("Frosch", ur.get(0).getUser().getNickName());
+        assertEquals("Hattwig", ur.get(1).getUser().getNickName());
+        assertEquals("mrTipp", ur.get(2).getUser().getNickName());
+        assertEquals("chris", ur.get(3).getUser().getNickName());
     }
 
 }

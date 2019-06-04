@@ -29,9 +29,9 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
@@ -62,13 +62,13 @@ public class SeasonManagerServiceTest extends AbstractServiceTest {
 
     private DatabaseSetUpAndTearDown dsuatd;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
         dsuatd.setUp(DataLoader.FULL);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws SQLException {
         dsuatd.tearDown();
     }

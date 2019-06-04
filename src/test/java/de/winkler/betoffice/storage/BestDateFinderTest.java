@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -23,15 +23,14 @@
 
 package de.winkler.betoffice.storage;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Look for the best date for a round. The round date is computed by all dates
@@ -63,8 +62,8 @@ public class BestDateFinderTest {
         dates.add(DT6_2014_08_24_160000.toDate());
 
         Date bestDate = GameList.findBestDate(dates);
-        assertThat(bestDate.getTime(), equalTo(new DateTime(2014, 8, 23, 15,
-                30, 0).toDate().getTime()));
+        assertThat(bestDate.getTime()).isEqualTo(new DateTime(2014, 8, 23, 15,
+                30, 0).toDate().getTime());
     }
 
 }

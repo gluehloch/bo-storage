@@ -1,8 +1,7 @@
 /*
- * $Id: TippStatusTypeTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2011 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -25,27 +24,24 @@
 
 package de.winkler.betoffice.storage.enums;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test fuer die Klasse {@link TippStatusType}.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
- *          +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  */
 public class TippStatusTypeTest {
 
     @Test
     public void testTippStatusType() {
-        assertThat(TippStatusType.INVALID.ordinal(), equalTo(0));
-        assertThat(TippStatusType.USER.ordinal(), equalTo(1));
-        assertThat(TippStatusType.AUTO.ordinal(), equalTo(2));
-        assertThat(TippStatusType.MIN.ordinal(), equalTo(3));
-        assertThat(TippStatusType.UNDEFINED.ordinal(), equalTo(4));
+        assertThat(TippStatusType.INVALID.ordinal()).isEqualTo(0);
+        assertThat(TippStatusType.USER.ordinal()).isEqualTo(1);
+        assertThat(TippStatusType.AUTO.ordinal()).isEqualTo(2);
+        assertThat(TippStatusType.MIN.ordinal()).isEqualTo(3);
+        assertThat(TippStatusType.UNDEFINED.ordinal()).isEqualTo(4);
     }
 
 }

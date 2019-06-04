@@ -25,6 +25,7 @@
 package de.winkler.betoffice.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -32,10 +33,9 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
@@ -67,13 +67,13 @@ public class MasterDataManagerServiceTeamAliasTest extends AbstractServiceTest {
 
     private DatabaseSetUpAndTearDown dsuatd;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
         dsuatd.setUp(DataLoader.EMPTY);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws SQLException {
         dsuatd.tearDown();
     }
@@ -121,19 +121,18 @@ public class MasterDataManagerServiceTeamAliasTest extends AbstractServiceTest {
     @Test
     public void testCreateInvalidTeamAlias() {
         Team rwe = createTeam("RWE", "Rot-Weiss-Essen");
-        try {
-            masterDataManagerService.createTeamAlias(rwe, "");
-            Assert.fail("Expected an BetofficeValidationException exception.");
-        } catch (BetofficeValidationException ex) {
-            assertThat(ex.getMessages()).isNotEmpty();
-        }
 
-        try {
-            masterDataManagerService.createTeamAlias(rwe, null);
-            Assert.fail("Expected an BetofficeValidationException exception.");
-        } catch (BetofficeValidationException ex) {
-            assertThat(ex.getMessages()).isNotEmpty();
-        }
+        BetofficeValidationException ex1 = assertThrows(
+                BetofficeValidationException.class, () -> {
+                    masterDataManagerService.createTeamAlias(rwe, "");
+                });
+        assertThat(ex1.getMessages()).isNotEmpty();
+
+        BetofficeValidationException ex2 = assertThrows(
+                BetofficeValidationException.class, () -> {
+                    masterDataManagerService.createTeamAlias(rwe, null);
+                });
+        assertThat(ex2.getMessages()).isNotEmpty();
     }
 
     @Test
