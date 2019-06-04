@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -24,15 +24,15 @@
 
 package de.winkler.betoffice.storage;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.aspectj.lang.annotation.Before;
 import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
@@ -130,21 +130,21 @@ public class GameTest {
         assertEquals(DateTime.parse("1971-03-24T20:00:00").toDate(),
                 game1.getDateTime());
 
-        try {
-            game1.addTipp(JUNIT_TOKEN, null, null, null);
-            fail("NullPointerException erwartet");
-        } catch (NullPointerException ex) {
-            // Ok
-        }
+        NullPointerException ex = assertThrows(NullPointerException.class,
+                () -> {
+                    game1.addTipp(JUNIT_TOKEN, null, null, null);
+                });
     }
 
+    @Test
     public void testGameContainsTipp() {
-        assertTrue("userA besitzt Tipp.", game1.containsTipp(userA));
-        assertTrue("userB besitzt Tipp.", game1.containsTipp(userB));
-        assertTrue("userC besitzt Tipp.", game1.containsTipp(userC));
-        assertFalse("userD besitzt keinen Tipp.", game1.containsTipp(userD));
+        assertTrue(game1.containsTipp(userA));
+        assertTrue(game1.containsTipp(userB));
+        assertTrue(game1.containsTipp(userC));
+        assertFalse(game1.containsTipp(userD));
     }
 
+    @Test
     public void testGameAddTipp() {
         GameTipp tipp1 = new GameTipp();
         tipp1.setUser(userA);

@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2018 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -24,13 +24,15 @@
 
 package de.winkler.betoffice.storage;
 
-import de.winkler.betoffice.storage.enums.Toto;
-
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import de.winkler.betoffice.storage.enums.Toto;
 
 /**
  * Testet die Klasse GameResult.
@@ -200,7 +202,7 @@ public class GameResultTest {
         assertEquals(res01.getToto().intValue(), 2);
         assertEquals(res11.getToto().intValue(), 0);
     }
-    
+
     @Test
     public void testClone() {
         // Testet die Methode clone()
@@ -239,7 +241,7 @@ public class GameResultTest {
         assertTrue(ok);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         res00 = new GameResult(0, 0);
         res01 = new GameResult(0, 1);
