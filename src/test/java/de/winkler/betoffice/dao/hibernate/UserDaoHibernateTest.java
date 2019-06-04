@@ -24,16 +24,15 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.winkler.betoffice.dao.UserDao;
@@ -49,7 +48,7 @@ public class UserDaoHibernateTest extends AbstractDaoTestSupport {
     @Autowired
     private UserDao userDaoHibernate;
 
-    @Before
+    @BeforeEach
     public void init() {
         prepareDatabase(UserDaoHibernateTest.class);
     }
@@ -70,7 +69,7 @@ public class UserDaoHibernateTest extends AbstractDaoTestSupport {
         assertEquals("Adam", user.get().getSurname());
 
         user = userDaoHibernate.findByNickname("fehler");
-        assertThat(user.isPresent(), is(false));
+        assertThat(user).isPresent();
     }
 
 }

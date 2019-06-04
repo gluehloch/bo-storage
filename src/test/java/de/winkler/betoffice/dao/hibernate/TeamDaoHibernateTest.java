@@ -23,10 +23,8 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.sql.Connection;
@@ -36,8 +34,8 @@ import java.util.Optional;
 
 import org.apache.commons.io.FileUtils;
 import org.hibernate.jdbc.Work;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.dbload.csv.writer.ResourceWriter;
@@ -55,50 +53,50 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
     @Autowired
     private TeamDao teamDao;
 
-    @Before
+    @BeforeEach
     public void init() {
         prepareDatabase(TeamDaoHibernateTest.class);
     }
 
     @Test
     public void testDataSource() {
-        assertThat(getDataSource(), notNullValue());
-        assertThat(getSessionFactory(), notNullValue());
-        assertThat(teamDao, notNullValue());
+        assertThat(getDataSource()).isNotNull();
+        assertThat(getSessionFactory()).isNotNull();
+        assertThat(teamDao).isNotNull();
     }
 
     @Test
     public void testTeamDaoOpenligaidFinder() {
         Optional<Team> rwe = teamDao.findByOpenligaid(10);
-        assertThat(rwe.get().getName(), equalTo("RWE"));
+        assertThat(rwe.get().getName()).isEqualTo("RWE");
         Optional<Team> rwo = teamDao.findByOpenligaid(20);
-        assertThat(rwo.get().getName(), equalTo("RWO"));
+        assertThat(rwo.get().getName()).isEqualTo("RWO");
         Optional<Team> deutschland = teamDao.findByOpenligaid(30);
-        assertThat(deutschland.get().getName(), equalTo("Deutschland"));
+        assertThat(deutschland.get().getName()).isEqualTo("Deutschland");
         Optional<Team> frankreich = teamDao.findByOpenligaid(40);
-        assertThat(frankreich.get().getName(), equalTo("Frankreich"));
+        assertThat(frankreich.get().getName()).isEqualTo("Frankreich");
     }
 
     @Test
     public void testTeamDaoFinder() throws Exception {
         List<Team> teams = teamDao.findAll();
-        assertThat(teams.size(), equalTo(4));
+        assertThat(teams).hasSize(4);
 
         Team rwe = teamDao.findById(1);
-        assertThat(rwe.getName(), equalTo("RWE"));
-        assertThat(rwe.getTeamType(), equalTo(TeamType.DFB));
+        assertThat(rwe.getName()).isEqualTo("RWE");
+        assertThat(rwe.getTeamType()).isEqualTo(TeamType.DFB);
 
         Team rwo = teamDao.findById(2);
-        assertThat(rwo.getName(), equalTo("RWO"));
-        assertThat(rwo.getTeamType(), equalTo(TeamType.DFB));
+        assertThat(rwo.getName()).isEqualTo("RWO");
+        assertThat(rwo.getTeamType()).isEqualTo(TeamType.DFB);
 
         Team deutschland = teamDao.findById(3);
-        assertThat(deutschland.getName(), equalTo("Deutschland"));
-        assertThat(deutschland.getTeamType(), equalTo(TeamType.FIFA));
+        assertThat(deutschland.getName()).isEqualTo("Deutschland");
+        assertThat(deutschland.getTeamType()).isEqualTo(TeamType.FIFA);
 
         Team frankreich = teamDao.findById(4);
-        assertThat(frankreich.getName(), equalTo("Frankreich"));
-        assertThat(frankreich.getTeamType(), equalTo(TeamType.FIFA));
+        assertThat(frankreich.getName()).isEqualTo("Frankreich");
+        assertThat(frankreich.getTeamType()).isEqualTo(TeamType.FIFA);
 
         File teamExportFile = File.createTempFile("team", "dat");
         final ResourceWriter rw = new ResourceWriter(teamExportFile);

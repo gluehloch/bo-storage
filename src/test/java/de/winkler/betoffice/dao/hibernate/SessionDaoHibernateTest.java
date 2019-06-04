@@ -23,14 +23,13 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.winkler.betoffice.dao.SessionDao;
@@ -46,7 +45,7 @@ public class SessionDaoHibernateTest extends AbstractDaoTestSupport {
     @Autowired
     private SessionDao sessionDao;
 
-    @Before
+    @BeforeEach
     public void init() {
         prepareDatabase(SessionDaoHibernateTest.class);
     }
@@ -54,21 +53,21 @@ public class SessionDaoHibernateTest extends AbstractDaoTestSupport {
     @Test
     public void testFindSessionsByNickname() {
         List<Session> sessions = sessionDao.findByNickname("Frosch");
-        assertThat(sessions.size(), equalTo(2));
-        assertThat(sessions.get(0).getNickname(), equalTo("Frosch"));
-        assertThat(sessions.get(0).getBrowser(), equalTo("firefoy"));
-        assertThat(sessions.get(0).getFailedLogins(), equalTo(1));
+        assertThat(sessions).hasSize(2);
+        assertThat(sessions.get(0).getNickname()).isEqualTo("Frosch");
+        assertThat(sessions.get(0).getBrowser()).isEqualTo("firefoy");
+        assertThat(sessions.get(0).getFailedLogins()).isEqualTo(1);
 
         DateTime login = new DateTime(sessions.get(0).getLogin());
         DateTime expectedLogin = new DateTime(2015, 11, 14, 2, 0, 0);
-        assertThat(login, equalTo(expectedLogin));
+        assertThat(login).isEqualTo(expectedLogin);
     }
 
     @Test
     public void testFindSessionBySessionId() {
         List<Session> sessions = sessionDao.findBySessionId("4711");
-        assertThat(sessions.size(), equalTo(1));
-        assertThat(sessions.get(0).getToken(), equalTo("4711"));
+        assertThat(sessions.size()).isEqualTo(1);
+        assertThat(sessions.get(0).getToken()).isEqualTo("4711");
     }
 
 }

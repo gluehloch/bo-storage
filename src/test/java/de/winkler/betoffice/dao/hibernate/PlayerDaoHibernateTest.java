@@ -24,14 +24,12 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.winkler.betoffice.dao.PlayerDao;
@@ -47,42 +45,42 @@ public class PlayerDaoHibernateTest extends AbstractDaoTestSupport {
     @Autowired
     private PlayerDao playerDao;
 
-    @Before
+    @BeforeEach
     public void init() {
         prepareDatabase(PlayerDaoHibernateTest.class);
     }
 
     @Test
     public void testDataSource() {
-        assertThat(getDataSource(), notNullValue());
-        assertThat(getSessionFactory(), notNullValue());
-        assertThat(playerDao, notNullValue());
+        assertThat(getDataSource()).isNotNull();
+        assertThat(getSessionFactory()).isNotNull();
+        assertThat(playerDao).isNotNull();
     }
 
     @Test
     public void testPlayerFinder() throws Exception {
         List<Player> player = playerDao.findAll();
-        assertThat(player.size(), equalTo(4));
+        assertThat(player.size()).isEqualTo(4);
 
         Player mill = playerDao.findById(1);
-        assertThat(mill.getName(), equalTo("Mill"));
-        assertThat(mill.getVorname(), equalTo("Frank"));
-        assertThat(mill.getOpenligaid(), equalTo(1L));
+        assertThat(mill.getName()).isEqualTo("Mill");
+        assertThat(mill.getVorname()).isEqualTo("Frank");
+        assertThat(mill.getOpenligaid()).isEqualTo(1L);
 
         Player lippens = playerDao.findById(2);
-        assertThat(lippens.getName(), equalTo("Lippens"));
-        assertThat(lippens.getVorname(), equalTo("Ente"));
-        assertThat(lippens.getOpenligaid(), equalTo(2L));
+        assertThat(lippens.getName()).isEqualTo("Lippens");
+        assertThat(lippens.getVorname()).isEqualTo("Ente");
+        assertThat(lippens.getOpenligaid()).isEqualTo(2L);
 
         Player winkler = playerDao.findById(3);
-        assertThat(winkler.getName(), equalTo("Winkler"));
-        assertThat(winkler.getVorname(), equalTo("Erwin"));
-        assertThat(winkler.getOpenligaid(), equalTo(3L));
+        assertThat(winkler.getName()).isEqualTo("Winkler");
+        assertThat(winkler.getVorname()).isEqualTo("Erwin");
+        assertThat(winkler.getOpenligaid()).isEqualTo(3L);
 
         Player koen = playerDao.findById(4);
-        assertThat(koen.getName(), equalTo("Koen"));
-        assertThat(koen.getVorname(), equalTo("Erwin"));
-        assertThat(koen.getOpenligaid(), equalTo(4L));
+        assertThat(koen.getName()).isEqualTo("Koen");
+        assertThat(koen.getVorname()).isEqualTo("Erwin");
+        assertThat(koen.getOpenligaid()).isEqualTo(4L);
     }
 
 }

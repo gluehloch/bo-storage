@@ -24,7 +24,7 @@
 package de.winkler.betoffice.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -32,9 +32,9 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -73,14 +73,14 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
 
     private DatabaseSetUpAndTearDown dsuatd;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
         dsuatd.tearDown();
         dsuatd.setUp(DataLoader.FULL);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws SQLException {
         dsuatd.tearDown();
     }

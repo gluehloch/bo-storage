@@ -23,12 +23,12 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testet die SessionFactory für die Testklassen.
@@ -41,7 +41,7 @@ public class SessionFactoryTest {
      * Der Test macht keinen Sinn, wenn nicht die Default-Datenbankverbindung
      * zur Verfügung steht.
      */
-    @Ignore
+    @Disabled
     @Test
     public void testSessionFactory() {
         SessionFactory sessionFactory = new Configuration().configure(

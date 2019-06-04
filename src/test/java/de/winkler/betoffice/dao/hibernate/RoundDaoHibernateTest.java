@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2015 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -29,8 +29,8 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.winkler.betoffice.dao.MatchDao;
@@ -57,7 +57,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     @Autowired
     private SeasonDao seasonDao;
 
-    @Before
+    @BeforeEach
     public void init() {
         prepareDatabase(RoundDaoHibernateTest.class);
     }
