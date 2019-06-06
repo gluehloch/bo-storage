@@ -6,7 +6,17 @@
 	</properties>
 	<body>
 		<!-- Under construction. -->
-        
+        <release version="betoffice-storage-2.6.4" date="2019-??-??"
+            description="Java 11">
+            <action dev="andrewinkler" type="update" date="2019-06-06">
+                Dependency updates: Removed JAXB and upgraded Apache commons
+                dbcp to dpcp2 and pool to pool2.
+            </action>
+            <action dev="andrewinkler" type="update" date="2019-06-05">
+                 Upgraded to JUnit 5.
+            </action>
+        </release>
+
         <!-- RELEASED -->
 		<release version="betoffice-storage-2.6.3" date="2019-03-22"
 			description="Java 10">
