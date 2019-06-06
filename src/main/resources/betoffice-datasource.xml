@@ -20,7 +20,7 @@
     ! =======================================================================
     +-->
   <bean id="myDataSource"
-    class="org.apache.commons.dbcp.BasicDataSource"
+    class="org.apache.commons.dbcp2.BasicDataSource"
     destroy-method="close">
     <property name="defaultAutoCommit">
     	<value>false</value>
