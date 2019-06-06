@@ -30,8 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.aspectj.lang.annotation.Before;
 import org.joda.time.DateTime;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.winkler.betoffice.storage.enums.SeasonType;
@@ -161,44 +161,23 @@ public class GameTest {
         tipp3.setUser(userD);
         tipp3.setTipp(gameResult10, TippStatusType.USER);
 
-        try {
+        assertThrows(StorageObjectExistsException.class, () -> {
             game1.addTipp(tipp1);
-            fail("StorageObjectExistsException erwartet.");
-        } catch (StorageObjectExistsException e) {
-            // Ok
-        } catch (StorageObjectNotValidException e) {
-            fail("StorageObjectNotValidException nicht erwartet.");
-        }
+        });
 
-        try {
+        assertThrows(StorageObjectExistsException.class, () -> {
             game1.addTipp(tipp4);
-            fail("StorageObjectNotValidException erwartet.");
-        } catch (StorageObjectExistsException e) {
-            fail("StorageObjectExistsException nicht erwartet.");
-        } catch (StorageObjectNotValidException e) {
-            // Ok
-        }
+        });
 
-        try {
+        assertThrows(StorageObjectExistsException.class, () -> {
             game1.addTipp(tipp2);
-            fail("StorageObjectExistsException erwartet.");
-        } catch (StorageObjectExistsException e) {
-            // Ok
-        } catch (StorageObjectNotValidException e) {
-            fail("StorageObjectNotValidException nicht erwartet.");
-        }
+        });
 
-        try {
-            tipp3.setGame(game1);
-            game1.addTipp(tipp3);
-        } catch (StorageObjectExistsException e) {
-            fail("StorageObjectExistsException nicht erwartet.");
-        } catch (StorageObjectNotValidException e) {
-            fail("StorageObjectNotValidException nicht erwartet.");
-        }
+        tipp3.setGame(game1);
+        game1.addTipp(tipp3);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         userA = new User();
         userA.setName("User A");

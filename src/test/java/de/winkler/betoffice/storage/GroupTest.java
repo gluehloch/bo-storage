@@ -1,8 +1,7 @@
 /*
- * $Id: GroupTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2007 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -25,19 +24,17 @@
 
 package de.winkler.betoffice.storage;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 import de.winkler.betoffice.storage.enums.SeasonType;
-
-import org.junit.Test;
 
 /**
  * Testet die Klassen Group und AllGroups.
  *
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
- *          2013) $
+ * @author Andre Winkler
  */
 public class GroupTest {
 
@@ -55,12 +52,10 @@ public class GroupTest {
         GroupType groupC = new GroupType();
         groupC.setName("Gruppe C");
 
-        try {
+        
+        assertThrows(Exception.class, () -> {
             season.addGroup(null);
-            fail("Exception erwartet.");
-        } catch (Exception ex) {
-            // ok
-        }
+        });
 
         Group group = new Group();
         group.setGroupType(groupA);

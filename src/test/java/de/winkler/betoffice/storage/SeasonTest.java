@@ -1,8 +1,7 @@
 /*
- * $Id: SeasonTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2007 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -25,26 +24,24 @@
 
 package de.winkler.betoffice.storage;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Set;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.test.DummyScenario;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.Set;
-
 /**
  * Testklasse für das Storage-Objekt Season.
  *
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
- *          2013) $
+ * @author Andre Winkler
  */
 public class SeasonTest {
 
@@ -61,26 +58,17 @@ public class SeasonTest {
 
     @Test
     public void testGetGamesOfDay() {
-        try {
+        assertThrows(IndexOutOfBoundsException.class, () -> {
             season.getGamesOfDay(0);
-            fail("IndexOutOfBoundsException erwartet.");
-        } catch (IndexOutOfBoundsException ex) {
-            // ok
-        }
+        });
 
-        try {
+        assertThrows(IndexOutOfBoundsException.class, () -> {
             season.getGamesOfDay(-1);
-            fail("IndexOutOfBoundsException erwartet.");
-        } catch (IndexOutOfBoundsException ex) {
-            // ok
-        }
+        });
 
-        try {
+        assertThrows(IndexOutOfBoundsException.class, () -> {
             season.getGamesOfDay(season.getGameList().size());
-            fail("IndexOutOfBoundsException erwartet.");
-        } catch (IndexOutOfBoundsException ex) {
-            // ok
-        }
+        });
 
         assertTrue(scene.getSeason().getGameList().size() == 1);
     }
@@ -111,7 +99,7 @@ public class SeasonTest {
         assertFalse(removed);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         season = new Season();
         season.setYear("1998/1999");

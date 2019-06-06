@@ -1,8 +1,7 @@
 /*
- * $Id: TeamTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -25,15 +24,15 @@
 
 package de.winkler.betoffice.storage;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testklasse für die Klasse Team.
  *
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $
+ * @author Andre Winkler
  */
 public class TeamTest {
 
@@ -41,12 +40,12 @@ public class TeamTest {
 
     @Test
     public void testSettings() {
-        Assert.assertTrue(team1.getName().compareTo("RWE") == 0);
-        Assert.assertTrue(team1.getLongName().compareTo("Fussball") == 0);
-        Assert.assertTrue(team1.getLogo().compareTo("Logo") == 0);
+        assertTrue(team1.getName().compareTo("RWE") == 0);
+        assertTrue(team1.getLongName().compareTo("Fussball") == 0);
+        assertTrue(team1.getLogo().compareTo("Logo") == 0);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         team1 = new Team();
         team1.setName("RWE");

@@ -24,16 +24,16 @@
 
 package de.winkler.betoffice.tippengine;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameResult;
@@ -76,12 +76,9 @@ public class InfoCenterTest {
 
     @Test
     public void testMaxTipp() throws Exception {
-        try {
+        assertThrows(NullPointerException.class, () -> {
             InfoCenter.getMaxTipp(null, null);
-            fail("NullPointerException erwartet.");
-        } catch (NullPointerException e) {
-            // in Ordnung
-        }
+        });
 
         // Bei einer Standardeinstellung 13/10/0 ergeben sich
         // folgende Werte:
@@ -124,12 +121,9 @@ public class InfoCenterTest {
 
     @Test
     public void testMinTipp() {
-        try {
+        assertThrows(NullPointerException.class, () -> {
             InfoCenter.getMaxTipp(null, null);
-            fail("NullPointerException erwartet.");
-        } catch (NullPointerException e) {
-            // in Ordnung
-        }
+        });
 
         // User A: 39 Punkte
         // User B: 13 Punkte
@@ -176,19 +170,15 @@ public class InfoCenterTest {
 
     @Test
     public void testMediumTipp() {
-        try {
+        assertThrows(NullPointerException.class, () -> {
             InfoCenter.getMediumTipp(null);
-            fail("NullPointerException erwartet.");
-        } catch (NullPointerException e) {
-            // in Ordnung
-        }
+        });
 
         GameResult gr = new GameResult(1, 0);
         assertEquals(InfoCenter.getMediumTipp(scene.getGame1()), gr);
 
         Game ohneTipp = new Game();
-        assertTrue("Kein Tipp vorhanden.",
-                InfoCenter.getMediumTipp(ohneTipp) == null);
+        assertTrue(InfoCenter.getMediumTipp(ohneTipp) == null);
 
         Game nurAutoTipp = new Game();
 
@@ -197,8 +187,7 @@ public class InfoCenterTest {
         nurAutoTipp.addTipp(JUNIT_TOKEN, hattwig, new GameResult(1, 0),
                 TippStatusType.AUTO);
 
-        assertTrue("Nur AUTO-Tipps vorhanden.", InfoCenter
-                .getMediumTipp(nurAutoTipp) == null);
+        assertTrue(InfoCenter.getMediumTipp(nurAutoTipp) == null);
 
         Game g = new Game();
 
@@ -242,7 +231,7 @@ public class InfoCenterTest {
         assertEquals(InfoCenter.getMediumTipp(g), new GameResult(2, 2));
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         scene = new DummyScenario();
 

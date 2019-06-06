@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -28,10 +28,8 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport;
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
@@ -44,8 +42,7 @@ import de.winkler.betoffice.service.SeasonManagerService;
  *
  * @author by Andre Winkler
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice-datasource.xml",
+@SpringJUnitConfig(locations = { "/betoffice-datasource.xml",
         "/betoffice-persistence.xml", "/test-mysql-piratestest.xml" })
 public abstract class ServiceTestSupport {
 

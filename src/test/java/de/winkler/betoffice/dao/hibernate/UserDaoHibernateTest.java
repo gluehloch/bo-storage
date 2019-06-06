@@ -69,7 +69,7 @@ public class UserDaoHibernateTest extends AbstractDaoTestSupport {
         assertEquals("Adam", user.get().getSurname());
 
         user = userDaoHibernate.findByNickname("fehler");
-        assertThat(user).isPresent();
+        assertThat(user).isNotPresent();
     }
 
 }

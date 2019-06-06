@@ -23,9 +23,9 @@
 
 package de.winkler.betoffice.storage;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.test.DummyGroups;
