@@ -366,5 +366,5 @@ alter table bo_community_user
     add constraint fk_community_user_user foreign key (bo_user_ref) references bo_user(id);
 
 alter table bo_community_user
-    add index idx_community_user_community(bo_community_ref)
+    add index idx_community_user_community(bo_community_ref),
     add constraint fk_community_user_community foreign key (bo_community_ref) references bo_community(id);
