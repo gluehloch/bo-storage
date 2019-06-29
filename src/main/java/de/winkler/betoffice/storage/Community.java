@@ -27,6 +27,7 @@ package de.winkler.betoffice.storage;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,9 +35,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 /**
@@ -46,54 +48,61 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "bo_community")
-public class Community {
+public class Community extends AbstractStorageObject {
+
+    private static final long serialVersionUID = -7239278975374588294L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
-    
+
     @Column(name = "name")
     private String name;
-    
+
     @ManyToOne
     @JoinColumn(name = "bo_user_ref")
     private User communityManager;
-    
-    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
-    @OrderColumn(name = "bo_index")
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "bo_community_user",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "bo_community_ref"))
     private Set<User> users = new HashSet<>();
-  
+
     public Long getId() {
         return id;
     }
-    
+
     protected void setId(Long id) {
         this.id = id;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public User getCommunityManager() {
         return communityManager;
     }
-    
+
     public void setCommunityManager(User user) {
         this.communityManager = user;
     }
-    
+
     public Set<User> getUsers() {
         return users;
     }
-    
+
     public void setUsers(Set<User> users) {
         this.users = users;
     }
-    
+
 }
