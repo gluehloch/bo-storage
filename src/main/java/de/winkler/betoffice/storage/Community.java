@@ -40,6 +40,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * Defines a group of players.
@@ -57,7 +58,8 @@ public class Community extends AbstractStorageObject {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Column(name = "name")
+    @NotNull
+    @Column(name = "bo_name")
     private String name;
 
     @ManyToOne
@@ -69,8 +71,8 @@ public class Community extends AbstractStorageObject {
             CascadeType.MERGE
     })
     @JoinTable(name = "bo_community_user",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "bo_community_ref"))
+        joinColumns = @JoinColumn(name = "bo_community_ref"),
+        inverseJoinColumns = @JoinColumn(name = "bo_user_ref"))
     private Set<User> users = new HashSet<>();
 
     public Long getId() {
@@ -105,4 +107,8 @@ public class Community extends AbstractStorageObject {
         this.users = users;
     }
 
+    public void addCommunityMember(User user) {
+        users.add(user);
+    }
+    
 }
