@@ -24,12 +24,17 @@
 
 package de.winkler.betoffice.service;
 
+import java.sql.SQLException;
+
 import javax.sql.DataSource;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
+import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.Community;
 import de.winkler.betoffice.storage.User;
 
@@ -49,8 +54,21 @@ public class CommunityServiceTest extends AbstractServiceTest {
     @Autowired
     private MasterDataManagerService masterDataManagerService;
 
+    private DatabaseSetUpAndTearDown dsuatd;
+
+    @BeforeEach
+    public void setUp() throws Exception {
+        dsuatd = new DatabaseSetUpAndTearDown(dataSource);
+        dsuatd.tearDown();
+        dsuatd.setUp(DataLoader.EMPTY);
+    }
+
+    @AfterEach
+    public void tearDown() throws SQLException {
+        dsuatd.tearDown();
+    }
+
     @Test
-    @Rollback
     public void createCommunity() {
         User communityAdmin = new User();
         communityAdmin.setEmail("email@email.de");
