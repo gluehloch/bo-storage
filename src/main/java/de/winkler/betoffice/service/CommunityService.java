@@ -24,6 +24,7 @@
 package de.winkler.betoffice.service;
 
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.User;
 
 /**
  * Community service.
@@ -32,6 +33,21 @@ import de.winkler.betoffice.storage.Community;
  */
 public interface CommunityService {
 
-    Community create(Community community);
+    /**
+     * Create a new community.
+     * 
+     * @param name
+     *            community name
+     * @param managerNickname
+     *            nickname of the community manager
+     * @return the create community.
+     */
+    Community create(String name, String managerNickname);
+
+    void delete(Community community);
+
+    Community addMember(Community community, User member);
+
+    Community removeMember(Community communit, User member);
 
 }

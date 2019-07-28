@@ -23,21 +23,88 @@
 
 package de.winkler.betoffice.service;
 
+import javax.persistence.NoResultException;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.winkler.betoffice.dao.CommunityDao;
+import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.User;
+import de.winkler.betoffice.util.LoggerFactory;
 
+/**
+ * Manages a community.
+ * 
+ * @author Andre Winkler
+ */
 @Service("communityService")
 public class DefaultCommunityService extends AbstractManagerService
         implements CommunityService {
 
+    private final Logger LOG = LoggerFactory.make();
+
     @Autowired
     private CommunityDao communityDao;
-    
-    public Community create(Community community) {
+
+    @Autowired
+    private UserDao userDao;
+
+    @Override
+    public Community create(String name, String managerNickname) {
+        if (StringUtils.isBlank(name)) {
+            throw new IllegalArgumentException(
+                    "Community name should be defined.");
+        }
+
+        try {
+            Community communityDefined = communityDao.findByName(name);
+            throw new IllegalArgumentException(
+                    "Community '" + name + "' is already defined.");
+        } catch (NoResultException ex) {
+            // Ok. No community with name is defined.
+        }
+
+        if (StringUtils.isBlank(managerNickname)) {
+            throw new IllegalArgumentException(
+                    "Community manager should be defined.");
+        }
+
+        User communityManager = userDao.findByNickname(managerNickname)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "No user '" + managerNickname + "' defined."));
+
+        Community community = new Community();
+        community.setName(name);
+        community.setCommunityManager(communityManager);
+
         return communityDao.save(community);
+    }
+
+    @Override
+    public void delete(Community community) {
+        if (communityDao.hasMembers(community)) {
+            LOG.warn(
+                    "Unable to delete community '{}'. The Community has members.",
+                    community);
+            throw new IllegalArgumentException(
+                    "Unable to delete community. The Community has members.");
+        }
+
+        return;
+    }
+
+    @Override
+    public Community addMember(Community community, User member) {
+        return null;
+    }
+
+    @Override
+    public Community removeMember(Community communit, User member) {
+        return null;
     }
 
 }

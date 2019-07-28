@@ -24,10 +24,13 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.User;
 
 @Repository("communityDao")
 public class CommunityDaoHibernate extends AbstractCommonDao<Community>
@@ -35,6 +38,36 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community>
 
     public CommunityDaoHibernate() {
         super(Community.class);
+    }
+
+    @Override
+    public Community findByName(String name) {
+        return getSessionFactory().getCurrentSession()
+                .createQuery("from Community c where c.name = :name",
+                        Community.class)
+                .setParameter("name", name)
+                .getSingleResult();
+    }
+
+    @Override
+    public boolean hasMembers(Community community) {
+        List<User> members = getSessionFactory().getCurrentSession()
+                .createQuery(
+                        "from Community c inner join c.users where c.id = :id",
+                        User.class)
+                .setParameter("id", community.getId())
+                .getResultList();
+        return members.size() > 0;
+    }
+
+    @Override
+    public List<User> findMembers(Community community) {
+        return getSessionFactory().getCurrentSession()
+                .createQuery(
+                        "from Community c inner join c.users where c.id = :id",
+                        User.class)
+                .setParameter("id", community.getId())
+                .getResultList();
     }
 
 }

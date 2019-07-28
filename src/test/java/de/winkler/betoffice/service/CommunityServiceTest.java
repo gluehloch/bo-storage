@@ -82,7 +82,7 @@ public class CommunityServiceTest extends AbstractServiceTest {
         community.setCommunityManager(communityAdmin);
         community.addCommunityMember(communityAdmin);
 
-        Community persisted = communityService.create(community);
+        Community persisted = communityService.create("TDKB", "Frosch");
     }
 
 }

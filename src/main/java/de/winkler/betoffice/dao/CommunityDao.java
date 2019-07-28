@@ -23,8 +23,43 @@
 
 package de.winkler.betoffice.dao;
 
-import de.winkler.betoffice.storage.Community;
+import java.util.List;
 
+import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.User;
+
+/**
+ * Community DAO.
+ * 
+ * @author Andre Winkler
+ */
 public interface CommunityDao extends CommonDao<Community> {
+
+    /**
+     * Find a community by name.
+     * 
+     * @param name
+     *            the community name
+     * @return the community
+     */
+    Community findByName(String name);
+
+    /**
+     * Are there still any community members?
+     *
+     * @param community
+     *            Find members of this community
+     * @return <code>true</code> if community has members
+     */
+    boolean hasMembers(Community community);
+
+    /**
+     * Find all members of a community.
+     * 
+     * @param community
+     *            Find members of this community.
+     * @return Members of a community
+     */
+    List<User> findMembers(Community community);
 
 }
