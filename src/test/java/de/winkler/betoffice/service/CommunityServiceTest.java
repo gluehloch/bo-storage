@@ -24,6 +24,9 @@
 
 package de.winkler.betoffice.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -69,20 +72,55 @@ public class CommunityServiceTest extends AbstractServiceTest {
 
     @Test
     public void createCommunity() {
-        User communityAdmin = new User();
-        communityAdmin.setEmail("email@email.de");
-        communityAdmin.setName("Andre");
-        communityAdmin.setNickName("Frosch");
-        communityAdmin.setPassword("Passwort");
+        User communityManager = new User();
+        communityManager.setEmail("email@email.de");
+        communityManager.setName("Andre");
+        communityManager.setNickName("Frosch");
+        communityManager.setPassword("Passwort");
 
-        masterDataManagerService.createUser(communityAdmin);
+        communityManager = masterDataManagerService
+                .createUser(communityManager);
 
-        Community community = new Community();
-        community.setName("TDKB");
-        community.setCommunityManager(communityAdmin);
-        community.addCommunityMember(communityAdmin);
+        Community communityPersisted = communityService.create("TDKB",
+                "Frosch");
+        assertThat(communityPersisted.getCommunityManager())
+                .isEqualTo(communityManager);
+        assertEquals("TDKB", communityPersisted.getName());
+        assertEquals(communityManager.getId(),
+                communityPersisted.getCommunityManager().getId());
+    }
 
-        Community persisted = communityService.create("TDKB", "Frosch");
+    @Test
+    public void addAndRemoveCommunityMembers() {
+        User communityManager = new User();
+        communityManager.setEmail("email@email.de");
+        communityManager.setName("Andre");
+        communityManager.setNickName("Frosch");
+        communityManager.setPassword("Passwort");
+
+        communityManager = masterDataManagerService
+                .createUser(communityManager);
+        Community communityPersisted = communityService.create("TDKB",
+                "Frosch");
+
+        User demoUserA = new User();
+        demoUserA.setEmail("demoA@email.de");
+        demoUserA.setName("DemoA-Name");
+        demoUserA.setNickName("DemoA");
+        demoUserA.setPassword("DemoA-Password");
+        demoUserA = masterDataManagerService.createUser(demoUserA);
+
+        User demoUserB = new User();
+        demoUserB.setEmail("demoB@email.de");
+        demoUserB.setName("DemoB-Name");
+        demoUserB.setNickName("DemoB");
+        demoUserB.setPassword("DemoB-Password");
+        demoUserB = masterDataManagerService.createUser(demoUserB);
+
+        communityService.addMember(communityPersisted.getName(),
+                demoUserA.getNickName());
+        communityService.addMember(communityPersisted.getName(),
+                demoUserB.getNickName());
     }
 
 }

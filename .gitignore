@@ -12,4 +12,5 @@ bin
 .settings
 .idea
 .vscode
+.sts4-cache
 /betoffice-storage.iml

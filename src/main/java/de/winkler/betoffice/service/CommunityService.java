@@ -44,10 +44,34 @@ public interface CommunityService {
      */
     Community create(String name, String managerNickname);
 
-    void delete(Community community);
+    /**
+     * Delete community.
+     * 
+     * @param communityName
+     *            the community name to delete
+     */
+    void delete(String communityName);
 
-    Community addMember(Community community, User member);
+    /**
+     * Add a new community member.
+     * 
+     * @param communityName
+     *            the community name
+     * @param nickname
+     *            the new community member
+     * @return the updated community.
+     */
+    Community addMember(String communityName, String nickname);
 
-    Community removeMember(Community communit, User member);
+    /**
+     * Remove a community member.
+     * 
+     * @param communityName
+     *            the community name
+     * @param nickname
+     *            the community member to remove
+     * @return the updated community.
+     */
+    Community removeMember(String communityName, String nickname);
 
 }

@@ -105,8 +105,12 @@ public class Community extends AbstractStorageObject {
         this.users = users;
     }
 
-    public void addCommunityMember(User user) {
+    public void addMember(User user) {
         users.add(user);
+    }
+    
+    public void removeMember(User user) {
+        users.remove(user);
     }
     
     @Override

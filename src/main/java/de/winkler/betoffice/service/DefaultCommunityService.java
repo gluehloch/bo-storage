@@ -54,38 +54,37 @@ public class DefaultCommunityService extends AbstractManagerService
     private UserDao userDao;
 
     @Override
-    public Community create(String name, String managerNickname) {
-        if (StringUtils.isBlank(name)) {
-            throw new IllegalArgumentException(
-                    "Community name should be defined.");
-        }
+    public Community create(String communityName, String managerNickname) {
+        validateCommunityName(communityName);
 
         try {
-            Community communityDefined = communityDao.findByName(name);
+            communityDao.findByName(communityName);
             throw new IllegalArgumentException(
-                    "Community '" + name + "' is already defined.");
+                    "Community '" + communityName + "' is already defined.");
         } catch (NoResultException ex) {
             // Ok. No community with name is defined.
         }
 
-        if (StringUtils.isBlank(managerNickname)) {
-            throw new IllegalArgumentException(
-                    "Community manager should be defined.");
-        }
-
-        User communityManager = userDao.findByNickname(managerNickname)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "No user '" + managerNickname + "' defined."));
+        validateNickname(managerNickname);
+        User communityManager = findUser(managerNickname);
 
         Community community = new Community();
-        community.setName(name);
+        community.setName(communityName);
         community.setCommunityManager(communityManager);
 
         return communityDao.save(community);
     }
 
     @Override
-    public void delete(Community community) {
+    public void delete(String communityName) {
+        Community community = null;
+        try {
+            community = communityDao.findByName(communityName);
+        } catch (NoResultException ex) {
+            throw new IllegalArgumentException(
+                    "Unknwon community name '" + communityName + "'.");
+        }
+
         if (communityDao.hasMembers(community)) {
             LOG.warn(
                     "Unable to delete community '{}'. The Community has members.",
@@ -94,17 +93,60 @@ public class DefaultCommunityService extends AbstractManagerService
                     "Unable to delete community. The Community has members.");
         }
 
-        return;
+        communityDao.delete(community);
     }
 
     @Override
-    public Community addMember(Community community, User member) {
-        return null;
+    public Community addMember(String communityName, String nickname) {
+        validateCommunityName(communityName);
+        validateNickname(nickname);
+        User user = findUser(nickname);
+
+        try {
+            Community community = communityDao.findByName(communityName);
+            community.addMember(user);
+            return community;
+        } catch (NoResultException ex) {
+            throw new IllegalArgumentException(
+                    "Unknwon community name '" + communityName + "'.");
+        }
     }
 
     @Override
-    public Community removeMember(Community communit, User member) {
-        return null;
+    public Community removeMember(String communityName, String nickname) {
+        validateCommunityName(communityName);
+        validateNickname(nickname);
+        User user = findUser(nickname);
+
+        try {
+            Community community = communityDao.findByName(communityName);
+            community.removeMember(user);
+            return community;
+        } catch (NoResultException ex) {
+            throw new IllegalArgumentException(
+                    "Unknwon community name '" + communityName + "'.");
+        }
+    }
+
+    private void validateNickname(String managerNickname) {
+        if (StringUtils.isBlank(managerNickname)) {
+            throw new IllegalArgumentException(
+                    "Community manager should be defined.");
+        }
+    }
+
+    private void validateCommunityName(String communityName) {
+        if (StringUtils.isBlank(communityName)) {
+            throw new IllegalArgumentException(
+                    "Community name should be defined.");
+        }
+    }
+
+    private User findUser(String nickname) {
+        User user = userDao.findByNickname(nickname)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Unknown user with nickname '" + nickname + "'."));
+        return user;
     }
 
 }

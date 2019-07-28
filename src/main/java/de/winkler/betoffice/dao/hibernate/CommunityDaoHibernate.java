@@ -43,7 +43,7 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community>
     @Override
     public Community findByName(String name) {
         return getSessionFactory().getCurrentSession()
-                .createQuery("from Community c where c.name = :name",
+                .createQuery("from Community c left join fetch c.users where c.name = :name",
                         Community.class)
                 .setParameter("name", name)
                 .getSingleResult();
@@ -53,7 +53,7 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community>
     public boolean hasMembers(Community community) {
         List<User> members = getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Community c inner join c.users where c.id = :id",
+                        "from Community c left join fetch c.users where c.id = :id",
                         User.class)
                 .setParameter("id", community.getId())
                 .getResultList();
@@ -64,7 +64,7 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community>
     public List<User> findMembers(Community community) {
         return getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Community c inner join c.users where c.id = :id",
+                        "from Community c left join fetch c.users where c.id = :id",
                         User.class)
                 .setParameter("id", community.getId())
                 .getResultList();
