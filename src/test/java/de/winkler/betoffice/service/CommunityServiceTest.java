@@ -28,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -81,13 +82,11 @@ public class CommunityServiceTest extends AbstractServiceTest {
         communityManager = masterDataManagerService
                 .createUser(communityManager);
 
-        Community communityPersisted = communityService.create("TDKB",
-                "Frosch");
-        assertThat(communityPersisted.getCommunityManager())
-                .isEqualTo(communityManager);
-        assertEquals("TDKB", communityPersisted.getName());
+        Community community = communityService.create("TDKB", "Frosch");
+        assertThat(community.getCommunityManager()).isEqualTo(communityManager);
+        assertEquals("TDKB", community.getName());
         assertEquals(communityManager.getId(),
-                communityPersisted.getCommunityManager().getId());
+                community.getCommunityManager().getId());
     }
 
     @Test
@@ -120,8 +119,39 @@ public class CommunityServiceTest extends AbstractServiceTest {
                 demoUserA.getNickName());
         communityService.addMember(community.getName(),
                 demoUserB.getNickName());
+
+        Community cm = communityService
+                .findCommunityMembers(community.getName());
+        assertThat(cm.getUsers()).hasSize(2);
+    }
+
+    @Test
+    public void filterCommunities() {
+        User communityManager = new User();
+        communityManager.setEmail("email@email.de");
+        communityManager.setName("Andre");
+        communityManager.setNickName("Frosch");
+        communityManager.setPassword("Passwort");
+
+        communityManager = masterDataManagerService
+                .createUser(communityManager);
+
+        communityService.create("CM_A", "Frosch");
+        communityService.create("CM_B", "Frosch");
+        communityService.create("CM_C", "Frosch");
+        communityService.create("CM_D", "Frosch");
+        communityService.create("CM_E", "Frosch");
         
-        // communityService.findMembers(communityPersisted);
+        List<Community> list = communityService.findAll("CM");
+        assertThat(list).hasSize(5);
+        
+        communityService.create("aw1", "Frosch");
+        communityService.create("aw2", "Frosch");
+        communityService.create("aw3", "Frosch");
+        communityService.create("aw4", "Frosch");
+        
+        assertThat(communityService.findAll("aw")).hasSize(4);
+        assertThat(communityService.findAll("aw1")).hasSize(1);
     }
 
 }

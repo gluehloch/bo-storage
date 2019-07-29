@@ -45,6 +45,15 @@ public interface CommunityDao extends CommonDao<Community> {
     Community find(String name);
 
     /**
+     * Find all communities.
+     * 
+     * @param nameFilter
+     *            a filter for the community name
+     * @return all communities
+     */
+    List<Community> findAll(String nameFilter);
+
+    /**
      * Find all members of a community.
      * 
      * @param name

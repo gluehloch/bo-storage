@@ -23,8 +23,9 @@
 
 package de.winkler.betoffice.service;
 
+import java.util.List;
+
 import de.winkler.betoffice.storage.Community;
-import de.winkler.betoffice.storage.User;
 
 /**
  * Community service.
@@ -32,6 +33,33 @@ import de.winkler.betoffice.storage.User;
  * @author Andre Winkler
  */
 public interface CommunityService {
+
+    /**
+     * Find a community by name.
+     * 
+     * @param communityName
+     *            community name
+     * @return a community.
+     */
+    Community find(String communityName);
+
+    /**
+     * Find all communities.
+     * 
+     * @param communityNameFilter
+     *            a name filter
+     * @return a list of communities
+     */
+    List<Community> findAll(String communityNameFilter);
+
+    /**
+     * Find a community and all members.
+     * 
+     * @param communityName
+     *            a community name
+     * @return a community with all it´s members.
+     */
+    Community findCommunityMembers(String communityName);
 
     /**
      * Create a new community.

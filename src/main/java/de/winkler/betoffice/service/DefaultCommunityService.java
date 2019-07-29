@@ -23,6 +23,8 @@
 
 package de.winkler.betoffice.service;
 
+import java.util.List;
+
 import javax.persistence.NoResultException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -52,6 +54,20 @@ public class DefaultCommunityService extends AbstractManagerService
 
     @Autowired
     private UserDao userDao;
+
+    public Community find(String communityName) {
+        return communityDao.find(communityName);
+    }
+    
+    @Override
+    public List<Community> findAll(String communityNameFilter) {
+        return communityDao.findAll(communityNameFilter);
+    }
+
+    @Override
+    public Community findCommunityMembers(String communityName) {
+        return communityDao.findCommunityMembers(communityName);
+    }
 
     @Override
     public Community create(String communityName, String managerNickname) {
@@ -105,6 +121,7 @@ public class DefaultCommunityService extends AbstractManagerService
         try {
             Community community = communityDao.findCommunityMembers(communityName);
             community.addMember(user);
+            communityDao.save(community);
             return community;
         } catch (NoResultException ex) {
             throw new IllegalArgumentException(
@@ -121,6 +138,7 @@ public class DefaultCommunityService extends AbstractManagerService
         try {
             Community community = communityDao.findCommunityMembers(communityName);
             community.removeMember(user);
+            communityDao.save(community);
             return community;
         } catch (NoResultException ex) {
             throw new IllegalArgumentException(

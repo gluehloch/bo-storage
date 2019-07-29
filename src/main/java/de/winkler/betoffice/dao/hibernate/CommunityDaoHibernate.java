@@ -41,6 +41,18 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community>
     }
 
     @Override
+    public List<Community> findAll(String nameFilter) {
+        String filter = new StringBuilder("%").append(nameFilter).append("%")
+                .toString();
+        return getSessionFactory().getCurrentSession()
+                .createQuery(
+                        "from Community c where LOWER(c.name) like LOWER(:filter)",
+                        Community.class)
+                .setParameter("filter", filter)
+                .getResultList();
+    }
+
+    @Override
     public Community find(String name) {
         return getSessionFactory().getCurrentSession()
                 .createQuery("from Community c where c.name = :name",
