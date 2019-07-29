@@ -42,7 +42,16 @@ public interface CommunityDao extends CommonDao<Community> {
      *            the community name
      * @return the community
      */
-    Community findByName(String name);
+    Community find(String name);
+
+    /**
+     * Find all members of a community.
+     * 
+     * @param name
+     *            the community name
+     * @return the community and all members.
+     */
+    Community findCommunityMembers(String name);
 
     /**
      * Are there still any community members?

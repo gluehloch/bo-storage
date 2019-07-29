@@ -100,8 +100,7 @@ public class CommunityServiceTest extends AbstractServiceTest {
 
         communityManager = masterDataManagerService
                 .createUser(communityManager);
-        Community communityPersisted = communityService.create("TDKB",
-                "Frosch");
+        Community community = communityService.create("TDKB", "Frosch");
 
         User demoUserA = new User();
         demoUserA.setEmail("demoA@email.de");
@@ -117,10 +116,12 @@ public class CommunityServiceTest extends AbstractServiceTest {
         demoUserB.setPassword("DemoB-Password");
         demoUserB = masterDataManagerService.createUser(demoUserB);
 
-        communityService.addMember(communityPersisted.getName(),
+        communityService.addMember(community.getName(),
                 demoUserA.getNickName());
-        communityService.addMember(communityPersisted.getName(),
+        communityService.addMember(community.getName(),
                 demoUserB.getNickName());
+        
+        // communityService.findMembers(communityPersisted);
     }
 
 }

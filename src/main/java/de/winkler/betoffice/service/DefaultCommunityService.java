@@ -58,7 +58,7 @@ public class DefaultCommunityService extends AbstractManagerService
         validateCommunityName(communityName);
 
         try {
-            communityDao.findByName(communityName);
+            communityDao.find(communityName);
             throw new IllegalArgumentException(
                     "Community '" + communityName + "' is already defined.");
         } catch (NoResultException ex) {
@@ -79,7 +79,7 @@ public class DefaultCommunityService extends AbstractManagerService
     public void delete(String communityName) {
         Community community = null;
         try {
-            community = communityDao.findByName(communityName);
+            community = communityDao.find(communityName);
         } catch (NoResultException ex) {
             throw new IllegalArgumentException(
                     "Unknwon community name '" + communityName + "'.");
@@ -103,7 +103,7 @@ public class DefaultCommunityService extends AbstractManagerService
         User user = findUser(nickname);
 
         try {
-            Community community = communityDao.findByName(communityName);
+            Community community = communityDao.findCommunityMembers(communityName);
             community.addMember(user);
             return community;
         } catch (NoResultException ex) {
@@ -119,7 +119,7 @@ public class DefaultCommunityService extends AbstractManagerService
         User user = findUser(nickname);
 
         try {
-            Community community = communityDao.findByName(communityName);
+            Community community = communityDao.findCommunityMembers(communityName);
             community.removeMember(user);
             return community;
         } catch (NoResultException ex) {
