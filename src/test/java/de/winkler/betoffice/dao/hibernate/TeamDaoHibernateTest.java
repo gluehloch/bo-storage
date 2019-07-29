@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -107,7 +107,7 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
             }
         });
 
-        String fileToString = FileUtils.readFileToString(teamExportFile);
+        String fileToString = FileUtils.readFileToString(teamExportFile, "UTF-8");
         System.out.println(fileToString);
     }
 
