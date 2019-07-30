@@ -33,7 +33,6 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
