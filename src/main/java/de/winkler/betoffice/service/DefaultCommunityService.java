@@ -47,7 +47,7 @@ import de.winkler.betoffice.util.LoggerFactory;
 public class DefaultCommunityService extends AbstractManagerService
         implements CommunityService {
 
-    private final Logger LOG = LoggerFactory.make();
+    private static final Logger LOG = LoggerFactory.make();
 
     @Autowired
     private CommunityDao communityDao;
