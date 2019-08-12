@@ -262,4 +262,4 @@ service.addMatch(round_2018_08_25, '2018-08-25 18:30:00', bundesliga2018group, b
 
 service.addMatch(round_2018_08_25, '2018-08-26 15:30:00', bundesliga2018group, fsvMainz05, vfbStuttgart)
 service.addMatch(round_2018_08_25, '2018-08-26 18:00:00', bundesliga2018group, borussiaDortmund, rbLeipzig)
-*/
+*/  
