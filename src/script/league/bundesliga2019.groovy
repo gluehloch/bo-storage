@@ -2,7 +2,9 @@
 // Copy the current JAR to the grape repository:
 // cp ./target/betoffice-storage-2.6.0-SNAPSHOT.jar \
 //   /cygdrive/c/Users/winkler/.groovy/grapes/de.winkler.betoffice/betoffice-storage/jars/betoffice-storage-2.6.0-SNAPSHOT.jar
-
+// @GrabResolver(name='gluehloch', root='https://maven.gluehloch.de/repository')
+// @GrabResolver(name='maven', root='https://mvnrepository.com/artifact/')
+// @GrabResolver(name='apache', root='http://repo1.maven.org/maven2')
 @Grab(group='org.slf4j', module='slf4j-api', version='1.6.1')
 
 // Die naechsten 4 Imports kann man vielleicht mal in Frage stellen.
@@ -10,13 +12,18 @@
 @Grab(group='commons-logging', module='commons-logging', version='1.2')
 @Grab(group='dom4j', module='dom4j', version='1.6.1')
 @Grab(group='jaxen', module='jaxen', version='1.1')
+@Grab(group='joda-time', module='joda-time', version='2.10')
+@Grab(group='org.hibernate', module='hibernate-core', version='5.4.1.Final')
+
+//@Grab(group='org.springframework', module='spring-core', version='5.1.5.RELEASE')
+//@Grab(group='org.springframework', module='spring-context', version='5.1.5.RELEASE')
 
 @Grab(group='commons-pool', module='commons-pool', version='1.5.4')
 @Grab(group='commons-dbcp', module='commons-dbcp', version='1.4')
 @Grab(group='mysql', module='mysql-connector-java', version='5.1.31')
 @Grab(group='xml-apis', module='xml-apis', version='1.0.b2')
 
-@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.6.0-SNAPSHOT')
+@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.6.3', transitive=true)
 // @Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.6.0')
 // @Grab(group='de.betoffice', module='betoffice-openligadb', version='1.5.5')
 
@@ -150,6 +157,22 @@ println bundesliga.name + " - " + bundesliga.year
 def bundesligaGroupType = service.findGroupType('1. Liga');
 validate bundesligaGroupType
 
+def unionBerlin = service.findTeam('Union Berlin')
+if (!unionBerlin.present) {
+    def team = new Team()
+    team.name = 'Union Berlin'
+    team.longName = '1.FC Union Berlin'
+    team.shortName = 'Union Berlin'
+    team.xshortName = 'UNI'
+    team.logo = 'unionberlin.gif'
+    team.teamType = TeamType.DFB
+    service.updateTeam(team)
+    unionBerlin = team
+} else {
+    unionBerlin = unionBerlin.get()
+}
+validate unionBerlin
+
 
 def herthaBSC = service.findTeam('Hertha BSC Berlin').get();
 validate herthaBSC
@@ -199,8 +222,8 @@ validate eintrachtFrankfurt
 def tsgHoffenheim = service.findTeam('1899 Hoffenheim').get();
 validate tsgHoffenheim
 
-def unionBerlin = service.findTeam('Union Berlin').get();
-validate unionBerlin
+// def unionBerlin = service.findTeam('Union Berlin').get();
+// validate unionBerlin
 
 def rbLeipzig = service.findTeam('RB Leipzig').get();
 validate rbLeipzig
@@ -216,11 +239,12 @@ def vfbStuttgart = service.findTeam('VfB Stuttgart').get();
 validate vfbStuttgart
 */
 
-def bundesliga2018group = service.addGroup bundesliga, bundesligaGroupType
+def bundesliga2019group = service.addGroup bundesliga, bundesligaGroupType
 bundesliga = service.findRoundGroupTeamUserRelations(bundesliga)
-// println "Gruppe Bundesliga 2018: $bundesliga2018group"
+println "Gruppe Bundesliga 2019: $bundesliga2019group"
 
-bundesliga2018group = service.addTeams(bundesliga, bundesligaGroupType, [
+/*
+bundesliga2019group = service.addTeams(bundesliga, bundesligaGroupType, [
     augsburg,
     herthaBSC,
     vflWolfsburg,
@@ -240,26 +264,25 @@ bundesliga2018group = service.addTeams(bundesliga, bundesligaGroupType, [
     unionBerlin,
     fcKoeln
 ])
+*/
 
-/*
-def round_2018_08_25 = service.findRound(bundesliga, 0)
-if (round_2018_08_25.isPresent()) {
-    round_2018_08_25 = round_2018_08_25.get()
+def round_2018_08_16 = service.findRound(bundesliga, 0)
+if (round_2018_08_16.isPresent()) {
+    round_2018_08_16 = round_2018_08_16.get()
 } else {
-    round_2018_08_25 = service.addRound(bundesliga, '2018-08-24 20:30:00', bundesligaGroupType)
+    round_2018_08_16 = service.addRound(bundesliga, '2019-08-16 20:30:00', bundesligaGroupType)
 }
-println "Runde $round_2018_08_25.dateTime"
+println "Runde $round_2018_08_16.dateTime"
 
 
-service.addMatch(round_2018_08_25, '2018-08-24 20:30:00', bundesliga2018group, bayernMuenchen, tsgHoffenheim)
+service.addMatch(round_2018_08_16, '2019-08-16 20:30:00', bundesliga2019group, bayernMuenchen, herthaBSC)
 
-service.addMatch(round_2018_08_25, '2018-08-25 15:30:00', bundesliga2018group, herthaBSC, fcNuernberg)
-service.addMatch(round_2018_08_25, '2018-08-25 15:30:00', bundesliga2018group, werderBremen, hannover96)
-service.addMatch(round_2018_08_25, '2018-08-25 15:30:00', bundesliga2018group, scFreiburg, eintrachtFrankfurt)
-service.addMatch(round_2018_08_25, '2018-08-25 15:30:00', bundesliga2018group, vflWolfsburg, schalke)
-service.addMatch(round_2018_08_25, '2018-08-25 15:30:00', bundesliga2018group, fortunaDuesseldorf, augsburg)
-service.addMatch(round_2018_08_25, '2018-08-25 18:30:00', bundesliga2018group, borussaGladbach, bayer04Leverkusen)
+service.addMatch(round_2018_08_16, '2019-08-17 15:30:00', bundesliga2019group, werderBremen, fortunaDuesseldorf)
+service.addMatch(round_2018_08_16, '2019-08-17 15:30:00', bundesliga2019group, scFreiburg, fsvMainz05)
+service.addMatch(round_2018_08_16, '2019-08-17 15:30:00', bundesliga2019group, bayer04Leverkusen, paderborn)
+service.addMatch(round_2018_08_16, '2019-08-17 15:30:00', bundesliga2019group, borussiaDortmund, augsburg)
+service.addMatch(round_2018_08_16, '2019-08-17 15:30:00', bundesliga2019group, vflWolfsburg, fcKoeln)
+service.addMatch(round_2018_08_16, '2019-08-17 18:30:00', bundesliga2019group, borussaGladbach, schalke)
 
-service.addMatch(round_2018_08_25, '2018-08-26 15:30:00', bundesliga2018group, fsvMainz05, vfbStuttgart)
-service.addMatch(round_2018_08_25, '2018-08-26 18:00:00', bundesliga2018group, borussiaDortmund, rbLeipzig)
-*/  
+service.addMatch(round_2018_08_16, '2019-08-18 15:30:00', bundesliga2019group, eintrachtFrankfurt, tsgHoffenheim)
+service.addMatch(round_2018_08_16, '2019-08-18 18:00:00', bundesliga2019group, unionBerlin, rbLeipzig)
