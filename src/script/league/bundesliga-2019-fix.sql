@@ -8,3 +8,9 @@ update bo_game set bo_index = 6 where id = 6360;
 update bo_game set bo_index = 7 where id = 6361;
 update bo_game set bo_index = 8 where id = 6362;
 update bo_game set bo_index = 9 where id = 6363;
+
+
+insert into bo_user(id, bo_name, bo_surname, bo_nickname, bo_email, bo_password)
+    values (17290, 'Wortmann', 'Martin', 'Martin04', 'm_wortmann@gmx.de', 'S04');
+
+update bo_user set bo_phone = '', bo_automat = 0, bo_excluded = 0, bo_title = '' where id = 17290;    
