@@ -717,7 +717,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
             return userTipp.get();
         } else {
             throw new StorageObjectNotFoundException(
-                    "Der Teilnehmer [" + user.getNickName()
+                    "Der Teilnehmer [" + user.getNickname()
                             + "] hat keinen Spieltipp.");
         }
     }

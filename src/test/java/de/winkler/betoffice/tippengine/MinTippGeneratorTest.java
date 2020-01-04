@@ -96,7 +96,7 @@ public class MinTippGeneratorTest {
 
         // userMinTipp bekommt die Tipps von User C.
         User userMinTipp = new User();
-        userMinTipp.setNickName("userMinTipp");
+        userMinTipp.setNickname("userMinTipp");
         UserSeason us = new UserSeason();
         us.setUser(userMinTipp);
         season.addUser(us);
@@ -198,7 +198,7 @@ public class MinTippGeneratorTest {
         round.addGame(game4);
 
         User userMinTipp = new User();
-        userMinTipp.setNickName("User MinTipp");
+        userMinTipp.setNickname("User MinTipp");
 
         UserResult.nEqualValue = 10;
         UserResult.nTotoValue = 20;

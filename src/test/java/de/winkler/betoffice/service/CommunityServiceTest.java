@@ -76,7 +76,7 @@ public class CommunityServiceTest extends AbstractServiceTest {
         User communityManager = new User();
         communityManager.setEmail("email@email.de");
         communityManager.setName("Andre");
-        communityManager.setNickName("Frosch");
+        communityManager.setNickname("Frosch");
         communityManager.setPassword("Passwort");
 
         communityManager = masterDataManagerService
@@ -94,7 +94,7 @@ public class CommunityServiceTest extends AbstractServiceTest {
         User communityManager = new User();
         communityManager.setEmail("email@email.de");
         communityManager.setName("Andre");
-        communityManager.setNickName("Frosch");
+        communityManager.setNickname("Frosch");
         communityManager.setPassword("Passwort");
 
         communityManager = masterDataManagerService
@@ -104,21 +104,21 @@ public class CommunityServiceTest extends AbstractServiceTest {
         User demoUserA = new User();
         demoUserA.setEmail("demoA@email.de");
         demoUserA.setName("DemoA-Name");
-        demoUserA.setNickName("DemoA");
+        demoUserA.setNickname("DemoA");
         demoUserA.setPassword("DemoA-Password");
         demoUserA = masterDataManagerService.createUser(demoUserA);
 
         User demoUserB = new User();
         demoUserB.setEmail("demoB@email.de");
         demoUserB.setName("DemoB-Name");
-        demoUserB.setNickName("DemoB");
+        demoUserB.setNickname("DemoB");
         demoUserB.setPassword("DemoB-Password");
         demoUserB = masterDataManagerService.createUser(demoUserB);
 
         communityService.addMember(community.getName(),
-                demoUserA.getNickName());
+                demoUserA.getNickname());
         communityService.addMember(community.getName(),
-                demoUserB.getNickName());
+                demoUserB.getNickname());
 
         Community cm = communityService
                 .findCommunityMembers(community.getName());
@@ -130,7 +130,7 @@ public class CommunityServiceTest extends AbstractServiceTest {
         User communityManager = new User();
         communityManager.setEmail("email@email.de");
         communityManager.setName("Andre");
-        communityManager.setNickName("Frosch");
+        communityManager.setNickname("Frosch");
         communityManager.setPassword("Passwort");
 
         communityManager = masterDataManagerService

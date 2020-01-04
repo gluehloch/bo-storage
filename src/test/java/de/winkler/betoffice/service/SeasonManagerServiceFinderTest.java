@@ -193,7 +193,7 @@ public class SeasonManagerServiceFinderTest extends AbstractServiceTest {
                 "Roenne", "Steffen" };
 
         for (int index = 0; index < usersWm2006.length; index++) {
-            assertThat(users.get(index).getNickName())
+            assertThat(users.get(index).getNickname())
                     .isEqualTo(usersWm2006[index]);
         }
     }

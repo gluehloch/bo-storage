@@ -102,7 +102,7 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
                 "Peter", "mrTipp", "chris", "Frosch", "Hattwig" };
 
         for (int index = 0; index < nicknames.length; index++) {
-            assertThat(tipps.get(index).getUser().getNickName())
+            assertThat(tipps.get(index).getUser().getNickname())
                     .isEqualTo(nicknames[index]);
         }
     }
@@ -122,9 +122,9 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
                 .findActivatedUsers(wm2006.get());
         assertEquals(11, users.size());
 
-        assertEquals("Frosch", frosch.get().getNickName());
-        assertEquals("mrTipp", mrTipp.get().getNickName());
-        assertEquals("Peter", peter.get().getNickName());
+        assertEquals("Frosch", frosch.get().getNickname());
+        assertEquals("mrTipp", mrTipp.get().getNickname());
+        assertEquals("Peter", peter.get().getNickname());
 
         List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
         GameList finale = rounds.get(24);
@@ -227,14 +227,14 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
             final int index, final String nickname,
             final int points, final int win, final int totoWin, int tabPos) {
 
-        assertEquals(nickname, userResults.get(index).getUser().getNickName());
+        assertEquals(nickname, userResults.get(index).getUser().getNickname());
         assertEquals(points, userResults.get(index).getPoints());
         assertEquals(win, userResults.get(index).getUserWin());
         assertEquals(totoWin, userResults.get(index).getUserTotoWin());
         assertEquals(tabPos, userResults.get(index).getTabPos());
 
         if (log.isDebugEnabled()) {
-            log.debug("Name: " + userResults.get(index).getUser().getNickName()
+            log.debug("Name: " + userResults.get(index).getUser().getNickname()
                     + ", PTS: "
                     + userResults.get(index).getPoints());
         }

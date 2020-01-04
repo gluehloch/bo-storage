@@ -61,9 +61,9 @@ public class UserSeasonDaoHibernateTest extends AbstractDaoTestSupport {
                 "1999/2000");
         List<User> users = userSeasonDao.findUsers(season.get());
         assertEquals(3, users.size());
-        assertEquals("Frosch", users.get(0).getNickName());
-        assertEquals("Hattwig", users.get(1).getNickName());
-        assertEquals("Peter", users.get(2).getNickName());
+        assertEquals("Frosch", users.get(0).getNickname());
+        assertEquals("Hattwig", users.get(1).getNickname());
+        assertEquals("Peter", users.get(2).getNickname());
     }
 
 }

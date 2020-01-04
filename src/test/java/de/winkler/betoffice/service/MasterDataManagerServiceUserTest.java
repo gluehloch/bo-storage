@@ -87,8 +87,8 @@ public class MasterDataManagerServiceUserTest extends AbstractServiceTest {
         List<User> users = masterDataManagerService.findAllUsers();
 
         assertThat(users.size()).isEqualTo(2);
-        assertThat(users.get(0).getNickName()).isEqualTo("Frosch");
-        assertThat(users.get(1).getNickName()).isEqualTo("Peter");
+        assertThat(users.get(0).getNickname()).isEqualTo("Frosch");
+        assertThat(users.get(1).getNickname()).isEqualTo("Peter");
     }
 
     @Test
@@ -106,13 +106,13 @@ public class MasterDataManagerServiceUserTest extends AbstractServiceTest {
         User frosch = createUser("Frosch", "Andre", "Winkler");
         createUser("Peter", "Peter", "Groth");
 
-        frosch.setNickName("Darkside");
+        frosch.setNickname("Darkside");
         masterDataManagerService.updateUser(frosch);
 
         Optional<User> darkside = masterDataManagerService
                 .findUserByNickname("Darkside");
         assertThat(darkside.isPresent()).isTrue();
-        assertThat(darkside.get().getNickName()).isEqualTo("Darkside");
+        assertThat(darkside.get().getNickname()).isEqualTo("Darkside");
     }
 
     @Test
@@ -124,7 +124,7 @@ public class MasterDataManagerServiceUserTest extends AbstractServiceTest {
         List<User> users = masterDataManagerService.findAllUsers();
 
         assertThat(users.size()).isEqualTo(1);
-        assertThat(users.get(0).getNickName()).isEqualTo("Peter");
+        assertThat(users.get(0).getNickname()).isEqualTo("Peter");
 
         masterDataManagerService.deleteUser(peter);
         users = masterDataManagerService.findAllUsers();
@@ -136,7 +136,7 @@ public class MasterDataManagerServiceUserTest extends AbstractServiceTest {
             final String name) {
 
         User user = new User();
-        user.setNickName(nickname);
+        user.setNickname(nickname);
         user.setName(name);
         user.setSurname(surname);
         masterDataManagerService.createUser(user);

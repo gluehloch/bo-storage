@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -57,7 +57,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
     /** Sucht nach allen Usern mit einem bestimmten Nick-Namen. */
     private static final String QUERY_USER_BY_NICKNAME = "from "
             + User.class.getName() + " as user " + "where "
-            + "user.nickName = :nickName";
+            + "user.nickname = :nickname";
 
     private static final String QUERY_SEASON_13_POINTS = AbstractCommonDao
             .loadQuery("query_userresult_season_13.sql");
@@ -86,7 +86,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
     @Override
     public List<User> findAll() {
         List<User> users = getSessionFactory().getCurrentSession()
-                .createQuery("from User order by nickName", User.class)
+                .createQuery("from User order by nickname", User.class)
                 .getResultList();
         return users;
     }
@@ -95,7 +95,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
     public Optional<User> findByNickname(final String nickname) {
         Query<User> user = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_USER_BY_NICKNAME, User.class)
-                .setParameter("nickName", nickname);
+                .setParameter("nickname", nickname);
         return singleResult(user);
     }
 

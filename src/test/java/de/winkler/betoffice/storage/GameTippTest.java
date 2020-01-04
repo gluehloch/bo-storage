@@ -273,15 +273,15 @@ public class GameTippTest {
 
         // Neuen Tipp erzeugen lassen...
         userA = new User();
-        userA.setNickName("User A");
+        userA.setNickname("User A");
         userB = new User();
-        userB.setNickName("User B");
+        userB.setNickname("User B");
         userC = new User();
-        userC.setNickName("User C");
+        userC.setNickname("User C");
         userD = new User();
-        userD.setNickName("User D");
+        userD.setNickname("User D");
         userE = new User();
-        userE.setNickName("User E");
+        userE.setNickname("User E");
 
         allUsers.clear();
         allUsers.add(userA);

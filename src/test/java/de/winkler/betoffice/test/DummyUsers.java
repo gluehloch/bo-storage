@@ -121,7 +121,7 @@ public final class DummyUsers {
     private void createUsers() {
         for (int i = 0; i < USER_PROPS.length; i++) {
             User user = new User();
-            user.setNickName(USER_PROPS[i][0].toString());
+            user.setNickname(USER_PROPS[i][0].toString());
             user.setSurname(USER_PROPS[i][1].toString());
             user.setName(USER_PROPS[i][2].toString());
             user.setPassword(USER_PROPS[i][3].toString());

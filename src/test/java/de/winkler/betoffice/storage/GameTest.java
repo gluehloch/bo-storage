@@ -181,19 +181,19 @@ public class GameTest {
     public void setUp() throws Exception {
         userA = new User();
         userA.setName("User A");
-        userA.setNickName("User A");
+        userA.setNickname("User A");
 
         userB = new User();
         userB.setName("User B");
-        userB.setNickName("User B");
+        userB.setNickname("User B");
 
         userC = new User();
         userC.setName("User C");
-        userC.setNickName("User C");
+        userC.setNickname("User C");
 
         userD = new User();
         userD.setName("User D");
-        userD.setNickName("User D");
+        userD.setNickname("User D");
 
         homeTeam = new Team();
         homeTeam.setName("RWE");
