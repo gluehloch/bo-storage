@@ -58,8 +58,8 @@ public class PropertyReaderTest {
                 .isEqualTo("test");
         assertThat(props.getProperty("betoffice.persistence.password"))
                 .isEqualTo("test");
-        assertThat(props.getProperty("betoffice.persistence.url"))
-                .isEqualTo("jdbc:mysql://192.168.99.100/botest");
+        assertThat(props.getProperty("betoffice.persistence.url")).isNull();
+                // .isEqualTo("jdbc:mysql://192.168.99.100/botest");
         assertThat(props.getProperty("betoffice.persistence.classname"))
                 .isEqualTo("com.mysql.jdbc.Driver");
         assertThat(props.getProperty("betoffice.persistence.dialect"))
