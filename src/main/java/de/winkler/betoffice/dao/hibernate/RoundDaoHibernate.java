@@ -32,9 +32,9 @@ import javax.persistence.NoResultException;
 
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
-import org.hibernate.type.DateType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.LongType;
+import org.hibernate.type.ZonedDateTimeType;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.RoundDao;
@@ -234,7 +234,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
         NativeQuery query = getSessionFactory().getCurrentSession()
                 .createNativeQuery(QUERY_NEXT_ROUND_BY_DATE);
         query.setParameter("season_id", seasonId);
-        query.setParameter("date", date, DateType.INSTANCE);
+        query.setParameter("date", date, ZonedDateTimeType.INSTANCE);
 
         Optional<Long> result = Optional.empty();
         try {
@@ -256,7 +256,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
         NativeQuery query = getSessionFactory().getCurrentSession()
                 .createNativeQuery(QUERY_LAST_ROUND_BY_DATE);
         query.setParameter("season_id", seasonId);
-        query.setParameter("date", date, DateType.INSTANCE);
+        query.setParameter("date", date, ZonedDateTimeType.INSTANCE);
 
         Optional<Long> result = Optional.empty();
         try {

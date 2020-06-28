@@ -25,12 +25,13 @@ package de.winkler.betoffice.dao.hibernate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.Optional;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,6 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         newRound.setGroup(liga1_1000);
         season.addGameList(newRound);
 
-        // Achtung: dateTime ist vom Typ java.util.Date
         assertThat(newRound.getDateTime()).isInstanceOf(ZonedDateTime.class);
         assertThat(newRound.getDateTime()).isNotInstanceOf(java.sql.Timestamp.class);
         assertThat(newRound.getDateTime()).isEqualTo(now);
@@ -90,10 +90,15 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         
         assertThat(newRound.getDateTime()).isEqualTo(now);
 
+        // Durch die Umstellung auf ZonedDateTime ist das kein Thema mehr:
         // nach save und flush aber ein java.util.Timestamp
-        assertThat(newRound.getDateTime()).isInstanceOf(Date.class);
-        assertThat(newRound.getDateTime()).isInstanceOf(java.sql.Timestamp.class);
-        assertThat(newRound.getDateTime()).isNotEqualTo(now);
+        // assertThat(newRound.getDateTime()).isInstanceOf(java.sql.Timestamp.class);
+        // assertThat(newRound.getDateTime()).isNotEqualTo(now);
+        // assertThat(now).isEqualTo(newRound.getDateTime());
+        
+        // Jetzt, mit Umstellung ZonedDateTime, geht das equalTo() in beide Richtungen!!!
+        assertThat(newRound.getDateTime()).isInstanceOf(ZonedDateTime.class);
+        assertThat(newRound.getDateTime()).isEqualTo(now);
         assertThat(now).isEqualTo(newRound.getDateTime());
         
         // oder besser
@@ -125,8 +130,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     @Test
     public void testFindNextTippRound() {
         // Everything as expected?
-        DateTime matchDateTime = new DateTime(
-                matchDao.findById(1L).getDateTime());
+        ZonedDateTime matchDateTime = matchDao.findById(1L).getDateTime();
         assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZoneId.of("Europe/Paris")));
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
@@ -160,9 +164,8 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     @Test
     public void testFindLastTippRound() {
         // Everything as expected?
-        DateTime matchDateTime = new DateTime(
-                matchDao.findById(1L).getDateTime());
-        assertThat(matchDateTime).isEqualTo(new DateTime(2016, 1, 5, 15, 0, 0));
+        ZonedDateTime matchDateTime = matchDao.findById(1L).getDateTime();
+        assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(15, 0)), ZoneId.of("Europe/Paris")));
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
         assertThat(matchDao.findById(20L).isPlayed()).isFalse();
