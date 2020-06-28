@@ -30,12 +30,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.sql.SQLException;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -170,7 +170,7 @@ public class CreateNewSeasonTest {
         assertEquals(groupTypeA.get().getId(), groupTypes.get(0).getId());
         assertEquals(1, groupTypes.size());
 
-        DateTime now = new DateTime();
+        ZonedDateTime now = ZonedDateTime.now();
         GameList round = sms.addRound(season, now, groupTypeA.get());
         Game match = sms.addMatch(round, now, groupA, stuttgart.get(),
                 hsv.get());

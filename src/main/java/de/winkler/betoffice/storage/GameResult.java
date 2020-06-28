@@ -78,6 +78,14 @@ public class GameResult implements Serializable, Cloneable {
         this(gameResult.getHomeGoals(), gameResult.getGuestGoals());
     }
 
+    public static GameResult of(final int home, final int guest) {
+        return new GameResult(home, guest);
+    }
+    
+    public static GameResult of(final GameResult gameResult) {
+        return new GameResult(gameResult);
+    }
+    
     // -- homeGoals -----------------------------------------------------------
 
     /** Tore der Heimmannschaft. */

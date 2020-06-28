@@ -38,6 +38,7 @@ import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.exception.StorageObjectExistsException;
 import de.winkler.betoffice.storage.exception.StorageObjectNotValidException;
+import de.winkler.betoffice.test.DateTimeDummyProducer;
 
 /**
  * Testklasse für die Klasse Game. Auf das Testen der einfachen setter-Methoden
@@ -222,7 +223,7 @@ public class GameTest {
         guestTeam.setName("S04");
 
         game1 = new Game();
-        game1.setDateTime(new DateTime(1971, 3, 24, 20, 0).toDate());
+        game1.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
         game1.setHomeTeam(homeTeam);
         game1.setGuestTeam(guestTeam);
         game1.setGroup(group);
@@ -242,7 +243,7 @@ public class GameTest {
         season.addGroup(group);
 
         GameList round = new GameList();
-        round.setDateTime(new DateTime(1971, 3, 24, 0, 0).toDate());
+        round.setDateTime(DateTimeDummyProducer.DATE_1971_03_24);
         round.setGroup(group);
 
         season.addGameList(round);

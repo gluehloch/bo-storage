@@ -25,6 +25,8 @@ package de.winkler.betoffice.dao.hibernate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -40,6 +42,7 @@ import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.test.DateTimeDummyProducer;
 
 /**
  * The test for {@link RoundDaoHibernate}.
@@ -67,7 +70,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         Season season = seasonDao.findById(1);
         season = seasonDao.findRoundGroupTeamUser(season);
 
-        final Date now = new DateTime(2018, 5, 22, 17, 0, 0).toDate();
+        final ZonedDateTime now = DateTimeDummyProducer.DATE_2002_01_01;
 
         final GameList newRound = new GameList();
         newRound.setDateTime(now);
@@ -78,20 +81,18 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         season.addGameList(newRound);
 
         // Achtung: dateTime ist vom Typ java.util.Date
-        assertThat(newRound.getDateTime()).isInstanceOf(Date.class);
-        assertThat(newRound.getDateTime())
-                .isNotInstanceOf(java.sql.Timestamp.class);
+        assertThat(newRound.getDateTime()).isInstanceOf(ZonedDateTime.class);
+        assertThat(newRound.getDateTime()).isNotInstanceOf(java.sql.Timestamp.class);
         assertThat(newRound.getDateTime()).isEqualTo(now);
 
         roundDao.save(newRound);
         roundDao.refresh(newRound);
         
-        assertThat(newRound.getDateTime().getTime()).isEqualTo(now.getTime());
+        assertThat(newRound.getDateTime()).isEqualTo(now);
 
         // nach save und flush aber ein java.util.Timestamp
         assertThat(newRound.getDateTime()).isInstanceOf(Date.class);
-        assertThat(newRound.getDateTime())
-                .isInstanceOf(java.sql.Timestamp.class);
+        assertThat(newRound.getDateTime()).isInstanceOf(java.sql.Timestamp.class);
         assertThat(newRound.getDateTime()).isNotEqualTo(now);
         assertThat(now).isEqualTo(newRound.getDateTime());
         
@@ -126,34 +127,34 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         // Everything as expected?
         DateTime matchDateTime = new DateTime(
                 matchDao.findById(1L).getDateTime());
-        assertThat(matchDateTime).isEqualTo(new DateTime(2016, 1, 5, 15, 0, 0));
+        assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZoneId.of("Europe/Paris")));
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
         assertThat(matchDao.findById(20L).isPlayed()).isFalse();
 
         // Datum kurz vor dem Spieltag
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 1, 1, 0, 0, 0)).get()).isEqualTo(1L);
+                ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(1L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 2, 1, 0, 0, 0)).get()).isEqualTo(2L);
+                ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(2L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 3, 1, 0, 0, 0)).get()).isEqualTo(3L);
+                ZonedDateTime.of(2016, 3, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(3L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 4, 1, 0, 0, 0)).get()).isEqualTo(4L);
+                ZonedDateTime.of(2016, 4, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(4L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 5, 1, 0, 0, 0)).get()).isEqualTo(5L);
+                ZonedDateTime.of(2016, 5, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(5L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 6, 1, 0, 0, 0)).isPresent()).isFalse();
+                ZonedDateTime.of(2016, 6, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).isPresent()).isFalse();
 
         // Datum direkt am Spieltag
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 2, 5, 16, 0, 0)).get()).isEqualTo(2L);
+                ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(2L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 5, 5, 13, 0, 0)).get()).isEqualTo(5L);
+                ZonedDateTime.of(2016, 5, 5, 13, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(5L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 5, 5, 16, 0, 0)).get()).isEqualTo(5L);
+                ZonedDateTime.of(2016, 5, 5, 16, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(5L);
         assertThat(roundDao.findNextTippRound(1L,
-                new DateTime(2016, 5, 6, 16, 0, 0)).get()).isEqualTo(5L);
+                ZonedDateTime.of(2016, 5, 6, 16, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(5L);
     }
 
     @Test
@@ -168,27 +169,27 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
         // Datum kurz vor dem Spieltag
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 1, 1, 0, 0, 0)).isPresent()).isFalse();
+                ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).isPresent()).isFalse();
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 2, 1, 0, 0, 0)).get()).isEqualTo(1L);
+                ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(1L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 3, 1, 0, 0, 0)).get()).isEqualTo(2L);
+                ZonedDateTime.of(2016, 3, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(2L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 4, 1, 0, 0, 0)).get()).isEqualTo(3L);
+                ZonedDateTime.of(2016, 4, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(3L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 5, 1, 0, 0, 0)).get()).isEqualTo(4L);
+                ZonedDateTime.of(2016, 5, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(4L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 6, 1, 0, 0, 0)).get()).isEqualTo(5L);
+                ZonedDateTime.of(2016, 6, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(5L);
 
         // Datum direkt am Spieltag
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 2, 5, 16, 0, 0)).get()).isEqualTo(1L);
+                ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(1L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 5, 5, 13, 0, 0)).get()).isEqualTo(4L);
+                ZonedDateTime.of(2016, 5, 5, 13, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(4L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 5, 5, 16, 0, 0)).get()).isEqualTo(4L);
+                ZonedDateTime.of(2016, 5, 5, 16, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(4L);
         assertThat(roundDao.findLastTippRound(1L,
-                new DateTime(2016, 5, 6, 16, 0, 0)).get()).isEqualTo(5L);
+                ZonedDateTime.of(2016, 5, 6, 16, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(5L);
     }
 
     @Test

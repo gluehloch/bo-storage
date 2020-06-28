@@ -6,7 +6,14 @@
 	</properties>
 	<body>
 		<!-- Under construction. -->
-        
+		<release version="betoffice-storage-2.6.4" date="2020-06-27"
+			description="Date time and timezone problem">
+			<action dev="andrewinkler" type="fix" date="2020-06-27">
+				Date time and the timezone problem fix. Moving from java.util.Date to
+				java.time.ZonedDateTime.
+			</action>
+		</release>
+
         <!-- RELEASED -->
 		<release version="betoffice-storage-2.6.3" date="2019-03-22"
 			description="Java 10">

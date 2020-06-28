@@ -23,11 +23,10 @@
 
 package de.winkler.betoffice.service;
 
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
-import org.joda.time.DateTime;
 
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
@@ -565,7 +564,7 @@ public interface SeasonManagerService {
      *            einzelne Spielpaarungen des Spieltags abweichen!
      * @return Der angelegte Spieltag.
      */
-    GameList addRound(Season season, DateTime date, GroupType groupType);
+    GameList addRound(Season season, ZonedDateTime date, GroupType groupType);
 
     /**
      * Entfernt einen Spieltag.
@@ -592,7 +591,7 @@ public interface SeasonManagerService {
      *            Die Gastmannschaft.
      * @return Eine Spielpaarung.
      */
-    Game addMatch(GameList round, DateTime date, Group group,
+    Game addMatch(GameList round, ZonedDateTime date, Group group,
             Team homeTeam, Team guestTeam);
 
     /**
@@ -615,7 +614,7 @@ public interface SeasonManagerService {
      *            Tore der Gastmannschaft.
      * @return Eine Spielpaarung.
      */
-    Game addMatch(GameList round, DateTime date, Group group,
+    Game addMatch(GameList round, ZonedDateTime date, Group group,
             Team homeTeam, Team guestTeam, int homeGoals,
             int guestGoals);
 
@@ -636,7 +635,7 @@ public interface SeasonManagerService {
      *            Die Gastmannschaft.
      * @return Eine Spielpaarung.
      */
-    Game addMatch(Season season, int round, DateTime date,
+    Game addMatch(Season season, int round, ZonedDateTime date,
             GroupType groupType, Team homeTeam, Team guestTeam);
 
     /**
@@ -660,7 +659,7 @@ public interface SeasonManagerService {
      *            Die Tore der Gastmannschaft.
      * @return Eine Spielpaarung.
      */
-    Game addMatch(Season season, int round, DateTime date,
+    Game addMatch(Season season, int round, ZonedDateTime date,
             GroupType groupType, Team homeTeam, Team guestTeam,
             int homeGoals, int guestGoals);
 

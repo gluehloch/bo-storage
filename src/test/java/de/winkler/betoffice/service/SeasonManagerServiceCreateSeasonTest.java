@@ -27,6 +27,11 @@ package de.winkler.betoffice.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -70,12 +75,9 @@ public class SeasonManagerServiceCreateSeasonTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
 
-    private static final DateTime DATE_15_09_2010 = new DateTime(2010, 9, 15, 0,
-            0);
-    private static final DateTime DATE_08_09_2010 = new DateTime(2010, 9, 8, 0,
-            0);
-    private static final DateTime DATE_01_09_2010 = new DateTime(2010, 9, 1, 0,
-            0);
+    private static final ZonedDateTime DATE_15_09_2010 = ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2010, 9, 15), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
+    private static final ZonedDateTime DATE_08_09_2010 = ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2010, 9, 8), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
+    private static final ZonedDateTime DATE_01_09_2010 = ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2010, 9, 9), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
 
     @Autowired
     protected DataSource dataSource;
@@ -337,7 +339,7 @@ public class SeasonManagerServiceCreateSeasonTest {
         createMatch(2, DATE_15_09_2010, burghausen, schalke, 0, 1);
     }
 
-    private void createMatch(final int roundIndex, final DateTime date,
+    private void createMatch(final int roundIndex, final ZonedDateTime date,
             final Team homeTeam, final Team guestTeam, int homeGoals,
             int guestGoals) {
 
@@ -385,7 +387,7 @@ public class SeasonManagerServiceCreateSeasonTest {
         assertThat(groups.get(0).getTeams()).hasSize(4);
     }
 
-    private GameList createRound(final int roundNr, final DateTime date) {
+    private GameList createRound(final int roundNr, final ZonedDateTime date) {
         GameList round = seasonManagerService.addRound(buli_2010, date,
                 bundesliga_1);
         assertThat(buli_2010.size()).isEqualTo(roundNr);

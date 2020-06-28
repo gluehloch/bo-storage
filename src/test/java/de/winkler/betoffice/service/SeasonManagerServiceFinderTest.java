@@ -28,12 +28,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.sql.SQLException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -97,9 +98,8 @@ public class SeasonManagerServiceFinderTest {
     @Test
     public void testNextTippForm() {
         Season season = seasonManagerService.findSeasonById(11);
-        DateTime date = new DateTime(2008, 5, 6, 1, 0, 0);
-        GameList findNextTippRound = tippService
-                .findNextTippRound(season.getId(), date);
+        ZonedDateTime date = ZonedDateTime.of(2008, 5, 6, 1, 0, 0, 0, ZoneId.of("Europe/Paris"));
+        GameList findNextTippRound = tippService.findNextTippRound(season.getId(), date);
         assertThat(findNextTippRound.getId()).isEqualTo(321);
     }
 

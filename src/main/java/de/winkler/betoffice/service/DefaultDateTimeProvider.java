@@ -25,9 +25,10 @@
 package de.winkler.betoffice.service;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 /**
- * Get current date and time.
+ * Get current date and time. As used time zone is 'UTC'.
  * 
  * @author Andre Winkler
  */
@@ -35,7 +36,7 @@ public class DefaultDateTimeProvider implements DateTimeProvider {
 
     @Override
     public DateTime currentDateTime() {
-        return DateTime.now();
+        return DateTime.now(DateTimeZone.forID("Europe/Paris"));
     }
 
 }

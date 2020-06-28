@@ -45,6 +45,7 @@ import de.winkler.betoffice.storage.UserSeason;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
+import de.winkler.betoffice.test.DateTimeDummyProducer;
 import de.winkler.betoffice.test.DummyTeams;
 import de.winkler.betoffice.test.DummyUsers;
 
@@ -171,25 +172,25 @@ public class MinTippGeneratorTest {
         game3.setGroup(group);
         game4.setGroup(group);
 
-        game1.setDateTime(DATE_2002_01_01);
+        game1.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
         game1.setHomeTeam(teams[DummyTeams.BOCHUM]);
         game1.setGuestTeam(teams[DummyTeams.BVB]);
 
-        game2.setDateTime(DATE_2002_01_01);
+        game2.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
         game2.setHomeTeam(teams[DummyTeams.FCB]);
         game2.setGuestTeam(teams[DummyTeams.HSV]);
 
-        game3.setDateTime(DATE_2002_01_01);
+        game3.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
         game3.setHomeTeam(teams[DummyTeams.BOCHUM]);
         game3.setGuestTeam(teams[DummyTeams.BVB]);
 
-        game4.setDateTime(DATE_2002_01_01);
+        game4.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
         game4.setHomeTeam(teams[DummyTeams.BOCHUM]);
         game4.setGuestTeam(teams[DummyTeams.BVB]);
 
         // Spieltag erzeugen, Spiel eintragen.
         round = new GameList();
-        round.setDateTime(new DateTime(1971, 3, 24, 0, 0).toDate());
+        round.setDateTime(DateTimeDummyProducer.DATE_1971_03_24);
         round.setGroup(group);
         season.addGameList(round);
         round.addGame(game1);

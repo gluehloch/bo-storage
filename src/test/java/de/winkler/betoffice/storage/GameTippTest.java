@@ -30,7 +30,6 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,6 +37,7 @@ import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.enums.TotoResult;
 import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
+import de.winkler.betoffice.test.DateTimeDummyProducer;
 
 /**
  * Testklasse für die Klasse GameTipp.
@@ -256,7 +256,7 @@ public class GameTippTest {
         game.setGroup(group);
 
         GameList round = new GameList();
-        round.setDateTime(new DateTime(1971, 3, 24, 0, 0).toDate());
+        round.setDateTime(DateTimeDummyProducer.DATE_1971_03_24);
         round.setGroup(group);
         season.addGameList(round);
         round.addGame(game);
