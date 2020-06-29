@@ -52,6 +52,9 @@ import de.winkler.betoffice.test.DateTimeDummyProducer;
  */
 public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
+    private static final ZoneId ZONE_UTC = ZoneId.of("UTC");
+    private static final ZoneId ZONE_EUROPE_PARIS = ZoneId.of("Europe/Paris");
+
     @Autowired
     private RoundDao roundDao;
 
@@ -131,68 +134,71 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     public void testFindNextTippRound() {
         // Everything as expected?
         ZonedDateTime matchDateTime = matchDao.findById(1L).getDateTime();
-        assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZoneId.of("Europe/Paris")));
+        assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_PARIS));
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
         assertThat(matchDao.findById(20L).isPlayed()).isFalse();
 
         // Datum kurz vor dem Spieltag
         assertThat(roundDao.findNextTippRound(1L,
-                ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(1L);
+                ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(1L);
         assertThat(roundDao.findNextTippRound(1L,
-                ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(2L);
+                ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(2L);
         assertThat(roundDao.findNextTippRound(1L,
-                ZonedDateTime.of(2016, 3, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(3L);
+                ZonedDateTime.of(2016, 3, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(3L);
         assertThat(roundDao.findNextTippRound(1L,
-                ZonedDateTime.of(2016, 4, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(4L);
+                ZonedDateTime.of(2016, 4, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(4L);
         assertThat(roundDao.findNextTippRound(1L,
-                ZonedDateTime.of(2016, 5, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(5L);
+                ZonedDateTime.of(2016, 5, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(5L);
         assertThat(roundDao.findNextTippRound(1L,
-                ZonedDateTime.of(2016, 6, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).isPresent()).isFalse();
+                ZonedDateTime.of(2016, 6, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)).isPresent()).isFalse();
 
         // Datum direkt am Spieltag
         assertThat(roundDao.findNextTippRound(1L,
-                ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(2L);
+                ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(2L);
         assertThat(roundDao.findNextTippRound(1L,
-                ZonedDateTime.of(2016, 5, 5, 13, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(5L);
+                ZonedDateTime.of(2016, 5, 5, 13, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(5L);
         assertThat(roundDao.findNextTippRound(1L,
-                ZonedDateTime.of(2016, 5, 5, 16, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(5L);
+                ZonedDateTime.of(2016, 5, 5, 16, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(5L);
         assertThat(roundDao.findNextTippRound(1L,
-                ZonedDateTime.of(2016, 5, 6, 16, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(5L);
+                ZonedDateTime.of(2016, 5, 6, 16, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(5L);
     }
 
     @Test
     public void testFindLastTippRound() {
         // Everything as expected?
         ZonedDateTime matchDateTime = matchDao.findById(1L).getDateTime();
-        assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(15, 0)), ZoneId.of("Europe/Paris")));
+        assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(15, 0)), ZONE_EUROPE_PARIS));
+        assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(15, 0)), ZONE_UTC));
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
         assertThat(matchDao.findById(20L).isPlayed()).isFalse();
 
         // Datum kurz vor dem Spieltag
         assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).isPresent()).isFalse();
+                ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)).isPresent()).isFalse();
         assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(1L);
+                ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(1L);
         assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 3, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(2L);
+                ZonedDateTime.of(2016, 3, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(2L);
         assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 4, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(3L);
+                ZonedDateTime.of(2016, 4, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(3L);
         assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 5, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(4L);
+                ZonedDateTime.of(2016, 5, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(4L);
         assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 6, 1, 0, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(5L);
+                ZonedDateTime.of(2016, 6, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(5L);
 
         // Datum direkt am Spieltag
         assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(1L);
+                ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(2L);
         assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 5, 5, 13, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(4L);
+                ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZONE_UTC)).get()).isEqualTo(4L);
         assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 5, 5, 16, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(4L);
+                ZonedDateTime.of(2016, 5, 5, 13, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(4L);
         assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 5, 6, 16, 0, 0, 0, ZoneId.of("Europe/Paris"))).get()).isEqualTo(5L);
+                ZonedDateTime.of(2016, 5, 5, 16, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(5L);
+        assertThat(roundDao.findLastTippRound(1L,
+                ZonedDateTime.of(2016, 5, 6, 16, 0, 0, 0, ZONE_EUROPE_PARIS)).get()).isEqualTo(5L);
     }
 
     @Test

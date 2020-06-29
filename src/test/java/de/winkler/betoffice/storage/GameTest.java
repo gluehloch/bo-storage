@@ -24,13 +24,18 @@
 
 package de.winkler.betoffice.storage;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.joda.time.DateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -128,8 +133,16 @@ public class GameTest {
         assertFalse(tippA.equals(tippX));
         assertFalse(tippB.equals(tippX));
 
-        assertEquals(DateTime.parse("1971-03-24T20:00:00").toDate(),
-                game1.getDateTime());
+        ZonedDateTime expectedGameDateTime1 = ZonedDateTime.of(
+                LocalDateTime.of(LocalDate.of(2002, 1, 1), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
+        
+        ZonedDateTime expectedGameDateTime2 = ZonedDateTime.parse("2002-01-01T00:00:00+01:00[Europe/Paris]");
+        ZonedDateTime expectedGameDateTime3 = ZonedDateTime.parse("2002-01-01T00:00:00+02:00[Europe/Paris]");
+        
+        assertThat(expectedGameDateTime1).isEqualTo(expectedGameDateTime2);
+        assertThat(expectedGameDateTime1).isEqualTo(expectedGameDateTime3);
+        
+        assertThat(game1.getDateTime()).isEqualTo(expectedGameDateTime1);
 
         try {
             game1.addTipp(JUNIT_TOKEN, null, null, null);
@@ -139,6 +152,7 @@ public class GameTest {
         }
     }
 
+    @Test
     public void testGameContainsTipp() {
         assertTrue("userA besitzt Tipp.", game1.containsTipp(userA));
         assertTrue("userB besitzt Tipp.", game1.containsTipp(userB));
@@ -146,6 +160,7 @@ public class GameTest {
         assertFalse("userD besitzt keinen Tipp.", game1.containsTipp(userD));
     }
 
+    @Test
     public void testGameAddTipp() {
         GameTipp tipp1 = new GameTipp();
         tipp1.setUser(userA);
@@ -175,9 +190,9 @@ public class GameTest {
             game1.addTipp(tipp4);
             fail("StorageObjectNotValidException erwartet.");
         } catch (StorageObjectExistsException e) {
-            fail("StorageObjectExistsException nicht erwartet.");
-        } catch (StorageObjectNotValidException e) {
             // Ok
+        } catch (StorageObjectNotValidException e) {
+            fail("StorageObjectNotValidException nicht erwartet.");
         }
 
         try {
