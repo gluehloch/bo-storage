@@ -54,6 +54,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
     private static final ZoneId ZONE_UTC = ZoneId.of("UTC");
     private static final ZoneId ZONE_EUROPE_PARIS = ZoneId.of("Europe/Paris");
+    private static final ZoneId ZONE_EUROPE_BERLIN = ZoneId.of("Europe/Berlin");
 
     @Autowired
     private RoundDao roundDao;
@@ -136,8 +137,8 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     public void testFindNextTippRound() {
         // Everything as expected?
         ZonedDateTime matchDateTime = matchDao.findById(1L).getDateTime();
-        assertThat(matchDateTime).isEqualTo(
-                ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_PARIS));
+        assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_PARIS));
+        assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN));
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
         assertThat(matchDao.findById(20L).isPlayed()).isFalse();
