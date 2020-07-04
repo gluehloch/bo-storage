@@ -179,6 +179,10 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void zonedDateTimeComparison() {
+        //
+        // Winterzeit: 01.05.2016 - 1 Stunde Differenz zwischen UTC und Europe/Paris. D.h.
+        // die UTC Zeit laeuft 1 Stunde hinterher. Europe/Paris(Winterzeit) -1h => UTC
+        //
         ZonedDateTime zdtEuropeParisWinter = ZonedDateTime.of(
                 LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(15, 0)),
                 ZONE_EUROPE_PARIS);
@@ -190,16 +194,20 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(zdtCoordinatedUniversalTimeZoneWinter.isBefore(zdtEuropeParisWinter)).isFalse();
         assertThat(zdtEuropeParisWinter).isEqualTo(zdtCoordinatedUniversalTimeZoneWinter);
         
+        //
+        // Sommerzeit: 06.05.2016 - 2 Stunden Differenz zwischen UTC und Europe/Paris. D.h.
+        // die UTC Zeit laeuft 2 Stunden hinterher. Europe/Paris(Sommerzeit) -2h => UTC
+        //
         ZonedDateTime zdtEuropeParisSommer = ZonedDateTime.of(
                 LocalDateTime.of(LocalDate.of(2016, 6, 5), LocalTime.of(15, 0)),
                 ZONE_EUROPE_PARIS);
         ZonedDateTime zdtCoordinatedUniversalTimeZoneSommer = ZonedDateTime.of(
-                LocalDateTime.of(LocalDate.of(2016, 6, 5), LocalTime.of(14, 0)),
+                LocalDateTime.of(LocalDate.of(2016, 6, 5), LocalTime.of(13, 0)),
                 ZONE_UTC);
         
-        assertThat(zdtEuropeParisSommer.isBefore(zdtCoordinatedUniversalTimeZoneSommer)).isTrue();
+        assertThat(zdtEuropeParisSommer.isBefore(zdtCoordinatedUniversalTimeZoneSommer)).isFalse();
         assertThat(zdtCoordinatedUniversalTimeZoneSommer.isBefore(zdtEuropeParisSommer)).isFalse();
-        assertThat(zdtEuropeParisSommer).isNotEqualTo(zdtCoordinatedUniversalTimeZoneSommer);
+        assertThat(zdtEuropeParisSommer).isEqualTo(zdtCoordinatedUniversalTimeZoneSommer);
     }
 
     @Test
@@ -211,7 +219,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
                 LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(15, 0)),
                 ZONE_EUROPE_PARIS));
         assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(
-                LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(13, 0)),
+                LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(14, 0)),
                 ZONE_UTC));
 
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
@@ -244,7 +252,10 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
                 .get()).isEqualTo(2L);
         assertThat(roundDao.findLastTippRound(1L,
                 ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZONE_UTC)).get())
-                        .isEqualTo(4L);
+                        .isEqualTo(2L);
+        assertThat(roundDao.findLastTippRound(1L,
+                ZonedDateTime.of(2016, 2, 5, 15, 0, 0, 0, ZONE_UTC)).get())
+                        .isEqualTo(2L);
         assertThat(roundDao.findLastTippRound(1L,
                 ZonedDateTime.of(2016, 5, 5, 13, 0, 0, 0, ZONE_EUROPE_PARIS))
                 .get()).isEqualTo(4L);
