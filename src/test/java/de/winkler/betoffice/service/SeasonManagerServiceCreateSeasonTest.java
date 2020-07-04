@@ -39,7 +39,6 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,9 +74,12 @@ public class SeasonManagerServiceCreateSeasonTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
 
-    private static final ZonedDateTime DATE_15_09_2010 = ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2010, 9, 15), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
-    private static final ZonedDateTime DATE_08_09_2010 = ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2010, 9, 8), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
-    private static final ZonedDateTime DATE_01_09_2010 = ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2010, 9, 9), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
+    private static final ZonedDateTime DATE_15_09_2010 = ZonedDateTime
+            .of(LocalDateTime.of(LocalDate.of(2010, 9, 15), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
+    private static final ZonedDateTime DATE_08_09_2010 = ZonedDateTime
+            .of(LocalDateTime.of(LocalDate.of(2010, 9, 8), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
+    private static final ZonedDateTime DATE_01_09_2010 = ZonedDateTime
+            .of(LocalDateTime.of(LocalDate.of(2010, 9, 9), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
 
     @Autowired
     protected DataSource dataSource;
@@ -367,20 +369,18 @@ public class SeasonManagerServiceCreateSeasonTest {
 
         assertThat(seasonManagerService.findRounds(buli_2010)).hasSize(3);
 
-        assertThat(new DateTime(seasonManagerService.findRound(buli_2010, 0)
-                .get().getDateTime())).isEqualTo(DATE_01_09_2010);
-        assertThat(new DateTime(seasonManagerService.findRound(buli_2010, 1)
-                .get().getDateTime())).isEqualTo(DATE_08_09_2010);
-        assertThat(new DateTime(seasonManagerService.findRound(buli_2010, 2)
-                .get().getDateTime())).isEqualTo(DATE_15_09_2010);
+        assertThat(seasonManagerService.findRound(buli_2010, 0).orElseThrow(() -> new IllegalArgumentException())
+                .getDateTime()).isEqualTo(DATE_01_09_2010);
+        assertThat(seasonManagerService.findRound(buli_2010, 1).orElseThrow(() -> new IllegalArgumentException())
+                .getDateTime()).isEqualTo(DATE_08_09_2010);
+        assertThat(seasonManagerService.findRound(buli_2010, 2).orElseThrow(() -> new IllegalArgumentException())
+                .getDateTime()).isEqualTo(DATE_15_09_2010);
     }
 
     private void addTeamsToBuli1() {
-        Group group = seasonManagerService.addTeam(buli_2010, bundesliga_1,
-                hsv);
+        Group group = seasonManagerService.addTeam(buli_2010, bundesliga_1, hsv);
         group = seasonManagerService.addTeam(buli_2010, bundesliga_1, schalke);
-        group = seasonManagerService.addTeam(buli_2010, bundesliga_1,
-                burghausen);
+        group = seasonManagerService.addTeam(buli_2010, bundesliga_1,burghausen);
         group = seasonManagerService.addTeam(buli_2010, bundesliga_1, rwe);
         assertThat(group.getTeams()).hasSize(4);
         List<Group> groups = seasonManagerService.findGroups(buli_2010);
@@ -393,8 +393,7 @@ public class SeasonManagerServiceCreateSeasonTest {
         assertThat(buli_2010.size()).isEqualTo(roundNr);
         List<GameList> rounds = seasonManagerService.findRounds(buli_2010);
         assertThat(rounds).hasSize(roundNr);
-        assertThat(new DateTime(rounds.get(roundNr - 1).getDateTime()))
-                .isEqualTo(date);
+        assertThat(rounds.get(roundNr - 1).getDateTime()).isEqualTo(date);
         return round;
     }
 
