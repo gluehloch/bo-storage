@@ -26,7 +26,6 @@ package de.winkler.betoffice.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,20 +63,18 @@ public class DefaultAuthService implements AuthService {
             String address, String browserId) {
 
         Optional<User> user = userDao.findByNickname(name);
-        DateTime now = DateTime.now();
+        var now = dateTimeProvider.currentDateTime();
 
         SecurityToken securityToken = null;
         if (user.isPresent() && user.get().comparePwd(password)) {
             User presentUser = user.get();
-            RoleType roleType = presentUser.isAdmin() ? RoleType.ADMIN
-                    : RoleType.TIPPER;
-            securityToken = new SecurityToken(sessionId, presentUser, roleType,
-                    now);
+            RoleType roleType = presentUser.isAdmin() ? RoleType.ADMIN : RoleType.TIPPER;
+            securityToken = new SecurityToken(sessionId, presentUser, roleType, now);
 
             Session session = new Session();
             session.setBrowser(browserId);
             session.setFailedLogins(0);
-            session.setLogin(now.toDate());
+            session.setLogin(now);
             session.setLogout(null);
             session.setNickname(name);
             session.setRemoteAddress(address);
@@ -101,7 +98,7 @@ public class DefaultAuthService implements AuthService {
                     securityToken);
         } else {
             for (Session session : sessions) {
-                session.setLogout(dateTimeProvider.currentDateTime().toDate());
+                session.setLogout(dateTimeProvider.currentDateTime());
                 sessionDao.save(session);
             }
         }

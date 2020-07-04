@@ -24,19 +24,27 @@
 
 package de.winkler.betoffice.service;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
+import org.springframework.stereotype.Component;
 
 /**
  * Get current date and time. As used time zone is 'UTC'.
  * 
  * @author Andre Winkler
  */
+@Component("dataTimeProvider")
 public class DefaultDateTimeProvider implements DateTimeProvider {
 
     @Override
-    public DateTime currentDateTime() {
-        return DateTime.now(DateTimeZone.forID("Europe/Paris"));
+    public ZoneId defaultZoneId() {
+        return ZoneId.of("Europe/Paris");
+    }
+
+    @Override
+    public ZonedDateTime currentDateTime() {
+        return ZonedDateTime.now(defaultZoneId());
     }
 
 }

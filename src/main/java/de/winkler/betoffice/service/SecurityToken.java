@@ -24,7 +24,7 @@
 
 package de.winkler.betoffice.service;
 
-import org.joda.time.DateTime;
+import java.time.ZonedDateTime;
 
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.RoleType;
@@ -39,7 +39,7 @@ public class SecurityToken {
     private final String token;
     private final User user;
     private final RoleType roleType;
-    private final DateTime loginTime;
+    private final ZonedDateTime loginTime;
 
     /**
      * Constructor
@@ -53,8 +53,7 @@ public class SecurityToken {
      * @param _loginTime
      *            Zeitpunkt des einloggens.
      */
-    public SecurityToken(String _token, User _user, RoleType _roleType,
-            DateTime _loginTime) {
+    public SecurityToken(String _token, User _user, RoleType _roleType, ZonedDateTime _loginTime) {
         token = _token;
         user = _user;
         roleType = _roleType;
@@ -69,7 +68,7 @@ public class SecurityToken {
         return user;
     }
 
-    public DateTime getLoginTime() {
+    public ZonedDateTime getLoginTime() {
         return loginTime;
     }
 

@@ -24,20 +24,23 @@
 
 package de.winkler.betoffice.service;
 
-import org.joda.time.DateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 /**
- * Provides the current date and time.
+ * Provides current date, time and ZoneId.
  * 
  * @author Andre Winkler
  */
 public interface DateTimeProvider {
 
+    ZoneId defaultZoneId();
+    
     /**
      * Get the current date and time.
      * 
      * @return the current date and time
      */
-    DateTime currentDateTime();
+    ZonedDateTime currentDateTime();
 
 }
