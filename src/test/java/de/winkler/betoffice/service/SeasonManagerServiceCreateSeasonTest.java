@@ -75,11 +75,11 @@ public class SeasonManagerServiceCreateSeasonTest {
     private static final String JUNIT_TOKEN = "#JUNIT#";
 
     private static final ZonedDateTime DATE_15_09_2010 = ZonedDateTime
-            .of(LocalDateTime.of(LocalDate.of(2010, 9, 15), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
+            .of(LocalDateTime.of(LocalDate.of(2010, 9, 15), LocalTime.of(0, 0)), ZoneId.of("Europe/Berlin"));
     private static final ZonedDateTime DATE_08_09_2010 = ZonedDateTime
-            .of(LocalDateTime.of(LocalDate.of(2010, 9, 8), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
+            .of(LocalDateTime.of(LocalDate.of(2010, 9, 8), LocalTime.of(0, 0)), ZoneId.of("Europe/Berlin"));
     private static final ZonedDateTime DATE_01_09_2010 = ZonedDateTime
-            .of(LocalDateTime.of(LocalDate.of(2010, 9, 9), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
+            .of(LocalDateTime.of(LocalDate.of(2010, 9, 9), LocalTime.of(0, 0)), ZoneId.of("Europe/Berlin"));
 
     @Autowired
     protected DataSource dataSource;

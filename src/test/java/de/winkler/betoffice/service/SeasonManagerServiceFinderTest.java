@@ -98,7 +98,7 @@ public class SeasonManagerServiceFinderTest {
     @Test
     public void testNextTippForm() {
         Season season = seasonManagerService.findSeasonById(11);
-        ZonedDateTime date = ZonedDateTime.of(2008, 5, 6, 1, 0, 0, 0, ZoneId.of("Europe/Paris"));
+        ZonedDateTime date = ZonedDateTime.of(2008, 5, 6, 1, 0, 0, 0, ZoneId.of("Europe/Berlin"));
         GameList findNextTippRound = tippService.findNextTippRound(season.getId(), date);
         assertThat(findNextTippRound.getId()).isEqualTo(321);
     }

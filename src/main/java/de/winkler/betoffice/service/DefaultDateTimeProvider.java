@@ -30,7 +30,7 @@ import java.time.ZonedDateTime;
 import org.springframework.stereotype.Component;
 
 /**
- * Get current date and time. As used time zone is 'UTC'.
+ * Get current date and time. As used time zone is 'Europe/Berlin'.
  * 
  * @author Andre Winkler
  */
@@ -39,7 +39,7 @@ public class DefaultDateTimeProvider implements DateTimeProvider {
 
     @Override
     public ZoneId defaultZoneId() {
-        return ZoneId.of("Europe/Paris");
+        return ZoneId.of("Europe/Berlin");
     }
 
     @Override

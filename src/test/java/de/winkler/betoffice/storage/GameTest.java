@@ -134,15 +134,15 @@ public class GameTest {
         assertFalse(tippB.equals(tippX));
 
         //
-        // 01-01-2002 00:00 Uhr Europe/Paris ==>> 31-12-2001 23:00 Uhr UTC
+        // 01-01-2002 00:00 Uhr Europe/Berlin ==>> 31-12-2001 23:00 Uhr UTC
         //
         ZonedDateTime expectedGameDateTime1 = ZonedDateTime.of(
-                LocalDateTime.of(LocalDate.of(2002, 1, 1), LocalTime.of(0, 0)), ZoneId.of("Europe/Paris"));
+                LocalDateTime.of(LocalDate.of(2002, 1, 1), LocalTime.of(0, 0)), ZoneId.of("Europe/Berlin"));
         
         // Offset +1 Stunde zu UTC
-        ZonedDateTime expectedGameDateTime2 = ZonedDateTime.parse("2002-01-01T00:00:00+01:00[Europe/Paris]");
+        ZonedDateTime expectedGameDateTime2 = ZonedDateTime.parse("2002-01-01T00:00:00+01:00[Europe/Berlin]");
         // Offset +2 Stunden zu UTC (Frage: Wird diese Angabe ignoriert oder tatsaechlich verarbeitet?)
-        ZonedDateTime expectedGameDateTime3 = ZonedDateTime.parse("2002-01-01T00:00:00+02:00[Europe/Paris]");
+        ZonedDateTime expectedGameDateTime3 = ZonedDateTime.parse("2002-01-01T00:00:00+02:00[Europe/Berlin]");
         
         assertThat(expectedGameDateTime1).isEqualTo(expectedGameDateTime2);
         assertThat(expectedGameDateTime1).isNotEqualTo(expectedGameDateTime3);

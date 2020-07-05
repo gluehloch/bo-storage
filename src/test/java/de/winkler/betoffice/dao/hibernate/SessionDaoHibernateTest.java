@@ -63,7 +63,7 @@ public class SessionDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(sessions.get(0).getFailedLogins(), equalTo(1));
 
         ZonedDateTime login = sessions.get(0).getLogin();
-        ZonedDateTime expectedLogin = ZonedDateTime.of(LocalDate.of(2015, 11, 14), LocalTime.of(2, 0), ZoneId.of("Europe/Paris"));
+        ZonedDateTime expectedLogin = ZonedDateTime.of(LocalDate.of(2015, 11, 14), LocalTime.of(2, 0), ZoneId.of("Europe/Berlin"));
         assertThat(login, equalTo(expectedLogin));
     }
 
