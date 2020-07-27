@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -23,6 +23,7 @@
 
 package de.winkler.betoffice.service;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -143,17 +144,25 @@ public class DefaultTippService extends AbstractManagerService
         // Find related tipp ...
         for (GameTippDto tipp : tippDto.getGameTipps()) {
             Game game = matchDao.findById(tipp.getGameId());
-
-            // Time point of tipp submit must be before kick off.
-            if (game.getDateTime() != null && tippDto.getSubmitTime()
-                    .isBefore(new DateTime(game.getDateTime().getTime()))) {
-
-                GameTipp gameTipp = game
-                        .addTipp(tippDto.getToken(), user.get(),
-                                new GameResult(tipp.getHomeGoals(),
-                                        tipp.getGuestGoals()),
-                                TippStatusType.USER);
+            
+            ZonedDateTime gameDateTime = game.getDateTime();
+            
+            if (gameDateTime == null) {
+                GameTipp gameTipp = game.addTipp(
+                        tippDto.getToken(),
+                        user.get(),
+                        GameResult.of(tipp.getHomeGoals(), tipp.getGuestGoals()),
+                        TippStatusType.USER);
                 gameTippDao.save(gameTipp);
+            } else {
+                if (tippDto.getSubmitTime().isBefore(gameDateTime)) {
+                    GameTipp gameTipp = game.addTipp(
+                            tippDto.getToken(),
+                            user.get(),
+                            GameResult.of(tipp.getHomeGoals(), tipp.getGuestGoals()),
+                            TippStatusType.USER);
+                    gameTippDao.save(gameTipp);                    
+                }
             }
         }
     }
@@ -220,7 +229,7 @@ public class DefaultTippService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public GameList findNextTippRound(long seasonId, DateTime date) {
+    public GameList findNextTippRound(long seasonId, ZonedDateTime date) {
         Optional<Long> roundId = roundDao.findNextTippRound(seasonId, date);
         if (roundId.isPresent()) {
             return roundDao.findById(roundId.get());
@@ -231,7 +240,7 @@ public class DefaultTippService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public GameList findPreviousTippRound(long seasonId, DateTime date) {
+    public GameList findPreviousTippRound(long seasonId, ZonedDateTime date) {
         Optional<Long> roundId = roundDao.findLastTippRound(seasonId, date);
         if (roundId.isPresent()) {
             return roundDao.findById(roundId.get());

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL  LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -23,10 +23,9 @@
 
 package de.winkler.betoffice.dao;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
-
-import org.joda.time.DateTime;
 
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Group;
@@ -119,7 +118,7 @@ public interface RoundDao extends CommonDao<GameList> {
      *            Das Bezugsdatum.
      * @return Der nächste zu tippende Spieltag.
      */
-    Optional<Long> findNextTippRound(long seasonId, DateTime date);
+    Optional<Long> findNextTippRound(long seasonId, ZonedDateTime date);
 
     /**
      * Liefert den letzten zu tippenden Spieltag.
@@ -130,7 +129,7 @@ public interface RoundDao extends CommonDao<GameList> {
      *            Das Bezugsdatum
      * @return Der letzte zu tippende Spieltag.
      */
-    Optional<Long> findLastTippRound(long seasonId, DateTime date);
+    Optional<Long> findLastTippRound(long seasonId, ZonedDateTime date);
 
     /**
      * Liefert die letzte Runde einer Meisterschaft-

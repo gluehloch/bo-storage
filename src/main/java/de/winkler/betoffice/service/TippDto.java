@@ -23,10 +23,9 @@
 
 package de.winkler.betoffice.service;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.joda.time.DateTime;
 
 /**
  * Holds the tipp data.
@@ -35,7 +34,7 @@ import org.joda.time.DateTime;
  */
 public class TippDto {
 
-    private DateTime submitTime;
+    private ZonedDateTime submitTime;
 
     private long roundId;
     private String nickname;
@@ -46,7 +45,7 @@ public class TippDto {
     /**
      * @return the submitTime
      */
-    public DateTime getSubmitTime() {
+    public ZonedDateTime getSubmitTime() {
         return submitTime;
     }
 
@@ -54,7 +53,7 @@ public class TippDto {
      * @param submitTime
      *            the submitTime to set
      */
-    public void setSubmitTime(DateTime submitTime) {
+    public void setSubmitTime(ZonedDateTime submitTime) {
         this.submitTime = submitTime;
     }
 

@@ -25,12 +25,14 @@ package de.winkler.betoffice.storage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
+
+import de.winkler.betoffice.test.DateTimeDummyProducer;
 
 /**
  * Look for the best date for a round. The round date is computed by all dates
@@ -42,28 +44,25 @@ public class BestDateFinderTest {
 
     @Test
     public void testBestRoundDateFinder2() {
-        DateTime DT0_2014_08_22_203000 = new DateTime(2014, 8, 22, 20, 30, 0);
+        List<ZonedDateTime> dates = new ArrayList<>();
+        dates.add(DateTimeDummyProducer.DT0_2014_08_22_203000);
+        dates.add(DateTimeDummyProducer.DT1_2014_08_23_153000);
+        dates.add(DateTimeDummyProducer.DT1_2014_08_23_153000);
+        dates.add(DateTimeDummyProducer.DT3_2014_08_23_153000);
+        dates.add(DateTimeDummyProducer.DT3_2014_08_23_153000);
+        dates.add(DateTimeDummyProducer.DT5_2014_08_24_160000);
+        dates.add(DateTimeDummyProducer.DT6_2014_08_24_190000);
 
-        DateTime DT1_2014_08_23_153000 = new DateTime(2014, 8, 23, 15, 30, 0);
-        DateTime DT2_2014_08_23_153000 = new DateTime(2014, 8, 23, 15, 30, 0);
-        DateTime DT3_2014_08_23_153000 = new DateTime(2014, 8, 23, 15, 30, 0);
-        DateTime DT4_2014_08_23_153000 = new DateTime(2014, 8, 23, 15, 30, 0);
-
-        DateTime DT5_2014_08_24_160000 = new DateTime(2014, 8, 24, 16, 00, 0);
-        DateTime DT6_2014_08_24_160000 = new DateTime(2014, 8, 24, 16, 00, 0);
-
-        List<Date> dates = new ArrayList<>();
-        dates.add(DT0_2014_08_22_203000.toDate());
-        dates.add(DT1_2014_08_23_153000.toDate());
-        dates.add(DT2_2014_08_23_153000.toDate());
-        dates.add(DT3_2014_08_23_153000.toDate());
-        dates.add(DT4_2014_08_23_153000.toDate());
-        dates.add(DT5_2014_08_24_160000.toDate());
-        dates.add(DT6_2014_08_24_160000.toDate());
-
-        Date bestDate = GameList.findBestDate(dates);
-        assertThat(bestDate.getTime()).isEqualTo(new DateTime(2014, 8, 23, 15,
-                30, 0).toDate().getTime());
+        LocalDate bestDate = GameList.findBestDate(dates);
+        assertThat(bestDate).isEqualTo(DateTimeDummyProducer.DT3_2014_08_23_153000.toLocalDate());
+        
+        dates.add(DateTimeDummyProducer.DT5_2014_08_24_160000);
+        dates.add(DateTimeDummyProducer.DT5_2014_08_24_160000);
+        dates.add(DateTimeDummyProducer.DT6_2014_08_24_190000);
+        dates.add(DateTimeDummyProducer.DT6_2014_08_24_190000);
+        
+        LocalDate bestDate2 = GameList.findBestDate(dates);
+        assertThat(bestDate2).isEqualTo(DateTimeDummyProducer.DT5_2014_08_24_160000.toLocalDate());
     }
 
 }

@@ -23,6 +23,7 @@
 
 package de.winkler.betoffice.storage;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -90,7 +91,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     /** date and time of game play */
     @Column(name = "bo_datetime")
-    private Date dateTime;
+    private ZonedDateTime dateTime;
 
     /** Die zugehörige Gruppe. */
     @ManyToOne
@@ -201,7 +202,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *
      * @return date and time
      */
-    public Date getDateTime() {
+    public ZonedDateTime getDateTime() {
         return dateTime;
     }
 
@@ -211,7 +212,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * @param _dateTime
      *            date and time
      */
-    public void setDateTime(final Date _dateTime) {
+    public void setDateTime(final ZonedDateTime _dateTime) {
         dateTime = _dateTime;
     }
 

@@ -23,9 +23,8 @@
 
 package de.winkler.betoffice.service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
-
-import org.joda.time.DateTime;
 
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
@@ -177,7 +176,7 @@ public interface TippService {
      *            Das Bezugsdatum
      * @return Der naechste zu tippende Spieltag
      */
-    public GameList findNextTippRound(long seasonId, DateTime date);
+    public GameList findNextTippRound(long seasonId, ZonedDateTime date);
 
     /**
      * Ermittelt den letzten zu tippenden Spieltag.
@@ -188,6 +187,6 @@ public interface TippService {
      *            Das Bezugsdatum
      * @return Der naechste zu tippende Spieltag
      */
-    public GameList findPreviousTippRound(long seasonId, DateTime date);
+    public GameList findPreviousTippRound(long seasonId, ZonedDateTime date);
 
 }

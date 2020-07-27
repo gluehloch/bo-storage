@@ -25,9 +25,12 @@ package de.winkler.betoffice.dao.hibernate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +61,8 @@ public class SessionDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(sessions.get(0).getBrowser()).isEqualTo("firefoy");
         assertThat(sessions.get(0).getFailedLogins()).isEqualTo(1);
 
-        DateTime login = new DateTime(sessions.get(0).getLogin());
-        DateTime expectedLogin = new DateTime(2015, 11, 14, 2, 0, 0);
+        ZonedDateTime login = sessions.get(0).getLogin();
+        ZonedDateTime expectedLogin = ZonedDateTime.of(LocalDate.of(2015, 11, 14), LocalTime.of(2, 0), ZoneId.of("Europe/Berlin"));
         assertThat(login).isEqualTo(expectedLogin);
     }
 

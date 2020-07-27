@@ -54,16 +54,12 @@ public class PropertyReaderTest {
         Properties props = new Properties();
         props.load(is);
 
-        assertThat(props.getProperty("betoffice.persistence.username"))
-                .isEqualTo("test");
-        assertThat(props.getProperty("betoffice.persistence.password"))
-                .isEqualTo("test");
-        assertThat(props.getProperty("betoffice.persistence.url")).isNull();
+        assertThat(props.getProperty("betoffice.persistence.username")).isEqualTo("test");
+        assertThat(props.getProperty("betoffice.persistence.password")).isEqualTo("test");
+        assertThat(props.getProperty("betoffice.persistence.url")).isNotNull();
                 // .isEqualTo("jdbc:mysql://192.168.99.100/botest");
-        assertThat(props.getProperty("betoffice.persistence.classname"))
-                .isEqualTo("com.mysql.jdbc.Driver");
-        assertThat(props.getProperty("betoffice.persistence.dialect"))
-                .isEqualTo("org.hibernate.dialect.MySQLDialect");
+        assertThat(props.getProperty("betoffice.persistence.classname")).isEqualTo("com.mysql.jdbc.Driver");
+        assertThat(props.getProperty("betoffice.persistence.dialect")).isEqualTo("org.hibernate.dialect.MySQLDialect");
     }
 
 }

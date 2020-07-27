@@ -28,12 +28,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
-import org.joda.time.DateTime;
 
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
@@ -54,11 +52,6 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
 public class DummyScenario {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
-
-    private static final Date DATE_2002_01_01 = new DateTime(2002, 1, 1, 0, 0)
-            .toDate();
-    private static final Date DATE_2002_01_02 = new DateTime(2002, 1, 2, 0, 0)
-            .toDate();
 
     private final List<Season> seasons = new ArrayList<Season>();
 
@@ -227,28 +220,28 @@ public class DummyScenario {
 
         int n = 0;
 
-        game1.setDateTime(DATE_2002_01_01);
+        game1.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
         game1.setHomeTeam(teams.teams()[DummyTeams.BOCHUM]);
         game1.setGuestTeam(teams.teams()[DummyTeams.BVB]);
         game1.setResult(new GameResult(2, 1));
         game1.setPlayed(true);
         game1.setIndex(n++);
 
-        game2.setDateTime(DATE_2002_01_01);
+        game2.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
         game2.setHomeTeam(teams.teams()[DummyTeams.HSV]);
         game2.setGuestTeam(teams.teams()[DummyTeams.STPAULI]);
         game2.setResult(new GameResult(1, 1));
         game2.setPlayed(true);
         game2.setIndex(n++);
 
-        game3.setDateTime(DATE_2002_01_02);
+        game3.setDateTime(DateTimeDummyProducer.DATE_2002_01_02);
         game3.setHomeTeam(teams.teams()[DummyTeams.BOCHUM]);
         game3.setGuestTeam(teams.teams()[DummyTeams.BVB]);
         game3.setResult(new GameResult(0, 1));
         game3.setPlayed(true);
         game3.setIndex(n++);
 
-        game4.setDateTime(DATE_2002_01_02);
+        game4.setDateTime(DateTimeDummyProducer.DATE_2002_01_02);
         game4.setHomeTeam(teams.teams()[DummyTeams.BOCHUM]);
         game4.setGuestTeam(teams.teams()[DummyTeams.BVB]);
         game4.setResult(new GameResult(3, 3));
@@ -257,7 +250,7 @@ public class DummyScenario {
 
         // Spieltag erzeugen, Spiel eintragen.
         round1 = new GameList();
-        round1.setDateTime(new DateTime(2002, 12, 12, 0, 0).toDate());
+        round1.setDateTime(DateTimeDummyProducer.DATE_2002_01_02);
         round1.setGroup(buli_1);
         season.addGameList(round1);
         assertEquals(0, round1.unmodifiableList().size());

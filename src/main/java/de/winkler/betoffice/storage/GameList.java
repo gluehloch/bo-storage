@@ -23,6 +23,8 @@
 
 package de.winkler.betoffice.storage;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -82,7 +84,7 @@ public class GameList extends AbstractStorageObject
     private Long openligaid;
 
     @Column(name = "bo_datetime")
-    private Date dateTime;
+    private ZonedDateTime dateTime;
 
     @ManyToOne
     @JoinColumn(name = "bo_season_ref")
@@ -303,7 +305,7 @@ public class GameList extends AbstractStorageObject
      *
      * @return date and time
      */
-    public Date getDateTime() {
+    public ZonedDateTime getDateTime() {
         return dateTime;
     }
 
@@ -313,7 +315,7 @@ public class GameList extends AbstractStorageObject
      * @param _dateTime
      *            date and time
      */
-    public void setDateTime(final Date _dateTime) {
+    public void setDateTime(final ZonedDateTime _dateTime) {
         dateTime = _dateTime;
     }
 
@@ -497,8 +499,8 @@ public class GameList extends AbstractStorageObject
      *
      * @return the best round date
      */
-    public Date findBestRoundDate() {
-        List<Date> matchDates = new ArrayList<>();
+    public LocalDate findBestRoundDate() {
+        List<ZonedDateTime> matchDates = new ArrayList<>();
         for (Game match : gameList) {
             matchDates.add(match.getDateTime());
         }
@@ -513,26 +515,26 @@ public class GameList extends AbstractStorageObject
      *            the dates
      * @return the best round date
      */
-    public static Date findBestDate(List<Date> matchDates) {
+    public static LocalDate findBestDate(List<ZonedDateTime> matchDates) {
         if (matchDates.isEmpty()) {
             return null;
         }
 
-        Map<Date, Integer> dates = new HashMap<>();
+        Map<LocalDate, Integer> dates = new HashMap<>();
 
-        for (Date date : matchDates) {
-            if (!dates.containsKey(date)) {
-                dates.put(date, Integer.valueOf(0));
+        for (ZonedDateTime date : matchDates) {
+            if (!dates.containsKey(date.toLocalDate())) {
+                dates.put(date.toLocalDate(), Integer.valueOf(0));
             }
 
-            Integer value = dates.get(date);
-            dates.put(date, value + 1);
+            Integer value = dates.get(date.toLocalDate());
+            dates.put(date.toLocalDate(), Integer.valueOf(value.intValue() + 1));
         }
 
-        Map.Entry<Date, Integer> bestDate = null;
+        Map.Entry<LocalDate, Integer> bestDate = null;
 
-        Set<Map.Entry<Date, Integer>> values = dates.entrySet();
-        for (Map.Entry<Date, Integer> dateCount : values) {
+        Set<Map.Entry<LocalDate, Integer>> values = dates.entrySet();
+        for (Map.Entry<LocalDate, Integer> dateCount : values) {
             if (bestDate == null) {
                 bestDate = dateCount;
             } else {

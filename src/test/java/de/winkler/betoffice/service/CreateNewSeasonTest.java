@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -28,12 +28,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.SQLException;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.joda.time.DateTime;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -161,7 +161,7 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
         assertEquals(groupTypeA.get().getId(), groupTypes.get(0).getId());
         assertEquals(1, groupTypes.size());
 
-        DateTime now = new DateTime();
+        ZonedDateTime now = ZonedDateTime.now();
         GameList round = sms.addRound(season, now, groupTypeA.get());
         Game match = sms.addMatch(round, now, groupA, stuttgart.get(),
                 hsv.get());

@@ -6,7 +6,7 @@
 	</properties>
 	<body>
 		<!-- Under construction. -->
-        <release version="betoffice-storage-2.7.0" date="2019-??-??"
+        <release version="betoffice-storage-2.7.0" date="2020-??-??"
             description="Java 11">
             <action dev="andrewinkler" type="update" date="2020-01-04">
                 Renamed user property nickName to nickname.
@@ -22,6 +22,15 @@
                  Upgraded to JUnit 5.
             </action>
         </release>
+		
+		<!-- RELEASED -->
+		<release version="betoffice-storage-2.6.4" date="2020-07-26"
+			description="Date time and timezone problem">
+			<action dev="andrewinkler" type="fix" date="2020-06-27">
+				Date time and the timezone problem fix. Moving from java.util.Date to
+				java.time.ZonedDateTime.
+			</action>
+		</release>
 
         <!-- RELEASED -->
 		<release version="betoffice-storage-2.6.3" date="2019-03-22"

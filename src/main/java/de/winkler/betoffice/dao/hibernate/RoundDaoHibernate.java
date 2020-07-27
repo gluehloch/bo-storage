@@ -24,6 +24,7 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.math.BigInteger;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,10 +32,9 @@ import javax.persistence.NoResultException;
 
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
-import org.hibernate.type.DateType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.LongType;
-import org.joda.time.DateTime;
+import org.hibernate.type.ZonedDateTimeType;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.RoundDao;
@@ -230,11 +230,11 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
     }    
 
     @Override
-    public Optional<Long> findNextTippRound(long seasonId, DateTime date) {
+    public Optional<Long> findNextTippRound(long seasonId, ZonedDateTime date) {
         NativeQuery query = getSessionFactory().getCurrentSession()
                 .createNativeQuery(QUERY_NEXT_ROUND_BY_DATE);
         query.setParameter("season_id", seasonId);
-        query.setParameter("date", date.toDate(), DateType.INSTANCE);
+        query.setParameter("date", date, ZonedDateTimeType.INSTANCE);
 
         Optional<Long> result = Optional.empty();
         try {
@@ -252,11 +252,11 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
     }
 
     @Override
-    public Optional<Long> findLastTippRound(long seasonId, DateTime date) {
+    public Optional<Long> findLastTippRound(long seasonId, ZonedDateTime date) {
         NativeQuery query = getSessionFactory().getCurrentSession()
                 .createNativeQuery(QUERY_LAST_ROUND_BY_DATE);
         query.setParameter("season_id", seasonId);
-        query.setParameter("date", date.toDate(), DateType.INSTANCE);
+        query.setParameter("date", date, ZonedDateTimeType.INSTANCE);
 
         Optional<Long> result = Optional.empty();
         try {

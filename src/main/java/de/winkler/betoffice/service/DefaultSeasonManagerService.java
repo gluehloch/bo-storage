@@ -23,6 +23,7 @@
 
 package de.winkler.betoffice.service;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -321,12 +322,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public Game addMatch(GameList round, DateTime date, Group group,
+    public Game addMatch(GameList round, ZonedDateTime date, Group group,
             Team homeTeam, Team guestTeam) {
 
         roundDao.refresh(round);
         Game match = new Game();
-        match.setDateTime(date.toDate());
+        match.setDateTime(date);
         match.setHomeTeam(homeTeam);
         match.setGuestTeam(guestTeam);
         match.setGroup(group);
@@ -337,12 +338,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public Game addMatch(GameList round, DateTime date, Group group,
+    public Game addMatch(GameList round, ZonedDateTime date, Group group,
             Team homeTeam, Team guestTeam, int homeGoals, int guestGoals) {
 
         roundDao.refresh(round);
         Game match = new Game();
-        match.setDateTime(date.toDate());
+        match.setDateTime(date);
         match.setHomeTeam(homeTeam);
         match.setGuestTeam(guestTeam);
         match.setGroup(group);
@@ -355,7 +356,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public Game addMatch(Season season, int round, DateTime date,
+    public Game addMatch(Season season, int round, ZonedDateTime date,
             GroupType groupType, Team homeTeam, Team guestTeam) {
 
         seasonDao.refresh(season);
@@ -365,7 +366,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public Game addMatch(Season season, int round, DateTime date,
+    public Game addMatch(Season season, int round, ZonedDateTime date,
             GroupType groupType, Team homeTeam, Team guestTeam, int homeGoals,
             int guestGoals) {
 
@@ -377,11 +378,11 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public GameList addRound(Season season, DateTime date,
+    public GameList addRound(Season season, ZonedDateTime date,
             GroupType groupType) {
         
         GameList round = new GameList();
-        round.setDateTime(date.toDate());
+        round.setDateTime(date);
         
         Group group = groupDao.findBySeasonAndGroupType(season, groupType);
         round.setGroup(group);

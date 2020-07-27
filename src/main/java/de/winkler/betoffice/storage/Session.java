@@ -24,9 +24,8 @@
 
 package de.winkler.betoffice.storage;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -57,10 +56,10 @@ public class Session {
     private String token;
 
     @Column(name = "bo_login")
-    private Date login;
+    private ZonedDateTime login;
     
     @Column(name = "bo_logout")
-    private Date logout;
+    private ZonedDateTime logout;
     
     @Column(name = "bo_remoteaddress")
     private String remoteAddress;
@@ -121,21 +120,21 @@ public class Session {
 
     // -- login ---------------------------------------------------------------
 
-    public Date getLogin() {
+    public ZonedDateTime getLogin() {
         return login;
     }
 
-    public void setLogin(Date date) {
+    public void setLogin(ZonedDateTime date) {
         login = date;
     }
 
     // -- logout --------------------------------------------------------------
 
-    public Date getLogout() {
+    public ZonedDateTime getLogout() {
         return logout;
     }
 
-    public void setLogout(Date value) {
+    public void setLogout(ZonedDateTime value) {
         logout = value;
     }
 
