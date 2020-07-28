@@ -1,4 +1,5 @@
 eclipse-bin
+.sts*
 build.properties
 target
 *.log
