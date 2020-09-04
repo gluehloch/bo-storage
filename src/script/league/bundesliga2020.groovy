@@ -59,7 +59,11 @@ class Service {
     }
 
     def createSeason(season) {
-        seasonService.createSeason(season);
+        seasonService.createSeason(season)
+    }
+
+    def updateSeason(season) {
+        seasonService.updateSeason(season)
     }
 
     def findGroupType(groupType) {
@@ -140,13 +144,20 @@ def bundesliga
 def seasonOptional = service.seasonService.findSeasonByName('Bundesliga', '2020/2021')
 if (seasonOptional.isPresent()) {
     bundesliga = seasonOptional.get()
+    def championshipConfiguration = new ChampionshipConfiguration()
+    championshipConfiguration.openligaLeagueShortcut = 'bl1'
+    championshipConfiguration.openligaLeagueSeason = '2020'
+    bundesliga.setChampionshipConfiguration(championshipConfiguration)
+    service.updateSeason(bundesliga)
 } else {
     bundesliga = new Season();
     bundesliga.name = 'Bundesliga'
     bundesliga.year = '2020/2021'
     bundesliga.mode = SeasonType.LEAGUE
     bundesliga.teamType = TeamType.DFB
-    bundesliga = service.createSeason(bundesliga);
+    bundesliga.getChampionshipConfiguration().openligaLeagueShortcut = 'bl1'
+    bundesliga.getChampionshipConfiguration().openligaLeagueSeason = '2020'
+    bundesliga = service.createSeason(bundesliga)
 }
 
 println bundesliga.name + " - " + bundesliga.year
@@ -238,34 +249,31 @@ def fcNuernberg = service.findTeam('1.FC Nürnberg').get();
 validate fcNuernberg
 */
 
-/*
-def bundesliga2019group = service.addGroup bundesliga, bundesligaGroupType
+def bundesliga2020group = service.addGroup bundesliga, bundesligaGroupType
 bundesliga = service.findRoundGroupTeamUserRelations(bundesliga)
-println "Gruppe Bundesliga 2019: $bundesliga2019group"
-*/
+println "Gruppe Bundesliga 2020/2021: $bundesliga2020group"
 
-/*
-bundesliga2019group = service.addTeams(bundesliga, bundesligaGroupType, [
+bundesliga2020group = service.addTeams(bundesliga, bundesligaGroupType, [
+    unionBerlin,
     augsburg,
     herthaBSC,
-    vflWolfsburg,
-    schalke,
-    bayernMuenchen,
-    borussaGladbach,
-    fsvMainz05,
-    bayer04Leverkusen,
-    rbLeipzig,
-    tsgHoffenheim,
+    arminiaBielefeld,
     werderBremen,
     borussiaDortmund,
-    fortunaDuesseldorf,
     eintrachtFrankfurt,
     scFreiburg,
-    paderborn,
-    unionBerlin,
-    fcKoeln
+    tsgHoffenheim,
+    fcKoeln,
+    rbLeipzig,
+    bayer04Leverkusen,
+    fsvMainz05,
+    borussaGladbach,
+    bayernMuenchen,
+    schalke,
+    vfbStuttgart,
+    vflWolfsburg
 ])
-*/
+
 
 /*
 def round_2018_08_16 = service.findRound(bundesliga, 0)
