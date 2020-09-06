@@ -48,14 +48,15 @@ public interface RoundDao extends CommonDao<GameList> {
     List<GameList> findRounds(Season season);
 
     /**
-     * Liefert alle Spieltage einer Meisterschaft einer Gruppe.
+     * Liefert alle Spieltage inklusive der Spielpaarungen einer Gruppe. Falls dem Spieltag keine Spieltage
+     * zugeordnet sind, werden keine Spieltag zurueck geliefert.
      * 
      * @param group
      *            Die Gruppe
      * @return Die Spieltage dieser Gruppe
      */
     List<GameList> findRounds(Group group);
-
+    
     /**
      * Liefert einen Spieltag einer Meisterschaft.
      *

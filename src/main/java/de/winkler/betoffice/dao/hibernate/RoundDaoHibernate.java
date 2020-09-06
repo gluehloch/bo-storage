@@ -48,8 +48,7 @@ import de.winkler.betoffice.storage.Season;
  * @author by Andre Winkler
  */
 @Repository("roundDao")
-public class RoundDaoHibernate extends AbstractCommonDao<GameList>
-        implements RoundDao {
+public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements RoundDao {
 
     /**
      * Sucht nach allen Spieltagen einer Meisterschaft.
@@ -82,12 +81,12 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
             + "  select min(index) from gamelist gl2 "
             + "  where gl2.season.id = :seasonId "
             + ")";
-    
+        
     /**
      * Sucht nach allen Spieltagen einer Meisterschaft fuer eine bestimmte
      * Gruppe.
      */
-    private static final String QUERY_GAMELIST_BY_SEASON_GROUP = "select "
+    private static final String QUERY_GAMELIST_AND_GAMES_BY_SEASON_GROUP = "select "
             + "distinct round "
             + "from "
             + "    GameList as round "
@@ -188,11 +187,11 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList>
                 .getResultList();
         return objects;
     }
-
+    
     @Override
     public List<GameList> findRounds(Group group) {
         List<GameList> objects = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_GAMELIST_BY_SEASON_GROUP, GameList.class)
+                .createQuery(QUERY_GAMELIST_AND_GAMES_BY_SEASON_GROUP, GameList.class)
                 .setParameter("groupId", group.getId(), LongType.INSTANCE)
                 .getResultList();
         return objects;

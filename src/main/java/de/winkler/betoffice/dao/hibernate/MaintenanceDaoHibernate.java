@@ -37,8 +37,7 @@ import de.winkler.betoffice.dao.MaintenanceDao;
  * @author Andre Winklers
  */
 @Repository("maintenanceDao")
-public class MaintenanceDaoHibernate extends HibernateDaoSupport
-        implements MaintenanceDao {
+public class MaintenanceDaoHibernate extends HibernateDaoSupport implements MaintenanceDao {
 
     @Override
     public Object executeHql(String hql) {
@@ -47,8 +46,7 @@ public class MaintenanceDaoHibernate extends HibernateDaoSupport
 
     @Override
     public Object executeSql(String sqlQuery) {
-        return getSessionFactory().openSession().createNativeQuery(sqlQuery)
-                .getResultList();
+        return getSessionFactory().openSession().createNativeQuery(sqlQuery).getResultList();
     }
 
     @Autowired

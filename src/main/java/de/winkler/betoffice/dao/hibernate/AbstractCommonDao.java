@@ -24,6 +24,7 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Optional;
 
@@ -145,8 +146,7 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
      */
     public static final String loadQuery(final String query) {
         try {
-            return IOUtils.toString(
-                    AbstractCommonDao.class.getResourceAsStream(query));
+            return IOUtils.toString(AbstractCommonDao.class.getResourceAsStream(query), Charset.forName("UTF-8"));
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
