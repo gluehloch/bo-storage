@@ -39,7 +39,7 @@ import org.junit.Test;
 public class PropertyReaderTest {
 
     /** This file is supported by betoffice-testutils. */
-    private static final String PROPERTY_FILE = "/de/betoffice/database/test/test-mysql-piratestest.properties";
+    private static final String PROPERTY_FILE = "/de/betoffice/database/test/botest.properties";
 
     /**
      * Der Test mit {@link Properties} funktioniert.
@@ -54,16 +54,11 @@ public class PropertyReaderTest {
         Properties props = new Properties();
         props.load(is);
 
-        assertEquals("test",
-                props.getProperty("hibernate_connection_username"));
-        assertEquals("test",
-                props.getProperty("hibernate_connection_password"));
-        assertEquals("jdbc:mysql://192.168.99.101/botest",
-                props.getProperty("hibernate_connection_url"));
-        assertEquals("com.mysql.jdbc.Driver",
-                props.getProperty("hibernate_connection_driver_class"));
-        assertEquals("org.hibernate.dialect.MySQLDialect",
-                props.getProperty("hibernate_dialect"));
+        assertEquals("test", props.getProperty("betoffice.persistence.username"));
+        assertEquals("test", props.getProperty("betoffice.persistence.password"));
+        assertEquals("jdbc:mariadb://127.0.0.1/botest", props.getProperty("betoffice.persistence.url"));
+        assertEquals("org.mariadb.jdbc.Driver", props.getProperty("betoffice.persistence.classname"));
+        assertEquals("org.hibernate.dialect.MariaDBDialect", props.getProperty("betoffice.persistence.dialect"));
     }
 
 }

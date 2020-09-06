@@ -30,24 +30,24 @@
     ! =======================================================================
     +-->
   <bean id="myDataSource"
-    class="org.apache.commons.dbcp.BasicDataSource"
+    class="org.apache.commons.dbcp2.BasicDataSource"
     destroy-method="close">
     <property name="defaultAutoCommit">
     	<value>false</value>
     </property>
     <property name="driverClassName">
-      <value>${hibernate_connection_driver_class}</value>
-      <!-- Example: com.mysql.jdbc.Driver -->
+      <value>${betoffice.persistence.classname}</value>
+      <!-- Example: org.mariadb.jdbc.Driver -->
     </property>
     <property name="url">
-      <value>${hibernate_connection_url}</value>
-      <!-- Example: jdbc:mysql://localhost/piratestest -->
+      <value>${betoffice.persistence.url}</value>
+      <!-- Example: jdbc:mariadb://localhost/botest -->
     </property>
     <property name="username">
-      <value>${hibernate_connection_username}</value>
+      <value>${betoffice.persistence.username}</value>
     </property>
     <property name="password">
-      <value>${hibernate_connection_password}</value>
+      <value>${betoffice.persistence.password}</value>
     </property>
   </bean>
 

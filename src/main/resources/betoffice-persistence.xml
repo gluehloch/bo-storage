@@ -51,7 +51,7 @@
     -->
     <property name="hibernateProperties">
       <props>
-        <prop key="hibernate.dialect">${hibernate_dialect}</prop>
+        <prop key="hibernate.dialect">${betoffice.persistence.dialect}</prop>
       </props>
     </property>
     <property name="dataSource">

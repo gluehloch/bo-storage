@@ -289,6 +289,7 @@ if (round_2020_09_18.isPresent()) {
 }
 println "Runde $round_2020_09_18.dateTime"
 
+/*
 service.addMatch(round_2020_09_18, '2020-09-18 20:30:00 +00:00', bundesliga2020group, bayernMuenchen, schalke)
 
 service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +00:00', bundesliga2020group, eintrachtFrankfurt, arminiaBielefeld)
@@ -300,3 +301,4 @@ service.addMatch(round_2020_09_18, '2020-09-19 18:30:00 +00:00', bundesliga2020g
 
 service.addMatch(round_2020_09_18, '2020-09-20 15:30:00 +00:00', bundesliga2020group, rbLeipzig, fsvMainz05)
 service.addMatch(round_2020_09_18, '2020-09-20 18:00:00 +00:00', bundesliga2020group, vflWolfsburg, bayer04Leverkusen)
+*/

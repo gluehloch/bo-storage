@@ -86,8 +86,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         season.addGameList(newRound);
 
         assertThat(newRound.getDateTime()).isInstanceOf(ZonedDateTime.class);
-        assertThat(newRound.getDateTime())
-                .isNotInstanceOf(java.sql.Timestamp.class);
+        assertThat(newRound.getDateTime()).isNotInstanceOf(java.sql.Timestamp.class);
         assertThat(newRound.getDateTime()).isEqualTo(now);
 
         roundDao.save(newRound);
