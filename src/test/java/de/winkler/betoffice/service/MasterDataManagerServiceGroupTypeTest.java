@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -25,6 +25,7 @@
 package de.winkler.betoffice.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -32,14 +33,10 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.GroupType;
@@ -50,10 +47,7 @@ import de.winkler.betoffice.validation.BetofficeValidationException;
  * 
  * @author by Andre Winkler,
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice.xml",
-        "/test-mysql-piratestest.xml" })
-public class MasterDataManagerServiceGroupTypeTest {
+public class MasterDataManagerServiceGroupTypeTest extends AbstractServiceTest {
 
     @Autowired
     protected DataSource dataSource;
@@ -69,13 +63,13 @@ public class MasterDataManagerServiceGroupTypeTest {
 
     private DatabaseSetUpAndTearDown dsuatd;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
         dsuatd.setUp(DataLoader.EMPTY);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws SQLException {
         dsuatd.tearDown();
     }
@@ -98,12 +92,11 @@ public class MasterDataManagerServiceGroupTypeTest {
     @Test
     public void testCreateInvalidGroupType() {
         GroupType invalidGroupType = new GroupType();
-        try {
+        BetofficeValidationException ex = assertThrows(BetofficeValidationException.class, () -> {
             masterDataManagerService.createGroupType(invalidGroupType);
-            Assert.fail("Expected an BetofficeValidationException exception.");
-        } catch (BetofficeValidationException ex) {
-            assertThat(ex.getMessages()).isNotEmpty();
-        }
+        });
+
+        assertThat(ex.getMessage()).isEqualTo(null);
     }
 
     @Test

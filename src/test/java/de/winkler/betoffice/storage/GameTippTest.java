@@ -23,15 +23,15 @@
 
 package de.winkler.betoffice.storage;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
@@ -113,9 +113,8 @@ public class GameTippTest {
     private Group group;
 
     /**
-     * Testet den Listener der Klasse GameTipp. Bei Änderungen am Spielergebniss
-     * schlägt sich dies auf den Punktestand des Tippers nieder, der für dieses
-     * Spiel einen Tipp abgegeben hat.
+     * Testet den Listener der Klasse GameTipp. Bei Änderungen am Spielergebniss schlägt sich dies auf den Punktestand
+     * des Tippers nieder, der für dieses Spiel einen Tipp abgegeben hat.
      * 
      * @throws StorageObjectNotFoundException
      *             Da ging was schief.
@@ -160,7 +159,7 @@ public class GameTippTest {
                 failedTests.add(tests[i]);
             }
             // Optional...
-            assertEquals(tests[i].toString(), tests[i].executeTest(), true);
+            assertTrue(tests[i].executeTest());
         }
         assertEquals(0, failedTests.size());
 
@@ -230,7 +229,7 @@ public class GameTippTest {
         assertTrue(TotoResult.UNDEFINED == tipp.getTotoResult());
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         // Spiel wird erzeugt, 3 Tipper geben einen Tipp ab
         // mit den Tipps User_A 1:0, User_B 0:1 und User_C 1:1.

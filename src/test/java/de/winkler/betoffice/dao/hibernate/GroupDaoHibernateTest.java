@@ -23,13 +23,13 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.winkler.betoffice.dao.GroupDao;
@@ -50,7 +50,7 @@ public class GroupDaoHibernateTest extends AbstractDaoTestSupport {
     @Autowired
     private SeasonDao seasonDaoHibernate;
 
-    @Before
+    @BeforeEach
     public void init() {
         prepareDatabase(GroupDaoHibernateTest.class);
     }
@@ -59,9 +59,9 @@ public class GroupDaoHibernateTest extends AbstractDaoTestSupport {
     public void testGroupDaoHibernateFindBySeason() {
         Optional<Season> season = seasonDaoHibernate.findByName("4711", "1000");
         List<Group> groups = groupDao.findBySeason(season.get());
-        assertEquals(2, groups.size());
-        assertEquals("1. Liga", groups.get(0).getGroupType().getName());
-        assertEquals("2. Liga", groups.get(1).getGroupType().getName());
+        assertThat(groups).hasSize(2);
+        assertThat(groups.get(0).getGroupType().getName()).isEqualTo("1. Liga");
+        assertThat(groups.get(1).getGroupType().getName()).isEqualTo("2. Liga");
     }
 
 }

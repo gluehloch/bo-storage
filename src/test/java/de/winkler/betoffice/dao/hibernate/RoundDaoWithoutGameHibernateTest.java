@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.winkler.betoffice.dao.GroupDao;
@@ -20,8 +20,8 @@ public class RoundDaoWithoutGameHibernateTest extends AbstractDaoTestSupport {
 
     @Autowired
     private GroupDao groupDao;
-    
-    @Before
+
+    @BeforeEach
     public void init() {
         prepareDatabase(RoundDaoWithoutGameHibernateTest.class);
     }
@@ -30,8 +30,8 @@ public class RoundDaoWithoutGameHibernateTest extends AbstractDaoTestSupport {
     public void findRoundWithoutGames() {
         final Group group = groupDao.findById(1L);
         final List<GameList> rounds = roundDao.findRounds(group);
-        
+
         assertThat(rounds).hasSize(5);
     }
-    
+
 }

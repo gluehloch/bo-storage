@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2018 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -39,13 +39,10 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.Game;
@@ -62,15 +59,11 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 
 /**
- * Creates a season and test some service methods of class
- * {@link DefaultSeasonManagerService}.
+ * Creates a season and test some service methods of class {@link DefaultSeasonManagerService}.
  *
  * @author Andre Winkler
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice.xml",
-        "/test-mysql-piratestest.xml" })
-public class SeasonManagerServiceCreateSeasonTest {
+public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
 
@@ -98,13 +91,13 @@ public class SeasonManagerServiceCreateSeasonTest {
 
     private DatabaseSetUpAndTearDown dsuatd;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
         dsuatd.setUp(DataLoader.EMPTY);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws SQLException {
         dsuatd.tearDown();
     }
@@ -153,7 +146,8 @@ public class SeasonManagerServiceCreateSeasonTest {
         List<Team> removeTeams = Arrays.asList(rwe, schalke);
         seasonManagerService.removeTeams(buli_2010, bundesliga_1, removeTeams);
 
-        List<Team> teams = seasonManagerService.findTeams(buli_2010, bundesliga_1);
+        List<Team> teams = seasonManagerService.findTeams(buli_2010,
+                bundesliga_1);
         assertThat(teams).hasSize(2);
         assertThat(teams.get(0)).isEqualTo(hsv);
         assertThat(teams.get(1)).isEqualTo(burghausen);
@@ -380,7 +374,7 @@ public class SeasonManagerServiceCreateSeasonTest {
     private void addTeamsToBuli1() {
         Group group = seasonManagerService.addTeam(buli_2010, bundesliga_1, hsv);
         group = seasonManagerService.addTeam(buli_2010, bundesliga_1, schalke);
-        group = seasonManagerService.addTeam(buli_2010, bundesliga_1,burghausen);
+        group = seasonManagerService.addTeam(buli_2010, bundesliga_1, burghausen);
         group = seasonManagerService.addTeam(buli_2010, bundesliga_1, rwe);
         assertThat(group.getTeams()).hasSize(4);
         List<Group> groups = seasonManagerService.findGroups(buli_2010);

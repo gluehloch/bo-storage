@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2015 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -32,8 +32,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.winkler.betoffice.dao.MatchDao;
@@ -65,7 +65,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     @Autowired
     private SeasonDao seasonDao;
 
-    @Before
+    @BeforeEach
     public void init() {
         prepareDatabase(RoundDaoHibernateTest.class);
     }
@@ -189,11 +189,11 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         ZonedDateTime zdtCoordinatedUniversalTimeZoneWinter = ZonedDateTime.of(
                 LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(14, 0)),
                 ZONE_UTC);
-        
+
         assertThat(zdtEuropeParisWinter.isBefore(zdtCoordinatedUniversalTimeZoneWinter)).isFalse();
         assertThat(zdtCoordinatedUniversalTimeZoneWinter.isBefore(zdtEuropeParisWinter)).isFalse();
         assertThat(zdtEuropeParisWinter).isEqualTo(zdtCoordinatedUniversalTimeZoneWinter);
-        
+
         //
         // Sommerzeit: 06.05.2016 - 2 Stunden Differenz zwischen UTC und Europe/Paris. D.h.
         // die UTC Zeit laeuft 2 Stunden hinterher. Europe/Paris(Sommerzeit) -2h => UTC
@@ -204,7 +204,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         ZonedDateTime zdtCoordinatedUniversalTimeZoneSommer = ZonedDateTime.of(
                 LocalDateTime.of(LocalDate.of(2016, 6, 5), LocalTime.of(13, 0)),
                 ZONE_UTC);
-        
+
         assertThat(zdtEuropeParisSommer.isBefore(zdtCoordinatedUniversalTimeZoneSommer)).isFalse();
         assertThat(zdtCoordinatedUniversalTimeZoneSommer.isBefore(zdtEuropeParisSommer)).isFalse();
         assertThat(zdtEuropeParisSommer).isEqualTo(zdtCoordinatedUniversalTimeZoneSommer);

@@ -23,15 +23,13 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.winkler.betoffice.dao.LocationDao;
@@ -47,54 +45,54 @@ public class LocationDaoHibernateTest extends AbstractDaoTestSupport {
     @Autowired
     private LocationDao locationDao;
 
-    @Before
+    @BeforeEach
     public void init() {
         prepareDatabase(LocationDaoHibernateTest.class);
     }
 
     @Test
     public void testDataSource() {
-        assertThat(getDataSource(), notNullValue());
-        assertThat(getSessionFactory(), notNullValue());
-        assertThat(locationDao, notNullValue());
+        assertThat(getDataSource()).isNotNull();
+        assertThat(getSessionFactory()).isNotNull();
+        assertThat(locationDao).isNotNull();
     }
 
     @Test
     public void testLocationFinderByOpenligaid() {
         Optional<Location> essen = locationDao.findByOpenligaid(1L);
-        assertThat(essen.get().getName(), equalTo("Stadion Essen"));
-        assertThat(essen.get().getCity(), equalTo("Essen"));
-        assertThat(essen.get().getGeodat(), equalTo("10.10.10.10"));
+        assertThat(essen.get().getName()).isEqualTo("Stadion Essen");
+        assertThat(essen.get().getCity()).isEqualTo("Essen");
+        assertThat(essen.get().getGeodat()).isEqualTo("10.10.10.10");
 
         Optional<Location> bochum = locationDao.findByOpenligaid(2);
-        assertThat(bochum.get().getName(), equalTo("Ruhrstadion"));
-        assertThat(bochum.get().getCity(), equalTo("Bochum"));
-        assertThat(bochum.get().getGeodat(), equalTo("20.20.20.20"));
-        assertThat(bochum.get().getOpenligaid(), equalTo(2L));
+        assertThat(bochum.get().getName()).isEqualTo("Ruhrstadion");
+        assertThat(bochum.get().getCity()).isEqualTo("Bochum");
+        assertThat(bochum.get().getGeodat()).isEqualTo("20.20.20.20");
+        assertThat(bochum.get().getOpenligaid()).isEqualTo(2L);
     }
 
     @Test
     public void testLocationFinder() {
         List<Location> location = locationDao.findAll();
-        assertThat(location.size(), equalTo(3));
+        assertThat(location).hasSize(3);
 
         Location rwe = locationDao.findById(1);
-        assertThat(rwe.getName(), equalTo("Stadion Essen"));
-        assertThat(rwe.getCity(), equalTo("Essen"));
-        assertThat(rwe.getGeodat(), equalTo("10.10.10.10"));
-        assertThat(rwe.getOpenligaid(), equalTo(1L));
+        assertThat(rwe.getName()).isEqualTo("Stadion Essen");
+        assertThat(rwe.getCity()).isEqualTo("Essen");
+        assertThat(rwe.getGeodat()).isEqualTo("10.10.10.10");
+        assertThat(rwe.getOpenligaid()).isEqualTo(1L);
 
         Location bochum = locationDao.findById(2);
-        assertThat(bochum.getName(), equalTo("Ruhrstadion"));
-        assertThat(bochum.getCity(), equalTo("Bochum"));
-        assertThat(bochum.getGeodat(), equalTo("20.20.20.20"));
-        assertThat(bochum.getOpenligaid(), equalTo(2L));
+        assertThat(bochum.getName()).isEqualTo("Ruhrstadion");
+        assertThat(bochum.getCity()).isEqualTo("Bochum");
+        assertThat(bochum.getGeodat()).isEqualTo("20.20.20.20");
+        assertThat(bochum.getOpenligaid()).isEqualTo(2L);
 
         Location dortmund = locationDao.findById(3);
-        assertThat(dortmund.getName(), equalTo("Westfalenstadion"));
-        assertThat(dortmund.getCity(), equalTo("Dortmund"));
-        assertThat(dortmund.getGeodat(), equalTo("30.30.30.30"));
-        assertThat(dortmund.getOpenligaid(), equalTo(3L));
+        assertThat(dortmund.getName()).isEqualTo("Westfalenstadion");
+        assertThat(dortmund.getCity()).isEqualTo("Dortmund");
+        assertThat(dortmund.getGeodat()).isEqualTo("30.30.30.30");
+        assertThat(dortmund.getOpenligaid()).isEqualTo(3L);
     }
 
 }

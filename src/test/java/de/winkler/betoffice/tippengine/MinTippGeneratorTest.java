@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -24,13 +24,13 @@
 
 package de.winkler.betoffice.tippengine;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
@@ -133,7 +133,7 @@ public class MinTippGeneratorTest {
         assertEquals(gr01, game4.getGameTipp(userMinTipp).getTipp());
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         // Insgesamt 4 Tipper. Es sind 4 Spiele zu tippen.
         // User A tippt immer 1:0

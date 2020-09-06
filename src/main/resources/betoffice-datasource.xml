@@ -9,18 +9,8 @@
 
   <!--+
     ! =========================================================================
-    ! Enthaelt die Verbindungseinstellungen zur Datenbank; Organisiert die
-    ! Hibernate Konfiguration (Mapping-Dateien); Initialisiert das Hibernate
-    ! Transaktionsmanagement; Stellt die DAOs, die Betoffice Konfiguration und
-    ! das Transaktionsmanagement in der Configuration zur Verfuegung.
-    ! Diese Spring Konfiguration ist ueber die folgenden Eigenschaften
-    ! parametrisierbar:
-    !
-    ! ${database.driver.class} = Database Driver Class Name
-    ! ${database.url} = Database JDBC URL
-    ! ${database.user} = Database User
-    ! ${database.password} = Database User Password
-    !
+    ! Enthaelt die Verbindungseinstellungen zur Datenbank und stellt eine
+    ! DataSource zur Verfuegung.
     ! =========================================================================
     +-->
 

@@ -23,13 +23,13 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.winkler.betoffice.dao.SeasonDao;
@@ -50,7 +50,7 @@ public class UserSeasonDaoHibernateTest extends AbstractDaoTestSupport {
     @Autowired
     private SeasonDao seasonDao;
 
-    @Before
+    @BeforeEach
     public void init() {
         prepareDatabase(UserSeasonDaoHibernateTest.class);
     }

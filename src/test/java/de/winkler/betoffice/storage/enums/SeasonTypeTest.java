@@ -2,7 +2,7 @@
  * $Id: SeasonTypeTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2011 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -25,28 +25,25 @@
 
 package de.winkler.betoffice.storage.enums;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test of class {@link SeasonType}.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
- *          +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  */
 public class SeasonTypeTest {
 
     @Test
     public void testSeasonTypeOrdinal() {
-        assertThat(SeasonType.LEAGUE.ordinal(), equalTo(0));
-        assertThat(SeasonType.CUP.ordinal(), equalTo(1));
-        assertThat(SeasonType.UEFACUP.ordinal(), equalTo(2));
-        assertThat(SeasonType.CL.ordinal(), equalTo(3));
-        assertThat(SeasonType.WC.ordinal(), equalTo(4));
-        assertThat(SeasonType.EC.ordinal(), equalTo(5));
+        assertThat(SeasonType.LEAGUE.ordinal()).isEqualTo(0);
+        assertThat(SeasonType.CUP.ordinal()).isEqualTo(1);
+        assertThat(SeasonType.UEFACUP.ordinal()).isEqualTo(2);
+        assertThat(SeasonType.CL.ordinal()).isEqualTo(3);
+        assertThat(SeasonType.WC.ordinal()).isEqualTo(4);
+        assertThat(SeasonType.EC.ordinal()).isEqualTo(5);
     }
 
 }

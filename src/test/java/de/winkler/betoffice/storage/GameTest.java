@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -24,11 +24,12 @@
 
 package de.winkler.betoffice.storage;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,19 +37,17 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.exception.StorageObjectExistsException;
-import de.winkler.betoffice.storage.exception.StorageObjectNotValidException;
 import de.winkler.betoffice.test.DateTimeDummyProducer;
 
 /**
- * Testklasse für die Klasse Game. Auf das Testen der einfachen setter-Methoden
- * setHomeTeam(), setGuestTeam(), setGroup() und setGameNumber() wird
- * verzichtet.
+ * Testklasse für die Klasse Game. Auf das Testen der einfachen setter-Methoden setHomeTeam(), setGuestTeam(),
+ * setGroup() und setGameNumber() wird verzichtet.
  *
  * @author Andre Winkler
  */
@@ -138,32 +137,30 @@ public class GameTest {
         //
         ZonedDateTime expectedGameDateTime1 = ZonedDateTime.of(
                 LocalDateTime.of(LocalDate.of(2002, 1, 1), LocalTime.of(0, 0)), ZoneId.of("Europe/Berlin"));
-        
+
         // Offset +1 Stunde zu UTC
         ZonedDateTime expectedGameDateTime2 = ZonedDateTime.parse("2002-01-01T00:00:00+01:00[Europe/Berlin]");
         // Offset +2 Stunden zu UTC (Frage: Wird diese Angabe ignoriert oder tatsaechlich verarbeitet?)
         ZonedDateTime expectedGameDateTime3 = ZonedDateTime.parse("2002-01-01T00:00:00+02:00[Europe/Berlin]");
-        
+
         assertThat(expectedGameDateTime1).isEqualTo(expectedGameDateTime2);
         assertThat(expectedGameDateTime1).isNotEqualTo(expectedGameDateTime3);
         assertThat(expectedGameDateTime1).isAfter(expectedGameDateTime3);
-        
+
         assertThat(game1.getDateTime()).isEqualTo(expectedGameDateTime1);
 
-        try {
-            game1.addTipp(JUNIT_TOKEN, null, null, null);
-            fail("NullPointerException erwartet");
-        } catch (NullPointerException ex) {
-            // Ok
-        }
+        NullPointerException ex = assertThrows(NullPointerException.class,
+                () -> {
+                    game1.addTipp(JUNIT_TOKEN, null, null, null);
+                });
     }
 
     @Test
     public void testGameContainsTipp() {
-        assertTrue("userA besitzt Tipp.", game1.containsTipp(userA));
-        assertTrue("userB besitzt Tipp.", game1.containsTipp(userB));
-        assertTrue("userC besitzt Tipp.", game1.containsTipp(userC));
-        assertFalse("userD besitzt keinen Tipp.", game1.containsTipp(userD));
+        assertTrue(game1.containsTipp(userA));
+        assertTrue(game1.containsTipp(userB));
+        assertTrue(game1.containsTipp(userC));
+        assertFalse(game1.containsTipp(userD));
     }
 
     @Test
@@ -183,44 +180,23 @@ public class GameTest {
         tipp3.setUser(userD);
         tipp3.setTipp(gameResult10, TippStatusType.USER);
 
-        try {
+        assertThrows(StorageObjectExistsException.class, () -> {
             game1.addTipp(tipp1);
-            fail("StorageObjectExistsException erwartet.");
-        } catch (StorageObjectExistsException e) {
-            // Ok
-        } catch (StorageObjectNotValidException e) {
-            fail("StorageObjectNotValidException nicht erwartet.");
-        }
+        });
 
-        try {
+        assertThrows(StorageObjectExistsException.class, () -> {
             game1.addTipp(tipp4);
-            fail("StorageObjectNotValidException erwartet.");
-        } catch (StorageObjectExistsException e) {
-            // Ok
-        } catch (StorageObjectNotValidException e) {
-            fail("StorageObjectNotValidException nicht erwartet.");
-        }
+        });
 
-        try {
+        assertThrows(StorageObjectExistsException.class, () -> {
             game1.addTipp(tipp2);
-            fail("StorageObjectExistsException erwartet.");
-        } catch (StorageObjectExistsException e) {
-            // Ok
-        } catch (StorageObjectNotValidException e) {
-            fail("StorageObjectNotValidException nicht erwartet.");
-        }
+        });
 
-        try {
-            tipp3.setGame(game1);
-            game1.addTipp(tipp3);
-        } catch (StorageObjectExistsException e) {
-            fail("StorageObjectExistsException nicht erwartet.");
-        } catch (StorageObjectNotValidException e) {
-            fail("StorageObjectNotValidException nicht erwartet.");
-        }
+        tipp3.setGame(game1);
+        game1.addTipp(tipp3);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         userA = new User();
         userA.setName("User A");

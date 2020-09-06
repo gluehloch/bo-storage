@@ -30,12 +30,10 @@ import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.Work;
-import org.junit.After;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.betoffice.database.data.DeleteDatabase;
 import de.dbload.Dbload;
@@ -45,8 +43,7 @@ import de.dbload.Dbload;
  *
  * @author by Andre Winkler
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/betoffice.xml", "/test-mysql-piratestest.xml" })
+@SpringJUnitConfig(locations = { "/betoffice-test-properties.xml", "/betoffice.xml" })
 public abstract class AbstractDaoTestSupport extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Autowired
@@ -65,7 +62,7 @@ public abstract class AbstractDaoTestSupport extends AbstractTransactionalJUnit4
         });
     }
 
-    @After
+    @AfterEach
     public void deleteDatabase() {
         getSessionFactory().getCurrentSession().doWork(new Work() {
             @Override

@@ -23,15 +23,14 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.winkler.betoffice.dao.SeasonDao;
@@ -48,7 +47,7 @@ public class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
     @Autowired
     private SeasonDao seasonDaoHibernate;
 
-    @Before
+    @BeforeEach
     public void init() {
         prepareDatabase(SeasonDaoHibernateTest.class);
     }
@@ -119,10 +118,10 @@ public class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
         List<Season> seasons = seasonDaoHibernate.findAll();
         assertEquals(4, seasons.size());
 
-        assertThat(seasons.get(0).getYear(), equalTo("1999/2000"));
-        assertThat(seasons.get(1).getYear(), equalTo("2000/2001"));
-        assertThat(seasons.get(2).getYear(), equalTo("2001/2002"));
-        assertThat(seasons.get(3).getYear(), equalTo("2002/2003"));
+        assertThat(seasons.get(0).getYear()).isEqualTo("1999/2000");
+        assertThat(seasons.get(1).getYear()).isEqualTo("2000/2001");
+        assertThat(seasons.get(2).getYear()).isEqualTo("2001/2002");
+        assertThat(seasons.get(3).getYear()).isEqualTo("2002/2003");
     }
 
 }

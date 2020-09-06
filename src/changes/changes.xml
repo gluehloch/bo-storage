@@ -6,15 +6,27 @@
 	</properties>
 	<body>
 		<!-- Under construction. -->
-		
-		<!-- RELEASED -->
-		<release version="betoffice-storage-2.6.4" date="2020-07-26"
-			description="Date time and timezone problem">
-			<action dev="andrewinkler" type="fix" date="2020-06-27">
-				Date time and the timezone problem fix. Moving from java.util.Date to
-				java.time.ZonedDateTime.
-			</action>
-		</release>
+        <release version="betoffice-storage-2.7.0" date="2020-??-??" description="MariaDB, JUnit 5">
+            <action dev="andrewinkler" type="update" date="2020-09-06">
+                Using MaridDB JDBC Driver.
+            </action>
+            <action dev="andrewinkler" type="update" date="2019-06-06">
+                Dependency updates: Removed JAXB and upgraded Apache commons
+                dbcp to dpcp2 and pool to pool2.
+            </action>
+            <action dev="andrewinkler" type="update" date="2019-06-05">
+                 Upgraded to JUnit 5.
+            </action>
+        </release>
+
+        <!-- RELEASED -->
+        <release version="betoffice-storage-2.6.4" date="2020-07-26"
+            description="Date time and timezone problem">
+            <action dev="andrewinkler" type="fix" date="2020-06-27">
+                Date time and the timezone problem fix. Moving from java.util.Date to
+                java.time.ZonedDateTime.
+            </action>
+        </release>
 
         <!-- RELEASED -->
 		<release version="betoffice-storage-2.6.3" date="2019-03-22"

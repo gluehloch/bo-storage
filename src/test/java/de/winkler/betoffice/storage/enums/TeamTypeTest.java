@@ -1,8 +1,7 @@
 /*
- * $Id: TeamTypeTest.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2011 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -25,26 +24,23 @@
 
 package de.winkler.betoffice.storage.enums;
 
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test of class {@link TeamType}.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
- *          +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  */
 public class TeamTypeTest {
 
     @Test
     public void testTeamTypeOrdinal() {
-        assertThat(TeamType.DFB.ordinal(), equalTo(0));
-        assertThat(TeamType.FIFA.ordinal(), equalTo(1));
-        assertThat(TeamType.DFB.toString(), equalTo("DFB"));
-        assertThat(TeamType.FIFA.toString(), equalTo("FIFA"));
+        assertThat(TeamType.DFB.ordinal()).isEqualTo(0);
+        assertThat(TeamType.FIFA.ordinal()).isEqualTo(1);
+        assertThat(TeamType.DFB.toString()).isEqualTo("DFB");
+        assertThat(TeamType.FIFA.toString()).isEqualTo("FIFA");
     }
 
 }
