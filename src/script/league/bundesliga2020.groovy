@@ -29,8 +29,8 @@
 
 import org.springframework.context.support.ClassPathXmlApplicationContext
 
-import org.joda.time.*;
-import org.joda.time.format.*;
+import java.time.*
+import java.time.format.*
 
 import de.winkler.betoffice.storage.*
 import de.winkler.betoffice.storage.enums.*
@@ -53,8 +53,14 @@ class Service {
     }
 
     def toDate(dateTimeAsString) {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
-        DateTime dateTime = formatter.parseDateTime(dateTimeAsString)
+        // def europeBerlinZone = ZoneId.of("Europe/Berlin")
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z")
+        // formatter.withZone(europeBerlinZone)
+        ZonedDateTime dateTime = ZonedDateTime.parse(dateTimeAsString, formatter);
+
+        // Joda Date Time Converter
+        // DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
+        // DateTime dateTime = formatter.parseDateTime(dateTimeAsString)
         return dateTime
     }
 
@@ -275,25 +281,22 @@ bundesliga2020group = service.addTeams(bundesliga, bundesligaGroupType, [
 ])
 
 
-/*
-def round_2018_08_16 = service.findRound(bundesliga, 0)
-if (round_2018_08_16.isPresent()) {
-    round_2018_08_16 = round_2018_08_16.get()
+def round_2020_09_18 = service.findRound(bundesliga, 0)
+if (round_2020_09_18.isPresent()) {
+    round_2020_09_18 = round_2020_09_18.get()
 } else {
-    round_2018_08_16 = service.addRound(bundesliga, '2019-08-16 20:30:00', bundesligaGroupType)
+    round_2020_09_18 = service.addRound(bundesliga, '2020-09-18 20:30:00 +00:00', bundesligaGroupType)
 }
-println "Runde $round_2018_08_16.dateTime"
+println "Runde $round_2020_09_18.dateTime"
 
+service.addMatch(round_2020_09_18, '2020-09-18 20:30:00 +00:00', bundesliga2020group, bayernMuenchen, schalke)
 
-service.addMatch(round_2018_08_16, '2019-08-16 20:30:00', bundesliga2019group, bayernMuenchen, herthaBSC)
+service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +00:00', bundesliga2020group, eintrachtFrankfurt, arminiaBielefeld)
+service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +00:00', bundesliga2020group, unionBerlin, augsburg)
+service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +00:00', bundesliga2020group, fcKoeln, tsgHoffenheim)
+service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +00:00', bundesliga2020group, werderBremen, herthaBSC)
+service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +00:00', bundesliga2020group, vfbStuttgart, scFreiburg)
+service.addMatch(round_2020_09_18, '2020-09-19 18:30:00 +00:00', bundesliga2020group, borussiaDortmund, borussaGladbach)
 
-service.addMatch(round_2018_08_16, '2019-08-17 15:30:00', bundesliga2019group, werderBremen, fortunaDuesseldorf)
-service.addMatch(round_2018_08_16, '2019-08-17 15:30:00', bundesliga2019group, scFreiburg, fsvMainz05)
-service.addMatch(round_2018_08_16, '2019-08-17 15:30:00', bundesliga2019group, bayer04Leverkusen, paderborn)
-service.addMatch(round_2018_08_16, '2019-08-17 15:30:00', bundesliga2019group, borussiaDortmund, augsburg)
-service.addMatch(round_2018_08_16, '2019-08-17 15:30:00', bundesliga2019group, vflWolfsburg, fcKoeln)
-service.addMatch(round_2018_08_16, '2019-08-17 18:30:00', bundesliga2019group, borussaGladbach, schalke)
-
-service.addMatch(round_2018_08_16, '2019-08-18 15:30:00', bundesliga2019group, eintrachtFrankfurt, tsgHoffenheim)
-service.addMatch(round_2018_08_16, '2019-08-18 18:00:00', bundesliga2019group, unionBerlin, rbLeipzig)
-*/
+service.addMatch(round_2020_09_18, '2020-09-20 15:30:00 +00:00', bundesliga2020group, rbLeipzig, fsvMainz05)
+service.addMatch(round_2020_09_18, '2020-09-20 18:00:00 +00:00', bundesliga2020group, vflWolfsburg, bayer04Leverkusen)
