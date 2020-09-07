@@ -117,7 +117,7 @@ class Service {
     }
 
     def addTeams(season, groupType, teams) {
-        seasonService.addTeams(season, groupType, teams)
+        return seasonService.addTeams(season, groupType, teams)
     }
 
     def addRound(season, date, groupType) {

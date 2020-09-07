@@ -23,10 +23,9 @@
 
 package de.winkler.betoffice.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
 import java.time.ZonedDateTime;
@@ -109,18 +108,18 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
         assertThat(seasonClone.getName()).isEqualTo(season.getName());
         assertThat(seasonClone.getYear()).isEqualTo(season.getYear());
 
-        Optional<Team> stuttgart = mdms.findTeam("VfB Stuttgart");
-        Optional<Team> hsv = mdms.findTeam("Hamburger SV");
-        Optional<Team> deutschland = mdms.findTeam("Deutschland");
+        Team stuttgart = mdms.findTeam("VfB Stuttgart").orElseThrow(() -> new IllegalArgumentException());
+        Team hsv = mdms.findTeam("Hamburger SV").orElseThrow(() -> new IllegalArgumentException());
+        Team deutschland = mdms.findTeam("Deutschland").orElseThrow(() -> new IllegalArgumentException());
 
-        Optional<GroupType> groupA = mdms.findGroupType("Gruppe A");
-        Group group = sms.addGroupType(season, groupA.get());
-        group = sms.addTeam(season, groupA.get(), stuttgart.get());
-        group = sms.addTeam(season, groupA.get(), hsv.get());
+        GroupType groupA = mdms.findGroupType("Gruppe A").orElseThrow(() -> new IllegalArgumentException());
+        Group group = sms.addGroupType(season, groupA);
+        group = sms.addTeam(season, groupA, stuttgart);
+        group = sms.addTeam(season, groupA, hsv);
         assertThat(group.getTeams()).hasSize(2);
 
         Exception ex = assertThrows(Exception.class, () -> {
-            sms.addTeam(season, groupA.get(), deutschland.get());
+            sms.addTeam(season, groupA, deutschland);
         });
         assertEquals(null, ex.getMessage());
     }
@@ -141,33 +140,52 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
         assertThat(seasonClone.getName()).isEqualTo(season.getName());
         assertThat(seasonClone.getYear()).isEqualTo(season.getYear());
 
-        Optional<Team> stuttgart = mdms.findTeam("VfB Stuttgart");
-        Optional<Team> hsv = mdms.findTeam("Hamburger SV");
+        Team stuttgart = mdms.findTeam("VfB Stuttgart").orElseThrow(() -> new IllegalArgumentException());
+        Team hsv = mdms.findTeam("Hamburger SV").orElseThrow(() -> new IllegalArgumentException());
+        Team dortmund = mdms.findTeam("Borussia Dortmund").orElseThrow(() -> new IllegalArgumentException());
+        Team wolfsburg = mdms.findTeam("VfL Wolfsburg").orElseThrow(() -> new IllegalArgumentException());
+        Team fcKoeln = mdms.findTeam("1.FC Köln").orElseThrow(() -> new IllegalArgumentException());
+        Team hansaRostock = mdms.findTeam("Hansa Rostock").orElseThrow(() -> new IllegalArgumentException());
+        
+        GroupType groupTypeA = mdms.findGroupType("Gruppe A").orElseThrow(() -> new IllegalArgumentException());
+        GroupType groupTypeB = mdms.findGroupType("Gruppe B").orElseThrow(() -> new IllegalArgumentException());
 
-        Optional<GroupType> groupTypeA = mdms.findGroupType("Gruppe A");
-        Optional<GroupType> groupTypeB = mdms.findGroupType("Gruppe B");
+        Group groupA = sms.addGroupType(season, groupTypeA);
+        /* Group groupB = */ sms.addGroupType(season, groupTypeB);
 
-        Group groupA = sms.addGroupType(season, groupTypeA.get());
-        /* Group groupB = */ sms.addGroupType(season, groupTypeB.get());
-
-        groupA = sms.addTeam(season, groupTypeA.get(), stuttgart.get());
-        groupA = sms.addTeam(season, groupTypeA.get(), hsv.get());
+        groupA = sms.addTeam(season, groupTypeA, stuttgart);
+        groupA = sms.addTeam(season, groupTypeA, hsv);
+        groupA = sms.addTeam(season, groupTypeA, dortmund);
+        groupA = sms.addTeam(season, groupTypeA, wolfsburg);
+        groupA = sms.addTeam(season, groupTypeA, fcKoeln);
+        groupA = sms.addTeam(season, groupTypeA, hansaRostock);
 
         List<GroupType> groupTypes = sms.findGroupTypesBySeason(season);
-        assertEquals(groupTypeA.get().getId(), groupTypes.get(0).getId());
-        assertEquals(groupTypeB.get().getId(), groupTypes.get(1).getId());
+        assertEquals(groupTypeA.getId(), groupTypes.get(0).getId());
+        assertEquals(groupTypeB.getId(), groupTypes.get(1).getId());
 
-        sms.removeGroupType(season, groupTypeB.get());
+        sms.removeGroupType(season, groupTypeB);
         groupTypes = sms.findGroupTypesBySeason(season);
-        assertEquals(groupTypeA.get().getId(), groupTypes.get(0).getId());
+        assertEquals(groupTypeA.getId(), groupTypes.get(0).getId());
         assertEquals(1, groupTypes.size());
 
         ZonedDateTime now = ZonedDateTime.now();
-        GameList round = sms.addRound(season, now, groupTypeA.get());
-        Game match = sms.addMatch(round, now, groupA, stuttgart.get(),
-                hsv.get());
-        match.setResult(2, 2, true);
-        match.setHalfTimeGoals(new GameResult(1, 1));
+        GameList round = sms.addRound(season, now, groupTypeA);
+        
+        Game stuttgartVsHamburg = sms.addMatch(round, now, groupA, stuttgart, hsv);
+        assertThat(stuttgartVsHamburg.getIndex()).isEqualTo(0);
+        
+        Game dortmundVsWolfsburg = sms.addMatch(round, now, groupA, dortmund, wolfsburg);
+        assertThat(dortmundVsWolfsburg.getIndex()).isEqualTo(1);
+        
+        Game fcKoelnVsHansRostock = sms.addMatch(round,  now,  groupA,  fcKoeln,  hansaRostock);
+        assertThat(fcKoelnVsHansRostock.getIndex()).isEqualTo(2);
+        
+        stuttgartVsHamburg.setResult(2, 2, true);
+        stuttgartVsHamburg.setHalfTimeGoals(new GameResult(1, 1));
+
+        dortmundVsWolfsburg.setResult(1, 0, true);
+        dortmundVsWolfsburg.setHalfTimeGoals(0, 0);
 
         Location imtecharena = new Location();
         imtecharena.setCity("Hamburg");
@@ -188,8 +206,9 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
         enteLippens.setOpenligaid(2L);
         masterDataManagerService.createPlayer(enteLippens);
 
-        match.setLocation(imtecharena);
-        sms.updateMatch(match);
+        stuttgartVsHamburg.setLocation(imtecharena);
+        sms.updateMatch(stuttgartVsHamburg);
+        sms.updateMatch(dortmundVsWolfsburg);
 
         Goal goal1 = new Goal();
         goal1.setIndex(0);
@@ -199,20 +218,18 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
         goal1.setOpenligaid(5711L);
         goal1.setPlayer(enteLippens);
         goal1.setResult(new GameResult(0, 1));
-        sms.addGoal(match, goal1);
+        sms.addGoal(stuttgartVsHamburg, goal1);
 
-        List<Game> matches = sms.findMatches(stuttgart.get(), hsv.get());
+        List<Game> matches = sms.findMatches(stuttgart, hsv);
         assertThat(matches).hasSize(1);
         Game actualMatch = matches.get(0);
         assertThat(actualMatch.getResult().getHomeGoals()).isEqualTo(2);
         assertThat(actualMatch.getResult().getGuestGoals()).isEqualTo(2);
         assertThat(actualMatch.getHalfTimeGoals().getHomeGoals()).isEqualTo(1);
         assertThat(actualMatch.getHalfTimeGoals().getGuestGoals()).isEqualTo(1);
-        assertThat(actualMatch.getLocation().getName())
-                .isEqualTo("Imtecharena");
+        assertThat(actualMatch.getLocation().getName()).isEqualTo("Imtecharena");
         assertThat(actualMatch.getGoals().size()).isEqualTo(1);
-        assertThat(actualMatch.getLocation().getName())
-                .isEqualTo("Imtecharena");
+        assertThat(actualMatch.getLocation().getName()).isEqualTo("Imtecharena");
 
         Optional<Player> playerByOpenligaid = masterDataManagerService
                 .findPlayerByOpenligaid(1L);
