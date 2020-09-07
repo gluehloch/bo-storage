@@ -244,6 +244,9 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
         Optional<Player> lippens2 = seasonManagerService
                 .findGoalsOfPlayer(lippens.get().getId());
         assertThat(lippens2.get().getGoals().size()).isEqualTo(1);
+        
+        List<GameList> rounds = sms.findRounds(season);
+        assertThat(rounds.get(0).size()).isEqualTo(3);
     }
 
 }

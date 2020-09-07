@@ -324,13 +324,13 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     public Game addMatch(GameList round, ZonedDateTime date, Group group,
             Team homeTeam, Team guestTeam) {
 
-        roundDao.refresh(round);
+        GameList gamelist = roundDao.findById(round.getId());
         Game match = new Game();
         match.setDateTime(date);
         match.setHomeTeam(homeTeam);
         match.setGuestTeam(guestTeam);
         match.setGroup(group);
-        round.addGame(match);
+        gamelist.addGame(match);
         matchDao.save(match);
         return match;
     }
@@ -340,7 +340,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     public Game addMatch(GameList round, ZonedDateTime date, Group group,
             Team homeTeam, Team guestTeam, int homeGoals, int guestGoals) {
 
-        roundDao.refresh(round);
+        GameList gamelist = roundDao.findById(round.getId());
         Game match = new Game();
         match.setDateTime(date);
         match.setHomeTeam(homeTeam);
@@ -348,7 +348,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         match.setGroup(group);
         match.setResult(homeGoals, guestGoals);
         match.setPlayed(true);
-        round.addGame(match);
+        gamelist.addGame(match);
         matchDao.save(match);
         return match;
     }

@@ -127,6 +127,10 @@ class Service {
     def addMatch(round, date, group, homeTeam, guestTeam) {
       return seasonService.addMatch(round, toDate(date), group, homeTeam, guestTeam)
     }
+
+    def updateMatch(game) {
+        seasonService.updateMatch(game)
+    }
 }
 
 def validate(object) {
@@ -289,17 +293,38 @@ if (round_2020_09_18.isPresent()) {
 }
 println "Runde $round_2020_09_18.dateTime"
 
-def games = new ArrayList()
-games.add service.addMatch(round_2020_09_18, '2020-09-18 20:30:00 +02:00', bundesliga2020group, bayernMuenchen, schalke)
+def game = service.addMatch(round_2020_09_18, '2020-09-18 20:30:00 +02:00', bundesliga2020group, bayernMuenchen, schalke)
+println game.index
+service.updateMatch(game)
 
-games.add service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +02:00', bundesliga2020group, eintrachtFrankfurt, arminiaBielefeld)
-games.add service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +02:00', bundesliga2020group, unionBerlin, augsburg)
-games.add service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +02:00', bundesliga2020group, fcKoeln, tsgHoffenheim)
-games.add service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +02:00', bundesliga2020group, werderBremen, herthaBSC)
-games.add service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +02:00', bundesliga2020group, vfbStuttgart, scFreiburg)
-games.add service.addMatch(round_2020_09_18, '2020-09-19 18:30:00 +02:00', bundesliga2020group, borussiaDortmund, borussaGladbach)
+game = service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +02:00', bundesliga2020group, eintrachtFrankfurt, arminiaBielefeld)
+println game.index
+service.updateMatch(game)
 
-games.add service.addMatch(round_2020_09_18, '2020-09-20 15:30:00 +02:00', bundesliga2020group, rbLeipzig, fsvMainz05)
-games.add service.addMatch(round_2020_09_18, '2020-09-20 18:00:00 +02:00', bundesliga2020group, vflWolfsburg, bayer04Leverkusen)
+game = service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +02:00', bundesliga2020group, unionBerlin, augsburg)
+println game.index
+service.updateMatch(game)
 
-println "Spiele: " + games.size()
+game = service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +02:00', bundesliga2020group, fcKoeln, tsgHoffenheim)
+println game.index
+service.updateMatch(game)
+
+game = service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +02:00', bundesliga2020group, werderBremen, herthaBSC)
+println game.index
+service.updateMatch(game)
+
+game = service.addMatch(round_2020_09_18, '2020-09-19 15:30:00 +02:00', bundesliga2020group, vfbStuttgart, scFreiburg)
+println game.index
+service.updateMatch(game)
+
+game = service.addMatch(round_2020_09_18, '2020-09-19 18:30:00 +02:00', bundesliga2020group, borussiaDortmund, borussaGladbach)
+println game.index
+service.updateMatch(game)
+
+game = service.addMatch(round_2020_09_18, '2020-09-20 15:30:00 +02:00', bundesliga2020group, rbLeipzig, fsvMainz05)
+println game.index
+service.updateMatch(game)
+
+game = service.addMatch(round_2020_09_18, '2020-09-20 18:00:00 +02:00', bundesliga2020group, vflWolfsburg, bayer04Leverkusen)
+println game.index
+service.updateMatch(game)
