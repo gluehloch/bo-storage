@@ -143,8 +143,7 @@ public interface SeasonManagerService {
     List<Team> findTeams(Group group);
 
     /**
-     * Liefert die Mannschaften für einen Gruppentyp einer bestimmten
-     * Meisteschaft.
+     * Liefert die Mannschaften für einen Gruppentyp einer bestimmten Meisteschaft.
      * 
      * @param season
      *            Die betreffende Meisterschaft.
@@ -251,7 +250,9 @@ public interface SeasonManagerService {
     List<GameList> findRounds(Season season);
 
     /**
-     * Liefert alle Spieltage einer Meisterschaft zu einer Gruppe.
+     * Liefert alle Spieltage einer Meisterschaft zu einer Gruppe. Falls dem
+     * Spieltag keine Spieltage zugeordnet sind, werden keine Spieltag zurueck
+     * geliefert.
      * 
      * @param group
      *            Die Spieltag fuer diese Gruppe.
@@ -260,8 +261,8 @@ public interface SeasonManagerService {
     List<GameList> findRounds(Group group);
 
     /**
-     * Initialisiert die Liste der Spieltage, die zugehörigen Gruppen,
-     * Mannschaften und Tippteilnehmer für die übergebene Meisterschaft.
+     * Initialisiert die Liste der Spieltage, die zugehörigen Gruppen, Mannschaften
+     * und Tippteilnehmer für die übergebene Meisterschaft.
      *
      * @param season
      *            Die Spieltage dieser Meisterschaft werden geladen.
@@ -303,9 +304,9 @@ public interface SeasonManagerService {
     GameList findTipp(GameList round, User user);
 
     /**
-     * Initialisiert die Liste der Spieltage, die zugehörigen Gruppen,
-     * Mannschaften und Tippteilnehmer für die übergebene Meisterschaft
-     * inklusive aller zugehörigen Spieltipps.
+     * Initialisiert die Liste der Spieltage, die zugehörigen Gruppen, Mannschaften
+     * und Tippteilnehmer für die übergebene Meisterschaft inklusive aller
+     * zugehörigen Spieltipps.
      *
      * @param season
      *            Die Spieltage dieser Meisterschaft werden geladen.
@@ -410,8 +411,8 @@ public interface SeasonManagerService {
 
     /**
      * Erstellt eine neue Spielzeit.<br>
-     * <b>ACHTUNG:</b> Nur die direkten Eigenschaften von 'Season' werden
-     * angelegt. Alle ausgehenden Referenzen bleiben unberührt.
+     * <b>ACHTUNG:</b> Nur die direkten Eigenschaften von 'Season' werden angelegt.
+     * Alle ausgehenden Referenzen bleiben unberührt.
      *
      * @param season
      *            Eine Spielzeit.
@@ -489,8 +490,8 @@ public interface SeasonManagerService {
     void removeGroupType(Season season, GroupType groupType);
 
     /**
-     * Entfernt Gruppen aus einer Meisterschaft. Die Mannschaften zu dieser
-     * Gruppe werden aus der Beziehung ebenfalls gelöst.
+     * Entfernt Gruppen aus einer Meisterschaft. Die Mannschaften zu dieser Gruppe
+     * werden aus der Beziehung ebenfalls gelöst.
      *
      * @param season
      *            Die zu bearbeitende Meisterschaft.

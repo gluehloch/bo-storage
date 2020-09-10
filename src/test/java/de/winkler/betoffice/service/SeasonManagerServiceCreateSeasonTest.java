@@ -25,6 +25,7 @@
 package de.winkler.betoffice.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -146,8 +147,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         List<Team> removeTeams = Arrays.asList(rwe, schalke);
         seasonManagerService.removeTeams(buli_2010, bundesliga_1, removeTeams);
 
-        List<Team> teams = seasonManagerService.findTeams(buli_2010,
-                bundesliga_1);
+        List<Team> teams = seasonManagerService.findTeams(buli_2010, bundesliga_1);
         assertThat(teams).hasSize(2);
         assertThat(teams.get(0)).isEqualTo(hsv);
         assertThat(teams.get(1)).isEqualTo(burghausen);
@@ -165,6 +165,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
 
         try {
             seasonManagerService.deleteSeason(buli_2010);
+            fail("Expected a BetofficeValidationException.");
         } catch (BetofficeValidationException ex) {
             assertThat(ex.getMessages()).hasSize(3);
         }
@@ -182,8 +183,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         teams.add(schalke);
         teams.add(burghausen);
         teams.add(rwe);
-        buli_1_group = seasonManagerService.addTeams(buli_2010, bundesliga_1,
-                teams);
+        buli_1_group = seasonManagerService.addTeams(buli_2010, bundesliga_1, teams);
         assertThat(buli_1_group.getTeams()).hasSize(4);
     }
 
@@ -219,11 +219,23 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     public void testCreateMatches() {
         createTeams();
         createGroupTypes();
-        createSeason();
+        Season season = createSeason();
         createGroups();
         addTeamsToBuli1();
         createRounds();
         createMatches();
+        
+        List<GameList> rounds = seasonManagerService.findRounds(season);
+        assertThat(rounds).hasSize(3);
+        
+        GameList round1 = seasonManagerService.findRound(season, 0).orElseThrow();
+        assertThat(round1.size()).isEqualTo(2);
+        
+        GameList round2 = seasonManagerService.findRound(season, 1).orElseThrow();
+        assertThat(round2.size()).isEqualTo(2);
+        
+        GameList round3 = seasonManagerService.findRound(season, 2).orElseThrow();
+        assertThat(round3.size()).isEqualTo(2);
     }
 
     @Test
@@ -237,74 +249,57 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         createMatches();
         createUsers();
 
+//        DATE_01_09_2010, rwe, schalke, 2, 0
+//        DATE_01_09_2010, hsv, burghausen, 1, 1
+//
+//        DATE_08_09_2010, burghausen, rwe, 1, 1
+//        DATE_08_09_2010, schalke, hsv, 1, 1
+//
+//        DATE_15_09_2010, rwe, hsv, 1, 2
+//        DATE_15_09_2010, burghausen, schalke, 0, 1        
+        
         //
-        // Frosch
+        // Frosch 2:0 | 1:1 || 1:1 | 1:1 || 1:2 | 0:1 
         //
-        List<GameResult> tipps = new ArrayList<GameResult>();
-        tipps.add(new GameResult(2, 0));
-        tipps.add(new GameResult(1, 1));
-        tippService.addTipp(JUNIT_TOKEN, round_01, frosch, tipps,
-                TippStatusType.USER);
+        
+        tippService.addTipp(JUNIT_TOKEN, round_01, frosch,
+                List.of(new GameResult(2, 0), new GameResult(1, 1)), TippStatusType.USER);
 
-        tipps.clear();
-        tipps.add(new GameResult(1, 1));
-        tipps.add(new GameResult(1, 1));
-        tippService.addTipp(JUNIT_TOKEN, round_02, frosch, tipps,
-                TippStatusType.USER);
+        tippService.addTipp(JUNIT_TOKEN, round_02, frosch,
+                List.of(new GameResult(1, 1), new GameResult(1, 1)), TippStatusType.USER);
 
-        tipps.clear();
-        tipps.add(new GameResult(1, 2));
-        tipps.add(new GameResult(0, 1));
-        tippService.addTipp(JUNIT_TOKEN, round_03, frosch, tipps,
-                TippStatusType.USER);
+        tippService.addTipp(JUNIT_TOKEN, round_03, frosch,
+                List.of(new GameResult(1, 2), new GameResult(0, 1)), TippStatusType.USER);
 
         //
         // Peter
         //
-        tipps.clear();
-        tipps.add(new GameResult(1, 1));
-        tipps.add(new GameResult(1, 1));
-        tippService.addTipp(JUNIT_TOKEN, round_01, peter, tipps,
-                TippStatusType.USER);
+        tippService.addTipp(JUNIT_TOKEN, round_01, peter,
+                List.of(new GameResult(1, 1), new GameResult(1, 1)), TippStatusType.USER);
 
-        tipps.clear();
-        tipps.add(new GameResult(2, 1));
-        tipps.add(new GameResult(2, 1));
-        tippService.addTipp(JUNIT_TOKEN, round_02, peter, tipps,
-                TippStatusType.USER);
+        tippService.addTipp(JUNIT_TOKEN, round_02, peter,
+                List.of(new GameResult(2, 1), new GameResult(2, 1)), TippStatusType.USER);
 
-        tipps.clear();
-        tipps.add(new GameResult(1, 2));
-        tipps.add(new GameResult(0, 1));
-        tippService.addTipp(JUNIT_TOKEN, round_03, peter, tipps,
-                TippStatusType.USER);
+        tippService.addTipp(JUNIT_TOKEN, round_03, peter,
+                List.of(new GameResult(1, 2), new GameResult(0, 1)), TippStatusType.USER);
 
         //
         // mrTipp
         //
-        tipps.clear();
-        tipps.add(new GameResult(2, 1));
-        tipps.add(new GameResult(0, 0));
-        tippService.addTipp(JUNIT_TOKEN, round_01, mrTipp, tipps,
-                TippStatusType.USER);
+        ;
+        tippService.addTipp(JUNIT_TOKEN, round_01, mrTipp,
+                List.of(new GameResult(2, 1), new GameResult(0, 0)), TippStatusType.USER);
 
-        tipps.clear();
-        tipps.add(new GameResult(2, 2));
-        tipps.add(new GameResult(2, 2));
-        tippService.addTipp(JUNIT_TOKEN, round_02, mrTipp, tipps,
-                TippStatusType.USER);
+        tippService.addTipp(JUNIT_TOKEN, round_02, mrTipp,
+                List.of(new GameResult(2, 2), new GameResult(2, 2)), TippStatusType.USER);
 
-        tipps.clear();
-        tipps.add(new GameResult(1, 3));
-        tipps.add(new GameResult(0, 2));
-        tippService.addTipp(JUNIT_TOKEN, round_03, mrTipp, tipps,
-                TippStatusType.USER);
+        tippService.addTipp(JUNIT_TOKEN, round_03, mrTipp,
+                List.of(new GameResult(1, 3), new GameResult(0, 2)), TippStatusType.USER);
 
         //
         // Calculate user ranking
         //
-        List<UserResult> userResult = seasonManagerService
-                .calculateUserRanking(buli_2010);
+        List<UserResult> userResult = seasonManagerService.calculateUserRanking(buli_2010);
         assertThat(userResult.get(0)).isEqualTo(frosch);
         assertThat(userResult.get(0).getTabPos()).isEqualTo(1);
         assertThat(userResult.get(0).getUserWin()).isEqualTo(6);
@@ -336,24 +331,21 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     private void createMatch(final int roundIndex, final ZonedDateTime date,
-            final Team homeTeam, final Team guestTeam, int homeGoals,
-            int guestGoals) {
+            final Team homeTeam, final Team guestTeam, final int homeGoals,
+            final int guestGoals) {
 
         seasonManagerService.addMatch(buli_2010, roundIndex, date, bundesliga_1,
                 homeTeam, guestTeam, homeGoals, guestGoals);
 
-        Optional<GameList> round = seasonManagerService.findRound(buli_2010,
-                roundIndex);
+        Optional<GameList> round = seasonManagerService.findRound(buli_2010, roundIndex);
         assertThat(round.isPresent()).isTrue();
-        Optional<Game> match = seasonManagerService.findMatch(round.get(),
-                homeTeam, guestTeam);
+        Optional<Game> match = seasonManagerService.findMatch(round.get(), homeTeam, guestTeam);
         assertThat(match.isPresent()).isTrue();
 
         assertThat(match.get().getHomeTeam()).isEqualTo(homeTeam);
         assertThat(match.get().getGuestTeam()).isEqualTo(guestTeam);
         assertThat(match.get().getResult().getHomeGoals()).isEqualTo(homeGoals);
-        assertThat(match.get().getResult().getGuestGoals())
-                .isEqualTo(guestGoals);
+        assertThat(match.get().getResult().getGuestGoals()).isEqualTo(guestGoals);
     }
 
     private void createRounds() {
@@ -410,13 +402,15 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
                 buli_2_group);
     }
 
-    private void createSeason() {
+    private Season createSeason() {
         buli_2010 = new Season();
         buli_2010.setName("Bundesliga 2010/2011");
         buli_2010.setYear("2010/2011");
         buli_2010.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(buli_2010);
         assertThat(seasonManagerService.findAllSeasons()).hasSize(1);
+        
+        return buli_2010;
     }
 
     private void createGroupTypes() {
