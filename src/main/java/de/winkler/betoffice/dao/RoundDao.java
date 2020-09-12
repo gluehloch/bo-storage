@@ -27,6 +27,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
@@ -67,6 +68,15 @@ public interface RoundDao extends CommonDao<GameList> {
      * @return Der Spieltag.
      */
     Optional<GameList> findRound(Season season, int index);
+
+    /**
+     * Sucht nach einem Spieltag zu der uerbgebenen Spiel.
+     * 
+     * @param game
+     *            Das Spiel.
+     * @return Der Spieltag zu dem dieses Spiel gehört.
+     */
+    Optional<GameList> findRound(Game game);
 
     /**
      * Liefert einen Spieltag einer Meisterschaft mit allen Spielen und

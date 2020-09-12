@@ -38,6 +38,7 @@ import org.hibernate.type.ZonedDateTimeType;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.RoundDao;
+import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
@@ -91,11 +92,19 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             + "from "
             + "    GameList as round "
             + "    left join fetch round.gameList game "
-            + "where"
+            + "where "
             + "    game.group.id = :groupId "
             + "order"
             + "    by round.index";
 
+    /** Sucht nach einem Spieltag zu einen Spiel. */
+    private static final String QUERY_GAMELIST_OF_GAME = "select round "
+            + "from "
+            + "    GameList as round "
+            + "    join round.gameList game "
+            + "where "
+            + "     game.id = :gameId";
+    
     /**
      * Sucht einen Spieltag einer Meisterschaft.
      */
@@ -205,6 +214,14 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
                 .setParameter("gameListIndex", Integer.valueOf(index),
                         IntegerType.INSTANCE);
 
+        return singleResult(query);
+    }
+
+    @Override
+    public Optional<GameList> findRound(Game game) {
+        Query<GameList> query = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_GAMELIST_OF_GAME, GameList.class)
+                .setParameter("gameId", game.getId());
         return singleResult(query);
     }
 

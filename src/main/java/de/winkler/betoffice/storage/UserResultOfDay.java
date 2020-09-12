@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -53,10 +53,6 @@ public class UserResultOfDay {
     /** Was für ein Tipp? */
     private TippStatusType status;
 
-    /** Erzeugt ein UserResultOfDay. */
-    protected UserResultOfDay() {
-    }
-
     /**
      * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
      * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
@@ -100,30 +96,29 @@ public class UserResultOfDay {
     }
 
     public long getPoints() {
-        return win * UserResult.nEqualValue +
-                toto * UserResult.nTotoValue;
+        return win * UserResult.nEqualValue + toto * UserResult.nTotoValue;
     }
 
     public double getBeautyPoints() {
         return ((double) getPoints()) / ((double) UserResult.nDivisor);
     }
 
-    protected void setWin(int value) {
+    public void setWin(int value) {
         isTipped = true;
         win = value;
     }
 
-    protected void setToto(int value) {
+    public void setToto(int value) {
         isTipped = true;
         toto = value;
     }
 
-    protected void setTipps(int value) {
+    public void setTipps(int value) {
         isTipped = true;
         tipps = value;
     }
 
-    protected void setUser(User value) {
+    public void setUser(User value) {
         Validate.notNull(value);
         user = value;
     }

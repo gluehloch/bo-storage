@@ -30,7 +30,6 @@ import java.util.Optional;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Team;
-import de.winkler.betoffice.storage.User;
 
 /**
  * Dieses DAO sucht nach bestimmten Spielpaarungen.
@@ -58,8 +57,7 @@ public interface MatchDao extends CommonDao<Game> {
      *
      * @param homeTeam
      *            Die gesuchte Heimmannschaft.
-     * @return Eine Liste von {@link de.winkler.betoffice.storage.Game}
-     *         Objekten.
+     * @return Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
     public List<Game> findByHomeTeam(Team homeTeam);
 
@@ -68,21 +66,18 @@ public interface MatchDao extends CommonDao<Game> {
      *
      * @param guestTeam
      *            Die gesuchte Gastmannschaft.
-     * @return Eine Liste von {@link de.winkler.betoffice.storage.Game}
-     *         Objekten.
+     * @return Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
     public List<Game> findByGuestTeam(Team guestTeam);
 
     /**
-     * Sucht nach allen Spielpaarungen mit der beteiligten Heim- und
-     * Gastmannschaft.
+     * Sucht nach allen Spielpaarungen mit der beteiligten Heim- und Gastmannschaft.
      *
      * @param homeTeam
      *            Die gesuchte Heimmannschaft.
      * @param guestTeam
      *            Die gesuchte Gastmannschaft.
-     * @return Eine Liste von {@link de.winkler.betoffice.storage.Game}
-     *         Objekten.
+     * @return Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
     public List<Game> find(Team homeTeam, Team guestTeam);
 
@@ -93,8 +88,7 @@ public interface MatchDao extends CommonDao<Game> {
      *            Die erste gesuchte Mannschaft (Heim wie auswärts).
      * @param team2
      *            Die zweite gesuchte Mannschaft (Heim wie auswärts).
-     * @return Eine Liste von {@link de.winkler.betoffice.storage.Game}
-     *         Objekten.
+     * @return Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
     public List<Game> findAll(Team team1, Team team2);
 

@@ -71,53 +71,56 @@ public interface TippService {
      *            Die Tipps für alle Spiele des Spieltags.
      * @param status
      *            Der Status für diese Tipps.
+     * @return Die erstellen {@code GameTipps}.
      */
-    public void addTipp(String token, GameList round, User user,
-            List<GameResult> tipps, TippStatusType status);
+    public List<GameTipp> addTipp(String token, GameList round, User user, List<GameResult> tipps,
+            TippStatusType status);
 
     /**
      * Legt den Tipp für einen Spieler für einen kompletten Spieltag an.
      * 
      * @param tippDto
      *            Der Spieltipp
+     * @return Die erstellen {@code GameTipps}.
      */
-    public void addTipp(TippDto tippDto);
+    public List<GameTipp> addTipp(TippDto tippDto);
 
-    /**
-     * Einen Tipp einer Spielpaarung hinzufügen/aktualisieren.
-     *
-     * @param token
-     *            Das Anmeldetoken mit dem dieser Tipp angelegt wird.
-     * @param match
-     *            Die betreffende Partie.
-     * @param user
-     *            Der Tipper.
-     * @param gr
-     *            Das getippte Endergebnis
-     * @param status
-     *            Tipp-Status.
-     */
-    public void updateTipp(String token, Game match, User user, GameResult tipp, TippStatusType status);
-
-    /**
-     * Aktualisiert eine Liste von Tipps.
-     *
-     * @param token
-     *            Das Anmeldetoken mit dem dieser Tipp angelegt wird.
-     * @param tipps
-     *            Eine Liste mit den zu aktualisierende Tipps.
-     */
-    public void updateTipp(String token, List<GameTipp> tipps);
-
-    /**
-     * Entfernt einen Spieltipp.
-     *
-     * @param match
-     *            Die betreffende Spielpaarung.
-     * @param user
-     *            Der Tipp-Teilnehmer dessen Tipp entfernt werden soll.
-     */
-    public void removeTipp(Game match, User user);
+    // /**
+    // * Einen Tipp einer Spielpaarung hinzufügen/aktualisieren.
+    // *
+    // * @param token
+    // * Das Anmeldetoken mit dem dieser Tipp angelegt wird.
+    // * @param match
+    // * Die betreffende Partie.
+    // * @param user
+    // * Der Tipper.
+    // * @param gr
+    // * Das getippte Endergebnis
+    // * @param status
+    // * Tipp-Status.
+    // */
+    // public void updateTipp(String token, Game match, User user, GameResult tipp,
+    // TippStatusType status);
+    //
+    // /**
+    // * Aktualisiert eine Liste von Tipps.
+    // *
+    // * @param token
+    // * Das Anmeldetoken mit dem dieser Tipp angelegt wird.
+    // * @param tipps
+    // * Eine Liste mit den zu aktualisierende Tipps.
+    // */
+    // public void updateTipp(String token, List<GameTipp> tipps);
+    //
+    // /**
+    // * Entfernt einen Spieltipp.
+    // *
+    // * @param match
+    // * Die betreffende Spielpaarung.
+    // * @param user
+    // * Der Tipp-Teilnehmer dessen Tipp entfernt werden soll.
+    // */
+    // public void removeTipp(Game match, User user);
 
     /**
      * Liefert alle Spieltipps zu einer Spielpaarung.

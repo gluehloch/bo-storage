@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2012 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -41,8 +41,7 @@ import de.winkler.betoffice.storage.Team;
  * @author Andre Winkler
  */
 @Repository("matchDao")
-public class MatchDaoHibernate extends AbstractCommonDao<Game>
-        implements MatchDao {
+public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchDao {
 
     /**
      * Sucht nach allen bekannten Spielpaarungen mit gesuchter Heimmannschaft.
@@ -119,9 +118,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game>
     }
 
     @Override
-    public Optional<Game> find(final GameList round, final Team homeTeam,
-            final Team guestTeam) {
-
+    public Optional<Game> find(final GameList round, final Team homeTeam, final Team guestTeam) {
         Query<Game> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_MATCH_BY_HOME_AND_GUEST_TEAM_AND_ROUND,
                         Game.class)
