@@ -30,6 +30,7 @@ import java.util.Optional;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Team;
+import de.winkler.betoffice.storage.User;
 
 /**
  * Dieses DAO sucht nach bestimmten Spielpaarungen.

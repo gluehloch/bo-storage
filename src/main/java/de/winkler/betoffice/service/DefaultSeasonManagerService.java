@@ -330,8 +330,11 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         match.setHomeTeam(homeTeam);
         match.setGuestTeam(guestTeam);
         match.setGroup(group);
-        gamelist.addGame(match);
         matchDao.save(match);
+        
+        gamelist.addGame(match);
+        roundDao.update(gamelist);
+
         return match;
     }
 
@@ -348,8 +351,11 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         match.setGroup(group);
         match.setResult(homeGoals, guestGoals);
         match.setPlayed(true);
-        gamelist.addGame(match);
         matchDao.save(match);
+        
+        gamelist.addGame(match);
+        roundDao.update(gamelist);
+
         return match;
     }
 
@@ -358,9 +364,9 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     public Game addMatch(Season season, int round, ZonedDateTime date,
             GroupType groupType, Team homeTeam, Team guestTeam) {
 
-        seasonDao.refresh(season);
-        return (addMatch(season.getGamesOfDay(round), date,
-                season.getGroup(groupType), homeTeam, guestTeam));
+        Season persistedSeason = seasonDao.findById(season.getId());
+        return (addMatch(persistedSeason.getGamesOfDay(round), date,
+                persistedSeason.getGroup(groupType), homeTeam, guestTeam));
     }
 
     @Override
@@ -369,9 +375,9 @@ public class DefaultSeasonManagerService extends AbstractManagerService
             GroupType groupType, Team homeTeam, Team guestTeam, int homeGoals,
             int guestGoals) {
 
-        seasonDao.refresh(season);
-        return (addMatch(season.getGamesOfDay(round), date,
-                season.getGroup(groupType), homeTeam, guestTeam, homeGoals,
+        Season persistedSeason = seasonDao.findById(season.getId());
+        return (addMatch(persistedSeason.getGamesOfDay(round), date,
+                persistedSeason.getGroup(groupType), homeTeam, guestTeam, homeGoals,
                 guestGoals));
     }
 
@@ -565,7 +571,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         // TODO Interessanter Code: Eine NoResultException fuehrt zu einem
         // Transaktions-Rollback (UnexpectedRollbackException). Vermutlich
         // ist Spring fuer diese Funktion zustaendig. Das Catch der
-        // NoResultException kann die Rollback Exception nicht verhinden.
+        // NoResultException kann die Rollback Exception nicht verhindern.
         // Komisch.
         //
 //        try {
@@ -575,12 +581,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 //        // Ok. Create a new group.
 //        }
 
-        seasonDao.refresh(season);
+        Season persistedSeason = seasonDao.findById(season.getId());
         // Season persistentSeason = findSeasonById(season.getId());
 
         Group group = new Group();
         group.setGroupType(groupType);
-        season.addGroup(group);
+        persistedSeason.addGroup(group);
         groupDao.save(group);
 
         return group;

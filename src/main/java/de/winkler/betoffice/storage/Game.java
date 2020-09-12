@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -25,11 +25,7 @@ package de.winkler.betoffice.storage;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -46,16 +42,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import org.apache.commons.lang3.Validate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.joda.time.DateTime;
-
-import de.winkler.betoffice.storage.enums.TippStatusType;
-import de.winkler.betoffice.storage.exception.StorageObjectExistsException;
-import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
-import de.winkler.betoffice.storage.exception.StorageObjectNotValidException;
-import de.winkler.betoffice.storage.exception.StorageRuntimeException;
 
 /**
  * Kapselt alle Daten eines Fussballspiels.
@@ -155,9 +143,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     @OrderBy("bo_index")
     private List<Goal> goals = new ArrayList<>();
-
-    @OneToMany(mappedBy = "game")
-    private Set<GameTipp> tippList = new HashSet<>();
 
     /** http://www.openligadb.de */
     @Column(name = "bo_openligaid")
@@ -504,27 +489,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
         return removedGoals;
     }
 
-    // -- tippList ------------------------------------------------------------
-
-    /**
-     * Liefert die Liste der Tipps.
-     *
-     * @return Die Tipp-Liste.
-     */
-    protected Set<GameTipp> getTippList() {
-        return tippList;
-    }
-
-    /**
-     * Setzt die Tipp-Liste.
-     *
-     * @param value
-     *            Die Tipp-Liste.
-     */
-    protected void setTippList(final Set<GameTipp> value) {
-        tippList = value;
-    }
-
     // -- openligaid ----------------------------------------------------------
 
     /**
@@ -571,206 +535,21 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     // ------------------------------------------------------------------------
 
-    /**
-     * Fügt dem Spiel einen Tipp hinzu. Bestehende Tipps werden überschrieben.
-     *
-     * @param token
-     *            Das Anmeldetoken mit dem dieser Spieltipp angelegt wird.
-     * @param user
-     *            Der Spieler von dem der Tipp kommt.
-     * @param gr
-     *            Der Tipp des Spielers.
-     * @param status
-     *            Der Status des Tipps.
-     * @return Ein neu erzeugter Tipp oder ein bereits abgegebener Tipp.
-     */
-    public GameTipp addTipp(String token, User user, GameResult gr,
-            TippStatusType status) {
-
-        Validate.notNull(token);
-        Validate.notNull(user);
-        Validate.notNull(gr);
-        Validate.notNull(status);
-
-        GameTipp tipp = null;
-        if (containsTipp(user)) {
-            try {
-                tipp = getGameTipp(user);
-                tipp.setToken(token);
-                tipp.setTipp(gr, status);
-                tipp.setLastUpdateTime(DateTime.now().toDate());
-            } catch (StorageObjectNotFoundException ex) {
-                // Nach Abfrage nicht möglich!
-                log.error("storage object not found exception", ex);
-                throw new StorageRuntimeException(ex);
-            }
-        } else {
-            tipp = new GameTipp();
-            tipp.setToken(token);
-            tipp.setUser(user);
-            tipp.setGame(this);
-            tipp.setTipp(gr, status);
-            Date now = DateTime.now().toDate();
-            tipp.setLastUpdateTime(now);
-            tipp.setCreationTime(now);
-
-            try {
-                addTipp(tipp);
-            } catch (StorageObjectExistsException ex) {
-                // Nach Abfrage nicht möglich!
-                log.error("storage object exists exception", ex);
-                throw new StorageRuntimeException(ex);
-            } catch (StorageObjectNotValidException ex) {
-                // Selbst zusammen gebaut!
-                log.error("storage object not valid exception", ex);
-                throw new StorageRuntimeException(ex);
-            }
-        }
-        return tipp;
+    @Override
+    public int hashCode() {
+        return 13;
     }
 
-    /**
-     * Fügt diesem Spiel einen neuen Tipp hinzu.
-     *
-     * @param tipp
-     *            Der neue Tipp.
-     * @throws StorageObjectExistsException
-     *             Tipp bereits vorhanden.
-     */
-    public void addTipp(final GameTipp tipp)
-            throws StorageObjectExistsException {
-        Validate.notNull(tipp);
-
-        if (containsTipp(tipp.getUser())) {
-            StringBuilder buf = new StringBuilder("'");
-            buf.append(tipp.toString()).append("' already exists!");
-            log.error(buf);
-            throw new StorageObjectExistsException(buf.toString());
-        } else if (tipp.getGame() != this) { // TODO equals() wäre besser?
-            StringBuilder buf = new StringBuilder("'");
-            buf.append(tipp.toString()).append("' game property failure!");
-            log.error(buf);
-            throw new IllegalArgumentException(buf.toString());
-        } else {
-            tipp.setGame(this);
-            tippList.add(tipp);
-        }
-    }
-
-    /**
-     * Entfernt alle Tipps zu diesem Spiel.
-     */
-    public void removeAllTipp() {
-        List<GameTipp> tmp = new ArrayList<GameTipp>(getTippList());
-        for (GameTipp tipp : tmp) {
-            try {
-                removeTipp(tipp);
-            } catch (StorageObjectNotFoundException ex) {
-                log.fatal("Error", ex);
-                throw new RuntimeException(ex);
-            }
-        }
-    }
-
-    /**
-     * Entfernt aus Game einen Tipp.
-     *
-     * @param tipp
-     *            Der zu entfernende Tipp.
-     * @throws StorageObjectNotFoundException
-     *             Tipp nicht vorhanden.
-     */
-    public void removeTipp(final GameTipp tipp)
-            throws StorageObjectNotFoundException {
-
-        Validate.notNull(tipp, "tipp als null-Parameter");
-
-        if (!containsTipp(tipp.getUser())) {
-            StringBuffer buf = new StringBuffer();
-            buf.append(tipp.toString());
-            buf.append(" nicht vorhanden.");
-            log.error(buf);
-            throw new StorageObjectNotFoundException(buf.toString());
-        } else {
-            tippList.remove(tipp);
-            tipp.setGame(null);
-        }
-    }
-
-    /**
-     * Ermittelt für einen Spieler den für dieses Spiel abgegebenen Tipp.
-     *
-     * @param user
-     *            Der gesuchte Tipp von diesem Spieler.
-     * @return Der abgegebene Tipp des Spielers.
-     * @throws StorageObjectNotFoundException
-     *             Keinen Tipp für gesuchten User gefunden.
-     */
-    public GameTipp getGameTipp(final User user)
-            throws StorageObjectNotFoundException {
-        Validate.notNull(user, "user als null Parameter");
-
-        Optional<GameTipp> userTipp = tippList.stream()
-                .filter(tipp -> tipp != null && tipp.getUser().equals(user))
-                .findFirst();
-
-        if (userTipp.isPresent()) {
-            return userTipp.get();
-        } else {
-            throw new StorageObjectNotFoundException(
-                    "Der Teilnehmer [" + user.getNickName()
-                            + "] hat keinen Spieltipp.");
-        }
-    }
-
-    /**
-     * Liefert einen Spieltipp oder, wenn kein Tipp gefunden werden konnte,
-     * einen ungültigen Spieltipp.
-     *
-     * @param user
-     *            Den Tipp von diesem Teilnehmer suchen.
-     * @return Der Tipp.
-     */
-    public GameTipp getGameTippOrInvalid(final User user) {
-        GameTipp gameTipp = null;
-        try {
-            gameTipp = getGameTipp(user);
-        } catch (StorageObjectNotFoundException ex) {
-            gameTipp = new GameTipp();
-            gameTipp.setGame(this);
-            gameTipp.setUser(user);
-            gameTipp.setTipp(0, 0, TippStatusType.INVALID);
-        }
-        return gameTipp;
-    }
-
-    /**
-     * Prüft, ob der Teilnehmer user einen Tipp abgegeben hat.
-     *
-     * @param user
-     *            Der zu prüfende User.
-     * @return true, Tipp vorhanden; false, kein Tipp vorhanden.
-     */
-    public boolean containsTipp(User user) {
-        return tippList.stream().anyMatch(tipp -> tipp.getUser().equals(user));
-    }
-
-    /**
-     * Liefert die Anzahl der abgegebenen Tipps für dieses Spiel.
-     *
-     * @return Anzahl der Tipps.
-     */
-    public int tippSize() {
-        return tippList.size();
-    }
-
-    /**
-     * Liefert ein nicht-modifizierbare Liste aller Tipps dieses Spiels.
-     *
-     * @return Eine nicht modifizierbare Kopie der internen Tipp-Liste.
-     */
-    public Set<GameTipp> getTipps() {
-        return tippList;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Game other = (Game) obj;
+        return id != null && id.equals(other.getId());
     }
 
     // -- Comparable ----------------------------------------------------------

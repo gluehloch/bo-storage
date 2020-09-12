@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2015 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -50,14 +50,13 @@ public interface TippService {
      *            Die betreffende Partie.
      * @param user
      *            Der Tipper.
-     * @param gr
+     * @param tipp
      *            Das getippte Endergebnis
      * @param status
      *            Tipp-Status.
      * @return Der erstellte {@link GameTipp}.
      */
-    public GameTipp addTipp(String token, Game match, User user, GameResult gr,
-            TippStatusType status);
+    public GameTipp addTipp(String token, Game match, User user, GameResult tipp, TippStatusType status);
 
     /**
      * Legt die Tipps für einen kompletten Spieltag in der Datenbank an.
@@ -98,8 +97,7 @@ public interface TippService {
      * @param status
      *            Tipp-Status.
      */
-    public void updateTipp(String token, Game match, User user, GameResult gr,
-            TippStatusType status);
+    public void updateTipp(String token, Game match, User user, GameResult tipp, TippStatusType status);
 
     /**
      * Aktualisiert eine Liste von Tipps.

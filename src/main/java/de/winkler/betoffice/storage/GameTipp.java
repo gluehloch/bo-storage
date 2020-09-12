@@ -83,7 +83,7 @@ public class GameTipp extends AbstractStorageObject
     @Column(name = "bo_token")
     private String token;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "bo_game_ref")
     private Game game;
 
@@ -245,7 +245,7 @@ public class GameTipp extends AbstractStorageObject
      * @param value
      *            Die neue Game Zuordnung.
      */
-    protected void setGame(final Game value) {
+    public void setGame(final Game value) {
         game = value;
     }
 
@@ -319,8 +319,7 @@ public class GameTipp extends AbstractStorageObject
      * @param _status
      *            Der Status des Tipps (User, Auto, etc.).
      */
-    public void setTipp(final GameResult _result,
-            final TippStatusType _status) {
+    public void setTipp(final GameResult _result, final TippStatusType _status) {
         setStatus(_status);
         setTipp(_result);
     }

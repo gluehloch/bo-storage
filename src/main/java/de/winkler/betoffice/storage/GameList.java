@@ -27,7 +27,6 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -167,12 +166,12 @@ public class GameList extends AbstractStorageObject
     }
 
     /**
-     * Entfernt alle Spielpaarungen.
+     * Entfernt alle Spielpaarungen. Funktioniert nur, wenn keine Tipps
+     * vorhanden sind.
      */
     public void removeAllGame() {
         List<Game> tmp = new ArrayList<Game>(getGameList());
         for (Game game : tmp) {
-            game.removeAllTipp();
             removeGame(game);
         }
     }
@@ -391,80 +390,6 @@ public class GameList extends AbstractStorageObject
     // ------------------------------------------------------------------------
 
     /**
-     * Berechnet die erzielten Punkte eines Spielers für diesen Spieltag.
-     *
-     * @param user
-     *            Der Teilnehmer für den die Punktzahl ermittelt wird.
-     * @return Ein <code>UserResultOfDay</code>
-     */
-    public UserResultOfDay getUserPoints(User user) {
-        UserResultOfDay urod = new UserResultOfDay();
-
-        urod.setUser(user);
-        for (Game game : gameList) {
-            if (game.isPlayed()) {
-                try {
-                    GameTipp tipp = game.getGameTipp(user);
-                    //
-                    // Zu bemerken ist, dass alle Tipps eines Spieltags den
-                    // gleichen Status besitzen müssen. Ist dies nicht der
-                    // Fall, wird eine RuntimeException geworfen.
-                    //
-                    // TODO Dieser Fall kann aber trotzdem auftreten:
-                    // Automatische MinTipp-Generierung und anschliessendes
-                    // teilweises, manuelles Ändern der Tipps.
-                    //
-                    if ((urod.getStatus() != null)
-                            && !(tipp.getStatus().equals(urod.getStatus()))) {
-
-                        log.error("Der Tipp " + tipp + " ist fehlerhaft!");
-                        throw new StorageRuntimeException(
-                                "Ein Tipp wurde automatisch generiert. "
-                                        + "Ein anderer Tipp wurde per Teilnehmer "
-                                        + "generiert. Dieser Zustand sollte nicht "
-                                        + "auftreten!");
-                    }
-
-                    urod.setStatus(tipp.getStatus());
-                    urod.setTipps(urod.getTipps() + 1);
-
-                    if (tipp.getTotoResult() == TotoResult.EQUAL) {
-                        urod.setWin(urod.getWin() + 1);
-                    } else if (tipp.getTotoResult() == TotoResult.TOTO) {
-                        urod.setToto(urod.getToto() + 1);
-                    }
-                } catch (StorageObjectNotFoundException ex) {
-                    // Ist Ok, dann müssen auch keine Punkte addiert werden.
-                    log.info("Kein Tipp für game: " + game + " vorhanden");
-                }
-            }
-        }
-        return urod;
-    }
-
-    /**
-     * Liefert alle Tipps dieses Spieltags für den gefordeten User.
-     *
-     * @param user
-     *            Die Tipps des gesuchten Users.
-     * @return Eine Liste mit allen Tipps für diesen Spieltag vom gesuchten
-     *         User.
-     */
-    public List<GameTipp> getTippsOfUser(final User user) {
-        List<GameTipp> tippList = new ArrayList<GameTipp>();
-        for (Game game : gameList) {
-            try {
-                GameTipp tipp = game.getGameTipp(user);
-                tippList.add(tipp);
-            } catch (StorageObjectNotFoundException ex) {
-                log.info(new StringBuffer("Für User ").append(user)
-                        .append(" keinen Tipp gefunden.").toString());
-            }
-        }
-        return tippList;
-    }
-
-    /**
      * Überprüft, ob der Spieltag vor dem übergebenen Spieltag liegt.
      *
      * @param _gameList
@@ -528,7 +453,8 @@ public class GameList extends AbstractStorageObject
             }
 
             Integer value = dates.get(date.toLocalDate());
-            dates.put(date.toLocalDate(), Integer.valueOf(value.intValue() + 1));
+            dates.put(date.toLocalDate(),
+                    Integer.valueOf(value.intValue() + 1));
         }
 
         Map.Entry<LocalDate, Integer> bestDate = null;

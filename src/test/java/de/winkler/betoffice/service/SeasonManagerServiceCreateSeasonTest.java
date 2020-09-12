@@ -36,7 +36,6 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -116,9 +115,9 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     @SuppressWarnings("unused")
     private Group buli_2_group;
 
-    private GameList round_01;
-    private GameList round_02;
-    private GameList round_03;
+//    private GameList round_01;
+//    private GameList round_02;
+//    private GameList round_03;
 
     private User frosch;
     private User peter;
@@ -262,6 +261,10 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         // Frosch 2:0 | 1:1 || 1:1 | 1:1 || 1:2 | 0:1 
         //
         
+        GameList round_01 = seasonManagerService.findRound(buli_2010, 0).orElseThrow();
+        GameList round_02 = seasonManagerService.findRound(buli_2010, 1).orElseThrow();
+        GameList round_03 = seasonManagerService.findRound(buli_2010, 2).orElseThrow();
+        
         tippService.addTipp(JUNIT_TOKEN, round_01, frosch,
                 List.of(new GameResult(2, 0), new GameResult(1, 1)), TippStatusType.USER);
 
@@ -286,7 +289,6 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         //
         // mrTipp
         //
-        ;
         tippService.addTipp(JUNIT_TOKEN, round_01, mrTipp,
                 List.of(new GameResult(2, 1), new GameResult(0, 0)), TippStatusType.USER);
 
@@ -337,29 +339,27 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         seasonManagerService.addMatch(buli_2010, roundIndex, date, bundesliga_1,
                 homeTeam, guestTeam, homeGoals, guestGoals);
 
-        Optional<GameList> round = seasonManagerService.findRound(buli_2010, roundIndex);
-        assertThat(round.isPresent()).isTrue();
-        Optional<Game> match = seasonManagerService.findMatch(round.get(), homeTeam, guestTeam);
-        assertThat(match.isPresent()).isTrue();
+        GameList round = seasonManagerService.findRound(buli_2010, roundIndex).orElseThrow();
+        Game match = seasonManagerService.findMatch(round, homeTeam, guestTeam).orElseThrow();
 
-        assertThat(match.get().getHomeTeam()).isEqualTo(homeTeam);
-        assertThat(match.get().getGuestTeam()).isEqualTo(guestTeam);
-        assertThat(match.get().getResult().getHomeGoals()).isEqualTo(homeGoals);
-        assertThat(match.get().getResult().getGuestGoals()).isEqualTo(guestGoals);
+        assertThat(match.getHomeTeam()).isEqualTo(homeTeam);
+        assertThat(match.getGuestTeam()).isEqualTo(guestTeam);
+        assertThat(match.getResult().getHomeGoals()).isEqualTo(homeGoals);
+        assertThat(match.getResult().getGuestGoals()).isEqualTo(guestGoals);
     }
 
     private void createRounds() {
-        round_01 = createRound(1, DATE_01_09_2010);
-        round_02 = createRound(2, DATE_08_09_2010);
-        round_03 = createRound(3, DATE_15_09_2010);
+        GameList round_01 = createRound(1, DATE_01_09_2010);
+        GameList round_02 = createRound(2, DATE_08_09_2010);
+        GameList round_03 = createRound(3, DATE_15_09_2010);
 
         assertThat(seasonManagerService.findRounds(buli_2010)).hasSize(3);
 
-        assertThat(seasonManagerService.findRound(buli_2010, 0).orElseThrow(() -> new IllegalArgumentException())
+        assertThat(seasonManagerService.findRound(buli_2010, 0).orElseThrow()
                 .getDateTime()).isEqualTo(DATE_01_09_2010);
-        assertThat(seasonManagerService.findRound(buli_2010, 1).orElseThrow(() -> new IllegalArgumentException())
+        assertThat(seasonManagerService.findRound(buli_2010, 1).orElseThrow()
                 .getDateTime()).isEqualTo(DATE_08_09_2010);
-        assertThat(seasonManagerService.findRound(buli_2010, 2).orElseThrow(() -> new IllegalArgumentException())
+        assertThat(seasonManagerService.findRound(buli_2010, 2).orElseThrow()
                 .getDateTime()).isEqualTo(DATE_15_09_2010);
     }
 
