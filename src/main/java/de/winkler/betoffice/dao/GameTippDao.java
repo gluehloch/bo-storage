@@ -56,31 +56,9 @@ public interface GameTippDao extends CommonDao<GameTipp> {
      *            Der Teilnehmer.
      * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
      */
-    List<GameTipp> findTippsByRoundAndUser(GameList round, User user);
-
-    /**
-     * Liefert alle Spieltipps zu einem Spieltag zu einem Teilnehmer.
-     *
-     * @param roundId
-     *            Der Spieltag.
-     * @param user
-     *            Der Teilnehmer.
-     * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
-     */
-    List<GameTipp> findTippsByRoundAndUser(long roundId, User user);
-
-    /**
-     * Liefert alle Spieltipps zu einem Spieltag zu einem Teilnehmer. Falls
-     * keine Tipps vorliegen, kann hier <code>null</code> zurueck gegeben
-     * werden.
-     *
-     * @param round
-     *            Der Spieltag.
-     * @param user
-     *            Der Teilnehmer.
-     * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
-     */
-    GameList findRound(GameList round, User user);
+    default List<GameTipp> findTipps(GameList round, User user) {
+        return findTipps(round.getId(), user.getId());
+    }
 
     /**
      * Liefert alle Spieltipps zu einem Spieltag zu einem Teilnehmer.
@@ -91,7 +69,7 @@ public interface GameTippDao extends CommonDao<GameTipp> {
      *            Der Teilnehmer.
      * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
      */
-    GameList findRound(long roundId, long userId);
+    List<GameTipp> findTipps(long roundId, long userId);
 
     /**
      * Liefert alle Spieltipps zu einem Spieltag.

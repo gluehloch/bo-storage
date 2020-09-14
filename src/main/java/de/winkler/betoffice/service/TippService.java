@@ -136,24 +136,15 @@ public interface TippService {
      *
      * @param round
      *            Der Spieltag der für die Suche herangezogen werden soll.
-     * @param user
-     *            Die Spieltipps von diesem User suchen.
-     * @return Die Spieltipps.
-     */
-    public List<GameTipp> findTippsByRoundAndUser(GameList round, User user);
-
-    /**
-     * Liefert alle Spieltipps zu einem Spieltag von einem Teilnehmer.
-     *
-     * @param round
-     *            Der Spieltag der für die Suche herangezogen werden soll.
      * 
      * @param user
      *            Die Spieltipps von diesem User suchen.
      * 
      * @return Die Spieltipps.
      */
-    public GameList findTipp(GameList round, User user);
+    default List<GameTipp> findTipps(GameList round, User user) {
+        return findTipps(round.getId(), user.getId());
+    }
 
     /**
      * Liefert alle Spieltipps zu einem Spieltag von einem Teilnehmer.
@@ -166,7 +157,7 @@ public interface TippService {
      * 
      * @return Die Spieltipps.
      */
-    public GameList findTipp(long roundId, long userId);
+    public List<GameTipp> findTipps(long roundId, long userId);
 
     /**
      * Ermittelt den naechsten zu tippenden Spieltag.

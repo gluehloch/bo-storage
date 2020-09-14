@@ -261,13 +261,6 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     // }
 
     @Override
-    @Transactional
-    public List<GameTipp> findTippsByRoundAndUser(GameList round, User user) {
-        return gameTippDao.findTippsByRoundAndUser(round,
-                user);
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public List<GameTipp> findTippsByMatch(Game match) {
         return gameTippDao.findByMatch(match);
@@ -275,14 +268,8 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
 
     @Override
     @Transactional(readOnly = true)
-    public GameList findTipp(GameList round, User user) {
-        return gameTippDao.findRound(round, user);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public GameList findTipp(long roundId, long userId) {
-        return gameTippDao.findRound(roundId, userId);
+    public List<GameTipp> findTipps(long roundId, long userId) {
+        return gameTippDao.findTipps(roundId, userId);
     }
 
     @Override
