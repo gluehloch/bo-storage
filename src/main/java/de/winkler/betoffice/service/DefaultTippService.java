@@ -191,7 +191,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
             throw newException(unknwonRoundId(tippDto.getRoundId()));
         }
 
-        List<GameTipp> predefinedTipps = gameTippDao.findTippsByRoundAndUser(gameList, user);
+        List<GameTipp> predefinedTipps = gameTippDao.findTipps(gameList, user);
 
         for (GameTippDto gameTippDto : tippDto.getGameTipps()) {
             Game game = matchDao.findById(gameTippDto.getGameId());
@@ -221,7 +221,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
             }
         }
         
-        return gameTippDao.findTippsByRoundAndUser(gameList, user);
+        return gameTippDao.findTipps(gameList, user);
     }
 
     // @Override
@@ -262,7 +262,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
 
     @Override
     @Transactional(readOnly = true)
-    public List<GameTipp> findTippsByMatch(Game match) {
+    public List<GameTipp> findTipps(Game match) {
         return gameTippDao.findByMatch(match);
     }
 
@@ -465,10 +465,12 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
      *            Der Teilnehmer für den die Punktzahl ermittelt wird.
      * @return Ein <code>UserResultOfDay</code>
      */
+    @Override
+    @Transactional
     public UserResultOfDay getUserPoints(GameList round, User user) {
         UserResultOfDay urod = new UserResultOfDay();
 
-        List<GameTipp> tippsByRoundAndUser = findTippsByRoundAndUser(round, user);
+        List<GameTipp> tippsByRoundAndUser = findTipps(round, user);
 
         urod.setUser(user);
         for (GameTipp gameTipp : tippsByRoundAndUser) {

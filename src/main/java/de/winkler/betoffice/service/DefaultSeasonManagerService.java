@@ -69,8 +69,7 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
  * @author by Andre Winkler
  */
 @Service("seasonManagerService")
-public class DefaultSeasonManagerService extends AbstractManagerService
-        implements SeasonManagerService {
+public class DefaultSeasonManagerService extends AbstractManagerService implements SeasonManagerService {
 
     @Autowired
     private UserSeasonDao userSeasonDao;
@@ -227,13 +226,13 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     public Optional<GameList> findFirstRound(Season season) {
         return roundDao.findFirstRound(season);
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public GameList findRound(long id) {
         return roundDao.findById(id);
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public Optional<GameList> findRoundGameAndTipp(long roundId) {
@@ -331,7 +330,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         match.setGuestTeam(guestTeam);
         match.setGroup(group);
         matchDao.save(match);
-        
+
         gamelist.addGame(match);
         roundDao.update(gamelist);
 
@@ -352,7 +351,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         match.setResult(homeGoals, guestGoals);
         match.setPlayed(true);
         matchDao.save(match);
-        
+
         gamelist.addGame(match);
         roundDao.update(gamelist);
 
@@ -385,10 +384,10 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     @Transactional
     public GameList addRound(Season season, ZonedDateTime date,
             GroupType groupType) {
-        
+
         GameList round = new GameList();
         round.setDateTime(date);
-        
+
         Group group = groupDao.findBySeasonAndGroupType(season, groupType);
         round.setGroup(group);
 
@@ -510,8 +509,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService
     public void removeTeam(Season season, GroupType groupType, Team team) {
         Group group = groupDao.findBySeasonAndGroupType(season, groupType);
         group.removeTeam(team);
-//        Group group = season.getGroup(groupType);
-//        group.removeTeam(team);
+        // Group group = season.getGroup(groupType);
+        // group.removeTeam(team);
         groupDao.update(group);
     }
 
@@ -574,12 +573,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService
         // NoResultException kann die Rollback Exception nicht verhindern.
         // Komisch.
         //
-//        try {
-//        Group group = groupDao.findBySeasonAndGroupType(season, groupType);
-//        return group;
-//        } catch (NoResultException ex) {
-//        // Ok. Create a new group.
-//        }
+        // try {
+        // Group group = groupDao.findBySeasonAndGroupType(season, groupType);
+        // return group;
+        // } catch (NoResultException ex) {
+        // // Ok. Create a new group.
+        // }
 
         Season persistedSeason = seasonDao.findById(season.getId());
         // Season persistentSeason = findSeasonById(season.getId());
@@ -611,8 +610,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public void removeGroupType(Season season,
-            Collection<GroupType> groupTypes) {
+    public void removeGroupType(Season season, Collection<GroupType> groupTypes) {
         for (GroupType groupType : groupTypes) {
             removeGroupType(season, groupType);
         }
@@ -620,15 +618,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public List<GameTipp> findTippsByRoundAndUser(GameList round, User user) {
-        return gameTippDao.findTippsByRoundAndUser(round,
-                user);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public GameList findTipp(GameList round, User user) {
-        return gameTippDao.findRound(round, user);
+    public List<GameTipp> findTipps(GameList round, User user) {
+        return gameTippDao.findTipps(round, user);
     }
 
     @Override

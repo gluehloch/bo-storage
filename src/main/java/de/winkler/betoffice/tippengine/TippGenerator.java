@@ -1,8 +1,7 @@
 /*
- * $Id: TippGenerator.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -31,9 +30,7 @@ import de.winkler.betoffice.storage.Season;
 /**
  * Interface for a tipp generator.
  * 
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
- *          2013) $
+ * @author Andre Winkler
  */
 public interface TippGenerator {
 
@@ -44,7 +41,7 @@ public interface TippGenerator {
      * @param season
      *            Die auszuwertende Meisterschaft.
      */
-    public void generateTipp(final Season season);
+    void generateTipp(Season season);
 
     /**
      * Erzeugt für alle User, die ihren Tipp nicht abgegeben haben, einen
@@ -53,6 +50,6 @@ public interface TippGenerator {
      * @param round
      *            Der Spieltag für die Tipp Generierung.
      */
-    public void generateTipp(final GameList round);
+    void generateTipp(GameList round);
 
 }

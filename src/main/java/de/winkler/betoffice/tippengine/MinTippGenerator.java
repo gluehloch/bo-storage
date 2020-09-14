@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -28,6 +28,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
@@ -47,13 +49,20 @@ import de.winkler.betoffice.util.LoggerFactory;
  * 
  * @author Andre Winkler
  */
+@Service
 public class MinTippGenerator implements TippGenerator {
 
-    private final String BOT_MIN_TIPP = "#BOT_MIN_TIPP#";
+    private static final String BOT_MIN_TIPP = "#BOT_MIN_TIPP#";
 
     /** Der private Logger der Klasse. */
     private final Logger log = LoggerFactory.make();
 
+    @Autowired
+    private InfoCenter infoCenter;
+    
+    @Autowired
+    private TippService tippService;
+    
     public void generateTipp(final Season season) {
         for (int i = 0; i < season.toGameList().size(); i++) {
             generateTipp(season.getGamesOfDay(i));
@@ -70,15 +79,12 @@ public class MinTippGenerator implements TippGenerator {
         }
     }
 
-    private void generateTipp(final GameList round, final User user,
-            final List<User> users) {
-
+    private void generateTipp(GameList round, User user, List<User> users) {
         // Den schwächsten Tipper des Spieltages ermitteln.
-        UserResultOfDay minUser = InfoCenter.getMinTipp(round, users);
+        UserResultOfDay minUser = infoCenter.getMinTipp(round, users);
 
         if (log.isDebugEnabled()) {
-            log.debug(new StringBuffer("Min-Tipp von User: ").append(minUser)
-                    .toString());
+            log.debug(new StringBuffer("Min-Tipp von User: ").append(minUser).toString());
         }
 
         List<Game> games = round.unmodifiableList();
@@ -101,6 +107,7 @@ public class MinTippGenerator implements TippGenerator {
                 if (minUser == null) {
                     minTippResult = new GameResult(0, 0);
                 } else {
+                    
                     GameTipp minTipp = game.getGameTipp(minUser.getUser());
                     minTippResult = minTipp.getTipp();
                 }

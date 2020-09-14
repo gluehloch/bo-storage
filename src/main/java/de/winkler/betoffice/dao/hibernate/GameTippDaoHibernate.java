@@ -31,7 +31,6 @@ import de.winkler.betoffice.dao.GameTippDao;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameTipp;
-import de.winkler.betoffice.storage.User;
 
 /**
  * Hibernate DAO fuer den Zugriff auf {@link GameTipp}.
@@ -44,11 +43,11 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
     /**
      * Sucht nach allen Spieltipps zu einem Spieltag.
      */
-    private static final String QUERY_GAMETIPP_BY_MATCH = "from " //
-            + "    GameTipp gametipp inner join fetch " //
-            + "    gametipp.user inner join fetch " //
-            + "    gametipp.game " //
-            + "where " //
+    private static final String QUERY_GAMETIPP_BY_MATCH = "from "
+            + "    GameTipp gametipp"
+            + "    inner join fetch gametipp.user "
+            + "    inner join fetch gametipp.game "
+            + "where "
             + "    gametipp.game.id = :gameId";
 
     private static final String QUERY_ROUND_GAME_TIPP_AND_USER = AbstractCommonDao
@@ -65,7 +64,8 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
     public List<GameTipp> findByMatch(final Game match) {
         List<GameTipp> tipps = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMETIPP_BY_MATCH, GameTipp.class)
-                .setParameter("gameId", match.getId()).getResultList();
+                .setParameter("gameId", match.getId())
+                .getResultList();
 
         return tipps;
     }
@@ -86,7 +86,7 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
                 .createQuery(QUERY_ROUND_GAME_TIPP, GameList.class)
                 .setParameter("roundId", roundId)
                 .getResultList();
-        
+
         if (rounds.isEmpty()) {
             return null;
         } else {

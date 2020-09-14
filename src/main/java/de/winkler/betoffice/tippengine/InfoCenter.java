@@ -1,8 +1,7 @@
 /*
- * $Id: InfoCenter.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -29,7 +28,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import de.winkler.betoffice.service.TippService;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -42,15 +44,13 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
  * Eine Helferklasse. Hier befinden sich die Methoden um den besten,
  * schlechtesten und den Durchschnittstipp zu ermitteln.
  *
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
- *          2013) $
+ * @author Andre Winkler
  */
+@Service
 public final class InfoCenter {
 
-    /** Utility Klasse. */
-    protected InfoCenter() {
-    }
+    @Autowired
+    private TippService tippService;
 
     /**
      * Ermittelt den besten abgegebenen Tipp des Spieltages.
@@ -60,13 +60,11 @@ public final class InfoCenter {
      * @param users
      *            Die zu bewertenden Teilnehmer.
      * @return Der Spieler, der den besten Tipp abgegeben hat. Oder
-     *         <code>null</code>, wenn eine leere Teilnehmerliste übergeben
-     *         wurde.
+     *         <code>null</code>, wenn eine leere Teilnehmerliste übergeben wurde.
      * @throws IllegalArgumentException
      *             Falls gamelist gleich null.
      */
-    public static User getMaxTipp(final GameList gamelist,
-            final List<User> users) {
+    public User getMaxTipp(final GameList gamelist, final List<User> users) {
         Validate.notNull(gamelist);
         Validate.notNull(users);
 
@@ -75,12 +73,12 @@ public final class InfoCenter {
             User user = (User) i.next();
 
             if (!user.isExcluded()) {
-                UserResultOfDay urod = gamelist.getUserPoints(user);
+                UserResultOfDay points = tippService.getUserPoints(gamelist, user);
 
                 if (max == null) {
-                    max = urod;
-                } else if (urod.getPoints() > max.getPoints()) {
-                    max = urod;
+                    max = points;
+                } else if (points.getPoints() > max.getPoints()) {
+                    max = points;
                 }
             }
         }
@@ -88,20 +86,18 @@ public final class InfoCenter {
     }
 
     /**
-     * Ermittelt den schlechtesten abgegebenen Tipp des Spieltags. Nur Tipps,
-     * die von menschlichen Teilnehmern abgegeben wurden, werden zur Berechnung
+     * Ermittelt den schlechtesten abgegebenen Tipp des Spieltags. Nur Tipps, die
+     * von menschlichen Teilnehmern abgegeben wurden, werden zur Berechnung
      * herangezogen.
      *
      * @param gamelist
      *            Der auszuwertende Spieltag.
      * @param users
      *            Die zu bewertenden Teilnehmer.
-     * @return Der Tagestipp, der den schlechtesten Tipp abgegeben hat. Kann 0
-     *         sein, wenn kein 'echter', gültiger Tagestipp vorhanden ist.
+     * @return Der Tagestipp, der den schlechtesten Tipp abgegeben hat. Kann 0 sein,
+     *         wenn kein 'echter', gültiger Tagestipp vorhanden ist.
      */
-    public static UserResultOfDay getMinTipp(final GameList gamelist,
-            final List<User> users) {
-
+    public UserResultOfDay getMinTipp(final GameList gamelist, final List<User> users) {
         Validate.notNull(gamelist);
         Validate.notNull(users);
 
@@ -112,7 +108,7 @@ public final class InfoCenter {
 
             // Nur User, die Aktiv geschaltet sind.
             if (!user.isExcluded()) {
-                UserResultOfDay urod = gamelist.getUserPoints(user);
+                UserResultOfDay urod = tippService.getUserPoints(gamelist, user);
 
                 // Muss ein Tipp sein, der nicht automatisch generiert wurde.
                 if (TippStatusType.USER.equals(urod.getStatus())) {
@@ -130,8 +126,8 @@ public final class InfoCenter {
     }
 
     /**
-     * Ermittelt den Mitteltipp für ein Spiel. Vorausgesetzt, es sind Tipps für
-     * das Spiel vorhanden. Zur Berechnung werden nur USER Tipps herangezogen.
+     * Ermittelt den Mitteltipp für ein Spiel. Vorausgesetzt, es sind Tipps für das
+     * Spiel vorhanden. Zur Berechnung werden nur USER Tipps herangezogen.
      *
      * @param game
      *            Das Spiel für den der Mitteltipp erzeugt werden soll.
@@ -140,14 +136,16 @@ public final class InfoCenter {
      * @throws IllegalArgumentException
      *             game ist gleich <null>.
      */
-    public static GameResult getMediumTipp(final Game game) {
+    public GameResult getMediumTipp(final Game game) {
         Validate.notNull(game, "game ist null");
 
         int homeGoals = 0;
         int guestGoals = 0;
         int counter = 0;
 
-        for (GameTipp tipp : game.getTipps()) {
+        List<GameTipp> tipps = tippService.findTipps(game);
+
+        for (GameTipp tipp : tipps) {
             if (TippStatusType.USER.equals(tipp.getStatus())) {
                 counter++;
                 homeGoals += tipp.getTipp().getHomeGoals();
@@ -156,8 +154,7 @@ public final class InfoCenter {
         }
 
         if (counter != 0) {
-            return new GameResult(Math.round(homeGoals / counter), Math
-                    .round(guestGoals / counter));
+            return new GameResult(Math.round(homeGoals / counter), Math.round(guestGoals / counter));
         } else {
             return null;
         }

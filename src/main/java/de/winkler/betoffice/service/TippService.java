@@ -3,20 +3,20 @@
  * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
- * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * GNU GENERAL  LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
  * 
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
+ * the terms of the GNU General  License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE. See the GNU General  License for more
  * details.
  * 
- * You should have received a copy of the GNU General Public License along with
+ * You should have received a copy of the GNU General  License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
@@ -31,6 +31,7 @@ import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.User;
+import de.winkler.betoffice.storage.UserResultOfDay;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 
 /**
@@ -40,6 +41,17 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
  * @author by Andre Winkler
  */
 public interface TippService {
+
+    /**
+     * Berechnet die Spieltagspunkte fuer einen Teilnehmer.
+     * 
+     * @param round
+     *            Die Runde, die berechnet werden soll.
+     * @param user
+     *            Der Teilnehmer, dessen Punktestand ermittelt werden soll.
+     * @return Der errechnete Punktestand.
+     */
+    UserResultOfDay getUserPoints(GameList round, User user);
 
     /**
      * Einen Tipp einer Spielpaarung hinzufügen/aktualisieren.
@@ -56,7 +68,7 @@ public interface TippService {
      *            Tipp-Status.
      * @return Der erstellte {@link GameTipp}.
      */
-    public GameTipp addTipp(String token, Game match, User user, GameResult tipp, TippStatusType status);
+    GameTipp addTipp(String token, Game match, User user, GameResult tipp, TippStatusType status);
 
     /**
      * Legt die Tipps für einen kompletten Spieltag in der Datenbank an.
@@ -73,7 +85,7 @@ public interface TippService {
      *            Der Status für diese Tipps.
      * @return Die erstellen {@code GameTipps}.
      */
-    public List<GameTipp> addTipp(String token, GameList round, User user, List<GameResult> tipps,
+    List<GameTipp> addTipp(String token, GameList round, User user, List<GameResult> tipps,
             TippStatusType status);
 
     /**
@@ -83,7 +95,7 @@ public interface TippService {
      *            Der Spieltipp
      * @return Die erstellen {@code GameTipps}.
      */
-    public List<GameTipp> addTipp(TippDto tippDto);
+    List<GameTipp> addTipp(TippDto tippDto);
 
     // /**
     // * Einen Tipp einer Spielpaarung hinzufügen/aktualisieren.
@@ -99,7 +111,7 @@ public interface TippService {
     // * @param status
     // * Tipp-Status.
     // */
-    // public void updateTipp(String token, Game match, User user, GameResult tipp,
+    // void updateTipp(String token, Game match, User user, GameResult tipp,
     // TippStatusType status);
     //
     // /**
@@ -110,7 +122,7 @@ public interface TippService {
     // * @param tipps
     // * Eine Liste mit den zu aktualisierende Tipps.
     // */
-    // public void updateTipp(String token, List<GameTipp> tipps);
+    // void updateTipp(String token, List<GameTipp> tipps);
     //
     // /**
     // * Entfernt einen Spieltipp.
@@ -120,7 +132,7 @@ public interface TippService {
     // * @param user
     // * Der Tipp-Teilnehmer dessen Tipp entfernt werden soll.
     // */
-    // public void removeTipp(Game match, User user);
+    // void removeTipp(Game match, User user);
 
     /**
      * Liefert alle Spieltipps zu einer Spielpaarung.
@@ -129,7 +141,7 @@ public interface TippService {
      *            Die Spielpaarung deren Spieltipps gesucht werden.
      * @return Die Spieltipps.
      */
-    public List<GameTipp> findTippsByMatch(Game match);
+    List<GameTipp> findTipps(Game match);
 
     /**
      * Liefert alle Spieltipps zu einem Spieltag von einem Teilnehmer.
@@ -157,7 +169,7 @@ public interface TippService {
      * 
      * @return Die Spieltipps.
      */
-    public List<GameTipp> findTipps(long roundId, long userId);
+    List<GameTipp> findTipps(long roundId, long userId);
 
     /**
      * Ermittelt den naechsten zu tippenden Spieltag.
@@ -168,7 +180,7 @@ public interface TippService {
      *            Das Bezugsdatum
      * @return Der naechste zu tippende Spieltag
      */
-    public GameList findNextTippRound(long seasonId, ZonedDateTime date);
+    GameList findNextTippRound(long seasonId, ZonedDateTime date);
 
     /**
      * Ermittelt den letzten zu tippenden Spieltag.
@@ -179,6 +191,6 @@ public interface TippService {
      *            Das Bezugsdatum
      * @return Der naechste zu tippende Spieltag
      */
-    public GameList findPreviousTippRound(long seasonId, ZonedDateTime date);
+    GameList findPreviousTippRound(long seasonId, ZonedDateTime date);
 
 }

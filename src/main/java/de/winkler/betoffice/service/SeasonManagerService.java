@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL  LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -288,20 +288,7 @@ public interface SeasonManagerService {
      *            Die Spieltipps von diesem User suchen.
      * @return Die Spieltipps.
      */
-    List<GameTipp> findTippsByRoundAndUser(GameList round, User user);
-
-    /**
-     * Liefert alle Spieltipps zu einem Spieltag von einem Teilnehmer.
-     *
-     * @param round
-     *            Der Spieltag der für die Suche herangezogen werden soll.
-     * 
-     * @param user
-     *            Die Spieltipps von diesem User suchen.
-     * 
-     * @return Die Spieltipps.
-     */
-    GameList findTipp(GameList round, User user);
+    List<GameTipp> findTipps(GameList round, User user);
 
     /**
      * Initialisiert die Liste der Spieltage, die zugehörigen Gruppen, Mannschaften
