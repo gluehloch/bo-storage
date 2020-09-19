@@ -95,7 +95,7 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
         List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
         GameList finale = rounds.get(24);
 
-        List<GameTipp> tipps = tippService.findTippsByMatch(finale.get(0));
+        List<GameTipp> tipps = tippService.findTipps(finale.get(0));
         assertThat(tipps).hasSize(8);
 
         String[] nicknames = new String[] { "Roenne", "Jogi", "Goddard",
@@ -128,34 +128,27 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
 
         List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
         GameList finale = rounds.get(24);
-        List<GameTipp> finalRoundTipps = tippService
-                .findTippsByRoundAndUser(finale, frosch.get());
+        List<GameTipp> finalRoundTipps = tippService.findTipps(finale, frosch.get());
 
         assertEquals(frosch.get(), finalRoundTipps.get(0).getUser());
         assertEquals(0, finalRoundTipps.get(0).getTipp().getHomeGoals());
         assertEquals(2, finalRoundTipps.get(0).getTipp().getGuestGoals());
 
-        GameList froschTipps = tippService.findTipp(finale, frosch.get());
+        List<GameTipp> froschTipps = tippService.findTipps(finale, frosch.get());
         // 7 Tipps von allen Teilnehmern. Nur einer ist nicht 'null'.
         // TODO: Nach der Umstellung auf JPA Annotationen wird nur noch
         // ein Datensatz geliefert: Der fuer Frosch.
-        assertEquals(1, froschTipps.get(0).getTipps().size());
-        assertEquals(0, froschTipps.get(0).getGameTipp(frosch.get()).getTipp()
-                .getHomeGoals());
-        assertEquals(2, froschTipps.get(0).getGameTipp(frosch.get()).getTipp()
-                .getGuestGoals());
+        assertEquals(1, froschTipps.size());
+        assertEquals(0, froschTipps.get(0).getTipp().getHomeGoals());
+        assertEquals(2, froschTipps.get(0).getTipp().getGuestGoals());
 
-        GameList mrTippTipps = tippService.findTipp(finale, mrTipp.get());
-        assertEquals(0, mrTippTipps.get(0).getGameTipp(mrTipp.get()).getTipp()
-                .getHomeGoals());
-        assertEquals(1, mrTippTipps.get(0).getGameTipp(mrTipp.get()).getTipp()
-                .getGuestGoals());
+        List<GameTipp> mrTippTipps = tippService.findTipps(finale, mrTipp.get());
+        assertEquals(0, mrTippTipps.get(0).getTipp().getHomeGoals());
+        assertEquals(1, mrTippTipps.get(0).getTipp().getGuestGoals());
 
-        GameList peterTipps = tippService.findTipp(finale, peter.get());
-        assertEquals(1, peterTipps.get(0).getGameTipp(peter.get()).getTipp()
-                .getHomeGoals());
-        assertEquals(2, peterTipps.get(0).getGameTipp(peter.get()).getTipp()
-                .getGuestGoals());
+        List<GameTipp> peterTipps = tippService.findTipps(finale, peter.get());
+        assertEquals(1, peterTipps.get(0).getTipp().getHomeGoals());
+        assertEquals(2, peterTipps.get(0).getTipp().getGuestGoals());
     }
 
     @Test
@@ -166,8 +159,7 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
                 .findUserByNickname("Xtian");
         List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
         GameList finale = rounds.get(24);
-        List<GameTipp> finalRoundTipps = tippService
-                .findTippsByRoundAndUser(finale, user.get());
+        List<GameTipp> finalRoundTipps = tippService.findTipps(finale, user.get());
 
         assertEquals(finalRoundTipps.size(), 0);
 
@@ -178,11 +170,9 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
 
     @Test
     public void testCalculateUserRankingWm2006() {
-        Optional<Season> wm2006 = seasonManagerService
-                .findSeasonByName("WM Deutschland", "2006");
+        Optional<Season> wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006");
 
-        List<UserResult> userResults = seasonManagerService
-                .calculateUserRanking(wm2006.get());
+        List<UserResult> userResults = seasonManagerService.calculateUserRanking(wm2006.get());
         validateUserResult(userResults, 0, "Frosch", 483, 11, 34, 1);
         validateUserResult(userResults, 1, "Jogi", 477, 9, 36, 2);
         validateUserResult(userResults, 2, "Hattwig", 471, 7, 38, 3);
@@ -233,11 +223,10 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
         assertEquals(totoWin, userResults.get(index).getUserTotoWin());
         assertEquals(tabPos, userResults.get(index).getTabPos());
 
-        if (log.isDebugEnabled()) {
-            log.debug("Name: " + userResults.get(index).getUser().getNickName()
-                    + ", PTS: "
-                    + userResults.get(index).getPoints());
-        }
+        log.debug("Name: "
+                + userResults.get(index).getUser().getNickName()
+                + ", PTS: "
+                + userResults.get(index).getPoints());
     }
 
 }

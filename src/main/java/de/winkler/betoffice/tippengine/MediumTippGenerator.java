@@ -24,15 +24,20 @@
 
 package de.winkler.betoffice.tippengine;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import de.winkler.betoffice.service.SeasonManagerService;
+import de.winkler.betoffice.service.TippService;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.TippStatusType;
-
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Erster Automat des Wettbüros. Der Automat simuliert einen Teilnehmer. Aus
@@ -41,36 +46,36 @@ import java.util.List;
  *
  * @author Andre Winkler
  */
+@Service
 public class MediumTippGenerator implements TippGenerator {
 
     private final String BOT_MEDIUM_TIPP = "#BOT_MEDIUM_TIPP#";
 
-    /** Der Teilnehmer für den die Tipps generiert werden. */
-    private final User user;
-
-    /**
-     * Konstruktor.
-     *
-     * @param _user
-     *            Der zu tippende Teilnehmer.
-     */
-    public MediumTippGenerator(final User _user) {
-        user = _user;
-    }
-
-    public void generateTipp(final Season season) {
-        List<GameList> gameDays = season.toGameList();
-        for (Iterator<GameList> i = gameDays.listIterator(); i.hasNext();) {
-            generateTipp(i.next());
+    @Autowired
+    private InfoCenter infoCenter;
+    
+    @Autowired
+    private TippService tippService;
+    
+    @Autowired
+    private SeasonManagerService seasonManagerService;
+    
+    @Transactional
+    public void generateTipp(Season season, User user) {
+        for (GameList gameList : season.toGameList()) {
+            generateTipp(gameList, user);
         }
     }
 
-    public void generateTipp(final GameList round) {
+    @Transactional
+    public void generateTipp(GameList round, User user) {
+        List<User> users = seasonManagerService.findActivatedUsers(round.getSeason());
+        
         List<Game> games = round.unmodifiableList();
         for (Game game : games) {
-            GameResult gr = InfoCenter.getMediumTipp(game);
+            GameResult gr = infoCenter.findMediumTipp(game, users);
             if (gr != null) {
-                game.addTipp(BOT_MEDIUM_TIPP, user, gr, TippStatusType.AUTO);
+                tippService.createOrUpdateTipp(BOT_MEDIUM_TIPP, game, user, gr, TippStatusType.AUTO);
             }
         }
     }

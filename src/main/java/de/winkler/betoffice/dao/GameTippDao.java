@@ -25,6 +25,7 @@
 package de.winkler.betoffice.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
@@ -45,7 +46,18 @@ public interface GameTippDao extends CommonDao<GameTipp> {
      *            Die Spiel-Tipps zu dieser Spielpaarung.
      * @return Die Spiel-Tipps.
      */
-    List<GameTipp> findByMatch(Game match);
+    List<GameTipp> find(Game match);
+
+    /**
+     * Liefert einen Spieltipp zu einem Spiel und Teilnehmer.
+     * 
+     * @param game
+     *            Das Spiel
+     * @param user
+     *            Der Teilnehmer
+     * @return Der Spieltipp
+     */
+    Optional<GameTipp> find(Game game, User user);
 
     /**
      * Liefert alle Spieltipps zu einem Spieltag zu einem Teilnehmer.
@@ -56,8 +68,8 @@ public interface GameTippDao extends CommonDao<GameTipp> {
      *            Der Teilnehmer.
      * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
      */
-    default List<GameTipp> findTipps(GameList round, User user) {
-        return findTipps(round.getId(), user.getId());
+    default List<GameTipp> find(GameList round, User user) {
+        return find(round.getId(), user.getId());
     }
 
     /**
@@ -69,15 +81,6 @@ public interface GameTippDao extends CommonDao<GameTipp> {
      *            Der Teilnehmer.
      * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
      */
-    List<GameTipp> findTipps(long roundId, long userId);
-
-    /**
-     * Liefert alle Spieltipps zu einem Spieltag.
-     * 
-     * @param roundId
-     *            Der Spieltag.
-     * @return Eine List mit allen Tipps zu dem gesuchten Spieltag.
-     */
-    GameList findRound(long roundId);
+    List<GameTipp> find(long roundId, long userId);
 
 }

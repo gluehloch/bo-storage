@@ -26,6 +26,7 @@ package de.winkler.betoffice.tippengine;
 
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.User;
 
 /**
  * Interface for a tipp generator.
@@ -40,16 +41,20 @@ public interface TippGenerator {
      *
      * @param season
      *            Die auszuwertende Meisterschaft.
+     * @param user
+     *            Der Teilnehmer
      */
-    void generateTipp(Season season);
+    void generateTipp(Season season, User user);
 
     /**
-     * Erzeugt für alle User, die ihren Tipp nicht abgegeben haben, einen
-     * Min-Tipp. Zudem darf der User nicht gesperrt sein.
+     * Erzeugt für alle User, die ihren Tipp nicht abgegeben haben, einen Min-Tipp.
+     * Zudem darf der User nicht gesperrt sein.
      *
      * @param round
      *            Der Spieltag für die Tipp Generierung.
+     * @param user
+     *            Der Teilnehmer
      */
-    void generateTipp(GameList round);
+    void generateTipp(GameList round, User user);
 
 }

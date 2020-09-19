@@ -24,13 +24,16 @@
 
 package de.winkler.betoffice.tippengine;
 
-import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import de.winkler.betoffice.service.SeasonManagerService;
+import de.winkler.betoffice.service.TippService;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -39,7 +42,6 @@ import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResultOfDay;
 import de.winkler.betoffice.storage.enums.TippStatusType;
-import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
 import de.winkler.betoffice.util.LoggerFactory;
 
 /**
@@ -59,102 +61,87 @@ public class MinTippGenerator implements TippGenerator {
 
     @Autowired
     private InfoCenter infoCenter;
-    
+
     @Autowired
     private TippService tippService;
-    
-    public void generateTipp(final Season season) {
+
+    @Autowired
+    private SeasonManagerService seasonManagerService;
+
+    @Transactional
+    public void generateTipp(Season season, User user) {
         for (int i = 0; i < season.toGameList().size(); i++) {
-            generateTipp(season.getGamesOfDay(i));
+            generateTipp(season.getGamesOfDay(i), user);
         }
     }
 
-    public void generateTipp(final GameList round) {
-        List<User> users = round.getSeason().getUsers();
-        for (Iterator<User> i = users.iterator(); i.hasNext();) {
-            User user = (User) i.next();
-            if (!user.isExcluded() && !user.isAutomat()) {
-                generateTipp(round, user, users);
-            }
+    @Transactional
+    public void generateTipp(GameList round, User user) {
+        List<User> users = seasonManagerService.findActivatedUsers(round.getSeason());
+
+        if (!user.isExcluded() && !user.isAutomat()) {
+            createOrUpdateMinimumTipp(round, user, users);
         }
     }
 
-    private void generateTipp(GameList round, User user, List<User> users) {
+    private void createOrUpdateMinimumTipp(GameList round, User user, List<User> userOfSeason) {
         // Den schwächsten Tipper des Spieltages ermitteln.
-        UserResultOfDay minUser = infoCenter.getMinTipp(round, users);
+        UserResultOfDay worstUser = infoCenter.findWorstTipp(round, userOfSeason);
 
         if (log.isDebugEnabled()) {
-            log.debug(new StringBuffer("Min-Tipp von User: ").append(minUser).toString());
+            log.debug(new StringBuffer("Min-Tipp von User: ").append(worstUser).toString());
         }
 
         List<Game> games = round.unmodifiableList();
 
-        for (Iterator<Game> i = games.iterator(); i.hasNext();) {
-            Game game = (Game) i.next();
+        for (Game game : games) {
+            log.info("Generiere Tipp für User: {} fuer das Spiel {}", user, game);
 
-            if (log.isDebugEnabled()) {
-                StringBuffer buf = new StringBuffer();
-                buf.append(">>> Generiere Tipp für User: ");
-                buf.append(user);
-                buf.append(" für Spiel: ");
-                buf.append(game);
-                log.debug(buf.toString());
-            }
-
-            // Den Min-Tipp ermitteln...
+            // Den schlechtesten Tipp des Spieltages ermitteln.
             GameResult minTippResult = null;
-            try {
-                if (minUser == null) {
-                    minTippResult = new GameResult(0, 0);
+            if (worstUser == null) {
+                minTippResult = GameResult.of(0, 0);
+            } else {
+                Optional<GameTipp> minTipp = tippService.findTipp(game, worstUser.getUser());
+                if (minTipp.isPresent()) {
+                    minTippResult = minTipp.get().getTipp();
                 } else {
-                    
-                    GameTipp minTipp = game.getGameTipp(minUser.getUser());
-                    minTippResult = minTipp.getTipp();
+                    minTippResult = GameResult.of(0, 0);
                 }
-            } catch (StorageObjectNotFoundException ex) {
-                log.info("Kein MinTipp vorhanden.");
-                minTippResult = new GameResult(0, 0);
             }
 
             if (log.isDebugEnabled()) {
-                log.debug("Ermittelter Min-Tipp: " + minTippResult);
+                log.debug("Ermittelter Min-Tipp: {}", minTippResult);
             }
 
             // Hat Spieler bereits einen Tipp angelegt?
-            try {
-                GameTipp tipp = game.getGameTipp(user);
-                // Tipp bereits vorhanden. Kann er überschrieben werden?
-                if (tipp.getStatus() == TippStatusType.MIN
-                        || tipp.getStatus() == TippStatusType.UNDEFINED
-                        || tipp.getStatus() == TippStatusType.INVALID) {
+
+            Optional<GameTipp> tipp = tippService.findTipp(game, user);
+
+            // Tipp bereits vorhanden. Kann er überschrieben werden?
+            if (tipp.isPresent()) {
+                GameTipp presentTipp = tipp.get();
+                if (presentTipp.getStatus() == TippStatusType.MIN
+                        || presentTipp.getStatus() == TippStatusType.UNDEFINED
+                        || presentTipp.getStatus() == TippStatusType.INVALID) {
+                    //
                     // Einen MIN. UNDEFINED oder INVALID Tipp überschreiben...
-                    tipp.setTipp(minTippResult, TippStatusType.MIN);
-                } else if (tipp.getStatus() == TippStatusType.AUTO
-                        || tipp.getStatus() == TippStatusType.USER) {
+                    //
+                    tippService.createOrUpdateTipp(BOT_MIN_TIPP, game, user, minTippResult, TippStatusType.MIN);
+
+                    presentTipp.setTipp(minTippResult, TippStatusType.MIN);
+                } else if (presentTipp.getStatus() == TippStatusType.AUTO
+                        || presentTipp.getStatus() == TippStatusType.USER) {
+                    //
                     // AUTO und USER Tipps nicht überschreiben.
+                    //
                     log.debug("Tipp wird nicht überschrieben.");
-                } else {
-                    throw new IllegalStateException("GameTippStatus "
-                            + tipp.getStatus() + " nicht vorgesehen.");
                 }
-            } catch (StorageObjectNotFoundException ex) {
-                // Dann einen neuen Tipp anlegen.
-                game.addTipp(BOT_MIN_TIPP, user, minTippResult,
-                        TippStatusType.MIN);
+            } else {
+                tippService.createOrUpdateTipp(BOT_MIN_TIPP, game, user, minTippResult, TippStatusType.MIN);
             }
 
-            if (log.isDebugEnabled()) {
-                StringBuilder buf = new StringBuilder();
-                buf.append("User: ");
-                buf.append(user);
-                buf.append(" Min-Tipp: ");
-                try {
-                    buf.append(game.getGameTipp(user));
-                } catch (StorageObjectNotFoundException ex) {
-                    buf.append("Kein Tipp vorhanden.");
-                }
-                log.debug(buf.toString());
-            }
+            log.debug("User: {} Min-Tipp: {}", user, minTippResult);
         }
     }
 

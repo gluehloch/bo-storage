@@ -7,8 +7,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
  * 
  * @author Andre Winkler
  */
-@SpringJUnitConfig(locations = { "/betoffice-test-properties.xml",
-        "/betoffice.xml" })
+@SpringJUnitConfig(locations = { "/betoffice-test-properties.xml", "/betoffice.xml" })
 public abstract class AbstractServiceTest {
 
 }

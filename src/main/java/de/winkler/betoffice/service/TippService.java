@@ -25,6 +25,7 @@ package de.winkler.betoffice.service;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
@@ -52,7 +53,7 @@ public interface TippService {
      * @return Der errechnete Punktestand.
      */
     UserResultOfDay getUserPoints(GameList round, User user);
-
+    
     /**
      * Einen Tipp einer Spielpaarung hinzufügen/aktualisieren.
      *
@@ -68,7 +69,7 @@ public interface TippService {
      *            Tipp-Status.
      * @return Der erstellte {@link GameTipp}.
      */
-    GameTipp addTipp(String token, Game match, User user, GameResult tipp, TippStatusType status);
+    GameTipp createOrUpdateTipp(String token, Game match, User user, GameResult tipp, TippStatusType status);
 
     /**
      * Legt die Tipps für einen kompletten Spieltag in der Datenbank an.
@@ -85,7 +86,7 @@ public interface TippService {
      *            Der Status für diese Tipps.
      * @return Die erstellen {@code GameTipps}.
      */
-    List<GameTipp> addTipp(String token, GameList round, User user, List<GameResult> tipps,
+    List<GameTipp> createOrUpdateTipp(String token, GameList round, User user, List<GameResult> tipps,
             TippStatusType status);
 
     /**
@@ -140,8 +141,19 @@ public interface TippService {
      * @param match
      *            Die Spielpaarung deren Spieltipps gesucht werden.
      * @return Die Spieltipps.
+     * @deprecated Should be more specific with a user (or community) parameter.
      */
+    @Deprecated(since = "2.7.0")
     List<GameTipp> findTipps(Game match);
+
+    /**
+     * Liefert den Spieltipp einer Spielers zu einer Spielpaarung.
+     * 
+     * @param game Das Spiel
+     * @param user Der Teilnehmer
+     * @return Der Spieltipp zu den gesuchten Parametern
+     */
+    Optional<GameTipp> findTipp(Game game, User user);
 
     /**
      * Liefert alle Spieltipps zu einem Spieltag von einem Teilnehmer.

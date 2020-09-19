@@ -619,13 +619,13 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Override
     @Transactional(readOnly = true)
     public List<GameTipp> findTipps(GameList round, User user) {
-        return gameTippDao.findTipps(round, user);
+        return gameTippDao.find(round, user);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<GameTipp> findTippsByMatch(Game match) {
-        return gameTippDao.findByMatch(match);
+        return gameTippDao.find(match);
     }
 
     @Override

@@ -29,7 +29,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 
-import de.winkler.betoffice.service.AutoTippService;
 import de.winkler.betoffice.service.MasterDataManagerService;
 import de.winkler.betoffice.service.SeasonManagerService;
 import de.winkler.betoffice.service.TippService;
@@ -56,9 +55,6 @@ public class BetofficeStore {
 
     /** Service für den Zugriff auf die Stammdaten. */
     private final MasterDataManagerService mdms;
-
-    /** Service für das Anlegen von automatisierten Tipps. */
-    private final AutoTippService autoTippService;
 
     /**
      * Startet das Spring-Wiring. Es wird die Default-Spring-Konfiguration
@@ -98,7 +94,6 @@ public class BetofficeStore {
 
         sms = springBeans.getBean("seasonManagerService");
         mdms = springBeans.getBean("masterDataManagerService");
-        autoTippService = springBeans.getBean("autoTippService");
         tippService = springBeans.getBean("tippService");
     }
 
@@ -136,15 +131,6 @@ public class BetofficeStore {
      */
     public final MasterDataManagerService getMasterDataManagerService() {
         return mdms;
-    }
-
-    /**
-     * Service für das automatisierte erstellen von Tipps.
-     *
-     * @return Ein Service.
-     */
-    public final AutoTippService getAutoTippService() {
-        return autoTippService;
     }
 
 }

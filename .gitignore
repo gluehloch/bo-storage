@@ -14,3 +14,5 @@ bin
 .idea
 .vscode
 /betoffice-storage.iml
+.devcontainer
+

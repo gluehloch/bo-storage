@@ -24,13 +24,14 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.GameTippDao;
 import de.winkler.betoffice.storage.Game;
-import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameTipp;
+import de.winkler.betoffice.storage.User;
 
 /**
  * Hibernate DAO fuer den Zugriff auf {@link GameTipp}.
@@ -50,48 +51,52 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
             + "where "
             + "    gametipp.game.id = :gameId";
 
+    /**
+     * Sucht nach einem Spieltipp zu Spiel und Teilnehmer.
+     */
+    private static final String QUERY_GAMETIPP_BY_MATCH_AND_USER = "from "
+            + "    GameTipp gametipp"
+            + "    inner join fetch gametipp.user "
+            + "    inner join fetch gametipp.game "
+            + "where "
+            + "    gametipp.game.id = :gameId "
+            + "    and gametipp.user.id = :userId";
+
     private static final String QUERY_ROUND_GAME_TIPP_AND_USER = AbstractCommonDao
             .loadQuery("hql_round_game_tipp_user.sql");
-
-    private static final String QUERY_ROUND_GAME_TIPP = AbstractCommonDao
-            .loadQuery("hql_round_game_tipp.sql");
 
     public GameTippDaoHibernate() {
         super(GameTipp.class);
     }
 
     @Override
-    public List<GameTipp> findByMatch(final Game match) {
+    public List<GameTipp> find(Game match) {
         List<GameTipp> tipps = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMETIPP_BY_MATCH, GameTipp.class)
                 .setParameter("gameId", match.getId())
                 .getResultList();
-
         return tipps;
     }
 
+
     @Override
-    public List<GameTipp> findTipps(long roundId, long userId) {
+    public Optional<GameTipp> find(Game game, User user) {
+        Optional<GameTipp> tipp = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_GAMETIPP_BY_MATCH_AND_USER, GameTipp.class)
+                .setParameter("gameId", game.getId())
+                .setParameter("userId", user.getId())
+                .uniqueResultOptional();
+        return tipp;
+    }
+
+    @Override
+    public List<GameTipp> find(long roundId, long userId) {
         List<GameTipp> tipps = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_ROUND_GAME_TIPP_AND_USER, GameTipp.class)
                 .setParameter("roundId", roundId)
                 .setParameter("userId", userId)
                 .getResultList();
         return tipps;
-    }
-
-    @Override
-    public GameList findRound(long roundId) {
-        List<GameList> rounds = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_ROUND_GAME_TIPP, GameList.class)
-                .setParameter("roundId", roundId)
-                .getResultList();
-
-        if (rounds.isEmpty()) {
-            return null;
-        } else {
-            return rounds.get(0);
-        }
     }
 
 }

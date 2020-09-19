@@ -77,24 +77,46 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     @Autowired
     private GameTippDao gameTippDao;
 
+    @Autowired
+    private DateTimeProvider datetimeProvider;
+    
     @Override
     @Transactional
-    public GameTipp addTipp(String token, Game match, User user, GameResult tipp, TippStatusType status) {
+    public GameTipp createOrUpdateTipp(String token, Game match, User user, GameResult tipp, TippStatusType status) {
         GameList round = roundDao.findRound(match).orElseThrow();
-        return addTipp(token, round, match, user, tipp, status);
+        return createOrUpdateTipp(token, round, match, user, tipp, status);
     }
     
-    private GameTipp addTipp(String token, GameList round, Game game, User user, GameResult tipp, TippStatusType status) {
-        // TODO Auto-generated method stub
-        return null;
+    private GameTipp createOrUpdateTipp(String token, GameList round, Game game, User user, GameResult tipp, TippStatusType status) {
+        Date now = Date.from(datetimeProvider.currentDateTime().toInstant());
+        
+        Optional<GameTipp> gameTipp = gameTippDao.find(game, user);
+        
+        if (gameTipp.isPresent()) {
+            GameTipp updateGameTipp = gameTipp.get();
+            updateGameTipp.setToken(token);
+            updateGameTipp.setLastUpdateTime(now);
+            updateGameTipp.setUser(user);
+            updateGameTipp.setTipp(tipp, status);
+            return gameTippDao.save(updateGameTipp);
+        } else {
+            GameTipp newGameTipp = new GameTipp();
+            newGameTipp.setToken(token);
+            newGameTipp.setCreationTime(now);
+            newGameTipp.setLastUpdateTime(now);
+            newGameTipp.setUser(user);
+            newGameTipp.setGame(game);
+            newGameTipp.setTipp(tipp, status);
+            return gameTippDao.save(newGameTipp);
+        }
     }
 
     @Override
     @Transactional
-    public List<GameTipp> addTipp(String token, GameList round, User user, List<GameResult> tipps, TippStatusType status) {
+    public List<GameTipp> createOrUpdateTipp(String token, GameList round, User user, List<GameResult> tipps, TippStatusType status) {
         List<GameTipp> result = new ArrayList<>();
         for (int i = 0; i < round.size(); i++) {
-            result.add(addTipp(token, round.get(i), user, tipps.get(i), status));
+            result.add(createOrUpdateTipp(token, round.get(i), user, tipps.get(i), status));
         }
         return result;
     }
@@ -191,7 +213,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
             throw newException(unknwonRoundId(tippDto.getRoundId()));
         }
 
-        List<GameTipp> predefinedTipps = gameTippDao.findTipps(gameList, user);
+        List<GameTipp> predefinedTipps = gameTippDao.find(gameList, user);
 
         for (GameTippDto gameTippDto : tippDto.getGameTipps()) {
             Game game = matchDao.findById(gameTippDto.getGameId());
@@ -221,7 +243,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
             }
         }
         
-        return gameTippDao.findTipps(gameList, user);
+        return gameTippDao.find(gameList, user);
     }
 
     // @Override
@@ -263,13 +285,20 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     @Override
     @Transactional(readOnly = true)
     public List<GameTipp> findTipps(Game match) {
-        return gameTippDao.findByMatch(match);
+        return gameTippDao.find(match);
+    }
+
+
+    @Override
+    @Transactional
+    public Optional<GameTipp> findTipp(Game game, User user) {
+        return gameTippDao.find(game, user);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<GameTipp> findTipps(long roundId, long userId) {
-        return gameTippDao.findTipps(roundId, userId);
+        return gameTippDao.find(roundId, userId);
     }
 
     @Override

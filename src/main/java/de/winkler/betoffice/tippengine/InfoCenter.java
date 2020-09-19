@@ -24,7 +24,6 @@
 
 package de.winkler.betoffice.tippengine;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.Validate;
@@ -41,8 +40,7 @@ import de.winkler.betoffice.storage.UserResultOfDay;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 
 /**
- * Eine Helferklasse. Hier befinden sich die Methoden um den besten,
- * schlechtesten und den Durchschnittstipp zu ermitteln.
+ * Hier befinden sich die Methoden um den besten, schlechtesten und den Durchschnittstipp zu ermitteln.
  *
  * @author Andre Winkler
  */
@@ -64,14 +62,12 @@ public final class InfoCenter {
      * @throws IllegalArgumentException
      *             Falls gamelist gleich null.
      */
-    public User getMaxTipp(final GameList gamelist, final List<User> users) {
+    public UserResultOfDay findBestTipp(GameList gamelist, List<User> users) {
         Validate.notNull(gamelist);
         Validate.notNull(users);
 
         UserResultOfDay max = null;
-        for (Iterator<User> i = users.iterator(); i.hasNext();) {
-            User user = (User) i.next();
-
+        for (User user : users) {
             if (!user.isExcluded()) {
                 UserResultOfDay points = tippService.getUserPoints(gamelist, user);
 
@@ -82,7 +78,7 @@ public final class InfoCenter {
                 }
             }
         }
-        return max.getUser();
+        return max;
     }
 
     /**
@@ -97,15 +93,13 @@ public final class InfoCenter {
      * @return Der Tagestipp, der den schlechtesten Tipp abgegeben hat. Kann 0 sein,
      *         wenn kein 'echter', gültiger Tagestipp vorhanden ist.
      */
-    public UserResultOfDay getMinTipp(final GameList gamelist, final List<User> users) {
+    public UserResultOfDay findWorstTipp(GameList gamelist, List<User> users) {
         Validate.notNull(gamelist);
         Validate.notNull(users);
 
         UserResultOfDay min = null;
 
-        for (Iterator<User> i = users.iterator(); i.hasNext();) {
-            User user = (User) i.next();
-
+        for (User user : users) {
             // Nur User, die Aktiv geschaltet sind.
             if (!user.isExcluded()) {
                 UserResultOfDay urod = tippService.getUserPoints(gamelist, user);
@@ -131,12 +125,12 @@ public final class InfoCenter {
      *
      * @param game
      *            Das Spiel für den der Mitteltipp erzeugt werden soll.
+     * @param users
+     *            Die zu bewertenden Teilnehmer.
      * @return Der Mitteltipp. null wenn keine Tipps vorhanden, sonst den
      *         Mitteltipp.
-     * @throws IllegalArgumentException
-     *             game ist gleich <null>.
      */
-    public GameResult getMediumTipp(final Game game) {
+    public GameResult findMediumTipp(Game game, List<User> users) {
         Validate.notNull(game, "game ist null");
 
         int homeGoals = 0;
