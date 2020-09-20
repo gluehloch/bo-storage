@@ -40,6 +40,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.service.AbstractServiceTest;
 import de.winkler.betoffice.service.DatabaseSetUpAndTearDown;
+import de.winkler.betoffice.service.MasterDataManagerService;
+import de.winkler.betoffice.service.SeasonManagerService;
+import de.winkler.betoffice.service.TippService;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -83,6 +86,15 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
     private Season season;
 
     @Autowired
+    private MasterDataManagerService masterDataManagerService;
+
+    @Autowired
+    private SeasonManagerService seasonManagerService;
+
+    @Autowired
+    private TippService tippService;
+    
+    @Autowired
     protected DataSource dataSource;
 
     private DatabaseSetUpAndTearDown dsuatd;
@@ -99,7 +111,7 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
     public void tearDown() throws SQLException {
         dsuatd.tearDown();
     }
-    
+
     @Test
     public void testGenerateTipp() throws StorageObjectNotFoundException {
         TippGenerator gen = new MinTippGenerator();
@@ -127,12 +139,12 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
         us.setUser(userMinTipp);
         season.addUser(us);
 
-        gen.generateTipp(round);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userMinTipp, gr11, TippStatusType.USER);
 
-        assertEquals(gr11, game1.getGameTipp(userMinTipp).getTipp());
-        assertEquals(gr11, game2.getGameTipp(userMinTipp).getTipp());
-        assertEquals(gr11, game3.getGameTipp(userMinTipp).getTipp());
-        assertEquals(gr11, game4.getGameTipp(userMinTipp).getTipp());
+        assertEquals(gr11, tippService.findTipp(game1, userMinTipp).orElseThrow().getTipp());
+        assertEquals(gr11, tippService.findTipp(game2, userMinTipp).orElseThrow().getTipp());
+        assertEquals(gr11, tippService.findTipp(game3, userMinTipp).orElseThrow().getTipp());
+        assertEquals(gr11, tippService.findTipp(game4, userMinTipp).orElseThrow().getTipp());
 
         // User A: 26 Punkte
         // User B: 0 Punkte
@@ -140,22 +152,24 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
         // User D: 20 Punkte
         game1.setResult(gr11);
         game1.setPlayed(true);
+        seasonManagerService.updateMatch(game1);
 
         game2.setResult(gr11);
         game2.setPlayed(true);
+        seasonManagerService.updateMatch(game2);
 
         game3.setResult(gr10);
         game3.setPlayed(true);
+        seasonManagerService.updateMatch(game3);
 
         game4.setResult(gr10);
         game4.setPlayed(true);
+        seasonManagerService.updateMatch(game4);
 
-        gen.generateTipp(round);
-
-        assertEquals(gr01, game1.getGameTipp(userMinTipp).getTipp());
-        assertEquals(gr01, game2.getGameTipp(userMinTipp).getTipp());
-        assertEquals(gr01, game3.getGameTipp(userMinTipp).getTipp());
-        assertEquals(gr01, game4.getGameTipp(userMinTipp).getTipp());
+        assertEquals(gr01, tippService.findTipp(game1, userMinTipp).orElseThrow().getTipp());
+        assertEquals(gr01, tippService.findTipp(game2, userMinTipp).orElseThrow().getTipp());
+        assertEquals(gr01, tippService.findTipp(game3, userMinTipp).orElseThrow().getTipp());
+        assertEquals(gr01, tippService.findTipp(game4, userMinTipp).orElseThrow().getTipp());
     }
 
     private void createData() throws Exception {
@@ -171,12 +185,14 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
         season.setName("Weltmeisterschaft");
         season.setYear("2002");
 
+        seasonManagerService.createSeason(season);
+
         // Gruppe erzeugen.
         GroupType groupType = new GroupType();
         groupType.setName("Test-Gruppe");
-        Group group = new Group();
-        group.setGroupType(groupType);
-        season.addGroup(group);
+        masterDataManagerService.createGroupType(groupType);
+
+        Group group = seasonManagerService.addGroupType(season, groupType);
 
         DummyTeams testTeams = new DummyTeams();
         Team[] teams = testTeams.teams();
@@ -185,45 +201,40 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
         group.addTeam(teams[DummyTeams.FCB]);
         group.addTeam(teams[DummyTeams.HSV]);
 
-        // Spiele erzeugen.
-        game1 = new Game();
-        game2 = new Game();
-        game3 = new Game();
-        game4 = new Game();
-
-        game1.setGroup(group);
-        game2.setGroup(group);
-        game3.setGroup(group);
-        game4.setGroup(group);
-
-        game1.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
-        game1.setHomeTeam(teams[DummyTeams.BOCHUM]);
-        game1.setGuestTeam(teams[DummyTeams.BVB]);
-
-        game2.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
-        game2.setHomeTeam(teams[DummyTeams.FCB]);
-        game2.setGuestTeam(teams[DummyTeams.HSV]);
-
-        game3.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
-        game3.setHomeTeam(teams[DummyTeams.BOCHUM]);
-        game3.setGuestTeam(teams[DummyTeams.BVB]);
-
-        game4.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
-        game4.setHomeTeam(teams[DummyTeams.BOCHUM]);
-        game4.setGuestTeam(teams[DummyTeams.BVB]);
+        testTeams.toList().stream().forEach(masterDataManagerService::createTeam);
+        seasonManagerService.addTeams(season, groupType, testTeams.toList());
 
         // Spieltag erzeugen, Spiel eintragen.
-        round = new GameList();
-        round.setDateTime(DateTimeDummyProducer.DATE_1971_03_24);
-        round.setGroup(group);
-        season.addGameList(round);
-        round.addGame(game1);
-        round.addGame(game2);
-        round.addGame(game3);
-        round.addGame(game4);
+        round = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_1971_03_24, group.getGroupType());
+
+        // Spiele erzeugen.
+        game1 = seasonManagerService.addMatch(round,
+                DateTimeDummyProducer.DATE_2002_01_01,
+                group,
+                teams[DummyTeams.BOCHUM],
+                teams[DummyTeams.BVB]);
+
+        game2 = seasonManagerService.addMatch(round,
+                DateTimeDummyProducer.DATE_2002_01_01,
+                group,
+                teams[DummyTeams.FCB],
+                teams[DummyTeams.HSV]);
+
+        game3 = seasonManagerService.addMatch(round,
+                DateTimeDummyProducer.DATE_2002_01_01,
+                group,
+                teams[DummyTeams.BOCHUM],
+                teams[DummyTeams.BVB]);
+
+        game4 = seasonManagerService.addMatch(round,
+                DateTimeDummyProducer.DATE_2002_01_01,
+                group,
+                teams[DummyTeams.BOCHUM],
+                teams[DummyTeams.BVB]);        
 
         User userMinTipp = new User();
         userMinTipp.setNickName("User MinTipp");
+        masterDataManagerService.createUser(userMinTipp);
 
         UserResult.nEqualValue = 10;
         UserResult.nTotoValue = 20;
@@ -232,51 +243,31 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
         // Tipps erzeugen und eintragen.
         DummyUsers testUsers = new DummyUsers();
         User[] users = testUsers.users();
-        for (User user : users) {
-            UserSeason us = new UserSeason();
-            us.setUser(user);
-            season.addUser(us);
-        }
+        seasonManagerService.addUsers(season, testUsers.toList());
 
         // Spiel 1
-        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10,
-                TippStatusType.USER);
-        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01,
-                TippStatusType.USER);
-        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11,
-                TippStatusType.USER);
-        game1.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21,
-                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users[DummyUsers.PETER], gr21, TippStatusType.USER);
 
         // Spiel 2
-        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10,
-                TippStatusType.USER);
-        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01,
-                TippStatusType.USER);
-        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11,
-                TippStatusType.USER);
-        game2.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21,
-                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users[DummyUsers.PETER], gr21, TippStatusType.USER);
 
         // Spiel 3
-        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10,
-                TippStatusType.USER);
-        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01,
-                TippStatusType.USER);
-        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11,
-                TippStatusType.USER);
-        game3.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21,
-                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users[DummyUsers.PETER], gr21, TippStatusType.USER);
 
         // Spiel 4
-        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.FROSCH], gr10,
-                TippStatusType.USER);
-        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.HATTWIG], gr01,
-                TippStatusType.USER);
-        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.MRTIPP], gr11,
-                TippStatusType.USER);
-        game4.addTipp(JUNIT_TOKEN, users[DummyUsers.PETER], gr21,
-                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users[DummyUsers.HATTWIG], gr01, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users[DummyUsers.PETER], gr21, TippStatusType.USER);
     }
 
 }
