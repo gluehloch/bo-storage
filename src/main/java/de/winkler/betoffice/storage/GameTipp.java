@@ -239,8 +239,8 @@ public class GameTipp extends AbstractStorageObject
     }
 
     /**
-     * Setzt das Game für diesen GameTipp. Kann auch <code>null</code> sein.
-     * Dann wurde dieser Tipp entfernt.
+     * Setzt das Game für diesen GameTipp. Kann auch <code>null</code> sein. Dann
+     * wurde dieser Tipp entfernt.
      *
      * @param value
      *            Die neue Game Zuordnung.
@@ -399,6 +399,23 @@ public class GameTipp extends AbstractStorageObject
     }
 
     // -- Object --------------------------------------------------------------
+
+    @Override
+    public int hashCode() {
+        return 13;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        GameTipp other = (GameTipp) obj;
+        return id != null && id.equals(other.getId());
+    }
 
     /*
      * (non-Javadoc)

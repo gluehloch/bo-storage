@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -265,37 +265,37 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         GameList round_02 = seasonManagerService.findRound(buli_2010, 1).orElseThrow();
         GameList round_03 = seasonManagerService.findRound(buli_2010, 2).orElseThrow();
         
-        tippService.addTipp(JUNIT_TOKEN, round_01, frosch,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, frosch,
                 List.of(new GameResult(2, 0), new GameResult(1, 1)), TippStatusType.USER);
 
-        tippService.addTipp(JUNIT_TOKEN, round_02, frosch,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, frosch,
                 List.of(new GameResult(1, 1), new GameResult(1, 1)), TippStatusType.USER);
 
-        tippService.addTipp(JUNIT_TOKEN, round_03, frosch,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, frosch,
                 List.of(new GameResult(1, 2), new GameResult(0, 1)), TippStatusType.USER);
 
         //
         // Peter
         //
-        tippService.addTipp(JUNIT_TOKEN, round_01, peter,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, peter,
                 List.of(new GameResult(1, 1), new GameResult(1, 1)), TippStatusType.USER);
 
-        tippService.addTipp(JUNIT_TOKEN, round_02, peter,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, peter,
                 List.of(new GameResult(2, 1), new GameResult(2, 1)), TippStatusType.USER);
 
-        tippService.addTipp(JUNIT_TOKEN, round_03, peter,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, peter,
                 List.of(new GameResult(1, 2), new GameResult(0, 1)), TippStatusType.USER);
 
         //
         // mrTipp
         //
-        tippService.addTipp(JUNIT_TOKEN, round_01, mrTipp,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, mrTipp,
                 List.of(new GameResult(2, 1), new GameResult(0, 0)), TippStatusType.USER);
 
-        tippService.addTipp(JUNIT_TOKEN, round_02, mrTipp,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, mrTipp,
                 List.of(new GameResult(2, 2), new GameResult(2, 2)), TippStatusType.USER);
 
-        tippService.addTipp(JUNIT_TOKEN, round_03, mrTipp,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, mrTipp,
                 List.of(new GameResult(1, 3), new GameResult(0, 2)), TippStatusType.USER);
 
         //
@@ -349,9 +349,9 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     private void createRounds() {
-        GameList round_01 = createRound(1, DATE_01_09_2010);
-        GameList round_02 = createRound(2, DATE_08_09_2010);
-        GameList round_03 = createRound(3, DATE_15_09_2010);
+        /* GameList round_01 = */ createRound(1, DATE_01_09_2010);
+        /* GameList round_02 = */ createRound(2, DATE_08_09_2010);
+        /* GameList round_03 = */ createRound(3, DATE_15_09_2010);
 
         assertThat(seasonManagerService.findRounds(buli_2010)).hasSize(3);
 

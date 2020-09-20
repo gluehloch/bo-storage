@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2018 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -27,13 +27,12 @@ package de.winkler.betoffice.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.sql.SQLException;
+import java.sql.SQLException;   
 import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -21,7 +21,7 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.winkler.betoffice.storage;
+package de.winkler.betoffice.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -33,6 +33,16 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.winkler.betoffice.storage.Game;
+import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.GameResult;
+import de.winkler.betoffice.storage.GameTipp;
+import de.winkler.betoffice.storage.Group;
+import de.winkler.betoffice.storage.GroupType;
+import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.Team;
+import de.winkler.betoffice.storage.User;
+import de.winkler.betoffice.storage.UserResult;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.enums.TotoResult;

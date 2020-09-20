@@ -58,8 +58,7 @@ public class MinTippGeneratorTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
 
-    private static final Date DATE_2002_01_01 = new DateTime(2002, 1, 1, 0, 0)
-            .toDate();
+    private static final Date DATE_2002_01_01 = new DateTime(2002, 1, 1, 0, 0).toDate();
 
     private Game game1;
     private Game game2;

@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -22,38 +22,67 @@
  *
  */
 
-package de.winkler.betoffice.storage;
+package de.winkler.betoffice.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import javax.sql.DataSource;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
+import de.winkler.betoffice.storage.Game;
+import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.GameResult;
+import de.winkler.betoffice.storage.GameTipp;
+import de.winkler.betoffice.storage.Group;
+import de.winkler.betoffice.storage.GroupType;
+import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.Team;
+import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
-import de.winkler.betoffice.storage.exception.StorageObjectExistsException;
+import de.winkler.betoffice.storage.enums.TotoResult;
 import de.winkler.betoffice.test.DateTimeDummyProducer;
 
 /**
- * Testklasse für die Klasse Game. Auf das Testen der einfachen setter-Methoden setHomeTeam(), setGuestTeam(),
- * setGroup() und setGameNumber() wird verzichtet.
+ * Testklasse für die Klasse Game. Auf das Testen der einfachen setter-Methoden
+ * setHomeTeam(), setGuestTeam(), setGroup() und setGameNumber() wird
+ * verzichtet.
  *
  * @author Andre Winkler
  */
-public class GameTest {
+public class GameTest extends AbstractServiceTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
+
+    @Autowired
+    private SeasonManagerService seasonManagerService;
+
+    @Autowired
+    private TippService tippService;
+
+    @Autowired
+    private MasterDataManagerService masterDataManagerService;
+
+    @Autowired
+    protected DataSource dataSource;
+
+    private DatabaseSetUpAndTearDown dsuatd;
 
     private Team homeTeam;
 
@@ -88,8 +117,7 @@ public class GameTest {
     public void testGameAddNewTipp() {
         GameTipp tippX;
         // Legt keinen neuen Tipp an, überschreibt den alten Tipp.
-        tippX = game1.addTipp(JUNIT_TOKEN, userA, gameResult10,
-                TippStatusType.USER);
+        tippX = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userA, gameResult10, TippStatusType.USER);
         assertNotNull(tippX.getGame());
         assertNotNull(tippX.getStatus());
         assertNotNull(tippX.getTipp());
@@ -97,14 +125,13 @@ public class GameTest {
         assertNotNull(tippX.getUser());
 
         // Der Service überschreibt den alten Tipp.
-        assertTrue(tippA == tippX);
+        assertThat(tippA.getId()).isEqualTo(tippX.getId());
         assertTrue(tippA.equals(tippX));
         assertFalse(tippB.equals(tippX));
         assertFalse(tippC.equals(tippX));
 
         // Legt keinen neuen Tipp an, überschreibt den alten Tipp.
-        tippX = game1.addTipp(JUNIT_TOKEN, userB, gameResult10,
-                TippStatusType.USER);
+        tippX = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userB, gameResult10, TippStatusType.USER);
         assertNotNull(tippX.getGame());
         assertNotNull(tippX.getStatus());
         assertNotNull(tippX.getTipp());
@@ -112,14 +139,13 @@ public class GameTest {
         assertNotNull(tippX.getUser());
 
         // Der Service überschreibt den alten Tipp.
-        assertTrue(tippB == tippX);
+        assertThat(tippB.getId()).isEqualTo(tippX.getId());
         assertTrue(tippB.equals(tippX));
         assertFalse(tippA.equals(tippX));
         assertFalse(tippC.equals(tippX));
 
         // Legt keinen neuen Tipp an, überschreibt den alten Tipp.
-        tippX = game1.addTipp(JUNIT_TOKEN, userC, gameResult10,
-                TippStatusType.USER);
+        tippX = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userC, gameResult10, TippStatusType.USER);
         assertNotNull(tippX.getGame());
         assertNotNull(tippX.getStatus());
         assertNotNull(tippX.getTipp());
@@ -127,7 +153,7 @@ public class GameTest {
         assertNotNull(tippX.getUser());
 
         // Der Service überschreibt den alten Tipp.
-        assertTrue(tippC == tippX);
+        assertThat(tippC.getId()).isEqualTo(tippX.getId());
         assertTrue(tippC.equals(tippX));
         assertFalse(tippA.equals(tippX));
         assertFalse(tippB.equals(tippX));
@@ -140,7 +166,8 @@ public class GameTest {
 
         // Offset +1 Stunde zu UTC
         ZonedDateTime expectedGameDateTime2 = ZonedDateTime.parse("2002-01-01T00:00:00+01:00[Europe/Berlin]");
-        // Offset +2 Stunden zu UTC (Frage: Wird diese Angabe ignoriert oder tatsaechlich verarbeitet?)
+        // Offset +2 Stunden zu UTC (Frage: Wird diese Angabe ignoriert oder
+        // tatsaechlich verarbeitet?)
         ZonedDateTime expectedGameDateTime3 = ZonedDateTime.parse("2002-01-01T00:00:00+02:00[Europe/Berlin]");
 
         assertThat(expectedGameDateTime1).isEqualTo(expectedGameDateTime2);
@@ -151,107 +178,100 @@ public class GameTest {
 
         NullPointerException ex = assertThrows(NullPointerException.class,
                 () -> {
-                    game1.addTipp(JUNIT_TOKEN, null, null, null);
+                    tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, null, null, null);
                 });
     }
 
     @Test
     public void testGameContainsTipp() {
-        assertTrue(game1.containsTipp(userA));
-        assertTrue(game1.containsTipp(userB));
-        assertTrue(game1.containsTipp(userC));
-        assertFalse(game1.containsTipp(userD));
+        assertTrue(tippService.findTipp(game1, userA).isPresent());
+        assertTrue(tippService.findTipp(game1, userB).isPresent());
+        assertTrue(tippService.findTipp(game1, userC).isPresent());
+        assertTrue(tippService.findTipp(game1, userD).isEmpty());
     }
 
     @Test
     public void testGameAddTipp() {
-        GameTipp tipp1 = new GameTipp();
-        tipp1.setUser(userA);
-        tipp1.setTipp(gameResult10, TippStatusType.USER);
-
-        GameTipp tipp4 = new GameTipp();
-        tipp4.setUser(userA);
-
-        GameTipp tipp2 = new GameTipp();
-        tipp2.setUser(userB);
-        tipp2.setTipp(gameResult10, TippStatusType.USER);
-
-        GameTipp tipp3 = new GameTipp();
-        tipp3.setUser(userD);
-        tipp3.setTipp(gameResult10, TippStatusType.USER);
-
-        assertThrows(StorageObjectExistsException.class, () -> {
-            game1.addTipp(tipp1);
-        });
-
-        assertThrows(StorageObjectExistsException.class, () -> {
-            game1.addTipp(tipp4);
-        });
-
-        assertThrows(StorageObjectExistsException.class, () -> {
-            game1.addTipp(tipp2);
-        });
-
-        tipp3.setGame(game1);
-        game1.addTipp(tipp3);
+        GameTipp tipp1 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userA, gameResult10, TippStatusType.USER);
+        assertThat(tipp1.getTotoResult()).isEqualTo(TotoResult.EQUAL);
+        
+        GameTipp tipp2 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userB, gameResult10, TippStatusType.USER);
+        assertThat(tipp2.getTotoResult()).isEqualTo(TotoResult.EQUAL);
+        
+        GameTipp tipp3 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userB, gameResult10, TippStatusType.USER);
+        assertThat(tipp3.getTotoResult()).isEqualTo(TotoResult.EQUAL);
+        
+        GameTipp tipp4 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userD, gameResult01, TippStatusType.USER);
+        assertThat(tipp4.getTotoResult()).isEqualTo(TotoResult.ZERO);
     }
 
     @BeforeEach
     public void setUp() throws Exception {
+        dsuatd = new DatabaseSetUpAndTearDown(dataSource);
+        dsuatd.setUp(DataLoader.EMPTY);
+
+        createData();
+    }
+
+    @AfterEach
+    public void tearDown() throws SQLException {
+        dsuatd.tearDown();
+    }
+
+    private void createData() throws Exception {
         userA = new User();
         userA.setName("User A");
         userA.setNickName("User A");
+        masterDataManagerService.createUser(userA);
 
         userB = new User();
         userB.setName("User B");
         userB.setNickName("User B");
+        masterDataManagerService.createUser(userB);
 
         userC = new User();
         userC.setName("User C");
         userC.setNickName("User C");
+        masterDataManagerService.createUser(userC);
 
         userD = new User();
         userD.setName("User D");
         userD.setNickName("User D");
+        masterDataManagerService.createUser(userD);
 
         homeTeam = new Team();
         homeTeam.setName("RWE");
+        masterDataManagerService.createTeam(homeTeam);
+
         guestTeam = new Team();
         guestTeam.setName("S04");
-
-        game1 = new Game();
-        game1.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
-        game1.setHomeTeam(homeTeam);
-        game1.setGuestTeam(guestTeam);
-        game1.setGroup(group);
-        game1.setPlayed(true);
-        game1.setResult(new GameResult(1, 0));
+        masterDataManagerService.createTeam(guestTeam);
 
         Season season = new Season();
         season.setMode(SeasonType.LEAGUE);
         season.setName("Bundesliga 2");
         season.setYear("1971");
 
+        seasonManagerService.createSeason(season);
+
         GroupType buli1 = new GroupType();
         buli1.setName("1. Bundesliga");
-        group = new Group();
-        group.setGroupType(buli1);
-        group.setSeason(season);
-        season.addGroup(group);
+        masterDataManagerService.createGroupType(buli1);
 
-        GameList round = new GameList();
-        round.setDateTime(DateTimeDummyProducer.DATE_1971_03_24);
-        round.setGroup(group);
+        group = seasonManagerService.addGroupType(season, buli1);
 
-        season.addGameList(round);
-        round.addGame(game1);
+        GameList round = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_1971_03_24, buli1);
 
-        tippA = game1.addTipp(JUNIT_TOKEN, userA, gameResult01,
-                TippStatusType.USER);
-        tippB = game1.addTipp(JUNIT_TOKEN, userB, gameResult01,
-                TippStatusType.USER);
-        tippC = game1.addTipp(JUNIT_TOKEN, userC, gameResult01,
-                TippStatusType.USER);
+        game1 = seasonManagerService.addMatch(
+                round,
+                DateTimeDummyProducer.DATE_2002_01_01,
+                group,
+                homeTeam,
+                guestTeam, 1, 0);
+
+        tippA = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userA, gameResult01, TippStatusType.USER);
+        tippB = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userB, gameResult01, TippStatusType.USER);
+        tippC = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userC, gameResult01, TippStatusType.USER);
     }
 
 }
