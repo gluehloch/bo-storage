@@ -47,6 +47,7 @@ import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.dao.UserSeasonDao;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Goal;
 import de.winkler.betoffice.storage.Group;
@@ -342,13 +343,21 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     public Game addMatch(GameList round, ZonedDateTime date, Group group,
             Team homeTeam, Team guestTeam, int homeGoals, int guestGoals) {
 
+        return addMatch(round, date, group, homeTeam, guestTeam, GameResult.of(homeGoals, guestGoals));
+    }
+
+    @Override
+    @Transactional
+    public Game addMatch(GameList round, ZonedDateTime date, Group group,
+            Team homeTeam, Team guestTeam, GameResult result) {
+
         GameList gamelist = roundDao.findById(round.getId());
         Game match = new Game();
         match.setDateTime(date);
         match.setHomeTeam(homeTeam);
         match.setGuestTeam(guestTeam);
         match.setGroup(group);
-        match.setResult(homeGoals, guestGoals);
+        match.setResult(result);
         match.setPlayed(true);
         matchDao.save(match);
 

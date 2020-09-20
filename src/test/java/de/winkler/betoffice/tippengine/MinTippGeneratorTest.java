@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -26,12 +26,20 @@ package de.winkler.betoffice.tippengine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.sql.SQLException;
 import java.util.Date;
 
+import javax.sql.DataSource;
+
 import org.joda.time.DateTime;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
+import de.winkler.betoffice.service.AbstractServiceTest;
+import de.winkler.betoffice.service.DatabaseSetUpAndTearDown;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -54,7 +62,7 @@ import de.winkler.betoffice.test.DummyUsers;
  *
  * @author Andre Winkler
  */
-public class MinTippGeneratorTest {
+public class MinTippGeneratorTest extends AbstractServiceTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
 
@@ -74,6 +82,24 @@ public class MinTippGeneratorTest {
 
     private Season season;
 
+    @Autowired
+    protected DataSource dataSource;
+
+    private DatabaseSetUpAndTearDown dsuatd;
+
+    @BeforeEach
+    public void setUp() throws Exception {
+        dsuatd = new DatabaseSetUpAndTearDown(dataSource);
+        dsuatd.setUp(DataLoader.EMPTY);
+
+        createData();
+    }
+
+    @AfterEach
+    public void tearDown() throws SQLException {
+        dsuatd.tearDown();
+    }
+    
     @Test
     public void testGenerateTipp() throws StorageObjectNotFoundException {
         TippGenerator gen = new MinTippGenerator();
@@ -132,8 +158,7 @@ public class MinTippGeneratorTest {
         assertEquals(gr01, game4.getGameTipp(userMinTipp).getTipp());
     }
 
-    @BeforeEach
-    public void setUp() throws Exception {
+    private void createData() throws Exception {
         // Insgesamt 4 Tipper. Es sind 4 Spiele zu tippen.
         // User A tippt immer 1:0
         // User B tippt immer 0:1

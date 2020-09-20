@@ -38,7 +38,7 @@ import de.winkler.betoffice.storage.UserResult;
  * 
  * @author by Andre Winkler
  */
-final class DatabaseSetUpAndTearDown {
+public final class DatabaseSetUpAndTearDown {
 
     private final DataSource dataSource;
 

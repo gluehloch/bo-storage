@@ -41,7 +41,7 @@ import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResultOfDay;
 import de.winkler.betoffice.storage.enums.TippStatusType;
-import de.winkler.betoffice.test.DummyScenario;
+import de.winkler.betoffice.test.ScenarioBuilder;
 import de.winkler.betoffice.test.DummyUsers;
 
 /**
@@ -62,7 +62,7 @@ public class InfoCenterTest {
 
     private GameResult gr11 = new GameResult(1, 1);
 
-    private DummyScenario scene;
+    private ScenarioBuilder scene;
 
     private List<User> users;
 
@@ -233,7 +233,7 @@ public class InfoCenterTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        scene = new DummyScenario();
+        scene = new ScenarioBuilder();
 
         frosch = scene.getUsers().users()[DummyUsers.FROSCH];
         hattwig = scene.getUsers().users()[DummyUsers.HATTWIG];

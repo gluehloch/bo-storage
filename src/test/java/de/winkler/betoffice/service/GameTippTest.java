@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -23,16 +23,23 @@
 
 package de.winkler.betoffice.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -54,35 +61,55 @@ import de.winkler.betoffice.test.DateTimeDummyProducer;
  * 
  * @author Andre Winkler
  */
-public class GameTippTest {
+public class GameTippTest extends AbstractServiceTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
+
+    @Autowired
+    private SeasonManagerService seasonManagerService;
+
+    @Autowired
+    private TippService tippService;
+
+    @Autowired
+    private MasterDataManagerService masterDataManagerService;
+
+    @Autowired
+    protected DataSource dataSource;
+
+    private DatabaseSetUpAndTearDown dsuatd;
+
+    @BeforeEach
+    public void setUp() throws Exception {
+        dsuatd = new DatabaseSetUpAndTearDown(dataSource);
+        dsuatd.setUp(DataLoader.EMPTY);
+
+        createData();
+    }
+
+    @AfterEach
+    public void tearDown() throws SQLException {
+        dsuatd.tearDown();
+    }
 
     private class TestSpec {
         private final GameResult testResult;
         private final TotoResult expectedToto;
         private final User user;
 
-        /**
-         * @param _gr
-         *            Das zu setzende Spielergebnis.
-         * @param _tr
-         *            Das zu erwartende Toto-Ergebnis.
-         * @param _us
-         *            Das zu erwartende Toto-Egebnis von User sowieso.
-         */
-        public TestSpec(final GameResult _gr, final TotoResult _tr,
-                final User _us) {
-            testResult = _gr;
-            expectedToto = _tr;
-            user = _us;
+        public TestSpec(GameResult gameResult, TotoResult totoResult, User user) {
+            this.testResult = gameResult;
+            this.expectedToto = totoResult;
+            this.user = user;
         }
 
         public boolean executeTest() throws StorageObjectNotFoundException {
             getGame().setResult(testResult);
             getGame().setPlayed(true);
-            TotoResult _testResult = getGame().getGameTipp(user)
-                    .getTotoResult();
+            seasonManagerService.updateMatch(getGame());
+            
+            TotoResult _testResult = tippService.findTipp(getGame(), user).orElseThrow().getTotoResult();
+
             assertEquals(expectedToto, _testResult);
             return (expectedToto.equals(_testResult));
         }
@@ -96,12 +123,10 @@ public class GameTippTest {
             buf.append(" Von User: ");
             buf.append(user);
             buf.append(" Getippt: ");
-            try {
-                buf.append(getGame().getGameTipp(user));
-            } catch (StorageObjectNotFoundException ex) {
-                throw new RuntimeException(ex);
-                // buf.append("Kein Tipp vorhanden.");
-            }
+
+            GameTipp tipp = tippService.findTipp(game, user).orElseThrow();
+            buf.append(tipp);
+
             return buf.toString();
         }
     }
@@ -123,8 +148,9 @@ public class GameTippTest {
     private Group group;
 
     /**
-     * Testet den Listener der Klasse GameTipp. Bei Änderungen am Spielergebniss schlägt sich dies auf den Punktestand
-     * des Tippers nieder, der für dieses Spiel einen Tipp abgegeben hat.
+     * Testet den Listener der Klasse GameTipp. Bei Änderungen am Spielergebniss
+     * schlägt sich dies auf den Punktestand des Tippers nieder, der für dieses
+     * Spiel einen Tipp abgegeben hat.
      * 
      * @throws StorageObjectNotFoundException
      *             Da ging was schief.
@@ -161,7 +187,7 @@ public class GameTippTest {
                 new TestSpec(gr23, TotoResult.ZERO, userC),
                 new TestSpec(gr23, TotoResult.ZERO, userD) };
 
-        ArrayList<TestSpec> failedTests = new ArrayList<TestSpec>();
+        ArrayList<TestSpec> failedTests = new ArrayList<>();
 
         for (int i = 0; i < tests.length; i++) {
             if (!tests[i].executeTest()) {
@@ -177,120 +203,135 @@ public class GameTippTest {
         // die volle Punktzahl. Der Rest geht leer aus.
         game.setResult(gr10);
         game.setPlayed(true);
+        seasonManagerService.updateMatch(game);
 
-        GameTipp tipp = game.getGameTipp(userA);
-        assertTrue(TotoResult.EQUAL == tipp.getTotoResult());
-        assertTrue(UserResult.nEqualValue == tipp.getPoints());
+        {
+            GameTipp gameTippUserA = tippService.findTipp(game, userA).orElseThrow();
+            assertThat(gameTippUserA.getTotoResult()).isEqualTo(TotoResult.EQUAL);
+            assertThat(gameTippUserA.getPoints()).isEqualTo(UserResult.nEqualValue);
 
-        tipp = game.getGameTipp(userB);
-        assertTrue(TotoResult.ZERO == tipp.getTotoResult());
-        assertTrue(UserResult.nZeroValue == tipp.getPoints());
+            GameTipp gameTippUserB = tippService.findTipp(game, userB).orElseThrow();
+            assertThat(gameTippUserB.getTotoResult()).isEqualTo(TotoResult.ZERO);
+            assertThat(gameTippUserB.getPoints()).isEqualTo(UserResult.nZeroValue);
 
-        tipp = game.getGameTipp(userC);
-        assertTrue(TotoResult.ZERO == tipp.getTotoResult());
-        assertTrue(UserResult.nZeroValue == tipp.getPoints());
+            GameTipp gameTippUserC = tippService.findTipp(game, userC).orElseThrow();
+            assertThat(gameTippUserC.getTotoResult()).isEqualTo(TotoResult.ZERO);
+            assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nZeroValue);
+        }
 
         // Bei Eintrag des Ergebnisses 0:1 erhält Spieler B
         // die volle Punktzahl. Der Rest geht leer aus.
         game.setResult(gr01);
+        seasonManagerService.updateMatch(game);
 
-        tipp = game.getGameTipp(userA);
-        assertTrue(TotoResult.ZERO == tipp.getTotoResult());
-        assertTrue(UserResult.nZeroValue == tipp.getPoints());
+        {
+            GameTipp gameTippUserA = tippService.findTipp(game, userA).orElseThrow();
+            assertThat(gameTippUserA.getTotoResult()).isEqualTo(TotoResult.ZERO);
+            assertThat(gameTippUserA.getPoints()).isEqualTo(UserResult.nZeroValue);
 
-        tipp = game.getGameTipp(userB);
-        assertTrue(TotoResult.EQUAL == tipp.getTotoResult());
-        assertTrue(UserResult.nEqualValue == tipp.getPoints());
+            GameTipp gameTippUserB = tippService.findTipp(game, userB).orElseThrow();
+            assertThat(gameTippUserB.getTotoResult()).isEqualTo(TotoResult.EQUAL);
+            assertThat(gameTippUserB.getPoints()).isEqualTo(UserResult.nEqualValue);
 
-        tipp = game.getGameTipp(userC);
-        assertTrue(TotoResult.ZERO == tipp.getTotoResult());
-        assertTrue(UserResult.nZeroValue == tipp.getPoints());
+            GameTipp gameTippUserC = tippService.findTipp(game, userC).orElseThrow();
+            assertThat(gameTippUserC.getTotoResult()).isEqualTo(TotoResult.ZERO);
+            assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nZeroValue);
+        }
 
         // Bei Eintrag des Ergebnisses 1:1 erhält Spieler C
         // die volle Punktzahl. Der Rest geht leer aus.
         game.setResult(gr11);
+        seasonManagerService.updateMatch(game);
 
-        tipp = game.getGameTipp(userA);
-        assertTrue(TotoResult.ZERO == tipp.getTotoResult());
-        assertTrue(UserResult.nZeroValue == tipp.getPoints());
+        {
+            GameTipp gameTippUserA = tippService.findTipp(game, userA).orElseThrow();
+            assertThat(gameTippUserA.getTotoResult()).isEqualTo(TotoResult.ZERO);
+            assertThat(gameTippUserA.getPoints()).isEqualTo(UserResult.nZeroValue);
 
-        tipp = game.getGameTipp(userB);
-        assertTrue(TotoResult.ZERO == tipp.getTotoResult());
-        assertTrue(UserResult.nZeroValue == tipp.getPoints());
+            GameTipp gameTippUserB = tippService.findTipp(game, userB).orElseThrow();
+            assertThat(gameTippUserB.getTotoResult()).isEqualTo(TotoResult.ZERO);
+            assertThat(gameTippUserB.getPoints()).isEqualTo(UserResult.nZeroValue);
 
-        tipp = game.getGameTipp(userC);
-        assertTrue(TotoResult.EQUAL == tipp.getTotoResult());
-        assertTrue(UserResult.nEqualValue == tipp.getPoints());
+            GameTipp gameTippUserC = tippService.findTipp(game, userC).orElseThrow();
+            assertThat(gameTippUserC.getTotoResult()).isEqualTo(TotoResult.EQUAL);
+            assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nEqualValue);
+        }
 
-        GameTipp tippD = game.addTipp(JUNIT_TOKEN, userD, gr11,
-                TippStatusType.USER);
-        assertTrue(TotoResult.EQUAL == tippD.getTotoResult());
+        {
+            GameTipp tippD = tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userD, gr11, TippStatusType.USER);
+            assertThat(tippD.getTotoResult()).isEqualTo(TotoResult.EQUAL);
+        }
 
         // Spiel auf ungültig setzen.
         game.setPlayed(false);
+        seasonManagerService.updateMatch(game);
 
-        tipp = game.getGameTipp(userA);
-        assertTrue(TotoResult.UNDEFINED == tipp.getTotoResult());
+        {
+            GameTipp gameTippUserA = tippService.findTipp(game, userA).orElseThrow();
+            assertThat(gameTippUserA.getTotoResult()).isEqualTo(TotoResult.UNDEFINED);
+            assertThat(gameTippUserA.getPoints()).isEqualTo(UserResult.nZeroValue);
 
-        tipp = game.getGameTipp(userB);
-        assertTrue(TotoResult.UNDEFINED == tipp.getTotoResult());
+            GameTipp gameTippUserB = tippService.findTipp(game, userB).orElseThrow();
+            assertThat(gameTippUserB.getTotoResult()).isEqualTo(TotoResult.UNDEFINED);
+            assertThat(gameTippUserB.getPoints()).isEqualTo(UserResult.nZeroValue);
 
-        tipp = game.getGameTipp(userC);
-        assertTrue(TotoResult.UNDEFINED == tipp.getTotoResult());
+            GameTipp gameTippUserC = tippService.findTipp(game, userC).orElseThrow();
+            assertThat(gameTippUserC.getTotoResult()).isEqualTo(TotoResult.UNDEFINED);
+            assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nEqualValue);
+        }
     }
 
-    @BeforeEach
-    public void setUp() throws Exception {
+    private void createData() throws Exception {
         // Spiel wird erzeugt, 3 Tipper geben einen Tipp ab
         // mit den Tipps User_A 1:0, User_B 0:1 und User_C 1:1.
+
+        // Beteiligte Mannschaften erzeugen.
+        Team luebeck = new Team("Vfb Lübeck", "Vfb Lübeck", "luebeck.gif");
+        masterDataManagerService.createTeam(luebeck);
+        Team rwe = new Team("RWE", "Rot-Weiss-Essen", "rwe.gif");
+        masterDataManagerService.createTeam(rwe);
 
         // Saison erzeugen.
         season = new Season();
         season.setMode(SeasonType.LEAGUE);
         season.setName("Bundesliga");
         season.setYear("1999/2000");
-
-        // getConfiguration().getStorageContext().setCurrentSeason(season);
+        seasonManagerService.createSeason(season);
 
         // Gruppe erzeugen.
         GroupType buli1 = new GroupType();
         buli1.setName("1. Bundesliga");
-        group = new Group();
-        group.setGroupType(buli1);
-        group.setSeason(season);
-        season.addGroup(group);
+        masterDataManagerService.createGroupType(buli1);
+
+        group = seasonManagerService.addGroupType(season, buli1);
+        seasonManagerService.addTeam(season, buli1, rwe);
+        seasonManagerService.addTeam(season, buli1, luebeck);
+
+        GameList round = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_1971_03_24, buli1);
 
         // Spiel erzeugen.
-        game = new Game();
-        game.setGroup(group);
-
-        GameList round = new GameList();
-        round.setDateTime(DateTimeDummyProducer.DATE_1971_03_24);
-        round.setGroup(group);
-        season.addGameList(round);
-        round.addGame(game);
-
-        // Beteiligte Mannschaften erzeugen.
-        Team luebeck = new Team("Vfb Lübeck", "Vfb Lübeck", "luebeck.gif");
-        Team rwe = new Team("RWE", "Rot-Weiss-Essen", "rwe.gif");
-
-        group.addTeam(luebeck);
-        group.addTeam(rwe);
-
-        game.setHomeTeam(luebeck);
-        game.setGuestTeam(rwe);
+        game = seasonManagerService.addMatch(round, DateTimeDummyProducer.DATE_1971_03_24, group, luebeck, rwe);
 
         // Neuen Tipp erzeugen lassen...
         userA = new User();
         userA.setNickName("User A");
+        masterDataManagerService.createUser(userA);
+
         userB = new User();
         userB.setNickName("User B");
+        masterDataManagerService.createUser(userB);
+
         userC = new User();
         userC.setNickName("User C");
+        masterDataManagerService.createUser(userC);
+
         userD = new User();
         userD.setNickName("User D");
+        masterDataManagerService.createUser(userD);
+
         userE = new User();
         userE.setNickName("User E");
+        masterDataManagerService.createUser(userE);
 
         allUsers.clear();
         allUsers.add(userA);
@@ -298,11 +339,12 @@ public class GameTippTest {
         allUsers.add(userC);
         allUsers.add(userD);
         allUsers.add(userE);
+        seasonManagerService.addUsers(season, allUsers);
 
-        game.addTipp(JUNIT_TOKEN, userA, gr10, TippStatusType.USER);
-        game.addTipp(JUNIT_TOKEN, userB, gr01, TippStatusType.USER);
-        game.addTipp(JUNIT_TOKEN, userC, gr11, TippStatusType.USER);
-        game.addTipp(JUNIT_TOKEN, userD, gr21, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userA, gr10, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userB, gr01, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userC, gr11, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userD, gr21, TippStatusType.USER);
 
         UserResult.nEqualValue = 10;
         UserResult.nTotoValue = 20;

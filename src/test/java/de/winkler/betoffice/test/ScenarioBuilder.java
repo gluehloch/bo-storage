@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -23,16 +23,18 @@
 
 package de.winkler.betoffice.test;
 
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import de.winkler.betoffice.service.MasterDataManagerService;
+import de.winkler.betoffice.service.SeasonManagerService;
+import de.winkler.betoffice.service.TippService;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -49,11 +51,26 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
  * 
  * @author Andre Winkler
  */
-public class DummyScenario {
+@Service
+public class ScenarioBuilder {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
 
+    @Autowired
+    private MasterDataManagerService masterDataManagerService;
+
+    @Autowired
+    private SeasonManagerService seasonManagerService;
+
+    @Autowired
+    private TippService tippService;
+
     private final List<Season> seasons = new ArrayList<Season>();
+
+    private final GameResult gr10 = GameResult.of(1, 0);
+    private final GameResult gr01 = GameResult.of(0, 1);
+    private final GameResult gr11 = GameResult.of(1, 1);
+    private final GameResult gr21 = GameResult.of(2, 1);
 
     private Season season;
     private Group buli_1;
@@ -69,25 +86,11 @@ public class DummyScenario {
 
     private GameList round1;
 
-    private final GameResult gr10;
-    private final GameResult gr01;
-    private final GameResult gr11;
-    private final GameResult gr21;
-
     private DummyTeams teams;
 
     private DummyGroups groups;
 
     private DummyUsers users;
-
-    public DummyScenario() throws Exception {
-        gr10 = new GameResult(1, 0);
-        gr01 = new GameResult(0, 1);
-        gr11 = new GameResult(1, 1);
-        gr21 = new GameResult(2, 1);
-
-        initialize();
-    }
 
     /**
      * Erzeugt ein Testszenario. Das Szenario beinhaltet:
@@ -175,10 +178,15 @@ public class DummyScenario {
      * @throws Exception
      *             Da ging was schief.
      */
-    private void initialize() throws Exception {
+    public void initialize() throws Exception {
         teams = new DummyTeams();
+        teams.toList().stream().forEach(masterDataManagerService::createTeam);
+
         groups = new DummyGroups();
+        groups.toList().stream().forEach(masterDataManagerService::createGroupType);
+
         users = new DummyUsers();
+        users.toList().stream().forEach(masterDataManagerService::createUser);
 
         UserResult.nEqualValue = 13;
         UserResult.nTotoValue = 10;
@@ -190,6 +198,7 @@ public class DummyScenario {
         season.setName("Bundesliga");
         season.setYear("1994/1995");
         seasons.add(season);
+        seasonManagerService.createSeason(season);
 
         // Gruppen erzeugen und eintragen...
         createGroups(season);
@@ -199,9 +208,12 @@ public class DummyScenario {
 
         // In der Bundesliga nicht möglich. Unter WM oder EM Bedingungen
         // mit mehreren Gruppenphasen aber plausibel.
-        buli_2.addTeam(teams.teams()[DummyTeams.BOCHUM]);
-        buli_2.addTeam(teams.teams()[DummyTeams.BVB]);
-        buli_2.addTeam(teams.teams()[DummyTeams.RWE]);
+        seasonManagerService.addTeam(season, buli_2.getGroupType(), teams.teams()[DummyTeams.BOCHUM]);
+        seasonManagerService.addTeam(season, buli_2.getGroupType(), teams.teams()[DummyTeams.BVB]);
+        seasonManagerService.addTeam(season, buli_2.getGroupType(), teams.teams()[DummyTeams.RWE]);
+
+        // Spieltag erzeugen, Spiel eintragen.
+        round1 = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_2002_01_02, buli_1.getGroupType());
 
         // Spiele erzeugen.
         game1 = new Game();
@@ -220,93 +232,66 @@ public class DummyScenario {
 
         int n = 0;
 
-        game1.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
-        game1.setHomeTeam(teams.teams()[DummyTeams.BOCHUM]);
-        game1.setGuestTeam(teams.teams()[DummyTeams.BVB]);
-        game1.setResult(new GameResult(2, 1));
-        game1.setPlayed(true);
-        game1.setIndex(n++);
+        game1 = seasonManagerService.addMatch(round1,
+                DateTimeDummyProducer.DATE_2002_01_01,
+                buli_1,
+                teams.teams()[DummyTeams.BOCHUM],
+                teams.teams()[DummyTeams.BVB],
+                GameResult.of(2, 1));
 
-        game2.setDateTime(DateTimeDummyProducer.DATE_2002_01_01);
-        game2.setHomeTeam(teams.teams()[DummyTeams.HSV]);
-        game2.setGuestTeam(teams.teams()[DummyTeams.STPAULI]);
-        game2.setResult(new GameResult(1, 1));
-        game2.setPlayed(true);
-        game2.setIndex(n++);
+        game2 = seasonManagerService.addMatch(round1,
+                DateTimeDummyProducer.DATE_2002_01_01,
+                buli_1,
+                teams.teams()[DummyTeams.HSV],
+                teams.teams()[DummyTeams.STPAULI],
+                GameResult.of(1, 1));
 
-        game3.setDateTime(DateTimeDummyProducer.DATE_2002_01_02);
-        game3.setHomeTeam(teams.teams()[DummyTeams.BOCHUM]);
-        game3.setGuestTeam(teams.teams()[DummyTeams.BVB]);
-        game3.setResult(new GameResult(0, 1));
-        game3.setPlayed(true);
-        game3.setIndex(n++);
+        game3 = seasonManagerService.addMatch(round1,
+                DateTimeDummyProducer.DATE_2002_01_02,
+                buli_1,
+                teams.teams()[DummyTeams.BOCHUM],
+                teams.teams()[DummyTeams.BVB],
+                GameResult.of(0, 1));
 
-        game4.setDateTime(DateTimeDummyProducer.DATE_2002_01_02);
-        game4.setHomeTeam(teams.teams()[DummyTeams.BOCHUM]);
-        game4.setGuestTeam(teams.teams()[DummyTeams.BVB]);
-        game4.setResult(new GameResult(3, 3));
-        game4.setPlayed(true);
-        game4.setIndex(n++);
+        game4 = seasonManagerService.addMatch(round1,
+                DateTimeDummyProducer.DATE_2002_01_02,
+                buli_1,
+                teams.teams()[DummyTeams.BOCHUM],
+                teams.teams()[DummyTeams.BVB],
+                GameResult.of(3, 3));
 
-        // Spieltag erzeugen, Spiel eintragen.
-        round1 = new GameList();
-        round1.setDateTime(DateTimeDummyProducer.DATE_2002_01_02);
-        round1.setGroup(buli_1);
-        season.addGameList(round1);
+        round1 = seasonManagerService.findRound(season, 0).orElseThrow();
         assertEquals(0, round1.unmodifiableList().size());
-        round1.addGame(game1);
-        round1.addGame(game2);
-        round1.addGame(game3);
-        round1.addGame(game4);
-        round1.setGroup(buli_1);
-
-        // Tipps erzeugen und eintragen.
-        assertNotNull(game1.getGameList().getSeason());
-        assertNotNull(game2.getGameList().getSeason());
-        assertNotNull(game3.getGameList().getSeason());
-        assertNotNull(game4.getGameList().getSeason());
 
         // Spiel 1
-        game1.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.FROSCH], gr10,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.FROSCH], gr10, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.HATTWIG], gr01,
                 TippStatusType.USER);
-        game1.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.HATTWIG], gr01,
-                TippStatusType.USER);
-        game1.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.MRTIPP], gr11,
-                TippStatusType.USER);
-        game1.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.PETER], gr21,
-                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.PETER], gr21, TippStatusType.USER);
 
         // Spiel 2
-        game2.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.FROSCH], gr10,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users.users()[DummyUsers.FROSCH], gr10, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users.users()[DummyUsers.HATTWIG], gr01,
                 TippStatusType.USER);
-        game2.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.HATTWIG], gr01,
-                TippStatusType.USER);
-        game2.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.MRTIPP], gr11,
-                TippStatusType.USER);
-        game2.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.PETER], gr21,
-                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users.users()[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users.users()[DummyUsers.PETER], gr21, TippStatusType.USER);
 
         // Spiel 3
-        game3.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.FROSCH], gr10,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users.users()[DummyUsers.FROSCH], gr10, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users.users()[DummyUsers.HATTWIG], gr01,
                 TippStatusType.USER);
-        game3.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.HATTWIG], gr01,
-                TippStatusType.USER);
-        game3.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.MRTIPP], gr11,
-                TippStatusType.USER);
-        game3.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.PETER], gr21,
-                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users.users()[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users.users()[DummyUsers.PETER], gr21, TippStatusType.USER);
 
         // Spiel 4
-        game4.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.FROSCH], gr10,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.FROSCH], gr10, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.HATTWIG], gr01,
                 TippStatusType.USER);
-        game4.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.HATTWIG], gr01,
-                TippStatusType.USER);
-        game4.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.MRTIPP], gr11,
-                TippStatusType.USER);
-        game4.addTipp(JUNIT_TOKEN, users.users()[DummyUsers.PETER], gr21,
-                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.PETER], gr21, TippStatusType.USER);
 
-        Validate.isTrue(getBuli_2().getTeams().size() == 3);
+        assertThat(seasonManagerService.findTeams(getSeason(), getBuli_2().getGroupType())).hasSize(3);
     }
 
     //
@@ -366,29 +351,13 @@ public class DummyScenario {
     // Generator Methoden
     //
 
-    /**
-     * Generiert einige Gruppen. Eine entsprechende Factory muss vorhanden sein.
-     * 
-     * @param _season
-     *            Die betreffende Saison.
-     */
     private void createGroups(final Season _season) {
-        Validate.notNull(season);
-
-        buli_1 = new Group();
-        buli_1.setGroupType(groups.groupTypes()[DummyGroups.BULI_1]);
-        _season.addGroup(buli_1);
-
-        buli_2 = new Group();
-        buli_2.setGroupType(groups.groupTypes()[DummyGroups.BULI_2]);
-        _season.addGroup(buli_2);
+        buli_1 = seasonManagerService.addGroupType(season, groups.groupTypes()[DummyGroups.BULI_1]);
+        buli_2 = seasonManagerService.addGroupType(season, groups.groupTypes()[DummyGroups.BULI_2]);
     }
 
     private void createTeams() {
-        for (Iterator<Team> i = teams.toList().iterator(); i.hasNext();) {
-            buli_1.addTeam(i.next());
-        }
-
+        seasonManagerService.addTeams(season, groups.groupTypes()[DummyGroups.BULI_1], teams.toList());
         rwe = teams.teams()[DummyTeams.RWE];
         s04 = teams.teams()[DummyTeams.S04];
     }

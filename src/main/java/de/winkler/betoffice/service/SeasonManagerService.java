@@ -30,6 +30,7 @@ import java.util.Optional;
 
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Goal;
 import de.winkler.betoffice.storage.Group;
@@ -600,11 +601,35 @@ public interface SeasonManagerService {
      *            Tore der Heimmannschaft.
      * @param guestGoals
      *            Tore der Gastmannschaft.
+     * @param result
+     *            Spielergebnis
      * @return Eine Spielpaarung.
      */
     Game addMatch(GameList round, ZonedDateTime date, Group group,
-            Team homeTeam, Team guestTeam, int homeGoals,
-            int guestGoals);
+            Team homeTeam, Team guestTeam, GameResult result);
+
+    /**
+     * Eine neue Spielpaarung der Meisterschaft hinzufügen. Das Spiel gilt als
+     * beendet.
+     *
+     * @param round
+     *            Der Spieltag.
+     * @param date
+     *            Datum des Spiels.
+     * @param group
+     *            Die Gruppe, der das Spiel zugeordnet wird.
+     * @param homeTeam
+     *            Die Heimmannschaft.
+     * @param guestTeam
+     *            Die Gastmannschaft.
+     * @param homeGoals
+     *            Tore der Heimmannschaft.
+     * @param guestGoals
+     *            Tore der Gastmannschaft.
+     * @return Eine Spielpaarung.
+     */
+    Game addMatch(GameList round, ZonedDateTime date, Group group,
+            Team homeTeam, Team guestTeam, int homeGoals, int guestGoals);
 
     /**
      * Eine neue Spielpaarung der Meisterschaft hinzufügen.

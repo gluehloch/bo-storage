@@ -36,7 +36,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.winkler.betoffice.storage.enums.SeasonType;
-import de.winkler.betoffice.test.DummyScenario;
+import de.winkler.betoffice.test.ScenarioBuilder;
 
 /**
  * Testklasse für das Storage-Objekt Season.
@@ -47,7 +47,7 @@ public class SeasonTest {
 
     private Season season;
 
-    private DummyScenario scene;
+    private ScenarioBuilder scene;
 
     @Test
     public void testSeasonProperties() {
@@ -106,7 +106,7 @@ public class SeasonTest {
         season.setName("Bundesliga");
         season.setMode(SeasonType.CL);
 
-        scene = new DummyScenario();
+        scene = new ScenarioBuilder();
     }
 
 }
