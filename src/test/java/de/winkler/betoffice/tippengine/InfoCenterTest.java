@@ -33,11 +33,10 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
@@ -46,6 +45,7 @@ import de.winkler.betoffice.service.DatabaseSetUpAndTearDown;
 import de.winkler.betoffice.service.SeasonManagerService;
 import de.winkler.betoffice.service.TippService;
 import de.winkler.betoffice.storage.Game;
+import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.User;
@@ -53,6 +53,7 @@ import de.winkler.betoffice.storage.UserResultOfDay;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.test.DummyUsers;
 import de.winkler.betoffice.test.ScenarioBuilder;
+import de.winkler.betoffice.util.LoggerFactory;
 
 /**
  * Testet die Klasse InfoCenter.
@@ -63,8 +64,7 @@ public class InfoCenterTest extends AbstractServiceTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
 
-    /** Der private Logger der Klasse. */
-    private static Log log = LogFactory.getLog(InfoCenterTest.class);
+    private final Logger log = LoggerFactory.make();
 
     private GameResult gr10 = GameResult.of(1, 0);
 
@@ -118,32 +118,30 @@ public class InfoCenterTest extends AbstractServiceTest {
             infoCenter.findBestTipp(null, null);
         });
 
-        // Bei einer Standardeinstellung 13/10/0 ergeben sich
-        // folgende Werte:
-        Game game = scene.getSeason().getGamesOfDay(0).unmodifiableList().get(0);
+        GameList firstRound = seasonManagerService.findRound(scene.getSeason(), 0).orElseThrow();
+        
+        // Bei einer Standardeinstellung 13/10/0 ergeben sich folgende Werte:
+        Game game = firstRound.get(0);
         GameTipp tipp = tippService.findTipp(game, frosch).orElseThrow();
         assertEquals(tipp.getTipp().getToto(), game.getResult().getToto());
 
-        UserResultOfDay urod = tippService.getUserPoints(scene.getSeason().getGamesOfDay(0), frosch);
+        UserResultOfDay urod = tippService.getUserPoints(firstRound, frosch);
 
-        log.error("Fertig: " + game.isPlayed());
-        log.error("Tipps: " + urod.getTipps());
-        log.error("Toto: " + urod.getToto());
-        log.error("Win: " + urod.getWin());
-        log.error("Lost: " + urod.getLost());
-        log.error("TotoResult: " + tipp.getTotoResult());
+        log.info("Fertig: " + game.isPlayed());
+        log.info("User-Result-Of-Day: {}", urod.toString());
 
-        UserResultOfDay points = tippService.getUserPoints(scene.getSeason().getGamesOfDay(0), frosch);
+        UserResultOfDay points = tippService.getUserPoints(firstRound, frosch);
         assertEquals(1, points.getToto());
         assertEquals(0, points.getWin());
         assertEquals(4, points.getTipps());
 
-        assertEquals(10, tippService.getUserPoints(scene.getSeason().getGamesOfDay(0), frosch).getPoints());
-        assertEquals(13, tippService.getUserPoints(scene.getSeason().getGamesOfDay(0), hattwig).getPoints());
-        assertEquals(23, tippService.getUserPoints(scene.getSeason().getGamesOfDay(0), mrTipp).getPoints());
-        assertEquals(13, tippService.getUserPoints(scene.getSeason().getGamesOfDay(0), peter).getPoints());
+        assertEquals(10, tippService.getUserPoints(firstRound, frosch).getPoints());
+        assertEquals(13, tippService.getUserPoints(firstRound, hattwig).getPoints());
+        assertEquals(23, tippService.getUserPoints(firstRound, mrTipp).getPoints());
+        assertEquals(13, tippService.getUserPoints(firstRound, peter).getPoints());
 
-        assertEquals(mrTipp, infoCenter.findBestTipp(scene.getSeason().getGamesOfDay(0), scene.getUsers().toList()));
+        UserResultOfDay bestTipp = infoCenter.findBestTipp(firstRound, scene.getUsers().toList());
+        assertEquals(mrTipp, bestTipp.getUser());
     }
 
     @Test

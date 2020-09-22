@@ -216,22 +216,6 @@ public class ScenarioBuilder {
         round1 = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_2002_01_02, buli_1.getGroupType());
 
         // Spiele erzeugen.
-        game1 = new Game();
-        matches.add(game1);
-        game2 = new Game();
-        matches.add(game2);
-        game3 = new Game();
-        matches.add(game3);
-        game4 = new Game();
-        matches.add(game4);
-
-        game1.setGroup(buli_1);
-        game2.setGroup(buli_1);
-        game3.setGroup(buli_1);
-        game4.setGroup(buli_1);
-
-        int n = 0;
-
         game1 = seasonManagerService.addMatch(round1,
                 DateTimeDummyProducer.DATE_2002_01_01,
                 buli_1,
@@ -261,8 +245,13 @@ public class ScenarioBuilder {
                 GameResult.of(3, 3));
 
         round1 = seasonManagerService.findRound(season, 0).orElseThrow();
-        assertEquals(0, round1.unmodifiableList().size());
+        assertEquals(4, round1.unmodifiableList().size());
 
+        matches.add(game1);
+        matches.add(game2);
+        matches.add(game3);
+        matches.add(game4);
+        
         // Spiel 1
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.FROSCH], gr10, TippStatusType.USER);
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.HATTWIG], gr01,
