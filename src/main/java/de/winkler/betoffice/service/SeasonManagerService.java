@@ -430,6 +430,16 @@ public interface SeasonManagerService {
      *
      * @param season
      *            Die betreffende Meisterschaft.
+     * @param user
+     *            Der Teilnehmer.
+     */
+    void addUser(Season season, User user);
+
+    /**
+     * Tippteilnehmer einer Spielzeit hinzufügen.
+     *
+     * @param season
+     *            Die betreffende Meisterschaft.
      * @param users
      *            Die zu aktivierenden Teilnehmer.
      */

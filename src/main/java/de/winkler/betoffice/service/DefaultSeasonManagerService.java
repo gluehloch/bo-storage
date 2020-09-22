@@ -439,6 +439,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
+    public void addUser(Season season, User user) {
+        addUsers(season, List.of(user));
+    }
+
+    @Override
+    @Transactional
     public void addUsers(Season season, Collection<User> users) {
         List<User> activeUsers = findActivatedUsers(season);
         Season season2 = findRoundGroupTeamUserRelations(season);

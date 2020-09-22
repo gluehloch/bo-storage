@@ -135,9 +135,8 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
         // userMinTipp bekommt die Tipps von User C.
         User userMinTipp = new User();
         userMinTipp.setNickName("userMinTipp");
-        UserSeason us = new UserSeason();
-        us.setUser(userMinTipp);
-        season.addUser(us);
+        masterDataManagerService.createUser(userMinTipp);
+        seasonManagerService.addUser(season, userMinTipp);
 
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userMinTipp, gr11, TippStatusType.USER);
 
@@ -196,13 +195,9 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
 
         DummyTeams testTeams = new DummyTeams();
         Team[] teams = testTeams.teams();
-        group.addTeam(teams[DummyTeams.BOCHUM]);
-        group.addTeam(teams[DummyTeams.BVB]);
-        group.addTeam(teams[DummyTeams.FCB]);
-        group.addTeam(teams[DummyTeams.HSV]);
 
         testTeams.toList().stream().forEach(masterDataManagerService::createTeam);
-        seasonManagerService.addTeams(season, groupType, testTeams.toList());
+        group = seasonManagerService.addTeams(season, groupType, testTeams.toList());
 
         // Spieltag erzeugen, Spiel eintragen.
         round = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_1971_03_24, group.getGroupType());
@@ -235,15 +230,17 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
         User userMinTipp = new User();
         userMinTipp.setNickName("User MinTipp");
         masterDataManagerService.createUser(userMinTipp);
-
+        
+        DummyUsers testUsers = new DummyUsers();
+        User[] users = testUsers.users();
+        testUsers.toList().stream().forEach(masterDataManagerService::createUser);
+        seasonManagerService.addUsers(season, testUsers.toList());
+        
         UserResult.nEqualValue = 10;
         UserResult.nTotoValue = 20;
         UserResult.nZeroValue = 30;
 
         // Tipps erzeugen und eintragen.
-        DummyUsers testUsers = new DummyUsers();
-        User[] users = testUsers.users();
-        seasonManagerService.addUsers(season, testUsers.toList());
 
         // Spiel 1
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users[DummyUsers.FROSCH], gr10, TippStatusType.USER);
