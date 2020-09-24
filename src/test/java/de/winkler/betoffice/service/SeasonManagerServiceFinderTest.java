@@ -104,12 +104,10 @@ public class SeasonManagerServiceFinderTest extends AbstractServiceTest {
         assertThat(season.getName()).isEqualTo("Fussball Bundesliga");
         assertThat(season.getMode()).isEqualTo(SeasonType.LEAGUE);
 
-        Season fullSeason = seasonManagerService
-                .findRoundGroupTeamUserTippRelations(season);
+        Season fullSeason = seasonManagerService.findRoundGroupTeamUserGameRelations(season);
         assertNotNull(fullSeason);
 
-        Optional<GroupType> bundesliga = masterDataManagerService
-                .findGroupType("1. Liga");
+        Optional<GroupType> bundesliga = masterDataManagerService.findGroupType("1. Liga");
         assertThat(bundesliga.get().getName()).isEqualTo("1. Liga");
 
         assertThat(fullSeason.getGroup(bundesliga.get()).getTeams())
@@ -119,8 +117,7 @@ public class SeasonManagerServiceFinderTest extends AbstractServiceTest {
 
     @Test
     public void testFindMatches() {
-        Optional<Team> stuttgart = masterDataManagerService
-                .findTeam("VfB Stuttgart");
+        Optional<Team> stuttgart = masterDataManagerService.findTeam("VfB Stuttgart");
         Optional<Team> hsv = masterDataManagerService.findTeam("Hamburger SV");
 
         List<Game> matchesHsvStuttgart = seasonManagerService

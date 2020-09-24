@@ -375,7 +375,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
 
     private GameList createRound(final int roundNr, final ZonedDateTime date) {
         GameList round = seasonManagerService.addRound(buli_2010, date, bundesliga_1);
-        assertThat(buli_2010.size()).isEqualTo(roundNr);
+        assertThat(round.getSeason().size()).isEqualTo(roundNr);
         List<GameList> rounds = seasonManagerService.findRounds(buli_2010);
         assertThat(rounds).hasSize(roundNr);
         assertThat(rounds.get(roundNr - 1).getDateTime()).isEqualTo(date);

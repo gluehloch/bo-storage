@@ -294,13 +294,13 @@ public interface SeasonManagerService {
     /**
      * Initialisiert die Liste der Spieltage, die zugehörigen Gruppen, Mannschaften
      * und Tippteilnehmer für die übergebene Meisterschaft inklusive aller
-     * zugehörigen Spieltipps.
+     * zugehörigen Spieltage und Spiele.
      *
      * @param season
      *            Die Spieltage dieser Meisterschaft werden geladen.
      * @return Die übergebene Meisterschaft.
      */
-    Season findRoundGroupTeamUserTippRelations(Season season);
+    Season findRoundGroupTeamUserGameRelations(Season season);
 
     /**
      * Liefert die Gruppen zu einer Meisterschaft.

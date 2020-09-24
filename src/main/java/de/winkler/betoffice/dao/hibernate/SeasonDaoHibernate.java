@@ -63,7 +63,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season>
      * Sucht nach allen Spieltagen, Gruppen, Mannschaften und Tippteilnehmer
      * einer Meisterschaft.
      */
-    private static final String QUERY_ALL_SEASON_OBJECTS = "from Season season "
+    private static final String QUERY_ALL_SEASON = "from Season season "
             + "left join fetch season.gameList round "
             + "left join fetch season.groups g "
             + "left join fetch g.groupType gt "
@@ -72,13 +72,12 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season>
             + "order by gt.name, round.index";
 
     /**
-     * Sucht nach allen Spieltagen, Gruppen, Mannschaften und Tippteilnehmer
+     * Sucht nach allen Spiele, Spieltagen, Gruppen, Mannschaften und Tippteilnehmer
      * einer Meisterschaft inklusive aller Tipps.
      */
-    private static final String QUERY_ALL_SEASON_WITH_TIPP_OBJECTS = "from Season season "
+    private static final String QUERY_ALL_SEASON_WITH_GAMES = "from Season season "
             + "left join fetch season.gameList round "
             + "left join fetch round.gameList games "
-            + "left join fetch games.tippList "
             + "left join fetch season.groups g "
             + "left join fetch g.groupType gt "
             + "left join fetch season.userSeason us "
@@ -130,15 +129,15 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season>
     @Override
     public Season findRoundGroupTeamUser(Season season) {
         Query<Season> query = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_ALL_SEASON_OBJECTS, Season.class)
+                .createQuery(QUERY_ALL_SEASON, Season.class)
                 .setParameter("seasonId", season.getId());
         return singleResult(query).get();
     }
 
     @Override
-    public Season findRoundGroupTeamUserTipp(Season season) {
+    public Season findRoundGroupTeamUserGame(Season season) {
         Query<Season> query = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_ALL_SEASON_WITH_TIPP_OBJECTS, Season.class)
+                .createQuery(QUERY_ALL_SEASON_WITH_GAMES, Season.class)
                 .setParameter("seasonId", season.getId());
         return singleResult(query).get();
     }

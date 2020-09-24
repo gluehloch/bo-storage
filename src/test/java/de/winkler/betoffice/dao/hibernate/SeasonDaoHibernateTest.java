@@ -94,8 +94,7 @@ public class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
     public void testSeasonFindRoundGroupTeamUserTipp() {
         Optional<Season> season = seasonDaoHibernate.findByName("1. Bundesliga",
                 "2000/2001");
-        Season result = seasonDaoHibernate
-                .findRoundGroupTeamUserTipp(season.get());
+        Season result = seasonDaoHibernate.findRoundGroupTeamUserGame(season.get());
         assertEquals("1. Bundesliga", result.getName());
         assertEquals("2000/2001", result.getYear());
         assertEquals(0, result.getGroups().size());

@@ -308,8 +308,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional(readOnly = true)
-    public Season findRoundGroupTeamUserTippRelations(Season season) {
-        return (seasonDao.findRoundGroupTeamUserTipp(season));
+    public Season findRoundGroupTeamUserGameRelations(Season season) {
+        return (seasonDao.findRoundGroupTeamUserGame(season));
     }
 
     @Override
