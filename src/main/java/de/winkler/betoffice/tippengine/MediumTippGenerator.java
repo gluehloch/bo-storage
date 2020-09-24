@@ -47,7 +47,7 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
  * @author Andre Winkler
  */
 @Service
-public class MediumTippGenerator implements TippGenerator {
+public class MediumTippGenerator {
 
     private final String BOT_MEDIUM_TIPP = "#BOT_MEDIUM_TIPP#";
 

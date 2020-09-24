@@ -27,6 +27,8 @@ package de.winkler.betoffice.dao.hibernate;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.TypedQuery;
+
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -126,6 +128,14 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
                 .setParameter("guestTeamId", guestTeam.getId())
                 .setParameter("gameListId", round.getId());
         return singleResult(query);
+    }
+
+    @Override
+    public List<Game> find(GameList round) {
+        TypedQuery<Game> query = getSessionFactory().getCurrentSession()
+                .createQuery("from Game g where g.gameList.id = :roundId", Game.class)
+                .setParameter("roundId", round.getId());
+        return query.getResultList();
     }
 
 }

@@ -168,8 +168,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Override
     @Transactional(readOnly = true)
     public List<Team> findTeams(Season season, GroupType groupType) {
-        return teamDao.findTeamsBySeasonAndGroup(season,
-                groupType);
+        return teamDao.findTeamsBySeasonAndGroup(season, groupType);
     }
 
     @Override
@@ -184,6 +183,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         return matchDao.find(homeTeam, guestTeam);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Game> findMatches(GameList round) {
+        return matchDao.find(round);
+    }
+    
     @Override
     @Transactional(readOnly = true)
     public Game findMatch(Long gameId) {

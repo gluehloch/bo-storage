@@ -24,6 +24,7 @@
 
 package de.winkler.betoffice.tippengine;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.SQLException;
@@ -52,7 +53,6 @@ import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
-import de.winkler.betoffice.storage.UserSeason;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
@@ -78,13 +78,16 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
 
     private GameList round;
 
-    private GameResult gr10 = new GameResult(1, 0);
-    private GameResult gr01 = new GameResult(0, 1);
-    private GameResult gr11 = new GameResult(1, 1);
-    private GameResult gr21 = new GameResult(2, 1);
+    private GameResult gr10 = GameResult.of(1, 0);
+    private GameResult gr01 = GameResult.of(0, 1);
+    private GameResult gr11 = GameResult.of(1, 1);
+    private GameResult gr21 = GameResult.of(2, 1);
 
     private Season season;
-
+    
+    @Autowired
+    private MinTippGenerator minimumTippGenerator;
+    
     @Autowired
     private MasterDataManagerService masterDataManagerService;
 
@@ -114,31 +117,33 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
 
     @Test
     public void testGenerateTipp() throws StorageObjectNotFoundException {
-        TippGenerator gen = new MinTippGenerator();
-
         // User A: 39 Punkte
         // User B: 13 Punkte
         // User C: 0 Punkte
         // User D: 30 Punkte
         game1.setResult(gr10);
         game1.setPlayed(true);
+        seasonManagerService.updateMatch(game1);
 
         game2.setResult(gr10);
         game2.setPlayed(true);
+        seasonManagerService.updateMatch(game1);
 
         game3.setResult(gr01);
         game3.setPlayed(true);
+        seasonManagerService.updateMatch(game3);
 
         game4.setResult(gr10);
         game4.setPlayed(true);
+        seasonManagerService.updateMatch(game4);
 
         // userMinTipp bekommt die Tipps von User C.
         User userMinTipp = new User();
         userMinTipp.setNickName("userMinTipp");
-        masterDataManagerService.createUser(userMinTipp);
+        userMinTipp = masterDataManagerService.createUser(userMinTipp);
         seasonManagerService.addUser(season, userMinTipp);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userMinTipp, gr11, TippStatusType.USER);
+        minimumTippGenerator.generateTipp(season, userMinTipp);
 
         assertEquals(gr11, tippService.findTipp(game1, userMinTipp).orElseThrow().getTipp());
         assertEquals(gr11, tippService.findTipp(game2, userMinTipp).orElseThrow().getTipp());
@@ -164,6 +169,8 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
         game4.setResult(gr10);
         game4.setPlayed(true);
         seasonManagerService.updateMatch(game4);
+        
+        minimumTippGenerator.generateTipp(season, userMinTipp);
 
         assertEquals(gr01, tippService.findTipp(game1, userMinTipp).orElseThrow().getTipp());
         assertEquals(gr01, tippService.findTipp(game2, userMinTipp).orElseThrow().getTipp());
@@ -197,10 +204,11 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
         Team[] teams = testTeams.teams();
 
         testTeams.toList().stream().forEach(masterDataManagerService::createTeam);
-        group = seasonManagerService.addTeams(season, groupType, testTeams.toList());
+        Group group2 = seasonManagerService.addTeams(season, groupType, testTeams.toList());
+        assertThat(group.getId()).isEqualTo(group2.getId());
 
         // Spieltag erzeugen, Spiel eintragen.
-        round = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_1971_03_24, group.getGroupType());
+        round = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_2002_01_01, groupType);
 
         // Spiele erzeugen.
         game1 = seasonManagerService.addMatch(round,
@@ -227,10 +235,6 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
                 teams[DummyTeams.BOCHUM],
                 teams[DummyTeams.BVB]);        
 
-        User userMinTipp = new User();
-        userMinTipp.setNickName("User MinTipp");
-        masterDataManagerService.createUser(userMinTipp);
-        
         DummyUsers testUsers = new DummyUsers();
         User[] users = testUsers.users();
         testUsers.toList().stream().forEach(masterDataManagerService::createUser);

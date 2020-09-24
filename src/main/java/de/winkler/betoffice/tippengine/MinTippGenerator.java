@@ -52,7 +52,7 @@ import de.winkler.betoffice.util.LoggerFactory;
  * @author Andre Winkler
  */
 @Service
-public class MinTippGenerator implements TippGenerator {
+public class MinTippGenerator {
 
     private static final String BOT_MIN_TIPP = "#BOT_MIN_TIPP#";
 
@@ -68,10 +68,19 @@ public class MinTippGenerator implements TippGenerator {
     @Autowired
     private SeasonManagerService seasonManagerService;
 
+    /**
+     * Legt fuer den {@code user} fuer die gesamte Meisterschaft Spieltipps an.
+     * 
+     * @param season
+     *            Die Meisterschaft
+     * @param user
+     *            Der Teilnehmer
+     */
     @Transactional
     public void generateTipp(Season season, User user) {
-        for (int i = 0; i < season.toGameList().size(); i++) {
-            generateTipp(season.getGamesOfDay(i), user);
+        List<GameList> rounds = seasonManagerService.findRounds(season);
+        for (GameList round : rounds) {
+            generateTipp(round, user);
         }
     }
 
@@ -84,15 +93,14 @@ public class MinTippGenerator implements TippGenerator {
         }
     }
 
-    private void createOrUpdateMinimumTipp(GameList round, User user, List<User> userOfSeason) {
+    private void createOrUpdateMinimumTipp(GameList round, User user, List<User> activeUsers) {
         // Den schwächsten Tipper des Spieltages ermitteln.
-        UserResultOfDay worstUser = infoCenter.findWorstTipp(round, userOfSeason);
+        UserResultOfDay worstUser = infoCenter.findWorstTipp(round, activeUsers);
 
-        if (log.isDebugEnabled()) {
-            log.debug(new StringBuffer("Min-Tipp von User: ").append(worstUser).toString());
-        }
+        log.debug("Min-Tipp von User: {}", worstUser);
 
-        List<Game> games = round.unmodifiableList();
+        // List<Game> games = round.unmodifiableList();
+        List<Game> games = seasonManagerService.findMatches(round);
 
         for (Game game : games) {
             log.info("Generiere Tipp für User: {} fuer das Spiel {}", user, game);
@@ -124,18 +132,20 @@ public class MinTippGenerator implements TippGenerator {
                 if (presentTipp.getStatus() == TippStatusType.MIN
                         || presentTipp.getStatus() == TippStatusType.UNDEFINED
                         || presentTipp.getStatus() == TippStatusType.INVALID) {
+
                     //
                     // Einen MIN. UNDEFINED oder INVALID Tipp überschreiben...
                     //
                     tippService.createOrUpdateTipp(BOT_MIN_TIPP, game, user, minTippResult, TippStatusType.MIN);
 
-                    presentTipp.setTipp(minTippResult, TippStatusType.MIN);
                 } else if (presentTipp.getStatus() == TippStatusType.AUTO
                         || presentTipp.getStatus() == TippStatusType.USER) {
+
                     //
                     // AUTO und USER Tipps nicht überschreiben.
                     //
                     log.debug("Tipp wird nicht überschrieben.");
+
                 }
             } else {
                 tippService.createOrUpdateTipp(BOT_MIN_TIPP, game, user, minTippResult, TippStatusType.MIN);

@@ -352,6 +352,15 @@ public interface SeasonManagerService {
     List<Game> findMatches(Team homeTeam, Team guestTeam);
 
     /**
+     * Liefert die Spiele zu einem Spieltag.
+     * 
+     * @param round
+     *            Der Spieltag.
+     * @return Die Spiele an diesem Spieltag.
+     */
+    List<Game> findMatches(GameList round);
+
+    /**
      * Sucht nach einem Spiel.
      * 
      * @param gameId
@@ -372,8 +381,7 @@ public interface SeasonManagerService {
      * @return Das Spiel der beiden Mannschaften für den Spieltga. Liefert
      *         <code>null</code>, wenn kein Spiel gefunden werden konnte.
      */
-    Optional<Game> findMatch(GameList round, Team homeTeam,
-            Team guestTeam);
+    Optional<Game> findMatch(GameList round, Team homeTeam, Team guestTeam);
 
     /**
      * Sucht nach Spielen der vorgegebenen Mannschaften.
