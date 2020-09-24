@@ -108,18 +108,19 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
         assertThat(seasonClone.getName()).isEqualTo(season.getName());
         assertThat(seasonClone.getYear()).isEqualTo(season.getYear());
 
-        Team stuttgart = mdms.findTeam("VfB Stuttgart").orElseThrow(() -> new IllegalArgumentException());
-        Team hsv = mdms.findTeam("Hamburger SV").orElseThrow(() -> new IllegalArgumentException());
-        Team deutschland = mdms.findTeam("Deutschland").orElseThrow(() -> new IllegalArgumentException());
+        Team stuttgart = mdms.findTeam("VfB Stuttgart").orElseThrow();
+        Team hsv = mdms.findTeam("Hamburger SV").orElseThrow();
+        Team deutschland = mdms.findTeam("Deutschland").orElseThrow();
 
-        GroupType groupA = mdms.findGroupType("Gruppe A").orElseThrow(() -> new IllegalArgumentException());
-        Group group = sms.addGroupType(season, groupA);
-        group = sms.addTeam(season, groupA, stuttgart);
-        group = sms.addTeam(season, groupA, hsv);
+        GroupType groupA = mdms.findGroupType("Gruppe A").orElseThrow();
+        final Season updatedSeason = sms.addGroupType(season, groupA);
+        Group group = updatedSeason.getGroup(groupA);
+        group = sms.addTeam(updatedSeason, groupA, stuttgart);
+        group = sms.addTeam(updatedSeason, groupA, hsv);
         assertThat(group.getTeams()).hasSize(2);
 
         Exception ex = assertThrows(Exception.class, () -> {
-            sms.addTeam(season, groupA, deutschland);
+            sms.addTeam(updatedSeason, groupA, deutschland);
         });
         assertEquals(null, ex.getMessage());
     }
@@ -140,34 +141,38 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
         assertThat(seasonClone.getName()).isEqualTo(season.getName());
         assertThat(seasonClone.getYear()).isEqualTo(season.getYear());
 
-        Team stuttgart = mdms.findTeam("VfB Stuttgart").orElseThrow(() -> new IllegalArgumentException());
-        Team hsv = mdms.findTeam("Hamburger SV").orElseThrow(() -> new IllegalArgumentException());
-        Team dortmund = mdms.findTeam("Borussia Dortmund").orElseThrow(() -> new IllegalArgumentException());
-        Team wolfsburg = mdms.findTeam("VfL Wolfsburg").orElseThrow(() -> new IllegalArgumentException());
-        Team fcKoeln = mdms.findTeam("1.FC Köln").orElseThrow(() -> new IllegalArgumentException());
-        Team hansaRostock = mdms.findTeam("Hansa Rostock").orElseThrow(() -> new IllegalArgumentException());
+        Team stuttgart = mdms.findTeam("VfB Stuttgart").orElseThrow();
+        Team hsv = mdms.findTeam("Hamburger SV").orElseThrow();
+        Team dortmund = mdms.findTeam("Borussia Dortmund").orElseThrow();
+        Team wolfsburg = mdms.findTeam("VfL Wolfsburg").orElseThrow();
+        Team fcKoeln = mdms.findTeam("1.FC Köln").orElseThrow();
+        Team hansaRostock = mdms.findTeam("Hansa Rostock").orElseThrow();
         
-        GroupType groupTypeA = mdms.findGroupType("Gruppe A").orElseThrow(() -> new IllegalArgumentException());
-        GroupType groupTypeB = mdms.findGroupType("Gruppe B").orElseThrow(() -> new IllegalArgumentException());
+        GroupType groupTypeA = mdms.findGroupType("Gruppe A").orElseThrow();
+        GroupType groupTypeB = mdms.findGroupType("Gruppe B").orElseThrow();
 
-        Group groupA = sms.addGroupType(season, groupTypeA);
-        /* Group groupB = */ sms.addGroupType(season, groupTypeB);
+        season = sms.addGroupType(season, groupTypeA);
+        season = sms.addGroupType(season, groupTypeB);
 
-        groupA = sms.addTeam(season, groupTypeA, stuttgart);
-        groupA = sms.addTeam(season, groupTypeA, hsv);
-        groupA = sms.addTeam(season, groupTypeA, dortmund);
-        groupA = sms.addTeam(season, groupTypeA, wolfsburg);
-        groupA = sms.addTeam(season, groupTypeA, fcKoeln);
-        groupA = sms.addTeam(season, groupTypeA, hansaRostock);
+        Group groupA = season.getGroup(groupTypeA);
+        Group groupB = season.getGroup(groupTypeB);
+        
+        sms.addTeam(season, groupTypeA, stuttgart);
+        sms.addTeam(season, groupTypeA, hsv);
+        sms.addTeam(season, groupTypeA, dortmund);
+        sms.addTeam(season, groupTypeA, wolfsburg);
+        sms.addTeam(season, groupTypeA, fcKoeln);
+        sms.addTeam(season, groupTypeA, hansaRostock);
 
         List<GroupType> groupTypes = sms.findGroupTypesBySeason(season);
         assertEquals(groupTypeA.getId(), groupTypes.get(0).getId());
         assertEquals(groupTypeB.getId(), groupTypes.get(1).getId());
+        assertThat(groupTypes).hasSize(2);
 
         sms.removeGroupType(season, groupTypeB);
         groupTypes = sms.findGroupTypesBySeason(season);
         assertEquals(groupTypeA.getId(), groupTypes.get(0).getId());
-        assertEquals(1, groupTypes.size());
+        assertThat(groupTypes).hasSize(1);
 
         ZonedDateTime now = ZonedDateTime.now();
         GameList round = sms.addRound(season, now, groupTypeA);

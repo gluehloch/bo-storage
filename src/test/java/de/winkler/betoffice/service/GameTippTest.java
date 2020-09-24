@@ -267,6 +267,7 @@ public class GameTippTest extends AbstractServiceTest {
         seasonManagerService.updateMatch(game);
 
         {
+            // Alle Spieler erhalten eine 0-Punkte Tipp: Spiel ist nicht beendet.
             GameTipp gameTippUserA = tippService.findTipp(game, userA).orElseThrow();
             assertThat(gameTippUserA.getTotoResult()).isEqualTo(TotoResult.UNDEFINED);
             assertThat(gameTippUserA.getPoints()).isEqualTo(UserResult.nZeroValue);
@@ -277,7 +278,7 @@ public class GameTippTest extends AbstractServiceTest {
 
             GameTipp gameTippUserC = tippService.findTipp(game, userC).orElseThrow();
             assertThat(gameTippUserC.getTotoResult()).isEqualTo(TotoResult.UNDEFINED);
-            assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nEqualValue);
+            assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nZeroValue);
         }
     }
 
@@ -303,7 +304,8 @@ public class GameTippTest extends AbstractServiceTest {
         buli1.setName("1. Bundesliga");
         masterDataManagerService.createGroupType(buli1);
 
-        group = seasonManagerService.addGroupType(season, buli1);
+        season = seasonManagerService.addGroupType(season, buli1);
+        group = season.getGroup(buli1);
         seasonManagerService.addTeam(season, buli1, rwe);
         seasonManagerService.addTeam(season, buli1, luebeck);
 

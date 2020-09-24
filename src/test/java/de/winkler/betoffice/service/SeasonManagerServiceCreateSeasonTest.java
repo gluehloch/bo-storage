@@ -374,8 +374,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     private GameList createRound(final int roundNr, final ZonedDateTime date) {
-        GameList round = seasonManagerService.addRound(buli_2010, date,
-                bundesliga_1);
+        GameList round = seasonManagerService.addRound(buli_2010, date, bundesliga_1);
         assertThat(buli_2010.size()).isEqualTo(roundNr);
         List<GameList> rounds = seasonManagerService.findRounds(buli_2010);
         assertThat(rounds).hasSize(roundNr);
@@ -384,22 +383,21 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     private void createGroups() {
-        buli_1_group = seasonManagerService.addGroupType(buli_2010,
-                bundesliga_1);
+        buli_2010 = seasonManagerService.addGroupType(buli_2010, bundesliga_1);
+        buli_1_group = buli_2010.getGroup(bundesliga_1);
         assertThat(buli_1_group).isNotNull();
         assertThat(buli_1_group.getSeason()).isEqualTo(buli_2010);
         assertThat(buli_1_group.getGroupType()).isEqualTo(bundesliga_1);
 
-        buli_2_group = seasonManagerService.addGroupType(buli_2010,
-                bundesliga_2);
+        buli_2010 = seasonManagerService.addGroupType(buli_2010, bundesliga_2);
+        buli_2_group = buli_2010.getGroup(bundesliga_2);
         assertThat(buli_2_group).isNotNull();
         assertThat(buli_2_group.getSeason()).isEqualTo(buli_2010);
         assertThat(buli_2_group.getGroupType()).isEqualTo(bundesliga_2);
 
         List<Group> groups = seasonManagerService.findGroups(buli_2010);
         assertThat(groups).hasSize(2);
-        assertThat(groups).containsExactlyInAnyOrder(buli_1_group,
-                buli_2_group);
+        assertThat(groups).containsExactlyInAnyOrder(buli_1_group, buli_2_group);
     }
 
     private Season createSeason() {

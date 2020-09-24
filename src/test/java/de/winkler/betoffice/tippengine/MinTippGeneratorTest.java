@@ -198,7 +198,8 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
         groupType.setName("Test-Gruppe");
         masterDataManagerService.createGroupType(groupType);
 
-        Group group = seasonManagerService.addGroupType(season, groupType);
+        season = seasonManagerService.addGroupType(season, groupType);
+        Group group = season.getGroup(groupType);
 
         DummyTeams testTeams = new DummyTeams();
         Team[] teams = testTeams.teams();

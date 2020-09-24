@@ -258,7 +258,8 @@ public class GameTest extends AbstractServiceTest {
         buli1.setName("1. Bundesliga");
         masterDataManagerService.createGroupType(buli1);
 
-        group = seasonManagerService.addGroupType(season, buli1);
+        season = seasonManagerService.addGroupType(season, buli1);
+        group = season.getGroup(buli1);
 
         GameList round = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_1971_03_24, buli1);
 

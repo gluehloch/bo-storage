@@ -396,16 +396,15 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public GameList addRound(Season season, ZonedDateTime date,
-            GroupType groupType) {
-
+    public GameList addRound(Season season, ZonedDateTime date, GroupType groupType) {
         GameList round = new GameList();
         round.setDateTime(date);
 
         Group group = groupDao.findBySeasonAndGroupType(season, groupType);
         round.setGroup(group);
 
-        season.addGameList(round);
+        Season persistedSeason = seasonDao.findById(season.getId());
+        persistedSeason.addGameList(round);
         roundDao.save(round);
         return round;
     }
@@ -578,7 +577,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public Group addGroupType(Season season, GroupType groupType) {
+    public Season addGroupType(Season season, GroupType groupType) {
         if (season == null) {
             throw new IllegalArgumentException("Parameter season is null!");
         }
@@ -602,13 +601,13 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
         Season persistedSeason = seasonDao.findById(season.getId());
         // Season persistentSeason = findSeasonById(season.getId());
-
+        
         Group group = new Group();
         group.setGroupType(groupType);
         persistedSeason.addGroup(group);
         groupDao.save(group);
 
-        return group;
+        return persistedSeason;
     }
 
     @Override

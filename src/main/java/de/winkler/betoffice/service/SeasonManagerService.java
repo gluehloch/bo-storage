@@ -472,7 +472,7 @@ public interface SeasonManagerService {
      *            Diese Gruppe hinzufügen.
      * @return Die Meisterschaft mit einer neuen Gruppe.
      */
-    Group addGroupType(Season season, GroupType groupType);
+    Season addGroupType(Season season, GroupType groupType);
 
     /**
      * Hinzufügen mehrerer Gruppe zu einer Meisterschaft.

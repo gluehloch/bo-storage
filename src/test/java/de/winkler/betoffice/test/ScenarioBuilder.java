@@ -341,8 +341,10 @@ public class ScenarioBuilder {
     //
 
     private void createGroups(final Season _season) {
-        buli_1 = seasonManagerService.addGroupType(season, groups.groupTypes()[DummyGroups.BULI_1]);
-        buli_2 = seasonManagerService.addGroupType(season, groups.groupTypes()[DummyGroups.BULI_2]);
+        season = seasonManagerService.addGroupType(season, groups.groupTypes()[DummyGroups.BULI_1]);
+        buli_1 = season.getGroup(groups.groupTypes()[DummyGroups.BULI_1]);
+        season = seasonManagerService.addGroupType(season, groups.groupTypes()[DummyGroups.BULI_2]);
+        buli_2 = season.getGroup(groups.groupTypes()[DummyGroups.BULI_2]);
     }
 
     private void createTeams() {
