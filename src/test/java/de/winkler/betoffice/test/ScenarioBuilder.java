@@ -73,8 +73,8 @@ public class ScenarioBuilder {
     private final GameResult gr21 = GameResult.of(2, 1);
 
     private Season season;
-    private Group buli_1;
-    private Group buli_2;
+    private Group ersteBundesliga;
+    private Group zweiteBundesliga;
     private Team rwe;
     private Team s04;
     private Game game1;
@@ -208,38 +208,38 @@ public class ScenarioBuilder {
 
         // In der Bundesliga nicht möglich. Unter WM oder EM Bedingungen
         // mit mehreren Gruppenphasen aber plausibel.
-        seasonManagerService.addTeam(season, buli_2.getGroupType(), teams.teams()[DummyTeams.BOCHUM]);
-        seasonManagerService.addTeam(season, buli_2.getGroupType(), teams.teams()[DummyTeams.BVB]);
-        seasonManagerService.addTeam(season, buli_2.getGroupType(), teams.teams()[DummyTeams.RWE]);
+        seasonManagerService.addTeam(season, zweiteBundesliga.getGroupType(), teams.teams()[DummyTeams.BOCHUM]);
+        seasonManagerService.addTeam(season, zweiteBundesliga.getGroupType(), teams.teams()[DummyTeams.BVB]);
+        seasonManagerService.addTeam(season, zweiteBundesliga.getGroupType(), teams.teams()[DummyTeams.RWE]);
 
         // Spieltag erzeugen, Spiel eintragen.
-        round1 = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_2002_01_02, buli_1.getGroupType());
+        round1 = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_2002_01_02, ersteBundesliga.getGroupType());
 
         // Spiele erzeugen.
         game1 = seasonManagerService.addMatch(round1,
                 DateTimeDummyProducer.DATE_2002_01_01,
-                buli_1,
+                ersteBundesliga,
                 teams.teams()[DummyTeams.BOCHUM],
                 teams.teams()[DummyTeams.BVB],
                 GameResult.of(2, 1));
 
         game2 = seasonManagerService.addMatch(round1,
                 DateTimeDummyProducer.DATE_2002_01_01,
-                buli_1,
+                ersteBundesliga,
                 teams.teams()[DummyTeams.HSV],
                 teams.teams()[DummyTeams.STPAULI],
                 GameResult.of(1, 1));
 
         game3 = seasonManagerService.addMatch(round1,
                 DateTimeDummyProducer.DATE_2002_01_02,
-                buli_1,
+                ersteBundesliga,
                 teams.teams()[DummyTeams.BOCHUM],
                 teams.teams()[DummyTeams.BVB],
                 GameResult.of(0, 1));
 
         game4 = seasonManagerService.addMatch(round1,
                 DateTimeDummyProducer.DATE_2002_01_02,
-                buli_1,
+                ersteBundesliga,
                 teams.teams()[DummyTeams.BOCHUM],
                 teams.teams()[DummyTeams.BVB],
                 GameResult.of(3, 3));
@@ -280,7 +280,7 @@ public class ScenarioBuilder {
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.PETER], gr21, TippStatusType.USER);
 
-        assertThat(seasonManagerService.findTeams(getSeason(), getBuli_2().getGroupType())).hasSize(3);
+        assertThat(seasonManagerService.findTeams(getSeason(), getZweiteBundesliga().getGroupType())).hasSize(3);
     }
 
     //
@@ -288,12 +288,12 @@ public class ScenarioBuilder {
     // von createScenario.
     //
 
-    public Group getBuli_1() {
-        return buli_1;
+    public Group getErsteBundesliga() {
+        return ersteBundesliga;
     }
 
-    public Group getBuli_2() {
-        return buli_2;
+    public Group getZweiteBundesliga() {
+        return zweiteBundesliga;
     }
 
     public Team getRwe() {
@@ -342,9 +342,9 @@ public class ScenarioBuilder {
 
     private void createGroups(final Season _season) {
         season = seasonManagerService.addGroupType(season, groups.groupTypes()[DummyGroups.BULI_1]);
-        buli_1 = season.getGroup(groups.groupTypes()[DummyGroups.BULI_1]);
+        ersteBundesliga = season.getGroup(groups.groupTypes()[DummyGroups.BULI_1]);
         season = seasonManagerService.addGroupType(season, groups.groupTypes()[DummyGroups.BULI_2]);
-        buli_2 = season.getGroup(groups.groupTypes()[DummyGroups.BULI_2]);
+        zweiteBundesliga = season.getGroup(groups.groupTypes()[DummyGroups.BULI_2]);
     }
 
     private void createTeams() {

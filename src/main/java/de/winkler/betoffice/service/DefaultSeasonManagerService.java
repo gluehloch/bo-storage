@@ -535,9 +535,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public void removeTeams(Season season, GroupType groupType,
-            Collection<Team> teams) {
-
+    public void removeTeams(Season season, GroupType groupType, Collection<Team> teams) {
         teams.stream().forEach(team -> removeTeam(season, groupType, team));
     }
 
