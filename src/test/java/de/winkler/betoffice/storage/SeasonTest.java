@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -24,19 +24,13 @@
 
 package de.winkler.betoffice.storage;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.winkler.betoffice.storage.enums.SeasonType;
-import de.winkler.betoffice.test.ScenarioBuilder;
 
 /**
  * Testklasse für das Storage-Objekt Season.
@@ -46,8 +40,6 @@ import de.winkler.betoffice.test.ScenarioBuilder;
 public class SeasonTest {
 
     private Season season;
-
-    private ScenarioBuilder scene;
 
     @Test
     public void testSeasonProperties() {
@@ -70,33 +62,7 @@ public class SeasonTest {
             season.getGamesOfDay(season.getGameList().size());
         });
 
-        assertTrue(scene.getSeason().getGameList().size() == 1);
-    }
-
-    @Test
-    public void testTeamSelection() {
-        Set<Team> teams = scene.getSeason().getTeams();
-
-        assertNotNull(scene.getRwe());
-        assertNotNull(scene.getS04());
-        assertNotNull(scene.getBuli_1().getTeams());
-        assertNotNull(scene.getBuli_2().getTeams());
-
-        assertTrue(scene.getBuli_1().getTeams().size() > 0);
-        assertTrue(scene.getBuli_2().getTeams().size() > 0);
-
-        assertEquals(3, scene.getBuli_2().getTeams().size());
-        assertEquals(scene.getTeams().toList().size(), scene.getBuli_1()
-                .getTeams().size());
-
-        assertTrue(teams.size() > 0);
-
-        boolean removed = teams.remove(scene.getRwe());
-        assertTrue(removed);
-
-        // Objekt RWE sollte nur einmal in der Liste auftauchen!
-        removed = teams.remove(scene.getRwe());
-        assertFalse(removed);
+        assertTrue(season.getGameList().size() == 0);
     }
 
     @BeforeEach
@@ -105,8 +71,6 @@ public class SeasonTest {
         season.setYear("1998/1999");
         season.setName("Bundesliga");
         season.setMode(SeasonType.CL);
-
-        scene = new ScenarioBuilder();
     }
 
 }

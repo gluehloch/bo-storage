@@ -173,7 +173,7 @@ public class InfoCenterTest extends AbstractServiceTest {
 
         // User C hat keinen Tipp richtig. Alle anderen mind. einen
         // Tipp richtig.
-        assertEquals(mrTipp, infoCenter.findWorstTipp(scene.getSeason().getGamesOfDay(0), users).getUser());
+        assertEquals(mrTipp, infoCenter.findWorstTipp(seasonManagerService.findRounds(scene.getSeason()).get(0), users).getUser());
 
         // User A: 26 Punkte
         // User B: 0 Punkte
@@ -197,7 +197,7 @@ public class InfoCenterTest extends AbstractServiceTest {
 
         // User C hat keinen Tipp richtig. Alle anderen mind. einen
         // einen Tipp richtig.
-        assertEquals(hattwig, infoCenter.findWorstTipp(scene.getSeason().getGamesOfDay(0), users).getUser());
+        assertEquals(hattwig, infoCenter.findWorstTipp(seasonManagerService.findRounds(scene.getSeason()).get(0), users).getUser());
     }
 
     @Test
