@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-20120 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -75,10 +75,7 @@ public class SeasonManagerServiceTest extends AbstractServiceTest {
 
     @Test
     public void testAddGroupToBundesliga2006() {
-        Optional<Season> buli = seasonManagerService
-                .findSeasonByName("Fussball Bundesliga", "2006/2007");
-        Season bundesliga = seasonManagerService
-                .findRoundGroupTeamUserRelations(buli.get());
+        Season bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
         GroupType liga2 = new GroupType();
         liga2.setName("2. Liga");
         masterDataManagerService.createGroupType(liga2);

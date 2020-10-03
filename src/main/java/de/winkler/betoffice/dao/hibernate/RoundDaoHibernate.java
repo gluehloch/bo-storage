@@ -113,8 +113,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             + "where gamelist.season.id = :seasonId and gamelist.index = :gameListIndex";
 
     /**
-     * Sucht nach allen Gruppen, Spielen, Mannschaften, Tipps und Tippteilnehmer
-     * einer Spielrunde/Spieltag.
+     * Sucht nach allen Gruppen, Spielen, Mannschaften einer Spielrunde/Spieltag.
      */
     private static final String QUERY_ALL_ROUND_OBJECTS = "select round from GameList as round "
             + "left join fetch round.gameList game "
@@ -126,18 +125,19 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             + "where round.season.id = :seasonId and round.index = :gameListIndex";
 
     /**
-     * Sucht nach allen Gruppen, Spielen, Mannschaften, Tipps und Tippteilnehmer
-     * einer Spielrunde/Spieltag.
+     * Sucht nach allen Gruppen, Spielen, Mannschaften einer Spielrunde/Spieltag.
      * 
      * @see #QUERY_ALL_ROUND_OBJECTS
      */
     private static final String QUERY_ALL_ROUND_OBJECTS_BY_ID = "select round from GameList as round "
             + "left join fetch round.gameList game "
-            + "left join fetch game.tippList tipp "
-            + "left join fetch tipp.user u "
             + "left join fetch game.homeTeam "
             + "left join fetch game.guestTeam "
             + "left join fetch game.group "
+            
+            + "left join GameTipp tipp on (tipp.game.id = game.id) "
+            + "left join tipp.user u "
+            
             + "where round.id = :roundId";
 
     /** Findet den naechsten zu tippenden Spieltag. */
@@ -237,7 +237,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     }
     
     @Override
-    public Optional<GameList> findAllRoundObjects(long roundId) {
+    public Optional<GameList> findRound(long roundId) {
         Query<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_ALL_ROUND_OBJECTS_BY_ID, GameList.class)
                 .setParameter("roundId", roundId, LongType.INSTANCE);

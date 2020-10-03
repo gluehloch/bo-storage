@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- *  Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ *  Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -80,31 +80,26 @@ public class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testSeasonFindRoundGroupTeamUser() {
-        Optional<Season> season = seasonDaoHibernate.findByName("1. Bundesliga",
-                "2000/2001");
-        Season result = seasonDaoHibernate.findRoundGroupTeamUser(season.get());
-        assertEquals("1. Bundesliga", result.getName());
-        assertEquals("2000/2001", result.getYear());
-        assertEquals(0, result.getGroups().size());
-        assertEquals(0, result.getUsers().size());
+    public void testSeasonFindByNameGroupTeamUser() {
+        Season season = seasonDaoHibernate.findByName("1. Bundesliga", "2000/2001").orElseThrow();
+        assertEquals("1. Bundesliga", season.getName());
+        assertEquals("2000/2001", season.getYear());
+        assertEquals(0, season.getGroups().size());
+        assertEquals(0, season.getUsers().size());
     }
 
     @Test
     public void testSeasonFindRoundGroupTeamUserTipp() {
-        Optional<Season> season = seasonDaoHibernate.findByName("1. Bundesliga",
-                "2000/2001");
-        Season result = seasonDaoHibernate.findRoundGroupTeamUserGame(season.get());
-        assertEquals("1. Bundesliga", result.getName());
-        assertEquals("2000/2001", result.getYear());
-        assertEquals(0, result.getGroups().size());
-        assertEquals(0, result.getUsers().size());
+        Season season = seasonDaoHibernate.findByName("1. Bundesliga", "2000/2001").orElseThrow();
+        assertEquals("1. Bundesliga", season.getName());
+        assertEquals("2000/2001", season.getYear());
+        assertEquals(0, season.getGroups().size());
+        assertEquals(0, season.getUsers().size());
     }
 
     @Test
     public void testSeasonDaoHibernate() {
-        Optional<Season> season = seasonDaoHibernate.findByName("1. Bundesliga",
-                "1999/2000");
+        Optional<Season> season = seasonDaoHibernate.findByName("1. Bundesliga", "1999/2000");
         Season season2 = seasonDaoHibernate.findById(season.get().getId());
 
         assertEquals("1999/2000", season.get().getYear());

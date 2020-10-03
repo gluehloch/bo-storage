@@ -79,15 +79,14 @@ public interface RoundDao extends CommonDao<GameList> {
     Optional<GameList> findRound(Game game);
 
     /**
-     * Liefert einen Spieltag einer Meisterschaft mit allen Spielen und
-     * Spieltipps.
+     * Liefert einen Spieltag einer Meisterschaft mit allen Spielen.
      * 
      * @see #findRound(Season, int)
      * @param roundId
      *            Die ID des Spieltags
      * @return Der Spieltag
      */
-    Optional<GameList> findAllRoundObjects(long roundId);
+    Optional<GameList> findRound(long roundId);
 
     /**
      * Liefert den nächsten Spieltag der Meisterschaft.

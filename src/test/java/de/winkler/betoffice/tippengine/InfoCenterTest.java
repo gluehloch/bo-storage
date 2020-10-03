@@ -177,8 +177,9 @@ public class InfoCenterTest extends AbstractServiceTest {
 
         assertEquals(mrTipp, infoCenter.findWorstTipp(seasonManagerService.findRounds(scene.getSeason()).get(0), users).getUser());
 
-        Season season = seasonManagerService.findRoundGroupTeamUserGameRelations(scene.getSeason());
-        assertEquals(mrTipp, infoCenter.findWorstTipp(season.getGamesOfDay(0), users).getUser());
+        Season season = seasonManagerService.findSeasonById(scene.getSeason().getId());
+        GameList firstRound = seasonManagerService.findRound(season, 0).orElseThrow();
+        assertEquals(mrTipp, infoCenter.findWorstTipp(firstRound, users).getUser());
 
         // User A: 26 Punkte
         // User B: 0 Punkte

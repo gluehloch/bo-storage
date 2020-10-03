@@ -51,46 +51,13 @@ import de.winkler.betoffice.storage.comparator.TeamPointsComparator;
  * @author by Andre Winkler
  */
 @Repository("seasonDao")
-public class SeasonDaoHibernate extends AbstractCommonDao<Season>
-        implements SeasonDao {
+public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements SeasonDao {
 
     /** Sucht nach einer Meisterschaft mit gesuchtem Namen und Jahrgang. */
     private static final String QUERY_SEASON_BY_NAME_AND_YEAR = "from "
             + Season.class.getName() + " as season "
             + "where season.name = :name and season.year = :year";
 
-    /**
-     * Sucht nach allen Spieltagen, Gruppen, Mannschaften und Tippteilnehmer
-     * einer Meisterschaft.
-     */
-    private static final String QUERY_ALL_SEASON = "from Season season "
-            + "left join fetch season.gameList round "
-            + "left join fetch season.groups g "
-            + "left join fetch g.groupType gt "
-            + "left join fetch season.userSeason us "
-            + "left join fetch us.user u " + "where season.id = :seasonId "
-            + "order by gt.name, round.index";
-
-    /**
-     * Sucht nach allen Spiele, Spieltagen, Gruppen, Mannschaften und Tippteilnehmer
-     * einer Meisterschaft inklusive aller Tipps.
-     */
-    private static final String QUERY_ALL_SEASON_WITH_GAMES = "from Season season "
-            + "left join fetch season.gameList round "
-            + "left join fetch round.gameList games "
-            + "left join fetch season.groups g "
-            + "left join fetch g.groupType gt "
-            + "left join fetch season.userSeason us "
-            + "left join fetch us.user u " + "where season.id = :seasonId "
-            + "order by gt.name, round.index";
-
-    /** Sucht nach allen Gruppen einer Meisterschaft. */
-    // private static final String QUERY_GROUPS_SEASON = "from Season season "
-    // + "left join fetch season.groups g "
-    // + "left join fetch g.groupType gt "
-    // + "left join fetch season.userSeason us "
-    // + "left join fetch us.user u "
-    // + "where season.id = ? ";
     private static final String QUERY_TEAM_SEASON_GOALS = AbstractCommonDao
             .loadQuery("query_teamresult_season_goals.sql");
 
@@ -124,22 +91,6 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season>
                 .setParameter("name", name).setParameter("year", year);
 
         return singleResult(query);
-    }
-
-    @Override
-    public Season findRoundGroupTeamUser(Season season) {
-        Query<Season> query = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_ALL_SEASON, Season.class)
-                .setParameter("seasonId", season.getId());
-        return singleResult(query).get();
-    }
-
-    @Override
-    public Season findRoundGroupTeamUserGame(Season season) {
-        Query<Season> query = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_ALL_SEASON_WITH_GAMES, Season.class)
-                .setParameter("seasonId", season.getId());
-        return singleResult(query).get();
     }
 
     @Override
@@ -210,9 +161,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season>
     }
 
     @Override
-    public List<TeamResult> calculateTeamRanking(Season season,
-            GroupType groupType, int startIndex, int endIndex) {
-
+    public List<TeamResult> calculateTeamRanking(Season season, GroupType groupType, int startIndex, int endIndex) {
         Map<Team, TeamResult> resultMap = new HashMap<Team, TeamResult>();
 
         NativeQuery queryTeamGoals = getSessionFactory().getCurrentSession()

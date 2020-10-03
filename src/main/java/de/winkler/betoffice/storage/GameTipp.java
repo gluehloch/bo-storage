@@ -52,8 +52,7 @@ import de.winkler.betoffice.storage.enums.TotoResult;
  */
 @Entity
 @Table(name = "bo_gametipp")
-public class GameTipp extends AbstractStorageObject
-        implements Comparator<GameTipp> {
+public class GameTipp extends AbstractStorageObject implements Comparator<GameTipp> {
 
     /** serial version id */
     private static final long serialVersionUID = -3043191976453282242L;

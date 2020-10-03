@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -188,7 +188,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     public List<Game> findMatches(GameList round) {
         return matchDao.find(round);
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public Game findMatch(Long gameId) {
@@ -239,10 +239,13 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         return roundDao.findById(id);
     }
 
+    // TODO Alle Tipps eines Spielers fuer einen Spieltag.
+    // TODO Alle Tipps eines Spieltags fuer eine Spielgruppe.
+
     @Override
     @Transactional(readOnly = true)
     public Optional<GameList> findRoundGameAndTipp(long roundId) {
-        return roundDao.findAllRoundObjects(roundId);
+        return roundDao.findRound(roundId);
     }
 
     @Override
@@ -251,8 +254,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         Optional<Long> nextRoundId = roundDao.findNext(id);
         Optional<GameList> nextGameList = Optional.empty();
         if (nextRoundId.isPresent()) {
-            nextGameList = Optional
-                    .of(roundDao.findById(nextRoundId.get()));
+            nextGameList = Optional.of(roundDao.findById(nextRoundId.get()));
         }
         return nextGameList;
     }
@@ -263,8 +265,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         Optional<Long> prevRoundId = roundDao.findPrevious(id);
         Optional<GameList> prevGameList = Optional.empty();
         if (prevRoundId.isPresent()) {
-            prevGameList = Optional
-                    .of(roundDao.findById(prevRoundId.get()));
+            prevGameList = Optional.of(roundDao.findById(prevRoundId.get()));
         }
         return prevGameList;
     }
@@ -296,20 +297,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Override
     @Transactional(readOnly = true)
     public Group findGroup(Season season, GroupType groupType) {
-        return (groupDao.findBySeasonAndGroupType(season,
-                groupType));
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Season findRoundGroupTeamUserRelations(Season season) {
-        return (seasonDao.findRoundGroupTeamUser(season));
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Season findRoundGroupTeamUserGameRelations(Season season) {
-        return (seasonDao.findRoundGroupTeamUserGame(season));
+        return (groupDao.findBySeasonAndGroupType(season, groupType));
     }
 
     @Override
@@ -326,9 +314,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public Game addMatch(GameList round, ZonedDateTime date, Group group,
-            Team homeTeam, Team guestTeam) {
-
+    public Game addMatch(GameList round, ZonedDateTime date, Group group, Team homeTeam, Team guestTeam) {
         GameList gamelist = roundDao.findById(round.getId());
         Game match = new Game();
         match.setDateTime(date);
@@ -450,9 +436,9 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Override
     @Transactional
     public void addUsers(Season season, Collection<User> users) {
+        Season season2 = seasonDao.findById(season.getId());
         List<User> activeUsers = findActivatedUsers(season);
-        Season season2 = findRoundGroupTeamUserRelations(season);
-
+        
         users.stream()
                 .filter(user -> !activeUsers.contains(user))
                 .forEach(user -> {
@@ -543,7 +529,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Transactional
     public void removeUsers(Season season, Collection<User> users) {
         List<User> activeUsers = findActivatedUsers(season);
-        Season season2 = findRoundGroupTeamUserRelations(season);
+        Season season2 = seasonDao.findById(season.getId());
 
         users.stream()
                 .filter(user -> activeUsers.contains(user))
@@ -599,7 +585,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
         Season persistedSeason = seasonDao.findById(season.getId());
         // Season persistentSeason = findSeasonById(season.getId());
-        
+
         Group group = new Group();
         group.setGroupType(groupType);
         persistedSeason.addGroup(group);

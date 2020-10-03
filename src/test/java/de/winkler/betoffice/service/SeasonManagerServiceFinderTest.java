@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -102,17 +102,21 @@ public class SeasonManagerServiceFinderTest extends AbstractServiceTest {
     public void testSelectCompleteSeason() {
         Season season = seasonManagerService.findSeasonById(11);
         assertThat(season.getName()).isEqualTo("Fussball Bundesliga");
+        assertThat(season.getYear()).isEqualTo("2007/2008");
         assertThat(season.getMode()).isEqualTo(SeasonType.LEAGUE);
 
-        Season fullSeason = seasonManagerService.findRoundGroupTeamUserGameRelations(season);
+        Season fullSeason = seasonManagerService.findSeasonById(season.getId());
         assertNotNull(fullSeason);
 
-        Optional<GroupType> bundesliga = masterDataManagerService.findGroupType("1. Liga");
-        assertThat(bundesliga.get().getName()).isEqualTo("1. Liga");
-
-        assertThat(fullSeason.getGroup(bundesliga.get()).getTeams())
-                .hasSize(18);
-        assertThat(fullSeason.getGamesOfDay(0).size()).isEqualTo(9);
+        GroupType bundesliga = masterDataManagerService.findGroupType("1. Liga").orElseThrow();
+        assertThat(bundesliga.getName()).isEqualTo("1. Liga");
+        Group bundesliga_2008_2009 = seasonManagerService.findGroup(season, bundesliga);
+        
+        List<Team> teams = seasonManagerService.findTeams(bundesliga_2008_2009);
+        assertThat(teams).hasSize(18);
+        
+        GameList round = seasonManagerService.findRound(season, 0).orElseThrow();
+        assertThat(round.size()).isEqualTo(9);
     }
 
     @Test
@@ -120,17 +124,13 @@ public class SeasonManagerServiceFinderTest extends AbstractServiceTest {
         Optional<Team> stuttgart = masterDataManagerService.findTeam("VfB Stuttgart");
         Optional<Team> hsv = masterDataManagerService.findTeam("Hamburger SV");
 
-        List<Game> matchesHsvStuttgart = seasonManagerService
-                .findMatches(stuttgart.get(), hsv.get());
+        List<Game> matchesHsvStuttgart = seasonManagerService.findMatches(stuttgart.get(), hsv.get());
         assertThat(matchesHsvStuttgart.size()).isEqualTo(14);
 
-        List<Game> matchesStuttgartHsv = seasonManagerService
-                .findMatches(hsv.get(), stuttgart.get());
+        List<Game> matchesStuttgartHsv = seasonManagerService.findMatches(hsv.get(), stuttgart.get());
         assertThat(matchesStuttgartHsv.size()).isEqualTo(14);
 
-        List<Game> allMatchesStuttgartHsv = seasonManagerService
-                .findMatches(stuttgart.get(), hsv.get(), true);
-
+        List<Game> allMatchesStuttgartHsv = seasonManagerService.findMatches(stuttgart.get(), hsv.get(), true);
         assertThat(allMatchesStuttgartHsv.size()).isEqualTo(28);
     }
 

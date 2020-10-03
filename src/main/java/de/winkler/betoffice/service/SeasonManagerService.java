@@ -79,8 +79,7 @@ public interface SeasonManagerService {
      *            Index des Spieltags bis zu dem gezählt wird (0..N-1).
      * @return Das Ranking der Tipper.
      */
-    List<UserResult> calculateUserRanking(Season season, int startIndex,
-            int endIndex);
+    List<UserResult> calculateUserRanking(Season season, int startIndex, int endIndex);
 
     /**
      * Startet die Tabellenberechnung der Mannschaften einer Meisterschaft.
@@ -91,8 +90,7 @@ public interface SeasonManagerService {
      *            Die Liga/Gruppe die berechnet werden soll.
      * @return Eine sortierte Liste der Tabelle.
      */
-    List<TeamResult> calculateTeamRanking(Season season,
-            GroupType groupType);
+    List<TeamResult> calculateTeamRanking(Season season, GroupType groupType);
 
     /**
      * Startet die Tabellenberechnung der Mannschaften einer Meisterschaft über
@@ -108,8 +106,7 @@ public interface SeasonManagerService {
      *            Index des End-Spieltags (0..N-1).
      * @return Eine sortierte Liste der Tabelle.
      */
-    List<TeamResult> calculateTeamRanking(Season season,
-            GroupType groupType, int startIndex, int endIndex);
+    List<TeamResult> calculateTeamRanking(Season season, GroupType groupType, int startIndex, int endIndex);
 
     /**
      * Sucht nach den teilnehmenden Spieler einer Meisterschaft.
@@ -262,16 +259,6 @@ public interface SeasonManagerService {
     List<GameList> findRounds(Group group);
 
     /**
-     * Initialisiert die Liste der Spieltage, die zugehörigen Gruppen, Mannschaften
-     * und Tippteilnehmer für die übergebene Meisterschaft.
-     *
-     * @param season
-     *            Die Spieltage dieser Meisterschaft werden geladen.
-     * @return Die übergebene Meisterschaft.
-     */
-    Season findRoundGroupTeamUserRelations(Season season);
-
-    /**
      * Liefert alle Spieltipps zu einer Spielpaarung.
      *
      * @param match
@@ -290,17 +277,6 @@ public interface SeasonManagerService {
      * @return Die Spieltipps.
      */
     List<GameTipp> findTipps(GameList round, User user);
-
-    /**
-     * Initialisiert die Liste der Spieltage, die zugehörigen Gruppen, Mannschaften
-     * und Tippteilnehmer für die übergebene Meisterschaft inklusive aller
-     * zugehörigen Spieltage und Spiele.
-     *
-     * @param season
-     *            Die Spieltage dieser Meisterschaft werden geladen.
-     * @return Die übergebene Meisterschaft.
-     */
-    Season findRoundGroupTeamUserGameRelations(Season season);
 
     /**
      * Liefert die Gruppen zu einer Meisterschaft.
@@ -529,9 +505,9 @@ public interface SeasonManagerService {
      *            Eine Gruppe.
      * @param teams
      *            Die zu aktivierenden Mannschaften.
+     * @return Die neu angelegte Gruppe.
      */
-    Group addTeams(Season season, GroupType groupType,
-            Collection<Team> teams);
+    Group addTeams(Season season, GroupType groupType, Collection<Team> teams);
 
     /**
      * Mannschaften aus einer Gruppe entfernen.
@@ -555,8 +531,7 @@ public interface SeasonManagerService {
      * @param teams
      *            Die zu deaktivierenden Mannschaften.
      */
-    void removeTeams(Season season, GroupType groupType,
-            Collection<Team> teams);
+    void removeTeams(Season season, GroupType groupType, Collection<Team> teams);
 
     /**
      * Ergänzt die Meisterschaft um einen Spieltag.

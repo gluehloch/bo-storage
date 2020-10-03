@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -36,6 +36,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.winkler.betoffice.dao.GroupDao;
+import de.winkler.betoffice.dao.GroupTypeDao;
 import de.winkler.betoffice.dao.MatchDao;
 import de.winkler.betoffice.dao.RoundDao;
 import de.winkler.betoffice.dao.SeasonDao;
@@ -65,6 +67,12 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     @Autowired
     private SeasonDao seasonDao;
 
+    @Autowired
+    private GroupTypeDao groupTypeDao;
+    
+    @Autowired
+    private GroupDao groupDao;
+    
     @BeforeEach
     public void init() {
         prepareDatabase(RoundDaoHibernateTest.class);
@@ -73,15 +81,16 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     @Test
     public void testCreateRound() {
         Season season = seasonDao.findById(1);
-        season = seasonDao.findRoundGroupTeamUser(season);
+        // season = seasonDao.findRoundGroupTeamUser(season);
 
         final ZonedDateTime now = DateTimeDummyProducer.DATE_2002_01_01;
 
         final GameList newRound = new GameList();
         newRound.setDateTime(now);
 
-        GroupType liga1 = season.getGroupTypes().get(0);
-        Group liga1_1000 = season.getGroup(liga1);
+        GroupType liga1 = groupTypeDao.findByName("1. Liga").orElseThrow();
+        Group liga1_1000 =  groupDao.findBySeasonAndGroupType(season, liga1);
+
         newRound.setGroup(liga1_1000);
         season.addGameList(newRound);
 
