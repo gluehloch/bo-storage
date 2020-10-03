@@ -40,7 +40,7 @@ import de.winkler.betoffice.storage.Season;
 public interface RoundDao extends CommonDao<GameList> {
 
     /**
-     * Liefert alle Spieltage einer Meisterschaft.
+     * Liefert alle Spieltage einer Meisterschaft. Die Spiele der Spieltage werden nicht geladen.
      *
      * @param season
      *            Die Meisterschaft dessen Spieltage gesucht werden.
@@ -49,8 +49,7 @@ public interface RoundDao extends CommonDao<GameList> {
     List<GameList> findRounds(Season season);
 
     /**
-     * Liefert alle Spieltage inklusive der Spielpaarungen einer Gruppe. Falls dem Spieltag keine Spieltage
-     * zugeordnet sind, werden keine Spieltag zurueck geliefert.
+     * Liefert alle Spieltage inklusive der Spiele einer Gruppe. Falls keine Spiele vorliegen, werden keine Spieltage gefunden.
      * 
      * @param group
      *            Die Gruppe
@@ -59,7 +58,7 @@ public interface RoundDao extends CommonDao<GameList> {
     List<GameList> findRounds(Group group);
     
     /**
-     * Liefert einen Spieltag einer Meisterschaft.
+     * Liefert einen Spieltag einer Meisterschaft. Die Spiele des Spieltags werden ebenfalls geladen.
      *
      * @param season
      *            Die betreffende Meisterschaft.
@@ -70,13 +69,13 @@ public interface RoundDao extends CommonDao<GameList> {
     Optional<GameList> findRound(Season season, int index);
 
     /**
-     * Sucht nach einem Spieltag zu der uerbgebenen Spiel.
+     * Sucht nach einem Spieltag zu dem uerbgebenen Spiel. Die Spiele werden nicht geladen.
      * 
      * @param game
      *            Das Spiel.
      * @return Der Spieltag zu dem dieses Spiel gehört.
      */
-    Optional<GameList> findRound(Game game);
+    Optional<GameList> findRoundByGame(Game game);
 
     /**
      * Liefert einen Spieltag einer Meisterschaft mit allen Spielen.
@@ -105,19 +104,6 @@ public interface RoundDao extends CommonDao<GameList> {
      * @return Der vorhergehende Spieltag.
      */
     Optional<Long> findPrevious(long id);
-
-    /**
-     * Liefert einen Spieltag einer Meisterschaft inklusive aller abhöngigen
-     * Objekte, wie Spieltipps, Tippteilnehmer, Gruppe, Mannschaften und
-     * natürlich der Spiele.
-     *
-     * @param season
-     *            Die betreffende Meisterschaft.
-     * @param index
-     *            Der Index des Spieltags (0 .. size-1).
-     * @return Der Spieltag.
-     */
-    Optional<GameList> findAllRoundObjects(Season season, int index);
 
     /**
      * Liefert den nächsten zu tippenden Spieltag.

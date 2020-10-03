@@ -46,8 +46,8 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
      */
     private static final String QUERY_GAMETIPP_BY_MATCH = "from "
             + "    GameTipp gametipp"
-            + "    inner join fetch gametipp.user "
-            + "    inner join fetch gametipp.game "
+            + "    join fetch gametipp.user "
+            + "    join fetch gametipp.game "
             + "where "
             + "    gametipp.game.id = :gameId";
 
@@ -56,14 +56,38 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
      */
     private static final String QUERY_GAMETIPP_BY_MATCH_AND_USER = "from "
             + "    GameTipp gametipp"
-            + "    inner join fetch gametipp.user "
-            + "    inner join fetch gametipp.game "
+            + "    join fetch gametipp.user "
+            + "    join fetch gametipp.game "
             + "where "
             + "    gametipp.game.id = :gameId "
             + "    and gametipp.user.id = :userId";
 
-    private static final String QUERY_ROUND_GAME_TIPP_AND_USER = AbstractCommonDao
-            .loadQuery("hql_round_game_tipp_user.sql");
+    private static final String QUERY_ROUND_AND_TIPPS_BY_USER_AND_ROUND = "select "
+            + "    tipp "
+            + "from "
+            + "    GameTipp as tipp "
+            + "    join fetch tipp.game game "
+            + "    join fetch game.homeTeam "
+            + "    join fetch game.guestTeam "
+            + "    join fetch game.group "
+            + "    join fetch game.gameList round "
+            + "    join fetch tipp.user user "
+            + "where "
+            + "    round.id = :roundId "
+            + "    and user.id = :userId";
+
+    private static final String QUERY_ROUND_AND_TIPPS_BY_ROUND = "select "
+            + "    tipp "
+            + "from "
+            + "    GameTipp as tipp "
+            + "    join fetch tipp.game game "
+            + "    join fetch game.homeTeam "
+            + "    join fetch game.guestTeam "
+            + "    join fetch game.group "
+            + "    join fetch game.gameList round "
+            + "    join fetch tipp.user user "
+            + "where "
+            + "    round.id = :roundId";
 
     public GameTippDaoHibernate() {
         super(GameTipp.class);
@@ -78,7 +102,6 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
         return tipps;
     }
 
-
     @Override
     public Optional<GameTipp> find(Game game, User user) {
         Optional<GameTipp> tipp = getSessionFactory().getCurrentSession()
@@ -92,9 +115,18 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
     @Override
     public List<GameTipp> find(long roundId, long userId) {
         List<GameTipp> tipps = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_ROUND_GAME_TIPP_AND_USER, GameTipp.class)
+                .createQuery(QUERY_ROUND_AND_TIPPS_BY_USER_AND_ROUND, GameTipp.class)
                 .setParameter("roundId", roundId)
                 .setParameter("userId", userId)
+                .getResultList();
+        return tipps;
+    }
+
+    @Override
+    public List<GameTipp> find(long roundId) {
+        List<GameTipp> tipps = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_ROUND_AND_TIPPS_BY_ROUND, GameTipp.class)
+                .setParameter("roundId", roundId)
                 .getResultList();
         return tipps;
     }

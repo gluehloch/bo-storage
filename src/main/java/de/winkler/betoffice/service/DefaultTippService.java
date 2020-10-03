@@ -83,7 +83,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     @Override
     @Transactional
     public GameTipp createOrUpdateTipp(String token, Game match, User user, GameResult tipp, TippStatusType status) {
-        GameList round = roundDao.findRound(match).orElseThrow();
+        GameList round = roundDao.findRoundByGame(match).orElseThrow();
         return createOrUpdateTipp(token, round, match, user, tipp, status);
     }
     
@@ -246,42 +246,6 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
         return gameTippDao.find(gameList, user);
     }
 
-    // @Override
-    // @Transactional
-    // public void updateTipp(String token, Game match, User user, GameResult
-    // gr,
-    // TippStatusType status) {
-    //
-    // // TODO A performance killer?
-    // matchDao.refresh(match);
-    //
-    // addTipp(token, match, user, gr, status);
-    // }
-    //
-    // @Override
-    // @Transactional
-    // public void updateTipp(String token, List<GameTipp> tipps) {
-    // Date now = DateTime.now().toDate();
-    // for (GameTipp tipp : tipps) {
-    // tipp.setLastUpdateTime(now);
-    // gameTippDao.update(tipp);
-    // }
-    // }
-
-    // @Override
-    // @Transactional
-    // public void removeTipp(Game match, User user) {
-    // try {
-    // GameTipp gameTipp = match.getGameTipp(user);
-    // match.removeTipp(gameTipp);
-    // gameTippDao.delete(gameTipp);
-    // } catch (StorageObjectNotFoundException ex) {
-    // log.info("Zu der Spielpaarung " + match + " besitzt der User "
-    // + user + " keine Spieltipps.");
-    // log.info("Der Löschvorgang wurde nicht durchgeführt!");
-    // }
-    // }
-
     @Override
     @Transactional(readOnly = true)
     public List<GameTipp> findTipps(Game match) {
@@ -299,6 +263,12 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     @Transactional(readOnly = true)
     public List<GameTipp> findTipps(long roundId, long userId) {
         return gameTippDao.find(roundId, userId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<GameTipp> findTipp(long roundId) {
+        return gameTippDao.find(roundId);
     }
 
     @Override
@@ -324,166 +294,6 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     }
 
     // ------------------------------------------------------------------------
-
-    // /**
-    // * Liefert alle Tipps dieses Spieltags für den gefordeten User.
-    // *
-    // * @param user
-    // * Die Tipps des gesuchten Users.
-    // * @return Eine Liste mit allen Tipps für diesen Spieltag vom gesuchten User.
-    // */
-    // public List<GameTipp> getTippsOfUser(final User user) {
-    // List<GameTipp> tippList = new ArrayList<GameTipp>();
-    // for (Game game : gameList) {
-    // try {
-    // GameTipp tipp = game.getGameTipp(user);
-    // tippList.add(tipp);
-    // } catch (StorageObjectNotFoundException ex) {
-    // log.info(new StringBuffer("Für User ").append(user)
-    // .append(" keinen Tipp gefunden.").toString());
-    // }
-    // }
-    // return tippList;
-    // }
-
-    // /**
-    // * Fügt dem Spiel einen Tipp hinzu. Bestehende Tipps werden überschrieben.
-    // *
-    // * @param token
-    // * Das Anmeldetoken mit dem dieser Spieltipp angelegt wird.
-    // * @param user
-    // * Der Spieler von dem der Tipp kommt.
-    // * @param gr
-    // * Der Tipp des Spielers.
-    // * @param status
-    // * Der Status des Tipps.
-    // * @return Ein neu erzeugter Tipp oder ein bereits abgegebener Tipp.
-    // */
-    // public GameTipp addTipp(String token, Game game, User user, GameResult tipp,
-    // TippStatusType status) {
-    //
-    // Validate.notNull(token);
-    // Validate.notNull(user);
-    // Validate.notNull(tipp);
-    // Validate.notNull(status);
-    //
-    // Game persistedGame = matchDao.findById(game.getId());
-    //
-    // // Create or Update
-    // GameTipp gameTipp = null;
-    // if (containsTipp(user)) {
-    // try {
-    // tipp = getGameTipp(user);
-    // tipp.setToken(token);
-    // tipp.setTipp(gr, status);
-    // tipp.setLastUpdateTime(DateTime.now().toDate());
-    // } catch (StorageObjectNotFoundException ex) {
-    // // Nach Abfrage nicht möglich!
-    // log.error("storage object not found exception", ex);
-    // throw new StorageRuntimeException(ex);
-    // }
-    // } else {
-    // tipp = new GameTipp();
-    // tipp.setToken(token);
-    // tipp.setUser(user);
-    // tipp.setGame(persistedGame);
-    // tipp.setTipp(tipp, status);
-    // Date now = DateTime.now().toDate();
-    // tipp.setLastUpdateTime(now);
-    // tipp.setCreationTime(now);
-    //
-    // try {
-    // addTipp(tipp);
-    // } catch (StorageObjectExistsException ex) {
-    // // Nach Abfrage nicht möglich!
-    // log.error("storage object exists exception", ex);
-    // throw new StorageRuntimeException(ex);
-    // } catch (StorageObjectNotValidException ex) {
-    // // Selbst zusammen gebaut!
-    // log.error("storage object not valid exception", ex);
-    // throw new StorageRuntimeException(ex);
-    // }
-    // }
-    //
-    // gameTippDao.save(tipp);
-    // return tipp;
-    // }
-
-    // /**
-    // * Ermittelt für einen Spieler den für dieses Spiel abgegebenen Tipp.
-    // *
-    // * @param user
-    // * Der gesuchte Tipp von diesem Spieler.
-    // * @return Der abgegebene Tipp des Spielers.
-    // * @throws StorageObjectNotFoundException
-    // * Keinen Tipp für gesuchten User gefunden.
-    // */
-    // public GameTipp getGameTipp(final User user)
-    // throws StorageObjectNotFoundException {
-    // Validate.notNull(user, "user als null Parameter");
-    //
-    // Optional<GameTipp> userTipp = tippList.stream()
-    // .filter(tipp -> tipp != null && tipp.getUser().equals(user))
-    // .findFirst();
-    //
-    // if (userTipp.isPresent()) {
-    // return userTipp.get();
-    // } else {
-    // throw new StorageObjectNotFoundException(
-    // "Der Teilnehmer [" + user.getNickName()
-    // + "] hat keinen Spieltipp.");
-    // }
-    // }
-
-    // /**
-    // * Liefert einen Spieltipp oder, wenn kein Tipp gefunden werden konnte, einen
-    // * ungültigen Spieltipp.
-    // *
-    // * @param user
-    // * Den Tipp von diesem Teilnehmer suchen.
-    // * @return Der Tipp.
-    // */
-    // public GameTipp getGameTippOrInvalid(final User user) {
-    // GameTipp gameTipp = null;
-    // try {
-    // gameTipp = getGameTipp(user);
-    // } catch (StorageObjectNotFoundException ex) {
-    // gameTipp = new GameTipp();
-    // gameTipp.setGame(this);
-    // gameTipp.setUser(user);
-    // gameTipp.setTipp(0, 0, TippStatusType.INVALID);
-    // }
-    // return gameTipp;
-    // }
-
-    // /**
-    // * Prüft, ob der Teilnehmer user einen Tipp abgegeben hat.
-    // *
-    // * @param user
-    // * Der zu prüfende User.
-    // * @return true, Tipp vorhanden; false, kein Tipp vorhanden.
-    // */
-    // public boolean containsTipp(User user) {
-    // return tippList.stream().anyMatch(tipp -> tipp.getUser().equals(user));
-    // }
-    //
-    // /**
-    // * Liefert die Anzahl der abgegebenen Tipps für dieses Spiel.
-    // *
-    // * @return Anzahl der Tipps.
-    // */
-    // public int tippSize() {
-    // return tippList.size();
-    // }
-    //
-    // /**
-    // * Liefert ein nicht-modifizierbare Liste aller Tipps dieses Spiels.
-    // *
-    // * @return Eine nicht modifizierbare Kopie der internen Tipp-Liste.
-    // */
-    // public Set<GameTipp> getTipps() {
-    // return tippList;
-    // }
 
     /**
      * Berechnet die erzielten Punkte eines Spielers für diesen Spieltag.

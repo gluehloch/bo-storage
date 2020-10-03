@@ -53,7 +53,7 @@ public interface TippService {
      * @return Der errechnete Punktestand.
      */
     UserResultOfDay getUserPoints(GameList round, User user);
-    
+
     /**
      * Einen Tipp einer Spielpaarung hinzufügen/aktualisieren.
      *
@@ -98,43 +98,6 @@ public interface TippService {
      */
     List<GameTipp> addTipp(TippDto tippDto);
 
-    // /**
-    // * Einen Tipp einer Spielpaarung hinzufügen/aktualisieren.
-    // *
-    // * @param token
-    // * Das Anmeldetoken mit dem dieser Tipp angelegt wird.
-    // * @param match
-    // * Die betreffende Partie.
-    // * @param user
-    // * Der Tipper.
-    // * @param gr
-    // * Das getippte Endergebnis
-    // * @param status
-    // * Tipp-Status.
-    // */
-    // void updateTipp(String token, Game match, User user, GameResult tipp,
-    // TippStatusType status);
-    //
-    // /**
-    // * Aktualisiert eine Liste von Tipps.
-    // *
-    // * @param token
-    // * Das Anmeldetoken mit dem dieser Tipp angelegt wird.
-    // * @param tipps
-    // * Eine Liste mit den zu aktualisierende Tipps.
-    // */
-    // void updateTipp(String token, List<GameTipp> tipps);
-    //
-    // /**
-    // * Entfernt einen Spieltipp.
-    // *
-    // * @param match
-    // * Die betreffende Spielpaarung.
-    // * @param user
-    // * Der Tipp-Teilnehmer dessen Tipp entfernt werden soll.
-    // */
-    // void removeTipp(Game match, User user);
-
     /**
      * Liefert alle Spieltipps zu einer Spielpaarung.
      *
@@ -149,8 +112,10 @@ public interface TippService {
     /**
      * Liefert den Spieltipp einer Spielers zu einer Spielpaarung.
      * 
-     * @param game Das Spiel
-     * @param user Der Teilnehmer
+     * @param game
+     *            Das Spiel
+     * @param user
+     *            Der Teilnehmer
      * @return Der Spieltipp zu den gesuchten Parametern
      */
     Optional<GameTipp> findTipp(Game game, User user);
@@ -182,6 +147,15 @@ public interface TippService {
      * @return Die Spieltipps.
      */
     List<GameTipp> findTipps(long roundId, long userId);
+
+    /**
+     * Liefert alle Spieltipps zu einem Spieltag.
+     * 
+     * @param roundId
+     *            Der gesuchte Spieltag.
+     * @return Die Spieltipps.
+     */
+    List<GameTipp> findTipp(long roundId);
 
     /**
      * Ermittelt den naechsten zu tippenden Spieltag.

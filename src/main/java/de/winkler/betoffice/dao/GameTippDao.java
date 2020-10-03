@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL  LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -82,5 +82,14 @@ public interface GameTippDao extends CommonDao<GameTipp> {
      * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
      */
     List<GameTipp> find(long roundId, long userId);
+
+    /**
+     * Liefert alle Spieltipos zu einem Spieltag.
+     * 
+     * @param roundId
+     *            Der Spieltag.
+     * @return Eine List der Tipps zu dem gesuchten Spieltag.
+     */
+    List<GameTipp> find(long roundId);
 
 }

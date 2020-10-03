@@ -24,8 +24,11 @@
 
 package de.winkler.betoffice.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
 import java.sql.SQLException;
-import java.util.Optional;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -35,8 +38,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
+import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.User;
 
 /**
  * Testet das Verhalten von {@link DefaultSeasonManagerService}.
@@ -80,6 +86,30 @@ public class SeasonManagerServiceTest extends AbstractServiceTest {
         liga2.setName("2. Liga");
         masterDataManagerService.createGroupType(liga2);
         seasonManagerService.addGroupType(bundesliga, liga2);
+    }
+
+    @Test
+    public void findTipp() {
+        Season bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
+        List<User> users = seasonManagerService.findActivatedUsers(bundesliga);
+        assertThat(users).hasSize(10);
+        assertThat(users).extracting("nickName", "name").contains(
+                tuple("BayJan", "Heiner"),
+                tuple("chris", "Hamster"),
+                tuple("Frosch", "Erlohn"),
+                tuple("Hattwig", "Huette"),
+                tuple("Jogi", "Wagner"),
+                tuple("mrTipp", "Meister"),
+                tuple("Persistenz", "Schuster"),
+                tuple("Peter", "Karlmann"),
+                tuple("Roenne", "Rathaus"),
+                tuple("Steffen", "Hummels"));
+
+        GameList round = seasonManagerService.findRound(bundesliga, 0).orElseThrow();
+        assertThat(round.unmodifiableList()).hasSize(9);
+
+        List<GameTipp> tipp = tippService.findTipp(round.getId());
+        assertThat(tipp).hasSize(81);
     }
 
 }

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -67,8 +67,12 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             + "where gamelist.season.id = :seasonId "
             + "and gamelist.index = "
             + "("
-            + "  select max(index) from gamelist gl2 "
-            + "  where gl2.season.id = :seasonId "
+            + "    select "
+            + "        max(index) "
+            + "    from "
+            + "        gamelist gl2 "
+            + "    where "
+            + "        gl2.season.id = :seasonId "
             + ")";
 
     /**
@@ -79,13 +83,16 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             + "where gamelist.season.id = :seasonId "
             + "and gamelist.index = "
             + "("
-            + "  select min(index) from gamelist gl2 "
-            + "  where gl2.season.id = :seasonId "
+            + "    select "
+            + "        min(index) "
+            + "    from "
+            + "        gamelist gl2 "
+            + "    where "
+            + "        gl2.season.id = :seasonId "
             + ")";
-        
+
     /**
-     * Sucht nach allen Spieltagen einer Meisterschaft fuer eine bestimmte
-     * Gruppe.
+     * Sucht nach allen Spieltagen einer Meisterschaft fuer eine bestimmte Gruppe.
      */
     private static final String QUERY_GAMELIST_AND_GAMES_BY_SEASON_GROUP = "select "
             + "distinct round "
@@ -104,56 +111,52 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             + "    join round.gameList game "
             + "where "
             + "     game.id = :gameId";
-    
-    /**
-     * Sucht einen Spieltag einer Meisterschaft.
-     */
-    private static final String QUERY_GAMELIST_BY_SEASON_AND_INDEX = "from "
-            + "GameList as gamelist "
-            + "where gamelist.season.id = :seasonId and gamelist.index = :gameListIndex";
 
     /**
      * Sucht nach allen Gruppen, Spielen, Mannschaften einer Spielrunde/Spieltag.
      */
-    private static final String QUERY_ALL_ROUND_OBJECTS = "select round from GameList as round "
-            + "left join fetch round.gameList game "
-            + "left join fetch game.tippList tipp "
-            + "left join fetch tipp.user u "
-            + "left join fetch game.homeTeam "
-            + "left join fetch game.guestTeam "
-            + "left join fetch game.group "
-            + "where round.season.id = :seasonId and round.index = :gameListIndex";
+    private static final String QUERY_ROUND_AND_GAMES_BY_INDEX = "select round "
+            + "from "
+            + "    GameList as round "
+            + "    left join fetch round.gameList game "
+            + "    left join fetch game.homeTeam "
+            + "    left join fetch game.guestTeam "
+            + "    left join fetch game.group "
+            + "where "
+            + "    round.season.id = :seasonId "
+            + "    and round.index = :index";
 
     /**
      * Sucht nach allen Gruppen, Spielen, Mannschaften einer Spielrunde/Spieltag.
-     * 
-     * @see #QUERY_ALL_ROUND_OBJECTS
      */
-    private static final String QUERY_ALL_ROUND_OBJECTS_BY_ID = "select round from GameList as round "
-            + "left join fetch round.gameList game "
-            + "left join fetch game.homeTeam "
-            + "left join fetch game.guestTeam "
-            + "left join fetch game.group "
-            
-            + "left join GameTipp tipp on (tipp.game.id = game.id) "
-            + "left join tipp.user u "
-            
-            + "where round.id = :roundId";
+    private static final String QUERY_ROUND_AND_GAMES_BY_ID = "select round "
+            + "from "
+            + "    GameList as round "
+            + "    left join fetch round.gameList game "
+            + "    left join fetch game.homeTeam "
+            + "    left join fetch game.guestTeam "
+            + "    left join fetch game.group "
+            + "where "
+            + "    round.id = :roundId";
 
     /** Findet den naechsten zu tippenden Spieltag. */
     private static final String QUERY_NEXT_ROUND_BY_DATE = "select gl.bo_datetime datetime, gl.id last_round_id "
             + "from bo_gamelist gl "
             + "where gl.bo_datetime = "
             + "( "
-            + "  select min(t.bo_datetime) datetime"
-            + "  from"
-            + "  ("
-            + "    select r.bo_datetime, r.id "
-            + "    from bo_gamelist r, bo_game m "
-            + "    where r.bo_season_ref = :season_id "
-            + "      and r.id = m.bo_gamelist_ref "
-            + "      and m.bo_datetime >= :date "
-            + "  ) as t"
+            + "    select "
+            + "        min(t.bo_datetime) datetime"
+            + "    from"
+            + "    ("
+            + "        select "
+            + "            r.bo_datetime, r.id "
+            + "        from "
+            + "            bo_gamelist r, bo_game m "
+            + "        where "
+            + "            r.bo_season_ref = :season_id "
+            + "            and r.id = m.bo_gamelist_ref "
+            + "            and m.bo_datetime >= :date "
+            + "    ) as t"
             + ")";
 
     /** Findet den letzten zu tippenden Spieltag. */
@@ -161,15 +164,19 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             + "from bo_gamelist gl "
             + "where gl.bo_datetime = "
             + "("
-            + "  select max(t.bo_datetime)"
-            + "  from "
-            + "  ("
-            + "    select r.bo_datetime, r.id"
-            + "    from bo_gamelist r, bo_game m"
-            + "    where r.bo_season_ref = :season_id"
-            + "      and r.id = m.bo_gamelist_ref "
-            + "      and m.bo_datetime < :date"
-            + "  ) as t"
+            + "    select "
+            + "        max(t.bo_datetime)"
+            + "    from "
+            + "    ("
+            + "        select "
+            + "            r.bo_datetime, r.id"
+            + "        from "
+            + "            bo_gamelist r, bo_game m"
+            + "        where "
+            + "            r.bo_season_ref = :season_id"
+            + "            and r.id = m.bo_gamelist_ref "
+            + "            and m.bo_datetime < :date"
+            + "    ) as t"
             + ")";
 
     /**
@@ -196,7 +203,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
                 .getResultList();
         return objects;
     }
-    
+
     @Override
     public List<GameList> findRounds(Group group) {
         List<GameList> objects = getSessionFactory().getCurrentSession()
@@ -209,16 +216,24 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     @Override
     public Optional<GameList> findRound(Season season, int index) {
         Query<GameList> query = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_GAMELIST_BY_SEASON_AND_INDEX, GameList.class)
+                .createQuery(QUERY_ROUND_AND_GAMES_BY_INDEX, GameList.class)
                 .setParameter("seasonId", season.getId(), LongType.INSTANCE)
-                .setParameter("gameListIndex", Integer.valueOf(index),
-                        IntegerType.INSTANCE);
+                .setParameter("index", Integer.valueOf(index), IntegerType.INSTANCE);
 
         return singleResult(query);
     }
 
     @Override
-    public Optional<GameList> findRound(Game game) {
+    public Optional<GameList> findRound(long roundId) {
+        Query<GameList> query = getSessionFactory().getCurrentSession()
+                .createQuery(QUERY_ROUND_AND_GAMES_BY_ID, GameList.class)
+                .setParameter("roundId", roundId, LongType.INSTANCE);
+
+        return singleResult(query);
+    }
+    
+    @Override
+    public Optional<GameList> findRoundByGame(Game game) {
         Query<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMELIST_OF_GAME, GameList.class)
                 .setParameter("gameId", game.getId());
@@ -226,29 +241,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     }
 
     @Override
-    public Optional<GameList> findAllRoundObjects(Season season, int index) {
-        Query<GameList> query = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_ALL_ROUND_OBJECTS, GameList.class)
-                .setParameter("seasonId", season.getId(), LongType.INSTANCE)
-                .setParameter("gameListIndex", Integer.valueOf(index),
-                        IntegerType.INSTANCE);
-
-        return singleResult(query);
-    }
-    
-    @Override
-    public Optional<GameList> findRound(long roundId) {
-        Query<GameList> query = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_ALL_ROUND_OBJECTS_BY_ID, GameList.class)
-                .setParameter("roundId", roundId, LongType.INSTANCE);
-
-        return singleResult(query);
-    }    
-
-    @Override
     public Optional<Long> findNextTippRound(long seasonId, ZonedDateTime date) {
-        NativeQuery query = getSessionFactory().getCurrentSession()
-                .createNativeQuery(QUERY_NEXT_ROUND_BY_DATE);
+        NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_NEXT_ROUND_BY_DATE);
         query.setParameter("season_id", seasonId);
         query.setParameter("date", date, ZonedDateTimeType.INSTANCE);
 
@@ -269,8 +263,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
 
     @Override
     public Optional<Long> findLastTippRound(long seasonId, ZonedDateTime date) {
-        NativeQuery query = getSessionFactory().getCurrentSession()
-                .createNativeQuery(QUERY_LAST_ROUND_BY_DATE);
+        NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_LAST_ROUND_BY_DATE);
         query.setParameter("season_id", seasonId);
         query.setParameter("date", date, ZonedDateTimeType.INSTANCE);
 
@@ -287,7 +280,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
         }
         return result;
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -295,8 +288,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
      */
     @Override
     public Optional<Long> findNext(long id) {
-        NativeQuery query = getSessionFactory().getCurrentSession()
-                .createNativeQuery(QUERY_NEXT_ROUND);
+        NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_NEXT_ROUND);
         query.setParameter("roundId", id, LongType.INSTANCE);
         query.addScalar("next_round_id");
 
@@ -316,8 +308,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
      */
     @Override
     public Optional<Long> findPrevious(long id) {
-        NativeQuery query = getSessionFactory().getCurrentSession()
-                .createNativeQuery(QUERY_PREV_ROUND);
+        NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_PREV_ROUND);
         query.setParameter("roundId", id, LongType.INSTANCE);
         query.addScalar("prev_round_id");
 
@@ -345,5 +336,5 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
                 .setParameter("seasonId", season.getId());
         return singleResult(query);
     }
-    
+
 }
