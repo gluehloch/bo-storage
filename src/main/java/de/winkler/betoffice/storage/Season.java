@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -265,6 +265,7 @@ public class Season extends AbstractStorageObject {
      *            Ein Gruppentyp.
      * @return Die passende Gruppe. Kann <code>null</code> liefern, wenn keine
      *         passende Gruppe gefunden.
+     * @deprecated Better use a service method.
      */
     public Group getGroup(final GroupType groupType) {
         for (Group group : getGroups()) {
@@ -334,8 +335,8 @@ public class Season extends AbstractStorageObject {
      * 
      * @param groupType
      *            Der zu deaktivierende Gruppentyp.
-     * @return Das entfernte {@link Group} Objekt. Kann <code>null</code> sein,
-     *         wenn kein entsprechendes {@link Group} Objekt gefunden.
+     * @return Das entfernte {@link Group} Objekt. Kann <code>null</code> sein, wenn
+     *         kein entsprechendes {@link Group} Objekt gefunden.
      */
     public Group removeGroup(final GroupType groupType) {
         for (Iterator<Group> i = getGroups().iterator(); i.hasNext();) {
@@ -349,8 +350,8 @@ public class Season extends AbstractStorageObject {
     }
 
     /**
-     * Liefert alle Mannschaften, die über eine Gruppe an dieser Saison
-     * beteiligt sind.
+     * Liefert alle Mannschaften, die über eine Gruppe an dieser Saison beteiligt
+     * sind.
      * 
      * @return Alle Mannschaften, die dieser Saison zugeordnet sind.
      */
@@ -436,9 +437,9 @@ public class Season extends AbstractStorageObject {
      * 
      * @param user
      *            Der zu deaktivierende Teilnehmer.
-     * @return Das entfernte {@link UserSeason} Objekt. Kann <code>null</code>
-     *         sein, wenn kein entsprechendes {@link UserSeason} Objekt
-     *         gefunden.
+     * @return Das entfernte {@link UserSeason} Objekt. Kann <code>null</code> sein,
+     *         wenn kein entsprechendes {@link UserSeason} Objekt gefunden.
+     * @deprecated Better use a service method.
      */
     public UserSeason removeUser(final User user) {
         for (Iterator<UserSeason> i = getUserSeason().iterator(); i
@@ -459,6 +460,7 @@ public class Season extends AbstractStorageObject {
      * Liefert alle Teilnehmer, die dieser Saison zugeordnet sind.
      * 
      * @return Alle Teilnehmer dieser Saison.
+     * @deprecated Better use a service method.
      */
     public List<User> getUsers() {
         List<User> users = new ArrayList<User>();
@@ -471,8 +473,7 @@ public class Season extends AbstractStorageObject {
     // -- gameDayList ---------------------------------------------------------
 
     /**
-     * Liefert alle Spieltage. Eine <code>List</code> von {@link GameList}
-     * Objekten.
+     * Liefert alle Spieltage. Eine <code>List</code> von {@link GameList} Objekten.
      * 
      * @return Die Spieltage.
      */
@@ -545,8 +546,9 @@ public class Season extends AbstractStorageObject {
      * 
      * @param dayNr
      *            Nummer des Spieltags ( [0] .. [size() - 1] ).
-     * @return Liste aller Spiele eines Spieltags. Liefert <code>null</code>
-     *         zurück, wenn keine Spieltage der Saison/Meisterschaft zugeordnet!
+     * @return Liste aller Spiele eines Spieltags. Liefert <code>null</code> zurück,
+     *         wenn keine Spieltage der Saison/Meisterschaft zugeordnet!
+     * @deprecated Better use a service method.
      */
     public GameList getGamesOfDay(final int dayNr) {
         if ((dayNr >= gameList.size()) || (dayNr < 0)) {
@@ -573,15 +575,15 @@ public class Season extends AbstractStorageObject {
     }
 
     /**
-     * Fügt einen neuen Spieltag der Spieltagsliste hinzu. Ein Spieltag wird
-     * immer hinten angehängt. Falls eine andere Einsortierung erfolgen soll
-     * müsste entsprechend der Index in allen Spieltagen geändert werden.
+     * Fügt einen neuen Spieltag der Spieltagsliste hinzu. Ein Spieltag wird immer
+     * hinten angehängt. Falls eine andere Einsortierung erfolgen soll müsste
+     * entsprechend der Index in allen Spieltagen geändert werden.
      * 
      * @param newRound
      *            Ein Spieltag.
      * @throws IllegalArgumentException
-     *             GameListe bereits vorhanden oder ein Attribut von gameList
-     *             nicht gesetzt.
+     *             GameListe bereits vorhanden oder ein Attribut von gameList nicht
+     *             gesetzt.
      */
     public void addGameList(final GameList newRound) {
         Validate.notNull(newRound, "The newRound parameter is null.");
