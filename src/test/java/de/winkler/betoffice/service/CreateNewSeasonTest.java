@@ -236,9 +236,8 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
         assertThat(actualMatch.getGoals().size()).isEqualTo(1);
         assertThat(actualMatch.getLocation().getName()).isEqualTo("Imtecharena");
 
-        Optional<Player> playerByOpenligaid = masterDataManagerService
-                .findPlayerByOpenligaid(1L);
-        assertThat(playerByOpenligaid.get().getName()).isEqualTo("Mill");
+        Player playerByOpenligaid = masterDataManagerService.findPlayerByOpenligaid(1L).orElseThrow();
+        assertThat(playerByOpenligaid.getName()).isEqualTo("Mill");
 
         List<Goal> goals = sms.findAllGoals();
         assertThat(goals.size()).isEqualTo(1);
@@ -251,7 +250,8 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
         assertThat(lippens2.get().getGoals().size()).isEqualTo(1);
         
         List<GameList> rounds = sms.findRounds(season);
-        assertThat(rounds.get(0).size()).isEqualTo(3);
+        GameList gameList = sms.findRoundGames(rounds.get(0).getId()).orElseThrow();
+        assertThat(gameList.size()).isEqualTo(3);
     }
 
 }

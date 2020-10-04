@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -89,11 +89,11 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
 
     @Test
     public void testFindTippsWm2006() {
-        Optional<Season> wm2006 = seasonManagerService
-                .findSeasonByName("WM Deutschland", "2006");
-
-        List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
-        GameList finale = rounds.get(24);
+        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
+        List<GameList> rounds = seasonManagerService.findRounds(wm2006);
+        
+        GameList finale = seasonManagerService.findRoundGames(rounds.get(24).getId()).orElseThrow();
+        // GameList finale = rounds.get(24);
 
         List<GameTipp> tipps = tippService.findTipps(finale.get(0));
         assertThat(tipps).hasSize(8);
@@ -109,32 +109,27 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
 
     @Test
     public void testFindTippByFroschWm2006() {
-        Optional<Season> wm2006 = seasonManagerService
-                .findSeasonByName("WM Deutschland", "2006");
-        Optional<User> frosch = masterDataManagerService
-                .findUserByNickname("Frosch");
-        Optional<User> mrTipp = masterDataManagerService
-                .findUserByNickname("mrTipp");
-        Optional<User> peter = masterDataManagerService
-                .findUserByNickname("Peter");
+        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
+        User frosch = masterDataManagerService.findUserByNickname("Frosch").orElseThrow();
+        User mrTipp = masterDataManagerService.findUserByNickname("mrTipp").orElseThrow();
+        User peter = masterDataManagerService.findUserByNickname("Peter").orElseThrow();
 
-        List<User> users = seasonManagerService
-                .findActivatedUsers(wm2006.get());
+        List<User> users = seasonManagerService.findActivatedUsers(wm2006);
         assertEquals(11, users.size());
 
-        assertEquals("Frosch", frosch.get().getNickName());
-        assertEquals("mrTipp", mrTipp.get().getNickName());
-        assertEquals("Peter", peter.get().getNickName());
+        assertEquals("Frosch", frosch.getNickName());
+        assertEquals("mrTipp", mrTipp.getNickName());
+        assertEquals("Peter", peter.getNickName());
 
-        List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
+        List<GameList> rounds = seasonManagerService.findRounds(wm2006);
         GameList finale = rounds.get(24);
-        List<GameTipp> finalRoundTipps = tippService.findTipps(finale, frosch.get());
+        List<GameTipp> finalRoundTipps = tippService.findTipps(finale, frosch);
 
-        assertEquals(frosch.get(), finalRoundTipps.get(0).getUser());
+        assertEquals(frosch, finalRoundTipps.get(0).getUser());
         assertEquals(0, finalRoundTipps.get(0).getTipp().getHomeGoals());
         assertEquals(2, finalRoundTipps.get(0).getTipp().getGuestGoals());
 
-        List<GameTipp> froschTipps = tippService.findTipps(finale, frosch.get());
+        List<GameTipp> froschTipps = tippService.findTipps(finale, frosch);
         // 7 Tipps von allen Teilnehmern. Nur einer ist nicht 'null'.
         // TODO: Nach der Umstellung auf JPA Annotationen wird nur noch
         // ein Datensatz geliefert: Der fuer Frosch.
@@ -142,24 +137,22 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
         assertEquals(0, froschTipps.get(0).getTipp().getHomeGoals());
         assertEquals(2, froschTipps.get(0).getTipp().getGuestGoals());
 
-        List<GameTipp> mrTippTipps = tippService.findTipps(finale, mrTipp.get());
+        List<GameTipp> mrTippTipps = tippService.findTipps(finale, mrTipp);
         assertEquals(0, mrTippTipps.get(0).getTipp().getHomeGoals());
         assertEquals(1, mrTippTipps.get(0).getTipp().getGuestGoals());
 
-        List<GameTipp> peterTipps = tippService.findTipps(finale, peter.get());
+        List<GameTipp> peterTipps = tippService.findTipps(finale, peter);
         assertEquals(1, peterTipps.get(0).getTipp().getHomeGoals());
         assertEquals(2, peterTipps.get(0).getTipp().getGuestGoals());
     }
 
     @Test
     public void testFindTippByXtianWm2006() {
-        Optional<Season> wm2006 = seasonManagerService
-                .findSeasonByName("WM Deutschland", "2006");
-        Optional<User> user = masterDataManagerService
-                .findUserByNickname("Xtian");
-        List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
+        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
+        User user = masterDataManagerService.findUserByNickname("Xtian").orElseThrow();
+        List<GameList> rounds = seasonManagerService.findRounds(wm2006);
         GameList finale = rounds.get(24);
-        List<GameTipp> finalRoundTipps = tippService.findTipps(finale, user.get());
+        List<GameTipp> finalRoundTipps = tippService.findTipps(finale, user);
 
         assertEquals(finalRoundTipps.size(), 0);
 

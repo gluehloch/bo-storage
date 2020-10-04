@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -50,9 +50,6 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 
-import de.winkler.betoffice.storage.enums.TotoResult;
-import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
-import de.winkler.betoffice.storage.exception.StorageRuntimeException;
 import de.winkler.betoffice.util.LoggerFactory;
 
 /**
