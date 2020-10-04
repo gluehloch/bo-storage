@@ -1,8 +1,7 @@
 /*
- * $Id: Group.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2008 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -31,7 +30,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -229,37 +227,18 @@ public class Group extends AbstractStorageObject {
     }
 
     public boolean equals(final Object object) {
-//        if (object == null) {
-//            return false;
-//        } else if (!(object instanceof Group)) {
-//            return false;
-//        } else {
-//            Group group = (Group) object;
-//            return group.getId().equals(getId());
-//                    
-//        }
-
         if (object == null) {
             return false;
         } else if (!(object instanceof Group)) {
             return false;
         } else {
             Group group = (Group) object;
-            if ((group.getSeason().equals(getSeason()))
-                    && (group.getGroupType().equals(getGroupType()))) {
-                return true;
-            } else {
-                return false;
-            }
+            return group.getId().equals(getId());           
         }
     }
 
     public int hashCode() {
-        //return 37;
-        int result = 17;
-        result = 37 * result + getGroupType().hashCode();
-        result = 37 * result + getSeason().hashCode();
-        return result;
+        return 37;
     }
 
 }
