@@ -239,12 +239,9 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         return roundDao.findById(id);
     }
 
-    // TODO Alle Tipps eines Spielers fuer einen Spieltag.
-    // TODO Alle Tipps eines Spieltags fuer eine Spielgruppe.
-
     @Override
     @Transactional(readOnly = true)
-    public Optional<GameList> findRoundGameAndTipp(long roundId) {
+    public Optional<GameList> findRoundGames(long roundId) {
         return roundDao.findRound(roundId);
     }
 

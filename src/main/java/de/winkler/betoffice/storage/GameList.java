@@ -93,7 +93,7 @@ public class GameList extends AbstractStorageObject
     @JoinColumn(name = "bo_group_ref")
     private Group group;
 
-    @OneToMany(mappedBy = "gameList", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "gameList", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderColumn(name = "bo_index")
     private List<Game> gameList = new ArrayList<>();
 

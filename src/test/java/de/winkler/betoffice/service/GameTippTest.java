@@ -255,6 +255,11 @@ public class GameTippTest extends AbstractServiceTest {
             GameTipp gameTippUserC = tippService.findTipp(game, userC).orElseThrow();
             assertThat(gameTippUserC.getTotoResult()).isEqualTo(TotoResult.EQUAL);
             assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nEqualValue);
+            
+            GameTipp gameTippUserD = tippService.findTipp(game, userD).orElseThrow();
+            assertThat(gameTippUserD.getTotoResult()).isEqualTo(TotoResult.ZERO);
+            assertThat(gameTippUserD.getPoints()).isEqualTo(UserResult.nZeroValue);
+            assertThat(gameTippUserD.getTipp()).isEqualTo(GameResult.of(2, 1));
         }
 
         {
@@ -279,6 +284,14 @@ public class GameTippTest extends AbstractServiceTest {
             GameTipp gameTippUserC = tippService.findTipp(game, userC).orElseThrow();
             assertThat(gameTippUserC.getTotoResult()).isEqualTo(TotoResult.UNDEFINED);
             assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nZeroValue);
+            
+            GameTipp gameTippUserD = tippService.findTipp(game, userD).orElseThrow();
+            assertThat(gameTippUserD.getTotoResult()).isEqualTo(TotoResult.UNDEFINED);
+            assertThat(gameTippUserD.getPoints()).isEqualTo(UserResult.nZeroValue);
+            
+            List<GameTipp> tipp = tippService.findTipps(game.getGameList().getId());
+            assertThat(tipp).hasSize(4);
+            assertThat(tipp).contains(gameTippUserA, gameTippUserB, gameTippUserC);
         }
     }
 

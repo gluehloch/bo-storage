@@ -21,7 +21,7 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.winkler.betoffice.service;
+package de.winkler.betoffice.storage;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;

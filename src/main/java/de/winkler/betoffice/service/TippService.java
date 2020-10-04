@@ -31,6 +31,7 @@ import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.GameTipp;
+import de.winkler.betoffice.storage.TippDto;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResultOfDay;
 import de.winkler.betoffice.storage.enums.TippStatusType;
@@ -104,9 +105,7 @@ public interface TippService {
      * @param match
      *            Die Spielpaarung deren Spieltipps gesucht werden.
      * @return Die Spieltipps.
-     * @deprecated Should be more specific with a user (or community) parameter.
      */
-    @Deprecated(since = "2.7.0")
     List<GameTipp> findTipps(Game match);
 
     /**
@@ -155,7 +154,7 @@ public interface TippService {
      *            Der gesuchte Spieltag.
      * @return Die Spieltipps.
      */
-    List<GameTipp> findTipp(long roundId);
+    List<GameTipp> findTipps(long roundId);
 
     /**
      * Ermittelt den naechsten zu tippenden Spieltag.

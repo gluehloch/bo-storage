@@ -108,7 +108,7 @@ public class SeasonManagerServiceTest extends AbstractServiceTest {
         GameList round = seasonManagerService.findRound(bundesliga, 0).orElseThrow();
         assertThat(round.unmodifiableList()).hasSize(9);
 
-        List<GameTipp> tipp = tippService.findTipp(round.getId());
+        List<GameTipp> tipp = tippService.findTipps(round.getId());
         assertThat(tipp).hasSize(81);
     }
 

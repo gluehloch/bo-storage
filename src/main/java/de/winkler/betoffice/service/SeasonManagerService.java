@@ -211,14 +211,13 @@ public interface SeasonManagerService {
     GameList findRound(long roundId);
 
     /**
-     * Liefert einen Spieltag einer Meisterschaft inklusive der Spiel und der
-     * Spieltipps.
+     * Liefert einen Spieltag einer Meisterschaft inklusive der Spiele.
      * 
      * @param roundId
      *            Die ID des Spieltags
      * @return Der Spieltag
      */
-    Optional<GameList> findRoundGameAndTipp(long roundId);
+    Optional<GameList> findRoundGames(long roundId);
 
     /**
      * Liefert den nächsten Spieltag.

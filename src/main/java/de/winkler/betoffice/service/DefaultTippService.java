@@ -38,13 +38,14 @@ import de.winkler.betoffice.dao.GameTippDao;
 import de.winkler.betoffice.dao.MatchDao;
 import de.winkler.betoffice.dao.RoundDao;
 import de.winkler.betoffice.dao.UserDao;
-import de.winkler.betoffice.service.TippDto.GameTippDto;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.GameTipp;
+import de.winkler.betoffice.storage.TippDto;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResultOfDay;
+import de.winkler.betoffice.storage.TippDto.GameTippDto;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.enums.TotoResult;
 import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
@@ -252,7 +253,6 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
         return gameTippDao.find(match);
     }
 
-
     @Override
     @Transactional
     public Optional<GameTipp> findTipp(Game game, User user) {
@@ -267,7 +267,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
 
     @Override
     @Transactional(readOnly = true)
-    public List<GameTipp> findTipp(long roundId) {
+    public List<GameTipp> findTipps(long roundId) {
         return gameTippDao.find(roundId);
     }
 
