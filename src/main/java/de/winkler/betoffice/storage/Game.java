@@ -567,9 +567,8 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
         else
             return 0;
     }
-
-    @Override
-    public String toString() {
+    
+    public String debug() {
         StringBuilder buf = new StringBuilder();
 
         if (getDateTime() == null) {

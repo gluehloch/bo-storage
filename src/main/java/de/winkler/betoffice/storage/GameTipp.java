@@ -415,14 +415,8 @@ public class GameTipp extends AbstractStorageObject implements Comparator<GameTi
         GameTipp other = (GameTipp) obj;
         return id != null && id.equals(other.getId());
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
+    
+    public String debug() {
         return "GameTipp [id=" + id + ", tipp=" + tipp + ", creationTime="
                 + creationTime + ", lastUpdateTime="
                 + lastUpdateTime + ", user=" + user + ", game=" + game
