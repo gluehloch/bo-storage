@@ -260,34 +260,22 @@ public class SeasonManagerServiceFinderTest extends AbstractServiceTest {
 
     @Test
     public void testFindRoundWm2006() {
-        Optional<Season> wm2006 = seasonManagerService
-                .findSeasonByName("WM Deutschland", "2006");
-        //
-        // This don´t work:
-        //
-        // int finalRound = wm2006.size() - 1;
-        //
-        // You would get a LazyInitializationException!
-        //
+        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
 
-        List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
+        List<GameList> rounds = seasonManagerService.findRounds(wm2006);
         assertThat(rounds.size()).isEqualTo(25);
 
-        GameList spieltag_1 = rounds.get(0);
-        assertThat(spieltag_1.getGroup().getGroupType().getName())
-                .isEqualTo("Gruppe A");
+        GameList spieltag_1 = seasonManagerService.findRoundGames(rounds.get(0).getId()).orElseThrow();
+        assertThat(spieltag_1.getGroup().getGroupType().getName()).isEqualTo("Gruppe A");
 
-        GameList spieltag_2 = rounds.get(1);
-        assertThat(spieltag_2.getGroup().getGroupType().getName())
-                .isEqualTo("Gruppe B");
+        GameList spieltag_2 = seasonManagerService.findRoundGames(rounds.get(1).getId()).orElseThrow();
+        assertThat(spieltag_2.getGroup().getGroupType().getName()).isEqualTo("Gruppe B");
 
-        GameList finale = rounds.get(24);
-        assertThat(finale.getGroup().getGroupType().getName())
-                .isEqualTo("Finale");
+        GameList finale = seasonManagerService.findRoundGames(rounds.get(24).getId()).orElseThrow();
+        assertThat(finale.getGroup().getGroupType().getName()).isEqualTo("Finale");
 
         Optional<Team> italien = masterDataManagerService.findTeam("Italien");
-        Optional<Team> frankreich = masterDataManagerService
-                .findTeam("Frankreich");
+        Optional<Team> frankreich = masterDataManagerService.findTeam("Frankreich");
         Game finalRoundMatch = finale.get(0);
 
         assertThat(finalRoundMatch.getHomeTeam()).isEqualTo(italien.get());
