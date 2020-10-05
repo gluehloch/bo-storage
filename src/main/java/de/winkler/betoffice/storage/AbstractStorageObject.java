@@ -31,8 +31,7 @@ import java.io.Serializable;
  * 
  * @author Andre Winkler
  */
-public abstract class AbstractStorageObject implements StorageObject,
-        Serializable {
+public abstract class AbstractStorageObject implements StorageObject, Serializable {
 
     /** serial version id */
     private static final long serialVersionUID = -6571773252125809193L;

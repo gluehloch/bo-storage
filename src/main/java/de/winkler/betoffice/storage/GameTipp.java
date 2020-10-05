@@ -419,7 +419,7 @@ public class GameTipp extends AbstractStorageObject implements Comparator<GameTi
     public String debug() {
         return "GameTipp [id=" + id + ", tipp=" + tipp + ", creationTime="
                 + creationTime + ", lastUpdateTime="
-                + lastUpdateTime + ", user=" + user + ", game=" + game
+                + lastUpdateTime + ", user=" + user + ", game=" + game.debug()
                 + ", status=" + status + "]";
     }
 

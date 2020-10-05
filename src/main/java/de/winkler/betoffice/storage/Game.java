@@ -570,6 +570,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     
     public String debug() {
         StringBuilder buf = new StringBuilder();
+        buf.append("ID=").append(getId()).append(", ");
 
         if (getDateTime() == null) {
             buf.append("Date: <null>");
@@ -577,21 +578,20 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
             buf.append("Date: ");
             buf.append(getDateTime());
         }
+        buf.append(", ");
 
-        buf.append("; ");
         if (getGroup() == null) {
             buf.append("Group: <null>");
         } else {
             buf.append(getGroup());
         }
+        buf.append(", ");
 
-        buf.append("; ");
         if (homeTeam == null) {
             buf.append("HTeam: <null>");
         } else {
             buf.append(homeTeam.getName());
         }
-
         buf.append(':');
 
         if (guestTeam == null) {
@@ -600,7 +600,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
             buf.append(guestTeam.getName());
         }
 
-        buf.append("; ");
+        buf.append(", Result=");
         buf.append(result);
 
         return buf.toString();
