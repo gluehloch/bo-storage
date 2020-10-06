@@ -93,7 +93,7 @@ public class SeasonManagerServiceTest extends AbstractServiceTest {
         Season bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
         List<User> users = seasonManagerService.findActivatedUsers(bundesliga);
         assertThat(users).hasSize(10);
-        assertThat(users).extracting("nickName", "name").contains(
+        assertThat(users).extracting("nickname", "name").contains(
                 tuple("BayJan", "Heiner"),
                 tuple("chris", "Hamster"),
                 tuple("Frosch", "Erlohn"),

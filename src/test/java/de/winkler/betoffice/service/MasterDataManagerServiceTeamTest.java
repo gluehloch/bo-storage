@@ -1,7 +1,11 @@
 /*
  * ============================================================================
  * Project betoffice-storage
+<<<<<<< HEAD
  * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
+=======
+ * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
+>>>>>>> work/community
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION

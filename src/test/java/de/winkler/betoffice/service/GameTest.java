@@ -221,22 +221,22 @@ public class GameTest extends AbstractServiceTest {
     private void createData() throws Exception {
         userA = new User();
         userA.setName("User A");
-        userA.setNickName("User A");
+        userA.setNickname("User A");
         masterDataManagerService.createUser(userA);
 
         userB = new User();
         userB.setName("User B");
-        userB.setNickName("User B");
+        userB.setNickname("User B");
         masterDataManagerService.createUser(userB);
 
         userC = new User();
         userC.setName("User C");
-        userC.setNickName("User C");
+        userC.setNickname("User C");
         masterDataManagerService.createUser(userC);
 
         userD = new User();
         userD.setName("User D");
-        userD.setNickName("User D");
+        userD.setNickname("User D");
         masterDataManagerService.createUser(userD);
 
         homeTeam = new Team();

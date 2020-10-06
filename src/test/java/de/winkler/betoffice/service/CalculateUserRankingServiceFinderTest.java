@@ -102,7 +102,7 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
                 "Peter", "mrTipp", "chris", "Frosch", "Hattwig" };
 
         for (int index = 0; index < nicknames.length; index++) {
-            assertThat(tipps.get(index).getUser().getNickName())
+            assertThat(tipps.get(index).getUser().getNickname())
                     .isEqualTo(nicknames[index]);
         }
     }
@@ -116,10 +116,9 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
 
         List<User> users = seasonManagerService.findActivatedUsers(wm2006);
         assertEquals(11, users.size());
-
-        assertEquals("Frosch", frosch.getNickName());
-        assertEquals("mrTipp", mrTipp.getNickName());
-        assertEquals("Peter", peter.getNickName());
+        assertEquals("Frosch", frosch.getNickname());
+        assertEquals("mrTipp", mrTipp.getNickname());
+        assertEquals("Peter", peter.getNickname());
 
         List<GameList> rounds = seasonManagerService.findRounds(wm2006);
         GameList finale = rounds.get(24);
@@ -210,14 +209,14 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
             final int index, final String nickname,
             final int points, final int win, final int totoWin, int tabPos) {
 
-        assertEquals(nickname, userResults.get(index).getUser().getNickName());
+        assertEquals(nickname, userResults.get(index).getUser().getNickname());
         assertEquals(points, userResults.get(index).getPoints());
         assertEquals(win, userResults.get(index).getUserWin());
         assertEquals(totoWin, userResults.get(index).getUserTotoWin());
         assertEquals(tabPos, userResults.get(index).getTabPos());
 
         log.debug("Name: "
-                + userResults.get(index).getUser().getNickName()
+                + userResults.get(index).getUser().getNickname()
                 + ", PTS: "
                 + userResults.get(index).getPoints());
     }

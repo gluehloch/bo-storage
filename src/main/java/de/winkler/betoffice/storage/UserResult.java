@@ -156,7 +156,7 @@ public class UserResult {
             return false;
         } else {
             User user = (User) object;
-            return (user.getNickName().equals(getUser().getNickName()));
+            return (user.getNickname().equals(getUser().getNickname()));
         }
     }
 
@@ -165,7 +165,7 @@ public class UserResult {
      */
     public int hashCode() {
         int result = 17;
-        result = 37 * result + getUser().getNickName().hashCode();
+        result = 37 * result + getUser().getNickname().hashCode();
         return result;
     }
 

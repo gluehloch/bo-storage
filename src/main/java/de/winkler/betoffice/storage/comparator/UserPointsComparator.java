@@ -61,8 +61,8 @@ public final class UserPointsComparator implements Comparator<UserResult> {
             } else if (u1.getUserWin() < u2.getUserWin()) {
                 retcode = 1;
             } else if (u1.getUserWin() == u2.getUserWin()) {
-                retcode = u1.getUser().getNickName().toLowerCase().compareTo(
-                        u2.getUser().getNickName().toLowerCase());
+                retcode = u1.getUser().getNickname().toLowerCase().compareTo(
+                        u2.getUser().getNickname().toLowerCase());
             } else {
                 throw new IllegalStateException();
             }
@@ -70,14 +70,14 @@ public final class UserPointsComparator implements Comparator<UserResult> {
 
         if (log.isDebugEnabled()) {
             if (retcode < 0) {
-                log.debug(u1.getUser().getNickName() + " > "
-                        + u2.getUser().getNickName());
+                log.debug(u1.getUser().getNickname() + " > "
+                        + u2.getUser().getNickname());
             } else if (retcode > 0) {
-                log.debug(u2.getUser().getNickName() + " > "
-                        + u1.getUser().getNickName());
+                log.debug(u2.getUser().getNickname() + " > "
+                        + u1.getUser().getNickname());
             } else {
-                log.debug(u1.getUser().getNickName() + " == "
-                        + u2.getUser().getNickName());
+                log.debug(u1.getUser().getNickname() + " == "
+                        + u2.getUser().getNickname());
             }
         }
 

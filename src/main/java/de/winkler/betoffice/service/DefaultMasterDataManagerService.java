@@ -156,7 +156,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     public User createUser(final User user) {
         List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
 
-        if (StringUtils.isBlank(user.getNickName())) {
+        if (StringUtils.isBlank(user.getNickname())) {
             messages.add(new BetofficeValidationMessage(
                     "Nickname ist nicht gesetzt.", "nickName", Severity.ERROR));
         }

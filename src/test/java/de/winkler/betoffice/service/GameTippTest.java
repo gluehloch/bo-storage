@@ -329,23 +329,23 @@ public class GameTippTest extends AbstractServiceTest {
 
         // Neuen Tipp erzeugen lassen...
         userA = new User();
-        userA.setNickName("User A");
+        userA.setNickname("User A");
         masterDataManagerService.createUser(userA);
 
         userB = new User();
-        userB.setNickName("User B");
+        userB.setNickname("User B");
         masterDataManagerService.createUser(userB);
 
         userC = new User();
-        userC.setNickName("User C");
+        userC.setNickname("User C");
         masterDataManagerService.createUser(userC);
 
         userD = new User();
-        userD.setNickName("User D");
+        userD.setNickname("User D");
         masterDataManagerService.createUser(userD);
 
         userE = new User();
-        userE.setNickName("User E");
+        userE.setNickname("User E");
         masterDataManagerService.createUser(userE);
 
         allUsers.clear();

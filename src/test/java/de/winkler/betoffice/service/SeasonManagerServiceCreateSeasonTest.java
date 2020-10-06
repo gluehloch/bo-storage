@@ -454,7 +454,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
             final String name) {
 
         User user = new User();
-        user.setNickName(nickname);
+        user.setNickname(nickname);
         user.setName(name);
         user.setSurname(surname);
         masterDataManagerService.createUser(user);

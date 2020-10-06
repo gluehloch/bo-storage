@@ -13,14 +13,13 @@
             <action dev="andrewinkler" type="update" date="2020-09-06">
                 Using MaridDB JDBC Driver.
             </action>
-            <action dev="andrewinkler" type="update" date="2019-06-06">
-                Dependency updates: Removed JAXB and upgraded Apache commons
-                dbcp to dpcp2 and pool to pool2.
+            <action dev="andrewinkler" type="update" date="2020-01-04">
+                Renamed user property nickName to nickname.
             </action>
-            <action dev="andrewinkler" type="update" date="2019-06-05">
-                 Upgraded to JUnit 5.
+            <action dev="andrewinkler" type="update" date="2019-06-29">
+                Added community support.
             </action>
-        </release>
+        </release>            
 
         <!-- RELEASED -->
         <release version="betoffice-storage-2.6.4" date="2020-07-26"
@@ -30,7 +29,7 @@
                 java.time.ZonedDateTime.
             </action>
         </release>
-
+	
         <!-- RELEASED -->
 		<release version="betoffice-storage-2.6.3" date="2019-03-22"
 			description="Java 10">

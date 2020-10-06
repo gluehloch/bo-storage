@@ -13,6 +13,8 @@ bin
 .settings
 .idea
 .vscode
+.dbeaver
+.sts4-cache
 /betoffice-storage.iml
 .devcontainer
 

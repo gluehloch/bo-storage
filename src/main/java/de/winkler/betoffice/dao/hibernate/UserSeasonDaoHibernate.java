@@ -48,7 +48,7 @@ public class UserSeasonDaoHibernate extends AbstractCommonDao<UserSeason>
     private static final String QUERY_USERS_BY_SEASON = "select user "
             + "from User user, UserSeason us "
             + "where us.season.id = :seasonId and us.user.id = user.id "
-            + "order by user.nickName";
+            + "order by user.nickname";
 
     public UserSeasonDaoHibernate() {
         super(UserSeason.class);

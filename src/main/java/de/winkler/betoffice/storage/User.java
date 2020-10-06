@@ -65,7 +65,7 @@ public class User extends AbstractStorageObject {
 
     /** Der Nickname des Users. */
     @Column(name = "bo_nickname")
-    private String nickName;
+    private String nickname;
 
     /** Die EMailadresse des Users. */
     @Column(name = "bo_email")
@@ -114,7 +114,7 @@ public class User extends AbstractStorageObject {
      * @param _nickname
      */
     public User(String _nickname) {
-        setNickName(_nickname);
+        nickname = _nickname;
     }
 
     /**
@@ -145,7 +145,7 @@ public class User extends AbstractStorageObject {
 
         setName(aName);
         setSurname(aSurname);
-        setNickName(aNickname);
+        setNickname(aNickname);
         setEmail(aMail);
         setPhone(aPhone);
         setPassword(aPwd);
@@ -228,8 +228,8 @@ public class User extends AbstractStorageObject {
      *
      * @return Der Nickname.
      */
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 
     /**
@@ -238,8 +238,8 @@ public class User extends AbstractStorageObject {
      * @param value
      *            Der Nickname.
      */
-    public void setNickName(String value) {
-        nickName = value;
+    public void setNickname(String value) {
+        nickname = value;
     }
 
     // -- email ---------------------------------------------------------------
@@ -434,7 +434,7 @@ public class User extends AbstractStorageObject {
         buf.append(": ");
         buf.append(surname);
         buf.append(": ");
-        buf.append(nickName);
+        buf.append(nickname);
         buf.append(": ");
         buf.append(email);
         buf.append(": ");
@@ -450,9 +450,7 @@ public class User extends AbstractStorageObject {
      * @see Object#toString()
      */
     public String toString() {
-        StringBuffer buf = new StringBuffer();
-        buf.append(nickName);
-        return buf.toString();
+        return nickname;
     }
 
     /**
@@ -465,7 +463,7 @@ public class User extends AbstractStorageObject {
             return false;
         } else {
             User user = (User) object;
-            return (user.getNickName().equalsIgnoreCase(getNickName()));
+            return (user.getNickname().equalsIgnoreCase(getNickname()));
         }
     }
 
@@ -474,7 +472,7 @@ public class User extends AbstractStorageObject {
      */
     public int hashCode() {
         int result = 17;
-        result = 37 * result + getNickName().hashCode();
+        result = 37 * result + getNickname().hashCode();
         return result;
     }
 

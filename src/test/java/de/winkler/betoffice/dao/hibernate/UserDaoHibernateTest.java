@@ -57,9 +57,9 @@ public class UserDaoHibernateTest extends AbstractDaoTestSupport {
     public void testUserDaoHibernateFindAll() {
         List<User> users = userDaoHibernate.findAll();
         assertEquals(3, users.size());
-        assertEquals("Frosch", users.get(0).getNickName());
-        assertEquals("Hattwig", users.get(1).getNickName());
-        assertEquals("Peter", users.get(2).getNickName());
+        assertEquals("Frosch", users.get(0).getNickname());
+        assertEquals("Hattwig", users.get(1).getNickname());
+        assertEquals("Peter", users.get(2).getNickname());
     }
 
     @Test

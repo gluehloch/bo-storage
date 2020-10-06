@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author Andre Winkler
  */
-@Component("dataTimeProvider")
+@Component
 public class DefaultDateTimeProvider implements DateTimeProvider {
 
     @Override

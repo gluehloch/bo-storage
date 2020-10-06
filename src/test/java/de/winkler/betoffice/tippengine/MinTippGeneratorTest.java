@@ -139,7 +139,7 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
 
         // userMinTipp bekommt die Tipps von User C.
         User userMinTipp = new User();
-        userMinTipp.setNickName("userMinTipp");
+        userMinTipp.setNickname("userMinTipp");
         userMinTipp = masterDataManagerService.createUser(userMinTipp);
         seasonManagerService.addUser(season, userMinTipp);
 

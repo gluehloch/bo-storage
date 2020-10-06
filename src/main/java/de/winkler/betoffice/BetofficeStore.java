@@ -32,7 +32,6 @@ import org.slf4j.Logger;
 import de.winkler.betoffice.service.MasterDataManagerService;
 import de.winkler.betoffice.service.SeasonManagerService;
 import de.winkler.betoffice.service.TippService;
-import de.winkler.betoffice.spring.SpringBeans;
 import de.winkler.betoffice.util.LoggerFactory;
 
 /**

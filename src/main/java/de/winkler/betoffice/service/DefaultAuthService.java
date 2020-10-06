@@ -115,7 +115,7 @@ public class DefaultAuthService implements AuthService {
             return Optional.empty();
         } else {
             Session session = sessions.get(0);
-            session.getUser().getNickName();
+            session.getUser().getNickname();
             // TODO Hier koennte man noch mehr pruefen, wie z.B. Browser und IP?
             // Dann waeren mehr Parameter an diese Methode zu uebergeben.
             // Vielleicht doch das ganze SecurityToken?

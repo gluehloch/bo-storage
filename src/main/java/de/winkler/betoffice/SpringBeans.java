@@ -22,14 +22,13 @@
  *
  */
 
-package de.winkler.betoffice.spring;
+package de.winkler.betoffice;
 
 import org.slf4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import de.winkler.betoffice.util.LoggerFactory;
-
 
 /**
  * Kapselt den Zugriff auf die Beans mit Spring.

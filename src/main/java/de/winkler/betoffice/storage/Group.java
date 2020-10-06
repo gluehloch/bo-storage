@@ -226,6 +226,7 @@ public class Group extends AbstractStorageObject {
         return (getGroupType().getName());
     }
 
+    @Override
     public boolean equals(final Object object) {
         if (object == null) {
             return false;
@@ -237,6 +238,7 @@ public class Group extends AbstractStorageObject {
         }
     }
 
+    @Override
     public int hashCode() {
         return 37;
     }

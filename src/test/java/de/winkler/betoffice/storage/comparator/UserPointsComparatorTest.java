@@ -47,13 +47,13 @@ public class UserPointsComparatorTest {
     @Test
     public void testUserPointsComparator() {
         User frosch = new User();
-        frosch.setNickName("Frosch");
+        frosch.setNickname("Frosch");
         User hattwig = new User();
-        hattwig.setNickName("Hattwig");
+        hattwig.setNickname("Hattwig");
         User mrTipp = new User();
-        mrTipp.setNickName("mrTipp");
+        mrTipp.setNickname("mrTipp");
         User chris = new User();
-        chris.setNickName("chris");
+        chris.setNickname("chris");
 
         Season season = new Season();
         season.setName("Bundesliga");
@@ -84,10 +84,10 @@ public class UserPointsComparatorTest {
                 urHattwig);
         Collections.sort(ur, new UserPointsComparator());
 
-        assertEquals("Frosch", ur.get(0).getUser().getNickName());
-        assertEquals("Hattwig", ur.get(1).getUser().getNickName());
-        assertEquals("mrTipp", ur.get(2).getUser().getNickName());
-        assertEquals("chris", ur.get(3).getUser().getNickName());
+        assertEquals("Frosch", ur.get(0).getUser().getNickname());
+        assertEquals("Hattwig", ur.get(1).getUser().getNickname());
+        assertEquals("mrTipp", ur.get(2).getUser().getNickname());
+        assertEquals("chris", ur.get(3).getUser().getNickname());
     }
 
 }
