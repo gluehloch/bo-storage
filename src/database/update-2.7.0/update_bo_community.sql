@@ -6,7 +6,8 @@ SELECT version();
 --
 create table bo_community (
     id BIGINT NOT NULL auto_increment,
-    bo_name VARCHAR(40) NOT NULL,
+    bo_name VARCHAR(60) NOT NULL,
+    bo_shortname VARCHAR(20) NOT NULL,
     bo_user_ref BIGINT NOT NULL comment 'Community Manager',
     bo_season_ref BIGINT NOT NULL,
     primary key (id)

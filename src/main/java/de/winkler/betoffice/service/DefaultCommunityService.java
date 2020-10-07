@@ -58,11 +58,11 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Autowired
     private SeasonDao seasonDao;
-    
+
     public Community find(String communityName) {
         return communityDao.find(communityName);
     }
-    
+
     @Override
     public List<Community> findAll(String communityNameFilter) {
         return communityDao.findAll(communityNameFilter);
@@ -74,11 +74,11 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
-    public Community create(Season season, String communityName, String managerNickname) {
+    public Community create(Season season, String communityName, String communityShortName, String managerNickname) {
         validateCommunityName(communityName);
 
         Season persistedSeason = seasonDao.findById(season.getId());
-    
+
         try {
             communityDao.find(communityName);
             throw new IllegalArgumentException(
@@ -92,6 +92,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
         Community community = new Community();
         community.setName(communityName);
+        community.setShortName(communityShortName);
         community.setCommunityManager(communityManager);
         community.setSeason(persistedSeason);
 

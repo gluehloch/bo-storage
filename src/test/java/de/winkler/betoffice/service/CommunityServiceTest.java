@@ -92,7 +92,7 @@ public class CommunityServiceTest extends AbstractServiceTest {
 
         communityManager = masterDataManagerService.createUser(communityManager);
 
-        Community community = communityService.create(bundesliga, "TDKB", "Frosch");
+        Community community = communityService.create(bundesliga, "TDKB", "TDKB_short", "Frosch");
         assertThat(community.getCommunityManager()).isEqualTo(communityManager);
         assertEquals("TDKB", community.getName());
         assertEquals(communityManager.getId(), community.getCommunityManager().getId());
@@ -113,7 +113,7 @@ public class CommunityServiceTest extends AbstractServiceTest {
         communityManager.setPassword("Passwort");
 
         communityManager = masterDataManagerService.createUser(communityManager);
-        Community community = communityService.create(bundesliga, "TDKB", "Frosch");
+        Community community = communityService.create(bundesliga, "TDKB", "TDKB_short", "Frosch");
 
         User demoUserA = new User();
         demoUserA.setEmail("demoA@email.de");
@@ -152,19 +152,19 @@ public class CommunityServiceTest extends AbstractServiceTest {
 
         communityManager = masterDataManagerService.createUser(communityManager);
 
-        communityService.create(bundesliga, "CM_A", "Frosch");
-        communityService.create(bundesliga, "CM_B", "Frosch");
-        communityService.create(bundesliga, "CM_C", "Frosch");
-        communityService.create(bundesliga, "CM_D", "Frosch");
-        communityService.create(bundesliga, "CM_E", "Frosch");
+        communityService.create(bundesliga, "CM_A", "CM_A_short", "Frosch");
+        communityService.create(bundesliga, "CM_B", "CM_B_short", "Frosch");
+        communityService.create(bundesliga, "CM_C", "CM_C_short", "Frosch");
+        communityService.create(bundesliga, "CM_D", "CM_D_short", "Frosch");
+        communityService.create(bundesliga, "CM_E", "CM_E_short", "Frosch");
         
         List<Community> list = communityService.findAll("CM");
         assertThat(list).hasSize(5);
         
-        communityService.create(bundesliga, "aw1", "Frosch");
-        communityService.create(bundesliga, "aw2", "Frosch");
-        communityService.create(bundesliga, "aw3", "Frosch");
-        communityService.create(bundesliga, "aw4", "Frosch");
+        communityService.create(bundesliga, "aw1", "aw1_short", "Frosch");
+        communityService.create(bundesliga, "aw2", "aw2_short", "Frosch");
+        communityService.create(bundesliga, "aw3", "aw3_short", "Frosch");
+        communityService.create(bundesliga, "aw4", "aw4_short", "Frosch");
         
         assertThat(communityService.findAll("aw")).hasSize(4);
         assertThat(communityService.findAll("aw1")).hasSize(1);

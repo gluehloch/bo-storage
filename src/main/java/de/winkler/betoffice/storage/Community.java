@@ -60,6 +60,10 @@ public class Community extends AbstractStorageObject {
     @Column(name = "bo_name")
     private String name;
 
+    @NotNull
+    @Column(name = "bo_shortname")
+    private String shortName;
+    
     @ManyToOne
     @JoinColumn(name = "bo_user_ref")
     private User communityManager;
@@ -93,6 +97,14 @@ public class Community extends AbstractStorageObject {
         this.name = name;
     }
 
+    public String getShortName() {
+        return shortName;
+    }
+    
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+    
     public User getCommunityManager() {
         return communityManager;
     }

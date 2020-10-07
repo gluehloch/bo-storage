@@ -65,13 +65,15 @@ public interface CommunityService {
     /**
      * Create a new community.
      * 
-     * @param name
+     * @param communityName
      *            community name
+     * @param communityShortName
+     *            short name of the community name
      * @param managerNickname
      *            nickname of the community manager
      * @return the create community.
      */
-    Community create(Season season, String communityName, String managerNickname);
+    Community create(Season season, String communityName, String communityShortName, String managerNickname);
 
     /**
      * Delete community.
