@@ -6,7 +6,9 @@
 	</properties>
 	<body>
 		<!-- Under construction. -->
-        <release version="betoffice-storage-2.7.0" date="2020-??-??" description="MariaDB, JUnit 5">
+		
+		<!-- RELEASED -->
+        <release version="betoffice-storage-2.7.0" date="2020-10-07" description="MariaDB, JUnit 5">
             <action dev="andrewinkler" type="update" date="2020-09-27">
                 Removed property #tipplist from object Game. Replaced all eager relations with lazy.
             </action>
