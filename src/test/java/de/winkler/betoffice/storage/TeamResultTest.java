@@ -49,10 +49,12 @@ public class TeamResultTest {
         season.setMode(SeasonType.LEAGUE);
 
         Group groupA = new Group();
+        // groupA.setId(1L);
         groupA.setGroupType(groupTypes.groupTypes()[DummyGroups.BULI_1]);
         season.addGroup(groupA);
 
         Group groupB = new Group();
+        // groupB.setId(2L);
         groupB.setGroupType(groupTypes.groupTypes()[DummyGroups.BULI_2]);
         season.addGroup(groupB);
 

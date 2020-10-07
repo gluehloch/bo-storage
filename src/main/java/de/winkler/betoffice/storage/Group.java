@@ -25,6 +25,7 @@
 package de.winkler.betoffice.storage;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -200,9 +201,9 @@ public class Group extends AbstractStorageObject {
     // -- StorageObject -------------------------------------------------------
 
     /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
-     * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
-     * Eigenschaften müssen gesetzt sein:
+     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt sind,
+     * damit es evt. Weiterverarbeitungen erfahren kann. Folgende Eigenschaften
+     * müssen gesetzt sein:
      * <ul>
      * <li>groupType</li>
      * <li>season</li>
@@ -222,8 +223,8 @@ public class Group extends AbstractStorageObject {
 
     // -- Object --------------------------------------------------------------
 
-    public String toString() {
-        return (getGroupType().getName());
+    public String debug() {
+        return getGroupType().getName();
     }
 
     @Override
@@ -234,13 +235,14 @@ public class Group extends AbstractStorageObject {
             return false;
         } else {
             Group group = (Group) object;
-            return group.getId().equals(getId());           
+            return Objects.equals(getSeason(), group.getSeason())
+                    && Objects.equals(getGroupType(), group.getGroupType());
         }
     }
 
     @Override
     public int hashCode() {
-        return 37;
+        return Objects.hash(getGroupType(), getSeason());
     }
 
 }

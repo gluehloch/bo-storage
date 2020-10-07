@@ -40,6 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameTipp;
+import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
@@ -85,7 +86,9 @@ public class SeasonManagerServiceTest extends AbstractServiceTest {
         GroupType liga2 = new GroupType();
         liga2.setName("2. Liga");
         masterDataManagerService.createGroupType(liga2);
-        seasonManagerService.addGroupType(bundesliga, liga2);
+        Season modifiedSeason = seasonManagerService.addGroupType(bundesliga, liga2);
+        Group group = seasonManagerService.findGroup(modifiedSeason, liga2);
+        assertThat(modifiedSeason.getGroups()).contains(group);
     }
 
     @Test
