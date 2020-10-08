@@ -461,8 +461,8 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * @param value
      *            Die Ordnungsnummer.
      */
-    public void setIndex(final int value) {
-        // not used, calculated value, see getIndex() method
+    protected void setIndex(final int value) {
+        index = value;
     }
 
     // -- goals ---------------------------------------------------------------

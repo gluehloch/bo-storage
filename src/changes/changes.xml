@@ -6,7 +6,12 @@
 	</properties>
 	<body>
 		<!-- Under construction. -->
-		
+		<release version="betoffice-storage-2.7.1" date="2020-10-08" description="GameList Index Problem">
+            <action dev="andrewinkler" type="update" date="2020-10-08">
+                The service #addMatch is able to set the game index.
+            </action>
+        </release>
+
 		<!-- RELEASED -->
         <release version="betoffice-storage-2.7.0" date="2020-10-07" description="MariaDB, JUnit 5">
             <action dev="andrewinkler" type="update" date="2020-09-27">

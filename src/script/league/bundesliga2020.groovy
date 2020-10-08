@@ -23,7 +23,7 @@
 @Grab(group='org.mariadb.jdbc', module='mariadb-java-client', version='2.6.2')
 @Grab(group='xml-apis', module='xml-apis', version='1.0.b2')
 
-@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.7.0', transitive=true)
+@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.7.1', transitive=true)
 // @Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.6.0')
 // @Grab(group='de.betoffice', module='betoffice-openligadb', version='1.5.5')
 
