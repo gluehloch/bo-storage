@@ -18,12 +18,12 @@
 //@Grab(group='org.springframework', module='spring-core', version='5.1.5.RELEASE')
 //@Grab(group='org.springframework', module='spring-context', version='5.1.5.RELEASE')
 
-@Grab(group='commons-pool', module='commons-pool', version='1.5.4')
-@Grab(group='commons-dbcp', module='commons-dbcp', version='1.4')
-@Grab(group='mysql', module='mysql-connector-java', version='5.1.31')
+@Grab(group='org.apache.commons', module='commons-pool2', version='2.8.1')
+@Grab(group='org.apache.commons', module='commons-dbcp2', version='2.7.0')
+@Grab(group='org.mariadb.jdbc', module='mariadb-java-client', version='2.6.2')
 @Grab(group='xml-apis', module='xml-apis', version='1.0.b2')
 
-@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.6.4', transitive=true)
+@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.7.0', transitive=true)
 // @Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.6.0')
 // @Grab(group='de.betoffice', module='betoffice-openligadb', version='1.5.5')
 
@@ -76,17 +76,17 @@ class Service {
         return masterService.findGroupType(groupType).get()
     }
 
-    def findRoundGroupTeamUserRelations(season) {
-        return seasonService.findRoundGroupTeamUserRelations(season)
-    }
-
     def findRound(season, index) {
         return seasonService.findRound(season, index)
     }
 
-    def findGroup(season, group) {
+    def findRoundGames(roundId) {
+        return seasonService.findRoundGames(roundId).orElseThrow()
+    }
+
+    def findGroup(season, groupType) {
         try {
-            return seasonService.findGroup(season, group)
+            return seasonService.findGroup(season, groupType)
         } catch (javax.persistence.NoResultException ex) {
             return null
         }
@@ -151,22 +151,22 @@ def printTeams(group) {
 Service service = new Service();
 
 def bundesliga
-def seasonOptional = service.seasonService.findSeasonByName('Bundesliga', '2020/2021')
+def seasonOptional = service.seasonService.findSeasonByName('Bundesliga', '2021/2022')
 if (seasonOptional.isPresent()) {
     bundesliga = seasonOptional.get()
     def championshipConfiguration = new ChampionshipConfiguration()
     championshipConfiguration.openligaLeagueShortcut = 'bl1'
-    championshipConfiguration.openligaLeagueSeason = '2020'
+    championshipConfiguration.openligaLeagueSeason = '2021'
     bundesliga.setChampionshipConfiguration(championshipConfiguration)
     service.updateSeason(bundesliga)
 } else {
     bundesliga = new Season();
     bundesliga.name = 'Bundesliga'
-    bundesliga.year = '2020/2021'
+    bundesliga.year = '2021/2022'
     bundesliga.mode = SeasonType.LEAGUE
     bundesliga.teamType = TeamType.DFB
     bundesliga.getChampionshipConfiguration().openligaLeagueShortcut = 'bl1'
-    bundesliga.getChampionshipConfiguration().openligaLeagueSeason = '2020'
+    bundesliga.getChampionshipConfiguration().openligaLeagueSeason = '2021'
     bundesliga = service.createSeason(bundesliga)
 }
 
@@ -260,8 +260,8 @@ validate fcNuernberg
 */
 
 def bundesliga2020group = service.addGroup bundesliga, bundesligaGroupType
-bundesliga = service.findRoundGroupTeamUserRelations(bundesliga)
-println "Gruppe Bundesliga 2020/2021: $bundesliga2020group"
+bundesliga2020group = service.findGroup(bundesliga, bundesligaGroupType)
+println "Gruppe Bundesliga 2021/2022: $bundesliga2020group"
 
 bundesliga2020group = service.addTeams(bundesliga, bundesligaGroupType, [
     unionBerlin,
