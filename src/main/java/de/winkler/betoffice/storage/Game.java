@@ -443,13 +443,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * @hibernate.property column="bo_index"
      */
     public int getIndex() {
-        if (getGameList() == null) {
-            return StorageConst.INDEX_UNDEFINED;
-        } else if (!(getGameList().getGameList().contains(this))) {
-            return StorageConst.INDEX_UNDEFINED;
-        } else {
-            return getGameList().getGameList().indexOf(this);
-        }
+        return index;
     }
 
     /**
