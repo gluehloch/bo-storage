@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -25,15 +25,12 @@
 package de.winkler.betoffice.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -115,7 +112,7 @@ public class SeasonTest extends AbstractServiceTest {
         Team bochum = sceneBuilder.getTeams().teams()[DummyTeams.BOCHUM];
         Team rwe = sceneBuilder.getTeams().teams()[DummyTeams.RWE];
         Team bvb = sceneBuilder.getTeams().teams()[DummyTeams.BVB];
-        
+
         List<Team> teamsErsteBundesliga = seasonManagerService.findTeams(sceneBuilder.getErsteBundesliga());
         assertThat(teamsErsteBundesliga).hasSize(10);
         assertThat(teamsErsteBundesliga).containsOnlyElementsOf(sceneBuilder.getTeams().toList());
@@ -124,7 +121,8 @@ public class SeasonTest extends AbstractServiceTest {
         assertThat(teamsZweiteBundesliga).hasSize(3);
         assertThat(teamsZweiteBundesliga).contains(bochum, rwe, bvb);
 
-        seasonManagerService.removeTeam(sceneBuilder.getSeason(), sceneBuilder.getZweiteBundesliga().getGroupType(), rwe);
+        seasonManagerService.removeTeam(sceneBuilder.getSeason(), sceneBuilder.getZweiteBundesliga().getGroupType(),
+                rwe);
 
         teamsZweiteBundesliga = seasonManagerService.findTeams(sceneBuilder.getZweiteBundesliga());
         assertThat(teamsZweiteBundesliga).hasSize(2);
