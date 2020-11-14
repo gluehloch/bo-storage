@@ -360,6 +360,7 @@ public class GameTippTest extends AbstractServiceTest {
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userB, gr01, TippStatusType.USER);
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userC, gr11, TippStatusType.USER);
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userD, gr21, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userD, gr21, TippStatusType.USER);
 
         UserResult.nEqualValue = 10;
         UserResult.nTotoValue = 20;
