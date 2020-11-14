@@ -44,6 +44,8 @@ public class DefaultDateTimeProvider implements DateTimeProvider {
 
     @Override
     public ZonedDateTime currentDateTime() {
+        //21.11.2020 16:30
+        // return ZonedDateTime.of(2020, 11, 21, 18, 0, 0, 0, defaultZoneId());
         return ZonedDateTime.now(defaultZoneId());
     }
 

@@ -57,6 +57,7 @@ public interface TippService {
 
     /**
      * Einen Tipp einer Spielpaarung hinzufügen/aktualisieren.
+     * <b>ACHTUNG:</b> Es findet keine Prüfung statt, ob der Tipp vor Spielbeginn abgegeben wurde.
      *
      * @param token
      *            Das Anmeldetoken mit dem dieser Tipp angelegt wird.
@@ -74,6 +75,7 @@ public interface TippService {
 
     /**
      * Legt die Tipps für einen kompletten Spieltag in der Datenbank an.
+     * <b>ACHTUNG:</b> Es findet keine Prüfung statt, ob der Tipp vor Spielbeginn abgegeben wurde.
      *
      * @param token
      *            Das Anmeldetoken mit dem dieser Tipp angelegt wird.
@@ -87,17 +89,18 @@ public interface TippService {
      *            Der Status für diese Tipps.
      * @return Die erstellen {@code GameTipps}.
      */
-    List<GameTipp> createOrUpdateTipp(String token, GameList round, User user, List<GameResult> tipps,
-            TippStatusType status);
+    List<GameTipp> createOrUpdateTipp(String token, GameList round, User user, List<GameResult> tipps, TippStatusType status);
 
     /**
      * Legt den Tipp für einen Spieler für einen kompletten Spieltag an.
+     * 
+     * <b>ACHTUNG:</b> Es findet eine PRÜFUNG statt, ob der Tipp VOR Spielbeginn abgegeben wurde.
      * 
      * @param tippDto
      *            Der Spieltipp
      * @return Die erstellen {@code GameTipps}.
      */
-    List<GameTipp> addTipp(TippDto tippDto);
+    List<GameTipp> validateKickOffTimeAndAddTipp(TippDto tippDto);
 
     /**
      * Liefert alle Spieltipps zu einer Spielpaarung.

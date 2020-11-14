@@ -43,9 +43,9 @@ import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.TippDto;
+import de.winkler.betoffice.storage.TippDto.GameTippDto;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResultOfDay;
-import de.winkler.betoffice.storage.TippDto.GameTippDto;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.storage.enums.TotoResult;
 import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
@@ -80,19 +80,18 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
 
     @Autowired
     private DateTimeProvider datetimeProvider;
-    
+
     @Override
     @Transactional
     public GameTipp createOrUpdateTipp(String token, Game match, User user, GameResult tipp, TippStatusType status) {
         GameList round = roundDao.findRoundByGame(match).orElseThrow();
         return createOrUpdateTipp(token, round, match, user, tipp, status);
     }
-    
+
     private GameTipp createOrUpdateTipp(String token, GameList round, Game game, User user, GameResult tipp, TippStatusType status) {
         Date now = Date.from(datetimeProvider.currentDateTime().toInstant());
-        
-        Optional<GameTipp> gameTipp = gameTippDao.find(game, user);
-        
+
+        Optional<GameTipp> gameTipp = gameTippDao.find(game, user);        
         if (gameTipp.isPresent()) {
             GameTipp updateGameTipp = gameTipp.get();
             updateGameTipp.setToken(token);
@@ -114,7 +113,8 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
 
     @Override
     @Transactional
-    public List<GameTipp> createOrUpdateTipp(String token, GameList round, User user, List<GameResult> tipps, TippStatusType status) {
+    public List<GameTipp> createOrUpdateTipp(String token, GameList round, User user, List<GameResult> tipps,
+            TippStatusType status) {
         List<GameTipp> result = new ArrayList<>();
         for (int i = 0; i < round.size(); i++) {
             result.add(createOrUpdateTipp(token, round.get(i), user, tipps.get(i), status));
@@ -122,10 +122,8 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
         return result;
     }
 
-    private static BetofficeValidationMessage unknwonUser(
-            String unknownUser) {
-        String message = String.format("Unknown user with nickname=[%s]",
-                unknownUser);
+    private static BetofficeValidationMessage unknwonUser(String unknownUser) {
+        String message = String.format("Unknown user with nickname=[%s]", unknownUser);
         return new BetofficeValidationMessage(message, null, Severity.INFO);
     }
 
@@ -134,8 +132,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
         return new BetofficeValidationMessage(message, null, Severity.ERROR);
     }
 
-    private static BetofficeValidationException newException(
-            BetofficeValidationMessage message) {
+    private static BetofficeValidationException newException(BetofficeValidationMessage message) {
         return new BetofficeValidationException(List.of(message));
     }
 
@@ -203,9 +200,15 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
         }
     }
 
+    /**
+     * Added a user tipp to the database. If the tipp date is after kick off, the tipp will not be persisted.
+     * 
+     * @param tippDto The user tipp to persist.
+     * @return the persisted (or not) persisted user tipps.
+     */
     @Override
     @Transactional
-    public List<GameTipp> addTipp(TippDto tippDto) {
+    public List<GameTipp> validateKickOffTimeAndAddTipp(TippDto tippDto) {
         User user = userDao.findByNickname(tippDto.getNickname()).orElseThrow(
                 () -> newException(unknwonUser(tippDto.getNickname())));
 
@@ -219,13 +222,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
         for (GameTippDto gameTippDto : tippDto.getGameTipps()) {
             Game game = matchDao.findById(gameTippDto.getGameId());
 
-            ZonedDateTime gameDateTime = game.getDateTime();
-
-            //
-            // Falls die Spielpaarung keinen festgelegten Zeitpunkt definiert, wird der
-            // Tippzeitpunkt nicht bewertet.
-            //
-            if (gameDateTime == null || tippDto.getSubmitTime().isBefore(gameDateTime)) {
+            if (isSubmitTimeBeforeGameTime(tippDto, game)) {
                 Optional<GameTipp> predefinedTipp = findTipp(game, predefinedTipps);
 
                 if (predefinedTipp.isPresent()) {
@@ -243,8 +240,22 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
                 }
             }
         }
-        
+
         return gameTippDao.find(gameList, user);
+    }
+
+    /**
+     * Falls die Spielpaarung keinen festgelegten Zeitpunkt definiert, wird der
+     * Tippzeitpunkt nicht bewertet.
+     * 
+     * @param tipp
+     *            Der Tipp
+     * @param game
+     *            Das Spiel
+     * @return <code>true</code>, falls der Tippzeitpunkt vor Spielbeginn liegt.
+     */
+    private boolean isSubmitTimeBeforeGameTime(TippDto tipp, Game game) {
+        return game.getDateTime() == null || tipp.getSubmitTime().isBefore(game.getDateTime());
     }
 
     @Override

@@ -6,7 +6,18 @@
 	</properties>
 	<body>
 		<!-- Under construction. -->
-		
+		<release version="betoffice-storage-2.7.2" date="2020-11-14" description="Code garden work">
+		    <action dev="andrewinkler" type="add" date="2020-11-13">
+		        Added a test to find a bug: Is a 'incomplete tipp' problematic?
+		    </action>
+		    <action dev="andrewinkler" type="add" date="2020-11-13">
+		        Builder class to create teams.
+            </action>
+            <action dev="andrewinkler" type="update" date="2020-11-13">
+                Removed method Season#isActivated(...).
+            </action>
+        </release>
+
 		<!-- RELEASED -->
 		<release version="betoffice-storage-2.7.1" date="2020-10-11" description="GameList Index Problem">
             <action dev="andrewinkler" type="update" date="2020-10-08">

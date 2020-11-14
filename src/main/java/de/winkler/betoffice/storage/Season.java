@@ -302,22 +302,6 @@ public class Season extends AbstractStorageObject {
     }
 
     /**
-     * Prüft, ob eine Gruppe mit gesuchten Namen bereits existiert.
-     * 
-     * @param _groupType
-     *            Der gesuchte Gruppentyp.
-     * @return Der Gruppentyp, wenn bereits vorhanden; <code>null</code>, sonst.
-     */
-    public Group isActivated(final GroupType _groupType) {
-        for (Group group : getGroups()) {
-            if (group.getGroupType().equals(_groupType)) {
-                return group;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Entfernt eine Gruppe.
      * 
      * @param group

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -77,16 +77,6 @@ public class Team extends AbstractStorageObject {
     @Column(name = "bo_openligaid")
     private Long openligaid;
 
-    // @formatter:off
-    // Die N:M Mittlertabelle bo_team(id) <-> bo_team_group(bo_team_ref, bo_group_ref) <-> bo_group(id)
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "bo_team_group",
-//        joinColumns = @JoinColumn(name = "bo_team_ref"), // FK column which references bo_team#id
-//        inverseJoinColumns = @JoinColumn(name = "bo_group_ref")) // FK column reverse side bo_group#id
-//    @ManyToMany(mappedBy = "teams")
-//    private Set<Group> groups = new HashSet<>();
-    // @formatter:on
-
     /** Heimspiel Stadion */
     @ManyToOne
     @JoinColumn(name = "bo_location_ref")
@@ -106,7 +96,7 @@ public class Team extends AbstractStorageObject {
      * @param value
      *            Der Mannschaftsname
      */
-    public Team(final String value) {
+    public Team(String value) {
         this(value, null, null);
     }
 
@@ -120,13 +110,41 @@ public class Team extends AbstractStorageObject {
      * @param _logo
      *            Das Logo/Bezeichner der Logo-Datei.
      */
-    public Team(final String _name, final String _longName,
-            final String _logo) {
+    public Team(String _name, String _longName, String _logo) {
         setName(_name);
         setLongName(_longName);
         setLogo(_logo);
     }
 
+    public static class TeamBuilder {
+        private String name;
+        private String longName;
+        private String logoResource;
+        public static TeamBuilder team(String name) {
+            var tb = new TeamBuilder();
+            tb.name = name;
+            return tb;
+        }
+        
+        public TeamBuilder longName(String longName) {
+            this.longName = longName;
+            return this;
+        }
+        
+        public TeamBuilder logo(String logoResource) {
+            this.logoResource = logoResource;
+            return this;
+        }
+        
+        public Team build() {
+            var team = new Team();
+            team.setName(name);
+            team.setLongName(longName);
+            team.setLogo(logoResource);
+            return team;
+        }
+    }
+    
     // -- id ------------------------------------------------------------------
 
     /**

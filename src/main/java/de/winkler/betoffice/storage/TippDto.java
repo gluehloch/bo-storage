@@ -132,6 +132,15 @@ public class TippDto {
                 + ", nickname=" + nickname + ", token=" + token + ", gameTipps="
                 + gameTipps + "]";
     }
+    
+    public GameTippDto addTipp(long gameId, int homeGoals, int guestGoals) {
+        GameTippDto dto = new GameTippDto();
+        dto.setGameId(gameId);
+        dto.setHomeGoals(homeGoals);
+        dto.setGuestGoals(guestGoals);
+        gameTipps.add(dto);
+        return dto;
+    }
 
     public static class GameTippDto {
         private long gameId;
