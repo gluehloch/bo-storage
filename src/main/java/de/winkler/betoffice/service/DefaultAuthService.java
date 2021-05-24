@@ -61,12 +61,13 @@ public class DefaultAuthService implements AuthService {
     @Override
     public SecurityToken login(String name, String password, String sessionId, String address, String browserId) {
         Optional<User> user = userDao.findByNickname(name);
-        var now = dateTimeProvider.currentDateTime();
 
         SecurityToken securityToken = null;
         if (user.isPresent() && user.get().comparePwd(password)) {
             User presentUser = user.get();
             RoleType roleType = presentUser.isAdmin() ? RoleType.ADMIN : RoleType.TIPPER;
+            
+            var now = dateTimeProvider.currentDateTime();
             securityToken = new SecurityToken(sessionId, presentUser, roleType, now);
 
             Session session = new Session();
@@ -91,8 +92,7 @@ public class DefaultAuthService implements AuthService {
         List<Session> sessions = sessionDao.findBySessionId(securityToken.getToken());
 
         if (sessions.isEmpty()) {
-            log.warn("Trying to logout with an invalid securityToken=[{}]",
-                    securityToken);
+            log.warn("Trying to logout with an invalid securityToken=[{}]", securityToken);
         } else {
             for (Session session : sessions) {
                 session.setLogout(dateTimeProvider.currentDateTime());
