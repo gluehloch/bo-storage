@@ -567,11 +567,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
             throw new IllegalArgumentException("Parameter groupType is null!");
         }
 
-        // TODO Interessanter Code: Eine NoResultException fuehrt zu einem
-        // Transaktions-Rollback (UnexpectedRollbackException). Vermutlich
-        // ist Spring fuer diese Funktion zustaendig. Das Catch der
-        // NoResultException kann die Rollback Exception nicht verhindern.
-        // Komisch.
+        //
+        // TODO Eine NoResultException fuehrt zu einem Transaktions-Rollback (UnexpectedRollbackException).
+        // 
+        // Spring ist fuer diese Funktion zustaendig: RuntimeExceptions fuehren zu einem Rollback.
+        //
+        // Das Catch der 'NoResultException' kann die Rollback Exception nicht verhindern.
         //
         // try {
         // Group group = groupDao.findBySeasonAndGroupType(season, groupType);

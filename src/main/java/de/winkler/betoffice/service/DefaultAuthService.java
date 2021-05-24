@@ -59,9 +59,7 @@ public class DefaultAuthService implements AuthService {
 
     @Transactional
     @Override
-    public SecurityToken login(String name, String password, String sessionId,
-            String address, String browserId) {
-
+    public SecurityToken login(String name, String password, String sessionId, String address, String browserId) {
         Optional<User> user = userDao.findByNickname(name);
         var now = dateTimeProvider.currentDateTime();
 
@@ -90,8 +88,7 @@ public class DefaultAuthService implements AuthService {
     @Transactional
     @Override
     public void logout(SecurityToken securityToken) {
-        List<Session> sessions = sessionDao
-                .findBySessionId(securityToken.getToken());
+        List<Session> sessions = sessionDao.findBySessionId(securityToken.getToken());
 
         if (sessions.isEmpty()) {
             log.warn("Trying to logout with an invalid securityToken=[{}]",
@@ -122,5 +119,10 @@ public class DefaultAuthService implements AuthService {
             return Optional.of(session);
         }
     }
+
+	@Override
+	public Optional<User> findByNickname(String nickname) {
+		return userDao.findByNickname(nickname);
+	}
 
 }

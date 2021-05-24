@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2015 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2021 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -26,6 +26,7 @@ package de.winkler.betoffice.service;
 import java.util.Optional;
 
 import de.winkler.betoffice.storage.Session;
+import de.winkler.betoffice.storage.User;
 
 /**
  * Authentication and authorization service.
@@ -34,62 +35,61 @@ import de.winkler.betoffice.storage.Session;
  */
 public interface AuthService {
 
-    /**
-     * Login to betoffice. On success you get a {@link SecurityToken}.
-     *
-     * @param name
-     *            user name
-     * @param password
-     *            user password
-     * @param sessionId
-     *            SessionId
-     * @param address
-     *            ip address
-     * @param browserId
-     *            browser id
-     * @return a security token
-     */
-    SecurityToken login(String name, String password, String sessionId,
-            String address, String browserId);
+	/**
+	 * Find a user with defined nickname.
+	 * 
+	 * @param nickname the nickname of the user
+	 * @return a user
+	 */
+	Optional<User> findByNickname(String nickname);
 
-    /**
-     * Logout of betoffice.
-     * 
-     * @param securityToken
-     *            a security token
-     */
-    void logout(SecurityToken securityToken);
+	/**
+	 * Login to betoffice. On success you get a {@link SecurityToken}.
+	 *
+	 * @param name      user name
+	 * @param password  user password
+	 * @param sessionId SessionId
+	 * @param address   ip address
+	 * @param browserId browser id
+	 * @return a security token
+	 */
+	SecurityToken login(String name, String password, String sessionId, String address, String browserId);
 
-    /**
-     * Vaidates the user session.
-     * 
-     * @param token
-     *            a security token
-     * @param season
-     *            the championship
-     * @return a valid user session
-     */
-    Optional<Session> validateSession(String token);
+	/**
+	 * Logout of betoffice.
+	 * 
+	 * @param securityToken a security token
+	 */
+	void logout(SecurityToken securityToken);
 
-    //
-    // /**
-    // * Find the role for a user session.
-    // *
-    // * @param token
-    // * a security token
-    // * @return the role
-    // */
-    // RoleType findRole(SecurityToken token);
-    //
-    // /**
-    // * Find the role for a user session.
-    // *
-    // * @param token
-    // * a security token
-    // * @param season
-    // * a championship
-    // * @return the role for the specific championship
-    // */
-    // RoleType findRole(SecurityToken token, Season season);
+	/**
+	 * Vaidates the user session.
+	 * 
+	 * @param token  a security token
+	 * @param season the championship
+	 * @return a valid user session
+	 */
+	Optional<Session> validateSession(String token);
+
+	//
+	// /**
+	// * Find the role for a user session.
+	// *
+	// * @param token
+	// * a security token
+	// * @return the role
+	// */
+	// RoleType findRole(SecurityToken token);
+	//
+	// /**
+	// * Find the role for a user session.
+	// *
+	// * @param token
+	// * a security token
+	// * @param season
+	// * a championship
+	// * @return the role for the specific championship
+	// */
+	// RoleType findRole(SecurityToken token, Season season);
 
 }
