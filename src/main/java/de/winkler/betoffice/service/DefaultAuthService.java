@@ -87,6 +87,12 @@ public class DefaultAuthService implements AuthService {
     }
 
     @Transactional
+	@Override
+	public Optional<SecurityToken> findTokenByNickname(String nickname) {
+    	return findTokenByNickname(nickname);
+	}    
+    
+    @Transactional
     @Override
     public void logout(SecurityToken securityToken) {
         List<Session> sessions = sessionDao.findBySessionId(securityToken.getToken());

@@ -44,6 +44,14 @@ public interface AuthService {
 	Optional<User> findByNickname(String nickname);
 
 	/**
+	 * Find the security token for user.
+	 * 
+	 * @param nickname the nickname of the user
+	 * @return the security token
+	 */
+	Optional<SecurityToken> findTokenByNickname(String nickname);
+
+	/**
 	 * Login to betoffice. On success you get a {@link SecurityToken}.
 	 *
 	 * @param name      user name
