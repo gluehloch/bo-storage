@@ -81,7 +81,10 @@ class Service {
     }
 
     def findTeam(teamName) {
-        return masterService.findTeam(teamName)
+        def team = masterService.findTeam(teamName)
+        if (!team.isPresent()) {
+            println "team '${teamName}' not found"
+        }
     }
 
     def findTeams(season, groupType) {
@@ -142,7 +145,6 @@ if (seasonOptional.isPresent()) {
 println em2021.name + " - " + em2021.year
 
  // def bundesliga = master.findGroupType('1. Bundesliga');
- /*
 def gruppeA = service.findGroupType('Gruppe A');
 validate gruppeA
 def gruppeB = service.findGroupType('Gruppe B');
@@ -155,11 +157,8 @@ def gruppeE = service.findGroupType('Gruppe E');
 validate gruppeE
 def gruppeF = service.findGroupType('Gruppe F');
 validate gruppeF
-def gruppeG = service.findGroupType('Gruppe G');
-validate gruppeG
-def gruppeH = service.findGroupType('Gruppe H');
-validate gruppeH
 
+/*
 def achtelfinale = service.findGroupType('Achtelfinale');
 validate achtelfinale
 def viertelfinale = service.findGroupType('Viertelfinale');
@@ -170,10 +169,87 @@ def finale = service.findGroupType('Finale');
 validate finale
 def platz3 = service.findGroupType('Spiel um Platz 3');
 validate platz3
+*/
+
+// Gruppe A
+def italien = service.findTeam('Italien').get()
+validate italien
+
+def schweiz = service.findTeam('Schweiz').get();
+validate schweiz
+
+def tuerkei = service.findTeam("Türkei").get()
+validate tuerkei
+
+def wales = service.findTeam('Wales').get();
+validate wales
+
+// Gruppe B
+def belgien = service.findTeam('Belgien').get();
+validate belgien
+
+def daenemark = service.findTeam('Dänemark').get();
+validate daenemark
+
+def finnland = service.findTeam('Finnland').get();
+validate finnland
+
+def russland = service.findTeam('Russland').get();
+validate russland
+
+// Gruppe C
+def niederlande = service.findTeam('Niederlande').get();
+validate niederlande
+
+def nordmazedonien = service.findTeam('Nordmazedonien').get();
+validate nordmazedonien
 
 def oesterreich = service.findTeam('Österreich').get()
-println oesterreich
+validate oesterreich
 
+def ukraine = service.findTeam('Ukraine').get();
+validate ukraine
+
+// Gruppe D
+def england = service.findTeam('England').get();
+validate england
+
+def kroatien = service.findTeam('Kroatien').get();
+validate kroatien
+
+def schottland = service.findTeam('Schottland').get();
+validate schottland
+
+def tschechien = service.findTeam('Tschechien').get();
+validate tschechien
+
+// Gruppe E
+def polen = service.findTeam('Polen').get();
+validate polen
+
+def schweden = service.findTeam('Schweden').get();
+validate schweden
+
+def slowakei = service.findTeam('Slowakei').get();
+validate slowakei
+
+def spanien = service.findTeam('Spanien').get();
+validate spanien
+
+// Gruppe F
+def deutschland = service.findTeam('Deutschland').get();
+validate deutschland
+
+def frankreich = service.findTeam('Frankreich').get();
+validate frankreich
+
+def portugal = service.findTeam('Portugal').get();
+validate portugal
+
+def ungarn = service.findTeam('Ungarn').get()
+println ungarn
+
+/*
 def aegypten = service.findTeam('Ägypten')
 if (!aegypten.present) {
     def team = new Team()
@@ -189,120 +265,10 @@ if (!aegypten.present) {
     aegypten = aegypten.get()
 }
 validate aegypten
-
-def argentinien = service.findTeam('Argentinien').get();
-validate argentinien
-def australien = service.findTeam('Australien').get();
-validate australien
-def belgien = service.findTeam('Belgien').get();
-validate belgien
-
-def brasilien = service.findTeam('Brasilien').get();
-validate brasilien
-def costaRica = service.findTeam('Costa Rica').get();
-validate costaRica
-def daenemark = service.findTeam('Dänemark').get();
-validate daenemark
-def uruguay = service.findTeam('Uruguay').get();
-validate uruguay
-
-def deutschland = service.findTeam('Deutschland').get();
-validate deutschland
-def england = service.findTeam('England').get();
-validate england
-def frankreich = service.findTeam('Frankreich').get();
-validate frankreich
-def iran = service.findTeam('Iran').get();
-validate iran
-
-def island = service.findTeam('Island').get();
-validate island
-def japan = service.findTeam('Japan').get();
-validate japan
-def kolumbien = service.findTeam('Kolumbien').get();
-validate kolumbien
-def kroatien = service.findTeam('Kroatien').get();
-validate kroatien
-
-def marokko = service.findTeam('Marokko')
-if (!marokko.present) {
-    def team = new Team()
-    team.name = 'Marokko'
-    team.longName = 'Marokko'
-    team.shortName = 'Marokko'
-    team.xshortName = 'MRK'
-    team.logo = 'marokko.gif'
-    team.teamType = TeamType.FIFA
-    service.updateTeam(team)
-    marokko = team
-} else {
-    marokko = marokko.get()
-}
-validate marokko
-
-def mexiko = service.findTeam('Mexiko').get();
-validate mexiko
-def nigeria = service.findTeam('Nigeria').get();
-validate nigeria
-
-def panama = service.findTeam 'Panama'
-if (!panama.present) {
-    def team = new Team()
-    team.name = 'Panama'
-    team.longName = 'Panama'
-    team.shortName = 'Panama'
-    team.xshortName = 'PAN'
-    team.logo = 'panama.gif'
-    team.teamType = TeamType.FIFA
-    service.updateTeam(team)
-    panama = team
-} else {
-    panama = panama.get()
-}
-validate panama
-
-def peru = service.findTeam 'Peru';
-if (!peru.present) {
-    def team = new Team()
-    team.name = 'Peru'
-    team.longName = 'Peru'
-    team.shortName = 'Peru'
-    team.xshortName = 'PRU'
-    team.logo = 'peru.gif'
-    team.teamType = TeamType.FIFA
-    service.updateTeam(team)
-    peru = team
-} else {
-    peru = peru.get()
-}
-validate peru
-
-def polen = service.findTeam('Polen').get();
-validate polen
-def portugal = service.findTeam('Portugal').get();
-validate portugal
-def russland = service.findTeam('Russland').get();
-validate russland
-
-def saudiArabien = service.findTeam('Saudi Arabien').get();
-validate saudiArabien
-def schweden = service.findTeam('Schweden').get();
-validate schweden
-def schweiz = service.findTeam('Schweiz').get();
-validate schweiz
-def senegal = service.findTeam('Senegal').get();
-validate senegal
-
-def serbien = service.findTeam('Serbien').get();
-validate serbien
-def spanien = service.findTeam('Spanien').get();
-validate spanien
-def suedkorea = service.findTeam('Rep.Korea').get();
-validate suedkorea
-def tunesien = service.findTeam('Tunesien').get();
-validate tunesien
+*/
 
 
+/*
 def wm2018_gruppe_A = service.addGroup wm2018, gruppeA
 println "Gruppe A: $wm2018_gruppe_A.id"
 
