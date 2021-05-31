@@ -18,7 +18,8 @@
 // @Grab(group='xml-apis', module='xml-apis', version='1.0.b2')
 
 /// @Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.6.0-SNAPSHOT')
-@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.7.2')
+/// @Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.7.2')
+@Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.8.0-SNAP-2021-05-31')
 
 import org.springframework.context.support.ClassPathXmlApplicationContext
 
