@@ -23,8 +23,8 @@
 
 import org.springframework.context.support.ClassPathXmlApplicationContext
 
-import org.joda.time.*;
-import org.joda.time.format.*;
+import java.time.*;
+import java.time.format.*;
 
 import de.winkler.betoffice.storage.*
 import de.winkler.betoffice.storage.enums.*
@@ -45,9 +45,14 @@ class Service {
     }
 
     def toDate(dateTimeAsString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTimeAsString);
+        /*
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
         DateTime dateTime = formatter.parseDateTime(dateTimeAsString)
         return dateTime
+        */
+        return zonedDateTime
     }
 
     def createSeason(season) {
@@ -330,32 +335,36 @@ printTeams(em2021_gruppe_E)
 em2021_gruppe_F = service.addTeams(em2021, gruppeF, [deutschland, frankreich, portugal, ungarn])
 printTeams(em2021_gruppe_F)
 
+// 
+
+def round_2021_06_11 = service.findRound(em2021, 0)
+if (round_2021_06_11.isPresent()) {
+    round_2021_06_11 = round_2021_06_11.get()
+} else {
+    round_2021_06_11 = service.addRound(em2021, '2021-06-11 21:00:00', gruppeA)
+}
+println "Runde $round_2021_06_11.dateTime"
+
+
+def round_2021_06_16 = service.findRound(em2021, 1)
+if (round_2021_06_16.isPresent()) {
+    round_2021_06_16 = round_2021_06_16.get()
+} else {
+    round_2021_06_16 = service.addRound(wm2018, '2021-06-16 14:00:00', gruppeA)
+}
+println "Runde $round_2021_06_16.dateTime"
+
+
+def round_2021_06_20 = service.findRound(em2021, 3)
+if (round_2021_06_20.isPresent()) {
+    round_2021_06_20 = round_2021_06_20.get()
+} else {
+    round_2021_06_20 = service.addRound(wm2018, '2021-06-20 18:00:00', gruppeA)
+}
+println "Runde $round_2021_06_20.dateTime"
+
 /*
-def round_2018_06_14 = service.findRound(wm2018, 0)
-if (round_2018_06_14.isPresent()) {
-    round_2018_06_14 = round_2018_06_14.get()
-} else {
-    round_2018_06_14 = service.addRound(wm2018, '2018-06-14 17:00:00', gruppeA)
-}
-println "Runde $round_2018_06_14.dateTime"
-
-def round_2018_06_15 = service.findRound(wm2018, 1)
-if (round_2018_06_15.isPresent()) {
-    round_2018_06_15 = round_2018_06_15.get()
-} else {
-    round_2018_06_15 = service.addRound(wm2018, '2018-06-15 14:00:00', gruppeB)
-}
-println "Runde $round_2018_06_15.dateTime"
-
-def round_2018_06_16 = service.findRound(wm2018, 2)
-if (round_2018_06_16.isPresent()) {
-    round_2018_06_16 = round_2018_06_16.get()
-} else {
-    round_2018_06_16 = service.addRound(wm2018, '2018-06-16 14:00:00', gruppeC)
-}
-println "Runde $round_2018_06_16.dateTime"
-
-def round_2018_06_17 = service.findRound(wm2018, 3)
+def round_2018_06_17 = service.findRound(em2021, 3)
 if (round_2018_06_17.isPresent()) {
     round_2018_06_17 = round_2018_06_17.get()
 } else {
@@ -363,7 +372,7 @@ if (round_2018_06_17.isPresent()) {
 }
 println "Runde $round_2018_06_17.dateTime"
 
-def round_2018_06_18 = service.findRound(wm2018, 4)
+def round_2018_06_18 = service.findRound(em2021, 4)
 if (round_2018_06_18.isPresent()) {
     round_2018_06_18 = round_2018_06_18.get()
 } else {
@@ -450,70 +459,56 @@ if (round_2018_06_28.isPresent()) {
     round_2018_06_28 = service.addRound(wm2018, '2018-06-28 14:00:00', gruppeG)
 }
 println "Runde $round_2018_06_28.dateTime"
-
-
-
-service.addMatch(round_2018_06_14, '2018-06-14 17:00:00', wm2018_gruppe_A, russland, saudiArabien)
-
-service.addMatch(round_2018_06_15, '2018-06-15 14:00:00', wm2018_gruppe_A, aegypten, uruguay)
-service.addMatch(round_2018_06_15, '2018-06-15 17:00:00', wm2018_gruppe_B, marokko, iran)
-service.addMatch(round_2018_06_15, '2018-06-15 20:00:00', wm2018_gruppe_B, portugal, spanien)
-
-service.addMatch(round_2018_06_16, '2018-06-16 12:00:00', wm2018_gruppe_C, frankreich, australien)
-service.addMatch(round_2018_06_16, '2018-06-16 15:00:00', wm2018_gruppe_D, argentinien, island)
-service.addMatch(round_2018_06_16, '2018-06-16 18:00:00', wm2018_gruppe_C, peru, daenemark)
-service.addMatch(round_2018_06_16, '2018-06-16 21:00:00', wm2018_gruppe_D, kroatien, nigeria)
-
-service.addMatch(round_2018_06_17, '2018-06-17 14:00:00', wm2018_gruppe_E, costaRica, serbien)
-service.addMatch(round_2018_06_17, '2018-06-17 17:00:00', wm2018_gruppe_F, deutschland, mexiko)
-service.addMatch(round_2018_06_17, '2018-06-17 20:00:00', wm2018_gruppe_E, brasilien, schweiz)
-
-service.addMatch(round_2018_06_18, '2018-06-18 14:00:00', wm2018_gruppe_F, schweden, suedkorea)
-service.addMatch(round_2018_06_18, '2018-06-18 17:00:00', wm2018_gruppe_G, belgien, panama)
-service.addMatch(round_2018_06_18, '2018-06-18 20:00:00', wm2018_gruppe_G, tunesien, england)
-
-service.addMatch(round_2018_06_19, '2018-06-19 14:00:00', wm2018_gruppe_H, kolumbien, japan)
-service.addMatch(round_2018_06_19, '2018-06-19 17:00:00', wm2018_gruppe_H, polen, senegal)
-service.addMatch(round_2018_06_19, '2018-06-19 20:00:00', wm2018_gruppe_A, russland, aegypten)
-
-service.addMatch(round_2018_06_20, '2018-06-20 14:00:00', wm2018_gruppe_B, portugal, marokko)
-service.addMatch(round_2018_06_20, '2018-06-20 17:00:00', wm2018_gruppe_A, uruguay, saudiArabien)
-service.addMatch(round_2018_06_20, '2018-06-20 20:00:00', wm2018_gruppe_B, iran, spanien)
-
-service.addMatch(round_2018_06_21, '2018-06-21 14:00:00', wm2018_gruppe_C, daenemark, australien)
-service.addMatch(round_2018_06_21, '2018-06-21 17:00:00', wm2018_gruppe_C, frankreich, peru)
-service.addMatch(round_2018_06_21, '2018-06-21 20:00:00', wm2018_gruppe_D, argentinien, kroatien)
-
-service.addMatch(round_2018_06_22, '2018-06-22 14:00:00', wm2018_gruppe_E, brasilien, costaRica)
-service.addMatch(round_2018_06_22, '2018-06-22 17:00:00', wm2018_gruppe_D, nigeria, island)
-service.addMatch(round_2018_06_22, '2018-06-22 20:00:00', wm2018_gruppe_E, serbien, schweiz)
-
-service.addMatch(round_2018_06_23, '2018-06-23 14:00:00', wm2018_gruppe_G, belgien, tunesien)
-service.addMatch(round_2018_06_23, '2018-06-23 17:00:00', wm2018_gruppe_F, suedkorea, mexiko)
-service.addMatch(round_2018_06_23, '2018-06-23 20:00:00', wm2018_gruppe_F, deutschland, schweden)
-
-service.addMatch(round_2018_06_24, '2018-06-24 14:00:00', wm2018_gruppe_G, england, panama)
-service.addMatch(round_2018_06_24, '2018-06-24 17:00:00', wm2018_gruppe_H, japan, senegal)
-service.addMatch(round_2018_06_24, '2018-06-24 20:00:00', wm2018_gruppe_H, polen, kolumbien)
-
-// Letzter Gruppenspieltag
-service.addMatch(round_2018_06_25, '2018-06-25 16:00:00', wm2018_gruppe_A, uruguay, russland)
-service.addMatch(round_2018_06_25, '2018-06-25 16:00:00', wm2018_gruppe_A, saudiArabien, aegypten)
-service.addMatch(round_2018_06_25, '2018-06-25 20:00:00', wm2018_gruppe_B, spanien, marokko)
-service.addMatch(round_2018_06_25, '2018-06-25 20:00:00', wm2018_gruppe_B, iran, portugal)
-
-service.addMatch(round_2018_06_26, '2018-06-26 16:00:00', wm2018_gruppe_C, daenemark, frankreich)
-service.addMatch(round_2018_06_26, '2018-06-26 16:00:00', wm2018_gruppe_C, australien, peru)
-service.addMatch(round_2018_06_26, '2018-06-26 20:00:00', wm2018_gruppe_D, island, kroatien)
-service.addMatch(round_2018_06_26, '2018-06-26 20:00:00', wm2018_gruppe_D, nigeria, argentinien)
-
-service.addMatch(round_2018_06_27, '2018-06-27 16:00:00', wm2018_gruppe_F, mexiko, schweden)
-service.addMatch(round_2018_06_27, '2018-06-27 16:00:00', wm2018_gruppe_F, suedkorea, deutschland)
-service.addMatch(round_2018_06_27, '2018-06-27 20:00:00', wm2018_gruppe_E, serbien, brasilien)
-service.addMatch(round_2018_06_27, '2018-06-27 20:00:00', wm2018_gruppe_E, schweiz, costaRica)
-
-service.addMatch(round_2018_06_28, '2018-06-28 16:00:00', wm2018_gruppe_H, senegal, kolumbien)
-service.addMatch(round_2018_06_28, '2018-06-28 16:00:00', wm2018_gruppe_H, japan, polen)
-service.addMatch(round_2018_06_28, '2018-06-28 20:00:00', wm2018_gruppe_G, england, belgien)
-service.addMatch(round_2018_06_28, '2018-06-28 20:00:00', wm2018_gruppe_G, panama, tunesien)
 */
+
+// 1. Spieltag
+service.addMatch(round_2021_06_11, '2021-06-11 21:00:00', em2021_gruppe_A, tuerkei, italien)
+
+service.addMatch(round_2021_06_11, '2021-06-12 15:00:00', em2021_gruppe_A, wales, schweiz)
+service.addMatch(round_2021_06_11, '2021-06-12 18:00:00', em2021_gruppe_B, daenemark, finnland)
+service.addMatch(round_2021_06_11, '2021-06-11 21:00:00', em2021_gruppe_B, belgien, russland)
+
+service.addMatch(round_2021_06_11, '2021-06-13 15:00:00', em2021_gruppe_D, england, kroatien)
+service.addMatch(round_2021_06_11, '2021-06-13 18:00:00', em2021_gruppe_C, oesterreich, nordmazedonien)
+service.addMatch(round_2021_06_11, '2021-06-13 21:00:00', em2021_gruppe_C, niederlande, ukraine)
+
+service.addMatch(round_2021_06_11, '2021-06-14 15:00:00', em2021_gruppe_D, schottland, tschechien)
+service.addMatch(round_2021_06_11, '2021-06-14 18:00:00', em2021_gruppe_E, polen, slowakei)
+service.addMatch(round_2021_06_11, '2021-06-14 21:00:00', em2021_gruppe_E, spanien, schweden)
+
+service.addMatch(round_2021_06_11, '2021-06-15 18:00:00', em2021_gruppe_F, ungarn, portugal)
+service.addMatch(round_2021_06_11, '2021-06-15 21:00:00', em2021_gruppe_F, frankreich, deutschland)
+
+// 2. Spieltag
+service.addMatch(round_2021_06_16, '2021-06-16 15:00:00', em2021_gruppe_B, finnland, russland)
+service.addMatch(round_2021_06_16, '2021-06-16 18:00:00', em2021_gruppe_A, tuerkei, wales)
+service.addMatch(round_2021_06_16, '2021-06-16 21:00:00', em2021_gruppe_A, italien, schweiz)
+
+service.addMatch(round_2021_06_16, '2021-06-17 15:00:00', em2021_gruppe_C, ukraine, nordmazedonien)
+service.addMatch(round_2021_06_16, '2021-06-17 18:00:00', em2021_gruppe_B, daenemark, belgien)
+service.addMatch(round_2021_06_16, '2021-06-17 21:00:00', em2021_gruppe_C, italien, schweiz)
+
+service.addMatch(round_2021_06_16, '2021-06-18 15:00:00', em2021_gruppe_E, schweden, slowakei)
+service.addMatch(round_2021_06_16, '2021-06-18 18:00:00', em2021_gruppe_D, kroatien, tschechien)
+service.addMatch(round_2021_06_16, '2021-06-18 21:00:00', em2021_gruppe_D, england, schottland)
+
+service.addMatch(round_2021_06_16, '2021-06-19 15:00:00', em2021_gruppe_F, ungarn, frankreich)
+service.addMatch(round_2021_06_16, '2021-06-19 18:00:00', em2021_gruppe_F, portugal, deutschland)
+service.addMatch(round_2021_06_16, '2021-06-19 21:00:00', em2021_gruppe_E, spanien, polen)
+
+// 3. Spieltag
+service.addMatch(round_2021_06_20, '2021-06-20 18:00:00', em2021_gruppe_A, italien, wales)
+service.addMatch(round_2021_06_20, '2021-06-20 18:00:00', em2021_gruppe_A, schweiz, tuerkei)
+
+service.addMatch(round_2021_06_20, '2021-06-21 18:00:00', em2021_gruppe_C, nordmazedonien, niederlande)
+service.addMatch(round_2021_06_20, '2021-06-21 18:00:00', em2021_gruppe_C, ukraine, oesterreich)
+service.addMatch(round_2021_06_20, '2021-06-21 21:00:00', em2021_gruppe_B, finnland, belgien)
+service.addMatch(round_2021_06_20, '2021-06-21 21:00:00', em2021_gruppe_B, russland, daenemark)
+
+service.addMatch(round_2021_06_20, '2021-06-22 21:00:00', em2021_gruppe_D, tschechien, england)
+service.addMatch(round_2021_06_20, '2021-06-22 21:00:00', em2021_gruppe_D, kroatien, schottland)
+
+service.addMatch(round_2021_06_20, '2021-06-23 18:00:00', em2021_gruppe_E, slowakei, spanien)
+service.addMatch(round_2021_06_20, '2021-06-23 18:00:00', em2021_gruppe_E, schweden, polen)
+service.addMatch(round_2021_06_20, '2021-06-23 21:00:00', em2021_gruppe_F, deutschland, ungarn)
+service.addMatch(round_2021_06_20, '2021-06-23 21:00:00', em2021_gruppe_F, portugal, frankreich)
