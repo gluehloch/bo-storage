@@ -289,78 +289,48 @@ def portugal = service.findTeam('Portugal').get();
 validate portugal
 
 def ungarn = service.findTeam('Ungarn').get()
-println ungarn
+validate ungarn
+
+
+// TODO #addGroup liefert nicht die Group zurück, sonder die Saison.
+def em2021_gruppe_A = service.addGroup em2021, gruppeA
+println "Gruppe A: $em2021_gruppe_A.id"
+
+def em2021_gruppe_B = service.addGroup em2021, gruppeB
+println "Gruppe B: $em2021_gruppe_B.id"
+
+def em2021_gruppe_C = service.addGroup em2021, gruppeC
+println "Gruppe C: $em2021_gruppe_C.id"
+
+def em2021_gruppe_D = service.addGroup em2021, gruppeD
+println "Gruppe D: $em2021_gruppe_D.id"
+
+def em2021_gruppe_E = service.addGroup em2021, gruppeE
+println "Gruppe E: $em2021_gruppe_E.id"
+
+def em2021_gruppe_F = service.addGroup em2021, gruppeF
+println "Gruppe F: $em2021_gruppe_F.id"
+
+
+em2021_gruppe_A = service.addTeams(em2021, gruppeA, [italien, schweiz, tuerkei, wales])
+printTeams(em2021_gruppe_A)
+
+em2021_gruppe_B = service.addTeams(em2021, gruppeB, [belgien, daenemark, finnland, russland]);
+printTeams(em2021_gruppe_B)
+
+em2021_gruppe_C = service.addTeams(em2021, gruppeC, [niederlande, nordmazedonien, oesterreich, ukraine])
+printTeams(em2021_gruppe_C)
+
+em2021_gruppe_D = service.addTeams(em2021, gruppeD, [england, kroatien, schottland, tschechien])
+printTeams(em2021_gruppe_D)
+
+em2021_gruppe_E = service.addTeams(em2021, gruppeE, [polen, schweden, slowakei, spanien])
+printTeams(em2021_gruppe_E)
+
+em2021_gruppe_F = service.addTeams(em2021, gruppeF, [deutschland, frankreich, portugal, ungarn])
+printTeams(em2021_gruppe_F)
 
 /*
-def aegypten = service.findTeam('Ägypten')
-if (!aegypten.present) {
-    def team = new Team()
-    team.name = 'Ägypten'
-    team.longName = 'Ägypten'
-    team.shortName = 'Ägypten'
-    team.xshortName = 'AGP'
-    team.logo = 'aegypten.gif'
-    team.teamType = TeamType.FIFA
-    service.updateTeam(team)
-    aegypten = team
-} else {
-    aegypten = aegypten.get()
-}
-validate aegypten
-*/
-
-
-/*
-def wm2018_gruppe_A = service.addGroup wm2018, gruppeA
-println "Gruppe A: $wm2018_gruppe_A.id"
-
-def wm2018_gruppe_B = service.addGroup wm2018, gruppeB
-println "Gruppe B: $wm2018_gruppe_B.id"
-
-def wm2018_gruppe_C = service.addGroup wm2018, gruppeC
-println "Gruppe C: $wm2018_gruppe_C.id"
-
-def wm2018_gruppe_D = service.addGroup wm2018, gruppeD
-println "Gruppe D: $wm2018_gruppe_D.id"
-
-def wm2018_gruppe_E = service.addGroup wm2018, gruppeE
-println "Gruppe E: $wm2018_gruppe_E.id"
-
-def wm2018_gruppe_F = service.addGroup wm2018, gruppeF
-println "Gruppe F: $wm2018_gruppe_F.id"
-
-def wm2018_gruppe_G = service.addGroup wm2018, gruppeG
-println "Gruppe G: $wm2018_gruppe_G.id"
-
-def wm2018_gruppe_H = service.addGroup wm2018, gruppeH
-println "Gruppe H: $wm2018_gruppe_H.id"
-
-wm2018 = service.findRoundGroupTeamUserRelations(wm2018)
-
-wm2018_gruppe_A = service.addTeams(wm2018, gruppeA, [russland, saudiArabien, uruguay, aegypten])
-printTeams(wm2018_gruppe_A)
-
-wm2018_gruppe_B = service.addTeams(wm2018, gruppeB, [marokko, iran, spanien, portugal]);
-printTeams(wm2018_gruppe_B)
-
-wm2018_gruppe_C = service.addTeams(wm2018, gruppeC, [frankreich, peru, australien, daenemark])
-printTeams(wm2018_gruppe_C)
-
-wm2018_gruppe_D = service.addTeams(wm2018, gruppeD, [argentinien, island, kroatien, nigeria])
-printTeams(wm2018_gruppe_D)
-
-wm2018_gruppe_E = service.addTeams(wm2018, gruppeE, [costaRica, serbien, brasilien, schweiz])
-printTeams(wm2018_gruppe_E)
-
-wm2018_gruppe_F = service.addTeams(wm2018, gruppeF, [deutschland, mexiko, schweden, suedkorea])
-printTeams(wm2018_gruppe_F)
-
-wm2018_gruppe_G = service.addTeams(wm2018, gruppeG, [belgien, panama, tunesien, england])
-printTeams(wm2018_gruppe_G)
-
-wm2018_gruppe_H = service.addTeams(wm2018, gruppeH, [kolumbien, japan, polen, senegal])
-printTeams(wm2018_gruppe_H)
-
 def round_2018_06_14 = service.findRound(wm2018, 0)
 if (round_2018_06_14.isPresent()) {
     round_2018_06_14 = round_2018_06_14.get()
