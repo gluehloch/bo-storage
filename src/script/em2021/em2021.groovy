@@ -86,7 +86,10 @@ class Service {
         def team = masterService.findTeam(teamName)
         if (!team.isPresent()) {
             println "team '${teamName}' not found"
+        } else {
+            println "Team '${team.get().getName()}' is there."
         }
+        return team
     }
 
     def findTeams(season, groupType) {
@@ -145,6 +148,43 @@ if (seasonOptional.isPresent()) {
 }
 
 println em2021.name + " - " + em2021.year
+
+def newTeam
+newTeam = service.findTeam('Finnland')
+if (!newTeam.present) {
+    def team = new Team()
+    team.name = 'Finnland'
+    team.longName = 'Finnland'
+    team.shortName = 'Finnland'
+    team.xshortName = 'FIN'
+    team.logo = 'finnland.gif'
+    team.teamType = TeamType.FIFA
+    service.updateTeam(team)
+}
+
+newTeam = service.findTeam('Nordmazedonien')
+if (!newTeam.present) {
+    def team = new Team()
+    team.name = 'Nordmazedonien'
+    team.longName = 'Nordmazedonien'
+    team.shortName = 'Nordmazedonien'
+    team.xshortName = 'MKD'
+    team.logo = 'nordmazedonien.gif'
+    team.teamType = TeamType.FIFA
+    service.updateTeam(team)
+}
+
+newTeam = service.findTeam('Schottland')
+if (!newTeam.present) {
+    def team = new Team()
+    team.name = 'Schottland'
+    team.longName = 'Schottland'
+    team.shortName = 'Schottland'
+    team.xshortName = 'SCO'
+    team.logo = 'schottland.gif'
+    team.teamType = TeamType.FIFA
+    service.updateTeam(team)
+}
 
  // def bundesliga = master.findGroupType('1. Bundesliga');
 def gruppeA = service.findGroupType('Gruppe A');
