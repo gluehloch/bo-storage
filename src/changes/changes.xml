@@ -6,6 +6,8 @@
 	</properties>
 	<body>
 		<!-- Under construction. -->
+		
+		<!-- RELEASED -->
 		<release version="betoffice-storage-2.7.2" date="2020-11-14" description="Code garden work">
 		    <action dev="andrewinkler" type="add" date="2020-11-13">
 		        Added a test to find a bug: Is a 'incomplete tipp' problematic?

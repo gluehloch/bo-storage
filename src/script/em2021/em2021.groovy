@@ -3,6 +3,7 @@
 // cp ./target/betoffice-storage-2.6.0-SNAPSHOT.jar \
 //   /cygdrive/c/Users/winkler/.groovy/grapes/de.winkler.betoffice/betoffice-storage/jars/betoffice-storage-2.6.0-SNAPSHOT.jar
 
+@GrabResolver(name='gluehloch', root='http://maven.gluehloch.de/repository')
 @Grab(group='org.slf4j', module='slf4j-api', version='1.6.1')
 
 // Die naechsten 4 Imports kann man vielleicht mal in Frage stellen.
