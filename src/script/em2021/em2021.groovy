@@ -45,14 +45,15 @@ class Service {
     }
 
     def toDate(dateTimeAsString) {
+        ZoneId zone = ZoneId.of("Europe/Berlin");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTimeAsString);
+        return LocalDateTime.parse(dateTimeAsString, formatter).atZone(zone);
+
         /*
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
         DateTime dateTime = formatter.parseDateTime(dateTimeAsString)
         return dateTime
         */
-        return zonedDateTime
     }
 
     def createSeason(season) {
@@ -350,7 +351,7 @@ def round_2021_06_16 = service.findRound(em2021, 1)
 if (round_2021_06_16.isPresent()) {
     round_2021_06_16 = round_2021_06_16.get()
 } else {
-    round_2021_06_16 = service.addRound(wm2018, '2021-06-16 14:00:00', gruppeA)
+    round_2021_06_16 = service.addRound(em2021, '2021-06-16 14:00:00', gruppeA)
 }
 println "Runde $round_2021_06_16.dateTime"
 
@@ -359,7 +360,7 @@ def round_2021_06_20 = service.findRound(em2021, 3)
 if (round_2021_06_20.isPresent()) {
     round_2021_06_20 = round_2021_06_20.get()
 } else {
-    round_2021_06_20 = service.addRound(wm2018, '2021-06-20 18:00:00', gruppeA)
+    round_2021_06_20 = service.addRound(em2021, '2021-06-20 18:00:00', gruppeA)
 }
 println "Runde $round_2021_06_20.dateTime"
 
