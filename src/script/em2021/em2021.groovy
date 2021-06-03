@@ -467,7 +467,7 @@ service.addMatch(round_2021_06_11, '2021-06-11 21:00:00', em2021_gruppe_A, tuerk
 
 service.addMatch(round_2021_06_11, '2021-06-12 15:00:00', em2021_gruppe_A, wales, schweiz)
 service.addMatch(round_2021_06_11, '2021-06-12 18:00:00', em2021_gruppe_B, daenemark, finnland)
-service.addMatch(round_2021_06_11, '2021-06-11 21:00:00', em2021_gruppe_B, belgien, russland)
+service.addMatch(round_2021_06_11, '2021-06-12 21:00:00', em2021_gruppe_B, belgien, russland)
 
 service.addMatch(round_2021_06_11, '2021-06-13 15:00:00', em2021_gruppe_D, england, kroatien)
 service.addMatch(round_2021_06_11, '2021-06-13 18:00:00', em2021_gruppe_C, oesterreich, nordmazedonien)
