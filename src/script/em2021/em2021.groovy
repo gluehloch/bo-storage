@@ -487,7 +487,9 @@ service.addMatch(round_2021_06_16, '2021-06-16 21:00:00', em2021_gruppe_A, itali
 
 service.addMatch(round_2021_06_16, '2021-06-17 15:00:00', em2021_gruppe_C, ukraine, nordmazedonien)
 service.addMatch(round_2021_06_16, '2021-06-17 18:00:00', em2021_gruppe_B, daenemark, belgien)
-service.addMatch(round_2021_06_16, '2021-06-17 21:00:00', em2021_gruppe_C, italien, schweiz)
+// TODO Fehler: service.addMatch(round_2021_06_16, '2021-06-17 21:00:00', em2021_gruppe_C, italien, schweiz)
+// TODO Korrektur: /Die Mannschafts-IDs austauschen/
+service.addMatch(round_2021_06_16, '2021-06-17 21:00:00', em2021_gruppe_C, niederlande, oesterreich)
 
 service.addMatch(round_2021_06_16, '2021-06-18 15:00:00', em2021_gruppe_E, schweden, slowakei)
 service.addMatch(round_2021_06_16, '2021-06-18 18:00:00', em2021_gruppe_D, kroatien, tschechien)
