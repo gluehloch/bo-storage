@@ -110,7 +110,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Liefert den Primärschlüssel.
      * 
-     * @return Der Primärschlüssel.
+     * @return       Der Primärschlüssel.
      * 
      * @hibernate.id generator-class="native"
      */
@@ -121,8 +121,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Setzt den Primärschlüssel.
      * 
-     * @param value
-     *            Der Primärschlüssel.
+     * @param value Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
@@ -134,22 +133,20 @@ public class Season extends AbstractStorageObject {
      * Liefert die Meisterschaftskonfiguration.
      * 
      * @return Die Meisterschaftskonfiguration.
-     * 
-     * @hibernate.component
      */
     public ChampionshipConfiguration getChampionshipConfiguration() {
-        return championshipConfiguration;
+        if (championshipConfiguration == null) {
+            this.championshipConfiguration = new ChampionshipConfiguration();
+        }
+        return this.championshipConfiguration;
     }
 
     /**
      * Setzt eine neue Meisterschaftskonfiguration.
      * 
-     * @param value
-     *            Die Meisterschaftskonfiguration.
+     * @param value Die Meisterschaftskonfiguration.
      */
-    protected void setChampionshipConfiguration(
-            final ChampionshipConfiguration value) {
-
+    protected void setChampionshipConfiguration(final ChampionshipConfiguration value) {
         championshipConfiguration = value;
     }
 
@@ -167,8 +164,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Setzt den Jahrgang.
      * 
-     * @param value
-     *            Der Jahrgang.
+     * @param value Der Jahrgang.
      */
     public void setYear(final String value) {
         year = value.trim();
@@ -188,8 +184,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Setzt den Namen der Spielzeit.
      * 
-     * @param value
-     *            Name der Spielzeit.
+     * @param value Name der Spielzeit.
      */
     public void setName(final String value) {
         name = value.trim();
@@ -209,8 +204,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Setzt den Modus der Saison.
      * 
-     * @param value
-     *            Der Modus.
+     * @param value Der Modus.
      */
     public void setMode(final SeasonType value) {
         mode = value;
@@ -230,8 +224,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Setzt den Mannschaftstyp.
      * 
-     * @param value
-     *            Der Mannschaftstyp.
+     * @param value Der Mannschaftstyp.
      */
     public void setTeamType(final TeamType value) {
         teamType = value;
@@ -251,8 +244,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Setzt die Gruppen.
      * 
-     * @param value
-     *            Die Grupppen.
+     * @param value Die Grupppen.
      */
     protected void setGroups(final Set<Group> value) {
         groups = value;
@@ -261,11 +253,9 @@ public class Season extends AbstractStorageObject {
     /**
      * Liefert die passende Gruppe in dieser Saison.
      * 
-     * @param groupType
-     *            Ein Gruppentyp.
-     * @return Die passende Gruppe. Kann <code>null</code> liefern, wenn keine
-     *         passende Gruppe gefunden.
-     * @deprecated Better use a service method.
+     * @param      groupType Ein Gruppentyp.
+     * @return               Die passende Gruppe. Kann <code>null</code> liefern, wenn keine passende Gruppe gefunden.
+     * @deprecated           Better use a service method.
      */
     public Group getGroup(final GroupType groupType) {
         for (Group group : getGroups()) {
@@ -279,8 +269,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Fügt eine weitere Gruppe der Saison hinzu.
      * 
-     * @param group
-     *            Eine weitere Gruppe.
+     * @param group Eine weitere Gruppe.
      */
     public void addGroup(final Group group) {
         Validate.notNull(group);
@@ -291,8 +280,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Fügt eine Liste von Gruppen dieser Saison hinzu.
      * 
-     * @param values
-     *            Eine Liste von Gruppen.
+     * @param values Eine Liste von Gruppen.
      */
     public void addGroups(final Set<Group> values) {
         Validate.notNull(values);
@@ -304,8 +292,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Entfernt eine Gruppe.
      * 
-     * @param group
-     *            Die zu entfernende Gruppe.
+     * @param group Die zu entfernende Gruppe.
      */
     public void removeGroup(final Group group) {
         Validate.notNull(group.getSeason());
@@ -317,10 +304,9 @@ public class Season extends AbstractStorageObject {
     /**
      * Deaktiviert eine Gruppe.
      * 
-     * @param groupType
-     *            Der zu deaktivierende Gruppentyp.
-     * @return Das entfernte {@link Group} Objekt. Kann <code>null</code> sein, wenn
-     *         kein entsprechendes {@link Group} Objekt gefunden.
+     * @param  groupType Der zu deaktivierende Gruppentyp.
+     * @return           Das entfernte {@link Group} Objekt. Kann <code>null</code> sein, wenn kein entsprechendes
+     *                   {@link Group} Objekt gefunden.
      */
     public Group removeGroup(final GroupType groupType) {
         for (Iterator<Group> i = getGroups().iterator(); i.hasNext();) {
@@ -334,8 +320,7 @@ public class Season extends AbstractStorageObject {
     }
 
     /**
-     * Liefert alle Mannschaften, die über eine Gruppe an dieser Saison beteiligt
-     * sind.
+     * Liefert alle Mannschaften, die über eine Gruppe an dieser Saison beteiligt sind.
      * 
      * @return Alle Mannschaften, die dieser Saison zugeordnet sind.
      */
@@ -365,11 +350,11 @@ public class Season extends AbstractStorageObject {
     /**
      * Liefert die Beziehung Teilnehmer/Saison.
      * 
-     * @return Ein Menge von <code>UserSeason</code>.
+     * @return                           Ein Menge von <code>UserSeason</code>.
      * 
-     * @hibernate.set cascade="all" inverse="true"
+     * @hibernate.set                    cascade="all" inverse="true"
      * @hibernate.collection-one-to-many class="de.winkler.betoffice.storage.UserSeason"
-     * @hibernate.collection-key column="bo_season_ref"
+     * @hibernate.collection-key         column="bo_season_ref"
      */
     public Set<UserSeason> getUserSeason() {
         return userSeason;
@@ -378,8 +363,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Setzt die Beziehung Teilnehmer/Saison.
      * 
-     * @param value
-     *            Ein Menge von <code>UserSeason</code>.
+     * @param value Ein Menge von <code>UserSeason</code>.
      */
     protected void setUserSeason(final Set<UserSeason> value) {
         userSeason = value;
@@ -388,8 +372,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Einen Teilnehmer der Saison hinzufügen.
      * 
-     * @param user
-     *            Der neue Teilnehmer.
+     * @param user Der neue Teilnehmer.
      */
     public void addUser(final UserSeason user) {
         Validate.notNull(user.getUser());
@@ -404,10 +387,8 @@ public class Season extends AbstractStorageObject {
     /**
      * Entfernt einen Teilnehmer aus der Saison.
      * 
-     * @param user
-     *            Der zu entfernende Teilnehmer. Ist der Teilnehmer nicht dieser
-     *            Saison zugeordnet, wird eine <code>RuntimeException</code>
-     *            geworfen.
+     * @param user Der zu entfernende Teilnehmer. Ist der Teilnehmer nicht dieser Saison zugeordnet, wird eine
+     *                 <code>RuntimeException</code> geworfen.
      */
     public void removeUser(final UserSeason user) {
         Validate.notNull(user.getUser());
@@ -419,11 +400,10 @@ public class Season extends AbstractStorageObject {
     /**
      * Deaktiviert einen Teilnehmer.
      * 
-     * @param user
-     *            Der zu deaktivierende Teilnehmer.
-     * @return Das entfernte {@link UserSeason} Objekt. Kann <code>null</code> sein,
-     *         wenn kein entsprechendes {@link UserSeason} Objekt gefunden.
-     * @deprecated Better use a service method.
+     * @param      user Der zu deaktivierende Teilnehmer.
+     * @return          Das entfernte {@link UserSeason} Objekt. Kann <code>null</code> sein, wenn kein entsprechendes
+     *                  {@link UserSeason} Objekt gefunden.
+     * @deprecated      Better use a service method.
      */
     public UserSeason removeUser(final User user) {
         for (Iterator<UserSeason> i = getUserSeason().iterator(); i
@@ -443,7 +423,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Liefert alle Teilnehmer, die dieser Saison zugeordnet sind.
      * 
-     * @return Alle Teilnehmer dieser Saison.
+     * @return     Alle Teilnehmer dieser Saison.
      * @deprecated Better use a service method.
      */
     public List<User> getUsers() {
@@ -468,8 +448,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Setzt die Spieltagsliste.
      * 
-     * @param value
-     *            Eine Spieltagsliste.
+     * @param value Eine Spieltagsliste.
      */
     protected void setGameList(final List<GameList> value) {
         Validate.notNull(value);
@@ -506,9 +485,8 @@ public class Season extends AbstractStorageObject {
     /**
      * Liefert den Index eines Objekts in dieser Liste.
      * 
-     * @param object
-     *            Das gesuchte Objekt.
-     * @return Anzahl der Spieltage.
+     * @param  object Das gesuchte Objekt.
+     * @return        Anzahl der Spieltage.
      */
     public int indexOf(final Object object) {
         return gameList.indexOf(object);
@@ -517,9 +495,8 @@ public class Season extends AbstractStorageObject {
     /**
      * Übergebener GameList/Spieltag bereits in Liste enthalten?
      * 
-     * @param _gameList
-     *            Die zu prüfende GameList/Spieltag
-     * @return true, vorhanden; false, nicht vorhanden.
+     * @param  _gameList Die zu prüfende GameList/Spieltag
+     * @return           true, vorhanden; false, nicht vorhanden.
      */
     public boolean contains(final GameList _gameList) {
         return (gameList.contains(_gameList));
@@ -528,11 +505,10 @@ public class Season extends AbstractStorageObject {
     /**
      * Diese Methode liefert die Spieltagsliste.
      * 
-     * @param dayNr
-     *            Nummer des Spieltags ( [0] .. [size() - 1] ).
-     * @return Liste aller Spiele eines Spieltags. Liefert <code>null</code> zurück,
-     *         wenn keine Spieltage der Saison/Meisterschaft zugeordnet!
-     * @deprecated Better use a service method.
+     * @param      dayNr Nummer des Spieltags ( [0] .. [size() - 1] ).
+     * @return           Liste aller Spiele eines Spieltags. Liefert <code>null</code> zurück, wenn keine Spieltage der
+     *                   Saison/Meisterschaft zugeordnet!
+     * @deprecated       Better use a service method.
      */
     public GameList getGamesOfDay(final int dayNr) {
         if ((dayNr >= gameList.size()) || (dayNr < 0)) {
@@ -559,15 +535,11 @@ public class Season extends AbstractStorageObject {
     }
 
     /**
-     * Fügt einen neuen Spieltag der Spieltagsliste hinzu. Ein Spieltag wird immer
-     * hinten angehängt. Falls eine andere Einsortierung erfolgen soll müsste
-     * entsprechend der Index in allen Spieltagen geändert werden.
+     * Fügt einen neuen Spieltag der Spieltagsliste hinzu. Ein Spieltag wird immer hinten angehängt. Falls eine andere
+     * Einsortierung erfolgen soll müsste entsprechend der Index in allen Spieltagen geändert werden.
      * 
-     * @param newRound
-     *            Ein Spieltag.
-     * @throws IllegalArgumentException
-     *             GameListe bereits vorhanden oder ein Attribut von gameList nicht
-     *             gesetzt.
+     * @param  newRound                 Ein Spieltag.
+     * @throws IllegalArgumentException GameListe bereits vorhanden oder ein Attribut von gameList nicht gesetzt.
      */
     public void addGameList(final GameList newRound) {
         Validate.notNull(newRound, "The newRound parameter is null.");
@@ -608,8 +580,7 @@ public class Season extends AbstractStorageObject {
     /**
      * Entfernt einen Spieltag aus der Spieltagsliste.
      * 
-     * @param _gameList
-     *            Ein Spieltag.
+     * @param _gameList Ein Spieltag.
      */
     public void removeGameList(final GameList _gameList) {
         Validate.notNull(_gameList);
