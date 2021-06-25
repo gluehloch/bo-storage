@@ -6,19 +6,10 @@
 @GrabResolver(name='gluehloch', root='http://maven.gluehloch.de/repository')
 @Grab(group='org.slf4j', module='slf4j-api', version='1.6.1')
 
-// Die naechsten 4 Imports kann man vielleicht mal in Frage stellen.
-// @Grab(group='javax.activation', module='activation', version='1.1')
-// @Grab(group='commons-logging', module='commons-logging', version='1.2')
-// @Grab(group='dom4j', module='dom4j', version='1.6.1')
-// @Grab(group='jaxen', module='jaxen', version='1.1')
-
 @Grab(group='org.apache.commons', module='commons-pool2', version='2.8.1')
 @Grab(group='org.apache.commons', module='commons-dbcp2', version='2.7.0')
 @Grab(group='org.mariadb.jdbc', module='mariadb-java-client', version='2.6.2')
-// @Grab(group='xml-apis', module='xml-apis', version='1.0.b2')
 
-/// @Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.6.0-SNAPSHOT')
-/// @Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.7.2')
 @Grab(group='de.winkler.betoffice', module='betoffice-storage', version='2.8.0-SNAP-2021-05-31')
 
 import org.springframework.context.support.ClassPathXmlApplicationContext
@@ -206,9 +197,9 @@ validate gruppeE
 def gruppeF = service.findGroupType('Gruppe F');
 validate gruppeF
 
-/*
 def achtelfinale = service.findGroupType('Achtelfinale');
 validate achtelfinale
+/*
 def viertelfinale = service.findGroupType('Viertelfinale');
 validate viertelfinale
 def halbfinale = service.findGroupType('Halbfinale');
@@ -299,6 +290,7 @@ validate ungarn
 
 
 // TODO #addGroup liefert nicht die Group zurück, sonder die Saison.
+/*
 def em2021_gruppe_A = service.addGroup em2021, gruppeA
 println "Gruppe A: $em2021_gruppe_A.id"
 
@@ -316,8 +308,12 @@ println "Gruppe E: $em2021_gruppe_E.id"
 
 def em2021_gruppe_F = service.addGroup em2021, gruppeF
 println "Gruppe F: $em2021_gruppe_F.id"
+*/
 
+def em2021_gruppe_achtelfinale = service.addGroup em2021, achtelfinale
+println "Gruppe F: $em2021_gruppe_achtelfinale.id"
 
+/*
 em2021_gruppe_A = service.addTeams(em2021, gruppeA, [italien, schweiz, tuerkei, wales])
 printTeams(em2021_gruppe_A)
 
@@ -335,9 +331,9 @@ printTeams(em2021_gruppe_E)
 
 em2021_gruppe_F = service.addTeams(em2021, gruppeF, [deutschland, frankreich, portugal, ungarn])
 printTeams(em2021_gruppe_F)
+*/ 
 
-// 
-
+/*
 def round_2021_06_11 = service.findRound(em2021, 0)
 if (round_2021_06_11.isPresent()) {
     round_2021_06_11 = round_2021_06_11.get()
@@ -363,106 +359,19 @@ if (round_2021_06_20.isPresent()) {
     round_2021_06_20 = service.addRound(em2021, '2021-06-20 18:00:00', gruppeA)
 }
 println "Runde $round_2021_06_20.dateTime"
-
-/*
-def round_2018_06_17 = service.findRound(em2021, 3)
-if (round_2018_06_17.isPresent()) {
-    round_2018_06_17 = round_2018_06_17.get()
-} else {
-    round_2018_06_17 = service.addRound(wm2018, '2018-06-17 14:00:00', gruppeD)
-}
-println "Runde $round_2018_06_17.dateTime"
-
-def round_2018_06_18 = service.findRound(em2021, 4)
-if (round_2018_06_18.isPresent()) {
-    round_2018_06_18 = round_2018_06_18.get()
-} else {
-    round_2018_06_18 = service.addRound(wm2018, '2018-06-18 14:00:00', gruppeE)
-}
-println "Runde $round_2018_06_18.dateTime"
-
-def round_2018_06_19 = service.findRound(wm2018, 5)
-if (round_2018_06_19.isPresent()) {
-    round_2018_06_19 = round_2018_06_19.get()
-} else {
-    round_2018_06_19 = service.addRound(wm2018, '2018-06-19 14:00:00', gruppeF)
-}
-println "Runde $round_2018_06_19.dateTime"
-
-def round_2018_06_20 = service.findRound(wm2018, 6)
-if (round_2018_06_20.isPresent()) {
-    round_2018_06_20 = round_2018_06_20.get()
-} else {
-    round_2018_06_20 = service.addRound(wm2018, '2018-06-20 14:00:00', gruppeG)
-}
-println "Runde $round_2018_06_20.dateTime"
-
-def round_2018_06_21 = service.findRound(wm2018, 7)
-if (round_2018_06_21.isPresent()) {
-    round_2018_06_21 = round_2018_06_21.get()
-} else {
-    round_2018_06_21 = service.addRound(wm2018, '2018-06-21 14:00:00', gruppeH)
-}
-println "Runde $round_2018_06_21.dateTime"
-
-def round_2018_06_22 = service.findRound(wm2018, 8)
-if (round_2018_06_22.isPresent()) {
-    round_2018_06_22 = round_2018_06_22.get()
-} else {
-    round_2018_06_22 = service.addRound(wm2018, '2018-06-22 14:00:00', gruppeA)
-}
-println "Runde $round_2018_06_22.dateTime"
-
-def round_2018_06_23 = service.findRound(wm2018, 9)
-if (round_2018_06_23.isPresent()) {
-    round_2018_06_23 = round_2018_06_23.get()
-} else {
-    round_2018_06_23 = service.addRound(wm2018, '2018-06-23 14:00:00', gruppeB)
-}
-println "Runde $round_2018_06_23.dateTime"
-
-def round_2018_06_24 = service.findRound(wm2018, 10)
-if (round_2018_06_24.isPresent()) {
-    round_2018_06_24 = round_2018_06_24.get()
-} else {
-    round_2018_06_24 = service.addRound(wm2018, '2018-06-24 14:00:00', gruppeC)
-}
-println "Runde $round_2018_06_24.dateTime"
-
-def round_2018_06_25 = service.findRound(wm2018, 11)
-if (round_2018_06_25.isPresent()) {
-    round_2018_06_25 = round_2018_06_25.get()
-} else {
-    round_2018_06_25 = service.addRound(wm2018, '2018-06-25 14:00:00', gruppeA)
-}
-println "Runde $round_2018_06_25.dateTime"
-
-def round_2018_06_26 = service.findRound(wm2018, 12)
-if (round_2018_06_26.isPresent()) {
-    round_2018_06_26 = round_2018_06_26.get()
-} else {
-    round_2018_06_26 = service.addRound(wm2018, '2018-06-26 14:00:00', gruppeC)
-}
-println "Runde $round_2018_06_26.dateTime"
-
-def round_2018_06_27 = service.findRound(wm2018, 13)
-if (round_2018_06_27.isPresent()) {
-    round_2018_06_27 = round_2018_06_27.get()
-} else {
-    round_2018_06_27 = service.addRound(wm2018, '2018-06-27 14:00:00', gruppeE)
-}
-println "Runde $round_2018_06_27.dateTime"
-
-def round_2018_06_28 = service.findRound(wm2018, 14)
-if (round_2018_06_28.isPresent()) {
-    round_2018_06_28 = round_2018_06_28.get()
-} else {
-    round_2018_06_28 = service.addRound(wm2018, '2018-06-28 14:00:00', gruppeG)
-}
-println "Runde $round_2018_06_28.dateTime"
 */
 
+def round_2021_06_26 = service.findRound(em2021, 4)
+if (round_2021_06_26.isPresent()) {
+    round_2021_06_26 = round_2021_06_26.get()
+} else {
+    round_2021_06_26 = service.addRound(em2021, '2021-06-26 18:00:00', achtelfinale)
+}
+println "Runde $round_2021_06_26.dateTime"
+
+
 // 1. Spieltag
+/*
 service.addMatch(round_2021_06_11, '2021-06-11 21:00:00', em2021_gruppe_A, tuerkei, italien)
 
 service.addMatch(round_2021_06_11, '2021-06-12 15:00:00', em2021_gruppe_A, wales, schweiz)
@@ -479,8 +388,10 @@ service.addMatch(round_2021_06_11, '2021-06-14 21:00:00', em2021_gruppe_E, spani
 
 service.addMatch(round_2021_06_11, '2021-06-15 18:00:00', em2021_gruppe_F, ungarn, portugal)
 service.addMatch(round_2021_06_11, '2021-06-15 21:00:00', em2021_gruppe_F, frankreich, deutschland)
+*/
 
 // 2. Spieltag
+/*
 service.addMatch(round_2021_06_16, '2021-06-16 15:00:00', em2021_gruppe_B, finnland, russland)
 service.addMatch(round_2021_06_16, '2021-06-16 18:00:00', em2021_gruppe_A, tuerkei, wales)
 service.addMatch(round_2021_06_16, '2021-06-16 21:00:00', em2021_gruppe_A, italien, schweiz)
@@ -498,8 +409,10 @@ service.addMatch(round_2021_06_16, '2021-06-18 21:00:00', em2021_gruppe_D, engla
 service.addMatch(round_2021_06_16, '2021-06-19 15:00:00', em2021_gruppe_F, ungarn, frankreich)
 service.addMatch(round_2021_06_16, '2021-06-19 18:00:00', em2021_gruppe_F, portugal, deutschland)
 service.addMatch(round_2021_06_16, '2021-06-19 21:00:00', em2021_gruppe_E, spanien, polen)
+*/
 
 // 3. Spieltag
+/*
 service.addMatch(round_2021_06_20, '2021-06-20 18:00:00', em2021_gruppe_A, italien, wales)
 service.addMatch(round_2021_06_20, '2021-06-20 18:00:00', em2021_gruppe_A, schweiz, tuerkei)
 
@@ -515,3 +428,17 @@ service.addMatch(round_2021_06_20, '2021-06-23 18:00:00', em2021_gruppe_E, slowa
 service.addMatch(round_2021_06_20, '2021-06-23 18:00:00', em2021_gruppe_E, schweden, polen)
 service.addMatch(round_2021_06_20, '2021-06-23 21:00:00', em2021_gruppe_F, deutschland, ungarn)
 service.addMatch(round_2021_06_20, '2021-06-23 21:00:00', em2021_gruppe_F, portugal, frankreich)
+*/
+
+// 4. Spieltag Achtelfinale
+service.addMatch(round_2021_06_26, '2021-06-26 18:00:00', em2021_gruppe_achtelfinale, wales, daenemark)
+service.addMatch(round_2021_06_26, '2021-06-26 21:00:00', em2021_gruppe_achtelfinale, italien, oesterreich)
+
+service.addMatch(round_2021_06_26, '2021-06-27 18:00:00', em2021_gruppe_achtelfinale, niederlande, tschechien)
+service.addMatch(round_2021_06_26, '2021-06-27 21:00:00', em2021_gruppe_achtelfinale, belgien, portugal)
+
+service.addMatch(round_2021_06_26, '2021-06-28 18:00:00', em2021_gruppe_achtelfinale, kroatien, spanien)
+service.addMatch(round_2021_06_26, '2021-06-28 21:00:00', em2021_gruppe_achtelfinale, frankreich, schweiz)
+
+service.addMatch(round_2021_06_26, '2021-06-29 18:00:00', em2021_gruppe_achtelfinale, england, deutschland)
+service.addMatch(round_2021_06_26, '2021-06-29 21:00:00', em2021_gruppe_achtelfinale, schweden, ukraine)
