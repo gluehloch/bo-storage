@@ -74,7 +74,6 @@ public interface AuthService {
 	 * Vaidates the user session.
 	 * 
 	 * @param token  a security token
-	 * @param season the championship
 	 * @return a valid user session
 	 */
 	Optional<Session> validateSession(String token);

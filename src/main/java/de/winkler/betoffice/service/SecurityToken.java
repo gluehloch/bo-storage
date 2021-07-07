@@ -25,9 +25,13 @@
 package de.winkler.betoffice.service;
 
 import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Objects;
 
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.RoleType;
+
+import javax.management.relation.Role;
 
 /**
  * I don´t know. But something to hold session data.
@@ -38,7 +42,7 @@ public class SecurityToken {
 
     private final String token;
     private final User user;
-    private final RoleType roleType;
+    private final List<RoleType> roleTypes;
     private final ZonedDateTime loginTime;
 
     /**
@@ -48,15 +52,20 @@ public class SecurityToken {
      *            The session id
      * @param _user
      *            the logged in user
-     * @param _roleType
+     * @param _roleTypes
      *            Role of the user
      * @param _loginTime
      *            Zeitpunkt des einloggens.
      */
-    public SecurityToken(String _token, User _user, RoleType _roleType, ZonedDateTime _loginTime) {
+    public SecurityToken(String _token, User _user, List<RoleType> _roleTypes, ZonedDateTime _loginTime) {
+        Objects.nonNull(_token);
+        Objects.nonNull(_user);
+        Objects.nonNull(_roleTypes);
+        Objects.nonNull(_loginTime);
+
         token = _token;
         user = _user;
-        roleType = _roleType;
+        roleTypes = _roleTypes;
         loginTime = _loginTime;
     }
 
@@ -72,14 +81,18 @@ public class SecurityToken {
         return loginTime;
     }
 
-    public RoleType getRoleType() {
-        return roleType;
+    public List<RoleType> getRoleTypes() {
+        return roleTypes;
+    }
+
+    public boolean hasRole(RoleType roleType) {
+        return roleTypes.contains(roleType);
     }
 
     @Override
     public String toString() {
         return "SecurityToken [token=" + token + ", user=" + user
-                + ", roleType=" + roleType + ", loginTime=" + loginTime + "]";
+                + ", roleTypes=" + roleTypes + ", loginTime=" + loginTime + "]";
     }
 
 }

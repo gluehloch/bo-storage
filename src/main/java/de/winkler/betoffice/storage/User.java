@@ -24,7 +24,9 @@
 
 package de.winkler.betoffice.storage;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -36,6 +38,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import de.winkler.betoffice.storage.enums.RoleType;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -442,6 +445,19 @@ public class User extends AbstractStorageObject {
         buf.append(": ");
         buf.append(password);
         return buf.toString();
+    }
+
+    // -- Role ----------------------------------------------------------------
+
+    public List<RoleType> getRoleTypes() {
+        List<RoleType> roleTypes = new ArrayList<>();
+        if (isAdmin()) {
+            roleTypes.add(RoleType.ADMIN);
+        }
+        if (!isExcluded()) {
+            roleTypes.add(RoleType.TIPPER);
+        }
+        return roleTypes;
     }
 
     // -- Object --------------------------------------------------------------

@@ -23,6 +23,7 @@
 
 package de.winkler.betoffice.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +58,16 @@ public class DefaultAuthService implements AuthService {
     @Autowired
     private DateTimeProvider dateTimeProvider;
 
+    /**
+     * TODO Community Edition: Admin/Tipp ROllen werden nicht einer Tipprunde zugeordnet.
+     *
+     * @param name      user name
+     * @param password  user password
+     * @param sessionId SessionId
+     * @param address   ip address
+     * @param browserId browser id
+     * @return
+     */
     @Transactional
     @Override
     public SecurityToken login(String name, String password, String sessionId, String address, String browserId) {
@@ -65,10 +76,16 @@ public class DefaultAuthService implements AuthService {
         SecurityToken securityToken = null;
         if (user.isPresent() && user.get().comparePwd(password)) {
             User presentUser = user.get();
-            RoleType roleType = presentUser.isAdmin() ? RoleType.ADMIN : RoleType.TIPPER;
+            List<RoleType> roleTypes = new ArrayList<>();
+            if (presentUser.isAdmin()) {
+                roleTypes.add(RoleType.ADMIN);
+            }
+            if (!presentUser.isExcluded()) {
+                roleTypes.add(RoleType.TIPPER);
+            }
             
             var now = dateTimeProvider.currentDateTime();
-            securityToken = new SecurityToken(sessionId, presentUser, roleType, now);
+            securityToken = new SecurityToken(sessionId, presentUser, roleTypes, now);
 
             Session session = new Session();
             session.setBrowser(browserId);
