@@ -11,7 +11,7 @@
 				JDK 16. Spring Framework 5.3.6. Hibernate 5.4.31.Final. Adding support for authentication and authorization.
 		    </action>
         </release>
-
+		
 		<!-- RELEASED -->
 		<release version="betoffice-storage-2.7.2" date="2020-11-14" description="Code garden work">
 		    <action dev="andrewinkler" type="add" date="2020-11-13">
