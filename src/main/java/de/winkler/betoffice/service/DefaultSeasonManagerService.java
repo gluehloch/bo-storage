@@ -528,6 +528,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         List<User> activeUsers = findActivatedUsers(season);
         Season season2 = seasonDao.findById(season.getId());
 
+        // TODO: Testfall
         users.stream()
                 .filter(user -> activeUsers.contains(user))
                 .forEach(user -> {

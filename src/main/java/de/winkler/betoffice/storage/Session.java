@@ -137,6 +137,10 @@ public class Session {
     public void setLogout(ZonedDateTime value) {
         logout = value;
     }
+    
+    public boolean isTerminated() {
+    	return logout != null;
+    }
 
     // -- remoteAddress -------------------------------------------------------
 
