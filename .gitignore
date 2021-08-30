@@ -1,20 +1,21 @@
-eclipse-bin
-.sts*
-build.properties
-target
+# Eclipse
+/eclipse-bin
+/.sts*
+/target
+/bin
+/.classpath
+/.project
+/.settings
+/.dbeaver
+
+# Misc
 *.log
 betoffice.log.*
-database.properties
 tmp
-eclipse-target
-bin
-.classpath
-.project
-.settings
-.idea
-.vscode
-.dbeaver
-.sts4-cache
-/betoffice-storage.iml
-.devcontainer
 
+# IDEA IntelliJ
+.idea
+/betoffice-storage.iml
+
+# Visual Code
+.vscode
