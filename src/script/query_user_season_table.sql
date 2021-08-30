@@ -1,5 +1,5 @@
 SELECT
-  COUNT(*) AS 'half_points', u.*
+  COUNT(*) AS 'half_points', u.bo_nickname
 FROM
   bo_gamelist gl
   JOIN bo_game m ON (m.bo_gamelist_ref = gl.id)
@@ -33,18 +33,15 @@ FROM
       END as bo_guestgoals
     FROM
       bo_game mt
-    /* Wird das trotzdem optimiert?
-    WHERE
-      mt.id = m.id
-     */
   ) as gameresult ON (gameresult.id = m.id)
   JOIN bo_gametipp t ON (t.bo_game_ref = m.id)
   JOIN bo_season s ON (gl.bo_season_ref = s.id)
   JOIN bo_user_season us ON (us.bo_season_ref = s.id)
   JOIN bo_user u ON (t.bo_user_ref = u.id)
 WHERE
-      s.id = 26 /*:season_id*/
-  AND us.bo_user_ref = u.id
+  --    s.id = 26 /*:season_id*/
+  -- AND
+  us.bo_user_ref = u.id
   AND m.bo_isplayed = 1
   AND t.bo_status <> 0
   /* Alle 13 Punkte Tipps ausschliessen. */
@@ -56,21 +53,21 @@ WHERE
   AND
   (
     (
-      /* Toto 1 */
+      /* Toto 1: Sieg Heimmannschaft */
           gameresult.bo_homegoals > gameresult.bo_guestgoals
-      /* User Toto 1*/
+      /* User Toto 1 */
       AND t.bo_homegoals > t.bo_guestgoals
     )
     OR
     (
-      /* Toto 0 */
+      /* Toto 0: Unentschieden */
           gameresult.bo_homegoals = gameresult.bo_guestgoals
       /* User Toto 0 */
       AND t.bo_homegoals = t.bo_guestgoals
     )
     OR
     (
-      /* Toto 2 */
+      /* Toto 2: Niederlage Heimmannschaft */
           gameresult.bo_homegoals < gameresult.bo_guestgoals
       /* User Toto 2 */
       AND t.bo_homegoals < t.bo_guestgoals
@@ -79,5 +76,5 @@ WHERE
 GROUP BY
   u.bo_nickname
 ORDER BY
-  COUNT(*) DESC;
-
+  COUNT(*) DESC
+;

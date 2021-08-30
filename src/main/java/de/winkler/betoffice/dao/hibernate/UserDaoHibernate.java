@@ -51,8 +51,7 @@ import de.winkler.betoffice.storage.comparator.UserPointsComparator;
  * @author Andre Winkler
  */
 @Repository("userDao")
-public class UserDaoHibernate extends AbstractCommonDao<User>
-        implements UserDao {
+public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao {
 
     /** Sucht nach allen Usern mit einem bestimmten Nick-Namen. */
     private static final String QUERY_USER_BY_NICKNAME = "from "
@@ -89,6 +88,13 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
                 .createQuery("from User order by nickname", User.class)
                 .getResultList();
         return users;
+    }
+    
+    public List<User> find() {
+        Query<User> query = getSessionFactory().getCurrentSession().createQuery("from User order by nickname", User.class);
+        query.setFirstResult(1);
+        query.setMaxResults(2);
+        return query.getResultList();
     }
 
     @Override

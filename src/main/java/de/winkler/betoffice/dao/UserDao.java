@@ -46,50 +46,42 @@ public interface UserDao extends CommonDao<User> {
      */
     List<User> findAll();
 
+    List<User> findAll(Pageable page);
+
     /**
      * Liefert einen Teilnehmer mit gesuchten Nickname.
      *
-     * @param nickname
-     *            Der gesuchte Nickname.
-     * @return Ein Teilnehmer.
+     * @param  nickname Der gesuchte Nickname.
+     * @return          Ein Teilnehmer.
      */
     Optional<User> findByNickname(String nickname);
 
     /**
      * Berechnet das Tipper-Ranking für eine Meisterschaft.
      *
-     * @param users
-     *            Diese Teilnehmer werden im Ergebnis erwartet.
-     * @param season
-     *            Die betreffende Meisterschaft.
-     * @param startIndex
-     *            Index des Spieltags ab dem gezählt wird (0..N-1).
-     * @param endIndex
-     *            Index des Spieltags bis zu dem gezählt wird (0..N-1).
-     * @return Das Ranking der Tipper.
+     * @param  users      Diese Teilnehmer werden im Ergebnis erwartet.
+     * @param  season     Die betreffende Meisterschaft.
+     * @param  startIndex Index des Spieltags ab dem gezählt wird (0..N-1).
+     * @param  endIndex   Index des Spieltags bis zu dem gezählt wird (0..N-1).
+     * @return            Das Ranking der Tipper.
      */
-    List<UserResult> calculateUserRanking(List<User> users, Season season,
-            int startIndex, int endIndex);
+    List<UserResult> calculateUserRanking(List<User> users, Season season, int startIndex, int endIndex);
 
     /**
      * Berechnet das Tipper-Ranking für eine Meisterschaft.
      *
-     * @param users
-     *            Diese Teilnehmer werden im Ergebnis erwartet.
-     * @param season
-     *            Die betreffende Meisterschaft.
-     * @return Das Ranking der Tipper.
+     * @param  users  Diese Teilnehmer werden im Ergebnis erwartet.
+     * @param  season Die betreffende Meisterschaft.
+     * @return        Das Ranking der Tipper.
      */
     List<UserResult> calculateUserRanking(List<User> users, Season season);
 
     /**
      * Berechnet das Tipper-Ranking für einen Spieltag.
      *
-     * @param users
-     *            Diese Teilnehmer werden im Ergebnis erwartet.
-     * @param round
-     *            Der betreffende Spieltag.
-     * @return Das Ranking der Tipper.
+     * @param  users Diese Teilnehmer werden im Ergebnis erwartet.
+     * @param  round Der betreffende Spieltag.
+     * @return       Das Ranking der Tipper.
      */
     List<UserResult> calculateUserRanking(List<User> users, GameList round);
 
