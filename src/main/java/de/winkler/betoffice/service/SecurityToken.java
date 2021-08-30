@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2015 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2021 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -31,8 +31,6 @@ import java.util.Objects;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.RoleType;
 
-import javax.management.relation.Role;
-
 /**
  * I don´t know. But something to hold session data.
  *
@@ -40,59 +38,55 @@ import javax.management.relation.Role;
  */
 public class SecurityToken {
 
-    private final String token;
-    private final User user;
-    private final List<RoleType> roleTypes;
-    private final ZonedDateTime loginTime;
+	private final String token;
+	private final User user;
+	private final List<RoleType> roleTypes;
+	private final ZonedDateTime loginTime;
 
-    /**
-     * Constructor
-     *
-     * @param _token
-     *            The session id
-     * @param _user
-     *            the logged in user
-     * @param _roleTypes
-     *            Role of the user
-     * @param _loginTime
-     *            Zeitpunkt des einloggens.
-     */
-    public SecurityToken(String _token, User _user, List<RoleType> _roleTypes, ZonedDateTime _loginTime) {
-        Objects.nonNull(_token);
-        Objects.nonNull(_user);
-        Objects.nonNull(_roleTypes);
-        Objects.nonNull(_loginTime);
+	/**
+	 * Constructor
+	 *
+	 * @param _token     The session id
+	 * @param _user      the logged in user
+	 * @param _roleTypes Role of the user
+	 * @param _loginTime Zeitpunkt des einloggens.
+	 */
+	public SecurityToken(String _token, User _user, List<RoleType> _roleTypes, ZonedDateTime _loginTime) {
+		Objects.nonNull(_token);
+		Objects.nonNull(_user);
+		Objects.nonNull(_roleTypes);
+		Objects.nonNull(_loginTime);
 
-        token = _token;
-        user = _user;
-        roleTypes = _roleTypes;
-        loginTime = _loginTime;
-    }
+		token = _token;
+		user = _user;
+		roleTypes = _roleTypes;
+		loginTime = _loginTime;
+	}
 
-    public String getToken() {
-        return token;
-    }
+	public String getToken() {
+		return token;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public ZonedDateTime getLoginTime() {
-        return loginTime;
-    }
+	public ZonedDateTime getLoginTime() {
+		return loginTime;
+	}
 
-    public List<RoleType> getRoleTypes() {
-        return roleTypes;
-    }
+	public List<RoleType> getRoleTypes() {
+		return roleTypes;
+	}
 
-    public boolean hasRole(RoleType roleType) {
-        return roleTypes.contains(roleType);
-    }
+	public boolean hasRole(RoleType roleType) {
+		return roleTypes.contains(roleType);
+	}
 
-    @Override
-    public String toString() {
-        return "SecurityToken [token=" + token + ", user=" + user
-                + ", roleTypes=" + roleTypes + ", loginTime=" + loginTime + "]";
-    }
+	@Override
+	public String toString() {
+		return "SecurityToken [token=" + token + ", user=" + user + ", roleTypes=" + roleTypes + ", loginTime="
+				+ loginTime + "]";
+	}
 
 }
