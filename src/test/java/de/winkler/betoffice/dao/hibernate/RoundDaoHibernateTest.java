@@ -132,8 +132,8 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testFindPreviousRound() {
-        assertThat(roundDao.findPrevious(0).isPresent()).isFalse();
-        assertThat(roundDao.findPrevious(1).isPresent()).isFalse();
+        assertThat(roundDao.findPrevious(0).isEmpty();
+        assertThat(roundDao.findPrevious(1).isEmpty();
         assertThat(roundDao.findPrevious(2).get()).isEqualTo(1L);
         assertThat(roundDao.findPrevious(3).get()).isEqualTo(2L);
         assertThat(roundDao.findPrevious(4).get()).isEqualTo(3L);
@@ -145,8 +145,9 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     public void testFindNextTippRound() {
         // Everything as expected?
         ZonedDateTime matchDateTime = matchDao.findById(1L).getDateTime();
-        assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_PARIS));
-        assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN));
+        assertThat(matchDateTime)
+            .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_PARIS))
+            .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN));
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
         assertThat(matchDao.findById(20L).isPlayed()).isFalse();
@@ -224,56 +225,29 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         // Everything as expected?
         ZonedDateTime matchDateTime = matchDao.findById(1L).getDateTime();
 
-        assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(
-                LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(15, 0)),
-                ZONE_EUROPE_PARIS));
-        assertThat(matchDateTime).isEqualTo(ZonedDateTime.of(
-                LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(14, 0)),
-                ZONE_UTC));
+        assertThat(matchDateTime)
+            .isEqualTo(ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(15, 0)), ZONE_EUROPE_PARIS))
+            .isEqualTo(ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(14, 0)), ZONE_UTC));
 
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
         assertThat(matchDao.findById(20L).isPlayed()).isFalse();
 
         // Datum kurz vor dem Spieltag
-        assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))
-                .isPresent()).isFalse();
-        assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))
-                .get()).isEqualTo(1L);
-        assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 3, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))
-                .get()).isEqualTo(2L);
-        assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 4, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))
-                .get()).isEqualTo(3L);
-        assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 5, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))
-                .get()).isEqualTo(4L);
-        assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 6, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))
-                .get()).isEqualTo(5L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).isNotPresent();
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(1L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 3, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(2L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 4, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(3L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 5, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(4L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 6, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(5L);
 
         // Datum direkt am Spieltag
-        assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZONE_EUROPE_PARIS))
-                .get()).isEqualTo(2L);
-        assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZONE_UTC)).get())
-                        .isEqualTo(2L);
-        assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 2, 5, 15, 0, 0, 0, ZONE_UTC)).get())
-                        .isEqualTo(2L);
-        assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 5, 5, 13, 0, 0, 0, ZONE_EUROPE_PARIS))
-                .get()).isEqualTo(4L);
-        assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 5, 5, 16, 0, 0, 0, ZONE_EUROPE_PARIS))
-                .get()).isEqualTo(5L);
-        assertThat(roundDao.findLastTippRound(1L,
-                ZonedDateTime.of(2016, 5, 6, 16, 0, 0, 0, ZONE_EUROPE_PARIS))
-                .get()).isEqualTo(5L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(2L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZONE_UTC))).contains(2L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 2, 5, 15, 0, 0, 0, ZONE_UTC))).contains(2L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 5, 5, 13, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(4L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 5, 5, 16, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(5L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 5, 6, 16, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(5L);
     }
 
     @Test
