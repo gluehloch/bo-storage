@@ -53,6 +53,8 @@ public interface CommunityDao extends CommonDao<Community> {
      */
     List<Community> findAll(String nameFilter);
 
+    Page<Community> findAll(String nameFilter, Pageable pageable);
+
     /**
      * Find all members of a community.
      * 

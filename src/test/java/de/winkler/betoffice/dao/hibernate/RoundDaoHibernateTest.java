@@ -132,13 +132,13 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testFindPreviousRound() {
-        assertThat(roundDao.findPrevious(0).isEmpty();
-        assertThat(roundDao.findPrevious(1).isEmpty();
-        assertThat(roundDao.findPrevious(2).get()).isEqualTo(1L);
-        assertThat(roundDao.findPrevious(3).get()).isEqualTo(2L);
-        assertThat(roundDao.findPrevious(4).get()).isEqualTo(3L);
-        assertThat(roundDao.findPrevious(5).get()).isEqualTo(4L);
-        assertThat(roundDao.findPrevious(6).isPresent()).isFalse();
+        assertThat(roundDao.findPrevious(0)).isEmpty();
+        assertThat(roundDao.findPrevious(1)).isEmpty();
+        assertThat(roundDao.findPrevious(2)).contains(1L);
+        assertThat(roundDao.findPrevious(3)).contains(2L);
+        assertThat(roundDao.findPrevious(4)).contains(3L);
+        assertThat(roundDao.findPrevious(5)).contains(4L);
+        assertThat(roundDao.findPrevious(6)).isEmpty();
     }
 
     @Test

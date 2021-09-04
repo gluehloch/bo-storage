@@ -91,6 +91,15 @@
 		    <scope>test</scope>
 		</dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
+        <!-- TODO Hibernate wird direkt (ohne JPA) verwendet. -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>2.5.4</version>
+            <scope>compile</scope>
+        </dependency>
+
         <dependency>
             <groupId>de.betoffice</groupId>
             <artifactId>betoffice-testutils</artifactId>

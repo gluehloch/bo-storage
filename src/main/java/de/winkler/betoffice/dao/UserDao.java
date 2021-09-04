@@ -46,8 +46,6 @@ public interface UserDao extends CommonDao<User> {
      */
     List<User> findAll();
 
-    List<User> findAll(Pageable page);
-
     /**
      * Liefert einen Teilnehmer mit gesuchten Nickname.
      *

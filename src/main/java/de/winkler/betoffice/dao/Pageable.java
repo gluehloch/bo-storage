@@ -29,10 +29,14 @@ package de.winkler.betoffice.dao;
  *
  * @author Andre Winkler
  */
-public interface Page {
+public interface Pageable {
 
-    long offset();
+    long getOffset();
     
-    long rows();
-    
+    int getPageNumber();
+
+    int getPageSize();
+
+    Sort getSort();
+
 }
