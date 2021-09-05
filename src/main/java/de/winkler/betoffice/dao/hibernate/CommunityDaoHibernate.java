@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2021 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL  LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -26,6 +26,9 @@ package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.CommunityDao;
@@ -33,8 +36,7 @@ import de.winkler.betoffice.storage.Community;
 import de.winkler.betoffice.storage.User;
 
 @Repository("communityDao")
-public class CommunityDaoHibernate extends AbstractCommonDao<Community>
-        implements CommunityDao {
+public class CommunityDaoHibernate extends AbstractCommonDao<Community> implements CommunityDao {
 
     public CommunityDaoHibernate() {
         super(Community.class);
@@ -42,8 +44,7 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community>
 
     @Override
     public List<Community> findAll(String nameFilter) {
-        String filter = new StringBuilder("%").append(nameFilter).append("%")
-                .toString();
+        String filter = new StringBuilder("%").append(nameFilter).append("%").toString();
         return getSessionFactory().getCurrentSession()
                 .createQuery(
                         "from Community c where LOWER(c.name) like LOWER(:filter)",
@@ -51,7 +52,30 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community>
                 .setParameter("filter", filter)
                 .getResultList();
     }
+    
+    @Override
+    public Page<Community> findAll(String nameFilter, Pageable pageable) {        
+        long total = countAll();       
+        String filter = new StringBuilder("%").append(nameFilter).append("%").toString();
+        
+        List<Community> communities = getSessionFactory().getCurrentSession()
+                .createQuery(
+                        "from Community c where LOWER(c.name) like LOWER(:filter)",
+                        Community.class)
+                .setParameter("filter", filter)
+                .setFirstResult((int) pageable.getOffset())
+                .setMaxResults(pageable.getPageSize())
+                .getResultList();        
+               
+        return new PageImpl<Community>(communities, pageable, total);
+    }
 
+    private long countAll() {
+        return getSessionFactory().getCurrentSession()
+                .createQuery("select count(*) from Community c", Long.class)
+                .getSingleResult();        
+    }
+    
     @Override
     public Community find(String name) {
         return getSessionFactory().getCurrentSession()

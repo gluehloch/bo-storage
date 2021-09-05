@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2021 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -25,6 +25,9 @@ package de.winkler.betoffice.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import de.winkler.betoffice.storage.Community;
 import de.winkler.betoffice.storage.User;
 
@@ -38,47 +41,49 @@ public interface CommunityDao extends CommonDao<Community> {
     /**
      * Find a community by name.
      * 
-     * @param name
-     *            the community name
-     * @return the community
+     * @param  name the community name
+     * @return      the community
      */
     Community find(String name);
 
     /**
      * Find all communities.
      * 
-     * @param nameFilter
-     *            a filter for the community name
-     * @return all communities
+     * @param  nameFilter a filter for the community name
+     * @return            all communities
      */
     List<Community> findAll(String nameFilter);
 
+    /**
+     * Find all communities as page.
+     * 
+     * @param  nameFilter
+     * @param  pageable
+     * @return
+     */
     Page<Community> findAll(String nameFilter, Pageable pageable);
 
     /**
      * Find all members of a community.
      * 
-     * @param name
-     *            the community name
-     * @return the community and all members.
+     * @param  name the community name
+     * @return      the community and all members.
      */
     Community findCommunityMembers(String name);
 
     /**
      * Are there still any community members?
      *
-     * @param community
-     *            Find members of this community
-     * @return <code>true</code> if community has members
+     * @param  community Find members of this community
+     * @return           <code>true</code> if community has members
      */
     boolean hasMembers(Community community);
 
     /**
      * Find all members of a community.
      * 
-     * @param community
-     *            Find members of this community.
-     * @return Members of a community
+     * @param  community Find members of this community.
+     * @return           Members of a community
      */
     List<User> findMembers(Community community);
 
