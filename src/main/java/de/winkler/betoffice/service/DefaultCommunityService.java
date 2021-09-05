@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2021 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -23,13 +23,13 @@
 
 package de.winkler.betoffice.service;
 
-import java.util.List;
-
 import javax.persistence.NoResultException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import de.winkler.betoffice.dao.CommunityDao;
@@ -64,8 +64,13 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
-    public List<Community> findAll(String communityNameFilter) {
-        return communityDao.findAll(communityNameFilter);
+    public Page<Community> findCommunities(String communityNameFilter, Pageable pageable) {
+        return communityDao.findAll(communityNameFilter, pageable);
+    }
+
+    @Override
+    public Page<User> findUsers(String nicknameFilter, Pageable pageable) {
+        return userDao.findAll(nicknameFilter, pageable);
     }
 
     @Override

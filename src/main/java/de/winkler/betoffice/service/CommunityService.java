@@ -23,10 +23,12 @@
 
 package de.winkler.betoffice.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import de.winkler.betoffice.storage.Community;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.User;
 
 /**
  * Community service.
@@ -38,70 +40,69 @@ public interface CommunityService {
     /**
      * Find a community by name.
      * 
-     * @param communityName
-     *            community name
-     * @return a community.
+     * @param  communityName community name
+     * @return               a community.
      */
     Community find(String communityName);
 
     /**
      * Find all communities.
      * 
-     * @param communityNameFilter
-     *            a name filter
-     * @return a list of communities
+     * @param  communityNameFilter a name filter
+     * @param  pageable            paging parameter
+     * @return                     a list of communities
      */
-    List<Community> findAll(String communityNameFilter);
+    Page<Community> findCommunities(String communityNameFilter, Pageable pageable);
+
+    /**
+     * Find all users.
+     * 
+     * @param  nicknameFilter a nickname filter
+     * @param  pageable       paging parameter
+     * @return                list of users
+     */
+    Page<User> findUsers(String nicknameFilter, Pageable pageable);
 
     /**
      * Find a community and all members.
      * 
-     * @param communityName
-     *            a community name
-     * @return a community with all it´s members.
+     * @param  communityName a community name
+     * @return               a community with all it´s members.
      */
     Community findCommunityMembers(String communityName);
 
     /**
      * Create a new community.
      * 
-     * @param communityName
-     *            community name
-     * @param communityShortName
-     *            short name of the community name
-     * @param managerNickname
-     *            nickname of the community manager
-     * @return the create community.
+     * @param  communityName      community name
+     * @param  communityShortName short name of the community name
+     * @param  managerNickname    nickname of the community manager
+     * @return                    the create community.
      */
     Community create(Season season, String communityName, String communityShortName, String managerNickname);
 
     /**
      * Delete community.
      * 
-     * @param communityName
-     *            the community name to delete
+     * @param communityName the community name to delete
      */
     void delete(String communityName);
 
     /**
      * Add a new community member.
      * 
-     * @param communityName
-     *            the community name
-     * @param nickname
-     *            the new community member
-     * @return the updated community.
+     * @param  communityName the community name
+     * @param  nickname      the new community member
+     * @return               the updated community.
      */
     Community addMember(String communityName, String nickname);
 
     /**
      * Remove a community member.
      * 
-     * @param communityName
-     *            the community name
-     * @param nickname
-     *            the community member to remove
-     * @return the updated community.
+     * @param  communityName the community name
+     * @param  nickname      the community member to remove
+     * @return               the updated community.
      */
     Community removeMember(String communityName, String nickname);
 
