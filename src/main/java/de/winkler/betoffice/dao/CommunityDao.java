@@ -57,9 +57,9 @@ public interface CommunityDao extends CommonDao<Community> {
     /**
      * Find all communities as page.
      * 
-     * @param  nameFilter
-     * @param  pageable
-     * @return
+     * @param  nameFilter name filter
+     * @param  pageable   paging params
+     * @return            all communities
      */
     Page<Community> findAll(String nameFilter, Pageable pageable);
 

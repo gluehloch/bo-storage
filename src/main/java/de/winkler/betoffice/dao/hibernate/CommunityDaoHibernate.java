@@ -55,7 +55,7 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
     
     @Override
     public Page<Community> findAll(String nameFilter, Pageable pageable) {        
-        long total = countAll();       
+        long total = countAll();
         String filter = new StringBuilder("%").append(nameFilter).append("%").toString();
         
         List<Community> communities = getSessionFactory().getCurrentSession()
