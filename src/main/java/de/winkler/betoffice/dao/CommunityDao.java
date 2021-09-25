@@ -72,7 +72,7 @@ public interface CommunityDao extends CommonDao<Community> {
     Community findCommunityMembers(String name);
 
     /**
-     * Are there still any community members?
+     * Are there still any community members?*
      *
      * @param  community Find members of this community
      * @return           <code>true</code> if community has members

@@ -8,7 +8,7 @@
     <parent>
         <groupId>de.winkler.betoffice</groupId>
         <artifactId>betoffice-maven-parent</artifactId>
-        <version>1.11.0</version>
+        <version>1.12.0</version>
     </parent>
 
     <artifactId>betoffice-storage</artifactId>
@@ -90,16 +90,6 @@
 		    <version>2.8.1</version>
 		    <scope>test</scope>
 		</dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
-        <!-- TODO Hibernate wird direkt (ohne JPA) verwendet. -->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>2.5.4</version>
-            <scope>compile</scope>
-        </dependency>
-
         <dependency>
             <groupId>de.betoffice</groupId>
             <artifactId>betoffice-testutils</artifactId>
