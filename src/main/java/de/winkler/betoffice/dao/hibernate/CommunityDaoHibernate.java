@@ -24,11 +24,15 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.CommunityDao;
@@ -54,18 +58,27 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
     }
     
     @Override
-    public Page<Community> findAll(String nameFilter, Pageable pageable) {        
+    public Page<Community> findAll(String nameFilter, Pageable pageable) {
         long total = countAll();
         String filter = new StringBuilder("%").append(nameFilter).append("%").toString();
-        
+
+        if (pageable.isPaged()) {
+
+        }
+
+        String sqlsort = null;
+        if (pageable.getSort() != null) {
+            sqlsort = "ORDER BY " + pageable.getSort().stream().map((s) -> s.getProperty() + s.getDirection().name()).collect(Collectors.joining(", "));
+        }
+
         List<Community> communities = getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Community c where LOWER(c.name) like LOWER(:filter)",
+                        "from Community c where LOWER(c.name) like LOWER(:filter) " + sqlsort,
                         Community.class)
                 .setParameter("filter", filter)
                 .setFirstResult((int) pageable.getOffset())
                 .setMaxResults(pageable.getPageSize())
-                .getResultList();        
+                .getResultList();
                
         return new PageImpl<Community>(communities, pageable, total);
     }
