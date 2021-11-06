@@ -29,6 +29,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.User;
 
 /**
@@ -57,11 +58,11 @@ public interface CommunityDao extends CommonDao<Community> {
     /**
      * Find all communities as page.
      * 
-     * @param  nameFilter name filter
-     * @param  pageable   paging params
-     * @return            all communities
+     * @param  communityFiler community filter
+     * @param  pageable       paging params
+     * @return                all communities
      */
-    Page<Community> findAll(String nameFilter, Pageable pageable);
+    Page<Community> findAll(CommunityFilter communityFiler, Pageable pageable);
 
     /**
      * Find all members of a community.

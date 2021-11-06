@@ -24,6 +24,8 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
+import static de.winkler.betoffice.dao.hibernate.FilterBuilder.filter;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,6 +37,7 @@ import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.User;
 
 @Repository("communityDao")
@@ -56,24 +59,25 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
     }
     
     @Override
-    public Page<Community> findAll(String nameFilter, Pageable pageable) {
+    public Page<Community> findAll(CommunityFilter communityFilter, Pageable pageable) {
         long total = countAll();
-        String filter = new StringBuilder("%").append(nameFilter).append("%").toString();
-
-        if (pageable.isPaged()) {
-
-        }
 
         Optional<String> sqlsort = Optional.empty();
-        if (pageable.getSort().isSorted()) {
+        if (pageable.getSort().isSorted()) {        
             sqlsort = Optional.of("ORDER BY " + pageable.getSort().stream().map(s -> s.getProperty() + s.getDirection().name()).collect(Collectors.joining(", ")));    
         }
 
         List<Community> communities = getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Community c where LOWER(c.name) like LOWER(:filter) " + sqlsort.orElse(""),
+                        "FROM "
+                        + " Community c "
+                        + "WHERE "
+                        + filter("c", "shortName")
+                        + " AND " + filter("c", "name")
+                        + sqlsort.orElse(""),
                         Community.class)
-                .setParameter("filter", filter)
+                .setParameter("shortName", communityFilter.getShortName())
+                .setParameter("name", communityFilter.getName())
                 .setFirstResult((int) pageable.getOffset())
                 .setMaxResults(pageable.getPageSize())
                 .getResultList();

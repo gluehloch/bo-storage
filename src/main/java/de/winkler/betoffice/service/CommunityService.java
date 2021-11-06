@@ -27,6 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 
@@ -48,11 +49,11 @@ public interface CommunityService {
     /**
      * Find all communities.
      * 
-     * @param  communityNameFilter a name filter
-     * @param  pageable            paging parameter
-     * @return                     a list of communities
+     * @param  communityFilter a community filter
+     * @param  pageable        paging parameter
+     * @return                 a list of communities
      */
-    Page<Community> findCommunities(String communityNameFilter, Pageable pageable);
+    Page<Community> findCommunities(CommunityFilter communityFilter, Pageable pageable);
 
     /**
      * Find all users.

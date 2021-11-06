@@ -36,6 +36,7 @@ import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.util.LoggerFactory;
@@ -64,8 +65,8 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
-    public Page<Community> findCommunities(String communityNameFilter, Pageable pageable) {
-        return communityDao.findAll(communityNameFilter, pageable);
+    public Page<Community> findCommunities(CommunityFilter communityFilter, Pageable pageable) {
+        return communityDao.findAll(communityFilter, pageable);
     }
 
     @Override

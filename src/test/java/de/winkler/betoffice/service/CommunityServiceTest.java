@@ -40,6 +40,7 @@ import org.springframework.data.domain.PageRequest;
 
 import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.SeasonType;
@@ -159,7 +160,10 @@ public class CommunityServiceTest extends AbstractServiceTest {
         communityService.create(bundesliga, "CM_D", "CM_D_short", "Frosch");
         communityService.create(bundesliga, "CM_E", "CM_E_short", "Frosch");
         
-        Page<Community> list = communityService.findCommunities("CM", PageRequest.of(0, 10));
+        CommunityFilter communityFilter = new CommunityFilter();
+        communityFilter.setShortName("CM");
+        
+        Page<Community> list = communityService.findCommunities(communityFilter, PageRequest.of(0, 10));
         assertThat(list).hasSize(5);
         
         communityService.create(bundesliga, "aw1", "aw1_short", "Frosch");
@@ -167,8 +171,8 @@ public class CommunityServiceTest extends AbstractServiceTest {
         communityService.create(bundesliga, "aw3", "aw3_short", "Frosch");
         communityService.create(bundesliga, "aw4", "aw4_short", "Frosch");
         
-        assertThat(communityService.findCommunities("aw", PageRequest.of(0, 10))).hasSize(4);
-        assertThat(communityService.findCommunities("aw1", PageRequest.of(0, 10))).hasSize(1);
+        assertThat(communityService.findCommunities(CommunityFilter.shortName("aw"), PageRequest.of(0, 10))).hasSize(4);
+        assertThat(communityService.findCommunities(CommunityFilter.shortName("aw1"), PageRequest.of(0, 10))).hasSize(1);
     }
 
 }
