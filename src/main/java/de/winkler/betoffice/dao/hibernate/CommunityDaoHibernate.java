@@ -25,6 +25,7 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -63,14 +64,14 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
 
         }
 
-        String sqlsort = null;
-        if (pageable.getSort() != null) {
-            sqlsort = "ORDER BY " + pageable.getSort().stream().map((s) -> s.getProperty() + s.getDirection().name()).collect(Collectors.joining(", "));
+        Optional<String> sqlsort = Optional.empty();
+        if (pageable.getSort().isSorted()) {
+            sqlsort = Optional.of("ORDER BY " + pageable.getSort().stream().map(s -> s.getProperty() + s.getDirection().name()).collect(Collectors.joining(", ")));    
         }
 
         List<Community> communities = getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Community c where LOWER(c.name) like LOWER(:filter) " + sqlsort,
+                        "from Community c where LOWER(c.name) like LOWER(:filter) " + sqlsort.orElse(""),
                         Community.class)
                 .setParameter("filter", filter)
                 .setFirstResult((int) pageable.getOffset())
