@@ -24,15 +24,12 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.CommunityDao;

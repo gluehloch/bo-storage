@@ -48,9 +48,6 @@ import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-
-import de.winkler.betoffice.util.LoggerFactory;
 
 /**
  * Verwaltet alle Spiele/Games/Matches eines Spieltags/GameList/Round.
@@ -64,9 +61,6 @@ public class GameList extends AbstractStorageObject
 
     /** serial version */
     private static final long serialVersionUID = -3629753274439214154L;
-
-    /** Der private Logger der Klasse. */
-    private static Logger log = LoggerFactory.make();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -153,8 +147,7 @@ public class GameList extends AbstractStorageObject
     public void addGame(final Game value) {
         Validate.notNull(value);
         if (gameList.contains(value)) {
-            log.error("The match '" + value + "' already exists!");
-            throw new IllegalArgumentException(value + " already exists!");
+            throw new IllegalArgumentException("The game '" + value + "' already exists!");
         }
 
         gameList.add(value);
