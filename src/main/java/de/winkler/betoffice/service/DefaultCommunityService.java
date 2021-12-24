@@ -87,8 +87,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
         try {
             communityDao.find(communityName);
-            throw new IllegalArgumentException(
-                    "Community '" + communityName + "' is already defined.");
+            throw new IllegalArgumentException(String.format("Community '%s' is already defined.", communityName);
         } catch (NoResultException ex) {
             // Ok. No community with name is defined.
         }
