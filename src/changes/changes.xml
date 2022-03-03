@@ -14,6 +14,13 @@
 		</release>
 
 		<!-- RELEASED -->
+		<release version="betoffice-storage-2.8.1" date="2021-12-24" description="Removed log4j">
+			<action dev="andrewinkler" type="fix" date="2021-12-24">
+				Remove log4j.
+			</action>
+		</release>
+
+		<!-- RELEASED -->
 		<release version="betoffice-storage-2.8.0" date="2021-07-18" description="JDK 16. Spring 5.3.6. Hibernate 5.4.31.Final">
 		    <action dev="andrewinkler" type="add" date="2020-11-13">
 				JDK 16. Spring Framework 5.3.6. Hibernate 5.4.31.Final. Adding support for authentication and authorization.
