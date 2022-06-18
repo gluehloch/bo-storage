@@ -1,13 +1,17 @@
 SELECT 'Start upgrade of betoffice 2.6.0 to 2.7.0 MariaDB schema.' as INFO;
 SELECT version();
 
+drop table bo_community_user;
+drop table bo_community;
+
 --
 -- Community Edition
 --
 create table bo_community (
     id BIGINT NOT NULL auto_increment,
-    bo_name VARCHAR(60) NOT NULL,
-    bo_shortname VARCHAR(20) NOT NULL,
+    bo_shortname VARCHAR(20) NOT NULL UNIQUE,
+    bo_name VARCHAR(255),
+    bo_year VARCHAR(255),
     bo_user_ref BIGINT NOT NULL comment 'Community Manager',
     bo_season_ref BIGINT NOT NULL,
     primary key (id)
