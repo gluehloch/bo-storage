@@ -13,7 +13,7 @@ FROM
 	join bo_community_user bcu on (bcu.bo_community_ref = bc.id)
     join bo_user bu on (bu.id = bcu.bo_user_ref)
 WHERE
-	bc.bo_season_ref = 31
+	bc.bo_season_ref = 30
 ;
 	
 
