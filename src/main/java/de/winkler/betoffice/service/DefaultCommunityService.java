@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -119,7 +119,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
         communityDao.delete(community);
     }
-
+   
     @Override
     public Community addMember(String communityName, String nickname) {
         validateCommunityName(communityName);

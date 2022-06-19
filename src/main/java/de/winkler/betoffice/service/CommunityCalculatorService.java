@@ -21,66 +21,46 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.winkler.betoffice.dao;
+package de.winkler.betoffice.service;
 
 import java.util.List;
 
 import de.winkler.betoffice.storage.Community;
-import de.winkler.betoffice.storage.User;
+import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.UserResult;
 
 /**
- * Community DAO.
- * 
+ * Berchnet den Spielstand fuer eine Community.
+ *
  * @author Andre Winkler
  */
-public interface CommunityDao extends CommonDao<Community> {
+public interface CommunityCalculatorService {
 
 	/**
-	 * Find community by short name.
-	 * 
-	 * @param shortName short name of the community
-	 * @return
-	 */
-	Community findByShortName(String shortName);
-
-	/**
-	 * Find a community by name.
-	 * 
-	 * @param name the community name
-	 * @return the community
-	 */
-	Community find(String name);
-
-	/**
-	 * Find all communities.
-	 * 
-	 * @param nameFilter a filter for the community name
-	 * @return all communities
-	 */
-	List<Community> findAll(String nameFilter);
-
-	/**
-	 * Find all members of a community.
-	 * 
-	 * @param name the community name
-	 * @return the community and all members.
-	 */
-	Community findCommunityMembers(String name);
-
-	/**
-	 * Are there still any community members?
+	 * Berechnet das Tipper-Ranking für eine Meisterschaft.
 	 *
-	 * @param community Find members of this community
-	 * @return <code>true</code> if community has members
+	 * @param community Das User-Ranking dieser Community berechnen.
+	 * @return Das Ranking der Tipper.
 	 */
-	boolean hasMembers(Community community);
+	List<UserResult> calculateUserRanking(Community community);
 
 	/**
-	 * Find all members of a community.
-	 * 
-	 * @param community Find members of this community.
-	 * @return Members of a community
+	 * Berechnet das Tipper-Ranking für einen Spieltag.
+	 *
+	 * @param community Das User-Ranking dieser Community berechnen.
+	 * @param round Der betreffende Spieltag.
+	 * @return Das Ranking der Tipper.
 	 */
-	List<User> findMembers(Community community);
+	List<UserResult> calculateUserRanking(Community community, GameList round);
+
+	/**
+	 * Berechnet das Tipper-Ranking für einen Spieltag.
+	 *
+	 * @param community Das User-Ranking dieser Community berechnen.
+	 * @param startIndex Index des Spieltags ab dem gezählt wird (0..N-1).
+	 * @param endIndex   Index des Spieltags bis zu dem gezählt wird (0..N-1).
+	 * @return Das Ranking der Tipper.
+	 */
+	List<UserResult> calculateUserRanking(Community community, int startIndex, int endIndex);
 
 }

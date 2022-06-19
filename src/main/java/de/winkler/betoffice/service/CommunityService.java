@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -35,74 +35,63 @@ import de.winkler.betoffice.storage.Season;
  */
 public interface CommunityService {
 
-    /**
-     * Find a community by name.
-     * 
-     * @param communityName
-     *            community name
-     * @return a community.
-     */
-    Community find(String communityName);
+	/**
+	 * Find a community by name.
+	 * 
+	 * @param communityName community name
+	 * @return a community.
+	 */
+	Community find(String communityName);
 
-    /**
-     * Find all communities.
-     * 
-     * @param communityNameFilter
-     *            a name filter
-     * @return a list of communities
-     */
-    List<Community> findAll(String communityNameFilter);
+	/**
+	 * Find all communities.
+	 * 
+	 * @param communityNameFilter a name filter
+	 * @return a list of communities
+	 */
+	List<Community> findAll(String communityNameFilter);
 
-    /**
-     * Find a community and all members.
-     * 
-     * @param communityName
-     *            a community name
-     * @return a community with all it´s members.
-     */
-    Community findCommunityMembers(String communityName);
+	/**
+	 * Find a community and all members.
+	 * 
+	 * @param communityName a community name
+	 * @return a community with all it´s members.
+	 */
+	Community findCommunityMembers(String communityName);
 
-    /**
-     * Create a new community.
-     * 
-     * @param communityName
-     *            community name
-     * @param communityShortName
-     *            short name of the community name
-     * @param managerNickname
-     *            nickname of the community manager
-     * @return the create community.
-     */
-    Community create(Season season, String communityName, String communityShortName, String managerNickname);
+	/**
+	 * Create a new community.
+	 * 
+	 * @param communityName      community name
+	 * @param communityShortName short name of the community name
+	 * @param managerNickname    nickname of the community manager
+	 * @return the create community.
+	 */
+	Community create(Season season, String communityName, String communityShortName, String managerNickname);
 
-    /**
-     * Delete community.
-     * 
-     * @param communityName
-     *            the community name to delete
-     */
-    void delete(String communityName);
+	/**
+	 * Delete community.
+	 * 
+	 * @param communityName the community name to delete
+	 */
+	void delete(String communityName);
 
-    /**
-     * Add a new community member.
-     * 
-     * @param communityName
-     *            the community name
-     * @param nickname
-     *            the new community member
-     * @return the updated community.
-     */
-    Community addMember(String communityName, String nickname);
+	/**
+	 * Add a new community member.
+	 * 
+	 * @param communityName the community name
+	 * @param nickname      the new community member
+	 * @return the updated community.
+	 */
+	Community addMember(String communityName, String nickname);
 
-    /**
-     * Remove a community member.
-     * 
-     * @param communityName
-     *            the community name
-     * @param nickname
-     *            the community member to remove
-     * @return the updated community.
-     */
-    Community removeMember(String communityName, String nickname);
+	/**
+	 * Remove a community member.
+	 * 
+	 * @param communityName the community name
+	 * @param nickname      the community member to remove
+	 * @return the updated community.
+	 */
+	Community removeMember(String communityName, String nickname);
 
 }

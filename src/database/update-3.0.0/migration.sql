@@ -5,6 +5,7 @@ delete from bo_community;
 select * from bo_community_user bcu;
 select * from bo_user u where u.bo_nickname = 'Frosch'; /* 6 */
 select * from bo_user_season bus;
+select * from bo_gametipp bg;
 
 select
 	bc.*, bu.*

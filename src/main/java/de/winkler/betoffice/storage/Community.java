@@ -57,13 +57,17 @@ public class Community extends AbstractStorageObject {
     private Long id;
 
     @NotNull
+    @Column(name = "bo_shortname")
+    private String shortName;
+
+    @NotNull
     @Column(name = "bo_name")
     private String name;
 
     @NotNull
-    @Column(name = "bo_shortname")
-    private String shortName;
-    
+    @Column(name = "bo_year")
+    private String year;
+
     @ManyToOne
     @JoinColumn(name = "bo_user_ref")
     private User communityManager;
@@ -89,6 +93,14 @@ public class Community extends AbstractStorageObject {
         this.id = id;
     }
 
+    public String getShortName() {
+        return shortName;
+    }
+    
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
     public String getName() {
         return name;
     }
@@ -97,14 +109,14 @@ public class Community extends AbstractStorageObject {
         this.name = name;
     }
 
-    public String getShortName() {
-        return shortName;
+    public String getYear() {
+    	return year;
     }
     
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
+    public void setYear(String year) {
+    	this.year = year;
     }
-    
+
     public User getCommunityManager() {
         return communityManager;
     }
