@@ -63,9 +63,7 @@ class CommunityDaoTest extends AbstractDaoTestSupport {
     	Community community = communityDao.findByShortName("TDKB 2021/2022");
     	// Laut den Logs wird hier eine zweite Abfrage an die Datenbank gesendet.
     	assertThat(community.getUsers()).hasSize(6);
-    	Community community2 = communityDao.findMembers(community);
-    	assertThat(community2.getUsers()).hasSize(6);
-    	assertThat(community2.getUsers())
+    	assertThat(community.getUsers())
     		.extracting("nickname")
     		.containsExactlyInAnyOrder("Frosch", "Steffen", "Mao", "Peter", "mrTipp", "Jogi");
     }

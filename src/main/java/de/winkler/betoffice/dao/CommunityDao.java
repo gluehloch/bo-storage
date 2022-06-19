@@ -26,7 +26,6 @@ package de.winkler.betoffice.dao;
 import java.util.List;
 
 import de.winkler.betoffice.storage.Community;
-import de.winkler.betoffice.storage.User;
 
 /**
  * Community DAO.
@@ -60,27 +59,11 @@ public interface CommunityDao extends CommonDao<Community> {
 	List<Community> findAll(String nameFilter);
 
 	/**
-	 * Find all members of a community.
-	 * 
-	 * @param name the community name
-	 * @return the community and all members.
-	 */
-	Community findCommunityMembers(String name);
-
-	/**
 	 * Are there still any community members?
 	 *
 	 * @param community Find members of this community
 	 * @return <code>true</code> if community has members
 	 */
 	boolean hasMembers(Community community);
-
-	/**
-	 * Find all members of a community.
-	 * 
-	 * @param community Find members of this community.
-	 * @return Community with all members
-	 */
-	Community findMembers(Community community);
 
 }

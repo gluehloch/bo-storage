@@ -44,44 +44,33 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
 		String filter = new StringBuilder("%").append(nameFilter).append("%").toString();
 		return getSessionFactory().getCurrentSession()
 				.createQuery("from Community c where LOWER(c.name) like LOWER(:filter)", Community.class)
-				.setParameter("filter", filter).getResultList();
+				.setParameter("filter", filter)
+				.getResultList();
 	}
 
 	@Override
 	public Community findByShortName(String shortName) {
 		return getSessionFactory().getCurrentSession()
-				.createQuery("from Community c where c.shortName = :shortName", Community.class).setParameter("shortName", shortName)
+				.createQuery("from Community c left join fetch c.users where c.shortName = :shortName", Community.class)
+				.setParameter("shortName", shortName)
 				.getSingleResult();
 	}
 
 	@Override
 	public Community find(String name) {
 		return getSessionFactory().getCurrentSession()
-				.createQuery("from Community c where c.name = :name", Community.class).setParameter("name", name)
-				.getSingleResult();
-	}
-
-	@Override
-	public Community findCommunityMembers(String name) {
-		return getSessionFactory().getCurrentSession()
 				.createQuery("from Community c left join fetch c.users where c.name = :name", Community.class)
-				.setParameter("name", name).getSingleResult();
+				.setParameter("name", name)
+				.getSingleResult();
 	}
 
 	@Override
 	public boolean hasMembers(Community community) {
 		List<User> members = getSessionFactory().getCurrentSession()
 				.createQuery("from Community c left join fetch c.users where c.id = :id", User.class)
-				.setParameter("id", community.getId()).getResultList();
-		return members.size() > 0;
-	}
-
-	@Override
-	public Community findMembers(Community community) {
-		return getSessionFactory().getCurrentSession()
-				.createQuery("from Community c left join fetch c.users where c.id = :id", Community.class)
 				.setParameter("id", community.getId())
-				.getSingleResult();
+				.getResultList();
+		return members.size() > 0;
 	}
 
 }
