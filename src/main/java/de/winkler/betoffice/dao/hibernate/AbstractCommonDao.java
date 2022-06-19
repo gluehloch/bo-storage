@@ -160,7 +160,7 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
      *            A Hibernate query
      * @return The query single result
      */
-    public static <T> Optional<T> singleResult(Query<T> query) {
+    static <T> Optional<T> singleResult(Query<T> query) {
         Optional<T> optionalResult = null;
         try {
             T result = query.getSingleResult();
@@ -178,7 +178,7 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
      *            A Hibernate query result list
      * @return The query single result
      */
-    public static <T> Optional<T> singleResult(List<T> list) {
+    static <T> Optional<T> singleResult(List<T> list) {
         Optional<T> optionalResult = Optional.empty();
         if (list.size() > 0) {
             optionalResult = Optional.of(list.get(0));

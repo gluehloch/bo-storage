@@ -25,7 +25,9 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.CommunityDao;
@@ -40,28 +42,28 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
 	}
 
 	@Override
+	public Optional<Community> findByShortName(String shortName) {
+		Query<Community> query = getSessionFactory().getCurrentSession()
+				.createQuery("from Community c left join fetch c.users where c.shortName = :shortName", Community.class)
+				.setParameter("shortName", shortName);
+		return singleResult(query);
+	}
+
+	@Override
+	public Optional<Community> find(String name) {
+		Query<Community> query = getSessionFactory().getCurrentSession()
+				.createQuery("from Community c left join fetch c.users where c.name = :name", Community.class)
+				.setParameter("name", name);
+		return singleResult(query);
+	}
+
+	@Override
 	public List<Community> findAll(String nameFilter) {
 		String filter = new StringBuilder("%").append(nameFilter).append("%").toString();
 		return getSessionFactory().getCurrentSession()
 				.createQuery("from Community c where LOWER(c.name) like LOWER(:filter)", Community.class)
 				.setParameter("filter", filter)
 				.getResultList();
-	}
-
-	@Override
-	public Community findByShortName(String shortName) {
-		return getSessionFactory().getCurrentSession()
-				.createQuery("from Community c left join fetch c.users where c.shortName = :shortName", Community.class)
-				.setParameter("shortName", shortName)
-				.getSingleResult();
-	}
-
-	@Override
-	public Community find(String name) {
-		return getSessionFactory().getCurrentSession()
-				.createQuery("from Community c left join fetch c.users where c.name = :name", Community.class)
-				.setParameter("name", name)
-				.getSingleResult();
 	}
 
 	@Override

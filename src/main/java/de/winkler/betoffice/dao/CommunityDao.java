@@ -24,6 +24,7 @@
 package de.winkler.betoffice.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import de.winkler.betoffice.storage.Community;
 
@@ -40,7 +41,7 @@ public interface CommunityDao extends CommonDao<Community> {
 	 * @param shortName short name of the community
 	 * @return
 	 */
-	Community findByShortName(String shortName);
+	Optional<Community> findByShortName(String shortName);
 
 	/**
 	 * Find a community by name.
@@ -48,7 +49,7 @@ public interface CommunityDao extends CommonDao<Community> {
 	 * @param name the community name
 	 * @return the community
 	 */
-	Community find(String name);
+	Optional<Community> find(String name);
 
 	/**
 	 * Find all communities.

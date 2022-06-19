@@ -24,6 +24,7 @@
 package de.winkler.betoffice.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.NoResultException;
 
@@ -59,18 +60,13 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     @Autowired
     private SeasonDao seasonDao;
 
-    public Community find(String communityName) {
+    public Optional<Community> find(String communityName) {
         return communityDao.find(communityName);
     }
 
     @Override
     public List<Community> findAll(String communityNameFilter) {
         return communityDao.findAll(communityNameFilter);
-    }
-
-    @Override
-    public Community findCommunityMembers(String communityName) {
-        return communityDao.findCommunityMembers(communityName);
     }
 
     @Override
@@ -124,6 +120,11 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     public Community addMember(String communityName, String nickname) {
         validateCommunityName(communityName);
         validateNickname(nickname);
+        
+        userDao.findByNickname(nickname).map(user -> {
+        	Community community = communityDao.find(communityName);
+        });
+
         User user = findUser(nickname);
 
         try {
@@ -156,23 +157,14 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     private void validateNickname(String managerNickname) {
         if (StringUtils.isBlank(managerNickname)) {
-            throw new IllegalArgumentException(
-                    "Community manager should be defined.");
+            throw new IllegalArgumentException("Community manager should be defined.");
         }
     }
 
     private void validateCommunityName(String communityName) {
         if (StringUtils.isBlank(communityName)) {
-            throw new IllegalArgumentException(
-                    "Community name should be defined.");
+            throw new IllegalArgumentException("Community name should be defined.");
         }
-    }
-
-    private User findUser(String nickname) {
-        User user = userDao.findByNickname(nickname)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Unknown user with nickname '" + nickname + "'."));
-        return user;
     }
 
 }
