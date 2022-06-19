@@ -8,7 +8,7 @@
     <parent>
         <groupId>de.winkler.betoffice</groupId>
         <artifactId>betoffice-maven-parent</artifactId>
-        <version>1.12.1</version>
+        <version>1.13.0</version>
     </parent>
 
     <artifactId>betoffice-storage</artifactId>
@@ -22,6 +22,10 @@
     </description>
 
     <inceptionYear>2000</inceptionYear>
+    
+    <properties>
+
+	</properties>
 
     <!-- <scm> <connection> scm:svn:https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage
         </connection> <developerConnection> scm:svn:https://svn.code.sf.net/p/betoffice/svn/main/trunk/betoffice-storage
@@ -71,7 +75,7 @@
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <version>2.6.2</version>
+            <version>3.0.5</version>
             <scope>test</scope>
         </dependency>
 
@@ -94,7 +98,7 @@
         <dependency>
             <groupId>de.betoffice</groupId>
             <artifactId>betoffice-testutils</artifactId>
-            <version>${betoffice.testutils.version}</version>
+            <version>1.2.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
