@@ -77,10 +77,11 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
 	}
 
 	@Override
-	public List<User> findMembers(Community community) {
+	public Community findMembers(Community community) {
 		return getSessionFactory().getCurrentSession()
-				.createQuery("from Community c left join fetch c.users where c.id = :id", User.class)
-				.setParameter("id", community.getId()).getResultList();
+				.createQuery("from Community c left join fetch c.users where c.id = :id", Community.class)
+				.setParameter("id", community.getId())
+				.getSingleResult();
 	}
 
 }

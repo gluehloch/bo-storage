@@ -26,17 +26,12 @@ package de.winkler.betoffice.dao.hibernate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fasterxml.classmate.ResolvedTypeWithMembers;
-
 import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.storage.Community;
-import de.winkler.betoffice.storage.User;
 
 /**
  * Test for class {@link CommunityDao}.
@@ -66,8 +61,9 @@ class CommunityDaoTest extends AbstractDaoTestSupport {
     @Test
     void findCommunityUsers() {
     	Community community = communityDao.findByShortName("TDKB 2021/2022");
-    	List<User> members = communityDao.findMembers(community);
-    	assertThat(members).hasSize(6);
+    	assertThat(community.getUsers()).hasSize(6);
+    	Community community2 = communityDao.findMembers(community);
+    	assertThat(community2.getUsers()).hasSize(6);
     	
     }
     

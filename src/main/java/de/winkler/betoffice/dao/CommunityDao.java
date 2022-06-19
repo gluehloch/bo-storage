@@ -79,8 +79,8 @@ public interface CommunityDao extends CommonDao<Community> {
 	 * Find all members of a community.
 	 * 
 	 * @param community Find members of this community.
-	 * @return Members of a community
+	 * @return Community with all members
 	 */
-	List<User> findMembers(Community community);
+	Community findMembers(Community community);
 
 }
