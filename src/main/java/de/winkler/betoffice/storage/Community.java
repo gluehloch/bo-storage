@@ -30,6 +30,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -79,7 +80,7 @@ public class Community extends AbstractStorageObject {
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
-    })
+    }, fetch = FetchType.LAZY)
     @JoinTable(name = "bo_community_user",
         joinColumns = @JoinColumn(name = "bo_community_ref"),
         inverseJoinColumns = @JoinColumn(name = "bo_user_ref"))

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -39,7 +39,8 @@ import de.betoffice.database.data.DeleteDatabase;
 import de.dbload.Dbload;
 
 /**
- * DAO test support.
+ * DAO test support. The test method runs in his own transaction. So a lazy-loading exception
+ * should not happen here.
  *
  * @author by Andre Winkler
  */
