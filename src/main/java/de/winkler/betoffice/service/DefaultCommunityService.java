@@ -1,6 +1,10 @@
 /*
  * ============================================================================
+<<<<<<< HEAD
  * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+=======
+ * Project betoffice-storage Copyright (c) 2000-2021 by Andre Winkler. All
+>>>>>>> work/paging
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -31,12 +35,15 @@ import javax.persistence.NoResultException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.util.LoggerFactory;
@@ -60,13 +67,24 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     @Autowired
     private SeasonDao seasonDao;
 
+    @Override
     public Optional<Community> find(String communityName) {
         return communityDao.find(communityName);
     }
 
     @Override
-    public List<Community> findAll(String communityNameFilter) {
+    List<Community> findAll(String communityNameFilter) {
         return communityDao.findAll(communityNameFilter);
+    }
+
+    @Override
+    public Page<Community> findCommunities(CommunityFilter communityFilter, Pageable pageable) {
+        return communityDao.findAll(communityFilter, pageable);
+    }
+
+    @Override
+    public Page<User> findUsers(String nicknameFilter, Pageable pageable) {
+        return userDao.findAll(nicknameFilter, pageable);
     }
 
     @Override
@@ -77,8 +95,8 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
         try {
             communityDao.find(communityName);
-            throw new IllegalArgumentException(
-                    "Community '" + communityName + "' is already defined.");
+            throw new IllegalArgumentException(String.format("Community '%s' is already defined.", communityName));
+            // TOODO Implement me ...!
         } catch (NoResultException ex) {
             // Ok. No community with name is defined.
         }
