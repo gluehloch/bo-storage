@@ -28,9 +28,6 @@
 package de.winkler.betoffice.service;
 
 import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.NoResultException;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,23 +81,16 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
 	@Override
 	public Community create(CommunityReference reference, Season season, String communityName, Nickname managerNickname) {
-		Optional<Community> optional = communityDao.find(reference);
-
-		if (optional.isPresent()) {
-			throw new IllegalArgumentException("Community '" + reference + "' is already defined.");
-		}
+		communityDao.find(reference).orElseThrow();	
+		Season persistedSeason = seasonDao.findByName(season.getName(), season.getYear()).orElseThrow();
+		User communityManager = userDao.findByNickname(managerNickname).orElseThrow();
 		
-		Optional<Season> persistedSeason = seasonDao.findByName(season.getName(), season.getYear());
-
-		Optional<User> communityManager = userDao.findByNickname(managerNickname);
-		communityManager.ifPresent(manager -> {
-			Community community = new Community();
-			community.setName(communityName);
-			community.setReference(reference);
-			community.setCommunityManager(manager);
-			community.setSeason(persistedSeason.get());
-			communityDao.save(community);
-		});
+		Community community = new Community();
+		community.setName(communityName);
+		community.setReference(reference);
+		community.setCommunityManager(communityManager);
+		community.setSeason(persistedSeason);
+		communityDao.save(community);
 
 		return community;
 	}
@@ -118,40 +108,21 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 	}
 
 	@Override
-	public Community addMember(String communityName, String nickname) {
-		validateCommunityName(communityName);
-		validateNickname(nickname);
-
-		userDao.findByNickname(nickname).map(user -> {
-			Community community = communityDao.find(communityName);
-		});
-
-		User user = findUser(nickname);
-
-		try {
-			Community community = communityDao.findCommunityMembers(communityName);
-			community.addMember(user);
-			communityDao.save(community);
-			return community;
-		} catch (NoResultException ex) {
-			throw new IllegalArgumentException("Unknwon community name '" + communityName + "'.");
-		}
+	public Community addMember(CommunityReference communityReference, Nickname nickname) {
+		User user = userDao.findByNickname(nickname).orElseThrow();
+		Community community = communityDao.find(communityReference).orElseThrow();
+		community.addMember(user);
+		communityDao.save(community);
+		return community;
 	}
 
 	@Override
-	public Community removeMember(String communityName, String nickname) {
-		validateCommunityName(communityName);
-		validateNickname(nickname);
-		User user = findUser(nickname);
-
-		try {
-			Community community = communityDao.findCommunityMembers(communityName);
-			community.removeMember(user);
-			communityDao.save(community);
-			return community;
-		} catch (NoResultException ex) {
-			throw new IllegalArgumentException("Unknwon community name '" + communityName + "'.");
-		}
+	public Community removeMember(CommunityReference reference, Nickname nickname) {
+		User user = userDao.findByNickname(nickname).orElseThrow();
+		Community community = communityDao.find(reference).orElseThrow();
+		community.removeMember(user);
+		communityDao.save(community);
+		return community;
 	}
 
 }

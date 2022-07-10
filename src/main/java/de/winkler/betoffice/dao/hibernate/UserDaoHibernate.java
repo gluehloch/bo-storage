@@ -86,14 +86,6 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
         super(User.class);
     }
 
-    @Override
-    public List<User> findAll() {
-        List<User> users = getSessionFactory().getCurrentSession()
-                .createQuery("from User order by nickname", User.class)
-                .getResultList();
-        return users;
-    }
-
     private long countAll() {
         return getSessionFactory().getCurrentSession()
                 .createQuery("select count(*) from Community c", Long.class)

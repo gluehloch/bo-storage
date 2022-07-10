@@ -52,15 +52,6 @@ public interface CommunityService {
 
 	/**
 	 * Find all communities.
-	 * 
-	 * @param communityNameFilter a name filter
-	 * @return a list of communities
-	 */
-	List<Community> findAll(String communityNameFilter);
-
-
-	/**
-	 * Find all communities.
 	 *
 	 * @param  communityFilter a community filter
 	 * @param  pageable        paging parameter
@@ -92,7 +83,7 @@ public interface CommunityService {
 	 * @param nickname      the new community member
 	 * @return the updated community.
 	 */
-	Community addMember(String communityName, String nickname);
+	 Community addMember(CommunityReference community, Nickname nickname);
 
 	/**
 	 * Remove a community member.
@@ -101,7 +92,7 @@ public interface CommunityService {
 	 * @param nickname      the community member to remove
 	 * @return the updated community.
 	 */
-	Community removeMember(String communityName, String nickname);
+	Community removeMember(CommunityReference community, Nickname nickname);
 
     /**
      * Find all users.
