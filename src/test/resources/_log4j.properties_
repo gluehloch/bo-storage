@@ -28,7 +28,9 @@ log4j.logger.de.dbload = info
 
 # Nur in der Entwicklung auf DEBUG stehen lassen!
 log4j.logger.org.hibernate.SQL = info
-# log4j.logger.org.hibernate.SQL = debug
+#log4j.logger.org.hibernate.SQL = debug
+#log4j.logger.org.hibernate.type = debug
+#log4j.logger.org.hibernate.pretty = true
 
 # Pattern Legende:
 # %F  - Name der Klasse ohne Package-Bezeichnung.

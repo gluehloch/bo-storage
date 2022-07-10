@@ -33,6 +33,9 @@ import java.util.Optional;
 
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.UserDao;
@@ -46,14 +49,13 @@ import de.winkler.betoffice.storage.comparator.UserPointsComparator;
 /**
  * Klasse für den Zugriff auf <code>User</code> Objekte mit Hibernate.
  * 
- * TODO: Die SQL Abfragen zur Bestimmung der Tipper-Punkte erfolgen mit zwei SQL
- * Abfragen. Eventuell könnte man diese zu einer zusammen fassen.
+ * TODO: Die SQL Abfragen zur Bestimmung der Tipper-Punkte erfolgen mit zwei SQL Abfragen. Eventuell könnte man diese zu
+ * einer zusammen fassen.
  * 
  * @author Andre Winkler
  */
 @Repository("userDao")
-public class UserDaoHibernate extends AbstractCommonDao<User>
-        implements UserDao {
+public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao {
 
     /** Sucht nach allen Usern mit einem bestimmten Nick-Namen. */
     private static final String QUERY_USER_BY_NICKNAME = "from "
@@ -90,6 +92,28 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
                 .createQuery("from User order by nickname", User.class)
                 .getResultList();
         return users;
+    }
+
+    private long countAll() {
+        return getSessionFactory().getCurrentSession()
+                .createQuery("select count(*) from Community c", Long.class)
+                .getSingleResult();
+    }
+
+    public Page<User> findAll(String nicknameFilter, Pageable pageable) {
+        long total = countAll();
+        String filter = new StringBuilder("%").append(nicknameFilter).append("%").toString();
+
+        List<User> users = getSessionFactory().getCurrentSession()
+                .createQuery(
+                        "from User u where LOWER(u.nickname) like LOWER(:filter)",
+                        User.class)
+                .setParameter("filter", filter)
+                .setFirstResult((int) pageable.getOffset())
+                .setMaxResults(pageable.getPageSize())
+                .getResultList();
+
+        return new PageImpl<User>(users, pageable, total);
     }
 
     @Override
@@ -240,11 +264,9 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
     }
 
     /**
-     * @param resultMap
-     *            Eine Map mit {@link UserResult}s.
-     * @param countMatches
-     *            Anzahl der Spielpaarungen.
-     * @return Eine sortierte Liste der {@link UserResult}s.
+     * @param  resultMap    Eine Map mit {@link UserResult}s.
+     * @param  countMatches Anzahl der Spielpaarungen.
+     * @return              Eine sortierte Liste der {@link UserResult}s.
      */
     private List<UserResult> userResultMapToList(
             Map<User, UserResult> resultMap, int countMatches) {

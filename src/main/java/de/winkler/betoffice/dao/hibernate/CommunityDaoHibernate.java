@@ -1,7 +1,11 @@
 /*
  * ============================================================================
  * Project betoffice-storage
+<<<<<<< HEAD
  * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
+=======
+ * Copyright (c) 2000-2021 by Andre Winkler. All rights reserved.
+>>>>>>> work/paging
  * ============================================================================
  *          GNU GENERAL  LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -24,14 +28,21 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
+import static de.winkler.betoffice.dao.hibernate.FilterBuilder.filter;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.hibernate.query.Query;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.User;
 
@@ -57,15 +68,39 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
 				.setParameter("name", name)
 				.getResultList();
 	}
+    
+    @Override
+    public Page<Community> findAll(CommunityFilter communityFilter, Pageable pageable) {
+        long total = countAll();
 
-	@Override
-	public List<Community> findAll(String nameFilter) {
-		String filter = new StringBuilder("%").append(nameFilter).append("%").toString();
-		return getSessionFactory().getCurrentSession()
-				.createQuery("from Community c where LOWER(c.name) like LOWER(:filter)", Community.class)
-				.setParameter("filter", filter)
-				.getResultList();
-	}
+        Optional<String> sqlsort = Optional.empty();
+        if (pageable.getSort().isSorted()) {        
+            sqlsort = Optional.of("ORDER BY " + pageable.getSort().stream().map(s -> s.getProperty() + s.getDirection().name()).collect(Collectors.joining(", ")));    
+        }
+
+        List<Community> communities = getSessionFactory().getCurrentSession()
+                .createQuery(
+                        "FROM "
+                        + " Community c "
+                        + "WHERE "
+                        + filter("c", "shortName")
+                        + " AND " + filter("c", "name")
+                        + sqlsort.orElse(""),
+                        Community.class)
+                .setParameter("shortName", communityFilter.getShortName())
+                .setParameter("name", communityFilter.getName())
+                .setFirstResult((int) pageable.getOffset())
+                .setMaxResults(pageable.getPageSize())
+                .getResultList();
+               
+        return new PageImpl<Community>(communities, pageable, total);
+    }
+
+    private long countAll() {
+        return getSessionFactory().getCurrentSession()
+                .createQuery("select count(*) from Community c", Long.class)
+                .getSingleResult();        
+    }
 
 	@Override
 	public boolean hasMembers(Community community) {

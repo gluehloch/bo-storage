@@ -94,7 +94,6 @@
 		    <version>2.8.1</version>
 		    <scope>test</scope>
 		</dependency>
-
         <dependency>
             <groupId>de.betoffice</groupId>
             <artifactId>betoffice-testutils</artifactId>

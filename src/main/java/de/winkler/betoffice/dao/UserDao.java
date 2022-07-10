@@ -1,7 +1,11 @@
 /*
  * ============================================================================
  * Project betoffice-storage
+<<<<<<< HEAD
  * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
+=======
+ * Copyright (c) 2000-2021 by Andre Winkler. All rights reserved.
+>>>>>>> c3bf6253532b173ea9d0e003d703c2f11724460c
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -27,6 +31,9 @@ package de.winkler.betoffice.dao;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
@@ -40,12 +47,14 @@ import de.winkler.betoffice.storage.UserResult;
  */
 public interface UserDao extends CommonDao<User> {
 
-	/**
-	 * A list of users ordered by nickname.
-	 * 
-	 * @return a list of users
-	 */
-	List<User> findAll();
+    /**
+     * Find all users.
+     * 
+     * @param  nicknameFilter nickname filter
+     * @param  pageable       paging params
+     * @return                all users
+     */
+    Page<User> findAll(String nicknameFilter, Pageable pageable);
 
 	/**
 	 * Liefert einen Teilnehmer mit gesuchten Nickname.

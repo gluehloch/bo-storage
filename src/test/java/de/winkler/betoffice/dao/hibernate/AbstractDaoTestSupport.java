@@ -55,22 +55,12 @@ public abstract class AbstractDaoTestSupport extends AbstractTransactionalJUnit4
 
     public void prepareDatabase(final Class<?> clazz) {
         deleteDatabase();
-        sessionFactory.getCurrentSession().doWork(new Work() {
-            @Override
-            public void execute(Connection connection) throws SQLException {
-                Dbload.read(connection, clazz);
-            }
-        });
+        sessionFactory.getCurrentSession().doWork(connection -> Dbload.read(connection, clazz));
     }
 
     @AfterEach
     public void deleteDatabase() {
-        getSessionFactory().getCurrentSession().doWork(new Work() {
-            @Override
-            public void execute(Connection connection) throws SQLException {
-                DeleteDatabase.deleteDatabase(connection);
-            }
-        });
+        getSessionFactory().getCurrentSession().doWork(connection -> DeleteDatabase.deleteDatabase(connection));
     }
 
     /**

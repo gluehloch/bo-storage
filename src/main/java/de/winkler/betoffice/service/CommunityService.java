@@ -25,10 +25,15 @@ package de.winkler.betoffice.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.User;
 
 /**
  * Community service.
@@ -53,6 +58,16 @@ public interface CommunityService {
 	 */
 	List<Community> findAll(String communityNameFilter);
 
+
+	/**
+	 * Find all communities.
+	 *
+	 * @param  communityFilter a community filter
+	 * @param  pageable        paging parameter
+	 * @return                 a list of communities
+	 */
+	Page<Community> findCommunities(CommunityFilter communityFilter, Pageable pageable);
+
 	/**
 	 * Create a new community.
 	 *
@@ -66,9 +81,9 @@ public interface CommunityService {
 	/**
 	 * Delete community.
 	 * 
-	 * @param communityName the community name to delete
+	 * @param reference the community name to delete
 	 */
-	void delete(String communityName);
+	void delete(CommunityReference reference);
 
 	/**
 	 * Add a new community member.
@@ -87,5 +102,14 @@ public interface CommunityService {
 	 * @return the updated community.
 	 */
 	Community removeMember(String communityName, String nickname);
+
+    /**
+     * Find all users.
+     * 
+     * @param  nicknameFilter a nickname filter
+     * @param  pageable       paging parameter
+     * @return                list of users
+     */
+    Page<User> findUsers(String nicknameFilter, Pageable pageable);
 
 }

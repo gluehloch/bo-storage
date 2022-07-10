@@ -1,6 +1,10 @@
 /*
  * ============================================================================
+<<<<<<< HEAD
  * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+=======
+ * Project betoffice-storage Copyright (c) 2000-2021 by Andre Winkler. All
+>>>>>>> work/paging
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -26,7 +30,11 @@ package de.winkler.betoffice.dao;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.CommunityReference;
 
 /**
@@ -53,12 +61,13 @@ public interface CommunityDao extends CommonDao<Community> {
 	List<Community> find(String name);
 
 	/**
-	 * Find all communities.
-	 * 
-	 * @param nameFilter a filter for the community name
+	 * Find all communities as page.
+	 *
+	 * @param communityFiler community filter
+	 * @param pageable       paging params
 	 * @return all communities
 	 */
-	List<Community> findAll(String nameFilter);
+	Page<Community> findAll(CommunityFilter communityFiler, Pageable pageable);
 
 	/**
 	 * Are there still any community members?

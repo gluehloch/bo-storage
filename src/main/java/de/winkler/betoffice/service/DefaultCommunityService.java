@@ -1,6 +1,10 @@
 /*
  * ============================================================================
+<<<<<<< HEAD
  * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+=======
+ * Project betoffice-storage Copyright (c) 2000-2021 by Andre Winkler. All
+>>>>>>> work/paging
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -28,15 +32,17 @@ import java.util.Optional;
 
 import javax.persistence.NoResultException;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
@@ -66,33 +72,33 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 		return communityDao.find(communityName);
 	}
 
-	@Override
-	public List<Community> findAll(String communityNameFilter) {
-		return communityDao.findAll(communityNameFilter);
-	}
+    @Override
+    public Page<Community> findCommunities(CommunityFilter communityFilter, Pageable pageable) {
+        return communityDao.findAll(communityFilter, pageable);
+    }
+
+    @Override
+    public Page<User> findUsers(String nicknameFilter, Pageable pageable) {
+        return userDao.findAll(nicknameFilter, pageable);
+    }
 
 	@Override
 	public Community create(CommunityReference reference, Season season, String communityName, Nickname managerNickname) {
-		if (StringUtils.isBlank(communityName)) {
-			throw new IllegalArgumentException("community name is blank");
-		}
-		Season persistedSeason = seasonDao.findById(season.getId());
-
-		// Optional chaining?
-
 		Optional<Community> optional = communityDao.find(reference);
 
 		if (optional.isPresent()) {
 			throw new IllegalArgumentException("Community '" + reference + "' is already defined.");
 		}
+		
+		Optional<Season> persistedSeason = seasonDao.findByName(season.getName(), season.getYear());
 
 		Optional<User> communityManager = userDao.findByNickname(managerNickname);
 		communityManager.ifPresent(manager -> {
 			Community community = new Community();
 			community.setName(communityName);
-			community.setReference(CommunityReference.of(communityShortName));
+			community.setReference(reference);
 			community.setCommunityManager(manager);
-			community.setSeason(persistedSeason);
+			community.setSeason(persistedSeason.get());
 			communityDao.save(community);
 		});
 
@@ -100,13 +106,8 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 	}
 
 	@Override
-	public void delete(String communityName) {
-		Community community = null;
-		try {
-			community = communityDao.find(communityName);
-		} catch (NoResultException ex) {
-			throw new IllegalArgumentException("Unknwon community name '" + communityName + "'.");
-		}
+	public void delete(CommunityReference reference) {
+		Community community = communityDao.find(reference).orElseThrow();
 
 		if (communityDao.hasMembers(community)) {
 			LOG.warn("Unable to delete community '{}'. The Community has members.", community);
