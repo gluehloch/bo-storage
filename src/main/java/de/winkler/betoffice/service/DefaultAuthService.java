@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.winkler.betoffice.dao.SessionDao;
 import de.winkler.betoffice.dao.UserDao;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Session;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.RoleType;
@@ -70,7 +71,7 @@ public class DefaultAuthService implements AuthService {
      */
     @Transactional
     @Override
-    public SecurityToken login(String name, String password, String sessionId, String address, String browserId) {
+    public SecurityToken login(Nickname name, String password, String sessionId, String address, String browserId) {
         Optional<User> user = userDao.findByNickname(name);
 
         SecurityToken securityToken = null;
@@ -92,7 +93,7 @@ public class DefaultAuthService implements AuthService {
             session.setFailedLogins(0);
             session.setLogin(now);
             session.setLogout(null);
-            session.setNickname(name);
+            session.setNickname(name.getNickname());
             session.setRemoteAddress(address);
             session.setToken(securityToken.getToken());
             session.setUser(user.get());
@@ -105,7 +106,7 @@ public class DefaultAuthService implements AuthService {
 
     @Transactional
 	@Override
-	public Optional<SecurityToken> findTokenByNickname(String nickname) {
+	public Optional<SecurityToken> findTokenByNickname(Nickname nickname) {
     	return findTokenByNickname(nickname);
 	}    
     
@@ -144,7 +145,7 @@ public class DefaultAuthService implements AuthService {
     }
 
 	@Override
-	public Optional<User> findByNickname(String nickname) {
+	public Optional<User> findByNickname(Nickname nickname) {
 		return userDao.findByNickname(nickname);
 	}
 

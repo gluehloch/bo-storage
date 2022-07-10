@@ -29,6 +29,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -57,9 +58,8 @@ public class Community extends AbstractStorageObject {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "bo_shortname")
-    private String shortName;
+    @Embedded
+    private CommunityReference reference;
 
     @NotNull
     @Column(name = "bo_name")
@@ -94,12 +94,12 @@ public class Community extends AbstractStorageObject {
         this.id = id;
     }
 
-    public String getShortName() {
-        return shortName;
+    public CommunityReference getReference() {
+        return reference;
     }
     
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
+    public void setReference(CommunityReference reference) {
+        this.reference = reference;
     }
 
     public String getName() {

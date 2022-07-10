@@ -37,6 +37,8 @@ import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityReference;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.util.LoggerFactory;
@@ -49,122 +51,106 @@ import de.winkler.betoffice.util.LoggerFactory;
 @Service("communityService")
 public class DefaultCommunityService extends AbstractManagerService implements CommunityService {
 
-    private static final Logger LOG = LoggerFactory.make();
+	private static final Logger LOG = LoggerFactory.make();
 
-    @Autowired
-    private CommunityDao communityDao;
+	@Autowired
+	private CommunityDao communityDao;
 
-    @Autowired
-    private UserDao userDao;
+	@Autowired
+	private UserDao userDao;
 
-    @Autowired
-    private SeasonDao seasonDao;
+	@Autowired
+	private SeasonDao seasonDao;
 
-    public Optional<Community> find(String communityName) {
-        return communityDao.find(communityName);
-    }
+	public List<Community> find(String communityName) {
+		return communityDao.find(communityName);
+	}
 
-    @Override
-    public List<Community> findAll(String communityNameFilter) {
-        return communityDao.findAll(communityNameFilter);
-    }
+	@Override
+	public List<Community> findAll(String communityNameFilter) {
+		return communityDao.findAll(communityNameFilter);
+	}
 
-    @Override
-    public Community create(Season season, String communityName, String communityShortName, String managerNickname) {
-        validateCommunityName(communityName);
+	@Override
+	public Community create(CommunityReference reference, Season season, String communityName, Nickname managerNickname) {
+		if (StringUtils.isBlank(communityName)) {
+			throw new IllegalArgumentException("community name is blank");
+		}
+		Season persistedSeason = seasonDao.findById(season.getId());
 
-        Season persistedSeason = seasonDao.findById(season.getId());
+		// Optional chaining?
 
-        try {
-            communityDao.find(communityName);
-            throw new IllegalArgumentException(
-                    "Community '" + communityName + "' is already defined.");
-        } catch (NoResultException ex) {
-            // Ok. No community with name is defined.
-        }
+		Optional<Community> optional = communityDao.find(reference);
 
-        validateNickname(managerNickname);
-        User communityManager = findUser(managerNickname);
+		if (optional.isPresent()) {
+			throw new IllegalArgumentException("Community '" + reference + "' is already defined.");
+		}
 
-        Community community = new Community();
-        community.setName(communityName);
-        community.setShortName(communityShortName);
-        community.setCommunityManager(communityManager);
-        community.setSeason(persistedSeason);
+		Optional<User> communityManager = userDao.findByNickname(managerNickname);
+		communityManager.ifPresent(manager -> {
+			Community community = new Community();
+			community.setName(communityName);
+			community.setReference(CommunityReference.of(communityShortName));
+			community.setCommunityManager(manager);
+			community.setSeason(persistedSeason);
+			communityDao.save(community);
+		});
 
-        return communityDao.save(community);
-    }
+		return community;
+	}
 
-    @Override
-    public void delete(String communityName) {
-        Community community = null;
-        try {
-            community = communityDao.find(communityName);
-        } catch (NoResultException ex) {
-            throw new IllegalArgumentException(
-                    "Unknwon community name '" + communityName + "'.");
-        }
+	@Override
+	public void delete(String communityName) {
+		Community community = null;
+		try {
+			community = communityDao.find(communityName);
+		} catch (NoResultException ex) {
+			throw new IllegalArgumentException("Unknwon community name '" + communityName + "'.");
+		}
 
-        if (communityDao.hasMembers(community)) {
-            LOG.warn(
-                    "Unable to delete community '{}'. The Community has members.",
-                    community);
-            throw new IllegalArgumentException(
-                    "Unable to delete community. The Community has members.");
-        }
+		if (communityDao.hasMembers(community)) {
+			LOG.warn("Unable to delete community '{}'. The Community has members.", community);
+			throw new IllegalArgumentException("Unable to delete community. The Community has members.");
+		}
 
-        communityDao.delete(community);
-    }
-   
-    @Override
-    public Community addMember(String communityName, String nickname) {
-        validateCommunityName(communityName);
-        validateNickname(nickname);
-        
-        userDao.findByNickname(nickname).map(user -> {
-        	Community community = communityDao.find(communityName);
-        });
+		communityDao.delete(community);
+	}
 
-        User user = findUser(nickname);
+	@Override
+	public Community addMember(String communityName, String nickname) {
+		validateCommunityName(communityName);
+		validateNickname(nickname);
 
-        try {
-            Community community = communityDao.findCommunityMembers(communityName);
-            community.addMember(user);
-            communityDao.save(community);
-            return community;
-        } catch (NoResultException ex) {
-            throw new IllegalArgumentException(
-                    "Unknwon community name '" + communityName + "'.");
-        }
-    }
+		userDao.findByNickname(nickname).map(user -> {
+			Community community = communityDao.find(communityName);
+		});
 
-    @Override
-    public Community removeMember(String communityName, String nickname) {
-        validateCommunityName(communityName);
-        validateNickname(nickname);
-        User user = findUser(nickname);
+		User user = findUser(nickname);
 
-        try {
-            Community community = communityDao.findCommunityMembers(communityName);
-            community.removeMember(user);
-            communityDao.save(community);
-            return community;
-        } catch (NoResultException ex) {
-            throw new IllegalArgumentException(
-                    "Unknwon community name '" + communityName + "'.");
-        }
-    }
+		try {
+			Community community = communityDao.findCommunityMembers(communityName);
+			community.addMember(user);
+			communityDao.save(community);
+			return community;
+		} catch (NoResultException ex) {
+			throw new IllegalArgumentException("Unknwon community name '" + communityName + "'.");
+		}
+	}
 
-    private void validateNickname(String managerNickname) {
-        if (StringUtils.isBlank(managerNickname)) {
-            throw new IllegalArgumentException("Community manager should be defined.");
-        }
-    }
+	@Override
+	public Community removeMember(String communityName, String nickname) {
+		validateCommunityName(communityName);
+		validateNickname(nickname);
+		User user = findUser(nickname);
 
-    private void validateCommunityName(String communityName) {
-        if (StringUtils.isBlank(communityName)) {
-            throw new IllegalArgumentException("Community name should be defined.");
-        }
-    }
+		try {
+			Community community = communityDao.findCommunityMembers(communityName);
+			community.removeMember(user);
+			communityDao.save(community);
+			return community;
+		} catch (NoResultException ex) {
+			throw new IllegalArgumentException("Unknwon community name '" + communityName + "'.");
+		}
+	}
 
 }

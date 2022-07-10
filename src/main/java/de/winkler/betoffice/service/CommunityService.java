@@ -24,9 +24,10 @@
 package de.winkler.betoffice.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityReference;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
 
 /**
@@ -42,7 +43,7 @@ public interface CommunityService {
 	 * @param communityName community name
 	 * @return a community.
 	 */
-	Optional<Community> find(String communityName);
+	List<Community> find(String communityName);
 
 	/**
 	 * Find all communities.
@@ -54,13 +55,13 @@ public interface CommunityService {
 
 	/**
 	 * Create a new community.
-	 * 
-	 * @param communityName      community name
-	 * @param communityShortName short name of the community name
-	 * @param managerNickname    nickname of the community manager
+	 *
+	 * @param reference       reference of a community.
+	 * @param communityName   community name
+	 * @param managerNickname nickname of the community manager
 	 * @return the create community.
 	 */
-	Community create(Season season, String communityName, String communityShortName, String managerNickname);
+	Community create(CommunityReference reference, Season season, String communityName, Nickname managerNickname);
 
 	/**
 	 * Delete community.

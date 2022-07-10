@@ -32,6 +32,7 @@ import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.User;
 
 @Repository("communityDao")
@@ -42,19 +43,19 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
 	}
 
 	@Override
-	public Optional<Community> findByShortName(String shortName) {
+	public Optional<Community> find(CommunityReference reference) {
 		Query<Community> query = getSessionFactory().getCurrentSession()
-				.createQuery("from Community c left join fetch c.users where c.shortName = :shortName", Community.class)
-				.setParameter("shortName", shortName);
+				.createQuery("from Community c left join fetch c.users where c.reference = :reference", Community.class)
+				.setParameter("reference", reference);
 		return singleResult(query);
 	}
 
 	@Override
-	public Optional<Community> find(String name) {
-		Query<Community> query = getSessionFactory().getCurrentSession()
+	public List<Community> find(String name) {
+		return getSessionFactory().getCurrentSession()
 				.createQuery("from Community c left join fetch c.users where c.name = :name", Community.class)
-				.setParameter("name", name);
-		return singleResult(query);
+				.setParameter("name", name)
+				.getResultList();
 	}
 
 	@Override

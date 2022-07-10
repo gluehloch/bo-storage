@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -37,6 +37,7 @@ import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
@@ -92,7 +93,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User>
     }
 
     @Override
-    public Optional<User> findByNickname(final String nickname) {
+    public Optional<User> findByNickname(final Nickname nickname) {
         Query<User> user = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_USER_BY_NICKNAME, User.class)
                 .setParameter("nickname", nickname);

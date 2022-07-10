@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2021 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -25,6 +25,7 @@ package de.winkler.betoffice.service;
 
 import java.util.Optional;
 
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Session;
 import de.winkler.betoffice.storage.User;
 
@@ -41,7 +42,7 @@ public interface AuthService {
 	 * @param nickname the nickname of the user
 	 * @return a user
 	 */
-	Optional<User> findByNickname(String nickname);
+	Optional<User> findByNickname(Nickname nickname);
 
 	/**
 	 * Find the security token for user.
@@ -49,7 +50,7 @@ public interface AuthService {
 	 * @param nickname the nickname of the user
 	 * @return the security token
 	 */
-	Optional<SecurityToken> findTokenByNickname(String nickname);
+	Optional<SecurityToken> findTokenByNickname(Nickname nickname);
 
 	/**
 	 * Login to betoffice. On success you get a {@link SecurityToken}.
@@ -61,7 +62,7 @@ public interface AuthService {
 	 * @param browserId browser id
 	 * @return a security token
 	 */
-	SecurityToken login(String name, String password, String sessionId, String address, String browserId);
+	SecurityToken login(Nickname name, String password, String sessionId, String address, String browserId);
 
 	/**
 	 * Logout of betoffice.
@@ -73,7 +74,7 @@ public interface AuthService {
 	/**
 	 * Vaidates the user session.
 	 * 
-	 * @param token  a security token
+	 * @param token a security token
 	 * @return a valid user session
 	 */
 	Optional<Session> validateSession(String token);

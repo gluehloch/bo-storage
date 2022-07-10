@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityReference;
 
 /**
  * Community DAO.
@@ -38,18 +39,18 @@ public interface CommunityDao extends CommonDao<Community> {
 	/**
 	 * Find community by short name.
 	 * 
-	 * @param shortName short name of the community
+	 * @param reference The reference to identify a community.
 	 * @return
 	 */
-	Optional<Community> findByShortName(String shortName);
+	Optional<Community> find(CommunityReference reference);
 
 	/**
-	 * Find a community by name.
+	 * Find communities by name.
 	 * 
 	 * @param name the community name
 	 * @return the community
 	 */
-	Optional<Community> find(String name);
+	List<Community> find(String name);
 
 	/**
 	 * Find all communities.

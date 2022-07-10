@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,8 +39,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import de.winkler.betoffice.storage.enums.RoleType;
 import org.apache.commons.lang3.StringUtils;
+
+import de.winkler.betoffice.storage.enums.RoleType;
 
 /**
  * Die Klasse verwaltet einen Teilnehmer.
@@ -50,446 +52,423 @@ import org.apache.commons.lang3.StringUtils;
 @Table(name = "bo_user")
 public class User extends AbstractStorageObject {
 
-    /** serial version id */
-    private static final long serialVersionUID = -1806113679051281041L;
+	/** serial version id */
+	private static final long serialVersionUID = -1806113679051281041L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false, nullable = false)
+	private Long id;
 
-    /** Der Nachname des Users. */
-    @Column(name = "bo_name")
-    private String name;
+	/** Der Nachname des Users. */
+	@Column(name = "bo_name")
+	private String name;
 
-    /** Der Vorname des Users. */
-    @Column(name = "bo_surname")
-    private String surname;
+	/** Der Vorname des Users. */
+	@Column(name = "bo_surname")
+	private String surname;
 
-    /** Der Nickname des Users. */
-    @Column(name = "bo_nickname")
-    private String nickname;
+	/** Der Nickname des Users. */
+	@Embedded
+	private Nickname nickname;
 
-    /** Die EMailadresse des Users. */
-    @Column(name = "bo_email")
-    private String email;
+	/** Die EMailadresse des Users. */
+	@Column(name = "bo_email")
+	private String email;
 
-    /** Die Telefonnummer des Users. */
-    @Column(name = "bo_phone")
-    private String phone;
+	/** Die Telefonnummer des Users. */
+	@Column(name = "bo_phone")
+	private String phone;
 
-    /** Das Password des Users. */
-    @Column(name = "bo_password")
-    private String password;
+	/** Das Password des Users. */
+	@Column(name = "bo_password")
+	private String password;
 
-    /** Flag ob User ein Automat ist. */
-    @Column(name = "bo_automat")
-    private boolean automat = false;
+	/** Flag ob User ein Automat ist. */
+	@Column(name = "bo_automat")
+	private boolean automat = false;
 
-    /** Gültigkeitsflag. */
-    @Column(name = "bo_excluded")
-    private boolean exclude = false;
+	/** Gültigkeitsflag. */
+	@Column(name = "bo_excluded")
+	private boolean exclude = false;
 
-    /** Adminstrator Flag. */
-    @Column(name = "bo_admin")
-    private boolean admin = false;
+	/** Adminstrator Flag. */
+	@Column(name = "bo_admin")
+	private boolean admin = false;
 
-    /** Der eventuelle Meistertitel etc. */
-    @Column(name = "bo_title")
-    private String title;
+	/** Der eventuelle Meistertitel etc. */
+	@Column(name = "bo_title")
+	private String title;
 
-    /** Die Teilnehmer, die dieser Saison zugeordnet sind. */
-    @OneToMany
-    @JoinColumn(name = "bo_user_ref")
-    private Set<UserSeason> userSeason = new HashSet<>();
+	/** Die Teilnehmer, die dieser Saison zugeordnet sind. */
+	@OneToMany
+	@JoinColumn(name = "bo_user_ref")
+	private Set<UserSeason> userSeason = new HashSet<>();
 
-    // -- Construction --------------------------------------------------------
+	// -- Construction --------------------------------------------------------
 
-    /**
-     * Defaultkonstruktor.
-     */
-    public User() {
-    }
+	/**
+	 * Defaultkonstruktor.
+	 */
+	public User() {
+	}
 
-    /**
-     * Konstruktor. Erstellt ein minimales User Objekt.
-     *
-     * @param _nickname
-     */
-    public User(String _nickname) {
-        nickname = _nickname;
-    }
+	/**
+	 * Konstruktor. Erstellt ein minimales User Objekt.
+	 *
+	 * @param _nickname
+	 */
+	public User(Nickname _nickname) {
+		nickname = _nickname;
+	}
 
-    /**
-     * Konstruktor.
-     *
-     * @param aName
-     *            Der Username (Nachname).
-     * @param aSurname
-     *            Der Vorname des Users.
-     * @param aNickname
-     *            Der Nickname.
-     * @param aMail
-     *            Die Mailadresse.
-     * @param aPhone
-     *            Die Telefonnummer.
-     * @param aPwd
-     *            Das Password.
-     * @param aTitle
-     *            Der Titel.
-     * @param aIsAuto
-     *            Automat?
-     * @param aIsExcluded
-     *            Ausgeschlossen?
-     */
-    public User(String aName, String aSurname, String aNickname, String aMail,
-            String aPhone, String aPwd, String aTitle, boolean aIsAuto,
-            boolean aIsExcluded) {
+	/**
+	 * Konstruktor.
+	 *
+	 * @param nickname    Der Nickname.
+	 * @param aName       Der Username (Nachname).
+	 * @param aSurname    Der Vorname des Users.
+	 * @param aMail       Die Mailadresse.
+	 * @param aPhone      Die Telefonnummer.
+	 * @param aPwd        Das Password.
+	 * @param aTitle      Der Titel.
+	 * @param aIsAuto     Automat?
+	 * @param aIsExcluded Ausgeschlossen?
+	 */
+	public User(Nickname nickname, String aName, String aSurname, String aMail, String aPhone, String aPwd,
+			String aTitle, boolean aIsAuto, boolean aIsExcluded) {
 
-        setName(aName);
-        setSurname(aSurname);
-        setNickname(aNickname);
-        setEmail(aMail);
-        setPhone(aPhone);
-        setPassword(aPwd);
-        setTitle(aTitle);
-        setAutomat(aIsAuto);
-        setExcluded(aIsExcluded);
-    }
+		setName(aName);
+		setSurname(aSurname);
+		setNickname(nickname);
+		setEmail(aMail);
+		setPhone(aPhone);
+		setPassword(aPwd);
+		setTitle(aTitle);
+		setAutomat(aIsAuto);
+		setExcluded(aIsExcluded);
+	}
 
-    // -- id ------------------------------------------------------------------
+	// -- id ------------------------------------------------------------------
 
-    /**
-     * Liefert den Primärschlüssel.
-     *
-     * @return Der Primärschlüssel.
-     *
-     * @hibernate.id generator-class="native"
-     */
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * Liefert den Primärschlüssel.
+	 *
+	 * @return Der Primärschlüssel.
+	 *
+	 * @hibernate.id generator-class="native"
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     * Setzt den Primärschlüssel.
-     *
-     * @param value
-     *            Der Primärschlüssel.
-     */
-    protected void setId(Long value) {
-        id = value;
-    }
+	/**
+	 * Setzt den Primärschlüssel.
+	 *
+	 * @param value Der Primärschlüssel.
+	 */
+	protected void setId(Long value) {
+		id = value;
+	}
 
-    // -- name ----------------------------------------------------------------
+	// -- name ----------------------------------------------------------------
 
-    /**
-     * Liefert den Nachnamen des Users.
-     *
-     * @return Der Nachname.
-     *
-     * @hibernate.property column="bo_name"
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Liefert den Nachnamen des Users.
+	 *
+	 * @return Der Nachname.
+	 *
+	 * @hibernate.property column="bo_name"
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * Setzt den Nachnamen des Users.
-     *
-     * @param value
-     *            Der Nachname.
-     */
-    public void setName(String value) {
-        name = value;
-    }
+	/**
+	 * Setzt den Nachnamen des Users.
+	 *
+	 * @param value Der Nachname.
+	 */
+	public void setName(String value) {
+		name = value;
+	}
 
-    // -- surname -------------------------------------------------------------
+	// -- surname -------------------------------------------------------------
 
-    /**
-     * Liefert den Vornamen des Users.
-     *
-     * @return Der Vorname.
-     */
-    public String getSurname() {
-        return surname;
-    }
+	/**
+	 * Liefert den Vornamen des Users.
+	 *
+	 * @return Der Vorname.
+	 */
+	public String getSurname() {
+		return surname;
+	}
 
-    /**
-     * Setzt den Vornamen des Users.
-     * 
-     * @param value
-     *            Der Vorname.
-     */
-    public void setSurname(String value) {
-        surname = value;
-    }
+	/**
+	 * Setzt den Vornamen des Users.
+	 * 
+	 * @param value Der Vorname.
+	 */
+	public void setSurname(String value) {
+		surname = value;
+	}
 
-    // -- nickName ------------------------------------------------------------
+	// -- nickName ------------------------------------------------------------
 
-    /**
-     * Liefert den Nickname des Users.
-     *
-     * @return Der Nickname.
-     */
-    public String getNickname() {
-        return nickname;
-    }
+	/**
+	 * Liefert den Nickname des Users.
+	 *
+	 * @return Der Nickname.
+	 */
+	public Nickname getNickname() {
+		return nickname;
+	}
 
-    /**
-     * Setzt den Nickname.
-     *
-     * @param value
-     *            Der Nickname.
-     */
-    public void setNickname(String value) {
-        nickname = value;
-    }
+	/**
+	 * Setzt den Nickname.
+	 *
+	 * @param value Der Nickname.
+	 */
+	public void setNickname(Nickname value) {
+		nickname = value;
+	}
 
-    // -- email ---------------------------------------------------------------
+	// -- email ---------------------------------------------------------------
 
-    /**
-     * Liefert die Mail Adresse.
-     * 
-     * @return Die Mail-Adresse.
-     */
-    public String getEmail() {
-        return email;
-    }
+	/**
+	 * Liefert die Mail Adresse.
+	 * 
+	 * @return Die Mail-Adresse.
+	 */
+	public String getEmail() {
+		return email;
+	}
 
-    /**
-     * Setzt die EMail Adresse.
-     *
-     * @param value
-     *            Die Mail-Adresse.
-     */
-    public void setEmail(String value) {
-        email = value;
-    }
+	/**
+	 * Setzt die EMail Adresse.
+	 *
+	 * @param value Die Mail-Adresse.
+	 */
+	public void setEmail(String value) {
+		email = value;
+	}
 
-    // -- phone ---------------------------------------------------------------
+	// -- phone ---------------------------------------------------------------
 
-    /**
-     * Liefert die Telefonnummer.
-     *
-     * @return Die Telefonnummer.
-     */
-    public String getPhone() {
-        return phone;
-    }
+	/**
+	 * Liefert die Telefonnummer.
+	 *
+	 * @return Die Telefonnummer.
+	 */
+	public String getPhone() {
+		return phone;
+	}
 
-    /**
-     * Setzt die Telefonnummer.
-     *
-     * @param value
-     *            Die Telefonnummer.
-     */
-    public void setPhone(String value) {
-        phone = value;
-    }
+	/**
+	 * Setzt die Telefonnummer.
+	 *
+	 * @param value Die Telefonnummer.
+	 */
+	public void setPhone(String value) {
+		phone = value;
+	}
 
-    // -- password ------------------------------------------------------------
+	// -- password ------------------------------------------------------------
 
-    /**
-     * Liefert das Password.
-     *
-     * @return Das Password.
-     */
-    public String getPassword() {
-        return password;
-    }
+	/**
+	 * Liefert das Password.
+	 *
+	 * @return Das Password.
+	 */
+	public String getPassword() {
+		return password;
+	}
 
-    /**
-     * Setzt das Password.
-     *
-     * @param value
-     *            Das Password.
-     */
-    public void setPassword(String value) {
-        password = value;
-    }
+	/**
+	 * Setzt das Password.
+	 *
+	 * @param value Das Password.
+	 */
+	public void setPassword(String value) {
+		password = value;
+	}
 
-    // -- automat -------------------------------------------------------------
+	// -- automat -------------------------------------------------------------
 
-    /**
-     * Automat oder kein Automat.
-     *
-     * @return true, ein Automat; false sonst.
-     */
-    public boolean isAutomat() {
-        return automat;
-    }
+	/**
+	 * Automat oder kein Automat.
+	 *
+	 * @return true, ein Automat; false sonst.
+	 */
+	public boolean isAutomat() {
+		return automat;
+	}
 
-    /**
-     * Setzt das Automaten-Flag.
-     *
-     * @param value
-     *            true Automat; false sonst.
-     */
-    public void setAutomat(boolean value) {
-        automat = value;
-    }
+	/**
+	 * Setzt das Automaten-Flag.
+	 *
+	 * @param value true Automat; false sonst.
+	 */
+	public void setAutomat(boolean value) {
+		automat = value;
+	}
 
-    // -- excluded ------------------------------------------------------------
+	// -- excluded ------------------------------------------------------------
 
-    /**
-     * User von Teilnahme ausgeschlossen?
-     *
-     * @return true ausgeschlossen; false sonst.
-     */
-    public boolean isExcluded() {
-        return exclude;
-    }
+	/**
+	 * User von Teilnahme ausgeschlossen?
+	 *
+	 * @return true ausgeschlossen; false sonst.
+	 */
+	public boolean isExcluded() {
+		return exclude;
+	}
 
-    /**
-     * Setzt das Flag 'Ausschluß'.
-     *
-     * @param value
-     *            true Ausschluß; false sonst.
-     */
-    public void setExcluded(boolean value) {
-        exclude = value;
-    }
+	/**
+	 * Setzt das Flag 'Ausschluß'.
+	 *
+	 * @param value true Ausschluß; false sonst.
+	 */
+	public void setExcluded(boolean value) {
+		exclude = value;
+	}
 
-    // -- title ---------------------------------------------------------------
+	// -- title ---------------------------------------------------------------
 
-    /**
-     * Liefert den Titel des Users.
-     *
-     * @return Der Titel.
-     */
-    public String getTitle() {
-        return title;
-    }
+	/**
+	 * Liefert den Titel des Users.
+	 *
+	 * @return Der Titel.
+	 */
+	public String getTitle() {
+		return title;
+	}
 
-    /**
-     * Setzt den Titel des Users.
-     *
-     * @param value
-     *            Der Titel.
-     */
-    public void setTitle(String value) {
-        title = value;
-    }
+	/**
+	 * Setzt den Titel des Users.
+	 *
+	 * @param value Der Titel.
+	 */
+	public void setTitle(String value) {
+		title = value;
+	}
 
-    // -- admin ---------------------------------------------------------------
+	// -- admin ---------------------------------------------------------------
 
-    /**
-     * Haben wir es hier mit einem Administrator zu tun?
-     * 
-     * @return <code>true</code>, wenn dies der Fall ist.
-     */
-    public boolean isAdmin() {
-        return admin;
-    }
+	/**
+	 * Haben wir es hier mit einem Administrator zu tun?
+	 * 
+	 * @return <code>true</code>, wenn dies der Fall ist.
+	 */
+	public boolean isAdmin() {
+		return admin;
+	}
 
-    /**
-     * Setzt das Administrator Flag.
-     * 
-     * @param _admin
-     *            <code>true</code>, wenn dies ein Administrator werden soll.
-     */
-    public void setAdmin(boolean _admin) {
-        admin = _admin;
-    }
+	/**
+	 * Setzt das Administrator Flag.
+	 * 
+	 * @param _admin <code>true</code>, wenn dies ein Administrator werden soll.
+	 */
+	public void setAdmin(boolean _admin) {
+		admin = _admin;
+	}
 
-    // -- userSeason ----------------------------------------------------------
+	// -- userSeason ----------------------------------------------------------
 
-    /**
-     * Liefert die Beziehung Teilnehmer/Saison.
-     *
-     * @return Ein Menge von <code>UserSeason</code>.
-     */
-    public Set<UserSeason> getUserSeason() {
-        return userSeason;
-    }
+	/**
+	 * Liefert die Beziehung Teilnehmer/Saison.
+	 *
+	 * @return Ein Menge von <code>UserSeason</code>.
+	 */
+	public Set<UserSeason> getUserSeason() {
+		return userSeason;
+	}
 
-    /**
-     * Setzt die Beziehung Teilnehmer/Saison.
-     *
-     * @param value
-     *            Ein Menge von <code>UserSeason</code>.
-     */
-    protected void setUserSeason(Set<UserSeason> value) {
-        userSeason = value;
-    }
+	/**
+	 * Setzt die Beziehung Teilnehmer/Saison.
+	 *
+	 * @param value Ein Menge von <code>UserSeason</code>.
+	 */
+	protected void setUserSeason(Set<UserSeason> value) {
+		userSeason = value;
+	}
 
-    // ------------------------------------------------------------------------
+	// ------------------------------------------------------------------------
 
-    /**
-     * Vergleicht ein Password mit dem Password dieses Users.
-     *
-     * @param value
-     *            Das zu vergleichende Password.
-     * @return true Passwörter sind gleich; false sonst.
-     */
-    public boolean comparePwd(String value) {
-        return (StringUtils.equals(value, password));
-    }
+	/**
+	 * Vergleicht ein Password mit dem Password dieses Users.
+	 *
+	 * @param value Das zu vergleichende Password.
+	 * @return true Passwörter sind gleich; false sonst.
+	 */
+	public boolean comparePwd(String value) {
+		return (StringUtils.equals(value, password));
+	}
 
-    /**
-     * Liefert Detailinformationen zu diesem Objekt.
-     *
-     * @return Ein String.
-     */
-    public String getDebugInfo() {
-        StringBuilder buf = new StringBuilder();
-        buf.append(name);
-        buf.append(": ");
-        buf.append(surname);
-        buf.append(": ");
-        buf.append(nickname);
-        buf.append(": ");
-        buf.append(email);
-        buf.append(": ");
-        buf.append(phone);
-        buf.append(": ");
-        buf.append(password);
-        return buf.toString();
-    }
+	/**
+	 * Liefert Detailinformationen zu diesem Objekt.
+	 *
+	 * @return Ein String.
+	 */
+	public String getDebugInfo() {
+		StringBuilder buf = new StringBuilder();
+		buf.append(name);
+		buf.append(": ");
+		buf.append(surname);
+		buf.append(": ");
+		buf.append(nickname);
+		buf.append(": ");
+		buf.append(email);
+		buf.append(": ");
+		buf.append(phone);
+		buf.append(": ");
+		buf.append(password);
+		return buf.toString();
+	}
 
-    // -- Role ----------------------------------------------------------------
+	// -- Role ----------------------------------------------------------------
 
-    public List<RoleType> getRoleTypes() {
-        List<RoleType> roleTypes = new ArrayList<>();
-        if (isAdmin()) {
-            roleTypes.add(RoleType.ADMIN);
-        }
-        if (!isExcluded()) {
-            roleTypes.add(RoleType.TIPPER);
-        }
-        return roleTypes;
-    }
+	public List<RoleType> getRoleTypes() {
+		List<RoleType> roleTypes = new ArrayList<>();
+		if (isAdmin()) {
+			roleTypes.add(RoleType.ADMIN);
+		}
+		if (!isExcluded()) {
+			roleTypes.add(RoleType.TIPPER);
+		}
+		return roleTypes;
+	}
 
-    // -- Object --------------------------------------------------------------
+	// -- Object --------------------------------------------------------------
 
-    /**
-     * @see Object#toString()
-     */
-    public String toString() {
-        return nickname;
-    }
+	/**
+	 * @see Object#toString()
+	 */
+	public String toString() {
+		return getNickname().toString();
+	}
 
-    /**
-     * @see Object#equals(java.lang.Object)
-     */
-    public boolean equals(Object object) {
-        if (object == null) {
-            return false;
-        } else if (!(object instanceof User)) {
-            return false;
-        } else {
-            User user = (User) object;
-            return (user.getNickname().equalsIgnoreCase(getNickname()));
-        }
-    }
+	/**
+	 * @see Object#equals(java.lang.Object)
+	 */
+	public boolean equals(Object object) {
+		if (object == null) {
+			return false;
+		} else if (!(object instanceof User)) {
+			return false;
+		} else {
+			User user = (User) object;
+			return (user.getNickname().equals(getNickname()));
+		}
+	}
 
-    /**
-     * @see Object#hashCode()
-     */
-    public int hashCode() {
-        int result = 17;
-        result = 37 * result + getNickname().hashCode();
-        return result;
-    }
+	/**
+	 * @see Object#hashCode()
+	 */
+	public int hashCode() {
+		int result = 17;
+		result = 37 * result + getNickname().hashCode();
+		return result;
+	}
 
 }

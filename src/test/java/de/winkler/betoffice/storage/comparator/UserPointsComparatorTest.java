@@ -33,6 +33,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
@@ -47,13 +48,13 @@ public class UserPointsComparatorTest {
     @Test
     public void testUserPointsComparator() {
         User frosch = new User();
-        frosch.setNickname("Frosch");
+        frosch.setNickname(Nickname.of("Frosch"));
         User hattwig = new User();
-        hattwig.setNickname("Hattwig");
+        hattwig.setNickname(Nickname.of("Hattwig"));
         User mrTipp = new User();
-        mrTipp.setNickname("mrTipp");
+        mrTipp.setNickname(Nickname.of("mrTipp"));
         User chris = new User();
-        chris.setNickname("chris");
+        chris.setNickname(Nickname.of("chris"));
 
         Season season = new Season();
         season.setName("Bundesliga");
@@ -80,8 +81,7 @@ public class UserPointsComparatorTest {
         urChris.setUserTotoWin(18);
         urChris.setTicket(7);
 
-        List<UserResult> ur = Arrays.asList(urMrTipp, urChris, urFrosch,
-                urHattwig);
+        List<UserResult> ur = Arrays.asList(urMrTipp, urChris, urFrosch, urHattwig);
         Collections.sort(ur, new UserPointsComparator());
 
         assertEquals("Frosch", ur.get(0).getUser().getNickname());

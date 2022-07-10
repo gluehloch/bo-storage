@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -42,9 +42,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * Kapselt alle Daten eines Fussballspiels.
  *
@@ -56,9 +53,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     /** serial version id */
     private static final long serialVersionUID = 8861153553430553696L;
-
-    /** Der private Logger der Klasse. */
-    private static Log log = LogFactory.getLog(Game.class);
 
     /** Der Leerstring. */
     public static final String EMPTY = "";
