@@ -32,7 +32,7 @@ import de.winkler.betoffice.storage.Community;
 import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.Nickname;
-import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.User;
 
 /**
@@ -42,57 +42,59 @@ import de.winkler.betoffice.storage.User;
  */
 public interface CommunityService {
 
-	/**
-	 * Find a community by name.
-	 * 
-	 * @param communityName community name
-	 * @return a community.
-	 */
-	List<Community> find(String communityName);
+    /**
+     * Find a community by name.
+     * 
+     * @param  communityName community name
+     * @return               a community.
+     */
+    List<Community> find(String communityName);
 
-	/**
-	 * Find all communities.
-	 *
-	 * @param  communityFilter a community filter
-	 * @param  pageable        paging parameter
-	 * @return                 a list of communities
-	 */
-	Page<Community> findCommunities(CommunityFilter communityFilter, Pageable pageable);
+    /**
+     * Find all communities.
+     *
+     * @param  communityFilter a community filter
+     * @param  pageable        paging parameter
+     * @return                 a list of communities
+     */
+    Page<Community> findCommunities(CommunityFilter communityFilter, Pageable pageable);
 
-	/**
-	 * Create a new community.
-	 *
-	 * @param reference       reference of a community.
-	 * @param communityName   community name
-	 * @param managerNickname nickname of the community manager
-	 * @return the create community.
-	 */
-	Community create(CommunityReference reference, Season season, String communityName, Nickname managerNickname);
+    /**
+     * Create a new community.
+     *
+     * @param  communityRef    reference of a community.
+     * @param  seasonRef       reference of a season.
+     * @param  communityName   community name
+     * @param  managerNickname nickname of the community manager
+     * @return                 the create community.
+     */
+    Community create(CommunityReference communityRef, SeasonReference seasonRef, String communityName,
+            Nickname managerNickname);
 
-	/**
-	 * Delete community.
-	 * 
-	 * @param reference the community name to delete
-	 */
-	void delete(CommunityReference reference);
+    /**
+     * Delete community.
+     * 
+     * @param communityRef the community name to delete
+     */
+    void delete(CommunityReference communityRef);
 
-	/**
-	 * Add a new community member.
-	 * 
-	 * @param communityName the community name
-	 * @param nickname      the new community member
-	 * @return the updated community.
-	 */
-	 Community addMember(CommunityReference community, Nickname nickname);
+    /**
+     * Add a new community member.
+     * 
+     * @param  communityName the community name
+     * @param  nickname      the new community member
+     * @return               the updated community.
+     */
+    Community addMember(CommunityReference communityRef, Nickname nickname);
 
-	/**
-	 * Remove a community member.
-	 * 
-	 * @param communityName the community name
-	 * @param nickname      the community member to remove
-	 * @return the updated community.
-	 */
-	Community removeMember(CommunityReference community, Nickname nickname);
+    /**
+     * Remove a community member.
+     * 
+     * @param  communityName the community name
+     * @param  nickname      the community member to remove
+     * @return               the updated community.
+     */
+    Community removeMember(CommunityReference communityRef, Nickname nickname);
 
     /**
      * Find all users.

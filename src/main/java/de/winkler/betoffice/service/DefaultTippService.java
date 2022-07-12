@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -91,7 +91,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     private GameTipp createOrUpdateTipp(String token, GameList round, Game game, User user, GameResult tipp, TippStatusType status) {
         Date now = Date.from(datetimeProvider.currentDateTime().toInstant());
 
-        Optional<GameTipp> gameTipp = gameTippDao.find(game, user);        
+        Optional<GameTipp> gameTipp = gameTippDao.find(game, user);
         if (gameTipp.isPresent()) {
             GameTipp updateGameTipp = gameTipp.get();
             updateGameTipp.setToken(token);

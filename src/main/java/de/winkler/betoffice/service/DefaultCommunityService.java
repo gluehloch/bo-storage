@@ -1,12 +1,8 @@
 /*
- * ============================================================================
-<<<<<<< HEAD
+ * =============================================================================
  * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
-=======
- * Project betoffice-storage Copyright (c) 2000-2021 by Andre Winkler. All
->>>>>>> work/paging
  * rights reserved.
- * ============================================================================
+ * =============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
  * 
@@ -43,6 +39,7 @@ import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.util.LoggerFactory;
 
@@ -54,20 +51,20 @@ import de.winkler.betoffice.util.LoggerFactory;
 @Service("communityService")
 public class DefaultCommunityService extends AbstractManagerService implements CommunityService {
 
-	private static final Logger LOG = LoggerFactory.make();
+    private static final Logger LOG = LoggerFactory.make();
 
-	@Autowired
-	private CommunityDao communityDao;
+    @Autowired
+    private CommunityDao communityDao;
 
-	@Autowired
-	private UserDao userDao;
+    @Autowired
+    private UserDao userDao;
 
-	@Autowired
-	private SeasonDao seasonDao;
+    @Autowired
+    private SeasonDao seasonDao;
 
-	public List<Community> find(String communityName) {
-		return communityDao.find(communityName);
-	}
+    public List<Community> find(String communityName) {
+        return communityDao.find(communityName);
+    }
 
     @Override
     public Page<Community> findCommunities(CommunityFilter communityFilter, Pageable pageable) {
@@ -79,50 +76,52 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         return userDao.findAll(nicknameFilter, pageable);
     }
 
-	@Override
-	public Community create(CommunityReference reference, Season season, String communityName, Nickname managerNickname) {
-		communityDao.find(reference).orElseThrow();	
-		Season persistedSeason = seasonDao.findByName(season.getName(), season.getYear()).orElseThrow();
-		User communityManager = userDao.findByNickname(managerNickname).orElseThrow();
-		
-		Community community = new Community();
-		community.setName(communityName);
-		community.setReference(reference);
-		community.setCommunityManager(communityManager);
-		community.setSeason(persistedSeason);
-		communityDao.save(community);
+    @Override
+    public Community create(CommunityReference communityRef, SeasonReference seasonRef, String communityName,
+            Nickname managerNickname) {
 
-		return community;
-	}
+        Community existingCommunity = communityDao.find(communityRef).orElseThrow();
+        Season persistedSeason = seasonDao.findByName(season.getName(), seasonRef.getYear()).orElseThrow();
+        User communityManager = userDao.findByNickname(managerNickname).orElseThrow();
 
-	@Override
-	public void delete(CommunityReference reference) {
-		Community community = communityDao.find(reference).orElseThrow();
+        Community community = new Community();
+        community.setName(communityName);
+        community.setReference(reference);
+        community.setCommunityManager(communityManager);
+        community.setSeason(persistedSeason);
+        communityDao.save(community);
 
-		if (communityDao.hasMembers(community)) {
-			LOG.warn("Unable to delete community '{}'. The Community has members.", community);
-			throw new IllegalArgumentException("Unable to delete community. The Community has members.");
-		}
+        return community;
+    }
 
-		communityDao.delete(community);
-	}
+    @Override
+    public void delete(CommunityReference reference) {
+        Community community = communityDao.find(reference).orElseThrow();
 
-	@Override
-	public Community addMember(CommunityReference communityReference, Nickname nickname) {
-		User user = userDao.findByNickname(nickname).orElseThrow();
-		Community community = communityDao.find(communityReference).orElseThrow();
-		community.addMember(user);
-		communityDao.save(community);
-		return community;
-	}
+        if (communityDao.hasMembers(community)) {
+            LOG.warn("Unable to delete community '{}'. The Community has members.", community);
+            throw new IllegalArgumentException("Unable to delete community. The Community has members.");
+        }
 
-	@Override
-	public Community removeMember(CommunityReference reference, Nickname nickname) {
-		User user = userDao.findByNickname(nickname).orElseThrow();
-		Community community = communityDao.find(reference).orElseThrow();
-		community.removeMember(user);
-		communityDao.save(community);
-		return community;
-	}
+        communityDao.delete(community);
+    }
+
+    @Override
+    public Community addMember(CommunityReference communityReference, Nickname nickname) {
+        User user = userDao.findByNickname(nickname).orElseThrow();
+        Community community = communityDao.find(communityReference).orElseThrow();
+        community.addMember(user);
+        communityDao.save(community);
+        return community;
+    }
+
+    @Override
+    public Community removeMember(CommunityReference reference, Nickname nickname) {
+        User user = userDao.findByNickname(nickname).orElseThrow();
+        Community community = communityDao.find(reference).orElseThrow();
+        community.removeMember(user);
+        communityDao.save(community);
+        return community;
+    }
 
 }

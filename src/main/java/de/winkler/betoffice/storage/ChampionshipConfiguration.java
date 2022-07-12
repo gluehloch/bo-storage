@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2017 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -44,19 +44,6 @@ public class ChampionshipConfiguration {
     @Column(name = "bo_openligaleagueSeason")
     private String openligaLeagueSeason;
 
-    /** Das zu verwendende Export-Template. */
-    @Deprecated(forRemoval = true)
-    @Column(name = "bo_exporttemplate")
-    private String exportTemplate;
-
-    /**
-     * Ein Exportverzeichnis für eine Meisterschaft. Ist i.d.R. eine relative
-     * Pfadangabe.
-     */
-    @Deprecated(forRemoval = true)
-    @Column(name = "bo_exportdirectory")
-    private String exportDirectory;
-
     // -- openligadb leagueShortcut -------------------------------------------
 
     public String getOpenligaLeagueShortcut() {
@@ -75,52 +62,6 @@ public class ChampionshipConfiguration {
 
     public void setOpenligaLeagueSeason(String value) {
         openligaLeagueSeason = value;
-    }
-
-    // -- exportDirectory -----------------------------------------------------
-
-    /**
-     * Liefert das Exportverzeichnis.
-     *
-     * @return Das Exportverzeichnis.
-     */
-    @Deprecated(forRemoval = true)
-    public String getExportDirectory() {
-        return exportDirectory;
-    }
-
-    /**
-     * Setzt ein neues Exportverzeichnis.
-     *
-     * @param value
-     *            Das Exportverzeichnis.
-     */
-    @Deprecated(forRemoval = true)
-    public void setExportDirectory(final String value) {
-        exportDirectory = value;
-    }
-
-    // -- exportTemplate ------------------------------------------------------
-
-    /**
-     * Liefert das Export-Template.
-     *
-     * @return Das Export-Template.
-     */
-    @Deprecated(forRemoval = true)
-    public String getExportTemplate() {
-        return exportTemplate;
-    }
-
-    /**
-     * Setzt ein neues Export-Template.
-     *
-     * @param value
-     *            Das Export-Template.
-     */
-    @Deprecated(forRemoval = true)
-    public void setExportTemplate(final String value) {
-        exportTemplate = value;
     }
 
 }

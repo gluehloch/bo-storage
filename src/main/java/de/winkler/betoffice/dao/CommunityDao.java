@@ -1,10 +1,6 @@
 /*
  * ============================================================================
-<<<<<<< HEAD
  * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
-=======
- * Project betoffice-storage Copyright (c) 2000-2021 by Andre Winkler. All
->>>>>>> work/paging
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND

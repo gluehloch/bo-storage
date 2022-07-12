@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -38,15 +38,15 @@ import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamResult;
 import de.winkler.betoffice.storage.comparator.TeamPointsComparator;
 
 /**
- * Klasse für den Zugriff auf {@link de.winkler.betoffice.storage.Season}.
- * Zusätzlich liefern die Methoden {@link #calculateTeamRanking(Season, Group)}
- * und {@link #calculateTeamRanking(Season, Group, int, int)} das Tabellenbild
- * zu der Parameterkombination ({@link Season}, {@link Group}).
+ * Klasse für den Zugriff auf {@link de.winkler.betoffice.storage.Season}. Zusätzlich liefern die Methoden
+ * {@link #calculateTeamRanking(Season, Group)} und {@link #calculateTeamRanking(Season, Group, int, int)} das
+ * Tabellenbild zu der Parameterkombination ({@link Season}, {@link Group}).
  *
  * @author by Andre Winkler
  */
@@ -56,7 +56,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
     /** Sucht nach einer Meisterschaft mit gesuchtem Namen und Jahrgang. */
     private static final String QUERY_SEASON_BY_NAME_AND_YEAR = "from "
             + Season.class.getName() + " as season "
-            + "where season.name = :name and season.year = :year";
+            + "where season.reference.name = :name and season.reference.year = :year";
 
     private static final String QUERY_TEAM_SEASON_GOALS = AbstractCommonDao
             .loadQuery("query_teamresult_season_goals.sql");
@@ -85,10 +85,11 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
     }
 
     @Override
-    public Optional<Season> findByName(final String name, final String year) {
+    public Optional<Season> find(final SeasonReference seasonRef) {
         Query<Season> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_SEASON_BY_NAME_AND_YEAR, Season.class)
-                .setParameter("name", name).setParameter("year", year);
+                .setParameter("name", seasonRef.getName())
+                .setParameter("year", seasonRef.getYear());
 
         return singleResult(query);
     }

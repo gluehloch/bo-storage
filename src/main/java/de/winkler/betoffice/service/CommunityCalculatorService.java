@@ -25,8 +25,9 @@ package de.winkler.betoffice.service;
 
 import java.util.List;
 
-import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.GameList;
+import de.winkler.betoffice.storage.SeasonRange;
 import de.winkler.betoffice.storage.UserResult;
 
 /**
@@ -36,31 +37,31 @@ import de.winkler.betoffice.storage.UserResult;
  */
 public interface CommunityCalculatorService {
 
-	/**
-	 * Berechnet das Tipper-Ranking für eine Meisterschaft.
-	 *
-	 * @param community Das User-Ranking dieser Community berechnen.
-	 * @return Das Ranking der Tipper.
-	 */
-	List<UserResult> calculateUserRanking(Community community);
+    /**
+     * Berechnet das Tipper-Ranking für eine Meisterschaft.
+     *
+     * @param  community Das User-Ranking dieser Community berechnen.
+     * @return           Das Ranking der Tipper.
+     */
+    List<UserResult> calculateUserRanking(CommunityReference community);
 
-	/**
-	 * Berechnet das Tipper-Ranking für einen Spieltag.
-	 *
-	 * @param community Das User-Ranking dieser Community berechnen.
-	 * @param round Der betreffende Spieltag.
-	 * @return Das Ranking der Tipper.
-	 */
-	List<UserResult> calculateUserRanking(Community community, GameList round);
+    /**
+     * Berechnet das Tipper-Ranking für einen Spieltag.
+     *
+     * @param  community Das User-Ranking dieser Community berechnen.
+     * @param  round     Der betreffende Spieltag.
+     * @return           Das Ranking der Tipper.
+     */
+    List<UserResult> calculateUserRanking(CommunityReference community, GameList round);
 
-	/**
-	 * Berechnet das Tipper-Ranking für einen Spieltag.
-	 *
-	 * @param community Das User-Ranking dieser Community berechnen.
-	 * @param startIndex Index des Spieltags ab dem gezählt wird (0..N-1).
-	 * @param endIndex   Index des Spieltags bis zu dem gezählt wird (0..N-1).
-	 * @return Das Ranking der Tipper.
-	 */
-	List<UserResult> calculateUserRanking(Community community, int startIndex, int endIndex);
+    /**
+     * Berechnet das Tipper-Ranking für einen Spieltag.
+     *
+     * @param  community   Das User-Ranking dieser Community berechnen.
+     * @param  seasonRange Index des Spieltags ab dem gezählt wird (0..N-1) / Index des Spieltags bis zu dem gezählt
+     *                         wird (0..N-1).
+     * @return             Das Ranking der Tipper.
+     */
+    List<UserResult> calculateUserRanking(CommunityReference community, SeasonRange seasonRange);
 
 }

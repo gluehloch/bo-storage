@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -33,8 +33,18 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
 
 import org.apache.commons.lang3.Validate;
 import org.joda.time.DateTime;
@@ -60,6 +70,9 @@ public class Season extends AbstractStorageObject {
     private Long id;
 
     @Embedded
+    private SeasonReference reference;
+
+    @Embedded
     private ChampionshipConfiguration championshipConfiguration = new ChampionshipConfiguration();
 
     /** Spielmodus der Saison. (Bundesliga, Pokal, WM,...) ` */
@@ -71,16 +84,6 @@ public class Season extends AbstractStorageObject {
     @Enumerated
     @Column(name = "bo_teamtype")
     private TeamType teamType = TeamType.DFB;
-
-    /** Bezeichner Jahrgang/Datum der Saison. */
-    @NotNull
-    @Column(name = "bo_year")
-    private String year;
-
-    /** Bezeichner der Saison. */
-    @NotNull
-    @Column(name = "bo_name")
-    private String name;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bo_season_ref")
@@ -127,6 +130,16 @@ public class Season extends AbstractStorageObject {
         id = value;
     }
 
+    // -- reference -----------------------------------------------------------
+
+    public SeasonReference getReference() {
+        return reference;
+    }
+
+    public void setReference(SeasonReference reference) {
+        this.reference = reference;
+    }
+
     // -- championshipConfiguration -------------------------------------------
 
     /**
@@ -148,46 +161,6 @@ public class Season extends AbstractStorageObject {
      */
     protected void setChampionshipConfiguration(final ChampionshipConfiguration value) {
         championshipConfiguration = value;
-    }
-
-    // -- year ----------------------------------------------------------------
-
-    /**
-     * Jahrgang der Spielzeit (Format: 2001/2002).
-     * 
-     * @return Jahrgang der Spielzeit.
-     */
-    public String getYear() {
-        return year;
-    }
-
-    /**
-     * Setzt den Jahrgang.
-     * 
-     * @param value Der Jahrgang.
-     */
-    public void setYear(final String value) {
-        year = value.trim();
-    }
-
-    // -- name ----------------------------------------------------------------
-
-    /**
-     * Bezeichnung der Spielzeit (z.B. 1. Bundesliga).
-     * 
-     * @return Bezeichnung der Spielzeit.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Setzt den Namen der Spielzeit.
-     * 
-     * @param value Name der Spielzeit.
-     */
-    public void setName(final String value) {
-        name = value.trim();
     }
 
     // -- mode ----------------------------------------------------------------
@@ -603,8 +576,8 @@ public class Season extends AbstractStorageObject {
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append("Year: ").append(getYear());
-        buf.append(", Name: ").append(getName());
+        buf.append("Year: ").append(getReference().getYear());
+        buf.append(", Name: ").append(getReference().getName());
         if (getMode() == null) {
             buf.append(", Mode:").append("<null>");
         } else {
@@ -622,12 +595,9 @@ public class Season extends AbstractStorageObject {
             return false;
         } else if (!(object instanceof Season)) {
             return false;
-        } else if ((getYear().equals(((Season) object).getYear()))
-                && (getName().equals(((Season) object).getName()))
-                && (getMode().equals(((Season) object).getMode()))) {
-            return true;
         } else {
-            return false;
+            Season ssn = (Season) object;
+            return getReference().equals(ssn.getReference());
         }
     }
 
@@ -636,11 +606,7 @@ public class Season extends AbstractStorageObject {
      */
     @Override
     public final int hashCode() {
-        int result = 17;
-        result = 37 * result + getName().hashCode();
-        result = 37 * result + getYear().hashCode();
-        result = 37 * result + getMode().hashCode();
-        return result;
+        return 37;
     }
 
 }

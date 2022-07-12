@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL  LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -28,11 +28,11 @@ import java.util.Optional;
 
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.TeamResult;
 
 /**
- * DAO Klasse für den Zugriff auf {@link de.winkler.betoffice.storage.Season}
- * Objekte.
+ * DAO Klasse für den Zugriff auf {@link de.winkler.betoffice.storage.Season} Objekte.
  *
  * @author by Andre Winkler
  */
@@ -48,38 +48,28 @@ public interface SeasonDao extends CommonDao<Season> {
     /**
      * Liefert eine Meisterschaft mit gesuchten Namen und Jahrgang.
      *
-     * @param name
-     *            Der gesuchte Name.
-     * @param year
-     *            Der gesuchte Jahrgang
-     * @return Eine Meisterschaft.
+     * @param  seasonRef Referenz zu einer Meisterschaft.
+     * @return           Eine Meisterschaft.
      */
-    Optional<Season> findByName(String name, String year);
+    Optional<Season> find(SeasonReference seasonRef);
 
     /**
      * Startet die Tabellenberechnung der Mannschaften einer Meisterschaft.
      *
-     * @param season
-     *            Die Meisterschaft.
-     * @param groupType
-     *            Die Liga/Gruppe die berechnet werden soll.
-     * @return Eine sortierte Liste der Tabelle.
+     * @param  season    Die Meisterschaft.
+     * @param  groupType Die Liga/Gruppe die berechnet werden soll.
+     * @return           Eine sortierte Liste der Tabelle.
      */
     List<TeamResult> calculateTeamRanking(Season season, GroupType groupType);
 
     /**
-     * Startet die Tabellenberechnung der Mannschaften einer Meisterschaft über
-     * bestimmte Spielrunden.
+     * Startet die Tabellenberechnung der Mannschaften einer Meisterschaft über bestimmte Spielrunden.
      *
-     * @param season
-     *            Die Meisterschaft.
-     * @param groupType
-     *            Die Liga/Gruppe die berechnet werden soll.
-     * @param startIndex
-     *            Index des Start-Spieltags (0..N-1).
-     * @param endIndex
-     *            Index des End-Spieltags (0..N-1).
-     * @return Eine sortierte Liste der Tabelle.
+     * @param  season     Die Meisterschaft.
+     * @param  groupType  Die Liga/Gruppe die berechnet werden soll.
+     * @param  startIndex Index des Start-Spieltags (0..N-1).
+     * @param  endIndex   Index des End-Spieltags (0..N-1).
+     * @return            Eine sortierte Liste der Tabelle.
      */
     List<TeamResult> calculateTeamRanking(Season season, GroupType groupType,
             int startIndex, int endIndex);

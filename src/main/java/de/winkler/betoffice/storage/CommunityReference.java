@@ -10,26 +10,26 @@ import org.apache.commons.lang3.StringUtils;
 
 @Embeddable
 public class CommunityReference {
-
-	protected CommunityReference() {
-	}
-	
-	private CommunityReference(String communityShortName) {
-		CommunityReference cr = new CommunityReference();
-		cr.setShortName(communityShortName);
-	}
-	
-	public static CommunityReference of(String communityShortName) {
-		if (StringUtils.isBlank(communityShortName)) {
-			throw new IllegalArgumentException("Community name should be defined.");
-		}
-
-		return new CommunityReference(communityShortName);
-	}
 	
     @NotNull
     @Column(name = "bo_shortname")
 	private String shortName;
+
+    protected CommunityReference() {
+    }
+    
+    private CommunityReference(String communityShortName) {
+        CommunityReference cr = new CommunityReference();
+        cr.setShortName(communityShortName);
+    }
+    
+    public static CommunityReference of(String communityShortName) {
+        if (StringUtils.isBlank(communityShortName)) {
+            throw new IllegalArgumentException("Community name should be defined.");
+        }
+
+        return new CommunityReference(communityShortName);
+    }
 
 	public void setShortName(String shortName) {
 		this.shortName = shortName;
