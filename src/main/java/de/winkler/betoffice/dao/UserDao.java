@@ -24,6 +24,7 @@
 
 package de.winkler.betoffice.dao;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,7 @@ import org.springframework.data.domain.Pageable;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonRange;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
 
@@ -52,41 +54,40 @@ public interface UserDao extends CommonDao<User> {
      */
     Page<User> findAll(String nicknameFilter, Pageable pageable);
 
-	/**
-	 * Liefert einen Teilnehmer mit gesuchten Nickname.
-	 *
-	 * @param nickname Der gesuchte Nickname.
-	 * @return Ein Teilnehmer.
-	 */
-	Optional<User> findByNickname(Nickname nickname);
+    /**
+     * Liefert einen Teilnehmer mit gesuchten Nickname.
+     *
+     * @param  nickname Der gesuchte Nickname.
+     * @return          Ein Teilnehmer.
+     */
+    Optional<User> findByNickname(Nickname nickname);
 
-	/**
-	 * Berechnet das Tipper-Ranking für eine Meisterschaft.
-	 *
-	 * @param users      Diese Teilnehmer werden im Ergebnis erwartet.
-	 * @param season     Die betreffende Meisterschaft.
-	 * @param startIndex Index des Spieltags ab dem gezählt wird (0..N-1).
-	 * @param endIndex   Index des Spieltags bis zu dem gezählt wird (0..N-1).
-	 * @return Das Ranking der Tipper.
-	 */
-	List<UserResult> calculateUserRanking(List<User> users, Season season, int startIndex, int endIndex);
+    /**
+     * Berechnet das Tipper-Ranking für eine Meisterschaft.
+     *
+     * @param  users       Diese Teilnehmer werden im Ergebnis erwartet.
+     * @param  season      Die betreffende Meisterschaft.
+     * @param  seasonRange Season Range.
+     * @return             Das Ranking der Tipper.
+     */
+    List<UserResult> calculateUserRanking(Collection<User> users, Season season, SeasonRange seasonRange);
 
-	/**
-	 * Berechnet das Tipper-Ranking für eine Meisterschaft.
-	 *
-	 * @param users  Diese Teilnehmer werden im Ergebnis erwartet.
-	 * @param season Die betreffende Meisterschaft.
-	 * @return Das Ranking der Tipper.
-	 */
-	List<UserResult> calculateUserRanking(List<User> users, Season season);
+    /**
+     * Berechnet das Tipper-Ranking für eine Meisterschaft.
+     *
+     * @param  users  Diese Teilnehmer werden im Ergebnis erwartet.
+     * @param  season Die betreffende Meisterschaft.
+     * @return        Das Ranking der Tipper.
+     */
+    List<UserResult> calculateUserRanking(Collection<User> users, Season season);
 
-	/**
-	 * Berechnet das Tipper-Ranking für einen Spieltag.
-	 *
-	 * @param users Diese Teilnehmer werden im Ergebnis erwartet.
-	 * @param round Der betreffende Spieltag.
-	 * @return Das Ranking der Tipper.
-	 */
-	List<UserResult> calculateUserRanking(List<User> users, GameList round);
+    /**
+     * Berechnet das Tipper-Ranking für einen Spieltag.
+     *
+     * @param  users Diese Teilnehmer werden im Ergebnis erwartet.
+     * @param  round Der betreffende Spieltag.
+     * @return       Das Ranking der Tipper.
+     */
+    List<UserResult> calculateUserRanking(Collection<User> users, GameList round);
 
 }

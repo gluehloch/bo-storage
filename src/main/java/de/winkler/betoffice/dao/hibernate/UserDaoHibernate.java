@@ -25,6 +25,7 @@
 package de.winkler.betoffice.dao.hibernate;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +43,7 @@ import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonRange;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
 import de.winkler.betoffice.storage.comparator.UserPointsComparator;
@@ -105,7 +107,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
                 .setMaxResults(pageable.getPageSize())
                 .getResultList();
 
-        return new PageImpl<User>(users, pageable, total);
+        return new PageImpl<>(users, pageable, total);
     }
 
     @Override
@@ -117,10 +119,8 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
     }
 
     @Override
-    public List<UserResult> calculateUserRanking(final List<User> users,
-            final Season season, final int startIndex, final int endIndex) {
-
-        Map<User, UserResult> resultMap = new HashMap<User, UserResult>();
+    public List<UserResult> calculateUserRanking(final Collection<User> users, final Season season, final SeasonRange seasonRange) {
+        Map<User, UserResult> resultMap = new HashMap<>();
         for (User user : users) {
             resultMap.put(user, new UserResult(user));
         }
@@ -131,8 +131,8 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
                 .addEntity("user", User.class).addScalar("full_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query13.setParameter("season_id", season.getId());
-        query13.setParameter("start_index", startIndex);
-        query13.setParameter("end_index", endIndex);
+        query13.setParameter("start_index", seasonRange.startIndex());
+        query13.setParameter("end_index", seasonRange.endIndex());
 
         List<?> resultQuery13 = query13.list();
         for (Object object : resultQuery13) {
@@ -155,8 +155,8 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
                 .addEntity("user", User.class).addScalar("half_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query10.setParameter("season_id", season.getId());
-        query10.setParameter("start_index", startIndex);
-        query10.setParameter("end_index", endIndex);
+        query10.setParameter("start_index", seasonRange.startIndex());
+        query10.setParameter("end_index", seasonRange.endIndex());
 
         List<?> resultQuery10 = query10.list();
         for (Object object : resultQuery10) {
@@ -178,26 +178,21 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
                 .addScalar("count_matches",
                         org.hibernate.type.StandardBasicTypes.LONG);
         queryMatches.setParameter("season_id", season.getId());
-        queryMatches.setParameter("start_index", startIndex);
-        queryMatches.setParameter("end_index", endIndex);
+        queryMatches.setParameter("start_index", seasonRange.startIndex());
+        queryMatches.setParameter("end_index", seasonRange.endIndex());
         Long countMatches = (Long) queryMatches.uniqueResult();
 
         return userResultMapToList(resultMap, countMatches.intValue());
     }
 
     @Override
-    public List<UserResult> calculateUserRanking(final List<User> users,
-            final GameList round) {
-
-        return calculateUserRanking(users, round.getSeason(), round.getIndex(),
-                round.getIndex());
+    public List<UserResult> calculateUserRanking(final Collection<User> users, final GameList round) {
+        return calculateUserRanking(users, round.getSeason(), SeasonRange.of(round.getIndex(), round.getIndex()));
     }
 
     @Override
-    public List<UserResult> calculateUserRanking(final List<User> users,
-            final Season season) {
-
-        Map<User, UserResult> resultMap = new HashMap<User, UserResult>();
+    public List<UserResult> calculateUserRanking(final Collection<User> users, final Season season) {
+        Map<User, UserResult> resultMap = new HashMap<>();
         for (User user : users) {
             resultMap.put(user, new UserResult(user));
         }
@@ -260,16 +255,13 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
      * @param  countMatches Anzahl der Spielpaarungen.
      * @return              Eine sortierte Liste der {@link UserResult}s.
      */
-    private List<UserResult> userResultMapToList(
-            Map<User, UserResult> resultMap, int countMatches) {
-
-        List<UserResult> userResults = new ArrayList<UserResult>();
+    private List<UserResult> userResultMapToList(Map<User, UserResult> resultMap, int countMatches) {
+        List<UserResult> userResults = new ArrayList<>();
         userResults.addAll(resultMap.values());
         Collections.sort(userResults, new UserPointsComparator());
         int tabpos = 1;
         for (UserResult userResult : userResults) {
-            userResult.setTicket(countMatches - userResult.getUserTotoWin()
-                    - userResult.getUserWin());
+            userResult.setTicket(countMatches - userResult.getUserTotoWin() - userResult.getUserWin());
             userResult.setTabPos(tabpos);
             tabpos++;
         }

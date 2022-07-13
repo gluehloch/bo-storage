@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -56,8 +56,7 @@ import org.apache.commons.lang3.Validate;
  */
 @Entity
 @Table(name = "bo_gamelist")
-public class GameList extends AbstractStorageObject
-        implements Comparable<GameList> {
+public class GameList extends AbstractStorageObject implements Comparable<GameList> {
 
     /** serial version */
     private static final long serialVersionUID = -3629753274439214154L;
@@ -98,7 +97,7 @@ public class GameList extends AbstractStorageObject
     /**
      * Liefert den Primärschlüssel.
      *
-     * @return Der Primärschlüssel.
+     * @return       Der Primärschlüssel.
      *
      * @hibernate.id generator-class="native"
      */
@@ -109,8 +108,7 @@ public class GameList extends AbstractStorageObject
     /**
      * Setzt den Primärschlüssel.
      *
-     * @param value
-     *            Der Primärschlüssel.
+     * @param value Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
@@ -130,8 +128,7 @@ public class GameList extends AbstractStorageObject
     /**
      * Setzt die Liste der Spiele.
      *
-     * @param value
-     *            Die Liste der Spiele.
+     * @param value Die Liste der Spiele.
      */
     protected void setGameList(final List<Game> value) {
         Validate.notNull(value);
@@ -141,8 +138,7 @@ public class GameList extends AbstractStorageObject
     /**
      * Fügt eine neue Spielpaarung dem Spieltag hinzu.
      *
-     * @param value
-     *            Eine Spielpaarung.
+     * @param value Eine Spielpaarung.
      */
     public void addGame(final Game value) {
         Validate.notNull(value);
@@ -156,8 +152,7 @@ public class GameList extends AbstractStorageObject
     }
 
     /**
-     * Entfernt alle Spielpaarungen. Funktioniert nur, wenn keine Tipps
-     * vorhanden sind.
+     * Entfernt alle Spielpaarungen. Funktioniert nur, wenn keine Tipps vorhanden sind.
      */
     public void removeAllGame() {
         List<Game> tmp = new ArrayList<Game>(getGameList());
@@ -169,8 +164,7 @@ public class GameList extends AbstractStorageObject
     /**
      * Entfernt ein Spielpaarung aus dieser Spieltagsliste.
      *
-     * @param value
-     *            Die zu entfernende Spielpaarung.
+     * @param value Die zu entfernende Spielpaarung.
      */
     public void removeGame(final Game value) {
         Validate.notNull(value);
@@ -183,29 +177,23 @@ public class GameList extends AbstractStorageObject
     }
 
     /**
-     * Liefert eine Liste der Spiele dieses Spieltags, die zu einer bestimmten
-     * Gruppe gehören.
+     * Liefert eine Liste der Spiele dieses Spieltags, die zu einer bestimmten Gruppe gehören.
      *
-     * @param _group
-     *            Die Gruppe deren Spiele gefragt sind.
-     * @return Eine Liste aller Spiele der gefragten Gruppe. Diese Liste kann
-     *         nicht modifiziert werden.
+     * @param  _group Die Gruppe deren Spiele gefragt sind.
+     * @return        Eine Liste aller Spiele der gefragten Gruppe. Diese Liste kann nicht modifiziert werden.
      */
     public List<Game> toList(final Group _group) {
         return toList(game -> game.getGroup().equals(_group));
     }
 
     /**
-     * Liefert eine Liste der Spiele dieses Spieltags, die zu einer bestimmten
-     * Gruppe gehören.
+     * Liefert eine Liste der Spiele dieses Spieltags, die zu einer bestimmten Gruppe gehören.
      *
-     * @param filter
-     *            Filterkriterium fuer die in Frage kommenden Spiele.
-     * @return Eine Liste aller Spiele der gefragten Gruppe. Diese Liste kann
-     *         nicht modifiziert werden.
+     * @param  filter Filterkriterium fuer die in Frage kommenden Spiele.
+     * @return        Eine Liste aller Spiele der gefragten Gruppe. Diese Liste kann nicht modifiziert werden.
      */
     public List<Game> toList(Predicate<Game> filter) {
-        return gameList.stream().filter(filter).collect(Collectors.toList());
+        return gameList.stream().filter(filter).toList();
     }
 
     /**
@@ -220,9 +208,8 @@ public class GameList extends AbstractStorageObject
     /**
      * Hole Spiel mit Spielnummer index.
      *
-     * @param _index
-     *            Index eines Spiels.
-     * @return Das Spiel mit dem gesuchten Index.
+     * @param  _index Index eines Spiels.
+     * @return        Das Spiel mit dem gesuchten Index.
      */
     public Game get(final int _index) {
         return (gameList.get(_index));
@@ -231,9 +218,8 @@ public class GameList extends AbstractStorageObject
     /**
      * Liefert ein Spiel anhand der Datenbank ID.
      *
-     * @param id
-     *            Die Datenbank ID
-     * @return Ein Spiel aus diesem Spieltag.
+     * @param  id Die Datenbank ID
+     * @return    Ein Spiel aus diesem Spieltag.
      */
     public Game getById(final long id) {
         for (Game game : gameList) {
@@ -265,8 +251,8 @@ public class GameList extends AbstractStorageObject
     // -- index ---------------------------------------------------------------
 
     /**
-     * Methode liefert den Index des Spieltags. Der Index wird berechnet und
-     * spiegelt die Position innerhalb der <code>gameDayList</code> wieder.
+     * Methode liefert den Index des Spieltags. Der Index wird berechnet und spiegelt die Position innerhalb der
+     * <code>gameDayList</code> wieder.
      *
      * @return Spieltagindex mit dem Wertebereich <code>(0 .. N-1)</code>.
      */
@@ -275,13 +261,12 @@ public class GameList extends AbstractStorageObject
     }
 
     /**
-     * Setzt den Spieltagindex. Ist ohne Bedeutung, da über die Sortierung in
-     * GameDayList gesetzt. Siehe dazu die Methode {@link #getIndex()}.
+     * Setzt den Spieltagindex. Ist ohne Bedeutung, da über die Sortierung in GameDayList gesetzt. Siehe dazu die
+     * Methode {@link #getIndex()}.
      *
-     * @param value
-     *            Der zu setzende Spieltagindex.
+     * @param value Der zu setzende Spieltagindex.
      *
-     * @see #getIndex()
+     * @see         #getIndex()
      */
     public void setIndex(final int value) {
         index = value;
@@ -301,8 +286,7 @@ public class GameList extends AbstractStorageObject
     /**
      * Ses date and time of the game.
      *
-     * @param _dateTime
-     *            date and time
+     * @param _dateTime date and time
      */
     public void setDateTime(final ZonedDateTime _dateTime) {
         dateTime = _dateTime;
@@ -320,16 +304,13 @@ public class GameList extends AbstractStorageObject
     }
 
     /**
-     * Setzt die Saison/Spieltagsliste, die zu diesem Spieltag gehört. Wird
-     * gesetzt, wenn die Spieltagsliste einer Saison/GameDayList zugeordnet
-     * wird. Der Aufruf erfolgt aus der Methode
-     * {@link Season#addGameList(GameList)}.
+     * Setzt die Saison/Spieltagsliste, die zu diesem Spieltag gehört. Wird gesetzt, wenn die Spieltagsliste einer
+     * Saison/GameDayList zugeordnet wird. Der Aufruf erfolgt aus der Methode {@link Season#addGameList(GameList)}.
      *
-     * @param value
-     *            Die zugehörige Saison. Kann <code>null</code> sein. Dann wurde
-     *            diese Spieltagsliste aus einer Saison entfernt.
+     * @param value Die zugehörige Saison. Kann <code>null</code> sein. Dann wurde diese Spieltagsliste aus einer Saison
+     *                  entfernt.
      *
-     * @see Season#addGameList(GameList)
+     * @see         Season#addGameList(GameList)
      */
     public void setSeason(final Season value) {
         season = value;
@@ -349,8 +330,7 @@ public class GameList extends AbstractStorageObject
     /**
      * Setzt die zugehörige Gruppe.
      *
-     * @param value
-     *            Die zugehörige Gruppe. Kann <code>null</code> sein!
+     * @param value Die zugehörige Gruppe. Kann <code>null</code> sein!
      */
     public void setGroup(final Group value) {
         group = value;
@@ -370,8 +350,7 @@ public class GameList extends AbstractStorageObject
     /**
      * Set openligadb ID
      *
-     * @param value
-     *            The openligadb ID
+     * @param value The openligadb ID
      */
     public void setOpenligaid(Long value) {
         openligaid = value;
@@ -382,9 +361,8 @@ public class GameList extends AbstractStorageObject
     /**
      * Überprüft, ob der Spieltag vor dem übergebenen Spieltag liegt.
      *
-     * @param _gameList
-     *            Der zu vergleichende Spieltag.
-     * @return true, Spieltag liegt vor dem übergebenen Spieltag; false sonst.
+     * @param  _gameList Der zu vergleichende Spieltag.
+     * @return           true, Spieltag liegt vor dem übergebenen Spieltag; false sonst.
      */
     public boolean isBefore(final GameList _gameList) {
         if (getIndex() < _gameList.getIndex()) {
@@ -397,9 +375,8 @@ public class GameList extends AbstractStorageObject
     /**
      * Überprüft, ob der Spieltag nach dem übergebenen Spieltag liegt.
      *
-     * @param gd
-     *            Der zu vergleichende Spieltag.
-     * @return true, Spieltag liegt nach dem übergebenen Spieltag; false sonst.
+     * @param  gd Der zu vergleichende Spieltag.
+     * @return    true, Spieltag liegt nach dem übergebenen Spieltag; false sonst.
      */
     public boolean isAfter(final GameList gd) {
         if (getIndex() > gd.getIndex()) {
@@ -426,9 +403,8 @@ public class GameList extends AbstractStorageObject
     /**
      * Find the best round date of an array of dates.
      *
-     * @param matchDates
-     *            the dates
-     * @return the best round date
+     * @param  matchDates the dates
+     * @return            the best round date
      */
     public static LocalDate findBestDate(List<ZonedDateTime> matchDates) {
         if (matchDates.isEmpty()) {
@@ -466,9 +442,8 @@ public class GameList extends AbstractStorageObject
     // -- StorageObject -------------------------------------------------------
 
     /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
-     * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
-     * Eigenschaften müssen gesetzt sein:
+     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt sind, damit es evt. Weiterverarbeitungen
+     * erfahren kann. Folgende Eigenschaften müssen gesetzt sein:
      * <ul>
      * <li>dateTime</li>
      * <li>group</li>

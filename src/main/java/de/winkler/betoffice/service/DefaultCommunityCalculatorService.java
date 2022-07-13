@@ -24,17 +24,19 @@
 package de.winkler.betoffice.service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.dao.UserSeasonDao;
 import de.winkler.betoffice.storage.Community;
 import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.GameList;
-import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.SeasonRange;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
@@ -51,18 +53,26 @@ public class DefaultCommunityCalculatorService implements CommunityCalculatorSer
     private UserDao userDao;
 
     @Autowired
+    private CommunityDao communityDao;
+    
+    @Autowired
     private UserSeasonDao userSeasonDao;
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserResult> calculateUserRanking(CommunityReference community, GameList round) {
-        List<User> users = userSeasonDao.findUsers(round.getSeason());
+    public List<UserResult> calculateUserRanking(CommunityReference communityReference, GameList round) {
+        Optional<Community> community = communityDao.find(communityReference);
+        Set<User> users = community.get().getUsers();
+        
+        // List<User> users = userSeasonDao.findUsers(round.getSeason());
         return userDao.calculateUserRanking(users, round);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<UserResult> calculateUserRanking(CommunityReference community) {
+        
+        
         List<User> users = userSeasonDao.findUsers(season);
         return userDao.calculateUserRanking(users, season);
     }

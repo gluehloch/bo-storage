@@ -31,6 +31,9 @@ package de.winkler.betoffice.storage;
  * @param startIndex Start-Index (10. Spieltag). Gezählt wird mit 0.
  * @param endIndex End-Index (20. Spieltag).
  */
-public record SeasonRange(int startIndex, int endIndex) {    
+public record SeasonRange(int startIndex, int endIndex) {
+    public static SeasonRange of(int startIndex, int endIndex) {
+        return new SeasonRange(startIndex, endIndex);
+    }
 }
 

@@ -51,6 +51,7 @@ import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.GroupType;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.Team;
@@ -222,22 +223,22 @@ class GameTest extends AbstractServiceTest {
     private void createData() throws Exception {
         userA = new User();
         userA.setName("User A");
-        userA.setNickname("User A");
+        userA.setNickname(Nickname.of("User A"));
         masterDataManagerService.createUser(userA);
 
         userB = new User();
         userB.setName("User B");
-        userB.setNickname("User B");
+        userB.setNickname(Nickname.of("User B"));
         masterDataManagerService.createUser(userB);
 
         userC = new User();
         userC.setName("User C");
-        userC.setNickname("User C");
+        userC.setNickname(Nickname.of("User C"));
         masterDataManagerService.createUser(userC);
 
         userD = new User();
         userD.setName("User D");
-        userD.setNickname("User D");
+        userD.setNickname(Nickname.of("User D"));
         masterDataManagerService.createUser(userD);
 
         homeTeam = new Team();
