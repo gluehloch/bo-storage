@@ -1,3 +1,6 @@
+SELECT 'Start upgrade of betoffice 2.6.0 to 3.0.0 MySQL/MariaDB schema.' as INFO;
+SELECT version();
+
 select concat(bo_name, ' ', bo_year) from bo_season;
 select * from bo_season;
 select * from bo_community bc;

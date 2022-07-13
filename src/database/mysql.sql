@@ -349,8 +349,9 @@ alter table bo_session
 --
 create table bo_community (
     id BIGINT NOT NULL auto_increment,
-    bo_name VARCHAR(60) NOT NULL,
-    bo_shortname VARCHAR(20) NOT NULL,
+    bo_shortname VARCHAR(20) NOT NULL UNIQUE,
+    bo_name VARCHAR(255),
+    bo_year VARCHAR(255),
     bo_user_ref BIGINT NOT NULL comment 'Community Manager',
     bo_season_ref BIGINT NOT NULL,
     primary key (id)

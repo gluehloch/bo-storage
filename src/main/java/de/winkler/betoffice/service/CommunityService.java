@@ -24,6 +24,7 @@
 package de.winkler.betoffice.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -104,5 +105,13 @@ public interface CommunityService {
      * @return                list of users
      */
     Page<User> findUsers(String nicknameFilter, Pageable pageable);
+
+	/**
+	 * Find a user by nickname.
+	 *
+	 * @param nickname user identified by nickname
+	 * @return a user
+	 */
+	Optional<User> findUser(Nickname nickname);
 
 }

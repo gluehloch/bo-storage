@@ -24,6 +24,7 @@
 package de.winkler.betoffice.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,13 +82,14 @@ public class DefaultCommunityService extends AbstractManagerService implements C
             Nickname managerNickname) {
 
         Community existingCommunity = communityDao.find(communityRef).orElseThrow();
-        Season persistedSeason = seasonDao.findByName(season.getName(), seasonRef.getYear()).orElseThrow();
+        Season persistedSeason = seasonDao.find(seasonRef).orElseThrow();
         User communityManager = userDao.findByNickname(managerNickname).orElseThrow();
 
         Community community = new Community();
         community.setName(communityName);
-        community.setReference(reference);
+        community.setReference(communityRef);
         community.setCommunityManager(communityManager);
+
         community.setSeason(persistedSeason);
         communityDao.save(community);
 
@@ -122,6 +124,11 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         community.removeMember(user);
         communityDao.save(community);
         return community;
+    }
+
+    @Override
+    public Optional<User> findUser(Nickname nickname) {
+        return userDao.findByNickname(nickname);
     }
 
 }
