@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2018 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -43,11 +43,9 @@ public final class UserPointsComparator implements Comparator<UserResult> {
     /**
      * Vergleicht zwei UserResults miteinander.
      *
-     * @param u1
-     *            User Nr 1.
-     * @param u2
-     *            User Nr 2.
-     * @return -1, o1 &lt; o2; 0, o1 == o2; +1, o1 &gt; o2.
+     * @param  u1 User Nr 1.
+     * @param  u2 User Nr 2.
+     * @return    -1, o1 &lt; o2; 0, o1 == o2; +1, o1 &gt; o2.
      */
     public int compare(final UserResult u1, final UserResult u2) {
         int retcode = 0;
@@ -70,14 +68,11 @@ public final class UserPointsComparator implements Comparator<UserResult> {
 
         if (log.isDebugEnabled()) {
             if (retcode < 0) {
-                log.debug(u1.getUser().getNickname() + " > "
-                        + u2.getUser().getNickname());
+                log.debug("{} > {}", u1.getUser().getNickname(), u2.getUser().getNickname());
             } else if (retcode > 0) {
-                log.debug(u2.getUser().getNickname() + " > "
-                        + u1.getUser().getNickname());
+                log.debug("{} > {}", u2.getUser().getNickname(), u1.getUser().getNickname());
             } else {
-                log.debug(u1.getUser().getNickname() + " == "
-                        + u2.getUser().getNickname());
+                log.debug("{} == {}", u1.getUser().getNickname(), u2.getUser().getNickname());
             }
         }
 
@@ -85,11 +80,7 @@ public final class UserPointsComparator implements Comparator<UserResult> {
     }
 
     public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        } else {
-            return false;
-        }
+        return obj == this;
     }
 
 }

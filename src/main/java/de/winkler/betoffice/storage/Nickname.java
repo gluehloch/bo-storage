@@ -32,7 +32,7 @@ import javax.persistence.Embeddable;
 import org.apache.commons.lang3.StringUtils;
 
 @Embeddable
-public class Nickname {
+public class Nickname implements Comparable<Nickname> {
 
     /** Der Nickname des Users. */
     @Column(name = "bo_nickname")
@@ -47,7 +47,7 @@ public class Nickname {
     
     public static Nickname of(String nickname) {
 		if (StringUtils.isBlank(nickname)) {
-			throw new IllegalArgumentException("Community manager should be defined.");
+			throw new IllegalArgumentException("A nickname must be defined.");
 		}
 
     	return new Nickname(nickname);
@@ -61,6 +61,15 @@ public class Nickname {
     	nickname = value;
     }
     
+    public String toLowerCase() {
+        return this.nickname.toLowerCase();
+    }
+
+    @Override
+    public int compareTo(Nickname o) {
+        return this.nickname.toLowerCase().compareTo(o.nickname.toLowerCase());
+    }
+
     @Override
     public String toString() {
     	return new StringBuilder("Nickname=[").append(nickname).append("]").toString();

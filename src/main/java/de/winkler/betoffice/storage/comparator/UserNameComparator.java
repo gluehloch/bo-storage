@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -27,6 +27,7 @@ package de.winkler.betoffice.storage.comparator;
 import de.winkler.betoffice.storage.User;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * Vergleicht zwei Teilnehmer mit ihrem Namen.
@@ -35,11 +36,16 @@ import java.util.Comparator;
  */
 public class UserNameComparator implements Comparator<User> {
 
+    @Override
     public int compare(final User userA, final User userB) {
-        return (userA.getNickname().toLowerCase().compareTo(
-                userB.getNickname().toLowerCase()));
+        return userA.getNickname().compareTo(userB.getNickname());
     }
 
+    public int hashCode() {
+        return Objects.hash(this);
+    }
+    
+    @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

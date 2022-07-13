@@ -85,7 +85,7 @@ public class BetofficeStore {
 
         if (log.isInfoEnabled()) {
             for (String resource : resources) {
-                log.info("Resource: " + resource);
+                log.info("Resource: {}", resource);
             }
         }
 
