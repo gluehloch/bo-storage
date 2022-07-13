@@ -24,8 +24,8 @@
 
 package de.winkler.betoffice.storage;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,19 +37,19 @@ import de.winkler.betoffice.storage.enums.SeasonType;
  *
  * @author Andre Winkler
  */
-public class SeasonTest {
+class SeasonTest {
 
     private Season season;
 
     @Test
-    public void testSeasonProperties() {
-        assertTrue(season.getName().compareTo("Bundesliga") == 0);
-        assertTrue(season.getYear().compareTo("1998/1999") == 0);
-        assertTrue(season.getMode() == SeasonType.CL);
+    void testSeasonProperties() {
+        assertEquals(season.getReference().getName().compareTo("Bundesliga"), 0);
+        assertEquals(season.getReference().getYear().compareTo("1998/1999"), 0);
+        assertEquals(season.getMode(), SeasonType.CL);
     }
 
     @Test
-    public void testGetGamesOfDay() {
+    void testGetGamesOfDay() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
             season.getGamesOfDay(0);
         });
@@ -62,14 +62,12 @@ public class SeasonTest {
             season.getGamesOfDay(season.getGameList().size());
         });
 
-        assertTrue(season.getGameList().size() == 0);
+        assertEquals(season.getGameList().size(), 0);
     }
 
     @BeforeEach
     public void setUp() throws Exception {
-        season = new Season();
-        season.setYear("1998/1999");
-        season.setName("Bundesliga");
+        season = new Season(SeasonReference.of("1998/1999", "Bundesliga"));
         season.setMode(SeasonType.CL);
     }
 

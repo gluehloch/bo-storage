@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -52,6 +52,7 @@ import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.SeasonType;
@@ -66,7 +67,7 @@ import de.winkler.betoffice.test.DateTimeDummyProducer;
  *
  * @author Andre Winkler
  */
-public class GameTest extends AbstractServiceTest {
+class GameTest extends AbstractServiceTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
 
@@ -114,7 +115,7 @@ public class GameTest extends AbstractServiceTest {
      * Prüft die Methode addNewTipp(). Drei Tipper geben ihre Tipps ab.
      */
     @Test
-    public void testGameAddNewTipp() {
+    void testGameAddNewTipp() {
         GameTipp tippX;
         // Legt keinen neuen Tipp an, überschreibt den alten Tipp.
         tippX = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userA, gameResult10, TippStatusType.USER);
@@ -183,7 +184,7 @@ public class GameTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testGameContainsTipp() {
+    void testGameContainsTipp() {
         assertTrue(tippService.findTipp(game1, userA).isPresent());
         assertTrue(tippService.findTipp(game1, userB).isPresent());
         assertTrue(tippService.findTipp(game1, userC).isPresent());
@@ -191,7 +192,7 @@ public class GameTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testGameAddTipp() {
+    void testGameAddTipp() {
         GameTipp tipp1 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userA, gameResult10, TippStatusType.USER);
         assertThat(tipp1.getTotoResult()).isEqualTo(TotoResult.EQUAL);
         
@@ -247,10 +248,8 @@ public class GameTest extends AbstractServiceTest {
         guestTeam.setName("S04");
         masterDataManagerService.createTeam(guestTeam);
 
-        Season season = new Season();
+        Season season = new Season(SeasonReference.of("1971", "Bundesliga 2"));
         season.setMode(SeasonType.LEAGUE);
-        season.setName("Bundesliga 2");
-        season.setYear("1971");
 
         seasonManagerService.createSeason(season);
 

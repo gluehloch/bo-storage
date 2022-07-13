@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -36,13 +36,11 @@ import de.winkler.betoffice.storage.enums.SeasonType;
  *
  * @author Andre Winkler
  */
-public class GroupTest {
+class GroupTest {
 
     @Test
-    public void testAllGroupsContains() throws Exception {
-        Season season = new Season();
-        season.setName("TEST");
-        season.setYear("TEST");
+    void testAllGroupsContains() throws Exception {
+        Season season = new Season(SeasonReference.of("1998/1999", "Bundesliga"));
         season.setMode(SeasonType.CL);
 
         GroupType groupA = new GroupType();

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -36,16 +36,14 @@ import de.winkler.betoffice.test.DummyTeams;
  *
  * @author Andre Winkler
  */
-public class TeamResultTest {
+class TeamResultTest {
 
     @Test
-    public void testTeamResultEquals() {
+    void testTeamResultEquals() {
         DummyGroups groupTypes = new DummyGroups();
         DummyTeams teams = new DummyTeams();
 
-        Season season = new Season();
-        season.setName("Bundesliga");
-        season.setYear("2004/05");
+        Season season = new Season(SeasonReference.of("2004/05", "Bundesliga"));
         season.setMode(SeasonType.LEAGUE);
 
         Group groupA = new Group();

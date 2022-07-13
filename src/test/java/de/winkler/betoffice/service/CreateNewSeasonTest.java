@@ -50,6 +50,7 @@ import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Location;
 import de.winkler.betoffice.storage.Player;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.enums.GoalType;
 import de.winkler.betoffice.storage.enums.SeasonType;
@@ -60,7 +61,7 @@ import de.winkler.betoffice.storage.enums.TeamType;
  *
  * @author by Andre Winkler
  */
-public class CreateNewSeasonTest extends AbstractServiceTest {
+class CreateNewSeasonTest extends AbstractServiceTest {
 
     @Autowired
     protected DataSource dataSource;
@@ -88,19 +89,17 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testDeleteDatabase() throws Exception {
+    void testDeleteDatabase() throws Exception {
         DeleteDatabase.deleteDatabase(dataSource.getConnection());
     }
 
     @Test
-    public void testAddIncompatibleTeamToSeason() throws Exception {
+    void testAddIncompatibleTeamToSeason() throws Exception {
         SeasonManagerService sms = seasonManagerService;
         MasterDataManagerService mdms = masterDataManagerService;
 
-        Season season = new Season();
+        Season season = new Season(SeasonReference.of("2001/2002", "Bundesliga"));
         season.setMode(SeasonType.LEAGUE);
-        season.setName("Bundesliga");
-        season.setYear("2000/2001");
         season.setTeamType(TeamType.DFB);
         sms.createSeason(season);
 
@@ -126,14 +125,12 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testCreateNewSeason() throws Exception {
+    void testCreateNewSeason() throws Exception {
         SeasonManagerService sms = seasonManagerService;
         MasterDataManagerService mdms = masterDataManagerService;
 
-        Season season = new Season();
+        Season season = new Season(SeasonReference.of("2020/2021", "Bundesliga"));
         season.setMode(SeasonType.LEAGUE);
-        season.setName("Bundesliga");
-        season.setYear("2000/2001");
         season.setTeamType(TeamType.DFB);
         sms.createSeason(season);
 

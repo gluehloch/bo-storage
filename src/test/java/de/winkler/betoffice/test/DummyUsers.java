@@ -1,8 +1,7 @@
 /*
- * $Id: DummyUsers.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2008 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -29,15 +28,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.User;
 
 /**
  * Verwaltet die Properties von betoffice. <br>
  * <strong>Nur zu Testzwecken zu verwenden!</strong>
  *
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
- *          2013) $
+ * @author Andre Winkler
  */
 public final class DummyUsers {
 
@@ -121,7 +119,7 @@ public final class DummyUsers {
     private void createUsers() {
         for (int i = 0; i < USER_PROPS.length; i++) {
             User user = new User();
-            user.setNickname(USER_PROPS[i][0].toString());
+            user.setNickname(Nickname.of(USER_PROPS[i][0].toString()));
             user.setSurname(USER_PROPS[i][1].toString());
             user.setName(USER_PROPS[i][2].toString());
             user.setPassword(USER_PROPS[i][3].toString());

@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2018 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -34,7 +34,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import de.winkler.betoffice.storage.Nickname;
-import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
 
@@ -43,10 +42,10 @@ import de.winkler.betoffice.storage.UserResult;
  *
  * @author by Andre Winkler
  */
-public class UserPointsComparatorTest {
+class UserPointsComparatorTest {
 
     @Test
-    public void testUserPointsComparator() {
+    void testUserPointsComparator() {
         User frosch = new User();
         frosch.setNickname(Nickname.of("Frosch"));
         User hattwig = new User();
@@ -55,10 +54,6 @@ public class UserPointsComparatorTest {
         mrTipp.setNickname(Nickname.of("mrTipp"));
         User chris = new User();
         chris.setNickname(Nickname.of("chris"));
-
-        Season season = new Season();
-        season.setName("Bundesliga");
-        season.setYear("2009/2010");
 
         UserResult urFrosch = new UserResult(frosch);
         UserResult urHattwig = new UserResult(hattwig);

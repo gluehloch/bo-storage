@@ -42,6 +42,7 @@ import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.Community;
 import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.SeasonType;
 
@@ -50,7 +51,7 @@ import de.winkler.betoffice.storage.enums.SeasonType;
  * 
  * @author Andre Winkler
  */
-public class CommunityServiceTest extends AbstractServiceTest {
+class CommunityServiceTest extends AbstractServiceTest {
 
     @Autowired
     private DataSource dataSource;
@@ -79,10 +80,8 @@ public class CommunityServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void createCommunity() {
-        Season bundesliga = new Season();
-        bundesliga.setName("Bundesliga");
-        bundesliga.setYear("2020/2021");
+    void createCommunity() {
+        Season bundesliga = new Season(SeasonReference.of("2020/2021", "Bundesliga"));
         bundesliga.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(bundesliga);
 
@@ -101,10 +100,8 @@ public class CommunityServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void addAndRemoveCommunityMembers() {
-        Season bundesliga = new Season();
-        bundesliga.setName("Bundesliga");
-        bundesliga.setYear("2020/2021");
+    void addAndRemoveCommunityMembers() {
+        Season bundesliga = new Season(SeasonReference.of("2020/2021", "Bundesliga"));
         bundesliga.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(bundesliga);
 
@@ -139,10 +136,8 @@ public class CommunityServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void filterCommunities() {
-        Season bundesliga = new Season();
-        bundesliga.setName("Bundesliga");
-        bundesliga.setYear("2020/2021");
+    void filterCommunities() {
+        Season bundesliga = new Season(SeasonReference.of("2020/2021", "Bundesliga"));
         bundesliga.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(bundesliga);
 

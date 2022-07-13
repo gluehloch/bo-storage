@@ -70,7 +70,7 @@ public class Season extends AbstractStorageObject {
     private Long id;
 
     @Embedded
-    private SeasonReference reference;
+    private SeasonReference reference = new SeasonReference();
 
     @Embedded
     private ChampionshipConfiguration championshipConfiguration = new ChampionshipConfiguration();
@@ -102,10 +102,11 @@ public class Season extends AbstractStorageObject {
 
     // -- Construction --------------------------------------------------------
 
-    /**
-     * Defaulkonstruktor
-     */
     public Season() {
+    }
+    
+    public Season(SeasonReference sr) {
+        this.reference = sr;
     }
 
     // -- id ------------------------------------------------------------------

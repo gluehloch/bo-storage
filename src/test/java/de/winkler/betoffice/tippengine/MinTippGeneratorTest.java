@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -49,6 +49,7 @@ import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.GroupType;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.User;
@@ -65,7 +66,7 @@ import de.winkler.betoffice.test.DummyUsers;
  *
  * @author Andre Winkler
  */
-public class MinTippGeneratorTest extends AbstractServiceTest {
+class MinTippGeneratorTest extends AbstractServiceTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
 
@@ -116,7 +117,7 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testGenerateTipp() throws StorageObjectNotFoundException {
+    void testGenerateTipp() throws StorageObjectNotFoundException {
         // User A: 39 Punkte
         // User B: 13 Punkte
         // User C: 0 Punkte
@@ -139,7 +140,7 @@ public class MinTippGeneratorTest extends AbstractServiceTest {
 
         // userMinTipp bekommt die Tipps von User C.
         User userMinTipp = new User();
-        userMinTipp.setNickname("userMinTipp");
+        userMinTipp.setNickname(Nickname.of("userMinTipp"));
         userMinTipp = masterDataManagerService.createUser(userMinTipp);
         seasonManagerService.addUser(season, userMinTipp);
 

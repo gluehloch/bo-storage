@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -40,6 +40,7 @@ import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.UserResult;
 import de.winkler.betoffice.storage.enums.SeasonType;
@@ -193,10 +194,8 @@ public class ScenarioBuilder {
         UserResult.nZeroValue = 0;
 
         // Saison erzeugen.
-        season = new Season();
+        season = new Season(SeasonReference.of("1994/1995", "Bundesliga"));
         season.setMode(SeasonType.LEAGUE);
-        season.setName("Bundesliga");
-        season.setYear("1994/1995");
         seasons.add(season);
         seasonManagerService.createSeason(season);
 
