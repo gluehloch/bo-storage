@@ -81,7 +81,7 @@ public class DefaultCommunityCalculatorService implements CommunityCalculatorSer
     @Transactional(readOnly = true)
     public List<UserResult> calculateUserRanking(CommunityReference community, SeasonRange seasonRange) {
         List<User> users = userSeasonDao.findUsers(season);
-        return userDao.calculateUserRanking(users, season, startIndex, endIndex);
+        return userDao.calculateUserRanking(users, season, seasonRange);
     }
 
 }

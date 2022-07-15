@@ -23,14 +23,17 @@
 
 package de.winkler.betoffice.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.dao.SeasonDao;
@@ -43,6 +46,9 @@ import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.util.LoggerFactory;
+import de.winkler.betoffice.validation.BetofficeValidationException;
+import de.winkler.betoffice.validation.BetofficeValidationMessage;
+import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
 
 /**
  * Manages a community.
@@ -129,6 +135,52 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     @Override
     public Optional<User> findUser(Nickname nickname) {
         return userDao.findByNickname(nickname);
+    }
+
+    @Override
+    @Transactional
+    public User createUser(final User user) {
+        List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
+
+        if (StringUtils.isBlank(user.getNickname())) {
+            messages.add(new BetofficeValidationMessage(
+                    "Nickname ist nicht gesetzt.", "nickName", Severity.ERROR));
+        }
+
+        if (messages.isEmpty()) {
+            userDao.save(user);
+        } else {
+            throw new BetofficeValidationException(messages);
+        }
+
+        return user;
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(Nickname nickname) {
+    	Optional<User> optional = userDao.findByNickname(nickname);
+    	
+    	userDao.findByNickname(nickname).map(u -> userDao.delete(u));
+        userDao.delete(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> findAllUsers() {
+        return userDao.findAll();
+    }    
+    
+    @Override
+    @Transactional
+    public void updateUser(final User user) {
+        userDao.update(user);
+    }
+
+    @Override
+    @Transactional
+    public User findUser(long userId) {
+        return userDao.findById(userId);
     }
 
 }

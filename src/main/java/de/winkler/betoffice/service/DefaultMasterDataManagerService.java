@@ -153,25 +153,6 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public User createUser(final User user) {
-        List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
-
-        if (StringUtils.isBlank(user.getNickname())) {
-            messages.add(new BetofficeValidationMessage(
-                    "Nickname ist nicht gesetzt.", "nickName", Severity.ERROR));
-        }
-
-        if (messages.isEmpty()) {
-            userDao.save(user);
-        } else {
-            throw new BetofficeValidationException(messages);
-        }
-
-        return user;
-    }
-
-    @Override
-    @Transactional
     public void deleteGroupType(final GroupType groupType) {
         groupTypeDao.delete(groupType);
     }
@@ -184,12 +165,6 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public void deleteUser(final User user) {
-        userDao.delete(user);
-    }
-
-    @Override
-    @Transactional
     public void deleteTeamAlias(final TeamAlias teamAlias) {
         teamAliasDao.delete(teamAlias);
     }
@@ -198,12 +173,6 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     @Transactional(readOnly = true)
     public List<GroupType> findAllGroupTypes() {
         return groupTypeDao.findAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<User> findUserByNickname(final String nickname) {
-        return userDao.findByNickname(nickname);
     }
 
     @Override
@@ -222,12 +191,6 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     @Transactional(readOnly = true)
     public List<TeamAlias> findAllTeamAlias(Team team) {
         return teamAliasDao.findAliasNames(team);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<User> findAllUsers() {
-        return userDao.findAll();
     }
 
     @Override
@@ -276,18 +239,6 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     @Transactional
     public void updateTeamAlias(final TeamAlias teamAlias) {
         teamAliasDao.update(teamAlias);
-    }
-
-    @Override
-    @Transactional
-    public void updateUser(final User user) {
-        userDao.update(user);
-    }
-
-    @Override
-    @Transactional
-    public User findUser(long userId) {
-        return userDao.findById(userId);
     }
 
     @Override

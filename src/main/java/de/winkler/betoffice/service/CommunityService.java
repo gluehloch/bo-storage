@@ -43,68 +43,75 @@ import de.winkler.betoffice.storage.User;
  */
 public interface CommunityService {
 
-    /**
-     * Find a community by name.
-     * 
-     * @param  communityName community name
-     * @return               a community.
-     */
-    List<Community> find(String communityName);
+	/**
+	 * Find a community by name.
+	 * 
+	 * @param communityName community name
+	 * @return a community.
+	 */
+	List<Community> find(String communityName);
 
-    /**
-     * Find all communities.
-     *
-     * @param  communityFilter a community filter
-     * @param  pageable        paging parameter
-     * @return                 a list of communities
-     */
-    Page<Community> findCommunities(CommunityFilter communityFilter, Pageable pageable);
+	/**
+	 * Find all communities.
+	 *
+	 * @param communityFilter a community filter
+	 * @param pageable        paging parameter
+	 * @return a list of communities
+	 */
+	Page<Community> findCommunities(CommunityFilter communityFilter, Pageable pageable);
 
-    /**
-     * Create a new community.
-     *
-     * @param  communityRef    reference of a community.
-     * @param  seasonRef       reference of a season.
-     * @param  communityName   community name
-     * @param  managerNickname nickname of the community manager
-     * @return                 the create community.
-     */
-    Community create(CommunityReference communityRef, SeasonReference seasonRef, String communityName,
-            Nickname managerNickname);
+	/**
+	 * Create a new community.
+	 *
+	 * @param communityRef    reference of a community.
+	 * @param seasonRef       reference of a season.
+	 * @param communityName   community name
+	 * @param managerNickname nickname of the community manager
+	 * @return the create community.
+	 */
+	Community create(CommunityReference communityRef, SeasonReference seasonRef, String communityName,
+			Nickname managerNickname);
 
-    /**
-     * Delete community.
-     * 
-     * @param communityRef the community name to delete
-     */
-    void delete(CommunityReference communityRef);
+	/**
+	 * Delete community.
+	 * 
+	 * @param communityRef the community name to delete
+	 */
+	void delete(CommunityReference communityRef);
 
-    /**
-     * Add a new community member.
-     * 
-     * @param  communityName the community name
-     * @param  nickname      the new community member
-     * @return               the updated community.
-     */
-    Community addMember(CommunityReference communityRef, Nickname nickname);
+	/**
+	 * Add a new community member.
+	 * 
+	 * @param communityName the community name
+	 * @param nickname      the new community member
+	 * @return the updated community.
+	 */
+	Community addMember(CommunityReference communityRef, Nickname nickname);
 
-    /**
-     * Remove a community member.
-     * 
-     * @param  communityName the community name
-     * @param  nickname      the community member to remove
-     * @return               the updated community.
-     */
-    Community removeMember(CommunityReference communityRef, Nickname nickname);
+	/**
+	 * Remove a community member.
+	 * 
+	 * @param communityName the community name
+	 * @param nickname      the community member to remove
+	 * @return the updated community.
+	 */
+	Community removeMember(CommunityReference communityRef, Nickname nickname);
 
-    /**
-     * Find all users.
-     * 
-     * @param  nicknameFilter a nickname filter
-     * @param  pageable       paging parameter
-     * @return                list of users
-     */
-    Page<User> findUsers(String nicknameFilter, Pageable pageable);
+	/**
+	 * Find all users.
+	 * 
+	 * @param nicknameFilter a nickname filter
+	 * @param pageable       paging parameter
+	 * @return list of users
+	 */
+	Page<User> findUsers(String nicknameFilter, Pageable pageable);
+
+	/**
+	 * Liefert alle bekannten Teilnehmer zurück.
+	 *
+	 * @return Die bekannten Teilnehmer.
+	 */
+	List<User> findAllUsers();
 
 	/**
 	 * Find a user by nickname.
@@ -113,5 +120,35 @@ public interface CommunityService {
 	 * @return a user
 	 */
 	Optional<User> findUser(Nickname nickname);
+
+	/**
+	 * Neuanlage eines Teilnehmers.
+	 *
+	 * @param user Ein Teilnehmer.
+	 */
+	User createUser(User user);
+
+	/**
+	 * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn
+	 * dieser keiner Meisterschaft zugeordnet ist.
+	 * 
+	 * @param user Ein Teilnehmer.
+	 */
+	void deleteUser(User user);
+
+	/**
+	 * Aktualisierung der Daten eines Teilnehmers.
+	 *
+	 * @param user Ein Teilnehmer.
+	 */
+	void updateUser(User user);
+
+	/**
+	 * Sucht nach einem Teilnehmer.
+	 * 
+	 * @param userId Die Teilnehmer ID
+	 * @return Ein Teilnehmer
+	 */
+	User findUser(long userId);
 
 }

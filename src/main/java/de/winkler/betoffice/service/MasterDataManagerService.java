@@ -178,58 +178,6 @@ public interface MasterDataManagerService {
     // ------------------------------------------------------------------------
 
     /**
-     * Neuanlage eines Teilnehmers.
-     *
-     * @param user
-     *            Ein Teilnehmer.
-     */
-    public User createUser(User user);
-
-    /**
-     * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn
-     * dieser keiner Meisterschaft zugeordnet ist.
-     * 
-     * @param user
-     *            Ein Teilnehmer.
-     */
-    public void deleteUser(User user);
-
-    /**
-     * Aktualisierung der Daten eines Teilnehmers.
-     *
-     * @param user
-     *            Ein Teilnehmer.
-     */
-    public void updateUser(User user);
-
-    /**
-     * Liefert alle bekannten Teilnehmer zurück.
-     *
-     * @return Die bekannten Teilnehmer.
-     */
-    public List<User> findAllUsers();
-
-    /**
-     * Sucht nach einem Benutzer mit gesuchtem Nickname.
-     *
-     * @param nickname
-     *            Der Nickname des gesuchten Teilnehmers.
-     * @return Der User oder <code>null</code> wenn keiner gefunden.
-     */
-    public Optional<User> findUserByNickname(String nickname);
-
-    /**
-     * Sucht nach einem Teilnehmer.
-     * 
-     * @param userId
-     *            Die Teilnehmer ID
-     * @return Ein Teilnehmer
-     */
-    public User findUser(long userId);
-
-    // ------------------------------------------------------------------------
-
-    /**
      * Neuanlage einer Gruppe (1. Liga, 2. Liga, Regionalliga, etc)
      *
      * @param groupType
