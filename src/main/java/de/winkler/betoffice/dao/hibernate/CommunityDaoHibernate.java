@@ -1,11 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
-<<<<<<< HEAD
  * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
-=======
- * Copyright (c) 2000-2021 by Andre Winkler. All rights reserved.
->>>>>>> work/paging
  * ============================================================================
  *          GNU GENERAL  LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -93,7 +89,7 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
                 .setMaxResults(pageable.getPageSize())
                 .getResultList();
                
-        return new PageImpl<Community>(communities, pageable, total);
+        return new PageImpl<>(communities, pageable, total);
     }
 
     private long countAll() {
@@ -103,12 +99,12 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
     }
 
 	@Override
-	public boolean hasMembers(Community community) {
+	public boolean hasMembers(CommunityReference reference) {
 		List<User> members = getSessionFactory().getCurrentSession()
 				.createQuery("from Community c left join fetch c.users where c.id = :id", User.class)
 				.setParameter("id", community.getId())
 				.getResultList();
-		return members.size() > 0;
+		return !members.isEmpty();
 	}
 
 }

@@ -61,8 +61,8 @@ public class DefaultCommunityCalculatorService implements CommunityCalculatorSer
     @Override
     @Transactional(readOnly = true)
     public List<UserResult> calculateUserRanking(CommunityReference communityReference, GameList round) {
-        Optional<Community> community = communityDao.find(communityReference);
-        Set<User> users = community.get().getUsers();
+        Community community = communityDao.find(communityReference).orElseThrow();
+        Set<User> users = community.getUsers();
         
         // List<User> users = userSeasonDao.findUsers(round.getSeason());
         return userDao.calculateUserRanking(users, round);

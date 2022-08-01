@@ -17,7 +17,7 @@
  * details.
  *
  * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * this program; if not, write to the Free Software Foundation, Inc., 59 TempleO
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
@@ -26,7 +26,6 @@ package de.winkler.betoffice.dao.hibernate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,13 +35,14 @@ import de.winkler.betoffice.dao.GroupDao;
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 
 /**
  * Test case for class {@link GroupDaoHibernate}.
  *
  * @author Andre Winkler
  */
-public class GroupDaoHibernateTest extends AbstractDaoTestSupport {
+class GroupDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Autowired
     private GroupDao groupDao;
@@ -56,9 +56,9 @@ public class GroupDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testGroupDaoHibernateFindBySeason() {
-        Optional<Season> season = seasonDaoHibernate.findByName("4711", "1000");
-        List<Group> groups = groupDao.findBySeason(season.get());
+    void testGroupDaoHibernateFindBySeason() {
+        Season season = seasonDaoHibernate.find(SeasonReference.of("4711", "1000")).orElseThrow();
+        List<Group> groups = groupDao.findBySeason(season);
         assertThat(groups).hasSize(2);
         assertThat(groups.get(0).getGroupType().getName()).isEqualTo("1. Liga");
         assertThat(groups.get(1).getGroupType().getName()).isEqualTo("2. Liga");

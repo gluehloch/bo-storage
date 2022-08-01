@@ -68,9 +68,9 @@ public interface CommunityDao extends CommonDao<Community> {
 	/**
 	 * Are there still any community members?
 	 *
-	 * @param community Find members of this community
+	 * @param reference Find members of this community
 	 * @return <code>true</code> if community has members
 	 */
-	boolean hasMembers(Community community);
+	boolean hasMembers(CommunityReference reference);
 
 }
