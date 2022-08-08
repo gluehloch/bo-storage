@@ -35,6 +35,7 @@ import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.User;
+import de.winkler.betoffice.validation.BetofficeServiceResult;
 
 /**
  * Community service.
@@ -69,8 +70,8 @@ public interface CommunityService {
 	 * @param managerNickname nickname of the community manager
 	 * @return the create community.
 	 */
-	Community create(CommunityReference communityRef, SeasonReference seasonRef, String communityName,
-			Nickname managerNickname);
+	BetofficeServiceResult<Community> create(CommunityReference communityRef, SeasonReference seasonRef,
+			String communityName, Nickname managerNickname);
 
 	/**
 	 * Delete community.
@@ -132,9 +133,9 @@ public interface CommunityService {
 	 * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn
 	 * dieser keiner Meisterschaft zugeordnet ist.
 	 * 
-	 * @param user Ein Teilnehmer.
+	 * @param nickname Ein Teilnehmer.
 	 */
-	void deleteUser(User user);
+	void deleteUser(Nickname nickname);
 
 	/**
 	 * Aktualisierung der Daten eines Teilnehmers.

@@ -46,8 +46,10 @@ import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.util.LoggerFactory;
+import de.winkler.betoffice.validation.BetofficeServiceResult;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 import de.winkler.betoffice.validation.BetofficeValidationMessage;
+import de.winkler.betoffice.validation.BetofficeValidationMessage.ErrorType;
 import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
 
 /**
@@ -84,10 +86,14 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
-    public Community create(CommunityReference communityRef, SeasonReference seasonRef, String communityName,
+    public BetofficeServiceResult<Community> create(CommunityReference communityRef, SeasonReference seasonRef, String communityName,
             Nickname managerNickname) {
 
-        Community existingCommunity = communityDao.find(communityRef).orElseThrow();
+        Optional<Community> definedCommunity = communityDao.find(communityRef);
+        if (definedCommunity.isPresent()) {
+        	return BetofficeServiceResult.failure(ErrorType.COMMUNITY_EXISTS);
+        }
+        
         Season persistedSeason = seasonDao.find(seasonRef).orElseThrow();
         User communityManager = userDao.findByNickname(managerNickname).orElseThrow();
 
@@ -99,14 +105,14 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         community.setSeason(persistedSeason);
         communityDao.save(community);
 
-        return community;
+        return BetofficeServiceResult.sucess(community);
     }
 
     @Override
     public void delete(CommunityReference reference) {
         Community community = communityDao.find(reference).orElseThrow();
 
-        if (communityDao.hasMembers(community)) {
+        if (communityDao.hasMembers(reference)) {
             LOG.warn("Unable to delete community '{}'. The Community has members.", community);
             throw new IllegalArgumentException("Unable to delete community. The Community has members.");
         }
@@ -142,7 +148,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     public User createUser(final User user) {
         List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
 
-        if (StringUtils.isBlank(user.getNickname())) {
+        if (StringUtils.isBlank(user.getNickname().value())) {
             messages.add(new BetofficeValidationMessage(
                     "Nickname ist nicht gesetzt.", "nickName", Severity.ERROR));
         }
@@ -159,10 +165,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     @Override
     @Transactional
     public void deleteUser(Nickname nickname) {
-    	Optional<User> optional = userDao.findByNickname(nickname);
-    	
-    	userDao.findByNickname(nickname).map(u -> userDao.delete(u));
-        userDao.delete(user);
+    	userDao.findByNickname(nickname).ifPresent(u -> userDao.delete(u));
     }
 
     @Override

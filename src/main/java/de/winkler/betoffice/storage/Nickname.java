@@ -57,6 +57,10 @@ public class Nickname implements Comparable<Nickname> {
     	return nickname;
     }
     
+    public String value() {
+    	return nickname;
+    }
+    
     public void setNickname(String value) {
     	nickname = value;
     }

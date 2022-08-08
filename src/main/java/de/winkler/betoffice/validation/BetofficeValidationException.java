@@ -1,8 +1,6 @@
 /*
- * $Id: BetofficeValidationException.java 3782 2013-07-27 08:44:32Z andrewinkler
- * $
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2009 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -25,33 +23,26 @@
 
 package de.winkler.betoffice.validation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Exception für das Werfen von Validierungsfehlern.
  *
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
- *          +0200 (Sat, 27 Jul 2013) $
+ * @author by Andre Winkler
  */
 public class BetofficeValidationException extends RuntimeException {
 
-    /** serial version id */
-    private static final long serialVersionUID = 4503632979162960612L;
+	private static final long serialVersionUID = 4503632979162960612L;
 
-    private final List<BetofficeValidationMessage> messages;
+	private final List<BetofficeValidationMessage> messages;
 
-    public BetofficeValidationException(
-            List<BetofficeValidationMessage> _messages) {
+	public BetofficeValidationException(List<BetofficeValidationMessage> validationMessages) {
+		this.messages = new ArrayList<>(validationMessages);
+	}
 
-        messages = _messages;
-    }
-
-    /**
-     * @return the messages
-     */
-    public List<BetofficeValidationMessage> getMessages() {
-        return messages;
-    }
+	public List<BetofficeValidationMessage> getMessages() {
+		return messages;
+	}
 
 }
