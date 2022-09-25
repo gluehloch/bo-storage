@@ -42,125 +42,125 @@ import org.apache.commons.lang3.StringUtils;
 @Table(name = "bo_grouptype")
 public class GroupType extends AbstractStorageObject implements Comparable<GroupType> {
 
-	/** serial version */
-	private static final long serialVersionUID = -8513852915020891940L;
+    /** serial version */
+    private static final long serialVersionUID = -8513852915020891940L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
 
-	@NotNull
-	@Column(name = "bo_name")
-	private String name;
+    @NotNull
+    @Column(name = "bo_name")
+    private String name;
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	public static GroupType of(String groupTypeName) {
-		GroupType groupType = new GroupType();
-		groupType.setName(groupTypeName);
-		return groupType;
-	}
-	
-	// -- id ------------------------------------------------------------------
+    public static GroupType of(String groupTypeName) {
+        GroupType groupType = new GroupType();
+        groupType.setName(groupTypeName);
+        return groupType;
+    }
 
-	/**
-	 * Liefert den Primärschlüssel.
-	 *
-	 * @return Der Primärschlüssel.
-	 */
-	public Long getId() {
-		return id;
-	}
+    // -- id ------------------------------------------------------------------
 
-	/**
-	 * Setzt den Primärschlüssel.
-	 *
-	 * @param value Der Primärschlüssel.
-	 */
-	protected void setId(final Long value) {
-		id = value;
-	}
+    /**
+     * Liefert den Primärschlüssel.
+     *
+     * @return Der Primärschlüssel.
+     */
+    public Long getId() {
+        return id;
+    }
 
-	// -- name ----------------------------------------------------------------
+    /**
+     * Setzt den Primärschlüssel.
+     *
+     * @param value Der Primärschlüssel.
+     */
+    protected void setId(final Long value) {
+        id = value;
+    }
 
-	/**
-	 * Liest den Namen der Gruppe.
-	 *
-	 * @return Name der Gruppe.
-	 */
-	public String getName() {
-		return name;
-	}
+    // -- name ----------------------------------------------------------------
 
-	/**
-	 * Setzt den Namen der Gruppe.
-	 *
-	 * @param value Name der Gruppe.
-	 */
-	public void setName(final String value) {
-		name = value;
-	}
+    /**
+     * Liest den Namen der Gruppe.
+     *
+     * @return Name der Gruppe.
+     */
+    public String getName() {
+        return name;
+    }
 
-	// -- StorageObject -------------------------------------------------------
+    /**
+     * Setzt den Namen der Gruppe.
+     *
+     * @param value Name der Gruppe.
+     */
+    public void setName(final String value) {
+        name = value;
+    }
 
-	/**
-	 * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt sind,
-	 * damit es evt. Weiterverarbeitungen erfahren kann. Folgende Eigenschaften
-	 * müssen gesetzt sein:
-	 * <ul>
-	 * <li>name</li>
-	 * </ul>
-	 *
-	 * @return true, Objekt in Ordnung; false, es ist was falsch.
-	 */
-	public boolean isValid() {
-		if (StringUtils.isBlank(name)) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+    // -- StorageObject -------------------------------------------------------
 
-	// -- Comparable ----------------------------------------------------------
+    /**
+     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt sind,
+     * damit es evt. Weiterverarbeitungen erfahren kann. Folgende Eigenschaften
+     * müssen gesetzt sein:
+     * <ul>
+     * <li>name</li>
+     * </ul>
+     *
+     * @return true, Objekt in Ordnung; false, es ist was falsch.
+     */
+    public boolean isValid() {
+        if (StringUtils.isBlank(name)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-	/**
-	 * Vergleicht den Gruppennamen.
-	 *
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	public int compareTo(final GroupType o) {
-		return (getName().compareTo(o.getName()));
-	}
+    // -- Comparable ----------------------------------------------------------
 
-	// -- Object --------------------------------------------------------------
+    /**
+     * Vergleicht den Gruppennamen.
+     *
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(final GroupType o) {
+        return (getName().compareTo(o.getName()));
+    }
 
-	@Override
-	public String toString() {
-		return getName();
-	}
+    // -- Object --------------------------------------------------------------
 
-	@Override
-	public boolean equals(final Object object) {
-		if (object == null) {
-			return false;
-		} else if (!(object instanceof GroupType)) {
-			return false;
-		} else {
-			GroupType groupType = (GroupType) object;
-			if (groupType.getName().equals(getName())) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-	}
+    @Override
+    public String toString() {
+        return getName();
+    }
 
-	@Override
-	public int hashCode() {
-		int result = 17;
-		result = 37 * result + getName().hashCode();
-		return result;
-	}
+    @Override
+    public boolean equals(final Object object) {
+        if (object == null) {
+            return false;
+        } else if (!(object instanceof GroupType)) {
+            return false;
+        } else {
+            GroupType groupType = (GroupType) object;
+            if (groupType.getName().equals(getName())) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 37 * result + getName().hashCode();
+        return result;
+    }
 
 }
