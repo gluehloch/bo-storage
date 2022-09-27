@@ -405,6 +405,11 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
         if (messages.size() == 0) {
             Group group = groupDao.findBySeasonAndGroupType(season, groupType);
+            
+            List<Team> teams = groupDao.findTeams(group);
+            if (teams.contains(team)) {
+            	throw new BetofficeValidationException(BetofficeValidationMessage.error("team is already member of group", "team"));
+            }
             // Group group = season.getGroup(groupType);
             // TODO Lazy load exception
             group.addTeam(team);
