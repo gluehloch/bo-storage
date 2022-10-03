@@ -24,6 +24,7 @@
 package de.winkler.betoffice.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -60,7 +61,9 @@ import de.winkler.betoffice.storage.enums.TeamType;
  *
  * @author by Andre Winkler
  */
-public class CreateNewSeasonTest extends AbstractServiceTest {
+class CreateNewSeasonTest extends AbstractServiceTest {
+
+    private static final ZonedDateTime NOW = ZonedDateTime.now();
 
     @Autowired
     protected DataSource dataSource;
@@ -77,23 +80,60 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
     private DatabaseSetUpAndTearDown dsuatd;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
         dsuatd.setUp(DataLoader.MASTER_DATA);
     }
 
     @AfterEach
-    public void tearDown() throws SQLException {
+    void tearDown() throws SQLException {
         dsuatd.tearDown();
     }
 
     @Test
-    public void testDeleteDatabase() throws Exception {
+    void testDeleteDatabase() throws Exception {
         DeleteDatabase.deleteDatabase(dataSource.getConnection());
     }
 
     @Test
-    public void testAddIncompatibleTeamToSeason() throws Exception {
+    void updateAndValidateRoundIndex() {
+        final SeasonManagerService sms = seasonManagerService;
+        final MasterDataManagerService mdms = masterDataManagerService;
+
+        GroupType groupA = mdms.findGroupType("Gruppe A").orElseThrow();
+
+        Season season = new Season();
+        season.setMode(SeasonType.LEAGUE);
+        season.setName("Bundesliga");
+        season.setYear("2000/2001");
+        season.setTeamType(TeamType.DFB);
+        sms.createSeason(season);
+        sms.addGroupType(season, groupA);
+
+        GameList round0 = seasonManagerService.addRound(season, 0, NOW, groupA);
+        GameList round1 = seasonManagerService.addRound(season, 1, NOW.plusDays(1), groupA);
+        GameList round2 = seasonManagerService.addRound(season, 2, NOW.plusDays(2), groupA);
+
+        assertThat(round0.getIndex()).isEqualTo(0);
+        assertThat(round1.getIndex()).isEqualTo(1);
+        assertThat(round2.getIndex()).isEqualTo(2);
+
+        assertThatThrownBy(() -> {
+            seasonManagerService.addRound(season, 0, NOW, groupA);
+        }).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> {
+            seasonManagerService.addRound(season, 1, NOW, groupA);
+        }).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> {
+            seasonManagerService.addRound(season, 2, NOW, groupA);
+        }).isInstanceOf(IllegalArgumentException.class);
+
+        round0 = sms.updateRound(season, 0, NOW.minusDays(1), groupA);
+        assertThat(round0.getDateTime()).isEqualTo(NOW.minusDays(1));
+    }
+
+    @Test
+    void testAddIncompatibleTeamToSeason() throws Exception {
         SeasonManagerService sms = seasonManagerService;
         MasterDataManagerService mdms = masterDataManagerService;
 
@@ -126,7 +166,7 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testCreateNewSeason() throws Exception {
+    void testCreateNewSeason() throws Exception {
         SeasonManagerService sms = seasonManagerService;
         MasterDataManagerService mdms = masterDataManagerService;
 
@@ -137,9 +177,9 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
         season.setTeamType(TeamType.DFB);
         sms.createSeason(season);
 
-        Season seasonClone = sms.findSeasonById(season.getId());
-        assertThat(seasonClone.getName()).isEqualTo(season.getName());
-        assertThat(seasonClone.getYear()).isEqualTo(season.getYear());
+        Season Entity = sms.findSeasonById(season.getId());
+        assertThat(Entity.getName()).isEqualTo(season.getName());
+        assertThat(Entity.getYear()).isEqualTo(season.getYear());
 
         Team stuttgart = mdms.findTeam("VfB Stuttgart").orElseThrow();
         Team hsv = mdms.findTeam("Hamburger SV").orElseThrow();
@@ -175,15 +215,16 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
         assertThat(groupTypes).hasSize(1);
 
         ZonedDateTime now = ZonedDateTime.now();
-        GameList round = sms.addRound(season, now, groupTypeA);
+        GameList round1 = sms.addRound(season, now, groupTypeA);
+        GameList round2 = sms.addRound(season, now.plusDays(1), groupTypeA);
         
-        Game stuttgartVsHamburg = sms.addMatch(round, now, groupA, stuttgart, hsv);
+        Game stuttgartVsHamburg = sms.addMatch(round1, now, groupA, stuttgart, hsv);
         assertThat(stuttgartVsHamburg.getIndex()).isEqualTo(0);
         
-        Game dortmundVsWolfsburg = sms.addMatch(round, now, groupA, dortmund, wolfsburg);
+        Game dortmundVsWolfsburg = sms.addMatch(round1, now, groupA, dortmund, wolfsburg);
         assertThat(dortmundVsWolfsburg.getIndex()).isEqualTo(1);
         
-        Game fcKoelnVsHansRostock = sms.addMatch(round,  now,  groupA,  fcKoeln,  hansaRostock);
+        Game fcKoelnVsHansRostock = sms.addMatch(round1,  now,  groupA,  fcKoeln,  hansaRostock);
         assertThat(fcKoelnVsHansRostock.getIndex()).isEqualTo(2);
         
         stuttgartVsHamburg.setResult(2, 2, true);
@@ -252,6 +293,16 @@ public class CreateNewSeasonTest extends AbstractServiceTest {
         List<GameList> rounds = sms.findRounds(season);
         GameList gameList = sms.findRoundGames(rounds.get(0).getId()).orElseThrow();
         assertThat(gameList.size()).isEqualTo(3);
+
+        Game dortmundVsHsv = seasonManagerService.addMatch(round2, now.plusDays(1), groupA, dortmund, hsv);
+        Game hansaRostockVsWolfsburg = seasonManagerService.addMatch(round2, now.plusDays(1), groupA, hansaRostock, wolfsburg);
+        assertThat(seasonManagerService.findRound(season, 1)).isPresent().hasValueSatisfying(round -> {
+            assertThat(round.getIndex()).isEqualTo(1);
+            assertThat(round.getGroup()).isEqualTo(groupA);
+        });
+        assertThat(dortmundVsHsv.getResult()).isEqualTo(GameResult.of(0, 0));
+        assertThat(hansaRostockVsWolfsburg.getResult()).isEqualTo(GameResult.of(0, 0));
+
     }
 
 }

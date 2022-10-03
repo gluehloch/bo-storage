@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import de.winkler.betoffice.util.BetofficeValidator;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -389,6 +390,61 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         Season persistedSeason = seasonDao.findById(season.getId());
         persistedSeason.addGameList(round);
         roundDao.save(round);
+        return round;
+    }
+
+    @Override
+    @Transactional
+    public GameList addRound(Season season, int index, ZonedDateTime data, GroupType groupType) {
+       BetofficeValidator.validateRoundIndex(index);
+
+       Season seasonEntity = seasonDao.findByName(season.getName(), season.getYear())
+               .orElseThrow(() -> new IllegalArgumentException(String.format("Season %s not found.", season)));
+
+        Optional<GameList> gameList = roundDao.findRound(seasonEntity, index);
+        if (gameList.isPresent()) {
+            throw new IllegalArgumentException(String.format("Round '%s, Index: %s' already exists.", season, index));
+        }
+
+        GroupType groupTypeEntity = groupTypeDao.findByName(groupType.getName())
+                .orElseThrow(() -> new IllegalArgumentException(String.format("GroupTyp %s not found.", groupType)));
+
+        Group group = groupDao.findBySeasonAndGroupType(seasonEntity, groupTypeEntity);
+        if (group == null) {
+            throw new IllegalArgumentException(String.format("Group '%s, GroupType: %s' not found.", seasonEntity, groupTypeEntity));
+        }
+
+        GameList round = new GameList();
+        round.setDateTime(data);
+        round.setIndex(index);
+        round.setGroup(group);
+        seasonEntity.addGameList(round);
+
+        return round;
+    }
+
+    @Override
+    @Transactional
+    public GameList updateRound(Season season, int index, ZonedDateTime date, GroupType groupType) {
+        BetofficeValidator.validateRoundIndex(index);
+
+        Season seasonEntity = seasonDao.findByName(season.getName(), season.getYear())
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Season %s not found.", season)));
+
+        GroupType groupTypeEntity = groupTypeDao.findByName(groupType.getName())
+                .orElseThrow(() -> new IllegalArgumentException(String.format("GroupTyp %s not found.", groupType)));
+
+        Group group = groupDao.findBySeasonAndGroupType(seasonEntity, groupTypeEntity);
+        if (group == null) {
+            throw new IllegalArgumentException(String.format("Group '%s, GroupType: %s' not found.", seasonEntity, groupTypeEntity));
+        }
+
+        GameList round = roundDao.findRound(season, index)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Round '%s, Index: %s' not found.")));
+
+        round.setGroup(group);
+        round.setDateTime(date);
+
         return round;
     }
 

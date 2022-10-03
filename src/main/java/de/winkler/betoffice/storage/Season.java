@@ -562,7 +562,10 @@ public class Season extends AbstractStorageObject {
 
         // ... und in Spieltagsliste aufnehmen.
         newRound.setSeason(this);
-        newRound.setIndex(gameList.size());
+        if (newRound.getIndex() == 0) {
+            newRound.setIndex(gameList.size());
+        }
+
         gameList.add(newRound);
     }
 

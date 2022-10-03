@@ -291,6 +291,9 @@ public class GameList extends AbstractStorageObject
      * @see #getIndex()
      */
     public void setIndex(final int value) {
+        if (value < 0) {
+            throw new IllegalArgumentException("value is smaller than zero.");
+        }
         index = value;
     }
 
