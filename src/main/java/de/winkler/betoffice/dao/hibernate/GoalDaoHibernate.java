@@ -40,8 +40,7 @@ import de.winkler.betoffice.storage.Goal;
  * @author by Andre Winkler
  */
 @Repository("goalDao")
-public class GoalDaoHibernate extends AbstractCommonDao<Goal>
-        implements GoalDao {
+public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements GoalDao {
 
     public GoalDaoHibernate() {
         super(Goal.class);
@@ -75,6 +74,12 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal>
                 .setParameter("matchId", match.getId(), StandardBasicTypes.LONG)
                 .getResultList();
         return goals;
+    }
+
+    @Override
+    public void deleteAll(Game game) {
+        getSessionFactory().getCurrentSession()
+                .createSQLQuery("delete from goal g where gaol.game = :game");
     }
 
 }
