@@ -6,10 +6,15 @@
 	</properties>
 	<body>
 		<!-- Under construction. -->
-		<release version="betoffice-storage-2.8.2" date="2022-??-??" description="API">
+		
+		<!-- RELEASED -->
+		<release version="betoffice-storage-2.8.2" date="2022-10-18" description="API">
 			<action dev="andrewinkler" type="update" date="2022-10-02">
 				Adding a new round: If index is provided (index != 0), then create round with
 				the provided index. New API method to update a round.
+			</action>
+			<action dev="andrewinkler" type="update" date="2022-10-18" description="remove gaols of a game">
+				New DAO method: Remove all goals from a game.
 			</action>
 		</release>
 
