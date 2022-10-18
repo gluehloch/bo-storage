@@ -467,16 +467,6 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
         goals.add(goal);
     }
 
-    public List<Goal> removeAllGoals() {
-        List<Goal> removedGoals = new ArrayList<>();
-        for (Goal goal : goals) {
-            goal.getPlayer().getGoals().remove(goal);
-            removedGoals.add(goal);
-        }
-        goals.clear();
-        return removedGoals;
-    }
-
     // -- openligaid ----------------------------------------------------------
 
     /**

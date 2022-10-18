@@ -2,7 +2,7 @@
  * $Id: GroupType.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2010 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -40,8 +40,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Entity
 @Table(name = "bo_grouptype")
-public class GroupType extends AbstractStorageObject implements
-        Comparable<GroupType> {
+public class GroupType extends AbstractStorageObject implements Comparable<GroupType> {
 
     /** serial version */
     private static final long serialVersionUID = -8513852915020891940L;
@@ -54,6 +53,14 @@ public class GroupType extends AbstractStorageObject implements
     @NotNull
     @Column(name = "bo_name")
     private String name;
+
+    // ------------------------------------------------------------------------
+
+    public static GroupType of(String groupTypeName) {
+        GroupType groupType = new GroupType();
+        groupType.setName(groupTypeName);
+        return groupType;
+    }
 
     // -- id ------------------------------------------------------------------
 
@@ -69,8 +76,7 @@ public class GroupType extends AbstractStorageObject implements
     /**
      * Setzt den Primärschlüssel.
      *
-     * @param value
-     *            Der Primärschlüssel.
+     * @param value Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
@@ -90,8 +96,7 @@ public class GroupType extends AbstractStorageObject implements
     /**
      * Setzt den Namen der Gruppe.
      *
-     * @param value
-     *            Name der Gruppe.
+     * @param value Name der Gruppe.
      */
     public void setName(final String value) {
         name = value;
@@ -100,9 +105,9 @@ public class GroupType extends AbstractStorageObject implements
     // -- StorageObject -------------------------------------------------------
 
     /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt
-     * sind, damit es evt. Weiterverarbeitungen erfahren kann. Folgende
-     * Eigenschaften müssen gesetzt sein:
+     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt sind,
+     * damit es evt. Weiterverarbeitungen erfahren kann. Folgende Eigenschaften
+     * müssen gesetzt sein:
      * <ul>
      * <li>name</li>
      * </ul>

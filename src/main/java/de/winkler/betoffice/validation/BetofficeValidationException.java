@@ -37,12 +37,20 @@ public class BetofficeValidationException extends RuntimeException {
 
 	private final List<BetofficeValidationMessage> messages;
 
-	public BetofficeValidationException(List<BetofficeValidationMessage> validationMessages) {
-		this.messages = new ArrayList<>(validationMessages);
-	}
+    public BetofficeValidationException(BetofficeValidationMessage message) {
+    	this.messages = new ArrayList<>();
+        messages.add(message);
+    }
 
-	public List<BetofficeValidationMessage> getMessages() {
-		return messages;
-	}
+    public BetofficeValidationException(List<BetofficeValidationMessage> messages) {
+        this.messages = messages;
+    }
+
+    /**
+     * @return the messages
+     */
+    public List<BetofficeValidationMessage> getMessages() {
+        return messages;
+    }
 
 }

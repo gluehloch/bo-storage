@@ -24,10 +24,6 @@
 
 package de.winkler.betoffice.validation;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * Eine Validierungsnachricht.
  *
@@ -35,81 +31,47 @@ import java.util.List;
  */
 public class BetofficeValidationMessage {
 
-	public static String NO_ERROR_MESSAGE = "";
-	public static String NO_PROPERTY_NAME = "";
+    public enum Severity {
+        ERROR, WARNING, INFO
+    };
+    
+    public enum ErrorType {
+        NO_ERROR, COMMUNITY_EXISTS
+    };    
 
-	public enum ErrorType {
-		NO_ERROR, COMMUNITY_EXISTS
-	}
+    private final String message;
+    private final String propertyName;
+    private final Severity severity;
+    
+    public static BetofficeValidationMessage error(String message, String propertyName) {
+        return new BetofficeValidationMessage(message, propertyName, Severity.ERROR);
+    }
 
-	public enum Severity {
-		ERROR, WARNING, INFO, OK
-	};
+    public BetofficeValidationMessage(final String _message, final String _propertyName, final Severity _severity) {
+        message = _message;
+        propertyName = _propertyName;
+        severity = _severity;
+    }
 
-	private final ErrorType errorType;
-	private final Severity severity;
-	private final String message;
-	private final List<String> propertyNames = new ArrayList<>();
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
 
-	/**
-	 * Erfolgreiche Validation Message.
-	 */
-	public BetofficeValidationMessage() {
-		this(ErrorType.NO_ERROR, Severity.OK, NO_PROPERTY_NAME, NO_ERROR_MESSAGE);
-	}
+    /**
+     * @return the propertyName
+     */
+    public String getPropertyName() {
+        return propertyName;
+    }
 
-	/**
-	 * Validation Message.
-	 *
-	 * @param severity Dringlichkeit.
-	 */
-	public BetofficeValidationMessage(Severity severity) {
-		this(ErrorType.NO_ERROR, severity, NO_PROPERTY_NAME, NO_ERROR_MESSAGE);
-	}
-
-	/**
-	 * Konstruktor.
-	 *
-	 * @param errorType Fehlertyp
-	 * @param severity  Die Dringlichkeit.
-	 */
-	public BetofficeValidationMessage(ErrorType errorType, Severity severity) {
-		this(errorType, severity, NO_PROPERTY_NAME, NO_ERROR_MESSAGE);
-	}
-
-	/**
-	 * Konstruktor.
-	 *
-	 * @param errorType    Fehlertyp
-	 * @param severity     Die Dringlichkeit.
-	 * @param propertyName Die Eigenschaft, die den Fehler verursacht.
-	 * @param message      Eine Fehlernachricht
-	 */
-	public BetofficeValidationMessage(ErrorType errorType, Severity severity, String propertyName, String message) {
-		this.errorType = errorType;
-		this.severity = severity;
-		this.message = message;
-		this.propertyNames.add(propertyName);
-	}
-
-	public boolean isSuccessful() {
-		return Severity.OK.equals(severity);
-	}
-
-	public ErrorType errorType() {
-		return errorType;
-	}
-
-	public Severity severity() {
-		return severity;
-	}
-
-	public String message() {
-		return message;
-	}
-
-	public List<String> propertyNames() {
-		return Collections.unmodifiableList(propertyNames);
-	}
+    /**
+     * @return the severity
+     */
+    public Severity getSeverity() {
+        return severity;
+    }
 
 }
