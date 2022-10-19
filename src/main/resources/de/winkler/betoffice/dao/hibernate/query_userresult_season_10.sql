@@ -36,8 +36,9 @@ FROM
   ) as gameresult ON (gameresult.id = m.id)
   JOIN bo_gametipp t ON (t.bo_game_ref = m.id)
   JOIN bo_season s ON (gl.bo_season_ref = s.id)
-  JOIN bo_user_season us ON (us.bo_season_ref = s.id)
-  JOIN bo_user u ON (t.bo_user_ref = u.id)
+  JOIN bo_community cm ON (cm.bo_season_ref = s.id)
+  JOIN bo_community_user cm_user ON (cm_user.bo_community_ref = cm.id)
+  JOIN bo_user u ON (cm_user.bo_user_ref = u.id)
 WHERE
       s.id = :season_id
   AND us.bo_user_ref = u.id

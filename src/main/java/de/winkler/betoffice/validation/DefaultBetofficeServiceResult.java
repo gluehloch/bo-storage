@@ -41,12 +41,12 @@ class DefaultBetofficeServiceResult<T> implements BetofficeServiceResult<T> {
 
 	private DefaultBetofficeServiceResult() {
 		this.result = null;
-		this.validationMessage = new BetofficeValidationMessage(Severity.ERROR);
+		this.validationMessage = BetofficeValidationMessage.error();
 	}
 	
 	private DefaultBetofficeServiceResult(T result) {
 		this.result = result;
-		this.validationMessage = new BetofficeValidationMessage(Severity.OK);
+		this.validationMessage = BetofficeValidationMessage.ok();
 	}
 	
 	@Override

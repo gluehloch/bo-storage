@@ -26,17 +26,14 @@ package de.winkler.betoffice.tippengine;
 
 import java.util.List;
 
+import de.winkler.betoffice.service.CommunityService;
+import de.winkler.betoffice.storage.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.winkler.betoffice.service.SeasonManagerService;
 import de.winkler.betoffice.service.TippService;
-import de.winkler.betoffice.storage.Game;
-import de.winkler.betoffice.storage.GameList;
-import de.winkler.betoffice.storage.GameResult;
-import de.winkler.betoffice.storage.Season;
-import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 
 /**
@@ -59,9 +56,15 @@ public class MediumTippGenerator {
     
     @Autowired
     private SeasonManagerService seasonManagerService;
-    
+
+    @Autowired
+    private CommunityService communityService;
+
     @Transactional
-    public void generateTipp(Season season, User user) {
+    public void generateTipp(CommunityReference community, User user) {
+        communityService.find
+
+
         for (GameList gameList : season.toGameList()) {
             generateTipp(gameList, user);
         }
@@ -69,6 +72,7 @@ public class MediumTippGenerator {
 
     @Transactional
     public void generateTipp(GameList round, User user) {
+        communityService.findMembers();
         List<User> users = seasonManagerService.findActivatedUsers(round.getSeason());
         
         List<Game> games = round.unmodifiableList();

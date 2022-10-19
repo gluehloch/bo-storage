@@ -32,7 +32,7 @@ package de.winkler.betoffice.validation;
 public class BetofficeValidationMessage {
 
     public enum Severity {
-        ERROR, WARNING, INFO
+        OK, ERROR, WARNING, INFO
     };
     
     public enum ErrorType {
@@ -45,6 +45,14 @@ public class BetofficeValidationMessage {
     
     public static BetofficeValidationMessage error(String message, String propertyName) {
         return new BetofficeValidationMessage(message, propertyName, Severity.ERROR);
+    }
+
+    public static BetofficeValidationMessage error() {
+        return new BetofficeValidationMessage("", "", Severity.ERROR);
+    }
+
+    public static BetofficeValidationMessage ok() {
+        return new BetofficeValidationMessage("", "", Severity.OK);
     }
 
     public BetofficeValidationMessage(final String _message, final String _propertyName, final Severity _severity) {

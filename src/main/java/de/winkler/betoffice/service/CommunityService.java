@@ -53,6 +53,13 @@ public interface CommunityService {
 	List<Community> find(String communityName);
 
 	/**
+	 * All users of a community
+	 * @param communityReference reference of a community
+	 * @return the users of a community.
+	 */
+	List<User> findMembers(CommunityReference communityReference);
+
+	/**
 	 * Find all communities.
 	 *
 	 * @param communityFilter a community filter
@@ -83,7 +90,7 @@ public interface CommunityService {
 	/**
 	 * Add a new community member.
 	 * 
-	 * @param communityName the community name
+	 * @param communityRef  the community name
 	 * @param nickname      the new community member
 	 * @return the updated community.
 	 */
@@ -92,7 +99,7 @@ public interface CommunityService {
 	/**
 	 * Remove a community member.
 	 * 
-	 * @param communityName the community name
+	 * @param communityRef  the community name
 	 * @param nickname      the community member to remove
 	 * @return the updated community.
 	 */

@@ -86,6 +86,11 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
+    public List<User> findMembers(CommunityReference communityReference) {
+        return communityDao.findMembers(communityReference);
+    }
+
+    @Override
     public BetofficeServiceResult<Community> create(CommunityReference communityRef, SeasonReference seasonRef, String communityName,
             Nickname managerNickname) {
 
