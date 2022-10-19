@@ -99,12 +99,16 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
     }
 
 	@Override
-	public boolean hasMembers(CommunityReference reference) {
-		List<User> members = getSessionFactory().getCurrentSession()
-				.createQuery("from Community c left join fetch c.users where c.id = :id", User.class)
-				.setParameter("id", community.getId())
+	public boolean hasMembers(CommunityReference community) {
+		return !findMembers(community).isEmpty();
+	}
+
+	@Override
+	public List<User> findMembers(CommunityReference community) {
+		return getSessionFactory().getCurrentSession()
+				.createQuery("from Community c left join fetch c.users where c.reference.shortName = :communityShortName", User.class)
+				.setParameter("communityShortName", community.getShortName())
 				.getResultList();
-		return !members.isEmpty();
 	}
 
 }

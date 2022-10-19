@@ -26,6 +26,7 @@ package de.winkler.betoffice.dao;
 import java.util.List;
 import java.util.Optional;
 
+import de.winkler.betoffice.storage.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -72,5 +73,13 @@ public interface CommunityDao extends CommonDao<Community> {
 	 * @return <code>true</code> if community has members
 	 */
 	boolean hasMembers(CommunityReference reference);
+
+	/**
+	 * All members of a community.
+	 *
+	 * @param reference reference for a community.
+	 * @return list of users of the community.
+	 */
+	List<User> findMembers(CommunityReference reference);
 
 }

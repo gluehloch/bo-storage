@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import de.winkler.betoffice.dao.CommunityRankingDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +57,7 @@ public class DefaultCommunityCalculatorService implements CommunityCalculatorSer
     private CommunityDao communityDao;
     
     @Autowired
-    private UserSeasonDao userSeasonDao;
+    private CommunityRankingDao communityRankingDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -65,7 +66,7 @@ public class DefaultCommunityCalculatorService implements CommunityCalculatorSer
         Set<User> users = community.getUsers();
         
         // List<User> users = userSeasonDao.findUsers(round.getSeason());
-        return userDao.calculateUserRanking(users, round);
+        return communityRankingDao.calculateUserRanking(users, round);
     }
 
     @Override
@@ -74,14 +75,14 @@ public class DefaultCommunityCalculatorService implements CommunityCalculatorSer
         
         
         List<User> users = userSeasonDao.findUsers(season);
-        return userDao.calculateUserRanking(users, season);
+        return communityRankingDao.calculateUserRanking(users, season);
     }
     
     @Override
     @Transactional(readOnly = true)
     public List<UserResult> calculateUserRanking(CommunityReference community, SeasonRange seasonRange) {
         List<User> users = userSeasonDao.findUsers(season);
-        return userDao.calculateUserRanking(users, season, seasonRange);
+        return communityRankingDao.calculateUserRanking(users, season, seasonRange);
     }
 
 }
