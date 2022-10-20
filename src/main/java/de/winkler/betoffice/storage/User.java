@@ -25,9 +25,7 @@
 package de.winkler.betoffice.storage;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -35,8 +33,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
@@ -99,11 +95,6 @@ public class User extends AbstractStorageObject {
 	/** Der eventuelle Meistertitel etc. */
 	@Column(name = "bo_title")
 	private String title;
-
-	/** Die Teilnehmer, die dieser Saison zugeordnet sind. */
-	@OneToMany
-	@JoinColumn(name = "bo_user_ref")
-	private Set<UserSeason> userSeason = new HashSet<>();
 
 	// -- Construction --------------------------------------------------------
 
@@ -371,26 +362,6 @@ public class User extends AbstractStorageObject {
 	 */
 	public void setAdmin(boolean _admin) {
 		admin = _admin;
-	}
-
-	// -- userSeason ----------------------------------------------------------
-
-	/**
-	 * Liefert die Beziehung Teilnehmer/Saison.
-	 *
-	 * @return Ein Menge von <code>UserSeason</code>.
-	 */
-	public Set<UserSeason> getUserSeason() {
-		return userSeason;
-	}
-
-	/**
-	 * Setzt die Beziehung Teilnehmer/Saison.
-	 *
-	 * @param value Ein Menge von <code>UserSeason</code>.
-	 */
-	protected void setUserSeason(Set<UserSeason> value) {
-		userSeason = value;
 	}
 
 	// ------------------------------------------------------------------------

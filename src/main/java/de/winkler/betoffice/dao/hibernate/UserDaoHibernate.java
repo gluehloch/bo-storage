@@ -24,15 +24,9 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -40,13 +34,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.UserDao;
-import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Nickname;
-import de.winkler.betoffice.storage.Season;
-import de.winkler.betoffice.storage.SeasonRange;
 import de.winkler.betoffice.storage.User;
-import de.winkler.betoffice.storage.UserResult;
-import de.winkler.betoffice.storage.comparator.UserPointsComparator;
 
 /**
  * Klasse für den Zugriff auf <code>User</code> Objekte mit Hibernate.

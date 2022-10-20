@@ -24,19 +24,13 @@
 
 package de.winkler.betoffice.dao;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Nickname;
-import de.winkler.betoffice.storage.Season;
-import de.winkler.betoffice.storage.SeasonRange;
 import de.winkler.betoffice.storage.User;
-import de.winkler.betoffice.storage.UserResult;
 
 /**
  * DAO Klasse für den Zugriff auf {@link de.winkler.betoffice.storage.User}.

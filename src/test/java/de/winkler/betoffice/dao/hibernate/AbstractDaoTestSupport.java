@@ -23,13 +23,9 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.jdbc.Work;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;

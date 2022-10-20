@@ -72,6 +72,7 @@ public class MediumTippGenerator {
 
     @Transactional
     public void generateTipp(GameList round, User user) {
+        /*
         communityService.findMembers();
         List<User> users = seasonManagerService.findActivatedUsers(round.getSeason());
         
@@ -82,6 +83,7 @@ public class MediumTippGenerator {
                 tippService.createOrUpdateTipp(BOT_MEDIUM_TIPP, game, user, gr, TippStatusType.AUTO);
             }
         }
+        */
     }
 
 }

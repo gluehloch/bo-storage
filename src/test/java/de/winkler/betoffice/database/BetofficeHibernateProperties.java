@@ -40,7 +40,6 @@ import de.winkler.betoffice.storage.Session;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamAlias;
 import de.winkler.betoffice.storage.User;
-import de.winkler.betoffice.storage.UserSeason;
 
 /**
  * Definiert die Konstanten für die <code>hibernate.properties</code> Datei.
@@ -75,7 +74,6 @@ public class BetofficeHibernateProperties extends HibernateProperties {
         classes.add(Team.class);
         classes.add(TeamAlias.class);
         classes.add(User.class);
-        classes.add(UserSeason.class);
         classes.add(Session.class);
         return super.createConfiguration(classes);
     }

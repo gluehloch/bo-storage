@@ -37,6 +37,7 @@ import de.winkler.betoffice.dao.GroupTypeDao;
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 
 /**
  * Test case for class {@link GroupTypeDaoHibernate}.
@@ -67,7 +68,7 @@ public class GroupTypeDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testGroupTypeDaoHibernateFindBySeason() {
-        Optional<Season> season = seasonDao.findByName("4711", "1000");
+        Optional<Season> season = seasonDao.find(SeasonReference.of("1000", "4711"));
         List<GroupType> findBySeason = groupTypeDao.findBySeason(season.get());
         assertEquals("1. Liga", findBySeason.get(0).getName());
         assertEquals("2. Liga", findBySeason.get(1).getName());

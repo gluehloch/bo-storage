@@ -89,11 +89,6 @@ public class Season extends AbstractStorageObject {
     @JoinColumn(name = "bo_season_ref")
     private Set<Group> groups = new HashSet<>();
 
-    /** Die Teilnehmer, die dieser Saison zugeordnet sind. */
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "bo_season_ref")
-    private Set<UserSeason> userSeason = new HashSet<>();
-
     /** Eine Liste der Spieltage/GameList. */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bo_season_ref")
@@ -317,95 +312,6 @@ public class Season extends AbstractStorageObject {
             result.add(group.getGroupType());
         }
         return result;
-    }
-
-    // -- userSeason ----------------------------------------------------------
-
-    /**
-     * Liefert die Beziehung Teilnehmer/Saison.
-     * 
-     * @return                           Ein Menge von <code>UserSeason</code>.
-     * 
-     * @hibernate.set                    cascade="all" inverse="true"
-     * @hibernate.collection-one-to-many class="de.winkler.betoffice.storage.UserSeason"
-     * @hibernate.collection-key         column="bo_season_ref"
-     */
-    public Set<UserSeason> getUserSeason() {
-        return userSeason;
-    }
-
-    /**
-     * Setzt die Beziehung Teilnehmer/Saison.
-     * 
-     * @param value Ein Menge von <code>UserSeason</code>.
-     */
-    protected void setUserSeason(final Set<UserSeason> value) {
-        userSeason = value;
-    }
-
-    /**
-     * Einen Teilnehmer der Saison hinzufügen.
-     * 
-     * @param user Der neue Teilnehmer.
-     */
-    public void addUser(final UserSeason user) {
-        Validate.notNull(user.getUser());
-
-        if (user.getSeason() != null) {
-            user.getSeason().removeUser(user);
-        }
-        user.setSeason(this);
-        userSeason.add(user);
-    }
-
-    /**
-     * Entfernt einen Teilnehmer aus der Saison.
-     * 
-     * @param user Der zu entfernende Teilnehmer. Ist der Teilnehmer nicht dieser Saison zugeordnet, wird eine
-     *                 <code>RuntimeException</code> geworfen.
-     */
-    public void removeUser(final UserSeason user) {
-        Validate.notNull(user.getUser());
-        Validate.isTrue(user.getSeason().equals(this));
-
-        userSeason.remove(user);
-    }
-
-    /**
-     * Deaktiviert einen Teilnehmer.
-     * 
-     * @param      user Der zu deaktivierende Teilnehmer.
-     * @return          Das entfernte {@link UserSeason} Objekt. Kann <code>null</code> sein, wenn kein entsprechendes
-     *                  {@link UserSeason} Objekt gefunden.
-     * @deprecated      Better use a service method.
-     */
-    public UserSeason removeUser(final User user) {
-        for (Iterator<UserSeason> i = getUserSeason().iterator(); i
-                .hasNext();) {
-            UserSeason tmp = i.next();
-            if (tmp.getUser().equals(user)) {
-                // Darf hier nicht geschehen: Sonst geht das DAO Delete nicht!
-                // tmp.setSeason(null);
-                // tmp.setUser(null);
-                i.remove();
-                return tmp;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Liefert alle Teilnehmer, die dieser Saison zugeordnet sind.
-     * 
-     * @return     Alle Teilnehmer dieser Saison.
-     * @deprecated Better use a service method.
-     */
-    public List<User> getUsers() {
-        List<User> users = new ArrayList<User>();
-        for (UserSeason tmp : getUserSeason()) {
-            users.add(tmp.getUser());
-        }
-        return users;
     }
 
     // -- gameDayList ---------------------------------------------------------

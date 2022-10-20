@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2021 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -26,7 +26,6 @@ package de.winkler.betoffice.dao.hibernate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -34,8 +33,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import de.winkler.betoffice.dao.UserDao;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.User;
 
 /**
@@ -43,7 +44,7 @@ import de.winkler.betoffice.storage.User;
  *
  * @author by Andre Winkler
  */
-public class UserDaoHibernateTest extends AbstractDaoTestSupport {
+class UserDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Autowired
     private UserDao userDaoHibernate;
@@ -55,19 +56,19 @@ public class UserDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void userDaoHibernateFindAll() {
-        List<User> users = userDaoHibernate.findAll();
+        Page<User> users = userDaoHibernate.findAll("", Pageable.unpaged());
         assertThat(users).hasSize(3);
-        assertThat(users.get(0).getNickname()).isEqualTo("Frosch");
-        assertThat(users.get(1).getNickname()).isEqualTo("Hattwig");
-        assertThat(users.get(2).getNickname()).isEqualTo("Peter");
+        assertThat(users.getContent().get(0).getNickname()).isEqualTo("Frosch");
+        assertThat(users.getContent().get(1).getNickname()).isEqualTo("Hattwig");
+        assertThat(users.getContent().get(2).getNickname()).isEqualTo("Peter");
     }
 
     @Test
     void userDaoHibernateFindByNickname() {
-        Optional<User> user = userDaoHibernate.findByNickname("Frosch");
+        Optional<User> user = userDaoHibernate.findByNickname(Nickname.of("Frosch"));
         assertThat(user.get().getSurname()).isEqualTo("Adam");
 
-        user = userDaoHibernate.findByNickname("fehler");
+        user = userDaoHibernate.findByNickname(Nickname.of("fehler"));
         assertThat(user).isNotPresent();
     }
     
@@ -77,7 +78,7 @@ public class UserDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(users.getContent()).hasSize(1);
         assertThat(users.getPageable().getOffset()).isZero();
         assertThat(users.getPageable().getPageSize()).isEqualTo(5);
-        assertThat(users.getContent().get(0).getNickname()).isEqualTo("Frosch");
+        assertThat(users.getContent().get(0).getNickname()).isEqualTo(Nickname.of("Frosch"));
     }
 
 }
