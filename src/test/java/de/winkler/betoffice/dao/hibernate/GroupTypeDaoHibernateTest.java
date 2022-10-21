@@ -44,7 +44,7 @@ import de.winkler.betoffice.storage.SeasonReference;
  *
  * @author Andre Winkler
  */
-public class GroupTypeDaoHibernateTest extends AbstractDaoTestSupport {
+class GroupTypeDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Autowired
     private GroupTypeDao groupTypeDao;
@@ -58,7 +58,7 @@ public class GroupTypeDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testGroupTypeDaoHibernateFindAll() {
+    void testGroupTypeDaoHibernateFindAll() {
         List<GroupType> groupTypes = groupTypeDao.findAll();
         assertEquals(3, groupTypes.size());
         assertEquals("1. Liga", groupTypes.get(0).getName());
@@ -67,14 +67,14 @@ public class GroupTypeDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testGroupTypeDaoHibernateFindBySeason() {
+    void testGroupTypeDaoHibernateFindBySeason() {
         Optional<Season> season = seasonDao.find(SeasonReference.of("1000", "4711"));
         List<GroupType> findBySeason = groupTypeDao.findBySeason(season.get());
         assertEquals("1. Liga", findBySeason.get(0).getName());
         assertEquals("2. Liga", findBySeason.get(1).getName());
         assertEquals(2, findBySeason.size());
 
-        season = seasonDao.findByName("4712", "1001");
+        season = seasonDao.find(SeasonReference.of("1001", "4712"));
         findBySeason = groupTypeDao.findBySeason(season.get());
         assertEquals("3. Liga", findBySeason.get(0).getName());
         assertEquals(1, findBySeason.size());

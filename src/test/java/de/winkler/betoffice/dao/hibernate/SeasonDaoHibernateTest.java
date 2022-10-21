@@ -27,7 +27,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.enums.TeamType;
 
 /**
@@ -42,7 +42,7 @@ import de.winkler.betoffice.storage.enums.TeamType;
  *
  * @author by Andre Winkler
  */
-public class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
+class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Autowired
     private SeasonDao seasonDaoHibernate;
@@ -53,69 +53,61 @@ public class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testSeasonFindAll() {
+    void testSeasonFindAll() {
         List<Season> seasons = seasonDaoHibernate.findAll();
         assertEquals(4, seasons.size());
-        assertEquals("1. Bundesliga", seasons.get(0).getName());
-        assertEquals("1999/2000", seasons.get(0).getYear());
-        assertEquals("1. Bundesliga", seasons.get(1).getName());
-        assertEquals("2000/2001", seasons.get(1).getYear());
-        assertEquals("1. Bundesliga", seasons.get(2).getName());
-        assertEquals("2001/2002", seasons.get(2).getYear());
-        assertEquals("1. Bundesliga", seasons.get(3).getName());
-        assertEquals("2002/2003", seasons.get(3).getYear());
+        assertEquals("1. Bundesliga", seasons.get(0).getReference().getName());
+        assertEquals("1999/2000", seasons.get(0).getReference().getYear());
+        assertEquals("1. Bundesliga", seasons.get(1).getReference().getName());
+        assertEquals("2000/2001", seasons.get(1).getReference().getYear());
+        assertEquals("1. Bundesliga", seasons.get(2).getReference().getName());
+        assertEquals("2001/2002", seasons.get(2).getReference().getYear());
+        assertEquals("1. Bundesliga", seasons.get(3).getReference().getName());
+        assertEquals("2002/2003", seasons.get(3).getReference().getYear());
     }
 
     @Test
-    public void testSeasonFindByName() {
-        Optional<Season> season = null;
+    void testSeasonFindByName() {
+        assertThat(seasonDaoHibernate.find(SeasonReference.of("2000/2001", "1. Bundesliga")))
+            .hasValueSatisfying(season -> {
+                assertThat(season.getReference().getName()).isEqualTo("1. Bundesliga");
+                assertThat(season.getReference().getYear()).isEqualTo("2000/2001");
+            });
 
-        season = seasonDaoHibernate.findByName("1. Bundesliga", "2000/2001");
-        assertEquals("1. Bundesliga", season.get().getName());
-        assertEquals("2000/2001", season.get().getYear());
-
-        season = seasonDaoHibernate.findByName("1. Bundesliga", "2001/2002");
-        assertEquals("1. Bundesliga", season.get().getName());
-        assertEquals("2001/2002", season.get().getYear());
+        assertThat(seasonDaoHibernate.find(SeasonReference.of("2001/2002", "1. Bundesliga")))
+            .hasValueSatisfying(season -> {
+                assertEquals("1. Bundesliga", season.getReference().getName());
+                assertEquals("2001/2002", season.getReference().getYear());
+            });
     }
 
     @Test
-    public void testSeasonFindByNameGroupTeamUser() {
-        Season season = seasonDaoHibernate.findByName("1. Bundesliga", "2000/2001").orElseThrow();
-        assertEquals("1. Bundesliga", season.getName());
-        assertEquals("2000/2001", season.getYear());
+    void testSeasonFindByNameGroupTeam() {
+        Season season = seasonDaoHibernate.find(SeasonReference.of("2000/2001", "1. Bundesliga")).orElseThrow();
+        assertEquals("1. Bundesliga", season.getReference().getName());
+        assertEquals("2000/2001", season.getReference().getYear());
         assertEquals(0, season.getGroups().size());
-        assertEquals(0, season.getUsers().size());
     }
 
     @Test
-    public void testSeasonFindRoundGroupTeamUserTipp() {
-        Season season = seasonDaoHibernate.findByName("1. Bundesliga", "2000/2001").orElseThrow();
-        assertEquals("1. Bundesliga", season.getName());
-        assertEquals("2000/2001", season.getYear());
-        assertEquals(0, season.getGroups().size());
-        assertEquals(0, season.getUsers().size());
-    }
+    void testSeasonDaoHibernate() {
+        Season season = seasonDaoHibernate.find(SeasonReference.of("1999/2000", "1. Bundesliga")).orElseThrow();
+        Season season2 = seasonDaoHibernate.findById(season.getId());
 
-    @Test
-    public void testSeasonDaoHibernate() {
-        Optional<Season> season = seasonDaoHibernate.findByName("1. Bundesliga", "1999/2000");
-        Season season2 = seasonDaoHibernate.findById(season.get().getId());
-
-        assertEquals("1999/2000", season.get().getYear());
-        assertEquals("1. Bundesliga", season.get().getName());
-        assertEquals(TeamType.DFB, season.get().getTeamType());
-        assertEquals("1999/2000", season2.getYear());
-        assertEquals("1. Bundesliga", season2.getName());
+        assertEquals("1999/2000", season.getReference().getYear());
+        assertEquals("1. Bundesliga", season.getReference().getName());
+        assertEquals(TeamType.DFB, season.getTeamType());
+        assertEquals("1999/2000", season2.getReference().getYear());
+        assertEquals("1. Bundesliga", season2.getReference().getName());
         assertEquals(TeamType.DFB, season2.getTeamType());
 
         List<Season> seasons = seasonDaoHibernate.findAll();
         assertEquals(4, seasons.size());
 
-        assertThat(seasons.get(0).getYear()).isEqualTo("1999/2000");
-        assertThat(seasons.get(1).getYear()).isEqualTo("2000/2001");
-        assertThat(seasons.get(2).getYear()).isEqualTo("2001/2002");
-        assertThat(seasons.get(3).getYear()).isEqualTo("2002/2003");
+        assertThat(seasons.get(0).getReference().getYear()).isEqualTo("1999/2000");
+        assertThat(seasons.get(1).getReference().getYear()).isEqualTo("2000/2001");
+        assertThat(seasons.get(2).getReference().getYear()).isEqualTo("2001/2002");
+        assertThat(seasons.get(3).getReference().getYear()).isEqualTo("2002/2003");
     }
 
 }

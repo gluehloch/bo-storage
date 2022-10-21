@@ -24,6 +24,7 @@
 
 package de.winkler.betoffice.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -38,6 +39,13 @@ import de.winkler.betoffice.storage.User;
  * @author by Andre Winkler
  */
 public interface UserDao extends CommonDao<User> {
+
+    /**
+     * Find all users. But you should better use {@link #findAll(String, Pageable)}.
+     *
+     * @return all uses
+     */
+    List<User> findAll();
 
     /**
      * Find all users.

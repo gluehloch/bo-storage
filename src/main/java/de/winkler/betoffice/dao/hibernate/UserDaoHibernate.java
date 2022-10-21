@@ -40,9 +40,6 @@ import de.winkler.betoffice.storage.User;
 /**
  * Klasse für den Zugriff auf <code>User</code> Objekte mit Hibernate.
  * 
- * TODO: Die SQL Abfragen zur Bestimmung der Tipper-Punkte erfolgen mit zwei SQL Abfragen. Eventuell könnte man diese zu
- * einer zusammen fassen.
- * 
  * @author Andre Winkler
  */
 @Repository("userDao")
@@ -52,8 +49,6 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
     private static final String QUERY_USER_BY_NICKNAME = "from "
             + User.class.getName() + " as user " + "where "
             + "user.nickname = :nickname";
-
-
 
     // ------------------------------------------------------------------------
 
@@ -65,6 +60,10 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
         return getSessionFactory().getCurrentSession()
                 .createQuery("select count(*) from Community c", Long.class)
                 .getSingleResult();
+    }
+
+    public List<User> findAll() {
+        return getSessionFactory().getCurrentSession().createQuery("from User u", User.class).getResultList();
     }
 
     public Page<User> findAll(String nicknameFilter, Pageable pageable) {
