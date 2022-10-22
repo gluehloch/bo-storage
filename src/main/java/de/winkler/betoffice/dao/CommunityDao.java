@@ -33,6 +33,7 @@ import org.springframework.data.domain.Pageable;
 import de.winkler.betoffice.storage.Community;
 import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.CommunityReference;
+import de.winkler.betoffice.storage.SeasonReference;
 
 /**
  * Community DAO.
@@ -82,4 +83,12 @@ public interface CommunityDao extends CommonDao<Community> {
 	 */
 	List<User> findMembers(CommunityReference reference);
 
+	/**
+	 * Find all communities of a season.
+	 * 
+	 * @param seasonReference reference for a season.
+	 * @return list of communities
+	 */
+	List<Community> find(SeasonReference seasonReference);
+	
 }

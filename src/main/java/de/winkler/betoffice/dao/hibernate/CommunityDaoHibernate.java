@@ -40,6 +40,7 @@ import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.storage.Community;
 import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.CommunityReference;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.User;
 
 @Repository("communityDao")
@@ -110,5 +111,16 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
 				.setParameter("communityShortName", community.getShortName())
 				.getResultList();
 	}
+
+    @Override
+    public List<Community> find(SeasonReference seasonReference) {
+        return getSessionFactory().getCurrentSession()
+                .createQuery("from Community c "
+                        + "where c.season.reference.name = :name "
+                        + "      and c.season.reference.year = :year", Community.class)
+                .setParameter("name", seasonReference.getName())
+                .setParameter("year", seasonReference.getYear())
+                .getResultList();
+    }
 
 }

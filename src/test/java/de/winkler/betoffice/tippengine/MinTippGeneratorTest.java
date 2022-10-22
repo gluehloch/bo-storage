@@ -24,42 +24,7 @@
 
 package de.winkler.betoffice.tippengine;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.sql.SQLException;
-import java.util.Date;
-
-import javax.sql.DataSource;
-
-import org.joda.time.DateTime;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.service.AbstractServiceTest;
-import de.winkler.betoffice.service.DatabaseSetUpAndTearDown;
-import de.winkler.betoffice.service.MasterDataManagerService;
-import de.winkler.betoffice.service.SeasonManagerService;
-import de.winkler.betoffice.service.TippService;
-import de.winkler.betoffice.storage.Game;
-import de.winkler.betoffice.storage.GameList;
-import de.winkler.betoffice.storage.GameResult;
-import de.winkler.betoffice.storage.Group;
-import de.winkler.betoffice.storage.GroupType;
-import de.winkler.betoffice.storage.Nickname;
-import de.winkler.betoffice.storage.Season;
-import de.winkler.betoffice.storage.Team;
-import de.winkler.betoffice.storage.User;
-import de.winkler.betoffice.storage.UserResult;
-import de.winkler.betoffice.storage.enums.SeasonType;
-import de.winkler.betoffice.storage.enums.TippStatusType;
-import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
-import de.winkler.betoffice.test.DateTimeDummyProducer;
-import de.winkler.betoffice.test.DummyTeams;
-import de.winkler.betoffice.test.DummyUsers;
 
 /**
  * Testet die Klasse MinTippGenerator.
@@ -67,6 +32,7 @@ import de.winkler.betoffice.test.DummyUsers;
  * @author Andre Winkler
  */
 class MinTippGeneratorTest extends AbstractServiceTest {
+    /*
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
 
@@ -272,5 +238,6 @@ class MinTippGeneratorTest extends AbstractServiceTest {
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users[DummyUsers.PETER], gr21, TippStatusType.USER);
     }
+    */
 
 }

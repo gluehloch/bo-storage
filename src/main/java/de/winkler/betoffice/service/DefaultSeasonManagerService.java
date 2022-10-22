@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.dao.GameTippDao;
 import de.winkler.betoffice.dao.GoalDao;
 import de.winkler.betoffice.dao.GroupDao;
@@ -43,8 +44,6 @@ import de.winkler.betoffice.dao.PlayerDao;
 import de.winkler.betoffice.dao.RoundDao;
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.dao.TeamDao;
-import de.winkler.betoffice.dao.UserDao;
-import de.winkler.betoffice.dao.UserSeasonDao;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -58,9 +57,6 @@ import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamResult;
 import de.winkler.betoffice.storage.User;
-import de.winkler.betoffice.storage.UserResult;
-import de.winkler.betoffice.storage.UserSeason;
-import de.winkler.betoffice.storage.enums.RoleType;
 import de.winkler.betoffice.util.BetofficeValidator;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 import de.winkler.betoffice.validation.BetofficeValidationMessage;
@@ -73,12 +69,6 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
  */
 @Service("seasonManagerService")
 public class DefaultSeasonManagerService extends AbstractManagerService implements SeasonManagerService {
-
-    @Autowired
-    private UserSeasonDao userSeasonDao;
-
-    @Autowired
-    private UserDao userDao;
 
     @Autowired
     private SeasonDao seasonDao;
@@ -106,6 +96,9 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Autowired
     private GoalDao goalDao;
+    
+    @Autowired
+    private CommunityDao communityDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -122,12 +115,6 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
         return seasonDao.calculateTeamRanking(season,
                 groupType, startIndex, endIndex);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<User> findActivatedUsers(Season season) {
-        return userSeasonDao.findUsers(season);
     }
 
     @Override
@@ -481,25 +468,26 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     public void deleteSeason(Season season) {
         List<BetofficeValidationMessage> messages = new ArrayList<>();
 
-        if (findActivatedUsers(season).size() > 0) {
+
+        if (!communityDao.find(season.getReference()).isEmpty()) {
             messages.add(new BetofficeValidationMessage(
-                    "Der Meisterschaft sind Teilnehmer zugeordnet.", null,
+                    "Der Meisterschaft sind Communities zugeordnet.", null,
                     Severity.ERROR));
         }
-
-        if (findRounds(season).size() > 0) {
+        
+        if (!findRounds(season).isEmpty()) {
             messages.add(new BetofficeValidationMessage(
                     "Der Meisterschaft sind Spieltage zugeordnet.", null,
                     Severity.ERROR));
         }
 
-        if (findGroups(season).size() > 0) {
+        if (!findGroups(season).isEmpty()) {
             messages.add(new BetofficeValidationMessage(
                     "Der Meisterschaft sind Gruppen zugordnet.", null,
                     Severity.ERROR));
         }
 
-        if (messages.size() == 0) {
+        if (messages.isEmpty()) {
             seasonDao.delete(season);
         } else {
             throw new BetofficeValidationException(messages);

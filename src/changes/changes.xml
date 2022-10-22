@@ -10,6 +10,9 @@
 			<action dev="andrewinkler" type="add" date="2022-06-18">
 				Prepare storage to store communities and all relations.
 			</action>
+			<action dev="andrewinkler" type="remove" date="2022-10-22" description="Removed the MinTippGenerator">
+			     Removed the MinTippGenerator.
+			</action>
 			<action dev="andrewinkler" type="add" date="2020-11-13">
 				Added Spring-JPA-Data (for paging. In the future i have to migrate to JPA.)
 				Added Community-User-Service.
