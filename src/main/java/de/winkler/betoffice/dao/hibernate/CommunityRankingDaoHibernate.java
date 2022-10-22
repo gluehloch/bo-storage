@@ -1,3 +1,27 @@
+/*
+ * ============================================================================
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * rights reserved.
+ * ============================================================================
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
+ *
+ */
+
 package de.winkler.betoffice.dao.hibernate;
 
 import de.winkler.betoffice.dao.CommunityRankingDao;
@@ -34,13 +58,17 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
 
     private final SessionFactory sessionFactory;
 
+    private final static String PARAMETER_COMMUNITY_ID = "community_id";
+    
     @Autowired
     public CommunityRankingDaoHibernate(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public List<UserResult> calculateUserRanking(final Collection<User> users, final Season season, final SeasonRange seasonRange) {
+    public List<UserResult> calculateUserRanking(final Community community, final SeasonRange seasonRange) {
+        final Collection<User> users = community.getUsers();
+        
         Map<User, UserResult> resultMap = new HashMap<>();
         for (User user : users) {
             resultMap.put(user, new UserResult(user));
@@ -51,7 +79,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
                 .createSQLQuery(QUERY_SEASON_RANGE_13_POINTS)
                 .addEntity("user", User.class).addScalar("full_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
-        query13.setParameter("season_id", season.getId());
+        query13.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
         query13.setParameter("start_index", seasonRange.startIndex());
         query13.setParameter("end_index", seasonRange.endIndex());
 
@@ -75,7 +103,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
                 .createNativeQuery(QUERY_SEASON_RANGE_10_POINTS)
                 .addEntity("user", User.class).addScalar("half_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
-        query10.setParameter("season_id", season.getId());
+        query10.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
         query10.setParameter("start_index", seasonRange.startIndex());
         query10.setParameter("end_index", seasonRange.endIndex());
 
@@ -98,7 +126,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
                 .createNativeQuery(QUERY_SEASON_RANGE_COUNT_MATCHES)
                 .addScalar("count_matches",
                         org.hibernate.type.StandardBasicTypes.LONG);
-        queryMatches.setParameter("season_id", season.getId());
+        queryMatches.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
         queryMatches.setParameter("start_index", seasonRange.startIndex());
         queryMatches.setParameter("end_index", seasonRange.endIndex());
         Long countMatches = (Long) queryMatches.uniqueResult();
@@ -107,12 +135,15 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
     }
 
     @Override
-    public List<UserResult> calculateUserRanking(final Collection<User> users, final GameList round) {
-        return calculateUserRanking(users, round.getSeason(), SeasonRange.of(round.getIndex(), round.getIndex()));
+    public List<UserResult> calculateUserRanking(final Community community, final GameList round) {
+        final Collection<User> users = community.getUsers();
+        return calculateUserRanking(community, SeasonRange.of(round.getIndex(), round.getIndex()));
     }
 
     @Override
-    public List<UserResult> calculateUserRanking(final Collection<User> users, final Season season) {
+    public List<UserResult> calculateUserRanking(final Community community) {
+        final Collection<User> users = community.getUsers();
+
         Map<User, UserResult> resultMap = new HashMap<>();
         for (User user : users) {
             resultMap.put(user, new UserResult(user));
@@ -123,7 +154,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
                 .createNativeQuery(QUERY_SEASON_13_POINTS)
                 .addEntity("user", User.class).addScalar("full_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
-        query13.setParameter("season_id", season.getId());
+        query13.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
         List<?> resultQuery13 = query13.list();
         for (Object object : resultQuery13) {
             Object[] row = (Object[]) object;
@@ -144,7 +175,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
                 .createNativeQuery(QUERY_SEASON_10_POINTS)
                 .addEntity("user", User.class).addScalar("half_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
-        query10.setParameter("season_id", season.getId());
+        query10.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
         List<?> resultQuery10 = query10.list();
         for (Object object : resultQuery10) {
             Object[] row = (Object[]) object;
@@ -165,7 +196,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
                 .createNativeQuery(QUERY_SEASON_COUNT_MATCHES)
                 .addScalar("count_matches",
                         org.hibernate.type.StandardBasicTypes.LONG);
-        queryMatches.setParameter("season_id", season.getId());
+        queryMatches.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
         Long countMatches = (Long) queryMatches.uniqueResult();
 
         return userResultMapToList(resultMap, countMatches.intValue());

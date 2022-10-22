@@ -40,7 +40,7 @@ FROM
   JOIN bo_community_user cm_user ON (cm_user.bo_community_ref = cm.id)
   JOIN bo_user u ON (cm_user.bo_user_ref = u.id AND cm_user.bo_user_ref = u.id)
 WHERE
-      s.id = :season_id
+      cm.id = :community_id
   AND m.bo_isplayed = 1
   AND t.bo_status <> 0
   AND t.bo_homegoals = gameresult.bo_homegoals

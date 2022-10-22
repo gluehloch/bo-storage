@@ -42,6 +42,7 @@ import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.GameTipp;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.TippDto;
 import de.winkler.betoffice.storage.TippDto.GameTippDto;
 import de.winkler.betoffice.storage.User;
@@ -209,7 +210,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     @Override
     @Transactional
     public List<GameTipp> validateKickOffTimeAndAddTipp(TippDto tippDto) {
-        User user = userDao.findByNickname(tippDto.getNickname()).orElseThrow(
+        User user = userDao.findByNickname(Nickname.of(tippDto.getNickname())).orElseThrow(
                 () -> newException(unknwonUser(tippDto.getNickname())));
 
         GameList gameList = roundDao.findById(tippDto.getRoundId());
