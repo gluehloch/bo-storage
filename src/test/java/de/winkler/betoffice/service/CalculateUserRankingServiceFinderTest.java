@@ -42,6 +42,7 @@ import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Group;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
@@ -52,24 +53,27 @@ import de.winkler.betoffice.util.LoggerFactory;
  *
  * @author by Andre Winkler
  */
-public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
+class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
 
     private final Logger log = LoggerFactory.make();
 
     @Autowired
-    protected DataSource dataSource;
+    DataSource dataSource;
 
     @Autowired
-    protected SeasonManagerService seasonManagerService;
+    SeasonManagerService seasonManagerService;
 
     @Autowired
-    protected TippService tippService;
+    CommunityService communityService;
+    
+    @Autowired
+    TippService tippService;
 
     @Autowired
-    protected MasterDataManagerService masterDataManagerService;
+    MasterDataManagerService masterDataManagerService;
 
     @Autowired
-    protected DatabaseMaintenanceService databaseMaintenanceService;
+    DatabaseMaintenanceService databaseMaintenanceService;
 
     private DatabaseSetUpAndTearDown dsuatd;
 
@@ -88,7 +92,7 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
     // ------------------------------------------------------------------------
 
     @Test
-    public void testFindTippsWm2006() {
+    void testFindTippsWm2006() {
         Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
         List<GameList> rounds = seasonManagerService.findRounds(wm2006);
         
@@ -108,13 +112,13 @@ public class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testFindTippByFroschWm2006() {
+    void testFindTippByFroschWm2006() {
         Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
-        User frosch = masterDataManagerService.findUserByNickname("Frosch").orElseThrow();
-        User mrTipp = masterDataManagerService.findUserByNickname("mrTipp").orElseThrow();
-        User peter = masterDataManagerService.findUserByNickname("Peter").orElseThrow();
+        User frosch = communityService.findUser(Nickname.of("Frosch")).orElseThrow();
+        User mrTipp = communityService.findUser(Nickname.of("mrTipp")).orElseThrow();
+        User peter = communityService.findUser(Nickname.of("Peter")).orElseThrow();
 
-        List<User> users = seasonManagerService.findActivatedUsers(wm2006);
+        List<User> users = communityService.findMembers(null).findActivatedUsers(wm2006);
         assertEquals(11, users.size());
         assertEquals("Frosch", frosch.getNickname());
         assertEquals("mrTipp", mrTipp.getNickname());

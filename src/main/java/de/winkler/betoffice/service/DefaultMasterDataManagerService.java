@@ -39,14 +39,12 @@ import de.winkler.betoffice.dao.PlayerDao;
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.dao.TeamAliasDao;
 import de.winkler.betoffice.dao.TeamDao;
-import de.winkler.betoffice.dao.UserDao;
 import de.winkler.betoffice.storage.GroupType;
 import de.winkler.betoffice.storage.Location;
 import de.winkler.betoffice.storage.Player;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamAlias;
-import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.TeamType;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 import de.winkler.betoffice.validation.BetofficeValidationMessage;
@@ -78,9 +76,6 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Autowired
     private PlayerDao playerDao;
-    
-    @Autowired
-    private UserDao userDao;
     
     @Override
     @Transactional
