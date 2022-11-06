@@ -5,6 +5,7 @@ select concat(bo_name, ' ', bo_year) from bo_season;
 select * from bo_season;
 select * from bo_community bc;
 delete from bo_community;
+delete from bo_community_user;
 select * from bo_community_user bcu;
 select * from bo_user u where u.bo_nickname = 'Frosch'; /* 6 */
 select * from bo_user_season bus;
@@ -54,4 +55,9 @@ select
 from 
 	bo_user_season bus
 ;
+
+select * from bo_community_user cu, bo_user u where cu.bo_community_ref = 32 and cu.bo_user_ref = u.id;
+select * from bo_community_user cu, bo_user u where cu.bo_community_ref = 33 and cu.bo_user_ref = u.id;
+
+
 
