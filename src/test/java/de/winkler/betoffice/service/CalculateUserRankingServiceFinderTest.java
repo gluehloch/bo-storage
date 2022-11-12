@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -39,6 +39,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
+import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Group;
@@ -118,7 +119,9 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
         User mrTipp = communityService.findUser(Nickname.of("mrTipp")).orElseThrow();
         User peter = communityService.findUser(Nickname.of("Peter")).orElseThrow();
 
-        List<User> users = communityService.findMembers(null).findActivatedUsers(wm2006);
+        CommunityReference communityReference = CommunityReference.of("TDKB 2006");
+        
+        List<User> users = communityService.findMembers(communityReference);
         assertEquals(11, users.size());
         assertEquals("Frosch", frosch.getNickname());
         assertEquals("mrTipp", mrTipp.getNickname());
@@ -152,7 +155,7 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
     @Test
     public void testFindTippByXtianWm2006() {
         Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
-        User user = masterDataManagerService.findUserByNickname("Xtian").orElseThrow();
+        User user = communityService.findUser(Nickname.of("Xtian")).orElseThrow();
         List<GameList> rounds = seasonManagerService.findRounds(wm2006);
         GameList finale = rounds.get(24);
         List<GameTipp> finalRoundTipps = tippService.findTipps(finale, user);
@@ -168,7 +171,7 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
     public void testCalculateUserRankingWm2006() {
         Optional<Season> wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006");
 
-        List<UserResult> userResults = seasonManagerService.calculateUserRanking(wm2006.get());
+        List<UserResult> userResults = communityService.calculateUserRanking(wm2006.get());
         validateUserResult(userResults, 0, "Frosch", 483, 11, 34, 1);
         validateUserResult(userResults, 1, "Jogi", 477, 9, 36, 2);
         validateUserResult(userResults, 2, "Hattwig", 471, 7, 38, 3);
