@@ -64,7 +64,7 @@ public class Community extends AbstractStorageObject {
     @NotNull
     @Column(name = "bo_name")
     private String name;
-
+    
     @NotNull
     @Column(name = "bo_year")
     private String year;

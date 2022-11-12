@@ -2,14 +2,14 @@ SELECT 'Start upgrade of betoffice 2.6.0 to 3.0.0 MySQL/MariaDB schema.' as INFO
 SELECT version();
 
 select concat(bo_name, ' ', bo_year) from bo_season;
-select * from bo_season;
-select * from bo_community bc;
+--select * from bo_season;
+--select * from bo_community bc;
 delete from bo_community;
 delete from bo_community_user;
-select * from bo_community_user bcu;
-select * from bo_user u where u.bo_nickname = 'Frosch'; /* 6 */
-select * from bo_user_season bus;
-select * from bo_gametipp bg;
+--select * from bo_community_user bcu;
+--select * from bo_user u where u.bo_nickname = 'Frosch'; /* 6 */
+--select * from bo_user_season bus;
+--select * from bo_gametipp bg;
 
 select
 	bc.*, bu.*
