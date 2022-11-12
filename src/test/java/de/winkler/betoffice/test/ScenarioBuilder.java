@@ -32,6 +32,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.winkler.betoffice.service.CommunityService;
 import de.winkler.betoffice.service.MasterDataManagerService;
 import de.winkler.betoffice.service.SeasonManagerService;
 import de.winkler.betoffice.service.TippService;
@@ -63,6 +64,9 @@ public class ScenarioBuilder {
     @Autowired
     private SeasonManagerService seasonManagerService;
 
+    @Autowired
+    private CommunityService communityService;
+    
     @Autowired
     private TippService tippService;
 
@@ -187,7 +191,7 @@ public class ScenarioBuilder {
         groups.toList().stream().forEach(masterDataManagerService::createGroupType);
 
         users = new DummyUsers();
-        users.toList().stream().forEach(masterDataManagerService::createUser);
+        users.toList().stream().forEach(communityService::createUser);
 
         UserResult.nEqualValue = 13;
         UserResult.nTotoValue = 10;

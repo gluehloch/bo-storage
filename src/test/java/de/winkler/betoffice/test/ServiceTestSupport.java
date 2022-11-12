@@ -31,8 +31,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import de.betoffice.database.data.MySqlDatabasedTestSupport;
-import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
+import de.betoffice.database.data.DatabaseTestData;
+import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.service.DatabaseMaintenanceService;
 import de.winkler.betoffice.service.MasterDataManagerService;
 import de.winkler.betoffice.service.SeasonManagerService;
@@ -58,14 +58,14 @@ public abstract class ServiceTestSupport {
     @Autowired
     protected DatabaseMaintenanceService databaseMaintenanceService;
 
-    private MySqlDatabasedTestSupport mysql;
+    private DatabaseTestData mysql;
 
-    public final MySqlDatabasedTestSupport getMySqlDatabasedTestSupport() {
+    public final DatabaseTestData getMySqlDatabasedTestSupport() {
         return mysql;
     }
 
     public final void setUp(final DataLoader dataLoader) throws SQLException {
-        mysql = new MySqlDatabasedTestSupport();
+        mysql = new DatabaseTestData();
         Connection conn = dataSource.getConnection();
         conn.setAutoCommit(false);
         try {

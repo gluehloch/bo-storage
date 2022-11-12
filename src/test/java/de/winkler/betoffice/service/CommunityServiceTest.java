@@ -38,9 +38,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
+import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.storage.Community;
 import de.winkler.betoffice.storage.CommunityFilter;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.User;
@@ -88,7 +89,7 @@ class CommunityServiceTest extends AbstractServiceTest {
         User communityManager = new User();
         communityManager.setEmail("email@email.de");
         communityManager.setName("Andre");
-        communityManager.setNickname("Frosch");
+        communityManager.setNickname(Nickname.of("Frosch"));
         communityManager.setPassword("Passwort");
 
         communityManager = masterDataManagerService.createUser(communityManager);

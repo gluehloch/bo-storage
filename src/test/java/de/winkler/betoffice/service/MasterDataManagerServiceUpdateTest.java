@@ -36,7 +36,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
+import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamAlias;
 
@@ -64,7 +64,7 @@ public class MasterDataManagerServiceUpdateTest extends AbstractServiceTest {
     @BeforeEach
     public void setUp() throws Exception {
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
-        dsuatd.setUp(DataLoader.MASTER_DATA);
+        dsuatd.setUp(DataLoader.CORE);
     }
 
     @AfterEach

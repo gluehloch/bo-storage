@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -39,16 +39,13 @@ public class UserResult {
     public static Logger log = LoggerFactory.make();
 
     /** Punkte für einen komplett richtigen Tipp. */
-    public static long nEqualValue = 13;
+    public static final long nEqualValue = 13;
 
     /** Punkte für einen richtigen Toto-Tipp. */
-    public static long nTotoValue = 10;
+    public static final long nTotoValue = 10;
 
     /** Punkte für einen falschen Tipp. */
-    public static long nZeroValue = 0;
-
-    /** Der Wert, mit dem das Endergebnis eines Users geteilt wird. */
-    public static long nDivisor = 10;
+    public static final long nZeroValue = 0;
 
     /** Der zugeordnete Teilnehmer/Tipper/User */
     private final User user;
@@ -68,8 +65,7 @@ public class UserResult {
     /**
      * Konstruktor.
      *
-     * @param _user
-     *            Der Teilnehmer.
+     * @param _user Der Teilnehmer.
      */
     public UserResult(final User _user) {
         user = _user;
@@ -116,10 +112,6 @@ public class UserResult {
 
     public long getPoints() {
         return (nEqualValue * win) + (nTotoValue * totoWin);
-    }
-
-    public double getBeautyPoints() {
-        return ((double) getPoints()) / ((double) nDivisor);
     }
 
     public int getTippedGames() {

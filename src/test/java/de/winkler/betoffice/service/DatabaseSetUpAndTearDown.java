@@ -29,8 +29,8 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import de.betoffice.database.data.DeleteDatabase;
-import de.betoffice.database.data.MySqlDatabasedTestSupport;
-import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
+import de.betoffice.database.data.DatabaseTestData;
+import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.storage.UserResult;
 
 /**
@@ -42,7 +42,7 @@ public final class DatabaseSetUpAndTearDown {
 
     private final DataSource dataSource;
 
-    private MySqlDatabasedTestSupport mysql;
+    private DatabaseTestData mysql;
 
     public DatabaseSetUpAndTearDown(final DataSource _dataSource) {
         dataSource = _dataSource;
@@ -59,14 +59,14 @@ public final class DatabaseSetUpAndTearDown {
      */
     public void setUp(final DataLoader _dataLoader) throws Exception {
         Connection conn = getConnection();
-        mysql = new MySqlDatabasedTestSupport();
+        mysql = new DatabaseTestData();
         try {
             UserResult.nEqualValue = 13;
             UserResult.nTotoValue = 10;
             UserResult.nZeroValue = 0;
 
             // Delete and setup of the test database!
-            mysql = new MySqlDatabasedTestSupport();
+            mysql = new DatabaseTestData();
             mysql.setUp(conn, _dataLoader);
         } finally {
             conn.close();

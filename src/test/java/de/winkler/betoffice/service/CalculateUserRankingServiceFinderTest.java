@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
+import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Group;
@@ -81,7 +81,7 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
     public void setUp() throws Exception {
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
         dsuatd.tearDown();
-        dsuatd.setUp(DataLoader.FULL);
+        dsuatd.setUp(DataLoader.COMPLETE);
     }
 
     @AfterEach

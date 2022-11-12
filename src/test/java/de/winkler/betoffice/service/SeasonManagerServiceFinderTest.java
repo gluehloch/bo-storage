@@ -41,7 +41,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
+import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -80,7 +80,7 @@ public class SeasonManagerServiceFinderTest extends AbstractServiceTest {
     @BeforeEach
     public void setUp() throws Exception {
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
-        dsuatd.setUp(DataLoader.FULL_WITHOUT_TIPP);
+        dsuatd.setUp(DataLoader.COMPLETE_EX_TIPP);
     }
 
     @AfterEach

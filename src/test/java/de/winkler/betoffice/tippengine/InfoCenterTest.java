@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
+import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.service.AbstractServiceTest;
 import de.winkler.betoffice.service.DatabaseSetUpAndTearDown;
 import de.winkler.betoffice.service.SeasonManagerService;

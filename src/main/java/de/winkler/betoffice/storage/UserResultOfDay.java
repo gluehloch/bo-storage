@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -99,10 +99,6 @@ public class UserResultOfDay {
         return win * UserResult.nEqualValue + toto * UserResult.nTotoValue;
     }
 
-    public double getBeautyPoints() {
-        return ((double) getPoints()) / ((double) UserResult.nDivisor);
-    }
-
     public void setWin(int value) {
         isTipped = true;
         win = value;
@@ -126,8 +122,7 @@ public class UserResultOfDay {
     /**
      * Setzt den <code>GameTppStatus</code> für diesen Spieltag-Tipp.
      *
-     * @param value
-     *            Ein <code>GameTippStatus</code>.
+     * @param value Ein <code>GameTippStatus</code>.
      */
     public final void setStatus(final TippStatusType value) {
         Validate.notNull(value);

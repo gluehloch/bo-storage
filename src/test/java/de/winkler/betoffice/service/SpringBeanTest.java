@@ -36,7 +36,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
+import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.storage.Season;
 
 /**
@@ -57,7 +57,7 @@ public class SpringBeanTest extends AbstractServiceTest {
     @BeforeEach
     public void setUp() throws Exception {
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
-        dsuatd.setUp(DataLoader.FULL);
+        dsuatd.setUp(DataLoader.COMPLETE);
     }
 
     @AfterEach
