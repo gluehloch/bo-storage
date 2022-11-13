@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -40,8 +40,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.database.data.DeleteDatabase;
-import de.betoffice.database.data.MySqlDatabasedTestSupport.DataLoader;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -63,11 +63,8 @@ import de.winkler.betoffice.storage.enums.TeamType;
  * @author by Andre Winkler
  */
 class CreateNewSeasonTest extends AbstractServiceTest {
-<<<<<<< HEAD
-=======
 
     private static final ZonedDateTime NOW = ZonedDateTime.now();
->>>>>>> master
 
     @Autowired
     protected DataSource dataSource;
@@ -86,7 +83,7 @@ class CreateNewSeasonTest extends AbstractServiceTest {
     @BeforeEach
     void setUp() throws Exception {
         dsuatd = new DatabaseSetUpAndTearDown(dataSource);
-        dsuatd.setUp(DataLoader.MASTER_DATA);
+        dsuatd.setUp(DataLoader.CORE);
     }
 
     @AfterEach
@@ -100,18 +97,14 @@ class CreateNewSeasonTest extends AbstractServiceTest {
     }
 
     @Test
-<<<<<<< HEAD
-=======
     void updateAndValidateRoundIndex() {
         final SeasonManagerService sms = seasonManagerService;
         final MasterDataManagerService mdms = masterDataManagerService;
 
         GroupType groupA = mdms.findGroupType("Gruppe A").orElseThrow();
 
-        Season season = new Season();
+        Season season = new Season(SeasonReference.of("2000/2001", "Bundesliga"));
         season.setMode(SeasonType.LEAGUE);
-        season.setName("Bundesliga");
-        season.setYear("2000/2001");
         season.setTeamType(TeamType.DFB);
         sms.createSeason(season);
         sms.addGroupType(season, groupA);
@@ -139,7 +132,6 @@ class CreateNewSeasonTest extends AbstractServiceTest {
     }
 
     @Test
->>>>>>> master
     void testAddIncompatibleTeamToSeason() throws Exception {
         SeasonManagerService sms = seasonManagerService;
         MasterDataManagerService mdms = masterDataManagerService;
@@ -150,8 +142,8 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         sms.createSeason(season);
 
         Season seasonClone = sms.findSeasonById(season.getId());
-        assertThat(seasonClone.getName()).isEqualTo(season.getName());
-        assertThat(seasonClone.getYear()).isEqualTo(season.getYear());
+        assertThat(seasonClone.getReference().getName()).isEqualTo(season.getReference().getName());
+        assertThat(seasonClone.getReference().getYear()).isEqualTo(season.getReference().getYear());
 
         Team stuttgart = mdms.findTeam("VfB Stuttgart").orElseThrow();
         Team hsv = mdms.findTeam("Hamburger SV").orElseThrow();
@@ -180,9 +172,8 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         season.setTeamType(TeamType.DFB);
         sms.createSeason(season);
 
-        Season Entity = sms.findSeasonById(season.getId());
-        assertThat(Entity.getName()).isEqualTo(season.getName());
-        assertThat(Entity.getYear()).isEqualTo(season.getYear());
+        Season season2 = sms.findSeasonById(season.getId());
+        assertThat(season2.getReference()).isEqualTo(season.getReference());
 
         Team stuttgart = mdms.findTeam("VfB Stuttgart").orElseThrow();
         Team hsv = mdms.findTeam("Hamburger SV").orElseThrow();
