@@ -301,7 +301,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         //
         // Calculate user ranking
         //
-        List<UserResult> userResult = seasonManagerService.calculateUserRanking(buli_2010);
+        List<UserResult> userResult = seasonManagerService.calculateRanking(buli_2010);
         assertThat(userResult.get(0)).isEqualTo(frosch);
         assertThat(userResult.get(0).getTabPos()).isEqualTo(1);
         assertThat(userResult.get(0).getUserWin()).isEqualTo(6);

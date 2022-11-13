@@ -45,6 +45,7 @@ import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonRange;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
 import de.winkler.betoffice.util.LoggerFactory;
@@ -66,10 +67,10 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
 
     @Autowired
     CommunityService communityService;
-    
+
     @Autowired
     CommunityCalculatorService communityCalculatorService;
-    
+
     @Autowired
     TippService tippService;
 
@@ -99,7 +100,7 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
     void testFindTippsWm2006() {
         Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
         List<GameList> rounds = seasonManagerService.findRounds(wm2006);
-        
+
         GameList finale = seasonManagerService.findRoundGames(rounds.get(24).getId()).orElseThrow();
         // GameList finale = rounds.get(24);
 
@@ -123,7 +124,7 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
         User peter = communityService.findUser(Nickname.of("Peter")).orElseThrow();
 
         CommunityReference communityReference = CommunityReference.of("TDKB 2006");
-        
+
         List<User> users = communityService.findMembers(communityReference);
         assertEquals(11, users.size());
         assertEquals("Frosch", frosch.getNickname());
@@ -172,10 +173,12 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
 
     @Test
     public void testCalculateUserRankingWm2006() {
-        Optional<Season> wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006");
-        communityService.find(CommunityReference.of(null));
+        seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
 
-        List<UserResult> userResults = communityCalculatorService.calculateUserRanking(wm2006.get());
+        CommunityReference communityReference = CommunityReference.of("TDKB 2006");
+        communityService.find(communityReference).orElseThrow();
+
+        List<UserResult> userResults = communityCalculatorService.calculateRanking(communityReference);
         validateUserResult(userResults, 0, "Frosch", 483, 11, 34, 1);
         validateUserResult(userResults, 1, "Jogi", 477, 9, 36, 2);
         validateUserResult(userResults, 2, "Hattwig", 471, 7, 38, 3);
@@ -191,24 +194,24 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
 
     @Test
     public void testCalculateUserRankingBuli2006() {
-        Optional<Season> buli = seasonManagerService
-                .findSeasonByName("Fussball Bundesliga", "2006/2007");
+        Season bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
 
-        Optional<GameList> round = seasonManagerService.findRound(buli.get(),
-                0);
-        Group bundesliga = round.get().getGroup();
-        assertEquals(9, round.get().toList(bundesliga).size());
+        CommunityReference communityReference = CommunityReference.of("2006/2007");
+        communityService.find(communityReference).orElseThrow();
 
-        List<UserResult> userResults = seasonManagerService
-                .calculateUserRanking(round.get());
+        Optional<GameList> round = seasonManagerService.findRound(bundesliga, 0);
+        Group bundesligaGroup = round.get().getGroup();
+        assertEquals(9, round.get().toList(bundesligaGroup).size());
+
+        List<UserResult> userResults = communityCalculatorService.calculateRanking(communityReference, round.get());
 
         validateUserResult(userResults, 0, "Peter", 50, 0, 5, 1);
         validateUserResult(userResults, 1, "Steffen", 46, 2, 2, 2);
         validateUserResult(userResults, 2, "Frosch", 43, 1, 3, 3);
         validateUserResult(userResults, 3, "Roenne", 43, 1, 3, 4);
 
-        List<UserResult> userResultsRange = seasonManagerService
-                .calculateUserRanking(buli.get(), 0, 1);
+        List<UserResult> userResultsRange = communityCalculatorService.calculateRanking(communityReference,
+                SeasonRange.of(0, 1));
 
         validateUserResult(userResultsRange, 0, "Peter", 119, 3, 8, 1);
         validateUserResult(userResultsRange, 1, "chris", 106, 2, 8, 2);

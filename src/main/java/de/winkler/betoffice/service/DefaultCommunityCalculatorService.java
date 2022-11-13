@@ -53,21 +53,21 @@ public class DefaultCommunityCalculatorService implements CommunityCalculatorSer
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserResult> calculateUserRanking(CommunityReference communityReference, GameList round) {
+    public List<UserResult> calculateRanking(CommunityReference communityReference, GameList round) {
         Community community = communityDao.find(communityReference).orElseThrow();
         return communityRankingDao.calculateUserRanking(community, round);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserResult> calculateUserRanking(CommunityReference communityReference) {
+    public List<UserResult> calculateRanking(CommunityReference communityReference) {
         Community community = communityDao.find(communityReference).orElseThrow();
         return communityRankingDao.calculateUserRanking(community);
     }
     
     @Override
     @Transactional(readOnly = true)
-    public List<UserResult> calculateUserRanking(CommunityReference communityReference, SeasonRange seasonRange) {
+    public List<UserResult> calculateRanking(CommunityReference communityReference, SeasonRange seasonRange) {
         Community community = communityDao.find(communityReference).orElseThrow();
         return communityRankingDao.calculateUserRanking(community, seasonRange);
     }

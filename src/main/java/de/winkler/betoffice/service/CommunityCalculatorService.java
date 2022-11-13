@@ -43,7 +43,7 @@ public interface CommunityCalculatorService {
      * @param  community Das User-Ranking dieser Community berechnen.
      * @return           Das Ranking der Tipper.
      */
-    List<UserResult> calculateUserRanking(CommunityReference community);
+    List<UserResult> calculateRanking(CommunityReference community);
 
     /**
      * Berechnet das Tipper-Ranking für einen Spieltag.
@@ -52,7 +52,7 @@ public interface CommunityCalculatorService {
      * @param  round     Der betreffende Spieltag.
      * @return           Das Ranking der Tipper.
      */
-    List<UserResult> calculateUserRanking(CommunityReference community, GameList round);
+    List<UserResult> calculateRanking(CommunityReference community, GameList round);
 
     /**
      * Berechnet das Tipper-Ranking für einen Spieltag.
@@ -62,6 +62,6 @@ public interface CommunityCalculatorService {
      *                         wird (0..N-1).
      * @return             Das Ranking der Tipper.
      */
-    List<UserResult> calculateUserRanking(CommunityReference community, SeasonRange seasonRange);
+    List<UserResult> calculateRanking(CommunityReference community, SeasonRange seasonRange);
 
 }
