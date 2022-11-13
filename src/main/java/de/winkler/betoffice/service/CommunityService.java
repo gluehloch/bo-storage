@@ -44,6 +44,14 @@ import de.winkler.betoffice.validation.BetofficeServiceResult;
  */
 public interface CommunityService {
 
+    /**
+     * Find a community by its reference.
+     *
+     * @param communityReference a community reference
+     * @return a community
+     */
+    Optional<Community> find(CommunityReference communityReference);
+
 	/**
 	 * Find a community by name.
 	 * 

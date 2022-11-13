@@ -68,6 +68,9 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
     CommunityService communityService;
     
     @Autowired
+    CommunityCalculatorService communityCalculatorService;
+    
+    @Autowired
     TippService tippService;
 
     @Autowired
@@ -171,7 +174,7 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
     public void testCalculateUserRankingWm2006() {
         Optional<Season> wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006");
 
-        List<UserResult> userResults = communityService.calculateUserRanking(wm2006.get());
+        List<UserResult> userResults = communityCalculatorService.calculateUserRanking(wm2006.get());
         validateUserResult(userResults, 0, "Frosch", 483, 11, 34, 1);
         validateUserResult(userResults, 1, "Jogi", 477, 9, 36, 2);
         validateUserResult(userResults, 2, "Hattwig", 471, 7, 38, 3);
