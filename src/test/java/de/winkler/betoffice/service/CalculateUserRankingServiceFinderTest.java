@@ -173,6 +173,7 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
     @Test
     public void testCalculateUserRankingWm2006() {
         Optional<Season> wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006");
+        communityService.find(CommunityReference.of(null));
 
         List<UserResult> userResults = communityCalculatorService.calculateUserRanking(wm2006.get());
         validateUserResult(userResults, 0, "Frosch", 483, 11, 34, 1);
