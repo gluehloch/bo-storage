@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -50,6 +50,9 @@ public class MasterDataManagerServiceFinderTest extends AbstractDaoTestSupport {
     @Autowired
     protected SeasonManagerService seasonManagerService;
 
+    @Autowired
+    protected CommunityService communityService;
+    
     @Autowired
     protected MasterDataManagerService masterDataManagerService;
 
@@ -113,7 +116,7 @@ public class MasterDataManagerServiceFinderTest extends AbstractDaoTestSupport {
 
     @Test
     public void testFindAllUsers() {
-        List<User> users = masterDataManagerService.findAllUsers();
+        List<User> users = communityService.findAllUsers();
         assertThat(users.size()).isEqualTo(45);
     }
 
