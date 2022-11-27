@@ -19,8 +19,7 @@ public class CommunityReference {
     }
     
     private CommunityReference(String communityShortName) {
-        CommunityReference cr = new CommunityReference();
-        cr.setShortName(communityShortName);
+        shortName = communityShortName;
     }
     
     public static CommunityReference of(String communityShortName) {

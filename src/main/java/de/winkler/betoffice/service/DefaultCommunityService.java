@@ -26,6 +26,7 @@ package de.winkler.betoffice.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -131,10 +132,21 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     public Community addMember(CommunityReference communityReference, Nickname nickname) {
-        User user = userDao.findByNickname(nickname).orElseThrow();
         Community community = communityDao.find(communityReference).orElseThrow();
+        User user = userDao.findByNickname(nickname).orElseThrow();
         community.addMember(user);
         communityDao.save(community);
+        return community;
+    }
+
+    @Override
+    public Community addMembers(CommunityReference communityReference, Set<Nickname> nicknames) {
+        Community community = communityDao.find(communityReference).orElseThrow();
+        nicknames.stream()
+            .map(n -> userDao.findByNickname(n))
+            .forEach(u -> u.ifPresent(us -> community.addMember(us)));
+        communityDao.save(community);        
+
         return community;
     }
 

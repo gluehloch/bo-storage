@@ -23,8 +23,6 @@
  */
 package de.winkler.betoffice.service;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
@@ -35,16 +33,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.GroupType;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TippDto;
-import de.winkler.betoffice.storage.TippDto.GameTippDto;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
@@ -56,10 +56,17 @@ public class IncompleteTippTest extends AbstractServiceTest {
     private SeasonManagerService seasonManagerService;
 
     @Autowired
+    private CommunityService communityService;
+    
+    @Autowired
     private TippService tippService;
 
     @Autowired
     private MasterDataManagerService masterDataManagerService;
+
+    private static final CommunityReference communityReference = CommunityReference.of("TDKB Test");
+    private static final SeasonReference seasonReference = SeasonReference.of("1999/2000", "Bundesliga");
+    private static final Nickname nicknameUserA = Nickname.of("User A");
 
     private GameList round;
     private Game luebeckRwe;
@@ -71,7 +78,7 @@ public class IncompleteTippTest extends AbstractServiceTest {
         GameList roundGames = seasonManagerService.findRoundGames(round.getId()).orElseThrow();
         assertThat(roundGames.size()).isEqualTo(2);
 
-        User user = masterDataManagerService.findUserByNickname("User A").orElseThrow();        
+        User user = communityService.findUser(nicknameUserA).orElseThrow();        
         tippService.createOrUpdateTipp("1", luebeckRwe, user, GameResult.of(1, 0), TippStatusType.USER);
         
         //
@@ -108,10 +115,8 @@ public class IncompleteTippTest extends AbstractServiceTest {
                 .build();
         masterDataManagerService.createTeam(rwe);
 
-        Season season = new Season();
+        Season season = new Season(seasonReference);
         season.setMode(SeasonType.LEAGUE);
-        season.setName("Bundesliga");
-        season.setYear("1999/2000");
         seasonManagerService.createSeason(season);
 
         GroupType buli1 = new GroupType();
@@ -128,10 +133,11 @@ public class IncompleteTippTest extends AbstractServiceTest {
         rweLuebeck = seasonManagerService.addMatch(round, DateTimeDummyProducer.DATE_1971_03_24, group, rwe, luebeck);
 
         User userA = new User();
-        userA.setNickname("User A");
-        masterDataManagerService.createUser(userA);
-
-        seasonManagerService.addUser(season, userA);
+        userA.setNickname(nicknameUserA);
+        communityService.createUser(userA);
+        
+        communityService.create(communityReference, seasonReference, "TDKB Test Community", nicknameUserA);
+        communityService.addMember(communityReference, nicknameUserA);
     }
 
 }

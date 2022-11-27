@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -28,10 +28,9 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import de.betoffice.database.data.DeleteDatabase;
 import de.betoffice.database.data.DatabaseTestData;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.winkler.betoffice.storage.UserResult;
+import de.betoffice.database.data.DeleteDatabase;
 
 /**
  * Database test setup and tear down methods.
@@ -52,24 +51,14 @@ public final class DatabaseSetUpAndTearDown {
      * Here we delete and set up the test database. This is an expensive
      * operation!.
      * 
-     * @param _dataLoader
-     *            The data for the setup
-     * @throws Exception
-     *             Problems?
+     * @param _dataLoader The data for the setup
+     * @throws Exception Problems?
      */
     public void setUp(final DataLoader _dataLoader) throws Exception {
-        Connection conn = getConnection();
         mysql = new DatabaseTestData();
-        try {
-            UserResult.nEqualValue = 13;
-            UserResult.nTotoValue = 10;
-            UserResult.nZeroValue = 0;
-
-            // Delete and setup of the test database!
+        try (Connection conn = getConnection()) {
             mysql = new DatabaseTestData();
             mysql.setUp(conn, _dataLoader);
-        } finally {
-            conn.close();
         }
     }
 

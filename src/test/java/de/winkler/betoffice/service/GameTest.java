@@ -80,6 +80,9 @@ class GameTest extends AbstractServiceTest {
 
     @Autowired
     private MasterDataManagerService masterDataManagerService;
+    
+    @Autowired
+    private CommunityService communityService;
 
     @Autowired
     protected DataSource dataSource;
@@ -224,22 +227,22 @@ class GameTest extends AbstractServiceTest {
         userA = new User();
         userA.setName("User A");
         userA.setNickname(Nickname.of("User A"));
-        masterDataManagerService.createUser(userA);
+        communityService.createUser(userA);
 
         userB = new User();
         userB.setName("User B");
         userB.setNickname(Nickname.of("User B"));
-        masterDataManagerService.createUser(userB);
+        communityService.createUser(userB);
 
         userC = new User();
         userC.setName("User C");
         userC.setNickname(Nickname.of("User C"));
-        masterDataManagerService.createUser(userC);
+        communityService.createUser(userC);
 
         userD = new User();
         userD.setName("User D");
         userD.setNickname(Nickname.of("User D"));
-        masterDataManagerService.createUser(userD);
+        communityService.createUser(userD);
 
         homeTeam = new Team();
         homeTeam.setName("RWE");

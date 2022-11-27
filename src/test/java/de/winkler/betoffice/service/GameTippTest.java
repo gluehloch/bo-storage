@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -31,6 +31,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -40,13 +42,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
+import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.GroupType;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
@@ -73,6 +79,9 @@ public class GameTippTest extends AbstractServiceTest {
 
     @Autowired
     private MasterDataManagerService masterDataManagerService;
+    
+    @Autowired
+    private CommunityService communityService;
 
     @Autowired
     protected DataSource dataSource;
@@ -131,7 +140,7 @@ public class GameTippTest extends AbstractServiceTest {
         }
     }
 
-    private List<User> allUsers = new ArrayList<User>();
+    private final List<User> allUsers = new ArrayList<User>();
 
     private Game game;
     private GameResult gr10 = new GameResult(1, 0);
@@ -306,10 +315,10 @@ public class GameTippTest extends AbstractServiceTest {
         masterDataManagerService.createTeam(rwe);
 
         // Saison erzeugen.
+        SeasonReference seasonReference = SeasonReference.of("1999/2000", "Bundesliga");
         season = new Season();
         season.setMode(SeasonType.LEAGUE);
-        season.setName("Bundesliga");
-        season.setYear("1999/2000");
+        season.setReference(seasonReference);
         seasonManagerService.createSeason(season);
 
         // Gruppe erzeugen.
@@ -329,42 +338,39 @@ public class GameTippTest extends AbstractServiceTest {
 
         // Neuen Tipp erzeugen lassen...
         userA = new User();
-        userA.setNickname("User A");
-        masterDataManagerService.createUser(userA);
+        Nickname communityAdmin = Nickname.of("User A");
+        userA.setNickname(communityAdmin);
+        communityService.createUser(userA);
 
         userB = new User();
-        userB.setNickname("User B");
-        masterDataManagerService.createUser(userB);
+        userB.setNickname(Nickname.of("User B"));
+        communityService.createUser(userB);
 
         userC = new User();
-        userC.setNickname("User C");
-        masterDataManagerService.createUser(userC);
+        userC.setNickname(Nickname.of("User C"));
+        communityService.createUser(userC);
 
         userD = new User();
-        userD.setNickname("User D");
-        masterDataManagerService.createUser(userD);
+        userD.setNickname(Nickname.of("User D"));
+        communityService.createUser(userD);
 
         userE = new User();
-        userE.setNickname("User E");
-        masterDataManagerService.createUser(userE);
+        userE.setNickname(Nickname.of("User E"));
+        communityService.createUser(userE);
+        
+        CommunityReference communityReference = CommunityReference.of("TDKB BL 1999/2000");
+        communityService.create(communityReference, seasonReference, "TDKB Bundesliga 1999/2000", communityAdmin);
 
-        allUsers.clear();
-        allUsers.add(userA);
-        allUsers.add(userB);
-        allUsers.add(userC);
-        allUsers.add(userD);
-        allUsers.add(userE);
-        seasonManagerService.addUsers(season, allUsers);
+        List<User> users = communityService.findAllUsers();
+
+        Set<Nickname> nicknames = users.stream().map(u -> u.getNickname()).collect(Collectors.toSet());
+        Community community = communityService.addMembers(communityReference, nicknames);
 
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userA, gr10, TippStatusType.USER);
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userB, gr01, TippStatusType.USER);
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userC, gr11, TippStatusType.USER);
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userD, gr21, TippStatusType.USER);
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userD, gr21, TippStatusType.USER);
-
-        UserResult.nEqualValue = 10;
-        UserResult.nTotoValue = 20;
-        UserResult.nZeroValue = 30;
     }
 
     /**
