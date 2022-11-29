@@ -67,7 +67,7 @@ import de.winkler.betoffice.test.DateTimeDummyProducer;
  * 
  * @author Andre Winkler
  */
-public class GameTippTest extends AbstractServiceTest {
+class GameTippTest extends AbstractServiceTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
 

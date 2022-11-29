@@ -51,22 +51,13 @@ import de.winkler.betoffice.validation.BetofficeValidationException;
  *
  * @author Andre Winkler
  */
-public class MasterDataManagerServiceUserTest extends AbstractServiceTest {
+class CommunityServiceUserTest extends AbstractServiceTest {
 
     @Autowired
-    protected DataSource dataSource;
+    private DataSource dataSource;
 
     @Autowired
-    protected CommunityService communityService;
-    
-    @Autowired
-    protected SeasonManagerService seasonManagerService;
-
-    @Autowired
-    protected MasterDataManagerService masterDataManagerService;
-
-    @Autowired
-    protected DatabaseMaintenanceService databaseMaintenanceService;
+    private CommunityService communityService;
 
     private DatabaseSetUpAndTearDown dsuatd;
 
