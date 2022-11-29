@@ -193,10 +193,6 @@ public class ScenarioBuilder {
         users = new DummyUsers();
         users.toList().stream().forEach(communityService::createUser);
 
-        UserResult.nEqualValue = 13;
-        UserResult.nTotoValue = 10;
-        UserResult.nZeroValue = 0;
-
         // Saison erzeugen.
         season = new Season(SeasonReference.of("1994/1995", "Bundesliga"));
         season.setMode(SeasonType.LEAGUE);
