@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import org.joda.time.DateTime;
-
 public class DateTimeDummyProducer {
 
     public static final ZoneId EUROPE_BERLIN = ZoneId.of("Europe/Berlin");

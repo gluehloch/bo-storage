@@ -39,6 +39,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 
@@ -83,66 +84,68 @@ public class MasterDataManagerServiceUserTest extends AbstractServiceTest {
     // ------------------------------------------------------------------------
 
     @Test
-    public void testCreateUser() {
+    void testCreateUser() {
         createUser("Frosch", "Andre", "Winkler");
         createUser("Peter", "Peter", "Groth");
 
-        List<User> users = masterDataManagerService.findAllUsers();
+        List<User> users = communityService.findAllUsers();
 
-        assertThat(users.size()).isEqualTo(2);
+        assertThat(users).hasSize(2);
         assertThat(users.get(0).getNickname()).isEqualTo("Frosch");
         assertThat(users.get(1).getNickname()).isEqualTo("Peter");
     }
 
     @Test
-    public void testCreateInvalidUser() {
+    void testCreateInvalidUser() {
         User invalidUser = new User();
         
         BetofficeValidationException ex = assertThrows(BetofficeValidationException.class, () -> {
-            masterDataManagerService.createUser(invalidUser);
+            communityService.createUser(invalidUser);
         });
         assertThat(ex.getMessages()).isNotEmpty();
     }
 
     @Test
-    public void testUpdateUser() {
-        User frosch = createUser("Frosch", "Andre", "Winkler");
-        createUser("Peter", "Peter", "Groth");
+    void testUpdateUser() {
+        final User frosch = createUser("Frosch", "Andre", "Winkler");
+        final User peter = createUser("Peter", "Peter", "Groth");
 
-        frosch.setNickname("Darkside");
-        masterDataManagerService.updateUser(frosch);
+        final Nickname darkside = Nickname.of("Darkside");
+        frosch.setNickname(darkside);
+        communityService.updateUser(frosch);
 
-        Optional<User> darkside = masterDataManagerService
-                .findUserByNickname("Darkside");
-        assertThat(darkside.isPresent()).isTrue();
-        assertThat(darkside.get().getNickname()).isEqualTo("Darkside");
+        Optional<User> userDarkside = communityService.findUser(darkside);
+        assertThat(userDarkside).isPresent().hasValueSatisfying(u -> {
+            assertThat(u.getNickname()).isEqualTo(darkside);
+            assertThat(u.getSurname()).isEqualTo("Andre");
+            assertThat(u.getName()).isEqualTo("Winkler");
+            assertThat(u).isNotEqualTo(peter);
+        });
     }
 
     @Test
-    public void testDeleteUser() {
+    void testDeleteUser() {
         User frosch = createUser("Frosch", "Andre", "Winkler");
         User peter = createUser("Peter", "Peter", "Groth");
 
-        masterDataManagerService.deleteUser(frosch);
-        List<User> users = masterDataManagerService.findAllUsers();
+        communityService.deleteUser(frosch.getNickname());
+        List<User> users = communityService.findAllUsers();
 
-        assertThat(users.size()).isEqualTo(1);
-        assertThat(users.get(0).getNickname()).isEqualTo("Peter");
+        assertThat(users).hasSize(1);
+        assertThat(users.get(0).getNickname()).isEqualTo(peter.getNickname());
 
-        masterDataManagerService.deleteUser(peter);
-        users = masterDataManagerService.findAllUsers();
+        communityService.deleteUser(peter.getNickname());
+        users = communityService.findAllUsers();
 
         assertThat(users.size()).isEqualTo(0);
     }
 
-    private User createUser(final String nickname, final String surname,
-            final String name) {
-
+    private User createUser(String nickname, String surname, String name) {
         User user = new User();
-        user.setNickname(nickname);
+        user.setNickname(Nickname.of(nickname));
         user.setName(name);
         user.setSurname(surname);
-        masterDataManagerService.createUser(user);
+        communityService.createUser(user);
         return user;
     }
 
