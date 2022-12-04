@@ -36,6 +36,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -45,6 +46,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
+import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
@@ -76,13 +78,16 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     private static final ZonedDateTime DATE_01_09_2010 = ZonedDateTime
             .of(LocalDateTime.of(LocalDate.of(2010, 9, 9), LocalTime.of(0, 0)), ZoneId.of("Europe/Berlin"));
 
-    private static final GroupType bundesliga1 = new GroupType();        
+    private static final CommunityReference communityReference = CommunityReference.of("Bundesliga 2010/11");
+    
+    private static final GroupType bundesliga1 = new GroupType();
     
     private static final SeasonReference seasonReference = SeasonReference.of("2010/2011", "Bundesliga"); 
 
     private static final Nickname frosch = Nickname.of("Frosch");
     private static final Nickname peter = Nickname.of("Peter");
     private static final Nickname mrTipp = Nickname.of("mrTipp");
+    private static final Set<Nickname> nicknames = Set.of(frosch, peter, mrTipp);
 
     @Autowired
     private DataSource dataSource;
@@ -95,6 +100,9 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
 
     @Autowired
     private TippService tippService;
+
+    @Autowired
+    private CommunityCalculatorService communityCalculatorService;
 
     @Autowired
     private MasterDataManagerService masterDataManagerService;
@@ -208,16 +216,16 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         createGroupTypes();
         createSeason();
 
-        User frosch = createUser("Frosch", "Andre", "Winkler");
-        User peter = createUser("Peter", "Peter", "Groth");
+        createUser(frosch, "Andre", "Winkler");
+        createUser(peter, "Peter", "Groth");
 
-        List<User> users = Arrays.asList(frosch, peter);
-        communseasonManagerService.addUsers(buli_2010, users);
+        communityService.addMember(communityReference, frosch);
+        communityService.addMember(communityReference, peter);
 
-        users = seasonManagerService.findActivatedUsers(buli_2010);
-        assertThat(users).hasSize(2);
-        assertThat(users.get(0)).isEqualTo(frosch);
-        assertThat(users.get(1)).isEqualTo(peter);
+        List<User> members = communityService.findMembers(communityReference);
+        assertThat(members).hasSize(2);
+        assertThat(members.get(0)).isEqualTo(frosch);
+        assertThat(members.get(1)).isEqualTo(peter);
     }
 
     @Test
@@ -252,6 +260,7 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         addTeamsToBuli1();
         createRounds();
         createMatches();
+        createCommunity();
         createUsers();
 
 //        DATE_01_09_2010, rwe, schalke, 2, 0
@@ -267,47 +276,51 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         // Frosch 2:0 | 1:1 || 1:1 | 1:1 || 1:2 | 0:1 
         //
         
+        User userFrosch = communityService.findUser(frosch).orElseThrow();
+        User userPeter = communityService.findUser(peter).orElseThrow();
+        User userMrTipp = communityService.findUser(mrTipp).orElseThrow();
+        
         GameList round_01 = seasonManagerService.findRound(buli_2010, 0).orElseThrow();
         GameList round_02 = seasonManagerService.findRound(buli_2010, 1).orElseThrow();
         GameList round_03 = seasonManagerService.findRound(buli_2010, 2).orElseThrow();
         
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, frosch,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, userFrosch,
                 List.of(new GameResult(2, 0), new GameResult(1, 1)), TippStatusType.USER);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, frosch,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, userFrosch,
                 List.of(new GameResult(1, 1), new GameResult(1, 1)), TippStatusType.USER);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, frosch,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, userFrosch,
                 List.of(new GameResult(1, 2), new GameResult(0, 1)), TippStatusType.USER);
 
         //
         // Peter
         //
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, peter,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, userPeter,
                 List.of(new GameResult(1, 1), new GameResult(1, 1)), TippStatusType.USER);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, peter,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, userPeter,
                 List.of(new GameResult(2, 1), new GameResult(2, 1)), TippStatusType.USER);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, peter,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, userPeter,
                 List.of(new GameResult(1, 2), new GameResult(0, 1)), TippStatusType.USER);
 
         //
         // mrTipp
         //
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, mrTipp,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, userMrTipp,
                 List.of(new GameResult(2, 1), new GameResult(0, 0)), TippStatusType.USER);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, mrTipp,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, userMrTipp,
                 List.of(new GameResult(2, 2), new GameResult(2, 2)), TippStatusType.USER);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, mrTipp,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, userMrTipp,
                 List.of(new GameResult(1, 3), new GameResult(0, 2)), TippStatusType.USER);
 
         //
         // Calculate user ranking
         //
-        List<UserResult> userResult = seasonManagerService.calculateRanking(buli_2010);
+        List<UserResult> userResult = communityCalculatorService.calculateRanking(communityReference);
         assertThat(userResult.get(0)).isEqualTo(frosch);
         assertThat(userResult.get(0).getTabPos()).isEqualTo(1);
         assertThat(userResult.get(0).getUserWin()).isEqualTo(6);
@@ -435,8 +448,7 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         team.setName(name);
         team.setLongName(longname);
         masterDataManagerService.createTeam(team);
-        assertThat(masterDataManagerService.findTeam(name).get())
-                .isEqualTo(team);
+        assertThat(masterDataManagerService.findTeam(name).get()).isEqualTo(team);
         return team;
     }
 
@@ -448,11 +460,16 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
                 .isEqualTo(groupType);
         return groupType;
     }
+    
+    private void createCommunity() {
+        communityService.create(communityReference, seasonReference, "Bundesliga 2010/11", frosch);
+    }
 
     private void createUsers() {
         createUser(frosch, "Andre", "Winkler");
         createUser(peter, "Peter", "Groth");
         createUser(mrTipp, "Markus", "Rohloff");
+        communityService.addMembers(communityReference, nicknames);
     }
 
     private User createUser(Nickname nickname, String surname, String name) {
@@ -461,9 +478,6 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         user.setName(name);
         user.setSurname(surname);
         communityService.createUser(user);
-        List<User> users = new ArrayList<User>();
-        users.add(user);
-        seasonManagerService.addUsers(buli_2010, users);
         return user;
     }
 
