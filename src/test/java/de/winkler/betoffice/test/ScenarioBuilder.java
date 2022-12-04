@@ -43,7 +43,6 @@ import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.Team;
-import de.winkler.betoffice.storage.UserResult;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
 
@@ -192,10 +191,6 @@ public class ScenarioBuilder {
 
         users = new DummyUsers();
         users.toList().stream().forEach(communityService::createUser);
-
-        UserResult.nEqualValue = 13;
-        UserResult.nTotoValue = 10;
-        UserResult.nZeroValue = 0;
 
         // Saison erzeugen.
         season = new Season(SeasonReference.of("1994/1995", "Bundesliga"));

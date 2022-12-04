@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -50,7 +50,9 @@ import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameResult;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.GroupType;
+import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
+import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
@@ -63,7 +65,7 @@ import de.winkler.betoffice.validation.BetofficeValidationException;
  *
  * @author Andre Winkler
  */
-public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
+class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
 
     private static final String JUNIT_TOKEN = "#JUNIT#";
 
@@ -74,20 +76,28 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     private static final ZonedDateTime DATE_01_09_2010 = ZonedDateTime
             .of(LocalDateTime.of(LocalDate.of(2010, 9, 9), LocalTime.of(0, 0)), ZoneId.of("Europe/Berlin"));
 
-    @Autowired
-    protected DataSource dataSource;
+    private static final GroupType bundesliga1 = new GroupType();        
+    
+    private static final SeasonReference seasonReference = SeasonReference.of("2010/2011", "Bundesliga"); 
+
+    private static final Nickname frosch = Nickname.of("Frosch");
+    private static final Nickname peter = Nickname.of("Peter");
+    private static final Nickname mrTipp = Nickname.of("mrTipp");
 
     @Autowired
-    protected SeasonManagerService seasonManagerService;
+    private DataSource dataSource;
 
     @Autowired
-    protected TippService tippService;
+    private CommunityService communityService;
+    
+    @Autowired
+    private SeasonManagerService seasonManagerService;
 
     @Autowired
-    protected MasterDataManagerService masterDataManagerService;
+    private TippService tippService;
 
     @Autowired
-    protected DatabaseMaintenanceService databaseMaintenanceService;
+    private MasterDataManagerService masterDataManagerService;
 
     private DatabaseSetUpAndTearDown dsuatd;
 
@@ -119,14 +129,10 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
 //    private GameList round_02;
 //    private GameList round_03;
 
-    private User frosch;
-    private User peter;
-    private User mrTipp;
-
     // ------------------------------------------------------------------------
 
     @Test
-    public void testCreateSeasonAndAddTeams() {
+    void testCreateSeasonAndAddTeams() {
         createTeams();
         createGroupTypes();
         createSeason();
@@ -135,7 +141,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testCreateSeasonAndAddRemoveTeams() {
+    void testCreateSeasonAndAddRemoveTeams() {
         createTeams();
         createGroupTypes();
         createSeason();
@@ -153,7 +159,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testCreateAndDeleteSeason() {
+    void testCreateAndDeleteSeason() {
         createTeams();
         createGroupTypes();
         createSeason();
@@ -171,7 +177,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testCreateSeasonAndAddAllTeams() {
+    void testCreateSeasonAndAddAllTeams() {
         createTeams();
         createGroupTypes();
         createSeason();
@@ -187,7 +193,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testCreateSeasonAndAddRounds() {
+    void testCreateSeasonAndAddRounds() {
         createTeams();
         createGroupTypes();
         createSeason();
@@ -197,7 +203,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testCreateSeasonAndAddUsersTwice() {
+    void testCreateSeasonAndAddUsersTwice() {
         createTeams();
         createGroupTypes();
         createSeason();
@@ -206,7 +212,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         User peter = createUser("Peter", "Peter", "Groth");
 
         List<User> users = Arrays.asList(frosch, peter);
-        seasonManagerService.addUsers(buli_2010, users);
+        communseasonManagerService.addUsers(buli_2010, users);
 
         users = seasonManagerService.findActivatedUsers(buli_2010);
         assertThat(users).hasSize(2);
@@ -215,7 +221,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testCreateMatches() {
+    void testCreateMatches() {
         createTeams();
         createGroupTypes();
         Season season = createSeason();
@@ -402,8 +408,7 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
 
     private Season createSeason() {
         buli_2010 = new Season();
-        buli_2010.setName("Bundesliga 2010/2011");
-        buli_2010.setYear("2010/2011");
+        buli_2010.setReference(seasonReference);
         buli_2010.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(buli_2010);
         assertThat(seasonManagerService.findAllSeasons()).hasSize(1);
@@ -445,19 +450,17 @@ public class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     private void createUsers() {
-        frosch = createUser("Frosch", "Andre", "Winkler");
-        peter = createUser("Peter", "Peter", "Groth");
-        mrTipp = createUser("mrTipp", "Markus", "Rohloff");
+        createUser(frosch, "Andre", "Winkler");
+        createUser(peter, "Peter", "Groth");
+        createUser(mrTipp, "Markus", "Rohloff");
     }
 
-    private User createUser(final String nickname, final String surname,
-            final String name) {
-
+    private User createUser(Nickname nickname, String surname, String name) {
         User user = new User();
         user.setNickname(nickname);
         user.setName(name);
         user.setSurname(surname);
-        masterDataManagerService.createUser(user);
+        communityService.createUser(user);
         List<User> users = new ArrayList<User>();
         users.add(user);
         seasonManagerService.addUsers(buli_2010, users);

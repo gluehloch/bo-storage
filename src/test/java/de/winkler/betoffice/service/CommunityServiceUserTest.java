@@ -51,22 +51,13 @@ import de.winkler.betoffice.validation.BetofficeValidationException;
  *
  * @author Andre Winkler
  */
-public class MasterDataManagerServiceUserTest extends AbstractServiceTest {
+class CommunityServiceUserTest extends AbstractServiceTest {
 
     @Autowired
-    protected DataSource dataSource;
+    private DataSource dataSource;
 
     @Autowired
-    protected CommunityService communityService;
-    
-    @Autowired
-    protected SeasonManagerService seasonManagerService;
-
-    @Autowired
-    protected MasterDataManagerService masterDataManagerService;
-
-    @Autowired
-    protected DatabaseMaintenanceService databaseMaintenanceService;
+    private CommunityService communityService;
 
     private DatabaseSetUpAndTearDown dsuatd;
 
@@ -90,7 +81,7 @@ public class MasterDataManagerServiceUserTest extends AbstractServiceTest {
 
         List<User> users = communityService.findAllUsers();
 
-        assertThat(users.size()).isEqualTo(2);
+        assertThat(users).hasSize(2);
         assertThat(users.get(0).getNickname()).isEqualTo("Frosch");
         assertThat(users.get(1).getNickname()).isEqualTo("Peter");
     }
@@ -100,23 +91,27 @@ public class MasterDataManagerServiceUserTest extends AbstractServiceTest {
         User invalidUser = new User();
         
         BetofficeValidationException ex = assertThrows(BetofficeValidationException.class, () -> {
-            communityService.create(co, null, null, null)
-            masterDataManagerService.createUser(invalidUser);
+            communityService.createUser(invalidUser);
         });
         assertThat(ex.getMessages()).isNotEmpty();
     }
 
     @Test
     void testUpdateUser() {
-        User frosch = createUser("Frosch", "Andre", "Winkler");
-        createUser("Peter", "Peter", "Groth");
+        final User frosch = createUser("Frosch", "Andre", "Winkler");
+        final User peter = createUser("Peter", "Peter", "Groth");
 
-        frosch.setNickname("Darkside");
-        masterDataManagerService.updateUser(frosch);
+        final Nickname darkside = Nickname.of("Darkside");
+        frosch.setNickname(darkside);
+        communityService.updateUser(frosch);
 
-        Optional<User> darkside = masterDataManagerService.findUserByNickname("Darkside");
-        assertThat(darkside.isPresent()).isTrue();
-        assertThat(darkside.get().getNickname()).isEqualTo("Darkside");
+        Optional<User> userDarkside = communityService.findUser(darkside);
+        assertThat(userDarkside).isPresent().hasValueSatisfying(u -> {
+            assertThat(u.getNickname()).isEqualTo(darkside);
+            assertThat(u.getSurname()).isEqualTo("Andre");
+            assertThat(u.getName()).isEqualTo("Winkler");
+            assertThat(u).isNotEqualTo(peter);
+        });
     }
 
     @Test
@@ -124,14 +119,14 @@ public class MasterDataManagerServiceUserTest extends AbstractServiceTest {
         User frosch = createUser("Frosch", "Andre", "Winkler");
         User peter = createUser("Peter", "Peter", "Groth");
 
-        masterDataManagerService.deleteUser(frosch);
-        List<User> users = masterDataManagerService.findAllUsers();
+        communityService.deleteUser(frosch.getNickname());
+        List<User> users = communityService.findAllUsers();
 
-        assertThat(users.size()).isEqualTo(1);
-        assertThat(users.get(0).getNickname()).isEqualTo("Peter");
+        assertThat(users).hasSize(1);
+        assertThat(users.get(0).getNickname()).isEqualTo(peter.getNickname());
 
-        masterDataManagerService.deleteUser(peter);
-        users = masterDataManagerService.findAllUsers();
+        communityService.deleteUser(peter.getNickname());
+        users = communityService.findAllUsers();
 
         assertThat(users.size()).isEqualTo(0);
     }
