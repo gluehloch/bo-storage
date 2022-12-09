@@ -29,6 +29,7 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -38,6 +39,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
+import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Group;
@@ -50,22 +53,28 @@ import de.winkler.betoffice.storage.User;
  *
  * @author Andre Winkler
  */
-public class SeasonManagerServiceTest extends AbstractServiceTest {
+class SeasonManagerServiceTest extends AbstractServiceTest {
 
     @Autowired
-    protected DataSource dataSource;
+    private DataSource dataSource;
 
     @Autowired
-    protected TippService tippService;
+    private TippService tippService;
 
     @Autowired
-    protected SeasonManagerService seasonManagerService;
+    private SeasonManagerService seasonManagerService;
 
     @Autowired
-    protected MasterDataManagerService masterDataManagerService;
+    private MasterDataManagerService masterDataManagerService;
 
     @Autowired
-    protected DatabaseMaintenanceService databaseMaintenanceService;
+    private CommunityService communityService;
+
+    @Autowired
+    private CommunityCalculatorService communityCalculatorService;
+
+    @Autowired
+    private DatabaseMaintenanceService databaseMaintenanceService;
 
     private DatabaseSetUpAndTearDown dsuatd;
 
@@ -81,7 +90,7 @@ public class SeasonManagerServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testAddGroupToBundesliga2006() {
+    void testAddGroupToBundesliga2006() {
         Season bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
         GroupType liga2 = new GroupType();
         liga2.setName("2. Liga");
@@ -92,21 +101,28 @@ public class SeasonManagerServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void findTipp() {
+    void findTipp() {
+        final CommunityReference communityReference = CommunityReference.of("TDKB 2006/2007");
         Season bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
-        List<User> users = seasonManagerService.findActivatedUsers(bundesliga);
+
+        Community community = communityService.find(communityReference).orElseThrow();
+        assertThat(community.getSeason()).isEqualTo(bundesliga);
+        assertThat(community.getSeason()).isEqualTo(bundesliga);
+
+        Set<User> users = communityService.findMembers(communityReference);
+
         assertThat(users).hasSize(10);
-        assertThat(users).extracting("nickname", "name").contains(
-                tuple("BayJan", "Heiner"),
-                tuple("chris", "Hamster"),
-                tuple("Frosch", "Erlohn"),
-                tuple("Hattwig", "Huette"),
-                tuple("Jogi", "Wagner"),
-                tuple("mrTipp", "Meister"),
-                tuple("Persistenz", "Schuster"),
-                tuple("Peter", "Karlmann"),
-                tuple("Roenne", "Rathaus"),
-                tuple("Steffen", "Hummels"));
+        assertThat(users).extracting("nickname.value", "name").contains(
+                tuple("BayJan", "Hasselmann"),
+                tuple("chris", "seidl"),
+                tuple("Frosch", "Winkler"),
+                tuple("Hattwig", "Hattwig"),
+                tuple("Jogi", "Groth"),
+                tuple("mrTipp", "Rohloff"),
+                tuple("Persistenz", "Rohloff"),
+                tuple("Peter", "Groth"),
+                tuple("Roenne", "Rönnebeck"),
+                tuple("Steffen", "Bucksath"));
 
         GameList round = seasonManagerService.findRound(bundesliga, 0).orElseThrow();
         assertThat(round.unmodifiableList()).hasSize(9);

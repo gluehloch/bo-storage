@@ -67,7 +67,7 @@ public interface CommunityService {
      * @param communityReference reference of a community
      * @return the users of a community.
      */
-    List<User> findMembers(CommunityReference communityReference);
+    Set<User> findMembers(CommunityReference communityReference);
 
     /**
      * Find all communities.

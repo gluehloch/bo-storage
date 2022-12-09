@@ -216,16 +216,14 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         createGroupTypes();
         createSeason();
 
-        createUser(frosch, "Andre", "Winkler");
-        createUser(peter, "Peter", "Groth");
+        User userFrosch = createUser(frosch, "Andre", "Winkler");
+        User userPeter = createUser(peter, "Peter", "Groth");
 
         communityService.addMember(communityReference, frosch);
         communityService.addMember(communityReference, peter);
 
-        List<User> members = communityService.findMembers(communityReference);
-        assertThat(members).hasSize(2);
-        assertThat(members.get(0)).isEqualTo(frosch);
-        assertThat(members.get(1)).isEqualTo(peter);
+        Set<User> members = communityService.findMembers(communityReference);
+        assertThat(members).hasSize(2).containsExactly(userFrosch, userPeter);
     }
 
     @Test

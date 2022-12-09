@@ -53,8 +53,8 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
 	@Override
 	public Optional<Community> find(CommunityReference reference) {
 		Query<Community> query = getSessionFactory().getCurrentSession()
-				.createQuery("from Community c left join fetch c.users where c.reference = :reference", Community.class)
-				.setParameter("reference", reference);
+				.createQuery("from Community c left join fetch c.users where c.reference.shortName = :shortName", Community.class)
+				.setParameter("shortName", reference.getShortName());
 		return singleResult(query);
 	}
 
@@ -101,15 +101,15 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
 
 	@Override
 	public boolean hasMembers(CommunityReference community) {
-		return !findMembers(community).isEmpty();
+		return !findMembers(community).getUsers().isEmpty();
 	}
 
 	@Override
-	public List<User> findMembers(CommunityReference community) {
+	public Community findMembers(CommunityReference community) {
 		return getSessionFactory().getCurrentSession()
-				.createQuery("from Community c left join fetch c.users where c.reference.shortName = :communityShortName", User.class)
+				.createQuery("from Community c left join fetch c.users where c.reference.shortName = :communityShortName", Community.class)
 				.setParameter("communityShortName", community.getShortName())
-				.getResultList();
+				.getSingleResult();
 	}
 
     @Override

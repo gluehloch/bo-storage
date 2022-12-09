@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -142,7 +142,7 @@ class CommunityServiceTest extends AbstractServiceTest {
         communityService.addMember(community.getReference(), demoUserA.getNickname());
         communityService.addMember(community.getReference(), demoUserB.getNickname());
 
-        List<User> members = communityService.findMembers(community.getReference());
+        Set<User> members = communityService.findMembers(community.getReference());
         assertThat(members).hasSize(2);
     }
 

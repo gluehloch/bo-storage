@@ -91,8 +91,8 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
-    public List<User> findMembers(CommunityReference communityReference) {
-        return communityDao.findMembers(communityReference);
+    public Set<User> findMembers(CommunityReference communityReference) {
+        return communityDao.findMembers(communityReference).getUsers();
     }
 
     @Override

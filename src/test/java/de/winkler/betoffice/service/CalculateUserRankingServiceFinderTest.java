@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -125,7 +126,7 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
 
         CommunityReference communityReference = CommunityReference.of("TDKB 2006");
 
-        List<User> users = communityService.findMembers(communityReference);
+        Set<User> users = communityService.findMembers(communityReference);
         assertEquals(11, users.size());
         assertEquals("Frosch", frosch.getNickname());
         assertEquals("mrTipp", mrTipp.getNickname());
@@ -176,7 +177,6 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
         seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
 
         CommunityReference communityReference = CommunityReference.of("TDKB 2006");
-        communityService.find(communityReference).orElseThrow();
 
         List<UserResult> userResults = communityCalculatorService.calculateRanking(communityReference);
         validateUserResult(userResults, 0, "Frosch", 483, 11, 34, 1);

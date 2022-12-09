@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -25,9 +25,7 @@
 package de.winkler.betoffice.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -79,9 +77,9 @@ public class SeasonTest extends AbstractServiceTest {
     @Test
     public void testSeasonProperties() {
         Season season = seasonManagerService.findSeasonByName("Bundesliga", "1994/1995").orElseThrow();
-        assertTrue(season.getName().compareTo("Bundesliga") == 0);
-        assertTrue(season.getYear().compareTo("1994/1995") == 0);
-        assertTrue(season.getMode() == SeasonType.LEAGUE);
+        assertThat(season.getReference().getName()).isEqualTo("Bundesliga");
+        assertThat(season.getReference().getYear()).isEqualTo("1994/1995");
+        assertThat(season.getMode()).isEqualTo(SeasonType.LEAGUE);
     }
 
     @Test
@@ -104,10 +102,10 @@ public class SeasonTest extends AbstractServiceTest {
 
     @Test
     public void testTeamSelection() {
-        assertNotNull(sceneBuilder.getRwe());
-        assertNotNull(sceneBuilder.getS04());
-        assertNotNull(sceneBuilder.getErsteBundesliga().getTeams());
-        assertNotNull(sceneBuilder.getZweiteBundesliga().getTeams());
+        assertThat(sceneBuilder.getRwe()).isNotNull();
+        assertThat(sceneBuilder.getS04());
+        assertThat(sceneBuilder.getErsteBundesliga().getTeams()).isNotNull();
+        assertThat(sceneBuilder.getZweiteBundesliga().getTeams()).isNotNull();
 
         Team bochum = sceneBuilder.getTeams().teams()[DummyTeams.BOCHUM];
         Team rwe = sceneBuilder.getTeams().teams()[DummyTeams.RWE];
