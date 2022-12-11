@@ -41,7 +41,7 @@ FROM
   JOIN bo_user u ON (cm_user.bo_user_ref = u.id)
 WHERE
       cm.id = :community_id
-  AND us.bo_user_ref = u.id
+  AND cm_user.bo_user_ref = u.id
   AND m.bo_isplayed = 1
   AND t.bo_status <> 0
   /* Alle 13 Punkte Tipps ausschliessen. */

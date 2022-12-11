@@ -59,6 +59,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
     private final SessionFactory sessionFactory;
 
     private final static String PARAMETER_COMMUNITY_ID = "community_id";
+    private final static String PARAMETER_SEASON_ID = "season_id";
     
     @Autowired
     public CommunityRankingDaoHibernate(SessionFactory sessionFactory) {
@@ -196,7 +197,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
                 .createNativeQuery(QUERY_SEASON_COUNT_MATCHES)
                 .addScalar("count_matches",
                         org.hibernate.type.StandardBasicTypes.LONG);
-        queryMatches.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
+        queryMatches.setParameter(PARAMETER_SEASON_ID, community.getSeason().getId());
         Long countMatches = (Long) queryMatches.uniqueResult();
 
         return userResultMapToList(resultMap, countMatches.intValue());
