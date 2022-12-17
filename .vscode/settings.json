@@ -14,5 +14,6 @@
             "username": "betoffice",
             "password": "betoffice"
         }
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }
