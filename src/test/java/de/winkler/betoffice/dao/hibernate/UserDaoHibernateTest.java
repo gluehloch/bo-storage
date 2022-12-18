@@ -58,9 +58,9 @@ class UserDaoHibernateTest extends AbstractDaoTestSupport {
     void userDaoHibernateFindAll() {
         Page<User> users = userDaoHibernate.findAll("", Pageable.unpaged());
         assertThat(users).hasSize(3);
-        assertThat(users.getContent().get(0).getNickname()).isEqualTo("Frosch");
-        assertThat(users.getContent().get(1).getNickname()).isEqualTo("Hattwig");
-        assertThat(users.getContent().get(2).getNickname()).isEqualTo("Peter");
+        assertThat(users.getContent().get(0).getNickname().value()).isEqualTo("Frosch");
+        assertThat(users.getContent().get(1).getNickname().value()).isEqualTo("Hattwig");
+        assertThat(users.getContent().get(2).getNickname().value()).isEqualTo("Peter");
     }
 
     @Test

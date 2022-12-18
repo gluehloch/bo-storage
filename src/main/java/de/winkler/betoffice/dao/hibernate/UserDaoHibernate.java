@@ -70,15 +70,25 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
         long total = countAll();
         String filter = new StringBuilder("%").append(nicknameFilter).append("%").toString();
 
-        List<User> users = getSessionFactory().getCurrentSession()
-                .createQuery(
-                        "from User u where LOWER(u.nickname) like LOWER(:filter)",
-                        User.class)
-                .setParameter("filter", filter)
-                .setFirstResult((int) pageable.getOffset())
-                .setMaxResults(pageable.getPageSize())
-                .getResultList();
-
+        List<User> users;
+        if (pageable.isPaged()) {
+            users = getSessionFactory().getCurrentSession()
+                    .createQuery(
+                            "from User u where LOWER(u.nickname) like LOWER(:filter)",
+                            User.class)
+                    .setParameter("filter", filter)
+                    .setFirstResult((int) pageable.getOffset())
+                    .setMaxResults(pageable.getPageSize())
+                    .getResultList();
+        } else {
+            users = getSessionFactory().getCurrentSession()
+                    .createQuery(
+                            "from User u where LOWER(u.nickname) like LOWER(:filter)",
+                            User.class)
+                    .setParameter("filter", filter)
+                    .getResultList();            
+        }
+        
         return new PageImpl<>(users, pageable, total);
     }
 

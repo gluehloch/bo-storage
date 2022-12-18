@@ -57,7 +57,7 @@ class GroupDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testGroupDaoHibernateFindBySeason() {
-        Season season = seasonDaoHibernate.find(SeasonReference.of("4711", "1000")).orElseThrow();
+        Season season = seasonDaoHibernate.find(SeasonReference.of("1000", "4711")).orElseThrow();
         List<Group> groups = groupDao.findBySeason(season);
         assertThat(groups).hasSize(2);
         assertThat(groups.get(0).getGroupType().getName()).isEqualTo("1. Liga");
