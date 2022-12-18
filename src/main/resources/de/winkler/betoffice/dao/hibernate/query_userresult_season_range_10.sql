@@ -38,7 +38,7 @@ FROM
   JOIN bo_season s ON (gl.bo_season_ref = s.id)
   JOIN bo_community cm ON (cm.bo_season_ref = s.id)
   JOIN bo_community_user cm_user ON (cm_user.bo_community_ref = cm.id)
-  JOIN bo_user u ON (cm_user.bo_user_ref = u.id)
+  JOIN bo_user u ON (cm_user.bo_user_ref = u.id AND u.id = t.bo_user_ref)
 WHERE
       cm.id = :community_id
   AND gl.bo_index >= :start_index

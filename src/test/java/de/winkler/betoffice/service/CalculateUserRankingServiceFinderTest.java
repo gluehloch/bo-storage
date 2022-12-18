@@ -112,7 +112,7 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
                 "Peter", "mrTipp", "chris", "Frosch", "Hattwig" };
 
         for (int index = 0; index < nicknames.length; index++) {
-            assertThat(tipps.get(index).getUser().getNickname())
+            assertThat(tipps.get(index).getUser().getNickname().value())
                     .isEqualTo(nicknames[index]);
         }
     }
@@ -223,7 +223,7 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
             final int index, final String nickname,
             final int points, final int win, final int totoWin, int tabPos) {
 
-        assertEquals(nickname, userResults.get(index).getUser().getNickname());
+        assertEquals(nickname, userResults.get(index).getUser().getNickname().value());
         assertEquals(points, userResults.get(index).getPoints());
         assertEquals(win, userResults.get(index).getUserWin());
         assertEquals(totoWin, userResults.get(index).getUserTotoWin());
