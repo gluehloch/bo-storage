@@ -61,13 +61,10 @@ public final class DatabaseSetUpAndTearDown {
             mysql.setUp(conn, _dataLoader);
         }
     }
-
+    
     public void tearDown() throws SQLException {
-        Connection conn = getConnection();
-        try {
+        try (Connection conn = getConnection()) {
             DeleteDatabase.deleteDatabase(conn);
-        } finally {
-            conn.close();
         }
     }
 

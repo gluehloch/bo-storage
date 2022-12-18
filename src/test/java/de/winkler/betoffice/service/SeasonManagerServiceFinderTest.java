@@ -130,13 +130,13 @@ class SeasonManagerServiceFinderTest extends AbstractServiceTest {
         Optional<Team> hsv = masterDataManagerService.findTeam("Hamburger SV");
 
         List<Game> matchesHsvStuttgart = seasonManagerService.findMatches(stuttgart.get(), hsv.get());
-        assertThat(matchesHsvStuttgart.size()).isEqualTo(14);
+        assertThat(matchesHsvStuttgart.size()).isEqualTo(22);
 
         List<Game> matchesStuttgartHsv = seasonManagerService.findMatches(hsv.get(), stuttgart.get());
-        assertThat(matchesStuttgartHsv.size()).isEqualTo(14);
+        assertThat(matchesStuttgartHsv.size()).isEqualTo(24);
 
         List<Game> allMatchesStuttgartHsv = seasonManagerService.findMatches(stuttgart.get(), hsv.get(), true);
-        assertThat(allMatchesStuttgartHsv.size()).isEqualTo(28);
+        assertThat(allMatchesStuttgartHsv.size()).isEqualTo(46);
     }
 
     @Test
@@ -151,17 +151,17 @@ class SeasonManagerServiceFinderTest extends AbstractServiceTest {
 
         List<Game> matchesStuttgartHsv = seasonManagerService
                 .findMatches(hsv.get(), stuttgart.get(), false);
-        assertThat(matchesStuttgartHsv.size()).isEqualTo(14);
+        assertThat(matchesStuttgartHsv.size()).isEqualTo(24);
 
         List<Game> allMatchesStuttgartHsv = seasonManagerService
                 .findMatches(stuttgart.get(), hsv.get(), true);
 
-        assertThat(allMatchesStuttgartHsv.size()).isEqualTo(28);
+        assertThat(allMatchesStuttgartHsv.size()).isEqualTo(46);
     }
 
     @Test
     void testFindAllSeasons() {
-        assertThat(seasonManagerService.findAllSeasons().size()).isEqualTo(22);
+        assertThat(seasonManagerService.findAllSeasons().size()).isEqualTo(33);
     }
 
     /**
@@ -170,13 +170,13 @@ class SeasonManagerServiceFinderTest extends AbstractServiceTest {
     @Test
     void testFindWm2006() {
         Optional<Season> wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006");
-        assertThat(wm2006).isPresent().isInstanceOfSatisfying(Season.class, (season) -> {
+        assertThat(wm2006).isPresent().containsInstanceOf(Season.class).hasValueSatisfying((season) -> {
             assertThat(season.getReference().getYear()).isEqualTo("2006");
             assertThat(season.getReference().getName()).isEqualTo("WM Deutschland");
         });
 
         List<GameList> rounds = seasonManagerService.findRounds(wm2006.get());
-        assertThat(rounds).hasSize(7);
+        assertThat(rounds).hasSize(25);
     }
 
     @Test
@@ -192,7 +192,7 @@ class SeasonManagerServiceFinderTest extends AbstractServiceTest {
                 "Frosch", "Goddard", "Hattwig", "Jogi", "mrTipp", "Peter",
                 "Roenne", "Steffen" };
 
-        assertThat(members).extracting("nickname").contains("Andi", "Bernd_das_Brot", "chris",
+        assertThat(members).extracting("nickname.value").contains("Andi", "Bernd_das_Brot", "chris",
                 "Frosch", "Goddard", "Hattwig", "Jogi", "mrTipp", "Peter",
                 "Roenne", "Steffen");
         
@@ -329,11 +329,11 @@ class SeasonManagerServiceFinderTest extends AbstractServiceTest {
     @Test
     void testDatabaseMaintenanceService() {
         Object object = databaseMaintenanceService.executeHql("from Season");
-        assertEquals(22, ((List<?>) object).size());
+        assertEquals(33, ((List<?>) object).size());
 
         Object object2 = databaseMaintenanceService.executeHql(
                 "select s " + "from Season s left join fetch s.groups as group "
-                        + "where s.name = 'WM Deutschland' and s.year = 2006");
+                        + "where s.reference.name = 'WM Deutschland' and s.reference.year = 2006");
         assertEquals(13, ((List<?>) object2).size());
     }
 
