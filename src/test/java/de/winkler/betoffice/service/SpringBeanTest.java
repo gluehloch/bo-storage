@@ -68,7 +68,7 @@ public class SpringBeanTest extends AbstractServiceTest {
     @Test
     public void testSwingBetofficeStore() {
         List<Season> championships = seasonManagerService.findAllSeasons();
-        assertThat(championships).hasSize(7);
+        assertThat(championships).hasSize(33);
     }
 
 }

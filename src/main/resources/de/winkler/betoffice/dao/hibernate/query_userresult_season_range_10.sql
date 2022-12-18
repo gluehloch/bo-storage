@@ -43,7 +43,6 @@ WHERE
       cm.id = :community_id
   AND gl.bo_index >= :start_index
   AND gl.bo_index <= :end_index
-  AND us.bo_user_ref = u.id
   AND m.bo_isplayed = 1
   AND t.bo_status <> 0
   /* Alle 13 Punkte Tipps ausschliessen. */

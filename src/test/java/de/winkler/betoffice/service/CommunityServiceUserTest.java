@@ -82,8 +82,8 @@ class CommunityServiceUserTest extends AbstractServiceTest {
         List<User> users = communityService.findAllUsers();
 
         assertThat(users).hasSize(2);
-        assertThat(users.get(0).getNickname()).isEqualTo("Frosch");
-        assertThat(users.get(1).getNickname()).isEqualTo("Peter");
+        assertThat(users.get(0).getNickname().value()).isEqualTo("Frosch");
+        assertThat(users.get(1).getNickname().value()).isEqualTo("Peter");
     }
 
     @Test

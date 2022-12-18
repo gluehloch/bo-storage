@@ -41,8 +41,7 @@ FROM
 WHERE
   --    s.id = 26 /*:season_id*/
   -- AND
-  us.bo_user_ref = u.id
-  AND m.bo_isplayed = 1
+  m.bo_isplayed = 1
   AND t.bo_status <> 0
   /* Alle 13 Punkte Tipps ausschliessen. */
   AND NOT

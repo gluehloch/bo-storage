@@ -99,7 +99,7 @@ class CommunityServiceTest extends AbstractServiceTest {
                 .orElseThrow();
 
         assertThat(community.getCommunityManager()).isEqualTo(communityManager);
-        assertEquals("TDKB", community.getName());
+        assertEquals("TDKB_short", community.getName());
         assertEquals(communityManager.getId(), community.getCommunityManager().getId());
     }
 

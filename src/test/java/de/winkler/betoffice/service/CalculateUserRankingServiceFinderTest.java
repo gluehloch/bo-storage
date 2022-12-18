@@ -128,9 +128,9 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
 
         Set<User> users = communityService.findMembers(communityReference);
         assertEquals(11, users.size());
-        assertEquals("Frosch", frosch.getNickname());
-        assertEquals("mrTipp", mrTipp.getNickname());
-        assertEquals("Peter", peter.getNickname());
+        assertEquals("Frosch", frosch.getNickname().value());
+        assertEquals("mrTipp", mrTipp.getNickname().value());
+        assertEquals("Peter", peter.getNickname().value());
 
         List<GameList> rounds = seasonManagerService.findRounds(wm2006);
         GameList finale = rounds.get(24);
@@ -196,7 +196,7 @@ class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
     public void testCalculateUserRankingBuli2006() {
         Season bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
 
-        CommunityReference communityReference = CommunityReference.of("2006/2007");
+        CommunityReference communityReference = CommunityReference.of("TDKB 2006/2007");
         communityService.find(communityReference).orElseThrow();
 
         Optional<GameList> round = seasonManagerService.findRound(bundesliga, 0);

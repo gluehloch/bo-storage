@@ -127,7 +127,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
                 .createNativeQuery(QUERY_SEASON_RANGE_COUNT_MATCHES)
                 .addScalar("count_matches",
                         org.hibernate.type.StandardBasicTypes.LONG);
-        queryMatches.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
+        queryMatches.setParameter(PARAMETER_SEASON_ID, community.getSeason().getId());
         queryMatches.setParameter("start_index", seasonRange.startIndex());
         queryMatches.setParameter("end_index", seasonRange.endIndex());
         Long countMatches = (Long) queryMatches.uniqueResult();
