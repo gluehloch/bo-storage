@@ -79,10 +79,10 @@ class UserPointsComparatorTest {
         List<UserResult> ur = Arrays.asList(urMrTipp, urChris, urFrosch, urHattwig);
         Collections.sort(ur, new UserPointsComparator());
 
-        assertEquals("Frosch", ur.get(0).getUser().getNickname());
-        assertEquals("Hattwig", ur.get(1).getUser().getNickname());
-        assertEquals("mrTipp", ur.get(2).getUser().getNickname());
-        assertEquals("chris", ur.get(3).getUser().getNickname());
+        assertEquals("Frosch", ur.get(0).getUser().getNickname().value());
+        assertEquals("Hattwig", ur.get(1).getUser().getNickname().value());
+        assertEquals("mrTipp", ur.get(2).getUser().getNickname().value());
+        assertEquals("chris", ur.get(3).getUser().getNickname().value());
     }
 
 }
