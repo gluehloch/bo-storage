@@ -35,6 +35,7 @@ import javax.sql.DataSource;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,8 @@ import de.winkler.betoffice.util.LoggerFactory;
  *
  * @author by Andre Winkler
  */
-class CalculateUserRankingServiceFinderTest extends AbstractServiceTest {
+@Tag("complete-database")
+class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
 
     private final Logger log = LoggerFactory.make();
 

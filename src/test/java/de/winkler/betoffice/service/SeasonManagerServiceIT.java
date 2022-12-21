@@ -35,6 +35,7 @@ import javax.sql.DataSource;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -53,7 +54,8 @@ import de.winkler.betoffice.storage.User;
  *
  * @author Andre Winkler
  */
-class SeasonManagerServiceTest extends AbstractServiceTest {
+@Tag("complete-database")
+class SeasonManagerServiceIT extends AbstractServiceTest {
 
     @Autowired
     private DataSource dataSource;

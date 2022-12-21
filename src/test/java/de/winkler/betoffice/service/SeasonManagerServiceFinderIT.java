@@ -38,6 +38,7 @@ import javax.sql.DataSource;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -60,7 +61,8 @@ import de.winkler.betoffice.storage.enums.SeasonType;
  *
  * @author by Andre Winkler
  */
-class SeasonManagerServiceFinderTest extends AbstractServiceTest {
+@Tag("complete-database-ex-tipp")
+class SeasonManagerServiceFinderIT extends AbstractServiceTest {
 
     @Autowired
     private DataSource dataSource;
