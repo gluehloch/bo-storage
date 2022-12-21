@@ -41,7 +41,6 @@ import de.winkler.betoffice.storage.Community;
 import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.SeasonReference;
-import de.winkler.betoffice.storage.User;
 
 @Repository("communityDao")
 public class CommunityDaoHibernate extends AbstractCommonDao<Community> implements CommunityDao {
@@ -80,10 +79,10 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
                         "FROM "
                         + " Community c "
                         + "WHERE "
-                        + filter("c", "shortName")
-                        + " AND " + filter("c", "name")
-                        + sqlsort.orElse(""),
-                        Community.class)
+                        + filter("shortName", "c.reference.shortName")
+                        + " AND "
+                        + filter("name", "c.name") 
+                        + sqlsort.orElse(""), Community.class)
                 .setParameter("shortName", communityFilter.getShortName())
                 .setParameter("name", communityFilter.getName())
                 .setFirstResult((int) pageable.getOffset())

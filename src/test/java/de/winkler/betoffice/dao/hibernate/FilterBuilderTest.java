@@ -8,7 +8,13 @@ public class FilterBuilderTest {
 
     @Test
     void filterBuilder() {
-        assertThat(FilterBuilder.filter("c","shortName")).isEqualTo(" (:shortName IS NULL OR (:shortName IS NOT NULL AND LOWER(c.shortName) LIKE LOWER('%' || :shortName || '%'))) ");
+        assertThat(FilterBuilder.filter("shortName", "c.shortName"))
+                .isEqualTo(
+                        " (:shortName IS NULL OR (:shortName IS NOT NULL AND LOWER(c.shortName) LIKE LOWER('%' || :shortName || '%'))) ");
+
+        assertThat(FilterBuilder.filter("shortName", "c.reference.shortName"))
+                .isEqualTo(
+                        " (:shortName IS NULL OR (:shortName IS NOT NULL AND LOWER(c.reference.shortName) LIKE LOWER('%' || :shortName || '%'))) ");
     }
-    
+
 }
