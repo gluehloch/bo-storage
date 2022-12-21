@@ -169,7 +169,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     public User createUser(final User user) {
         List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
 
-        if (StringUtils.isBlank(user.getNickname().value())) {
+        if (user.getNickname() == null || StringUtils.isBlank(user.getNickname().value())) {
             messages.add(new BetofficeValidationMessage(
                     "Nickname ist nicht gesetzt.", "nickName", Severity.ERROR));
         }

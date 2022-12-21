@@ -63,7 +63,8 @@ import de.winkler.betoffice.storage.enums.TippStatusType;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 
 /**
- * Creates a season and test some service methods of class {@link DefaultSeasonManagerService}.
+ * Creates a season and test some service methods of class
+ * {@link DefaultSeasonManagerService}.
  *
  * @author Andre Winkler
  */
@@ -79,10 +80,10 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
             .of(LocalDateTime.of(LocalDate.of(2010, 9, 9), LocalTime.of(0, 0)), ZoneId.of("Europe/Berlin"));
 
     private static final CommunityReference communityReference = CommunityReference.of("Bundesliga 2010/11");
-    
+
     private static final GroupType bundesliga1 = new GroupType();
-    
-    private static final SeasonReference seasonReference = SeasonReference.of("2010/2011", "Bundesliga"); 
+
+    private static final SeasonReference seasonReference = SeasonReference.of("2010/2011", "Bundesliga");
 
     private static final Nickname frosch = Nickname.of("Frosch");
     private static final Nickname peter = Nickname.of("Peter");
@@ -94,7 +95,7 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
 
     @Autowired
     private CommunityService communityService;
-    
+
     @Autowired
     private SeasonManagerService seasonManagerService;
 
@@ -156,6 +157,7 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         createGroups();
         addTeamsToBuli1();
         createUsers();
+        createCommunity();
 
         List<Team> removeTeams = Arrays.asList(rwe, schalke);
         seasonManagerService.removeTeams(buli_2010, bundesliga_1, removeTeams);
@@ -180,7 +182,11 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
             seasonManagerService.deleteSeason(buli_2010);
             fail("Expected a BetofficeValidationException.");
         } catch (BetofficeValidationException ex) {
-            assertThat(ex.getMessages()).hasSize(3);
+            assertThat(ex.getMessages()).hasSize(2)
+                    .extracting("message")
+                    .contains(
+                            "Der Meisterschaft sind Spieltage zugeordnet.",
+                            "Der Meisterschaft sind Gruppen zugordnet.");
         }
     }
 
@@ -218,6 +224,12 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
 
         User userFrosch = createUser(frosch, "Andre", "Winkler");
         User userPeter = createUser(peter, "Peter", "Groth");
+        User userMrTipp = createUser(mrTipp, "Markus", "Rohloff");
+        createCommunity();
+
+        communityService.removeMember(communityReference, frosch);
+        communityService.removeMember(communityReference, peter);
+        communityService.removeMember(communityReference, mrTipp);
 
         communityService.addMember(communityReference, frosch);
         communityService.addMember(communityReference, peter);
@@ -235,16 +247,16 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         addTeamsToBuli1();
         createRounds();
         createMatches();
-        
+
         List<GameList> rounds = seasonManagerService.findRounds(season);
         assertThat(rounds).hasSize(3);
-        
+
         GameList round1 = seasonManagerService.findRound(season, 0).orElseThrow();
         assertThat(round1.size()).isEqualTo(2);
-        
+
         GameList round2 = seasonManagerService.findRound(season, 1).orElseThrow();
         assertThat(round2.size()).isEqualTo(2);
-        
+
         GameList round3 = seasonManagerService.findRound(season, 2).orElseThrow();
         assertThat(round3.size()).isEqualTo(2);
     }
@@ -258,8 +270,8 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         addTeamsToBuli1();
         createRounds();
         createMatches();
-        createCommunity();
         createUsers();
+        createCommunity();
 
 //        DATE_01_09_2010, rwe, schalke, 2, 0
 //        DATE_01_09_2010, hsv, burghausen, 1, 1
@@ -269,19 +281,19 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
 //
 //        DATE_15_09_2010, rwe, hsv, 1, 2
 //        DATE_15_09_2010, burghausen, schalke, 0, 1        
-        
+
         //
-        // Frosch 2:0 | 1:1 || 1:1 | 1:1 || 1:2 | 0:1 
+        // Frosch 2:0 | 1:1 || 1:1 | 1:1 || 1:2 | 0:1
         //
-        
+
         User userFrosch = communityService.findUser(frosch).orElseThrow();
         User userPeter = communityService.findUser(peter).orElseThrow();
         User userMrTipp = communityService.findUser(mrTipp).orElseThrow();
-        
+
         GameList round_01 = seasonManagerService.findRound(buli_2010, 0).orElseThrow();
         GameList round_02 = seasonManagerService.findRound(buli_2010, 1).orElseThrow();
         GameList round_03 = seasonManagerService.findRound(buli_2010, 2).orElseThrow();
-        
+
         tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, userFrosch,
                 List.of(new GameResult(2, 0), new GameResult(1, 1)), TippStatusType.USER);
 
@@ -319,19 +331,19 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         // Calculate user ranking
         //
         List<UserResult> userResult = communityCalculatorService.calculateRanking(communityReference);
-        assertThat(userResult.get(0)).isEqualTo(frosch);
+        assertThat(userResult.get(0).getUser().getNickname()).isEqualTo(frosch);
         assertThat(userResult.get(0).getTabPos()).isEqualTo(1);
         assertThat(userResult.get(0).getUserWin()).isEqualTo(6);
         assertThat(userResult.get(0).getUserTotoWin()).isEqualTo(0);
         assertThat(userResult.get(0).getTicket()).isEqualTo(0);
 
-        assertThat(userResult.get(1)).isEqualTo(mrTipp);
+        assertThat(userResult.get(1).getUser().getNickname()).isEqualTo(mrTipp);
         assertThat(userResult.get(1).getTabPos()).isEqualTo(2);
         assertThat(userResult.get(1).getUserWin()).isEqualTo(0);
         assertThat(userResult.get(1).getUserTotoWin()).isEqualTo(6);
         assertThat(userResult.get(1).getTicket()).isEqualTo(0);
 
-        assertThat(userResult.get(2)).isEqualTo(peter);
+        assertThat(userResult.get(2).getUser().getNickname()).isEqualTo(peter);
         assertThat(userResult.get(2).getTabPos()).isEqualTo(3);
         assertThat(userResult.get(2).getUserWin()).isEqualTo(3);
         assertThat(userResult.get(2).getUserTotoWin()).isEqualTo(0);
@@ -423,7 +435,7 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         buli_2010.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(buli_2010);
         assertThat(seasonManagerService.findAllSeasons()).hasSize(1);
-        
+
         return buli_2010;
     }
 
@@ -458,16 +470,16 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
                 .isEqualTo(groupType);
         return groupType;
     }
-    
+
     private void createCommunity() {
         communityService.create(communityReference, seasonReference, "Bundesliga 2010/11", frosch);
+        communityService.addMembers(communityReference, nicknames);
     }
 
     private void createUsers() {
         createUser(frosch, "Andre", "Winkler");
         createUser(peter, "Peter", "Groth");
         createUser(mrTipp, "Markus", "Rohloff");
-        communityService.addMembers(communityReference, nicknames);
     }
 
     private User createUser(Nickname nickname, String surname, String name) {
