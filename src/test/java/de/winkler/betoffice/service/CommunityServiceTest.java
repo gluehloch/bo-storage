@@ -80,6 +80,12 @@ class CommunityServiceTest extends AbstractServiceTest {
     }
 
     @Test
+    void defaultPlayerGroup() {
+        SeasonReference seasonReference = SeasonReference.of("2006", "WM Deutschland");
+        assertThat(CommunityService.defaultPlayerGroup(seasonReference).getShortName()).isEqualTo("TDKB 2006");
+    }
+    
+    @Test
     void createCommunity() {
         Season bundesliga = new Season(SeasonReference.of("2020/2021", "Bundesliga"));
         bundesliga.setMode(SeasonType.LEAGUE);

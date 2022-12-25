@@ -44,6 +44,12 @@ import de.winkler.betoffice.validation.BetofficeServiceResult;
  * @author Andre Winkler
  */
 public interface CommunityService {
+    
+    public static final String DEFAULT_PLAYER_GROUP = "TDKB";
+    
+    static CommunityReference defaultPlayerGroup(SeasonReference seasonReference) {
+        return CommunityReference.of(String.format("%s %s", DEFAULT_PLAYER_GROUP, seasonReference.getYear()));
+    }
 
     /**
      * Find a community by its reference.
