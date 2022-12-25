@@ -44,9 +44,9 @@ import de.winkler.betoffice.validation.BetofficeServiceResult;
  * @author Andre Winkler
  */
 public interface CommunityService {
-    
+
     public static final String DEFAULT_PLAYER_GROUP = "TDKB";
-    
+
     static CommunityReference defaultPlayerGroup(SeasonReference seasonReference) {
         return CommunityReference.of(String.format("%s %s", DEFAULT_PLAYER_GROUP, seasonReference.getYear()));
     }
@@ -129,6 +129,15 @@ public interface CommunityService {
      * @return the updated community.
      */
     Community removeMember(CommunityReference communityRef, Nickname nickname);
+
+    /**
+     * Remove community members.
+     * 
+     * @param communityRef the community name
+     * @param nicknames    the community members to remove
+     * @return the updated community.
+     */
+    Community removeMembers(CommunityReference communityRef, Set<Nickname> nicknames);
 
     /**
      * Find all users.

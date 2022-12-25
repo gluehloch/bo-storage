@@ -160,6 +160,11 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
+    public Community removeMembers(CommunityReference reference, Set<Nickname> nicknames) {
+        
+    }
+    
+    @Override
     public Optional<User> findUser(Nickname nickname) {
         return userDao.findByNickname(nickname);
     }
