@@ -145,7 +145,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         nicknames.stream()
             .map(n -> userDao.findByNickname(n))
             .forEach(u -> u.ifPresent(us -> community.addMember(us)));
-        communityDao.save(community);        
+        communityDao.save(community);
 
         return community;
     }
@@ -161,7 +161,10 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     public Community removeMembers(CommunityReference reference, Set<Nickname> nicknames) {
-        
+        nicknames.stream().forEach(nickname -> {
+            removeMember(reference, nickname);
+        });
+        return communityDao.find(reference).orElseThrow();
     }
     
     @Override
