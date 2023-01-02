@@ -6,7 +6,9 @@
 	</properties>
 	<body>
 		<!-- Under construction. -->
-		<release version="betoffice-storage-3.0.0" date="2022-06-??" description="Community Edition">
+
+		<!-- RELEASED -->
+		<release version="betoffice-storage-3.0.0" date="2023-01-02" description="Community Edition">
 			<action dev="andrewinkler" type="add" date="2022-06-18">
 				Prepare storage to store communities and all relations.
 			</action>
