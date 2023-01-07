@@ -8,7 +8,7 @@
 		<!-- Under construction. -->
 
 		<!-- RELEASED -->
-		<release version="betoffice-storage-3.0.0" date="2023-01-02" description="Community Edition">
+		<release version="betoffice-storage-3.0.0" date="2023-01-07" description="Community Edition">
 			<action dev="andrewinkler" type="add" date="2022-06-18">
 				Prepare storage to store communities and all relations.
 			</action>
