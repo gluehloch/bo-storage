@@ -43,6 +43,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.storage.CommunityReference;
+import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Group;
@@ -105,7 +106,23 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
         Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
         List<GameList> rounds = seasonManagerService.findRounds(wm2006);
 
+        GameList firstRound = seasonManagerService.findRound(wm2006, 0).orElseThrow();
+        assertThat(firstRound.size()).isEqualTo(2);
+
+        Game gameDeutschlandVsCostaRica = firstRound.get(0);
+        assertThat(gameDeutschlandVsCostaRica.isKo()).as("KO game").isFalse();
+
+        Game gamePolenVsEcuador = firstRound.get(1);
+        assertThat(gamePolenVsEcuador.isKo()).isFalse();
+        
         GameList finale = seasonManagerService.findRoundGames(rounds.get(24).getId()).orElseThrow();
+        assertThat(finale.size()).isEqualTo(1);
+        Game finalGame = finale.get(0);
+        assertThat(finalGame.getHomeTeam().getName()).as("Heimmannschaft").isEqualTo("Italien");
+        assertThat(finalGame.getGuestTeam().getName()).as("Gastmannschaft").isEqualTo("Frankreich");
+        assertThat(finalGame.isKo()).isFalse(); // Damals konnte beoffice noch keine KO Spiele.
+        assertThat(finalGame.getResult().getHomeGoals()).isEqualTo(5);
+        assertThat(finalGame.getResult().getGuestGoals()).isEqualTo(3);
 
         List<GameTipp> tipps = tippService.findTipps(finale.get(0));
         assertThat(tipps).hasSize(8);
