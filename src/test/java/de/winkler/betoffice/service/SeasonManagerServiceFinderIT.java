@@ -163,7 +163,7 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
 
     @Test
     void testFindAllSeasons() {
-        assertThat(seasonManagerService.findAllSeasons().size()).isEqualTo(33);
+        assertThat(seasonManagerService.findAllSeasons().size()).isEqualTo(34);
     }
 
     /**
@@ -331,7 +331,7 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
     @Test
     void testDatabaseMaintenanceService() {
         Object object = databaseMaintenanceService.executeHql("from Season");
-        assertEquals(33, ((List<?>) object).size());
+        assertEquals(34, ((List<?>) object).size());
 
         Object object2 = databaseMaintenanceService.executeHql(
                 "select s " + "from Season s left join fetch s.groups as group "
