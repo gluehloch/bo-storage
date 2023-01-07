@@ -18,18 +18,23 @@
     </description>
 	<inceptionYear>2000</inceptionYear>
 	<properties></properties>
-	<!--
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<groups>UnitTest</groups>
-				</configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>3.0.0-M7</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
-	-->
 	<dependencies>
 		<dependency>
 			<groupId>javax.validation</groupId>

@@ -179,44 +179,48 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
     }
 
     @Test
-    public void testCalculateUserRankingWm2006() {
+    public void testCalculateUserRanking() {
+        //
+        // WM 2006 / Deutschland
+        //
         seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
 
-        CommunityReference communityReference = CommunityReference.of("TDKB 2006");
+        CommunityReference communityReferenceWm2006 = CommunityReference.of("TDKB 2006");
 
-        List<UserResult> userResults = communityCalculatorService.calculateRanking(communityReference);
-        validateUserResult(userResults, 0, "Frosch", 483, 11, 34, 1);
-        validateUserResult(userResults, 1, "Jogi", 477, 9, 36, 2);
-        validateUserResult(userResults, 2, "Hattwig", 471, 7, 38, 3);
-        validateUserResult(userResults, 3, "Roenne", 467, 9, 35, 4);
-        validateUserResult(userResults, 4, "Goddard", 415, 5, 35, 5);
-        validateUserResult(userResults, 5, "Peter", 408, 6, 33, 6);
-        validateUserResult(userResults, 6, "chris", 378, 6, 30, 7);
-        validateUserResult(userResults, 7, "Andi", 328, 6, 25, 8);
-        validateUserResult(userResults, 8, "Steffen", 325, 5, 26, 9);
-        validateUserResult(userResults, 9, "Bernd_das_Brot", 239, 3, 20, 10);
-        validateUserResult(userResults, 10, "mrTipp", 222, 4, 17, 11);
-    }
+        List<UserResult> userResultsWm2006 = communityCalculatorService.calculateRanking(communityReferenceWm2006);
+        validateUserResult(userResultsWm2006, 0, "Frosch", 483, 11, 34, 1);
+        validateUserResult(userResultsWm2006, 1, "Jogi", 477, 9, 36, 2);
+        validateUserResult(userResultsWm2006, 2, "Hattwig", 471, 7, 38, 3);
+        validateUserResult(userResultsWm2006, 3, "Roenne", 467, 9, 35, 4);
+        validateUserResult(userResultsWm2006, 4, "Goddard", 415, 5, 35, 5);
+        validateUserResult(userResultsWm2006, 5, "Peter", 408, 6, 33, 6);
+        validateUserResult(userResultsWm2006, 6, "chris", 378, 6, 30, 7);
+        validateUserResult(userResultsWm2006, 7, "Andi", 328, 6, 25, 8);
+        validateUserResult(userResultsWm2006, 8, "Steffen", 325, 5, 26, 9);
+        validateUserResult(userResultsWm2006, 9, "Bernd_das_Brot", 239, 3, 20, 10);
+        validateUserResult(userResultsWm2006, 10, "mrTipp", 222, 4, 17, 11);
 
-    @Test
-    public void testCalculateUserRankingBuli2006() {
+        //
+        // Bundesliga 2006 / 2007
+        //
+
         Season bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
 
-        CommunityReference communityReference = CommunityReference.of("TDKB 2006/2007");
-        communityService.find(communityReference).orElseThrow();
+        CommunityReference communityReferenceBundesliga2006 = CommunityReference.of("TDKB 2006/2007");
+        communityService.find(communityReferenceBundesliga2006).orElseThrow();
 
         Optional<GameList> round = seasonManagerService.findRound(bundesliga, 0);
         Group bundesligaGroup = round.get().getGroup();
         assertThat(round.get().toList(bundesligaGroup)).hasSize(9);
 
-        List<UserResult> userResults = communityCalculatorService.calculateRanking(communityReference, round.get());
+        List<UserResult> userResultsBundesliga2006 = communityCalculatorService.calculateRanking(communityReferenceBundesliga2006, round.get());
 
-        validateUserResult(userResults, 0, "Peter", 50, 0, 5, 1);
-        validateUserResult(userResults, 1, "Steffen", 46, 2, 2, 2);
-        validateUserResult(userResults, 2, "Frosch", 43, 1, 3, 3);
-        validateUserResult(userResults, 3, "Roenne", 43, 1, 3, 4);
+        validateUserResult(userResultsBundesliga2006, 0, "Peter", 50, 0, 5, 1);
+        validateUserResult(userResultsBundesliga2006, 1, "Steffen", 46, 2, 2, 2);
+        validateUserResult(userResultsBundesliga2006, 2, "Frosch", 43, 1, 3, 3);
+        validateUserResult(userResultsBundesliga2006, 3, "Roenne", 43, 1, 3, 4);
 
-        List<UserResult> userResultsRange = communityCalculatorService.calculateRanking(communityReference,
+        List<UserResult> userResultsRange = communityCalculatorService.calculateRanking(communityReferenceBundesliga2006,
                 SeasonRange.of(0, 1));
 
         validateUserResult(userResultsRange, 0, "Peter", 119, 3, 8, 1);
