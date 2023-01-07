@@ -33,6 +33,7 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -105,7 +106,6 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
         List<GameList> rounds = seasonManagerService.findRounds(wm2006);
 
         GameList finale = seasonManagerService.findRoundGames(rounds.get(24).getId()).orElseThrow();
-        // GameList finale = rounds.get(24);
 
         List<GameTipp> tipps = tippService.findTipps(finale.get(0));
         assertThat(tipps).hasSize(8);
@@ -117,11 +117,9 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
             assertThat(tipps.get(index).getUser().getNickname().value())
                     .isEqualTo(nicknames[index]);
         }
-    }
+        
+        // --
 
-    @Test
-    void testFindTippByFroschWm2006() {
-        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
         User frosch = communityService.findUser(Nickname.of("Frosch")).orElseThrow();
         User mrTipp = communityService.findUser(Nickname.of("mrTipp")).orElseThrow();
         User peter = communityService.findUser(Nickname.of("Peter")).orElseThrow();
@@ -134,8 +132,7 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
         assertEquals("mrTipp", mrTipp.getNickname().value());
         assertEquals("Peter", peter.getNickname().value());
 
-        List<GameList> rounds = seasonManagerService.findRounds(wm2006);
-        GameList finale = rounds.get(24);
+        assertThat(rounds.get(24)).isEqualTo(finale);
         List<GameTipp> finalRoundTipps = tippService.findTipps(finale, frosch);
 
         assertEquals(frosch, finalRoundTipps.get(0).getUser());
@@ -157,21 +154,11 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
         List<GameTipp> peterTipps = tippService.findTipps(finale, peter);
         assertEquals(1, peterTipps.get(0).getTipp().getHomeGoals());
         assertEquals(2, peterTipps.get(0).getTipp().getGuestGoals());
-    }
+        
+        // --
 
-    @Test
-    public void testFindTippByXtianWm2006() {
-        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
         User user = communityService.findUser(Nickname.of("Xtian")).orElseThrow();
-        List<GameList> rounds = seasonManagerService.findRounds(wm2006);
-        GameList finale = rounds.get(24);
-        List<GameTipp> finalRoundTipps = tippService.findTipps(finale, user);
-
-        assertEquals(finalRoundTipps.size(), 0);
-
-        // assertEquals(user, finalRoundTipps.get(0).getUser());
-        // assertEquals(0, finalRoundTipps.get(0).getTipp().getHomeGoals());
-        // assertEquals(2, finalRoundTipps.get(0).getTipp().getGuestGoals());
+        assertThat(tippService.findTipps(finale, user)).hasSize(0);
     }
 
     @Test
@@ -203,7 +190,7 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
 
         Optional<GameList> round = seasonManagerService.findRound(bundesliga, 0);
         Group bundesligaGroup = round.get().getGroup();
-        assertEquals(9, round.get().toList(bundesligaGroup).size());
+        assertThat(round.get().toList(bundesligaGroup)).hasSize(9);
 
         List<UserResult> userResults = communityCalculatorService.calculateRanking(communityReference, round.get());
 
@@ -225,16 +212,18 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
             final int index, final String nickname,
             final int points, final int win, final int totoWin, int tabPos) {
 
-        assertEquals(nickname, userResults.get(index).getUser().getNickname().value());
-        assertEquals(points, userResults.get(index).getPoints());
-        assertEquals(win, userResults.get(index).getUserWin());
-        assertEquals(totoWin, userResults.get(index).getUserTotoWin());
-        assertEquals(tabPos, userResults.get(index).getTabPos());
-
         log.debug("Name: "
                 + userResults.get(index).getUser().getNickname()
                 + ", PTS: "
                 + userResults.get(index).getPoints());
+
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(userResults.get(index).getUser().getNickname().value()).as("Nickname").isEqualTo(nickname);
+        softly.assertThat(userResults.get(index).getUserWin()).as("13 points").isEqualTo(win);
+        softly.assertThat(userResults.get(index).getUserTotoWin()).as("10 points").isEqualTo(totoWin);
+        softly.assertThat(userResults.get(index).getPoints()).as("summary points").isEqualTo(points);
+        softly.assertThat(userResults.get(index).getTabPos()).as("tab position").isEqualTo(tabPos);
+        softly.assertAll();
     }
 
 }
