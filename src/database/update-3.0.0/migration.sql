@@ -4,8 +4,8 @@ SELECT version();
 select concat(bo_name, ' ', bo_year) from bo_season;
 --select * from bo_season;
 --select * from bo_community bc;
-delete from bo_community;
 delete from bo_community_user;
+delete from bo_community;
 --select * from bo_community_user bcu;
 --select * from bo_user u where u.bo_nickname = 'Frosch'; /* 6 */
 --select * from bo_user_season bus;
