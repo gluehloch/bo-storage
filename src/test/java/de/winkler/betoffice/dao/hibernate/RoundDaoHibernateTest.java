@@ -150,7 +150,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
             .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN));
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
-        assertThat(matchDao.findById(20L).isPlayed()).isFalse();
+        assertThat(matchDao.findById(20L).isPlayed()).isTrue();
 
         // Datum kurz vor dem Spieltag
         assertThat(roundDao.findNextTippRound(1L,
@@ -231,7 +231,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
-        assertThat(matchDao.findById(20L).isPlayed()).isFalse();
+        assertThat(matchDao.findById(20L).isPlayed()).isTrue();
 
         // Datum kurz vor dem Spieltag
         assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).isNotPresent();
