@@ -74,20 +74,27 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
             sqlsort = Optional.of("ORDER BY " + pageable.getSort().stream().map(s -> s.getProperty() + s.getDirection().name()).collect(Collectors.joining(", ")));    
         }
 
-        List<Community> communities = getSessionFactory().getCurrentSession()
-                .createQuery(
-                        "FROM "
-                        + " Community c "
-                        + "WHERE "
-                        + filter("shortName", "c.reference.shortName")
-                        + " AND "
-                        + filter("name", "c.name") 
-                        + sqlsort.orElse(""), Community.class)
-                .setParameter("shortName", communityFilter.getShortName())
-                .setParameter("name", communityFilter.getName())
-                .setFirstResult((int) pageable.getOffset())
-                .setMaxResults(pageable.getPageSize())
-                .getResultList();
+	    Query<Community> communityQuery = getSessionFactory().getCurrentSession()
+			    .createQuery(
+					    "FROM "
+							    + " Community c "
+							    + "WHERE "
+							    + filter("shortName", "c.reference.shortName")
+							    + " AND "
+							    + filter("name", "c.name")
+							    + sqlsort.orElse(""), Community.class)
+			    .setParameter("shortName", communityFilter.getShortName())
+			    .setParameter("name", communityFilter.getName());
+
+		if (pageable.isPaged()) {
+			communityQuery.setFirstResult((int) pageable.getOffset());
+			communityQuery.setMaxResults(pageable.getPageSize());
+		} else {
+			communityQuery.setFetchSize(0);
+			communityQuery.setMaxResults(Integer.MAX_VALUE);
+		}
+
+	    List<Community> communities = communityQuery.getResultList();
                
         return new PageImpl<>(communities, pageable, total);
     }

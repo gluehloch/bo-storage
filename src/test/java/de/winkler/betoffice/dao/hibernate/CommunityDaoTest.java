@@ -29,9 +29,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.storage.Community;
+import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.CommunityReference;
 
 /**
@@ -68,6 +71,14 @@ class CommunityDaoTest extends AbstractDaoTestSupport {
     		.containsExactlyInAnyOrder("Frosch", "Steffen", "Mao", "Peter", "mrTipp", "Jogi");
     }
 
+	@Test
+	void findCommunities() {
+		CommunityFilter filter = new CommunityFilter();
+		filter.setName("Bundesliga");
+		Page<Community> communityPage = communityDao.findAll(filter, Pageable.unpaged());
 
+		assertThat(communityPage).isNotNull().hasSize(23);
+
+	}
 
 }
