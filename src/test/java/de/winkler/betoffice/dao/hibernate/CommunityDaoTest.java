@@ -67,5 +67,7 @@ class CommunityDaoTest extends AbstractDaoTestSupport {
     		.extracting("nickname.value")
     		.containsExactlyInAnyOrder("Frosch", "Steffen", "Mao", "Peter", "mrTipp", "Jogi");
     }
-    
+
+
+
 }

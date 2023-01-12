@@ -11,7 +11,7 @@
 	<artifactId>betoffice-storage</artifactId>
 	<name>betoffice storage</name>
 	<packaging>jar</packaging>
-	<version>3.0.0</version>
+	<version>3.0.1-SNAPSHOT</version>
 	<description>
         Betoffice storage implementation. Cares for persistence and point
         calculation for teams and users.
