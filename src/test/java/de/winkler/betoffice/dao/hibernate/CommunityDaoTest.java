@@ -30,7 +30,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.storage.Community;
@@ -75,10 +77,16 @@ class CommunityDaoTest extends AbstractDaoTestSupport {
 	void findCommunities() {
 		CommunityFilter filter = new CommunityFilter();
 		filter.setName("Bundesliga");
-		Page<Community> communityPage = communityDao.findAll(filter, Pageable.unpaged());
+		Page<Community> communityPage;
 
+		communityPage = communityDao.findAll(filter, Pageable.unpaged());
 		assertThat(communityPage).isNotNull().hasSize(23);
 
+		var pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Order.asc("name"), Sort.Order.desc("shortName")));
+		communityPage = communityDao.findAll(filter, pageRequest);
+		
+		assertThat(communityPage).isNotNull().hasSize(10);
+		
 	}
 
 }

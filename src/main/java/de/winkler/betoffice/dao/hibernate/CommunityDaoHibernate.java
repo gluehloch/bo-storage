@@ -70,8 +70,8 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
         long total = countAll();
 
         Optional<String> sqlsort = Optional.empty();
-        if (pageable.getSort().isSorted()) {        
-            sqlsort = Optional.of("ORDER BY " + pageable.getSort().stream().map(s -> s.getProperty() + s.getDirection().name()).collect(Collectors.joining(", ")));    
+        if (pageable.getSort().isSorted()) {
+            sqlsort = Optional.of("ORDER BY " + pageable.getSort().stream().map(s -> s.getProperty().equals("shortName") ? "reference.shortName" : s.getProperty() + ' ' + s.getDirection().name()).collect(Collectors.joining(", ")));    
         }
 
 	    Query<Community> communityQuery = getSessionFactory().getCurrentSession()
@@ -95,7 +95,7 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
 		}
 
 	    List<Community> communities = communityQuery.getResultList();
-               
+
         return new PageImpl<>(communities, pageable, total);
     }
 
