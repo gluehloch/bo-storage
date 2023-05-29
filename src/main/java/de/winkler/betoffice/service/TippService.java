@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL  LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -168,7 +168,7 @@ public interface TippService {
      *            Das Bezugsdatum
      * @return Der naechste zu tippende Spieltag
      */
-    GameList findNextTippRound(long seasonId, ZonedDateTime date);
+    Optional<GameList> findNextTippRound(long seasonId, ZonedDateTime date);
 
     /**
      * Ermittelt den letzten zu tippenden Spieltag.
@@ -179,6 +179,6 @@ public interface TippService {
      *            Das Bezugsdatum
      * @return Der naechste zu tippende Spieltag
      */
-    GameList findPreviousTippRound(long seasonId, ZonedDateTime date);
+    Optional<GameList> findPreviousTippRound(long seasonId, ZonedDateTime date);
 
 }
