@@ -100,16 +100,6 @@ public class Team extends AbstractStorageObject {
         this(value, null, null);
     }
 
-    /**
-     * Konstruktor.
-     *
-     * @param _name
-     *                  Der Mannschaftsname.
-     * @param _longName
-     *                  Der Mannschaftsname komplett/in Langform.
-     * @param _logo
-     *                  Das Logo/Bezeichner der Logo-Datei.
-     */
     public Team(String _name, String _longName, String _logo) {
         setName(_name);
         setLongName(_longName);
@@ -148,7 +138,9 @@ public class Team extends AbstractStorageObject {
             team.setName(name);
             team.setLongName(longName);
             team.setLogo(logoResource);
-            team.setTeamType(teamType);
+            if (teamType != null) {
+                team.setTeamType(teamType);
+            }
             return team;
         }
     }
