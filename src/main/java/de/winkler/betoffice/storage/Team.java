@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -94,7 +94,7 @@ public class Team extends AbstractStorageObject {
      * Konstruktor. Erstellt ein minimales Team Objekt.
      *
      * @param value
-     *            Der Mannschaftsname
+     *              Der Mannschaftsname
      */
     public Team(String value) {
         this(value, null, null);
@@ -104,11 +104,11 @@ public class Team extends AbstractStorageObject {
      * Konstruktor.
      *
      * @param _name
-     *            Der Mannschaftsname.
+     *                  Der Mannschaftsname.
      * @param _longName
-     *            Der Mannschaftsname komplett/in Langform.
+     *                  Der Mannschaftsname komplett/in Langform.
      * @param _logo
-     *            Das Logo/Bezeichner der Logo-Datei.
+     *                  Das Logo/Bezeichner der Logo-Datei.
      */
     public Team(String _name, String _longName, String _logo) {
         setName(_name);
@@ -120,31 +120,39 @@ public class Team extends AbstractStorageObject {
         private String name;
         private String longName;
         private String logoResource;
+        private TeamType teamType;
+
         public static TeamBuilder team(String name) {
             var tb = new TeamBuilder();
             tb.name = name;
             return tb;
         }
-        
+
         public TeamBuilder longName(String longName) {
             this.longName = longName;
             return this;
         }
-        
+
         public TeamBuilder logo(String logoResource) {
             this.logoResource = logoResource;
             return this;
         }
         
+        public TeamBuilder type(TeamType teamType) {
+            this.teamType = teamType;
+            return this;
+        }
+
         public Team build() {
             var team = new Team();
             team.setName(name);
             team.setLongName(longName);
             team.setLogo(logoResource);
+            team.setTeamType(teamType);
             return team;
         }
     }
-    
+
     // -- id ------------------------------------------------------------------
 
     /**
@@ -162,7 +170,7 @@ public class Team extends AbstractStorageObject {
      * Setzt den Primärschlüssel.
      *
      * @param value
-     *            Der Primärschlüssel.
+     *              Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
@@ -185,7 +193,7 @@ public class Team extends AbstractStorageObject {
      * Setzt den Teamnamen.
      *
      * @param value
-     *            Der Teamname.
+     *              Der Teamname.
      */
     public void setName(final String value) {
         name = value;
@@ -208,7 +216,7 @@ public class Team extends AbstractStorageObject {
      * Setzt den Teamnamen in der Langbezeichnung.
      *
      * @param value
-     *            Der lange Teamname.
+     *              Der lange Teamname.
      */
     public void setLongName(final String value) {
         longName = value;
@@ -251,7 +259,7 @@ public class Team extends AbstractStorageObject {
      * Setzt das Logo.
      *
      * @param value
-     *            Das Logo.
+     *              Das Logo.
      */
     public void setLogo(final String value) {
         logo = value;
@@ -276,7 +284,7 @@ public class Team extends AbstractStorageObject {
      * Setzt den Mannschaftstyp.
      *
      * @param value
-     *            Der Mannschaftstyp.
+     *              Der Mannschaftstyp.
      */
     public void setTeamType(final TeamType value) {
         teamType = value;
@@ -297,7 +305,7 @@ public class Team extends AbstractStorageObject {
      * Setzt das Heimspielstadion.
      * 
      * @param value
-     *            Das Heimspielstadion.
+     *              Das Heimspielstadion.
      */
     public void setLocation(Location value) {
         location = value;
@@ -318,7 +326,7 @@ public class Team extends AbstractStorageObject {
      * Set openligadb ID
      *
      * @param value
-     *            The openligadb ID
+     *              The openligadb ID
      */
     public void setOpenligaid(Long value) {
         openligaid = value;
