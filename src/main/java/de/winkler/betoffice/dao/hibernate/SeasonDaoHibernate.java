@@ -54,7 +54,7 @@ import de.winkler.betoffice.storage.comparator.TeamPointsComparator;
 public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements SeasonDao {
 
     /** Sucht nach einer Meisterschaft mit gesuchtem Namen und Jahrgang. */
-    private static final String QUERY_SEASON_BY_NAME_AND_YEAR = "from "
+    private static final String QUERY_SEASON_BY_NAME_AND_YEAR = "select season from "
             + Season.class.getName() + " as season "
             + "where season.reference.name = :name and season.reference.year = :year";
 
@@ -93,7 +93,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
 
         return singleResult(query);
     }
-
+    
     @Override
     public List<TeamResult> calculateTeamRanking(Season season,
             GroupType groupType) {

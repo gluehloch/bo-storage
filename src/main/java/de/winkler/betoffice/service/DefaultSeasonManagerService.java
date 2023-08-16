@@ -591,10 +591,9 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Override
     @Transactional
     public void removeGroupType(Season season, GroupType groupType) {
-        if (season.getGroup(groupType) != null) {
-            Group group = season.removeGroup(groupType);
-            groupDao.delete(group);
-        }
+        Group group = groupDao.findBySeasonAndGroupType(season, groupType);
+        groupDao.delete(group);
+        // TODO season.remove(group) ?
     }
 
     @Override
