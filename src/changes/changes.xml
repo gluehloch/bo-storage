@@ -8,7 +8,7 @@
 		<!-- Under construction. -->
 		<release version="betoffice-storage-3.0.1" date="2023-01-??" description="Community Edition / Bugfix">
 			<action dev="andrewinkler" type="fix" date="2023-01-12">
-				Some bug fixes.
+				Some bug fixes: Remove group from season.
 			</action>
 		</release>
 
