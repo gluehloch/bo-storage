@@ -1,85 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>de.winkler.betoffice</groupId>
-		<artifactId>betoffice-maven-parent</artifactId>
-		<version>1.13.2</version>
-	</parent>
-	<artifactId>betoffice-storage</artifactId>
-	<name>betoffice storage</name>
-	<packaging>jar</packaging>
-	<version>3.0.1-SNAPSHOT</version>
-	<description>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>de.winkler.betoffice</groupId>
+        <artifactId>betoffice-maven-parent</artifactId>
+        <version>1.13.2</version>
+    </parent>
+    <artifactId>betoffice-storage</artifactId>
+    <name>betoffice storage</name>
+    <packaging>jar</packaging>
+    <version>3.0.1-SNAPSHOT</version>
+    <description>
         Betoffice storage implementation. Cares for persistence and point
         calculation for teams and users.
     </description>
-	<inceptionYear>2000</inceptionYear>
-	<properties></properties>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>3.0.0-M7</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-	<dependencies>
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>2.0.1.Final</version>
-		</dependency>
-		<!-- Some problems with an old version -->
-		<dependency>
-			<groupId>com.ibm.icu</groupId>
-			<artifactId>icu4j</artifactId>
-			<version>4.8.1.1</version>
-		</dependency>
-		<!-- MySQL Datenbank Treiber -->
-		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
-			<version>3.0.6</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- Database Connection Pool -->
-		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-dbcp2</artifactId>
-			<version>2.7.0</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-pool2</artifactId>
-			<version>2.8.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>de.betoffice</groupId>
-			<artifactId>betoffice-testutils</artifactId>
-			<version>1.2.1</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-	<distributionManagement>
-		<site>
-			<id>gluehloch-repository</id>
-			<url>scp://maven.gluehloch.de/var/www/projects.gluehloch/betoffice/core/betoffice-storage</url>
-		</site>
-	</distributionManagement>
+    <inceptionYear>2000</inceptionYear>
+    <properties></properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+        <!-- Some problems with an old version -->
+        <dependency>
+            <groupId>com.ibm.icu</groupId>
+            <artifactId>icu4j</artifactId>
+            <version>4.8.1.1</version>
+        </dependency>
+        <!-- MySQL Datenbank Treiber -->
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>3.0.6</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Database Connection Pool -->
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.7.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.betoffice</groupId>
+            <artifactId>betoffice-testutils</artifactId>
+            <version>1.2.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <distributionManagement>
+        <site>
+            <id>gluehloch-repository</id>
+            <url>
+                scp://maven.gluehloch.de/var/www/projects.gluehloch/betoffice/core/betoffice-storage</url>
+        </site>
+    </distributionManagement>
 </project>
