@@ -25,8 +25,8 @@ package de.winkler.betoffice.storage;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Transient;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Transient;
 
 import org.apache.commons.lang3.Validate;
 

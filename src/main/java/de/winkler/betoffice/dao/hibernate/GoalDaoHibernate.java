@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -78,8 +78,8 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements GoalDao
 
     @Override
     public void deleteAll(Game game) {
-        getSessionFactory().getCurrentSession()
-                .createSQLQuery("delete from goal g where gaol.game = :game");
+        getSessionFactory().getCurrentSession().createMutationQuery(
+                "delete from goal g where gaol.game = :game");
     }
 
 }

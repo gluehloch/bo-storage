@@ -25,9 +25,9 @@ package de.winkler.betoffice.storage;
 
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
 
 @Embeddable
 public class SeasonReference {

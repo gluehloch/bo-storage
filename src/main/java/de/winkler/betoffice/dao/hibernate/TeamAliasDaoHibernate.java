@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.query.Query;
-import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.TeamAliasDao;
@@ -52,13 +51,13 @@ public class TeamAliasDaoHibernate extends AbstractCommonDao<TeamAlias>
             + "  and ta.bo_team_ref = t.id";
 
     /** Sucht nach allen Alias Namen einer Mannschaft. */
-    private static final String QUERY_TEAMALIAS_BY_TEAM = "from "
-            + TeamAlias.class.getName() + " as alias "
-            + "where alias.team.id = :teamId";
+    private static final String QUERY_TEAMALIAS_BY_TEAM = "select ta from "
+            + TeamAlias.class.getName() + " as ta "
+            + "where ta.team.id = :teamId";
 
     /** Sucht nach alle TeamAliase. */
-    private static final String QUERY_TEAMALIAS_FINDALL = "from "
-            + TeamAlias.class.getName() + " order by bo_aliasName";
+    private static final String QUERY_TEAMALIAS_FINDALL = "select ta from "
+            + TeamAlias.class.getName() + " as ta order by bo_aliasName";
 
     public TeamAliasDaoHibernate() {
         super(TeamAlias.class);
@@ -68,14 +67,14 @@ public class TeamAliasDaoHibernate extends AbstractCommonDao<TeamAlias>
     @Override
     public List<TeamAlias> findAll() {
         return (getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_TEAMALIAS_FINDALL).getResultList());
+                .createQuery(QUERY_TEAMALIAS_FINDALL, TeamAlias.class).getResultList());
     }
 
     @Override
     public Optional<Team> findByAliasName(final String aliasName) {
         Query<Team> query = getSessionFactory().getCurrentSession()
                 .createNativeQuery(QUERY_TEAMALIAS_BY_NAME, Team.class)
-                .setParameter("alias_name", aliasName, StringType.INSTANCE);
+                .setParameter("alias_name", aliasName);
 
         return singleResult(query);
     }

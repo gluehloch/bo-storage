@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.query.Query;
-import org.hibernate.type.LongType;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.PlayerDao;
@@ -60,7 +59,7 @@ public class PlayerDaoHibernate extends AbstractCommonDao<Player>
                 .createQuery(
                         "from Player as player where player.openligaid = :openligaid",
                         Player.class)
-                .setParameter("openligaid", openligaid, LongType.INSTANCE);
+                .setParameter("openligaid", openligaid);
         return singleResult(query);
     }
 
@@ -70,7 +69,7 @@ public class PlayerDaoHibernate extends AbstractCommonDao<Player>
                 .createQuery(
                         "from Player as player left join fetch player.goals where player.id = :id",
                         Player.class)
-                .setParameter("id", id, LongType.INSTANCE);
+                .setParameter("id", id);
         return singleResult(query);
     }
 

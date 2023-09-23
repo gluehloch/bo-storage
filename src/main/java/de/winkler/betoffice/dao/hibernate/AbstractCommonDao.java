@@ -28,7 +28,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.NoResultException;
+import jakarta.persistence.NoResultException;
 
 import org.apache.commons.io.IOUtils;
 import org.hibernate.Session;
@@ -77,20 +77,20 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
 
     @Override
     public final void delete(final T t) {
-        getSessionFactory().getCurrentSession().delete(t);
+        getSessionFactory().getCurrentSession().remove(t);
     }
 
     @Override
     public final void deleteAll(final List<T> ts) {
         Session session = getSessionFactory().getCurrentSession();
         for (T t : ts) {
-            session.delete(t);
+            session.remove(t);
         }
     }
 
     @Override
     public final T save(final T t) {
-        getSessionFactory().getCurrentSession().saveOrUpdate(t);
+        getSessionFactory().getCurrentSession().merge(t);
         return t;
     }
 
@@ -98,20 +98,20 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
     public final void saveAll(final List<T> ts) {
         Session session = getSessionFactory().getCurrentSession();
         for (T t : ts) {
-            session.saveOrUpdate(t);
+            session.merge(t);
         }
     }
 
     @Override
     public final void update(final T t) {
-        getSessionFactory().getCurrentSession().saveOrUpdate(t);
+        getSessionFactory().getCurrentSession().merge(t);
     }
 
     @Override
     public final void updateAll(final List<T> ts) {
         Session session = getSessionFactory().getCurrentSession();
         for (T t : ts) {
-            session.saveOrUpdate(t);
+            session.merge(t);
         }
     }
 

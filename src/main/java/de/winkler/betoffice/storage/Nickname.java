@@ -26,8 +26,8 @@ package de.winkler.betoffice.storage;
 
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
 import org.apache.commons.lang3.StringUtils;
 

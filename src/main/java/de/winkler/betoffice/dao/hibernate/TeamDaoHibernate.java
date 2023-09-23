@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -85,12 +85,9 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
     }
 
     @Override
-    public List<Team> findTeamsBySeasonAndGroup(final Season season,
-            final GroupType groupType) {
-
-        @SuppressWarnings("unchecked")
+    public List<Team> findTeamsBySeasonAndGroup(final Season season, final GroupType groupType) {
         List<Team> teams = getSessionFactory().getCurrentSession()
-                .createSQLQuery(QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE)
+                .createNativeQuery(QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE, Team.class)
                 .addEntity("team", Team.class)
                 .setParameter("season_id", season.getId())
                 .setParameter("grouptype_id", groupType.getId())
