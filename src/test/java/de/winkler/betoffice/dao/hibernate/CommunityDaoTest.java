@@ -46,9 +46,9 @@ import de.winkler.betoffice.storage.CommunityReference;
  */
 class CommunityDaoTest extends AbstractDaoTestSupport {
 
-	@Autowired
-	private CommunityDao communityDao;
-	
+    @Autowired
+    private CommunityDao communityDao;
+
     @BeforeEach
     public void init() {
         prepareDatabase(CommunityDaoTest.class);
@@ -56,37 +56,37 @@ class CommunityDaoTest extends AbstractDaoTestSupport {
 
     @Test
     void findCommunityByShortName() {
-    	assertThat(communityDao).isNotNull();
-    	
-    	Community community = communityDao.find(CommunityReference.of("TDKB 2021/2022")).orElseThrow();
-    	assertThat(community).isNotNull();
-    	assertThat(community.getName()).isEqualTo("Bundesliga");
-    	assertThat(community.getYear()).isEqualTo("2021/2022");    	 
+        assertThat(communityDao).isNotNull();
+
+        Community community = communityDao.find(CommunityReference.of("TDKB 2021/2022")).orElseThrow();
+        assertThat(community).isNotNull();
+        assertThat(community.getName()).isEqualTo("Bundesliga");
+        assertThat(community.getYear()).isEqualTo("2021/2022");
     }
-    
+
     @Test
     void findCommunityUsers() {
-    	Community community = communityDao.find(CommunityReference.of("TDKB 2021/2022")).orElseThrow();
-    	assertThat(community.getUsers()).hasSize(6);
-    	assertThat(community.getUsers())
-    		.extracting("nickname.value")
-    		.containsExactlyInAnyOrder("Frosch", "Steffen", "Mao", "Peter", "mrTipp", "Jogi");
+        Community community = communityDao.find(CommunityReference.of("TDKB 2021/2022")).orElseThrow();
+        assertThat(community.getUsers()).hasSize(6);
+        assertThat(community.getUsers())
+                .extracting(user -> user.getNickname().value())
+                .containsExactlyInAnyOrder("Frosch", "Steffen", "Mao", "Peter", "mrTipp", "Jogi");
     }
 
-	@Test
-	void findCommunities() {
-		CommunityFilter filter = new CommunityFilter();
-		filter.setName("Bundesliga");
-		Page<Community> communityPage;
+    @Test
+    void findCommunities() {
+        CommunityFilter filter = new CommunityFilter();
+        filter.setName("Bundesliga");
+        Page<Community> communityPage;
 
-		communityPage = communityDao.findAll(filter, Pageable.unpaged());
-		assertThat(communityPage).isNotNull().hasSize(23);
+        communityPage = communityDao.findAll(filter, Pageable.unpaged());
+        assertThat(communityPage).isNotNull().hasSize(23);
 
-		var pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Order.asc("name"), Sort.Order.desc("shortName")));
-		communityPage = communityDao.findAll(filter, pageRequest);
-		
-		assertThat(communityPage).isNotNull().hasSize(10);
-		
-	}
+        var pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Order.asc("name"), Sort.Order.desc("shortName")));
+        communityPage = communityDao.findAll(filter, pageRequest);
+
+        assertThat(communityPage).isNotNull().hasSize(10);
+
+    }
 
 }

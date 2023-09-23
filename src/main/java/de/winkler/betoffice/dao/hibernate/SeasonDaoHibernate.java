@@ -79,7 +79,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
     @Override
     public List<Season> findAll() {
         List<Season> seasons = getSessionFactory().getCurrentSession()
-                .createQuery("from Season order by bo_year", Season.class)
+                .createQuery("select s from Season s order by s.reference.year", Season.class)
                 .getResultList();
         return seasons;
     }

@@ -51,31 +51,44 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     /**
      * Sucht nach allen Spieltagen einer Meisterschaft.
      */
-    private static final String QUERY_GAMELIST_BY_SEASON = "from "
-            + "GameList as gamelist "
-            + "where gamelist.season.id = :seasonId "
-            + "order by gamelist.index";
+    private static final String QUERY_GAMELIST_BY_SEASON =
+            """
+            select
+                gamelist
+            from
+                GameList as gamelist
+            where
+                gamelist.season.id = :seasonId
+            order by
+                gamelist.index
+            """;
 
     /**
      * Sucht nach dem letzten Spieltag einer Meisterschaft.
      */
-    private static final String QUERY_LAST_GAMELIST_BY_SEASON = "from "
-            + "GameList as gamelist "
-            + "where gamelist.season.id = :seasonId "
-            + "and gamelist.index = "
-            + "("
-            + "    select "
-            + "        max(index) "
-            + "    from "
-            + "        gamelist gl2 "
-            + "    where "
-            + "        gl2.season.id = :seasonId "
-            + ")";
+    private static final String QUERY_LAST_GAMELIST_BY_SEASON =
+            """
+            select
+                gamelist
+            from
+                GameList as gamelist
+            where
+                gamelist.season.id = :seasonId
+                and gamelist.index =
+                (
+                    select
+                        max(index)
+                    from
+                        gamelist gl2
+                    where
+                        gl2.season.id = :seasonId
+                )
+            """;
 
     /**
      * Sucht nach dem ersten Spieltag einer Meisterschaft.
      */
-    private static final String QUERY_FIRST_GAMELIST_BY_SEASON = "from "
+    private static final String QUERY_FIRST_GAMELIST_BY_SEASON = "select gamelist from "
             + "GameList as gamelist "
             + "where gamelist.season.id = :seasonId "
             + "and gamelist.index = "
@@ -289,7 +302,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
         query.setParameter("roundId", id);
         query.addScalar("next_round_id");
 
-        BigInteger uniqueResult = (BigInteger) query.uniqueResult();
+        Number uniqueResult = (Number) query.uniqueResult();
         Optional<Long> nextRoundId = Optional.empty();
         if (uniqueResult != null) {
             nextRoundId = Optional.of(uniqueResult.longValue());
@@ -309,7 +322,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
         query.setParameter("roundId", id);
         query.addScalar("prev_round_id");
 
-        BigInteger uniqueResult = (BigInteger) query.uniqueResult();
+        Number uniqueResult = (Number) query.uniqueResult();
         Optional<Long> prevRoundId = Optional.empty();
         if (uniqueResult != null) {
             prevRoundId = Optional.of(uniqueResult.longValue());

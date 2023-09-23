@@ -146,8 +146,8 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         // Everything as expected?
         ZonedDateTime matchDateTime = matchDao.findById(1L).getDateTime();
         assertThat(matchDateTime)
-            .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_PARIS))
-            .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN));
+            .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN))
+            .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_PARIS));
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
         assertThat(matchDao.findById(20L).isPlayed()).isFalse();

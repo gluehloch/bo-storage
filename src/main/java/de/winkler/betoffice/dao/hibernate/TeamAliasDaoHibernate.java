@@ -57,13 +57,12 @@ public class TeamAliasDaoHibernate extends AbstractCommonDao<TeamAlias>
 
     /** Sucht nach alle TeamAliase. */
     private static final String QUERY_TEAMALIAS_FINDALL = "select ta from "
-            + TeamAlias.class.getName() + " as ta order by bo_aliasName";
+            + TeamAlias.class.getName() + " as ta order by ta.aliasName";
 
     public TeamAliasDaoHibernate() {
         super(TeamAlias.class);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<TeamAlias> findAll() {
         return (getSessionFactory().getCurrentSession()
