@@ -43,7 +43,7 @@ import de.winkler.betoffice.storage.Session;
  *
  * @author by Andre Winkler
  */
-public class SessionDaoHibernateTest extends AbstractDaoTestSupport {
+class SessionDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Autowired
     private SessionDao sessionDao;
@@ -52,9 +52,21 @@ public class SessionDaoHibernateTest extends AbstractDaoTestSupport {
     public void init() {
         prepareDatabase(SessionDaoHibernateTest.class);
     }
+    
+    @Test
+    void validateSystemTimeZoneIsEuropeBerlin() {
+        ZoneId systemDefault = ZoneId.systemDefault();
+        assertThat(systemDefault).isEqualTo(ZoneId.of("Europe/Berlin"));
+        
+        ZonedDateTime now = ZonedDateTime.now();
+        ZonedDateTime now2 = ZonedDateTime.now(ZoneId.systemDefault());
+        
+        System.out.println(now);
+        System.out.println(now2);
+    }
 
     @Test
-    public void testFindSessionsByNickname() {
+    void testFindSessionsByNickname() {
         List<Session> sessions = sessionDao.findByNickname("Frosch");
         assertThat(sessions).hasSize(2);
         assertThat(sessions.get(0).getNickname()).isEqualTo("Frosch");
@@ -68,7 +80,7 @@ public class SessionDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testFindSessionBySessionId() {
+    void testFindSessionBySessionId() {
         List<Session> sessions = sessionDao.findBySessionId("4711");
         assertThat(sessions.size()).isEqualTo(1);
         assertThat(sessions.get(0).getToken()).isEqualTo("4711");
