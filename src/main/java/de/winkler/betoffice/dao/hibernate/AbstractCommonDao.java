@@ -89,16 +89,16 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
     }
 
     @Override
-    public final T save(final T t) {
-        getSessionFactory().getCurrentSession().merge(t);
+    public final T persist(final T t) {
+        getSessionFactory().getCurrentSession().persist(t);
         return t;
     }
 
     @Override
-    public final void saveAll(final List<T> ts) {
+    public final void persistAll(final List<T> ts) {
         Session session = getSessionFactory().getCurrentSession();
         for (T t : ts) {
-            session.merge(t);
+            session.persist(t);
         }
     }
 

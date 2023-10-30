@@ -99,7 +99,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
             updateGameTipp.setLastUpdateTime(now);
             updateGameTipp.setUser(user);
             updateGameTipp.setTipp(tipp, status);
-            return gameTippDao.save(updateGameTipp);
+            return gameTippDao.persist(updateGameTipp);
         } else {
             GameTipp newGameTipp = new GameTipp();
             newGameTipp.setToken(token);
@@ -108,7 +108,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
             newGameTipp.setUser(user);
             newGameTipp.setGame(game);
             newGameTipp.setTipp(tipp, status);
-            return gameTippDao.save(newGameTipp);
+            return gameTippDao.persist(newGameTipp);
         }
     }
 
@@ -237,7 +237,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
                     GameTipp gameTipp = PartiallyCompleteTippDto.toGameTipp(PartiallyCompleteTippDto.of(
                             user, game, tippDto.getToken(), tippDto.getSubmitTime(), gameTippDto));
 
-                    gameTippDao.save(gameTipp);
+                    gameTippDao.persist(gameTipp);
                 }
             }
         }

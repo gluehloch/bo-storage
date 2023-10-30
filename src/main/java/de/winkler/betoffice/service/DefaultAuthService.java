@@ -98,7 +98,7 @@ public class DefaultAuthService implements AuthService {
             session.setToken(securityToken.getToken());
             session.setUser(user.get());
 
-            sessionDao.save(session);
+            sessionDao.persist(session);
         }
 
         return securityToken;
@@ -120,7 +120,7 @@ public class DefaultAuthService implements AuthService {
         } else {
             for (Session session : sessions) {
                 session.setLogout(dateTimeProvider.currentDateTime());
-                sessionDao.save(session);
+                sessionDao.persist(session);
             }
         }
     }

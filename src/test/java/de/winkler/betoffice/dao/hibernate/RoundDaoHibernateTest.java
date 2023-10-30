@@ -98,7 +98,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(newRound.getDateTime()).isNotInstanceOf(java.sql.Timestamp.class);
         assertThat(newRound.getDateTime()).isEqualTo(now);
 
-        roundDao.save(newRound);
+        roundDao.persist(newRound);
         roundDao.refresh(newRound);
 
         assertThat(newRound.getDateTime()).isEqualTo(now);

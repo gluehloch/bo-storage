@@ -80,7 +80,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     @Override
     @Transactional
     public void createSeason(final Season season) {
-        seasonDao.save(season);
+        seasonDao.persist(season);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
         }
 
         if (messages.isEmpty()) {
-            groupTypeDao.save(groupType);
+            groupTypeDao.persist(groupType);
         } else {
             throw new BetofficeValidationException(messages);
         }
@@ -117,7 +117,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
         }
 
         if (messages.isEmpty()) {
-            teamDao.save(team);
+            teamDao.persist(team);
         } else {
             throw new BetofficeValidationException(messages);
         }
@@ -138,7 +138,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
             teamAlias = new TeamAlias();
             teamAlias.setAliasName(teamAliasName);
             teamAlias.setTeam(team);
-            teamAliasDao.save(teamAlias);
+            teamAliasDao.persist(teamAlias);
         } else {
             throw new BetofficeValidationException(messages);
         }
@@ -245,7 +245,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     @Override
     @Transactional
     public void createLocation(Location location) {
-        locationDao.save(location);
+        locationDao.persist(location);
     }
 
     @Override
@@ -281,7 +281,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     @Override
     @Transactional
     public void createPlayer(Player player) {
-        playerDao.save(player);
+        playerDao.persist(player);
     }
 
     @Override

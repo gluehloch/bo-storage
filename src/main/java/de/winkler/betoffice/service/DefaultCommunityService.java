@@ -113,7 +113,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         community.setCommunityManager(communityManager);
 
         community.setSeason(persistedSeason);
-        communityDao.save(community);
+        communityDao.persist(community);
 
         return BetofficeServiceResult.sucess(community);
     }
@@ -135,7 +135,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         Community community = communityDao.find(communityReference).orElseThrow();
         User user = userDao.findByNickname(nickname).orElseThrow();
         community.addMember(user);
-        communityDao.save(community);
+        communityDao.update(community);
         return community;
     }
 
@@ -145,7 +145,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         nicknames.stream()
             .map(n -> userDao.findByNickname(n))
             .forEach(u -> u.ifPresent(us -> community.addMember(us)));
-        communityDao.save(community);
+        communityDao.update(community);
 
         return community;
     }
@@ -155,7 +155,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         User user = userDao.findByNickname(nickname).orElseThrow();
         Community community = communityDao.find(reference).orElseThrow();
         community.removeMember(user);
-        communityDao.save(community);
+        communityDao.persist(community);
         return community;
     }
 
@@ -183,7 +183,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         }
 
         if (messages.isEmpty()) {
-            userDao.save(user);
+            userDao.persist(user);
         } else {
             throw new BetofficeValidationException(messages);
         }

@@ -281,7 +281,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         match.setHomeTeam(homeTeam);
         match.setGuestTeam(guestTeam);
         match.setGroup(group);
-        matchDao.save(match);
+        matchDao.persist(match);
 
         gamelist.addGame(match);
         roundDao.update(gamelist);
@@ -310,7 +310,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         match.setGroup(group);
         match.setResult(result);
         match.setPlayed(true);
-        matchDao.save(match);
+        matchDao.persist(match);
 
         gamelist.addGame(match);
         roundDao.update(gamelist);
@@ -351,7 +351,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
         Season persistedSeason = seasonDao.findById(season.getId());
         persistedSeason.addGameList(round);
-        roundDao.save(round);
+        roundDao.persist(round);
         return round;
     }
 
@@ -451,7 +451,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Transactional
     public Season createSeason(Season season) {
         try {
-            seasonDao.save(season);
+            seasonDao.persist(season);
             return season;
         } catch (ConstraintViolationException ex) {
             List<BetofficeValidationMessage> messages = new ArrayList<>();
@@ -553,7 +553,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         Group group = new Group();
         group.setGroupType(groupType);
         persistedSeason.addGroup(group);
-        groupDao.save(group);
+        groupDao.persist(group);
 
         return persistedSeason;
     }
@@ -605,7 +605,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     public void addGoal(Game match, Goal goal) {
         match.addGoal(goal);
         goal.setGame(match);
-        matchDao.save(match);
+        matchDao.update(match);
     }
 
     @Override
