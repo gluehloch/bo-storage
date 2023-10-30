@@ -155,7 +155,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         User user = userDao.findByNickname(nickname).orElseThrow();
         Community community = communityDao.find(reference).orElseThrow();
         community.removeMember(user);
-        communityDao.persist(community);
+        communityDao.update(community);
         return community;
     }
 

@@ -1,5 +1,5 @@
 select
-  t.*
+  t.id, t.bo_name, t.bo_longname, t.bo_logo, t.bo_teamtype, t.bo_location_ref, t.bo_openligaid, t.bo_shortname, t.bo_xshortname
 from
   bo_team t,
   bo_group g,
