@@ -24,7 +24,7 @@
 
 package de.winkler.betoffice.storage;
 
-import org.apache.commons.lang3.Validate;
+import java.util.Objects;
 
 /**
  * TeamResult verwaltet die errechneten Daten einer Mannschaft für eine Saison
@@ -200,8 +200,8 @@ public class TeamResult implements Comparable<TeamResult> {
      *             Null Parameter übergeben.
      */
     public static int isBetterAs(TeamResult team1, TeamResult team2) {
-        Validate.notNull(team1, "team1 ist null");
-        Validate.notNull(team2, "team2 ist null");
+        Objects.requireNonNull(team1, "team1 ist null");
+        Objects.requireNonNull(team2, "team2 ist null");
 
         //
         // Einfacher Punktevergleich

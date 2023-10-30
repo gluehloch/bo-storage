@@ -40,8 +40,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import org.apache.commons.lang3.Validate;
-
 /**
  * Verwaltet die Daten einer Gruppe.
  *
@@ -117,7 +115,7 @@ public class Group extends AbstractStorageObject {
      *            Eine Saison.
      */
     protected void setSeason(final Season value) {
-        Validate.notNull(value);
+        Objects.requireNonNull(value);
         season = value;
     }
 
@@ -149,7 +147,7 @@ public class Group extends AbstractStorageObject {
      *            Eine Mannschaft.
      */
     public void addTeam(final Team value) {
-        Validate.notNull(value);
+        Objects.requireNonNull(value);
         teams.add(value);
     }
 
@@ -160,7 +158,7 @@ public class Group extends AbstractStorageObject {
      *            Eine Mannschaft.
      */
     public void removeTeam(final Team value) {
-        Validate.notNull(value);
+        Objects.requireNonNull(value);
         teams.remove(value);
     }
 

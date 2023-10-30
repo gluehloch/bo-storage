@@ -27,6 +27,9 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.TimeZoneStorage;
+import org.hibernate.annotations.TimeZoneStorageType;
+
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.CascadeType;
@@ -73,6 +76,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     /** date and time of game play */
     @Column(name = "bo_datetime")
+    @TimeZoneStorage(TimeZoneStorageType.NORMALIZE)
     private ZonedDateTime dateTime;
 
     /** Die zugehörige Gruppe. */

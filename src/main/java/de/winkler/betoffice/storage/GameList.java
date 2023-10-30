@@ -30,8 +30,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
+
+import org.hibernate.annotations.TimeZoneStorage;
+import org.hibernate.annotations.TimeZoneStorageType;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -45,8 +49,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
-
-import org.apache.commons.lang3.Validate;
 
 /**
  * Verwaltet alle Spiele/Games/Matches eines Spieltags/GameList/Round.
@@ -72,6 +74,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
     private Long openligaid;
 
     @Column(name = "bo_datetime")
+    @TimeZoneStorage(TimeZoneStorageType.NORMALIZE)
     private ZonedDateTime dateTime;
 
     @ManyToOne
@@ -130,7 +133,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      * @param value Die Liste der Spiele.
      */
     protected void setGameList(final List<Game> value) {
-        Validate.notNull(value);
+        Objects.requireNonNull(value);
         gameList = value;
     }
 
@@ -140,7 +143,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      * @param value Eine Spielpaarung.
      */
     public void addGame(final Game value) {
-        Validate.notNull(value);
+        Objects.requireNonNull(value);
         if (gameList.contains(value)) {
             throw new IllegalArgumentException("The game '" + value + "' already exists!");
         }
@@ -166,7 +169,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      * @param value Die zu entfernende Spielpaarung.
      */
     public void removeGame(final Game value) {
-        Validate.notNull(value);
+        Objects.requireNonNull(value);
         if (!gameList.contains(value)) {
             throw new IllegalArgumentException(value + " nicht vorhanden!");
         }

@@ -26,6 +26,9 @@ package de.winkler.betoffice.storage;
 
 import java.time.ZonedDateTime;
 
+import org.hibernate.annotations.TimeZoneStorage;
+import org.hibernate.annotations.TimeZoneStorageType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -56,9 +59,11 @@ public class Session {
     private String token;
 
     @Column(name = "bo_login")
+    @TimeZoneStorage(TimeZoneStorageType.NORMALIZE)
     private ZonedDateTime login;
     
     @Column(name = "bo_logout")
+    @TimeZoneStorage(TimeZoneStorageType.NORMALIZE)
     private ZonedDateTime logout;
     
     @Column(name = "bo_remoteaddress")
