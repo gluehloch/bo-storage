@@ -27,6 +27,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -102,10 +103,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional(readOnly = true)
-    public List<TeamResult> calculateTeamRanking(Season season,
-            GroupType groupType) {
-        return seasonDao.calculateTeamRanking(season,
-                groupType);
+    public List<TeamResult> calculateTeamRanking(Season season, GroupType groupType) {
+        return seasonDao.calculateTeamRanking(season, groupType);
     }
 
     @Override
@@ -468,7 +467,6 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     public void deleteSeason(Season season) {
         List<BetofficeValidationMessage> messages = new ArrayList<>();
 
-
         if (!communityDao.find(season.getReference()).isEmpty()) {
             messages.add(new BetofficeValidationMessage(
                     "Der Meisterschaft sind Communities zugeordnet.", null,
@@ -547,30 +545,10 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Override
     @Transactional
     public Season addGroupType(Season season, GroupType groupType) {
-        if (season == null) {
-            throw new IllegalArgumentException("Parameter season is null!");
-        }
-
-        if (groupType == null) {
-            throw new IllegalArgumentException("Parameter groupType is null!");
-        }
-
-        //
-        // TODO Eine NoResultException fuehrt zu einem Transaktions-Rollback (UnexpectedRollbackException).
-        // 
-        // Spring ist fuer diese Funktion zustaendig: RuntimeExceptions fuehren zu einem Rollback.
-        //
-        // Das Catch der 'NoResultException' kann die Rollback Exception nicht verhindern.
-        //
-        // try {
-        // Group group = groupDao.findBySeasonAndGroupType(season, groupType);
-        // return group;
-        // } catch (NoResultException ex) {
-        // // Ok. Create a new group.
-        // }
+        Objects.requireNonNull(season, "season is null");
+        Objects.requireNonNull(groupType, "groupType is null");
 
         Season persistedSeason = seasonDao.findById(season.getId());
-        // Season persistentSeason = findSeasonById(season.getId());
 
         Group group = new Group();
         group.setGroupType(groupType);
