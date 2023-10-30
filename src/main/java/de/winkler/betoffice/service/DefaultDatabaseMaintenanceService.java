@@ -26,6 +26,7 @@ package de.winkler.betoffice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.winkler.betoffice.dao.MaintenanceDao;
 
@@ -41,10 +42,12 @@ public class DefaultDatabaseMaintenanceService extends AbstractManagerService
     @Autowired
     private MaintenanceDao maintenanceDao;
     
+    @Transactional(readOnly = true)
     public Object executeHql(String hql) {
         return maintenanceDao.executeHql(hql);
     }
 
+    @Transactional(readOnly = true)
     public Object executeSQL(String sqlQuery) {
         return maintenanceDao.executeSql(sqlQuery);
     }

@@ -271,7 +271,7 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
 
     @Test
     void testDatabaseMaintenanceService() {
-        Object object = databaseMaintenanceService.executeHql("from Season");
+        Object object = databaseMaintenanceService.executeHql("select s from Season s");
         assertEquals(34, ((List<?>) object).size());
 
         Object object2 = databaseMaintenanceService.executeHql(

@@ -259,7 +259,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
         Optional<Long> result = Optional.empty();
         try {
             Object[] object = (Object[]) query.getSingleResult();
-            BigInteger roundId = (BigInteger) object[1];
+            Long roundId = (Long) object[1];
 
             if (roundId != null) {
                 result = Optional.of(roundId.longValue());
@@ -280,7 +280,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
         Optional<Long> result = Optional.empty();
         try {
             Object[] object = (Object[]) query.getSingleResult();
-            BigInteger roundId = (BigInteger) object[1];
+            Long roundId = (Long) object[1];
 
             if (roundId != null) {
                 result = Optional.of(roundId.longValue());
