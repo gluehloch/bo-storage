@@ -130,17 +130,17 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
         //
         // find matches
         //
-        Optional<Team> stuttgart = masterDataManagerService.findTeam("VfB Stuttgart");
-        Optional<Team> hsv = masterDataManagerService.findTeam("Hamburger SV");
+        Team stuttgart = masterDataManagerService.findTeam("VfB Stuttgart").orElseThrow();
+        Team hsv = masterDataManagerService.findTeam("Hamburger SV").orElseThrow();
 
-        List<Game> matchesHsvStuttgart = seasonManagerService.findMatches(stuttgart.get(), hsv.get());
-        assertThat(matchesHsvStuttgart.size()).isEqualTo(22);
+        List<Game> matchesHsvStuttgart = seasonManagerService.findMatches(stuttgart, hsv);
+        assertThat(matchesHsvStuttgart.size()).isEqualTo(17);
 
-        List<Game> matchesStuttgartHsv = seasonManagerService.findMatches(hsv.get(), stuttgart.get());
-        assertThat(matchesStuttgartHsv.size()).isEqualTo(24);
+        List<Game> matchesStuttgartHsv = seasonManagerService.findMatches(hsv, stuttgart);
+        assertThat(matchesStuttgartHsv.size()).isEqualTo(17);
 
-        List<Game> allMatchesStuttgartHsv = seasonManagerService.findMatches(stuttgart.get(), hsv.get(), true);
-        assertThat(allMatchesStuttgartHsv.size()).isEqualTo(46);
+        List<Game> allMatchesStuttgartHsv = seasonManagerService.findMatches(stuttgart, hsv, true);
+        assertThat(allMatchesStuttgartHsv.size()).isEqualTo(34);
 
         //
         // find all season

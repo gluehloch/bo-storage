@@ -61,11 +61,18 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
      * Sucht nach allen bekannten Spielpaarungen mit gesuchter Heim- und
      * Gastmannschaft.
      */
-    private static final String QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM = "select match from "
-            + Game.class.getName() + " as match "
-            + "left join fetch match.goals " + "left join fetch match.location "
-            + "where match.homeTeam.id = :homeTeamId"
-            + " and match.guestTeam.id = :guestTeamId";
+    private static final String QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM =
+            """
+            select
+                match
+            from
+                Game as match
+                left join fetch match.goals
+                left join fetch match.location
+            where
+                match.homeTeam.id = :homeTeamId
+                and match.guestTeam.id = :guestTeamId
+            """;
 
     /**
      * Sucht einer Spielpaarung für einen bestimmten Spieltag mit der gegebenen
