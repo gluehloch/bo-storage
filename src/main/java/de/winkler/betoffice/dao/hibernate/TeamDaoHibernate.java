@@ -89,7 +89,6 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
     public List<Team> findTeamsBySeasonAndGroup(final Season season, final GroupType groupType) {
         List<Team> teams = getSessionFactory().getCurrentSession()
                 .createNativeQuery(QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE, Team.class)
-                .addEntity("team", Team.class)
                 .setParameter("season_id", season.getId())
                 .setParameter("grouptype_id", groupType.getId())
                 .list();

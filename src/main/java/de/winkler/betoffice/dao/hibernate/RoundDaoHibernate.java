@@ -23,12 +23,9 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import java.math.BigInteger;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
-
-import jakarta.persistence.NoResultException;
 
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
@@ -39,6 +36,8 @@ import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 
 /**
  * Eine Hibernate-DAO Implementierung zur Verwaltung eines Spieltags.
@@ -71,7 +70,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             select
                 gamelist
             from
-                GameList as gamelist
+                GameList gamelist
             where
                 gamelist.season.id = :seasonId
                 and gamelist.index =
@@ -318,7 +317,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
      */
     @Override
     public Optional<Long> findPrevious(long id) {
-        NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_PREV_ROUND);
+        NativeQuery<?> query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_PREV_ROUND);
         query.setParameter("roundId", id);
         query.addScalar("prev_round_id");
 
@@ -333,7 +332,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
 
     @Override
     public Optional<GameList> findLastRound(Season season) {
-        Query<GameList> query = getSessionFactory().getCurrentSession()
+        TypedQuery<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_LAST_GAMELIST_BY_SEASON, GameList.class)
                 .setParameter("seasonId", season.getId());
         return singleResult(query);
@@ -341,7 +340,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
 
     @Override
     public Optional<GameList> findFirstRound(Season season) {
-        Query<GameList> query = getSessionFactory().getCurrentSession()
+        TypedQuery<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_FIRST_GAMELIST_BY_SEASON, GameList.class)
                 .setParameter("seasonId", season.getId());
         return singleResult(query);

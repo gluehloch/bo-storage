@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2015 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -28,8 +28,6 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.persistence.NoResultException;
-
 import org.apache.commons.io.IOUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -38,14 +36,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.winkler.betoffice.dao.CommonDao;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 
 /**
  * Utility Implementierung von {@link CommonDao}.
  *
- * @author by Andre Winkler
+ * @author     by Andre Winkler
  *
- * @param <T>
- *            Der Typ den dieses DAO unterstützt.
+ * @param  <T> Der Typ den dieses DAO unterstützt.
  */
 @Transactional
 public abstract class AbstractCommonDao<T> implements CommonDao<T> {
@@ -121,12 +120,11 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
     }
 
     /**
-     * Liefert das erste Element aus einer Liste. Ist die Liste leer, liefert
-     * die Methode <code>null</code> zurück. Wird <code>null</code> übergeben,
-     * wirft die Methode eine {@link NullPointerException}.
+     * Liefert das erste Element aus einer Liste. Ist die Liste leer, liefert die Methode <code>null</code> zurück. Wird
+     * <code>null</code> übergeben, wirft die Methode eine {@link NullPointerException}.
      *
-     * @param objects
-     * @return Das erste Objekt aus der Liste.
+     * @param  objects
+     * @return         Das erste Objekt aus der Liste.
      */
     protected final T first(final List<T> objects) {
         if (objects.size() == 0) {
@@ -139,10 +137,8 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
     /**
      * Lädt eine SQL Query aus den Java Resourcen.
      *
-     * @param query
-     *            Query Resourcen Name.
-     * @return Die Query oder eine {@link RuntimeException} falls nichts
-     *         gefunden werden konnte.
+     * @param  query Query Resourcen Name.
+     * @return       Die Query oder eine {@link RuntimeException} falls nichts gefunden werden konnte.
      */
     public static final String loadQuery(final String query) {
         try {
@@ -153,14 +149,23 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
     }
 
     /**
-     * Wrap single result queries with an exception handler and an
-     * {@link Optional}.
+     * Wrap single result queries with an exception handler and an {@link Optional}.
      * 
-     * @param query
-     *            A Hibernate query
-     * @return The query single result
+     * @param  query A Hibernate query
+     * @return       The query single result
      */
     static <T> Optional<T> singleResult(Query<T> query) {
+        Optional<T> optionalResult = null;
+        try {
+            T result = query.getSingleResult();
+            optionalResult = Optional.of(result);
+        } catch (NoResultException ex) {
+            optionalResult = Optional.empty();
+        }
+        return optionalResult;
+    }
+
+    static <T> Optional<T> singleResult(TypedQuery<T> query) {
         Optional<T> optionalResult = null;
         try {
             T result = query.getSingleResult();
@@ -174,9 +179,8 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
     /**
      * Extract from a query result list the first element.
      * 
-     * @param list
-     *            A Hibernate query result list
-     * @return The query single result
+     * @param  list A Hibernate query result list
+     * @return      The query single result
      */
     static <T> Optional<T> singleResult(List<T> list) {
         Optional<T> optionalResult = Optional.empty();
