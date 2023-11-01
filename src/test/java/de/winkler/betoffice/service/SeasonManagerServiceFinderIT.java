@@ -168,7 +168,7 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
         Set<User> members = communityService.findMembers(tdkb2006);
         assertThat(members).hasSize(11);
 
-        assertThat(members).extracting("nickname.value").contains("Andi", "Bernd_das_Brot", "chris",
+        assertThat(members).extracting("nickname.nickname").contains("Andi", "Bernd_das_Brot", "chris",
                 "Frosch", "Goddard", "Hattwig", "Jogi", "mrTipp", "Peter",
                 "Roenne", "Steffen");
         
@@ -194,15 +194,15 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
         //
         // find teams by group type
         //
-        Optional<GroupType> finale = masterDataManagerService.findGroupType("Finale");
-        Optional<Team> italien = masterDataManagerService.findTeam("Italien");
-        Optional<Team> frankreich = masterDataManagerService.findTeam("Frankreich");
+        GroupType finale = masterDataManagerService.findGroupType("Finale").orElseThrow();
+        Team italien = masterDataManagerService.findTeam("Italien").orElseThrow();
+        Team frankreich = masterDataManagerService.findTeam("Frankreich").orElseThrow();
 
-        List<Team> finalTeams = seasonManagerService.findTeams(wm2006.get(), finale.get());
+        List<Team> finalTeams = seasonManagerService.findTeams(wm2006.get(), finale);
 
         assertThat(finalTeams.size()).isEqualTo(2);
-        assertThat(finalTeams.get(0)).isEqualTo(frankreich.get());
-        assertThat(finalTeams.get(1)).isEqualTo(italien.get());
+        assertThat(finalTeams.get(0)).isEqualTo(frankreich);
+        assertThat(finalTeams.get(1)).isEqualTo(italien);
 
         List<Group> groupsWm2006 = seasonManagerService.findGroups(wm2006.get());
         assertThat(groupsWm2006.size()).isEqualTo(13);
@@ -230,8 +230,8 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
 
         Game finalRoundMatch = finaleWm2006.get(0);
 
-        assertThat(finalRoundMatch.getHomeTeam()).isEqualTo(italien.get());
-        assertThat(finalRoundMatch.getGuestTeam()).isEqualTo(frankreich.get());
+        assertThat(finalRoundMatch.getHomeTeam()).isEqualTo(italien);
+        assertThat(finalRoundMatch.getGuestTeam()).isEqualTo(frankreich);
 
         // Damals noch ohne KO Spiele...
         assertThat(finalRoundMatch.getResult()).isEqualTo(new GameResult(5, 3));
