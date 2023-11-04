@@ -53,7 +53,7 @@ public class MaintenanceDaoHibernate implements MaintenanceDao {
 
     @Override
     public Object executeHql(String hql) {
-        return getSessionFactory().getCurrentSession().createQuery(hql);
+        return getSessionFactory().getCurrentSession().createQuery(hql).getResultList();
     }
 
     @Override

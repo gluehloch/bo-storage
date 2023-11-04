@@ -275,9 +275,17 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
         assertEquals(34, ((List<?>) object).size());
 
         Object object2 = databaseMaintenanceService.executeHql(
-                "select s " + "from Season s left join fetch s.groups as group "
-                        + "where s.reference.name = 'WM Deutschland' and s.reference.year = 2006");
-        assertEquals(13, ((List<?>) object2).size());
+        		"""
+        		select
+        			s
+        		from
+        			Season s
+        		 	left join fetch s.groups as group
+                 where
+        		    s.reference.name = 'WM Deutschland'
+        		    and s.reference.year = '2006'
+        		""");
+        assertEquals(1, ((List<?>) object2).size());
     }
 
     private void validateTeamResult(final List<TeamResult> teamResults,
