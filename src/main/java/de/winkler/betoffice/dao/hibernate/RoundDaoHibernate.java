@@ -53,13 +53,13 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     private static final String QUERY_GAMELIST_BY_SEASON =
             """
             select
-                gamelist
+                gl
             from
-                GameList as gamelist
+                GameList gl
             where
-                gamelist.season.id = :seasonId
+                gl.season.id = :seasonId
             order by
-                gamelist.index
+                gl.index
             """;
 
     /**
@@ -68,37 +68,43 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     private static final String QUERY_LAST_GAMELIST_BY_SEASON =
             """
             select
-                gamelist
+                gl
             from
-                GameList gamelist
+                GameList gl
             where
-                gamelist.season.id = :seasonId
-                and gamelist.index =
+                gl.season.id = :seasonId
+                and gl.index =
                 (
                     select
                         max(index)
                     from
-                        gamelist gl2
+                        GameList gl2
                     where
-                        gl2.season.id = :seasonId
+                        gl2.season.id = gl.season.id
                 )
             """;
 
     /**
      * Sucht nach dem ersten Spieltag einer Meisterschaft.
      */
-    private static final String QUERY_FIRST_GAMELIST_BY_SEASON = "select gamelist from "
-            + "GameList as gamelist "
-            + "where gamelist.season.id = :seasonId "
-            + "and gamelist.index = "
-            + "("
-            + "    select "
-            + "        min(index) "
-            + "    from "
-            + "        gamelist gl2 "
-            + "    where "
-            + "        gl2.season.id = :seasonId "
-            + ")";
+    private static final String QUERY_FIRST_GAMELIST_BY_SEASON =
+    		"""
+    		select
+    			gl
+    		from
+            	GameList gl
+            where
+    			gl.season.id = :seasonId "
+    		    and gl.index = 
+    		    (
+    				select
+    		      		min(index)
+    		    	from
+    		      		gamelist gl2
+    		      	where
+    		      		gl2.season.id = gl.season.id
+    		    )
+            """;
 
     /**
      * Sucht nach allen Spieltagen einer Meisterschaft fuer eine bestimmte Gruppe.
@@ -310,11 +316,6 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
         return nextRoundId;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.winkler.betoffice.dao.RoundDao#findPrevious(long)
-     */
     @Override
     public Optional<Long> findPrevious(long id) {
         NativeQuery<?> query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_PREV_ROUND);
