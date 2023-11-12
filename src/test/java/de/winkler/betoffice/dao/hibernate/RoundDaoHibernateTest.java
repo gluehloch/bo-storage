@@ -255,7 +255,16 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     public void testFindLastRound() {
         Season season = seasonDao.findById(1l);
         Optional<GameList> lastRound = roundDao.findLastRound(season);
+        assertThat(lastRound).isPresent();
         assertThat(lastRound.get().getId()).isEqualTo(5L);
+    }
+
+    @Test
+    public void testFindFirstRound() {
+        Season season = seasonDao.findById(1l);
+        Optional<GameList> firstRound = roundDao.findFirstRound(season);
+        assertThat(firstRound).isPresent();
+        assertThat(firstRound.get().getId()).isEqualTo(1L);
     }
 
 }

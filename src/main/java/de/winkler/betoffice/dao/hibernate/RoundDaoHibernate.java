@@ -94,13 +94,13 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     		from
             	GameList gl
             where
-    			gl.season.id = :seasonId "
+    			gl.season.id = :seasonId
     		    and gl.index = 
     		    (
     				select
     		      		min(index)
     		    	from
-    		      		gamelist gl2
+    		      		GameList gl2
     		      	where
     		      		gl2.season.id = gl.season.id
     		    )
