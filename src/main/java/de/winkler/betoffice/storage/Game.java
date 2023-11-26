@@ -138,7 +138,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     @JoinColumn(name = "bo_gamelist_ref")
     private GameList gameList;
 
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "game")
     @OrderBy("bo_index")
     private List<Goal> goals = new ArrayList<>();
 

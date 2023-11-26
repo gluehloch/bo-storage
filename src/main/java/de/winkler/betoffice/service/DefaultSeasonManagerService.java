@@ -606,6 +606,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         match.addGoal(goal);
         goal.setGame(match);
         matchDao.update(match);
+        goalDao.persist(goal);
     }
 
     @Override
