@@ -68,10 +68,15 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements GoalDao
 
     @Override
     public List<Goal> find(Game match) {
+    	return find(match.getId());
+    }
+
+    @Override
+    public List<Goal> find(long matchId) {
         List<Goal> goals = getSessionFactory().getCurrentSession()
-                .createQuery("select goal from Goal goal where goal.game.id = :matchId",
+                .createQuery("select goal from Goal goal where goal.game.id = :matchId order by goal.minute",
                         Goal.class)
-                .setParameter("matchId", match.getId(), StandardBasicTypes.LONG)
+                .setParameter("matchId", matchId, StandardBasicTypes.LONG)
                 .getResultList();
         return goals;
     }

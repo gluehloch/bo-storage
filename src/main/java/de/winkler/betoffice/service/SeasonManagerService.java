@@ -291,6 +291,14 @@ public interface SeasonManagerService {
 	List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin);
 
 	/**
+	 * Liefert alle Tore zu einem Spiel.
+	 *
+	 * @param game 
+	 * @return alle Tore
+	 */
+	List<Goal> findGoalsOfMatch(Game game);
+
+	/**
 	 * Liefert einen Spieler inklusive aller seiner Tore.
 	 * 
 	 * @param id Die Spieler ID

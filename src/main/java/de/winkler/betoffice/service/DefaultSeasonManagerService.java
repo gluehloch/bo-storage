@@ -148,6 +148,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional(readOnly = true)
+    public List<Goal> findGoalsOfMatch(Game game) {
+    	return goalDao.find(game);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Game> findMatches(GameList round) {
         return matchDao.find(round);
     }
@@ -160,8 +166,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Game> findMatch(GameList round, Team homeTeam,
-            Team guestTeam) {
+    public Optional<Game> findMatch(GameList round, Team homeTeam, Team guestTeam) {
         return matchDao.find(round, homeTeam, guestTeam);
     }
 
@@ -170,8 +175,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     public List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin) {
         List<Game> results = new ArrayList<Game>();
         if (spin) {
-            results.addAll(
-                    matchDao.findAll(homeTeam, guestTeam));
+            results.addAll(matchDao.findAll(homeTeam, guestTeam));
         } else {
             results.addAll(matchDao.find(homeTeam, guestTeam));
         }
