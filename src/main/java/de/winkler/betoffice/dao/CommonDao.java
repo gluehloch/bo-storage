@@ -48,14 +48,14 @@ public interface CommonDao<T> {
      *
      * @param t Ein neues T.
      */
-    T save(T t);
+    T persist(T t);
 
     /**
      * Speichert mehrere neue Ts.
      *
      * @param ts Eine Liste von Ts.
      */
-    void saveAll(List<T> ts);
+    void persistAll(List<T> ts);
 
     /**
      * Ein Update.

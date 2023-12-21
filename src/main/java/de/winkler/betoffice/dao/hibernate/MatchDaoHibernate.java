@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -27,8 +27,6 @@ package de.winkler.betoffice.dao.hibernate;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.TypedQuery;
-
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -48,14 +46,14 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
     /**
      * Sucht nach allen bekannten Spielpaarungen mit gesuchter Heimmannschaft.
      */
-    private static final String QUERY_MATCHES_BY_HOMETEAM = "from "
+    private static final String QUERY_MATCHES_BY_HOMETEAM = "select match from "
             + Game.class.getName() + " as match "
             + "where match.homeTeam.id = :homeTeamId";
 
     /**
      * Sucht nach allen bekannten Spielpaarungen mit gesuchter Gastmannschaft.
      */
-    private static final String QUERY_MATCHES_BY_GUESTTEAM = "from "
+    private static final String QUERY_MATCHES_BY_GUESTTEAM = "select match from "
             + Game.class.getName() + " as match "
             + "where match.guestTeam.id = :guestTeamId";
 
@@ -63,11 +61,18 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
      * Sucht nach allen bekannten Spielpaarungen mit gesuchter Heim- und
      * Gastmannschaft.
      */
-    private static final String QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM = "select match from "
-            + Game.class.getName() + " as match "
-            + "left join fetch match.goals " + "left join fetch match.location "
-            + "where match.homeTeam.id = :homeTeamId"
-            + " and match.guestTeam.id = :guestTeamId";
+    private static final String QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM =
+            """
+            select
+                match
+            from
+                Game as match
+                left join fetch match.goals
+                left join fetch match.location
+            where
+                match.homeTeam.id = :homeTeamId
+                and match.guestTeam.id = :guestTeamId
+            """;
 
     /**
      * Sucht einer Spielpaarung für einen bestimmten Spieltag mit der gegebenen
@@ -85,27 +90,24 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
 
     @Override
     public List<Game> findByHomeTeam(final Team homeTeam) {
-        @SuppressWarnings("unchecked")
         List<Game> games = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_MATCHES_BY_HOMETEAM)
+                .createQuery(QUERY_MATCHES_BY_HOMETEAM, Game.class)
                 .setParameter("homeTeamId", homeTeam.getId()).getResultList();
         return games;
     }
 
     @Override
     public List<Game> findByGuestTeam(final Team guestTeam) {
-        @SuppressWarnings("unchecked")
         List<Game> games = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_MATCHES_BY_GUESTTEAM)
+                .createQuery(QUERY_MATCHES_BY_GUESTTEAM, Game.class)
                 .setParameter("guestTeamId", guestTeam.getId()).getResultList();
         return games;
     }
 
     @Override
     public List<Game> find(final Team homeTeam, final Team guestTeam) {
-        @SuppressWarnings("unchecked")
         List<Game> games = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM)
+                .createQuery(QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM, Game.class)
                 .setParameter("homeTeamId", homeTeam.getId())
                 .setParameter("guestTeamId", guestTeam.getId()).getResultList();
 
@@ -132,7 +134,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
 
     @Override
     public List<Game> find(GameList round) {
-        TypedQuery<Game> query = getSessionFactory().getCurrentSession()
+        Query<Game> query = getSessionFactory().getCurrentSession()
                 .createQuery("from Game g where g.gameList.id = :roundId", Game.class)
                 .setParameter("roundId", round.getId());
         return query.getResultList();

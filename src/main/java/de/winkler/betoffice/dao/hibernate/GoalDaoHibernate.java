@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -50,7 +50,7 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements GoalDao
     public List<Goal> findAll() {
         return getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Goal as goal inner join fetch goal.player order by goal.id",
+                        "select goal from Goal goal inner join fetch goal.player order by goal.id",
                         Goal.class)
                 .getResultList();
     }
@@ -59,7 +59,7 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements GoalDao
     public Optional<Goal> findByOpenligaid(long openligaid) {
         Query<Goal> query = getSessionFactory().getCurrentSession()
                 .createQuery(
-                        "from Goal as goal where goal.openligaid = :openligaid",
+                        "select goal from Goal goal where goal.openligaid = :openligaid",
                         Goal.class)
                 .setParameter("openligaid", openligaid,
                         StandardBasicTypes.LONG);
@@ -68,18 +68,23 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements GoalDao
 
     @Override
     public List<Goal> find(Game match) {
+    	return find(match.getId());
+    }
+
+    @Override
+    public List<Goal> find(long matchId) {
         List<Goal> goals = getSessionFactory().getCurrentSession()
-                .createQuery("from Goal as goal where goal.game.id = :matchId",
+                .createQuery("select goal from Goal goal where goal.game.id = :matchId order by goal.minute",
                         Goal.class)
-                .setParameter("matchId", match.getId(), StandardBasicTypes.LONG)
+                .setParameter("matchId", matchId, StandardBasicTypes.LONG)
                 .getResultList();
         return goals;
     }
 
     @Override
     public void deleteAll(Game game) {
-        getSessionFactory().getCurrentSession()
-                .createSQLQuery("delete from goal g where gaol.game = :game");
+        getSessionFactory().getCurrentSession().createMutationQuery(
+                "delete from Goal g where g.game = :game");
     }
 
 }

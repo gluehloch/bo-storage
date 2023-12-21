@@ -30,24 +30,25 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
-import javax.persistence.Table;
+import org.hibernate.annotations.TimeZoneStorage;
+import org.hibernate.annotations.TimeZoneStorageType;
 
-import org.apache.commons.lang3.Validate;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderColumn;
+import jakarta.persistence.Table;
 
 /**
  * Verwaltet alle Spiele/Games/Matches eines Spieltags/GameList/Round.
@@ -73,6 +74,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
     private Long openligaid;
 
     @Column(name = "bo_datetime")
+    @TimeZoneStorage(TimeZoneStorageType.NORMALIZE)
     private ZonedDateTime dateTime;
 
     @ManyToOne
@@ -131,7 +133,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      * @param value Die Liste der Spiele.
      */
     protected void setGameList(final List<Game> value) {
-        Validate.notNull(value);
+        Objects.requireNonNull(value);
         gameList = value;
     }
 
@@ -141,7 +143,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      * @param value Eine Spielpaarung.
      */
     public void addGame(final Game value) {
-        Validate.notNull(value);
+        Objects.requireNonNull(value);
         if (gameList.contains(value)) {
             throw new IllegalArgumentException("The game '" + value + "' already exists!");
         }
@@ -167,7 +169,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      * @param value Die zu entfernende Spielpaarung.
      */
     public void removeGame(final Game value) {
-        Validate.notNull(value);
+        Objects.requireNonNull(value);
         if (!gameList.contains(value)) {
             throw new IllegalArgumentException(value + " nicht vorhanden!");
         }

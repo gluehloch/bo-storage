@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -76,8 +76,8 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
         }
 
         /* count(*) as 'full_points', u.* */
-        Query query13 = sessionFactory.getCurrentSession()
-                .createSQLQuery(QUERY_SEASON_RANGE_13_POINTS)
+        Query<Object> query13 = sessionFactory.getCurrentSession()
+                .createNativeQuery(QUERY_SEASON_RANGE_13_POINTS, Object.class)
                 .addEntity("user", User.class).addScalar("full_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query13.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
@@ -100,8 +100,8 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
         }
 
         /* count(*) as 'half_points', u.* */
-        NativeQuery query10 = sessionFactory.getCurrentSession()
-                .createNativeQuery(QUERY_SEASON_RANGE_10_POINTS)
+        NativeQuery<Object> query10 = sessionFactory.getCurrentSession()
+                .createNativeQuery(QUERY_SEASON_RANGE_10_POINTS, Object.class)
                 .addEntity("user", User.class).addScalar("half_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query10.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
@@ -123,8 +123,8 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
         }
 
         /* count(*) as 'count_matches' */
-        NativeQuery queryMatches = sessionFactory.getCurrentSession()
-                .createNativeQuery(QUERY_SEASON_RANGE_COUNT_MATCHES)
+        NativeQuery<Object> queryMatches = sessionFactory.getCurrentSession()
+                .createNativeQuery(QUERY_SEASON_RANGE_COUNT_MATCHES, Object.class)
                 .addScalar("count_matches",
                         org.hibernate.type.StandardBasicTypes.LONG);
         queryMatches.setParameter(PARAMETER_SEASON_ID, community.getSeason().getId());
@@ -137,7 +137,6 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
 
     @Override
     public List<UserResult> calculateUserRanking(final Community community, final GameList round) {
-        final Collection<User> users = community.getUsers();
         return calculateUserRanking(community, SeasonRange.of(round.getIndex(), round.getIndex()));
     }
 
@@ -151,8 +150,8 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
         }
 
         /* count(*) as 'full_points', u.* */
-        NativeQuery query13 = sessionFactory.getCurrentSession()
-                .createNativeQuery(QUERY_SEASON_13_POINTS)
+        NativeQuery<Object> query13 = sessionFactory.getCurrentSession()
+                .createNativeQuery(QUERY_SEASON_13_POINTS, Object.class)
                 .addEntity("user", User.class).addScalar("full_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query13.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
@@ -172,8 +171,8 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
         }
 
         /* count(*) as 'half_points', u.* */
-        NativeQuery query10 = sessionFactory.getCurrentSession()
-                .createNativeQuery(QUERY_SEASON_10_POINTS)
+        NativeQuery<Object> query10 = sessionFactory.getCurrentSession()
+                .createNativeQuery(QUERY_SEASON_10_POINTS, Object.class)
                 .addEntity("user", User.class).addScalar("half_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query10.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
@@ -193,8 +192,8 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
         }
 
         /* count(*) as 'count_matches' */
-        NativeQuery queryMatches = sessionFactory.getCurrentSession()
-                .createNativeQuery(QUERY_SEASON_COUNT_MATCHES)
+        NativeQuery<Object> queryMatches = sessionFactory.getCurrentSession()
+                .createNativeQuery(QUERY_SEASON_COUNT_MATCHES, Object.class)
                 .addScalar("count_matches",
                         org.hibernate.type.StandardBasicTypes.LONG);
         queryMatches.setParameter(PARAMETER_SEASON_ID, community.getSeason().getId());

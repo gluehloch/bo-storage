@@ -26,7 +26,6 @@ package de.winkler.betoffice.dao.hibernate;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.MaintenanceDao;
@@ -37,21 +36,29 @@ import de.winkler.betoffice.dao.MaintenanceDao;
  * @author Andre Winklers
  */
 @Repository("maintenanceDao")
-public class MaintenanceDaoHibernate extends HibernateDaoSupport implements MaintenanceDao {
+public class MaintenanceDaoHibernate implements MaintenanceDao {
+
+    // -- sessionFactory ------------------------------------------------------
+
+    private SessionFactory sessionFactory;
+
+    @Autowired
+    public void setSessionFactory(final SessionFactory _sessionFactory) {
+        sessionFactory = _sessionFactory;
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
 
     @Override
     public Object executeHql(String hql) {
-        return getHibernateTemplate().find(hql);
+        return getSessionFactory().getCurrentSession().createQuery(hql).getResultList();
     }
 
     @Override
     public Object executeSql(String sqlQuery) {
-        return getSessionFactory().openSession().createNativeQuery(sqlQuery).getResultList();
-    }
-
-    @Autowired
-    public void wrapTheSetSessionFactory(final SessionFactory sessionFactory) {
-        super.setSessionFactory(sessionFactory);
+        return getSessionFactory().getCurrentSession().createNativeQuery(sqlQuery).getResultList();
     }
 
 }

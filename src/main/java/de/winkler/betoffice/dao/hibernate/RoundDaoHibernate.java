@@ -23,18 +23,12 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import java.math.BigInteger;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.NoResultException;
-
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
-import org.hibernate.type.IntegerType;
-import org.hibernate.type.LongType;
-import org.hibernate.type.ZonedDateTimeType;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.RoundDao;
@@ -42,6 +36,8 @@ import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 
 /**
  * Eine Hibernate-DAO Implementierung zur Verwaltung eines Spieltags.
@@ -54,42 +50,61 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     /**
      * Sucht nach allen Spieltagen einer Meisterschaft.
      */
-    private static final String QUERY_GAMELIST_BY_SEASON = "from "
-            + "GameList as gamelist "
-            + "where gamelist.season.id = :seasonId "
-            + "order by gamelist.index";
+    private static final String QUERY_GAMELIST_BY_SEASON =
+            """
+            select
+                gl
+            from
+                GameList gl
+            where
+                gl.season.id = :seasonId
+            order by
+                gl.index
+            """;
 
     /**
      * Sucht nach dem letzten Spieltag einer Meisterschaft.
      */
-    private static final String QUERY_LAST_GAMELIST_BY_SEASON = "from "
-            + "GameList as gamelist "
-            + "where gamelist.season.id = :seasonId "
-            + "and gamelist.index = "
-            + "("
-            + "    select "
-            + "        max(index) "
-            + "    from "
-            + "        gamelist gl2 "
-            + "    where "
-            + "        gl2.season.id = :seasonId "
-            + ")";
+    private static final String QUERY_LAST_GAMELIST_BY_SEASON =
+            """
+            select
+                gl
+            from
+                GameList gl
+            where
+                gl.season.id = :seasonId
+                and gl.index =
+                (
+                    select
+                        max(index)
+                    from
+                        GameList gl2
+                    where
+                        gl2.season.id = gl.season.id
+                )
+            """;
 
     /**
      * Sucht nach dem ersten Spieltag einer Meisterschaft.
      */
-    private static final String QUERY_FIRST_GAMELIST_BY_SEASON = "from "
-            + "GameList as gamelist "
-            + "where gamelist.season.id = :seasonId "
-            + "and gamelist.index = "
-            + "("
-            + "    select "
-            + "        min(index) "
-            + "    from "
-            + "        gamelist gl2 "
-            + "    where "
-            + "        gl2.season.id = :seasonId "
-            + ")";
+    private static final String QUERY_FIRST_GAMELIST_BY_SEASON =
+    		"""
+    		select
+    			gl
+    		from
+            	GameList gl
+            where
+    			gl.season.id = :seasonId
+    		    and gl.index = 
+    		    (
+    				select
+    		      		min(index)
+    		    	from
+    		      		GameList gl2
+    		      	where
+    		      		gl2.season.id = gl.season.id
+    		    )
+            """;
 
     /**
      * Sucht nach allen Spieltagen einer Meisterschaft fuer eine bestimmte Gruppe.
@@ -199,7 +214,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     public List<GameList> findRounds(Season season) {
         List<GameList> objects = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMELIST_BY_SEASON, GameList.class)
-                .setParameter("seasonId", season.getId(), LongType.INSTANCE)
+                .setParameter("seasonId", season.getId())
                 .getResultList();
         return objects;
     }
@@ -208,7 +223,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     public List<GameList> findRounds(Group group) {
         List<GameList> objects = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_GAMELIST_AND_GAMES_BY_SEASON_GROUP, GameList.class)
-                .setParameter("groupId", group.getId(), LongType.INSTANCE)
+                .setParameter("groupId", group.getId())
                 .getResultList();
         return objects;
     }
@@ -217,8 +232,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     public Optional<GameList> findRound(Season season, int index) {
         Query<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_ROUND_AND_GAMES_BY_INDEX, GameList.class)
-                .setParameter("seasonId", season.getId(), LongType.INSTANCE)
-                .setParameter("index", Integer.valueOf(index), IntegerType.INSTANCE);
+                .setParameter("seasonId", season.getId())
+                .setParameter("index", Integer.valueOf(index));
 
         return singleResult(query);
     }
@@ -227,7 +242,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     public Optional<GameList> findRound(long roundId) {
         Query<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_ROUND_AND_GAMES_BY_ID, GameList.class)
-                .setParameter("roundId", roundId, LongType.INSTANCE);
+                .setParameter("roundId", roundId);
 
         return singleResult(query);
     }
@@ -244,18 +259,18 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     public Optional<Long> findNextTippRound(long seasonId, ZonedDateTime date) {
         NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_NEXT_ROUND_BY_DATE);
         query.setParameter("season_id", seasonId);
-        query.setParameter("date", date, ZonedDateTimeType.INSTANCE);
+        query.setParameter("date", date, ZonedDateTime.class);
 
         Optional<Long> result = Optional.empty();
         try {
             Object[] object = (Object[]) query.getSingleResult();
-            BigInteger roundId = (BigInteger) object[1];
+            Long roundId = (Long) object[1];
 
             if (roundId != null) {
                 result = Optional.of(roundId.longValue());
             }
         } catch (NoResultException ex) {
-            // Return value keeps empty
+            // TODO Return value keeps empty
         }
 
         return result;
@@ -265,12 +280,12 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     public Optional<Long> findLastTippRound(long seasonId, ZonedDateTime date) {
         NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_LAST_ROUND_BY_DATE);
         query.setParameter("season_id", seasonId);
-        query.setParameter("date", date, ZonedDateTimeType.INSTANCE);
+        query.setParameter("date", date, ZonedDateTime.class);
 
         Optional<Long> result = Optional.empty();
         try {
             Object[] object = (Object[]) query.getSingleResult();
-            BigInteger roundId = (BigInteger) object[1];
+            Long roundId = (Long) object[1];
 
             if (roundId != null) {
                 result = Optional.of(roundId.longValue());
@@ -289,10 +304,10 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     @Override
     public Optional<Long> findNext(long id) {
         NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_NEXT_ROUND);
-        query.setParameter("roundId", id, LongType.INSTANCE);
+        query.setParameter("roundId", id);
         query.addScalar("next_round_id");
 
-        BigInteger uniqueResult = (BigInteger) query.uniqueResult();
+        Number uniqueResult = (Number) query.uniqueResult();
         Optional<Long> nextRoundId = Optional.empty();
         if (uniqueResult != null) {
             nextRoundId = Optional.of(uniqueResult.longValue());
@@ -301,18 +316,13 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
         return nextRoundId;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.winkler.betoffice.dao.RoundDao#findPrevious(long)
-     */
     @Override
     public Optional<Long> findPrevious(long id) {
-        NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_PREV_ROUND);
-        query.setParameter("roundId", id, LongType.INSTANCE);
+        NativeQuery<?> query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_PREV_ROUND);
+        query.setParameter("roundId", id);
         query.addScalar("prev_round_id");
 
-        BigInteger uniqueResult = (BigInteger) query.uniqueResult();
+        Number uniqueResult = (Number) query.uniqueResult();
         Optional<Long> prevRoundId = Optional.empty();
         if (uniqueResult != null) {
             prevRoundId = Optional.of(uniqueResult.longValue());
@@ -323,7 +333,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
 
     @Override
     public Optional<GameList> findLastRound(Season season) {
-        Query<GameList> query = getSessionFactory().getCurrentSession()
+        TypedQuery<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_LAST_GAMELIST_BY_SEASON, GameList.class)
                 .setParameter("seasonId", season.getId());
         return singleResult(query);
@@ -331,7 +341,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
 
     @Override
     public Optional<GameList> findFirstRound(Season season) {
-        Query<GameList> query = getSessionFactory().getCurrentSession()
+        TypedQuery<GameList> query = getSessionFactory().getCurrentSession()
                 .createQuery(QUERY_FIRST_GAMELIST_BY_SEASON, GameList.class)
                 .setParameter("seasonId", season.getId());
         return singleResult(query);

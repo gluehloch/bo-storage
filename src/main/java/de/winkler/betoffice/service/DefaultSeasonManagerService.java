@@ -27,6 +27,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -102,10 +103,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional(readOnly = true)
-    public List<TeamResult> calculateTeamRanking(Season season,
-            GroupType groupType) {
-        return seasonDao.calculateTeamRanking(season,
-                groupType);
+    public List<TeamResult> calculateTeamRanking(Season season, GroupType groupType) {
+        return seasonDao.calculateTeamRanking(season, groupType);
     }
 
     @Override
@@ -149,6 +148,12 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional(readOnly = true)
+    public List<Goal> findGoalsOfMatch(Game game) {
+    	return goalDao.find(game);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Game> findMatches(GameList round) {
         return matchDao.find(round);
     }
@@ -161,8 +166,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Game> findMatch(GameList round, Team homeTeam,
-            Team guestTeam) {
+    public Optional<Game> findMatch(GameList round, Team homeTeam, Team guestTeam) {
         return matchDao.find(round, homeTeam, guestTeam);
     }
 
@@ -171,8 +175,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     public List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin) {
         List<Game> results = new ArrayList<Game>();
         if (spin) {
-            results.addAll(
-                    matchDao.findAll(homeTeam, guestTeam));
+            results.addAll(matchDao.findAll(homeTeam, guestTeam));
         } else {
             results.addAll(matchDao.find(homeTeam, guestTeam));
         }
@@ -282,7 +285,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         match.setHomeTeam(homeTeam);
         match.setGuestTeam(guestTeam);
         match.setGroup(group);
-        matchDao.save(match);
+        matchDao.persist(match);
 
         gamelist.addGame(match);
         roundDao.update(gamelist);
@@ -311,7 +314,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         match.setGroup(group);
         match.setResult(result);
         match.setPlayed(true);
-        matchDao.save(match);
+        matchDao.persist(match);
 
         gamelist.addGame(match);
         roundDao.update(gamelist);
@@ -352,7 +355,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
         Season persistedSeason = seasonDao.findById(season.getId());
         persistedSeason.addGameList(round);
-        roundDao.save(round);
+        roundDao.persist(round);
         return round;
     }
 
@@ -452,7 +455,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Transactional
     public Season createSeason(Season season) {
         try {
-            seasonDao.save(season);
+            seasonDao.persist(season);
             return season;
         } catch (ConstraintViolationException ex) {
             List<BetofficeValidationMessage> messages = new ArrayList<>();
@@ -467,7 +470,6 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Transactional
     public void deleteSeason(Season season) {
         List<BetofficeValidationMessage> messages = new ArrayList<>();
-
 
         if (!communityDao.find(season.getReference()).isEmpty()) {
             messages.add(new BetofficeValidationMessage(
@@ -547,35 +549,15 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Override
     @Transactional
     public Season addGroupType(Season season, GroupType groupType) {
-        if (season == null) {
-            throw new IllegalArgumentException("Parameter season is null!");
-        }
-
-        if (groupType == null) {
-            throw new IllegalArgumentException("Parameter groupType is null!");
-        }
-
-        //
-        // TODO Eine NoResultException fuehrt zu einem Transaktions-Rollback (UnexpectedRollbackException).
-        // 
-        // Spring ist fuer diese Funktion zustaendig: RuntimeExceptions fuehren zu einem Rollback.
-        //
-        // Das Catch der 'NoResultException' kann die Rollback Exception nicht verhindern.
-        //
-        // try {
-        // Group group = groupDao.findBySeasonAndGroupType(season, groupType);
-        // return group;
-        // } catch (NoResultException ex) {
-        // // Ok. Create a new group.
-        // }
+        Objects.requireNonNull(season, "season is null");
+        Objects.requireNonNull(groupType, "groupType is null");
 
         Season persistedSeason = seasonDao.findById(season.getId());
-        // Season persistentSeason = findSeasonById(season.getId());
 
         Group group = new Group();
         group.setGroupType(groupType);
         persistedSeason.addGroup(group);
-        groupDao.save(group);
+        groupDao.persist(group);
 
         return persistedSeason;
     }
@@ -627,7 +609,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     public void addGoal(Game match, Goal goal) {
         match.addGoal(goal);
         goal.setGame(match);
-        matchDao.save(match);
+        matchDao.update(match);
+        goalDao.persist(goal);
     }
 
     @Override

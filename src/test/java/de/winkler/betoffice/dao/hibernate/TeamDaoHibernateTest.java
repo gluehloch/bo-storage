@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,7 +100,7 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(frankreich.getTeamType()).isEqualTo(TeamType.FIFA);
 
         File teamExportFile = File.createTempFile("team", "dat");
-        final ResourceWriter rw = new ResourceWriter(teamExportFile);
+        final ResourceWriter rw = new ResourceWriter(teamExportFile, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         getSessionFactory().getCurrentSession().doWork(new Work() {
             @Override
             public void execute(Connection connection) throws SQLException {

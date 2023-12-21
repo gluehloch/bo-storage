@@ -70,17 +70,15 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
 
     @Override
     public List<Group> findAll() {
-        @SuppressWarnings("unchecked")
         List<Group> groups = getSessionFactory().getCurrentSession()
-                .createQuery("from group").getResultList();
+                .createQuery("select g from group g", Group.class).getResultList();
         return groups;
     }
 
     @Override
     public List<Group> findBySeason(final Season season) {
-        @SuppressWarnings("unchecked")
         List<Group> objects = getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_GROUPS_FROM_SEASON)
+                .createQuery(QUERY_GROUPS_FROM_SEASON, Group.class)
                 .setParameter("seasonId", season.getId()).getResultList();
         return objects;
     }
@@ -98,8 +96,7 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
     @Override
     public Group findBySeasonAndGroupType(Season season, GroupType groupType) {
         Query<Group> query = getSessionFactory().getCurrentSession()
-                .createQuery(
-                        QUERY_GROUP_BY_SEASON_AND_GROUPTYPE, Group.class);
+                .createQuery(QUERY_GROUP_BY_SEASON_AND_GROUPTYPE, Group.class);
         query.setParameter("seasonId", season.getId());
         query.setParameter("groupTypeId", groupType.getId());
         return query.getSingleResult();

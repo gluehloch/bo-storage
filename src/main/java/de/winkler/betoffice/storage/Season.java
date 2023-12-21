@@ -23,34 +23,31 @@
 
 package de.winkler.betoffice.storage;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
-import javax.persistence.Table;
-
-import org.apache.commons.lang3.Validate;
-import org.joda.time.DateTime;
-
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TeamType;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderColumn;
+import jakarta.persistence.Table;
 
 /**
  * Verwaltet die Daten einer Saison.
@@ -241,7 +238,7 @@ public class Season extends AbstractStorageObject {
      * @param group Eine weitere Gruppe.
      */
     public void addGroup(final Group group) {
-        Validate.notNull(group);
+        Objects.requireNonNull(group);
         group.setSeason(this);
         groups.add(group);
     }
@@ -252,7 +249,7 @@ public class Season extends AbstractStorageObject {
      * @param values Eine Liste von Gruppen.
      */
     public void addGroups(final Set<Group> values) {
-        Validate.notNull(values);
+        Objects.requireNonNull(values);
         for (Group group : values) {
             addGroup(group);
         }
@@ -264,8 +261,8 @@ public class Season extends AbstractStorageObject {
      * @param group Die zu entfernende Gruppe.
      */
     public void removeGroup(final Group group) {
-        Validate.notNull(group.getSeason());
-        Validate.isTrue(group.getSeason().equals(this));
+        Objects.requireNonNull(group.getSeason());
+        Objects.requireNonNull(group.getSeason().equals(this));
 
         groups.remove(group);
     }
@@ -331,7 +328,7 @@ public class Season extends AbstractStorageObject {
      * @param value Eine Spieltagsliste.
      */
     protected void setGameList(final List<GameList> value) {
-        Validate.notNull(value);
+        Objects.requireNonNull(value);
         gameList = value;
     }
 
@@ -400,8 +397,7 @@ public class Season extends AbstractStorageObject {
 
         for (GameList currGameList : gameList) {
             if (currGameList.getIndex() == StorageConst.INDEX_UNDEFINED) {
-                String dateTime = new DateTime(currGameList.getDateTime())
-                        .toString("dd.MM.yyyy HH:mm", Locale.GERMANY);
+                String dateTime = DateTimeFormatter.ISO_DATE_TIME.format(currGameList.getDateTime());
                 throw new IllegalStateException("current round index: "
                         + currGameList.getIndex() + "; dateTime: " + dateTime);
             } else if (currGameList.getIndex() == dayNr) {
@@ -422,11 +418,9 @@ public class Season extends AbstractStorageObject {
      * @throws IllegalArgumentException GameListe bereits vorhanden oder ein Attribut von gameList nicht gesetzt.
      */
     public void addGameList(final GameList newRound) {
-        Validate.notNull(newRound, "The newRound parameter is null.");
-        Validate.notNull(newRound.getDateTime(),
-                "The datetime field of newRound is null.");
-        Validate.notNull(newRound.getGroup(),
-                "The group field of newRound is null.");
+        Objects.requireNonNull(newRound, "The newRound parameter is null.");
+        Objects.requireNonNull(newRound.getDateTime(), "The datetime field of newRound is null.");
+        Objects.requireNonNull(newRound.getGroup(), "The group field of newRound is null.");
 
         for (GameList gl : getGameList()) {
             if (gl.getDateTime() != null
@@ -466,7 +460,7 @@ public class Season extends AbstractStorageObject {
      * @param _gameList Ein Spieltag.
      */
     public void removeGameList(final GameList _gameList) {
-        Validate.notNull(_gameList);
+        Objects.requireNonNull(_gameList);
 
         if (!gameList.contains(_gameList)) {
             StringBuilder buf = new StringBuilder(_gameList.toString());

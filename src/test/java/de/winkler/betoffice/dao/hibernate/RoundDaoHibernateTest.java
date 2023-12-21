@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2020 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -74,12 +74,12 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     private GroupDao groupDao;
     
     @BeforeEach
-    public void init() {
+    void init() {
         prepareDatabase(RoundDaoHibernateTest.class);
     }
 
     @Test
-    public void testCreateRound() {
+    void testCreateRound() {
         Season season = seasonDao.findById(1);
         // season = seasonDao.findRoundGroupTeamUser(season);
 
@@ -98,7 +98,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(newRound.getDateTime()).isNotInstanceOf(java.sql.Timestamp.class);
         assertThat(newRound.getDateTime()).isEqualTo(now);
 
-        roundDao.save(newRound);
+        roundDao.persist(newRound);
         roundDao.refresh(newRound);
 
         assertThat(newRound.getDateTime()).isEqualTo(now);
@@ -120,7 +120,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testFindNextRound() {
+    void testFindNextRound() {
         assertThat(roundDao.findNext(0).isPresent()).isFalse();
         assertThat(roundDao.findNext(1).get()).isEqualTo(2L);
         assertThat(roundDao.findNext(2).get()).isEqualTo(3L);
@@ -131,7 +131,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testFindPreviousRound() {
+    void testFindPreviousRound() {
         assertThat(roundDao.findPrevious(0)).isEmpty();
         assertThat(roundDao.findPrevious(1)).isEmpty();
         assertThat(roundDao.findPrevious(2)).contains(1L);
@@ -142,12 +142,13 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testFindNextTippRound() {
+    void testFindNextTippRound() {
         // Everything as expected?
         ZonedDateTime matchDateTime = matchDao.findById(1L).getDateTime();
         assertThat(matchDateTime)
-            .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_PARIS))
-            .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN));
+            .isNotEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_UTC))
+            .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN))
+            .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_PARIS));
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
         assertThat(matchDao.findById(20L).isPlayed()).isFalse();
@@ -188,7 +189,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void zonedDateTimeComparison() {
+    void zonedDateTimeComparison() {
         //
         // Winterzeit: 01.05.2016 - 1 Stunde Differenz zwischen UTC und Europe/Paris. D.h.
         // die UTC Zeit laeuft 1 Stunde hinterher. Europe/Paris(Winterzeit) -1h => UTC
@@ -221,7 +222,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testFindLastTippRound() {
+    void testFindLastTippRound() {
         // Everything as expected?
         ZonedDateTime matchDateTime = matchDao.findById(1L).getDateTime();
 
@@ -242,11 +243,11 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 6, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(5L);
 
         // Datum direkt am Spieltag
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(2L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 2, 5, 18, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(2L);
         assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZONE_UTC))).contains(2L);
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 2, 5, 15, 0, 0, 0, ZONE_UTC))).contains(2L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 2, 5, 18, 0, 0, 0, ZONE_UTC))).contains(2L);
         assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 5, 5, 13, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(4L);
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 5, 5, 16, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(5L);
+        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 5, 5, 21, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(5L);
         assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 5, 6, 16, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(5L);
     }
 
@@ -254,7 +255,16 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     public void testFindLastRound() {
         Season season = seasonDao.findById(1l);
         Optional<GameList> lastRound = roundDao.findLastRound(season);
+        assertThat(lastRound).isPresent();
         assertThat(lastRound.get().getId()).isEqualTo(5L);
+    }
+
+    @Test
+    public void testFindFirstRound() {
+        Season season = seasonDao.findById(1l);
+        Optional<GameList> firstRound = roundDao.findFirstRound(season);
+        assertThat(firstRound).isPresent();
+        assertThat(firstRound.get().getId()).isEqualTo(1L);
     }
 
 }

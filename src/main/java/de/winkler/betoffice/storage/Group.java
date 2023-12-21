@@ -28,19 +28,17 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.apache.commons.lang3.Validate;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 /**
  * Verwaltet die Daten einer Gruppe.
@@ -65,14 +63,12 @@ public class Group extends AbstractStorageObject {
     @JoinColumn(name = "bo_season_ref")
     private Season season;
 
-    // @formatter:off
     // Die N:M Mittlertabelle bo_team(id) <-> bo_team_group(bo_team_ref, bo_group_ref) <-> bo_group(id)
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "bo_team_group", 
         joinColumns = @JoinColumn(name = "bo_group_ref"), // FK column which references bo_group#id
         inverseJoinColumns = @JoinColumn(name = "bo_team_ref")) // FK column reverse side bo_team#id
     private Set<Team> teams = new HashSet<>();
-    // @formatter:on
 
     @ManyToOne
     @JoinColumn(name = "bo_grouptype_ref")
@@ -119,7 +115,7 @@ public class Group extends AbstractStorageObject {
      *            Eine Saison.
      */
     protected void setSeason(final Season value) {
-        Validate.notNull(value);
+        Objects.requireNonNull(value);
         season = value;
     }
 
@@ -151,7 +147,7 @@ public class Group extends AbstractStorageObject {
      *            Eine Mannschaft.
      */
     public void addTeam(final Team value) {
-        Validate.notNull(value);
+        Objects.requireNonNull(value);
         teams.add(value);
     }
 
@@ -162,7 +158,7 @@ public class Group extends AbstractStorageObject {
      *            Eine Mannschaft.
      */
     public void removeTeam(final Team value) {
-        Validate.notNull(value);
+        Objects.requireNonNull(value);
         teams.remove(value);
     }
 

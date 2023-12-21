@@ -27,20 +27,23 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
+import org.hibernate.annotations.TimeZoneStorage;
+import org.hibernate.annotations.TimeZoneStorageType;
+
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.Table;
 
 /**
  * Kapselt alle Daten eines Fussballspiels.
@@ -73,6 +76,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     /** date and time of game play */
     @Column(name = "bo_datetime")
+    @TimeZoneStorage(TimeZoneStorageType.NORMALIZE)
     private ZonedDateTime dateTime;
 
     /** Die zugehörige Gruppe. */
@@ -134,7 +138,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     @JoinColumn(name = "bo_gamelist_ref")
     private GameList gameList;
 
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "game")
     @OrderBy("bo_index")
     private List<Goal> goals = new ArrayList<>();
 

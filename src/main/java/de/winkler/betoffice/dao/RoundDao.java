@@ -42,106 +42,93 @@ public interface RoundDao extends CommonDao<GameList> {
     /**
      * Liefert alle Spieltage einer Meisterschaft. Die Spiele der Spieltage werden nicht geladen.
      *
-     * @param season
-     *            Die Meisterschaft dessen Spieltage gesucht werden.
-     * @return Die Spieltage der gesuchten Meisterschaft.
+     * @param  season Die Meisterschaft dessen Spieltage gesucht werden.
+     * @return        Die Spieltage der gesuchten Meisterschaft.
      */
     List<GameList> findRounds(Season season);
 
     /**
-     * Liefert alle Spieltage inklusive der Spiele einer Gruppe. Falls keine Spiele vorliegen, werden keine Spieltage gefunden.
+     * Liefert alle Spieltage inklusive der Spiele einer Gruppe. Falls keine Spiele vorliegen, werden keine Spieltage
+     * gefunden.
      * 
-     * @param group
-     *            Die Gruppe
-     * @return Die Spieltage dieser Gruppe
+     * @param  group Die Gruppe
+     * @return       Die Spieltage dieser Gruppe
      */
     List<GameList> findRounds(Group group);
-    
+
     /**
      * Liefert einen Spieltag einer Meisterschaft. Die Spiele des Spieltags werden ebenfalls geladen.
      *
-     * @param season
-     *            Die betreffende Meisterschaft.
-     * @param index
-     *            Der Index des Spieltags (0 .. size-1).
-     * @return Der Spieltag.
+     * @param  season Die betreffende Meisterschaft.
+     * @param  index  Der Index des Spieltags (0 .. size-1).
+     * @return        Der Spieltag.
      */
     Optional<GameList> findRound(Season season, int index);
 
     /**
      * Sucht nach einem Spieltag zu dem uerbgebenen Spiel. Die Spiele werden nicht geladen.
      * 
-     * @param game
-     *            Das Spiel.
-     * @return Der Spieltag zu dem dieses Spiel gehört.
+     * @param  game Das Spiel.
+     * @return      Der Spieltag zu dem dieses Spiel gehört.
      */
     Optional<GameList> findRoundByGame(Game game);
 
     /**
      * Liefert einen Spieltag einer Meisterschaft mit allen Spielen.
      * 
-     * @see #findRound(Season, int)
-     * @param roundId
-     *            Die ID des Spieltags
-     * @return Der Spieltag
+     * @see            #findRound(Season, int)
+     * @param  roundId Die ID des Spieltags
+     * @return         Der Spieltag
      */
     Optional<GameList> findRound(long roundId);
 
     /**
      * Liefert den nächsten Spieltag der Meisterschaft.
      * 
-     * @param id
-     *            Die ID des aktuellen Spieltags.
-     * @return Der nächste Spieltag.
+     * @param  id Die ID des aktuellen Spieltags.
+     * @return    Der nächste Spieltag.
      */
     Optional<Long> findNext(long id);
 
     /**
      * Liefert den vorhergehenden Spieltag der Meisterschaft.
      * 
-     * @param id
-     *            Die ID des aktuellen Spieltags.
-     * @return Der vorhergehende Spieltag.
+     * @param  id Die ID des aktuellen Spieltags.
+     * @return    Der vorhergehende Spieltag.
      */
     Optional<Long> findPrevious(long id);
 
     /**
      * Liefert den nächsten zu tippenden Spieltag.
      *
-     * @param seasonId
-     *            Die betreffende Meisterschaft.
-     * @param date
-     *            Das Bezugsdatum.
-     * @return Der nächste zu tippende Spieltag.
+     * @param  seasonId Die betreffende Meisterschaft.
+     * @param  date     Das Bezugsdatum.
+     * @return          Der nächste zu tippende Spieltag.
      */
     Optional<Long> findNextTippRound(long seasonId, ZonedDateTime date);
 
     /**
      * Liefert den letzten zu tippenden Spieltag.
      * 
-     * @param seasonId
-     *            Die betreffende Meisterschaft
-     * @param date
-     *            Das Bezugsdatum
-     * @return Der letzte zu tippende Spieltag.
+     * @param  seasonId Die betreffende Meisterschaft
+     * @param  date     Das Bezugsdatum
+     * @return          Der letzte zu tippende Spieltag.
      */
     Optional<Long> findLastTippRound(long seasonId, ZonedDateTime date);
 
     /**
      * Liefert die letzte Runde einer Meisterschaft-
      * 
-     * @param season
-     *            Die betreffende Meisterschaft
-     * @return der letzte Spieltag der Meisterschaft
+     * @param  season Die betreffende Meisterschaft
+     * @return        der letzte Spieltag der Meisterschaft
      */
     Optional<GameList> findLastRound(Season season);
 
     /**
      * Liefert die erste Runde einer Meisterschaft.
      * 
-     * @param season
-     *            Die betrefffende Meisterschaft
-     * @return der erste Spieltag der Meisterschaft
+     * @param  season Die betrefffende Meisterschaft
+     * @return        der erste Spieltag der Meisterschaft
      */
     Optional<GameList> findFirstRound(Season season);
 

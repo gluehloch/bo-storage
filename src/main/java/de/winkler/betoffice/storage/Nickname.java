@@ -26,8 +26,8 @@ package de.winkler.betoffice.storage;
 
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,34 +37,34 @@ public class Nickname implements Comparable<Nickname> {
     /** Der Nickname des Users. */
     @Column(name = "bo_nickname")
     private String nickname;
-    
+
     protected Nickname() {
     }
-    
-    private Nickname(String nickname) {
-    	this.nickname = nickname;
-    }
-    
-    public static Nickname of(String nickname) {
-		if (StringUtils.isBlank(nickname)) {
-			throw new IllegalArgumentException("A nickname must be defined.");
-		}
 
-    	return new Nickname(nickname);
+    private Nickname(String nickname) {
+        this.nickname = nickname;
     }
-    
+
+    public static Nickname of(String nickname) {
+        if (StringUtils.isBlank(nickname)) {
+            throw new IllegalArgumentException("A nickname must be defined.");
+        }
+
+        return new Nickname(nickname);
+    }
+
     public String getNickname() {
-    	return nickname;
+        return nickname;
     }
-    
+
     public String value() {
-    	return nickname;
+        return nickname;
     }
-    
+
     public void setNickname(String value) {
-    	nickname = value;
+        nickname = value;
     }
-    
+
     public String toLowerCase() {
         return this.nickname.toLowerCase();
     }
@@ -76,24 +76,24 @@ public class Nickname implements Comparable<Nickname> {
 
     @Override
     public String toString() {
-    	return new StringBuilder("Nickname=[").append(nickname).append("]").toString();
+        return new StringBuilder("Nickname=[").append(nickname).append("]").toString();
     }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(nickname.toLowerCase());
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(nickname.toLowerCase());
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Nickname other = (Nickname) obj;
-		return StringUtils.equalsIgnoreCase(nickname, other.nickname);
-	}
-	
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Nickname other = (Nickname) obj;
+        return StringUtils.equalsIgnoreCase(nickname, other.nickname);
+    }
+
 }

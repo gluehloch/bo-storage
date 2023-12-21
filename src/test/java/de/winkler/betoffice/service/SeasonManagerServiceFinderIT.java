@@ -130,17 +130,17 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
         //
         // find matches
         //
-        Optional<Team> stuttgart = masterDataManagerService.findTeam("VfB Stuttgart");
-        Optional<Team> hsv = masterDataManagerService.findTeam("Hamburger SV");
+        Team stuttgart = masterDataManagerService.findTeam("VfB Stuttgart").orElseThrow();
+        Team hsv = masterDataManagerService.findTeam("Hamburger SV").orElseThrow();
 
-        List<Game> matchesHsvStuttgart = seasonManagerService.findMatches(stuttgart.get(), hsv.get());
-        assertThat(matchesHsvStuttgart.size()).isEqualTo(22);
+        List<Game> matchesHsvStuttgart = seasonManagerService.findMatches(stuttgart, hsv);
+        assertThat(matchesHsvStuttgart.size()).isEqualTo(17);
 
-        List<Game> matchesStuttgartHsv = seasonManagerService.findMatches(hsv.get(), stuttgart.get());
-        assertThat(matchesStuttgartHsv.size()).isEqualTo(24);
+        List<Game> matchesStuttgartHsv = seasonManagerService.findMatches(hsv, stuttgart);
+        assertThat(matchesStuttgartHsv.size()).isEqualTo(17);
 
-        List<Game> allMatchesStuttgartHsv = seasonManagerService.findMatches(stuttgart.get(), hsv.get(), true);
-        assertThat(allMatchesStuttgartHsv.size()).isEqualTo(46);
+        List<Game> allMatchesStuttgartHsv = seasonManagerService.findMatches(stuttgart, hsv, true);
+        assertThat(allMatchesStuttgartHsv.size()).isEqualTo(34);
 
         //
         // find all season
@@ -168,7 +168,7 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
         Set<User> members = communityService.findMembers(tdkb2006);
         assertThat(members).hasSize(11);
 
-        assertThat(members).extracting("nickname.value").contains("Andi", "Bernd_das_Brot", "chris",
+        assertThat(members).extracting("nickname.nickname").contains("Andi", "Bernd_das_Brot", "chris",
                 "Frosch", "Goddard", "Hattwig", "Jogi", "mrTipp", "Peter",
                 "Roenne", "Steffen");
         
@@ -194,15 +194,15 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
         //
         // find teams by group type
         //
-        Optional<GroupType> finale = masterDataManagerService.findGroupType("Finale");
-        Optional<Team> italien = masterDataManagerService.findTeam("Italien");
-        Optional<Team> frankreich = masterDataManagerService.findTeam("Frankreich");
+        GroupType finale = masterDataManagerService.findGroupType("Finale").orElseThrow();
+        Team italien = masterDataManagerService.findTeam("Italien").orElseThrow();
+        Team frankreich = masterDataManagerService.findTeam("Frankreich").orElseThrow();
 
-        List<Team> finalTeams = seasonManagerService.findTeams(wm2006.get(), finale.get());
+        List<Team> finalTeams = seasonManagerService.findTeams(wm2006.get(), finale);
 
         assertThat(finalTeams.size()).isEqualTo(2);
-        assertThat(finalTeams.get(0)).isEqualTo(frankreich.get());
-        assertThat(finalTeams.get(1)).isEqualTo(italien.get());
+        assertThat(finalTeams.get(0)).isEqualTo(frankreich);
+        assertThat(finalTeams.get(1)).isEqualTo(italien);
 
         List<Group> groupsWm2006 = seasonManagerService.findGroups(wm2006.get());
         assertThat(groupsWm2006.size()).isEqualTo(13);
@@ -230,8 +230,8 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
 
         Game finalRoundMatch = finaleWm2006.get(0);
 
-        assertThat(finalRoundMatch.getHomeTeam()).isEqualTo(italien.get());
-        assertThat(finalRoundMatch.getGuestTeam()).isEqualTo(frankreich.get());
+        assertThat(finalRoundMatch.getHomeTeam()).isEqualTo(italien);
+        assertThat(finalRoundMatch.getGuestTeam()).isEqualTo(frankreich);
 
         // Damals noch ohne KO Spiele...
         assertThat(finalRoundMatch.getResult()).isEqualTo(new GameResult(5, 3));
@@ -271,13 +271,21 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
 
     @Test
     void testDatabaseMaintenanceService() {
-        Object object = databaseMaintenanceService.executeHql("from Season");
+        Object object = databaseMaintenanceService.executeHql("select s from Season s");
         assertEquals(34, ((List<?>) object).size());
 
         Object object2 = databaseMaintenanceService.executeHql(
-                "select s " + "from Season s left join fetch s.groups as group "
-                        + "where s.reference.name = 'WM Deutschland' and s.reference.year = 2006");
-        assertEquals(13, ((List<?>) object2).size());
+        		"""
+        		select
+        			s
+        		from
+        			Season s
+        		 	left join fetch s.groups as group
+                 where
+        		    s.reference.name = 'WM Deutschland'
+        		    and s.reference.year = '2006'
+        		""");
+        assertEquals(1, ((List<?>) object2).size());
     }
 
     private void validateTeamResult(final List<TeamResult> teamResults,

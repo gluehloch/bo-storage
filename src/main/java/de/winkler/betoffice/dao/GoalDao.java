@@ -50,7 +50,16 @@ public interface GoalDao extends CommonDao<Goal> {
      *            The match
      * @return the goals
      */
-    List<Goal> find(Game match);
+	List<Goal> find(Game match);
+
+    /**
+     * Get a list of all goals of a match
+     * 
+     * @param match
+     *            The match
+     * @return the goals
+     */
+	List<Goal> find(long matchId);
 
     /**
      * Find a goal by the openligadbid

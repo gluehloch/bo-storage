@@ -114,7 +114,7 @@ class SeasonManagerServiceIT extends AbstractServiceTest {
         Set<User> users = communityService.findMembers(communityReference);
 
         assertThat(users).hasSize(10);
-        assertThat(users).extracting("nickname.value", "name").contains(
+        assertThat(users).extracting("nickname.nickname", "name").contains(
                 tuple("BayJan", "Hasselmann"),
                 tuple("chris", "seidl"),
                 tuple("Frosch", "Winkler"),
