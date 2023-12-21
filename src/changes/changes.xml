@@ -6,6 +6,8 @@
     </properties>
     <body>
         <!-- Under construction. -->
+        
+        <!-- RELEASED -->
         <release version="betoffice-storage-3.0.2" date="2023-10-??" description="Java 21. Spring 6. Hibernate 6.">
             <action dev="andrewinkler" type="update" date="2023-09-21">
                 Java 21. Spring 6. Hibernate 6.
