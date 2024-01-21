@@ -54,6 +54,9 @@ import de.winkler.betoffice.test.DateTimeDummyProducer;
  */
 public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
+    private static final long SEASON_ID = 1L;
+    private static final long ROUND_1_ID = 1L;
+
     private static final ZoneId ZONE_UTC = ZoneId.of("UTC");
     private static final ZoneId ZONE_EUROPE_PARIS = ZoneId.of("Europe/Paris");
     private static final ZoneId ZONE_EUROPE_BERLIN = ZoneId.of("Europe/Berlin");
@@ -69,10 +72,10 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Autowired
     private GroupTypeDao groupTypeDao;
-    
+
     @Autowired
     private GroupDao groupDao;
-    
+
     @BeforeEach
     void init() {
         prepareDatabase(RoundDaoHibernateTest.class);
@@ -89,7 +92,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         newRound.setDateTime(now);
 
         GroupType liga1 = groupTypeDao.findByName("1. Liga").orElseThrow();
-        Group liga1_1000 =  groupDao.findBySeasonAndGroupType(season, liga1);
+        Group liga1_1000 = groupDao.findBySeasonAndGroupType(season, liga1);
 
         newRound.setGroup(liga1_1000);
         season.addGameList(newRound);
@@ -134,7 +137,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     void testFindPreviousRound() {
         assertThat(roundDao.findPrevious(0)).isEmpty();
         assertThat(roundDao.findPrevious(1)).isEmpty();
-        assertThat(roundDao.findPrevious(2)).contains(1L);
+        assertThat(roundDao.findPrevious(2)).contains(SEASON_ID);
         assertThat(roundDao.findPrevious(3)).contains(2L);
         assertThat(roundDao.findPrevious(4)).contains(3L);
         assertThat(roundDao.findPrevious(5)).contains(4L);
@@ -144,46 +147,46 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     @Test
     void testFindNextTippRound() {
         // Everything as expected?
-        ZonedDateTime matchDateTime = matchDao.findById(1L).getDateTime();
+        ZonedDateTime matchDateTime = matchDao.findById(SEASON_ID).getDateTime();
         assertThat(matchDateTime)
-            .isNotEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_UTC))
-            .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN))
-            .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_PARIS));
+                .isNotEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_UTC))
+                .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN))
+                .isEqualTo(ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_PARIS));
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
         assertThat(matchDao.findById(20L).isPlayed()).isFalse();
 
         // Datum kurz vor dem Spieltag
-        assertThat(roundDao.findNextTippRound(1L,
-                ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))
-                .get()).isEqualTo(1L);
-        assertThat(roundDao.findNextTippRound(1L,
+        assertThat(roundDao.findNextTippRound(SEASON_ID,
+                ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZONE_EUROPE_BERLIN))
+                .get()).isEqualTo(ROUND_1_ID);
+        assertThat(roundDao.findNextTippRound(SEASON_ID,
                 ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))
                 .get()).isEqualTo(2L);
-        assertThat(roundDao.findNextTippRound(1L,
+        assertThat(roundDao.findNextTippRound(SEASON_ID,
                 ZonedDateTime.of(2016, 3, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))
                 .get()).isEqualTo(3L);
-        assertThat(roundDao.findNextTippRound(1L,
+        assertThat(roundDao.findNextTippRound(SEASON_ID,
                 ZonedDateTime.of(2016, 4, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))
                 .get()).isEqualTo(4L);
-        assertThat(roundDao.findNextTippRound(1L,
+        assertThat(roundDao.findNextTippRound(SEASON_ID,
                 ZonedDateTime.of(2016, 5, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))
                 .get()).isEqualTo(5L);
-        assertThat(roundDao.findNextTippRound(1L,
+        assertThat(roundDao.findNextTippRound(SEASON_ID,
                 ZonedDateTime.of(2016, 6, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))
                 .isPresent()).isFalse();
 
         // Datum direkt am Spieltag
-        assertThat(roundDao.findNextTippRound(1L,
+        assertThat(roundDao.findNextTippRound(SEASON_ID,
                 ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZONE_EUROPE_PARIS))
                 .get()).isEqualTo(2L);
-        assertThat(roundDao.findNextTippRound(1L,
+        assertThat(roundDao.findNextTippRound(SEASON_ID,
                 ZonedDateTime.of(2016, 5, 5, 13, 0, 0, 0, ZONE_EUROPE_PARIS))
                 .get()).isEqualTo(5L);
-        assertThat(roundDao.findNextTippRound(1L,
+        assertThat(roundDao.findNextTippRound(SEASON_ID,
                 ZonedDateTime.of(2016, 5, 5, 16, 0, 0, 0, ZONE_EUROPE_PARIS))
                 .get()).isEqualTo(5L);
-        assertThat(roundDao.findNextTippRound(1L,
+        assertThat(roundDao.findNextTippRound(SEASON_ID,
                 ZonedDateTime.of(2016, 5, 6, 16, 0, 0, 0, ZONE_EUROPE_PARIS))
                 .get()).isEqualTo(5L);
     }
@@ -224,31 +227,44 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     @Test
     void testFindLastTippRound() {
         // Everything as expected?
-        ZonedDateTime matchDateTime = matchDao.findById(1L).getDateTime();
+        ZonedDateTime matchDateTime = matchDao.findById(SEASON_ID).getDateTime();
 
         assertThat(matchDateTime)
-            .isEqualTo(ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(15, 0)), ZONE_EUROPE_PARIS))
-            .isEqualTo(ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(14, 0)), ZONE_UTC));
+                .isEqualTo(ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(15, 0)),
+                        ZONE_EUROPE_PARIS))
+                .isEqualTo(ZonedDateTime.of(LocalDateTime.of(LocalDate.of(2016, 1, 5), LocalTime.of(14, 0)), ZONE_UTC));
 
         assertThat(matchDao.findById(18L).isPlayed()).isTrue();
         assertThat(matchDao.findById(19L).isPlayed()).isTrue();
         assertThat(matchDao.findById(20L).isPlayed()).isFalse();
 
         // Datum kurz vor dem Spieltag
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).isNotPresent();
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(1L);
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 3, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(2L);
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 4, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(3L);
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 5, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(4L);
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 6, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(5L);
+        assertThat(roundDao.findLastTippRound(SEASON_ID, ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)))
+                .isNotPresent();
+        assertThat(roundDao.findLastTippRound(SEASON_ID, ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)))
+                .contains(SEASON_ID);
+        assertThat(roundDao.findLastTippRound(SEASON_ID, ZonedDateTime.of(2016, 3, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)))
+                .contains(2L);
+        assertThat(roundDao.findLastTippRound(SEASON_ID, ZonedDateTime.of(2016, 4, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)))
+                .contains(3L);
+        assertThat(roundDao.findLastTippRound(SEASON_ID, ZonedDateTime.of(2016, 5, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)))
+                .contains(4L);
+        assertThat(roundDao.findLastTippRound(SEASON_ID, ZonedDateTime.of(2016, 6, 1, 0, 0, 0, 0, ZONE_EUROPE_PARIS)))
+                .contains(5L);
 
         // Datum direkt am Spieltag
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 2, 5, 18, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(2L);
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZONE_UTC))).contains(2L);
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 2, 5, 18, 0, 0, 0, ZONE_UTC))).contains(2L);
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 5, 5, 13, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(4L);
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 5, 5, 21, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(5L);
-        assertThat(roundDao.findLastTippRound(1L, ZonedDateTime.of(2016, 5, 6, 16, 0, 0, 0, ZONE_EUROPE_PARIS))).contains(5L);
+        assertThat(roundDao.findLastTippRound(SEASON_ID, ZonedDateTime.of(2016, 2, 5, 18, 0, 0, 0, ZONE_EUROPE_PARIS)))
+                .contains(2L);
+        assertThat(roundDao.findLastTippRound(SEASON_ID, ZonedDateTime.of(2016, 2, 5, 16, 0, 0, 0, ZONE_UTC)))
+                .contains(2L);
+        assertThat(roundDao.findLastTippRound(SEASON_ID, ZonedDateTime.of(2016, 2, 5, 18, 0, 0, 0, ZONE_UTC)))
+                .contains(2L);
+        assertThat(roundDao.findLastTippRound(SEASON_ID, ZonedDateTime.of(2016, 5, 5, 13, 0, 0, 0, ZONE_EUROPE_PARIS)))
+                .contains(4L);
+        assertThat(roundDao.findLastTippRound(SEASON_ID, ZonedDateTime.of(2016, 5, 5, 21, 0, 0, 0, ZONE_EUROPE_PARIS)))
+                .contains(5L);
+        assertThat(roundDao.findLastTippRound(SEASON_ID, ZonedDateTime.of(2016, 5, 6, 16, 0, 0, 0, ZONE_EUROPE_PARIS)))
+                .contains(5L);
     }
 
     @Test
@@ -264,7 +280,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         Season season = seasonDao.findById(1l);
         Optional<GameList> firstRound = roundDao.findFirstRound(season);
         assertThat(firstRound).isPresent();
-        assertThat(firstRound.get().getId()).isEqualTo(1L);
+        assertThat(firstRound.get().getId()).isEqualTo(SEASON_ID);
     }
 
 }

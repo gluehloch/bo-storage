@@ -27,10 +27,10 @@
 ### TAB bo_gamelist
 ### id | bo_index | bo_date | bo_season_ref | bo_group_ref  | bo_datetime         | bo_openligaid 
    1   | 0        |         | 1             | 1             | 2016-01-05 15:00:00 |
-   2   | 1        |         | 1             | 1             | 2016-02-05 15:00:00 | 
-   3   | 2        |         | 1             | 1             | 2016-03-05 15:00:00 | 
-   4   | 3        |         | 1             | 1             | 2016-04-05 15:00:00 | 
-   5   | 4        |         | 1             | 1             | 2016-05-05 20:00:00 |  
+   2   | 1        |         | 1             | 1             | 2016-02-05 15:00:00 |
+   3   | 2        |         | 1             | 1             | 2016-03-05 15:00:00 |
+   4   | 3        |         | 1             | 1             | 2016-04-05 15:00:00 |
+   5   | 4        |         | 1             | 1             | 2016-05-05 20:00:00 |
 
 ### TAB bo_game
 ### id | bo_datetime         | bo_group_ref | bo_hometeam_ref | bo_guestteam_ref | bo_homegoals | bo_guestgoals | bo_isplayed | bo_gamelist_ref | bo_index

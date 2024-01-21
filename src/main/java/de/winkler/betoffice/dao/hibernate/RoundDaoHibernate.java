@@ -37,6 +37,7 @@ import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.TypedQuery;
 
 /**
@@ -155,24 +156,54 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             + "    round.id = :roundId";
 
     /** Findet den naechsten zu tippenden Spieltag. */
-    private static final String QUERY_NEXT_ROUND_BY_DATE = "select gl.bo_datetime datetime, gl.id last_round_id "
-            + "from bo_gamelist gl "
-            + "where gl.bo_datetime = "
-            + "( "
-            + "    select "
-            + "        min(t.bo_datetime) datetime"
-            + "    from"
-            + "    ("
-            + "        select "
-            + "            r.bo_datetime, r.id "
-            + "        from "
-            + "            bo_gamelist r, bo_game m "
-            + "        where "
-            + "            r.bo_season_ref = :season_id "
-            + "            and r.id = m.bo_gamelist_ref "
-            + "            and m.bo_datetime >= :date "
-            + "    ) as t"
-            + ")";
+    private static final String QUERY_NEXT_ROUND_BY_DATE = """
+            select
+                gl.bo_datetime datetime,
+                gl.id last_round_id
+            from
+                bo_gamelist gl
+            where
+                gl.bo_datetime =
+                (
+                    select
+                        min(t.bo_datetime) datetime
+                    from
+                    (
+                        select
+                            r.bo_datetime,
+                            r.id
+                        from
+                            bo_gamelist r,
+                            bo_game m
+                        where
+                            r.bo_season_ref = :season_id
+                            and r.id = m.bo_gamelist_ref
+                            and m.bo_datetime >= :date
+                    ) as t
+                )
+            """;
+
+    /** Findet den naechsten zu tippenden Spieltag. Version 2.0 */
+    private static final String QUERY_NEXT_GAME_BY_DATE = """
+            select
+                gl.bo_datetime datetime,
+                gl.id          last_round_id,
+                g.bo_datetime
+            from
+                bo_gamelist gl
+                join bo_game g on (g.bo_gamelist_ref = gl.id)
+            where
+                gl.bo_season_ref = :season_id
+                and g.bo_datetime =
+                (
+                    select
+                        min(g2.bo_datetime)
+                    from
+                        bo_game g2
+                    where
+                        g2.bo_datetime > :date
+                )
+            """;
 
     /** Findet den letzten zu tippenden Spieltag. */
     private static final String QUERY_LAST_ROUND_BY_DATE = "select gl.bo_datetime datetime, gl.id last_round_id "
@@ -257,7 +288,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
 
     @Override
     public Optional<Long> findNextTippRound(long seasonId, ZonedDateTime date) {
-        NativeQuery query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_NEXT_ROUND_BY_DATE);
+        NativeQuery<Object> query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_NEXT_GAME_BY_DATE, Object.class);
         query.setParameter("season_id", seasonId);
         query.setParameter("date", date, ZonedDateTime.class);
 
@@ -269,6 +300,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             if (roundId != null) {
                 result = Optional.of(roundId.longValue());
             }
+        } catch (NonUniqueResultException ex) {
+            // TODO Return value keeps empty
         } catch (NoResultException ex) {
             // TODO Return value keeps empty
         }
