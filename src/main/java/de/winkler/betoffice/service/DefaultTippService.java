@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -89,7 +89,8 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
         return createOrUpdateTipp(token, round, match, user, tipp, status);
     }
 
-    private GameTipp createOrUpdateTipp(String token, GameList round, Game game, User user, GameResult tipp, TippStatusType status) {
+    private GameTipp createOrUpdateTipp(String token, GameList round, Game game, User user, GameResult tipp,
+            TippStatusType status) {
         Date now = Date.from(datetimeProvider.currentDateTime().toInstant());
 
         Optional<GameTipp> gameTipp = gameTippDao.find(game, user);
@@ -204,8 +205,8 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     /**
      * Added a user tipp to the database. If the tipp date is after kick off, the tipp will not be persisted.
      * 
-     * @param tippDto The user tipp to persist.
-     * @return the persisted (or not) persisted user tipps.
+     * @param  tippDto The user tipp to persist.
+     * @return         the persisted (or not) persisted user tipps.
      */
     @Override
     @Transactional
@@ -246,14 +247,11 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     }
 
     /**
-     * Falls die Spielpaarung keinen festgelegten Zeitpunkt definiert, wird der
-     * Tippzeitpunkt nicht bewertet.
+     * Falls die Spielpaarung keinen festgelegten Zeitpunkt definiert, wird der Tippzeitpunkt nicht bewertet.
      * 
-     * @param tipp
-     *            Der Tipp
-     * @param game
-     *            Das Spiel
-     * @return <code>true</code>, falls der Tippzeitpunkt vor Spielbeginn liegt.
+     * @param  tipp Der Tipp
+     * @param  game Das Spiel
+     * @return      <code>true</code>, falls der Tippzeitpunkt vor Spielbeginn liegt.
      */
     private boolean isSubmitTimeBeforeGameTime(TippDto tipp, Game game) {
         return game.getDateTime() == null || tipp.getSubmitTime().isBefore(game.getDateTime());
@@ -304,11 +302,9 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     /**
      * Berechnet die erzielten Punkte eines Spielers für diesen Spieltag.
      *
-     * @param round
-     *            Der Spieltag fuer den die Punkte ermittelt werden sollen.
-     * @param user
-     *            Der Teilnehmer für den die Punktzahl ermittelt wird.
-     * @return Ein <code>UserResultOfDay</code>
+     * @param  round Der Spieltag fuer den die Punkte ermittelt werden sollen.
+     * @param  user  Der Teilnehmer für den die Punktzahl ermittelt wird.
+     * @return       Ein <code>UserResultOfDay</code>
      */
     @Override
     @Transactional
