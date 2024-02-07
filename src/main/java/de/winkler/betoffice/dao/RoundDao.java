@@ -99,6 +99,23 @@ public interface RoundDao extends CommonDao<GameList> {
     Optional<Long> findPrevious(long id);
 
     /**
+     * Liefert das nächste Spieltagsdatum (über alle Meisterschaften).
+     * 
+     * @param  seasonId Die ID der Meisterschaft.
+     * @param  date     Das Bezugsdatum.
+     * @return          Der nächste Spieltag.
+     */
+    ZonedDateTime findNearestGame(ZonedDateTime date);
+
+    /**
+     * Liefert das passende Spiel zu einem Datum.
+     * 
+     * @param  date Das Bezugsdatum.
+     * @return      Das Spiel zu diesem Datum.
+     */
+    List<Game> findGames(ZonedDateTime date);
+
+    /**
      * Liefert den nächsten zu tippenden Spieltag.
      *
      * @param  seasonId Die betreffende Meisterschaft.

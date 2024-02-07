@@ -205,6 +205,24 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
                 )
             """;
 
+    private static final String QUERY_MIN_GAME_BY_DATE = """
+            select
+                min(g2.bo_datetime)
+            from
+                bo_game g2
+            where
+                g2.bo_datetime > :date
+            """;
+
+    private static final String QUERY_GAME_BY_DATE = """
+            select
+                g
+            from
+                Game g
+            where
+                g.dateTime = :date
+            """;
+
     /** Findet den letzten zu tippenden Spieltag. */
     private static final String QUERY_LAST_ROUND_BY_DATE = "select gl.bo_datetime datetime, gl.id last_round_id "
             + "from bo_gamelist gl "
@@ -307,6 +325,20 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
         }
 
         return result;
+    }
+
+    @Override
+    public ZonedDateTime findNearestGame(ZonedDateTime date) {
+        NativeQuery<ZonedDateTime> query = getSessionFactory().getCurrentSession().createNativeQuery(QUERY_MIN_GAME_BY_DATE, ZonedDateTime.class);
+        query.setParameter("date", date, ZonedDateTime.class);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public List<Game> findGames(ZonedDateTime date) {
+        Query<Game> query = getSessionFactory().getCurrentSession().createQuery(QUERY_GAME_BY_DATE, Game.class);
+        query.setParameter("date", date, ZonedDateTime.class);
+        return query.getResultList();
     }
 
     @Override
