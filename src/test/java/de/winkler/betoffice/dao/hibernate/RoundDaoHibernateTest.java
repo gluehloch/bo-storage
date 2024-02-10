@@ -147,39 +147,50 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void findNearestGameDate() {
-        var dateTime = roundDao.findNearestGame(ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZONE_EUROPE_BERLIN));
-        assertThat(dateTime.getYear()).isEqualTo(2016);
-        assertThat(dateTime.getMonth()).isEqualTo(Month.JANUARY);
-        assertThat(dateTime.getDayOfMonth()).isEqualTo(5);
+        var dateTime_2016_01_01 = roundDao.findNearestGame(ZonedDateTime.of(2016, 1, 1, 0, 0, 0, 0, ZONE_EUROPE_BERLIN));
+        assertThat(dateTime_2016_01_01.getYear()).isEqualTo(2016);
+        assertThat(dateTime_2016_01_01.getMonth()).isEqualTo(Month.JANUARY);
+        assertThat(dateTime_2016_01_01.getDayOfMonth()).isEqualTo(5);
 
-        var dateTime2 = roundDao.findNearestGame(ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, ZONE_EUROPE_BERLIN));
-        assertThat(dateTime2.getYear()).isEqualTo(2016);
-        assertThat(dateTime2.getMonth()).isEqualTo(Month.FEBRUARY);
-        assertThat(dateTime2.getDayOfMonth()).isEqualTo(5);
+        var dateTime_2016_02_01 = roundDao.findNearestGame(ZonedDateTime.of(2016, 2, 1, 0, 0, 0, 0, ZONE_EUROPE_BERLIN));
+        assertThat(dateTime_2016_02_01.getYear()).isEqualTo(2016);
+        assertThat(dateTime_2016_02_01.getMonth()).isEqualTo(Month.FEBRUARY);
+        assertThat(dateTime_2016_02_01.getDayOfMonth()).isEqualTo(5);
 
-        var dateTime3 = roundDao.findNearestGame(ZonedDateTime.of(2016, 3, 5, 18, 0, 0, 0, ZONE_EUROPE_BERLIN));
-        assertThat(dateTime3.getYear()).isEqualTo(2016);
-        assertThat(dateTime3.getMonth()).isEqualTo(Month.MARCH);
-        assertThat(dateTime3.getDayOfMonth()).isEqualTo(5);
-        assertThat(dateTime3.getHour()).isEqualTo(20);
+        var dateTime_2016_05__18_00_00 = roundDao.findNearestGame(ZonedDateTime.of(2016, 3, 5, 18, 0, 0, 0, ZONE_EUROPE_BERLIN));
+        assertThat(dateTime_2016_05__18_00_00.getYear()).isEqualTo(2016);
+        assertThat(dateTime_2016_05__18_00_00.getMonth()).isEqualTo(Month.MARCH);
+        assertThat(dateTime_2016_05__18_00_00.getDayOfMonth()).isEqualTo(5);
+        assertThat(dateTime_2016_05__18_00_00.getHour()).isEqualTo(20);
     }
 
     @Test
-    void findGames() {
+    void findGamesWithTimeZoneEuropeOrUtc() {
         // Suche mit TZ Europe/Berlin liefert kein Ergebnis! (keine Normalisierung der Abfrage durch Hibernate!)
         var dt_2016_01_05__15_00_00_EuropeBerlin = ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN);
         var gamesByEuropeBerlin = roundDao.findGames(dt_2016_01_05__15_00_00_EuropeBerlin);
         assertThat(gamesByEuropeBerlin).isEmpty();
-        
+
+        //
         // Suche mit TZ UTC liefert das gewünschte Ergebnis! Aber die Entity ...
+        //
         var dt_2016_01_05__15_00_00_utc = ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_UTC);
         var gamesByUTC = roundDao.findGames(dt_2016_01_05__15_00_00_utc);
         assertThat(gamesByUTC).hasSize(2);
         assertThat(gamesByUTC.get(0).getDateTime()).isNotEqualTo(dt_2016_01_05__15_00_00_utc);
         assertThat(gamesByUTC.get(1).getDateTime()).isNotEqualTo(dt_2016_01_05__15_00_00_utc);
+        //
         // ... enthält die normalisierten Zeitstempel. In dem Fall die Zeitstempel mit der TZ Europe/Berlin.
+        //
         assertThat(gamesByUTC.get(0).getDateTime()).isEqualTo(dt_2016_01_05__15_00_00_EuropeBerlin);
         assertThat(gamesByUTC.get(1).getDateTime()).isEqualTo(dt_2016_01_05__15_00_00_EuropeBerlin);
+
+        //
+        // Folgerung: Die Suche mit UTC liefert das gewünschte Ergebnis. Die Entity enthält die normalisierten Zeitstempel Europe/Berlin.
+        // Wie werden die Zeitstempel in der Datenbank gespeichert? MARIAD DB speichert alle Zeitstempel als UTC!
+        //
+        // D.h. alle Abfragen mit einem Zeitstempel müssen in UTC erfolgen.
+        // 
     }
 
     @Test
