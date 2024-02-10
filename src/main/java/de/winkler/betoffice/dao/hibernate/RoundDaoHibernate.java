@@ -186,9 +186,9 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     /** Findet den naechsten zu tippenden Spieltag. Version 2.0 */
     private static final String QUERY_NEXT_GAME_BY_DATE = """
             select
-                gl.bo_datetime datetime,
+                gl.bo_datetime round_datetime,
                 gl.id          last_round_id,
-                g.bo_datetime
+                g.bo_datetime  game_datetime
             from
                 bo_gamelist gl
                 join bo_game g on (g.bo_gamelist_ref = gl.id)
@@ -310,21 +310,24 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
         query.setParameter("season_id", seasonId);
         query.setParameter("date", date, ZonedDateTime.class);
 
-        Optional<Long> result = Optional.empty();
         try {
-            Object[] object = (Object[]) query.getSingleResult();
-            Long roundId = (Long) object[1];
-
-            if (roundId != null) {
-                result = Optional.of(roundId.longValue());
+            List<Object> resultList = query.getResultList();
+            if (resultList.size() == 0) {
+                return Optional.empty();
             }
+            Object[] object = (Object[]) resultList.get(0);
+            Long roundId = (Long) object[1];
+            if (roundId == null) {
+                return Optional.empty();
+            }
+            return Optional.of(roundId.longValue());
         } catch (NonUniqueResultException ex) {
-            // TODO Return value keeps empty
+            System.out.println("Mehr als ein Ergebnis gefunden!");
+            return Optional.empty();
         } catch (NoResultException ex) {
-            // TODO Return value keeps empty
+            System.out.println("Kein Ergebnis gefunden!");
+            return Optional.empty();
         }
-
-        return result;
     }
 
     @Override
