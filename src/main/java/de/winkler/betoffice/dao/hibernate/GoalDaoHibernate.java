@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -26,8 +26,8 @@ package de.winkler.betoffice.dao.hibernate;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.query.Query;
-import org.hibernate.type.StandardBasicTypes;
+import jakarta.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.GoalDao;
@@ -48,7 +48,7 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements GoalDao
 
     @Override
     public List<Goal> findAll() {
-        return getSessionFactory().getCurrentSession()
+        return getEntityManager()
                 .createQuery(
                         "select goal from Goal goal inner join fetch goal.player order by goal.id",
                         Goal.class)
@@ -57,12 +57,11 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements GoalDao
 
     @Override
     public Optional<Goal> findByOpenligaid(long openligaid) {
-        Query<Goal> query = getSessionFactory().getCurrentSession()
+        TypedQuery<Goal> query = getEntityManager()
                 .createQuery(
                         "select goal from Goal goal where goal.openligaid = :openligaid",
                         Goal.class)
-                .setParameter("openligaid", openligaid,
-                        StandardBasicTypes.LONG);
+                .setParameter("openligaid", openligaid);
         return singleResult(query);
     }
 
@@ -73,18 +72,12 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements GoalDao
 
     @Override
     public List<Goal> find(long matchId) {
-        List<Goal> goals = getSessionFactory().getCurrentSession()
+        List<Goal> goals = getEntityManager()
                 .createQuery("select goal from Goal goal where goal.game.id = :matchId order by goal.minute",
                         Goal.class)
-                .setParameter("matchId", matchId, StandardBasicTypes.LONG)
+                .setParameter("matchId", matchId)
                 .getResultList();
         return goals;
-    }
-
-    @Override
-    public void deleteAll(Game game) {
-        getSessionFactory().getCurrentSession().createMutationQuery(
-                "delete from Goal g where g.game = :game");
     }
 
 }

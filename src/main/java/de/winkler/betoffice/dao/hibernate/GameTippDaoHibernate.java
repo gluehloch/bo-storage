@@ -26,6 +26,7 @@ package de.winkler.betoffice.dao.hibernate;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.GameTippDao;
@@ -95,7 +96,7 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
 
     @Override
     public List<GameTipp> find(Game match) {
-        List<GameTipp> tipps = getSessionFactory().getCurrentSession()
+        List<GameTipp> tipps = getEntityManager()
                 .createQuery(QUERY_GAMETIPP_BY_MATCH, GameTipp.class)
                 .setParameter("gameId", match.getId())
                 .getResultList();
@@ -104,7 +105,7 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
 
     @Override
     public Optional<GameTipp> find(Game game, User user) {
-        Optional<GameTipp> tipp = getSessionFactory().getCurrentSession()
+        Optional<GameTipp> tipp = getEntityManager().unwrap(Session.class)
                 .createQuery(QUERY_GAMETIPP_BY_MATCH_AND_USER, GameTipp.class)
                 .setParameter("gameId", game.getId())
                 .setParameter("userId", user.getId())
@@ -114,7 +115,7 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
 
     @Override
     public List<GameTipp> find(long roundId, long userId) {
-        List<GameTipp> tipps = getSessionFactory().getCurrentSession()
+        List<GameTipp> tipps = getEntityManager()
                 .createQuery(QUERY_ROUND_AND_TIPPS_BY_USER_AND_ROUND, GameTipp.class)
                 .setParameter("roundId", roundId)
                 .setParameter("userId", userId)
@@ -124,7 +125,7 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
 
     @Override
     public List<GameTipp> find(long roundId) {
-        List<GameTipp> tipps = getSessionFactory().getCurrentSession()
+        List<GameTipp> tipps = getEntityManager()
                 .createQuery(QUERY_ROUND_AND_TIPPS_BY_ROUND, GameTipp.class)
                 .setParameter("roundId", roundId)
                 .getResultList();

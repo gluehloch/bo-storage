@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -69,12 +69,5 @@ public interface GoalDao extends CommonDao<Goal> {
      * @return A goal
      */
     Optional<Goal> findByOpenligaid(long openligaid);
-
-    /**
-     * Delete all goals of a game.
-     *
-     * @param game the match
-     */
-    void deleteAll(Game game);
 
 }

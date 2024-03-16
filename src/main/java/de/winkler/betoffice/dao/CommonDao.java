@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2021 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -22,8 +22,6 @@
  */
 
 package de.winkler.betoffice.dao;
-
-import java.util.List;
 
 /**
  * Allgemeine DAO Schnittstelle. Definiert die üblichen CRUD Methoden <code>
@@ -51,13 +49,6 @@ public interface CommonDao<T> {
     T persist(T t);
 
     /**
-     * Speichert mehrere neue Ts.
-     *
-     * @param ts Eine Liste von Ts.
-     */
-    void persistAll(List<T> ts);
-
-    /**
      * Ein Update.
      *
      * @param t Ein T
@@ -65,25 +56,11 @@ public interface CommonDao<T> {
     void update(T t);
 
     /**
-     * Update für alle Ts.
-     *
-     * @param ts Eine Liste von Ts.
-     */
-    void updateAll(List<T> ts);
-
-    /**
      * Löscht ein T.
      *
      * @param t Ein Teilnehmer.
      */
     void delete(T t);
-
-    /**
-     * Löscht alle Ts.
-     *
-     * @param ts Die Ts.
-     */
-    void deleteAll(List<T> ts);
 
     /**
      * Re-associate an entity with the session.

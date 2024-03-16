@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2024 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL  LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -30,7 +30,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.hibernate.query.Query;
+import jakarta.persistence.TypedQuery;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -45,82 +46,90 @@ import de.winkler.betoffice.storage.SeasonReference;
 @Repository("communityDao")
 public class CommunityDaoHibernate extends AbstractCommonDao<Community> implements CommunityDao {
 
-	public CommunityDaoHibernate() {
-		super(Community.class);
-	}
+    public CommunityDaoHibernate() {
+        super(Community.class);
+    }
 
-	@Override
-	public Optional<Community> find(CommunityReference reference) {
-		Query<Community> query = getSessionFactory().getCurrentSession()
-				.createQuery("from Community c left join fetch c.users where c.reference.shortName = :shortName", Community.class)
-				.setParameter("shortName", reference.getShortName());
-		return singleResult(query);
-	}
+    @Override
+    public Optional<Community> find(CommunityReference reference) {
+        TypedQuery<Community> query = getEntityManager()
+                .createQuery("from Community c left join fetch c.users where c.reference.shortName = :shortName",
+                        Community.class)
+                .setParameter("shortName", reference.getShortName());
+        return singleResult(query);
+    }
 
-	@Override
-	public List<Community> find(String name) {
-		return getSessionFactory().getCurrentSession()
-				.createQuery("from Community c left join fetch c.users where c.name = :name", Community.class)
-				.setParameter("name", name)
-				.getResultList();
-	}
-    
+    @Override
+    public List<Community> find(String name) {
+        return getEntityManager()
+                .createQuery("from Community c left join fetch c.users where c.name = :name", Community.class)
+                .setParameter("name", name)
+                .getResultList();
+    }
+
     @Override
     public Page<Community> findAll(CommunityFilter communityFilter, Pageable pageable) {
         long total = countAll();
 
         Optional<String> sqlsort = Optional.empty();
         if (pageable.getSort().isSorted()) {
-            sqlsort = Optional.of("ORDER BY " + pageable.getSort().stream().map(s -> s.getProperty().equals("shortName") ? "reference.shortName" : s.getProperty() + ' ' + s.getDirection().name()).collect(Collectors.joining(", ")));    
+            sqlsort = Optional
+                    .of("ORDER BY " + pageable.getSort().stream()
+                            .map(s -> s.getProperty().equals("shortName") ? "reference.shortName"
+                                    : s.getProperty() + ' ' + s.getDirection().name())
+                            .collect(Collectors.joining(", ")));
         }
 
-	    Query<Community> communityQuery = getSessionFactory().getCurrentSession()
-			    .createQuery(
-					    "FROM "
-							    + " Community c "
-							    + "WHERE "
-							    + filter("shortName", "c.reference.shortName")
-							    + " AND "
-							    + filter("name", "c.name")
-							    + sqlsort.orElse(""), Community.class)
-			    .setParameter("shortName", communityFilter.getShortName())
-			    .setParameter("name", communityFilter.getName());
+        TypedQuery<Community> communityQuery = getEntityManager()
+                .createQuery(
+                        "FROM "
+                                + " Community c "
+                                + "WHERE "
+                                + filter("shortName", "c.reference.shortName")
+                                + " AND "
+                                + filter("name", "c.name")
+                                + sqlsort.orElse(""),
+                        Community.class)
+                .setParameter("shortName", communityFilter.getShortName())
+                .setParameter("name", communityFilter.getName());
 
-		if (pageable.isPaged()) {
-			communityQuery.setFirstResult((int) pageable.getOffset());
-			communityQuery.setMaxResults(pageable.getPageSize());
-		} else {
-			communityQuery.setFetchSize(0);
-			communityQuery.setMaxResults(Integer.MAX_VALUE);
-		}
+        if (pageable.isPaged()) {
+            communityQuery.setFirstResult((int) pageable.getOffset());
+            communityQuery.setMaxResults(pageable.getPageSize());
+        } else {
+            //communityQuery.setFetchSize(0);
+            communityQuery.setMaxResults(Integer.MAX_VALUE);
+        }
 
-	    List<Community> communities = communityQuery.getResultList();
+        List<Community> communities = communityQuery.getResultList();
 
         return new PageImpl<>(communities, pageable, total);
     }
 
     private long countAll() {
-        return getSessionFactory().getCurrentSession()
+        return getEntityManager()
                 .createQuery("select count(*) from Community c", Long.class)
-                .getSingleResult();        
+                .getSingleResult();
     }
 
-	@Override
-	public boolean hasMembers(CommunityReference community) {
-		return !findMembers(community).getUsers().isEmpty();
-	}
+    @Override
+    public boolean hasMembers(CommunityReference community) {
+        return !findMembers(community).getUsers().isEmpty();
+    }
 
-	@Override
-	public Community findMembers(CommunityReference community) {
-		return getSessionFactory().getCurrentSession()
-				.createQuery("select c from Community c left join fetch c.users where c.reference.shortName = :communityShortName", Community.class)
-				.setParameter("communityShortName", community.getShortName())
-				.getSingleResult();
-	}
+    @Override
+    public Community findMembers(CommunityReference community) {
+        return getEntityManager()
+                .createQuery(
+                        "select c from Community c left join fetch c.users where c.reference.shortName = :communityShortName",
+                        Community.class)
+                .setParameter("communityShortName", community.getShortName())
+                .getSingleResult();
+    }
 
     @Override
     public List<Community> find(SeasonReference seasonReference) {
-        return getSessionFactory().getCurrentSession()
+        return getEntityManager()
                 .createQuery("from Community c "
                         + "where c.season.reference.name = :name "
                         + "      and c.season.reference.year = :year", Community.class)

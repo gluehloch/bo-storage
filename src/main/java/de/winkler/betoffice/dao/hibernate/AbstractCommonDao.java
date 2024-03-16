@@ -28,16 +28,15 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
+
 import org.apache.commons.io.IOUtils;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.winkler.betoffice.dao.CommonDao;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.TypedQuery;
 
 /**
  * Utility Implementierung von {@link CommonDao}.
@@ -51,17 +50,17 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
 
     private final Class<T> t;
 
-    // -- sessionFactory ------------------------------------------------------
+    // -- entityManager ------------------------------------------------------
 
-    private SessionFactory sessionFactory;
+    private EntityManager entityManager;
 
     @Autowired
-    public void setSessionFactory(final SessionFactory _sessionFactory) {
-        sessionFactory = _sessionFactory;
+    public void setEntityManager(final EntityManager _entityManager) {
+        entityManager = _entityManager;
     }
 
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 
     // ------------------------------------------------------------------------
@@ -71,52 +70,28 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
     }
 
     public final T findById(final long id) {
-        return (T) getSessionFactory().getCurrentSession().get(t, id);
+        return (T) getEntityManager().find(t, id);
     }
 
     @Override
     public final void delete(final T t) {
-        getSessionFactory().getCurrentSession().remove(t);
-    }
-
-    @Override
-    public final void deleteAll(final List<T> ts) {
-        Session session = getSessionFactory().getCurrentSession();
-        for (T t : ts) {
-            session.remove(t);
-        }
+        getEntityManager().remove(t);
     }
 
     @Override
     public final T persist(final T t) {
-        getSessionFactory().getCurrentSession().persist(t);
+        getEntityManager().persist(t);
         return t;
     }
 
     @Override
-    public final void persistAll(final List<T> ts) {
-        Session session = getSessionFactory().getCurrentSession();
-        for (T t : ts) {
-            session.persist(t);
-        }
-    }
-
-    @Override
     public final void update(final T t) {
-        getSessionFactory().getCurrentSession().merge(t);
-    }
-
-    @Override
-    public final void updateAll(final List<T> ts) {
-        Session session = getSessionFactory().getCurrentSession();
-        for (T t : ts) {
-            session.merge(t);
-        }
+        getEntityManager().merge(t);
     }
 
     @Override
     public final void refresh(final T t) {
-        getSessionFactory().getCurrentSession().refresh(t);
+        getEntityManager().refresh(t);
     }
 
     /**
@@ -148,25 +123,8 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
         }
     }
 
-    /**
-     * Wrap single result queries with an exception handler and an {@link Optional}.
-     * 
-     * @param  query A Hibernate query
-     * @return       The query single result
-     */
-    static <T> Optional<T> singleResult(Query<T> query) {
-        Optional<T> optionalResult = null;
-        try {
-            T result = query.getSingleResult();
-            optionalResult = Optional.of(result);
-        } catch (NoResultException ex) {
-            optionalResult = Optional.empty();
-        }
-        return optionalResult;
-    }
-
     static <T> Optional<T> singleResult(TypedQuery<T> query) {
-        Optional<T> optionalResult = null;
+        Optional<T> optionalResult;
         try {
             T result = query.getSingleResult();
             optionalResult = Optional.of(result);

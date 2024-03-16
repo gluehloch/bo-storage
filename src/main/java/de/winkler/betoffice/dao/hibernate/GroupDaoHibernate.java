@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -41,8 +41,7 @@ import de.winkler.betoffice.storage.Team;
  * @author by Andre Winkler
  */
 @Repository("groupDao")
-public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
-        GroupDao {
+public class GroupDaoHibernate extends AbstractCommonDao<Group> implements GroupDao {
 
     /** Sucht nach allen Gruppen zu einer Meisterschaft. */
     private static final String QUERY_GROUPS_FROM_SEASON = AbstractCommonDao
@@ -70,14 +69,14 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
 
     @Override
     public List<Group> findAll() {
-        List<Group> groups = getSessionFactory().getCurrentSession()
+        List<Group> groups = getEntityManager()
                 .createQuery("select g from group g", Group.class).getResultList();
         return groups;
     }
 
     @Override
     public List<Group> findBySeason(final Season season) {
-        List<Group> objects = getSessionFactory().getCurrentSession()
+        List<Group> objects = getEntityManager()
                 .createQuery(QUERY_GROUPS_FROM_SEASON, Group.class)
                 .setParameter("seasonId", season.getId()).getResultList();
         return objects;
@@ -85,7 +84,7 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements
 
     @Override
     public List<Team> findTeams(final Group group) {
-        NativeQuery<Team> query = getSessionFactory().getCurrentSession()
+        NativeQuery<Team> query = getEntityManager()
                 .createNativeQuery(QUERY_TEAMS_BY_GROUP, Team.class);
         query.setParameter("group_id", group.getId());
 
