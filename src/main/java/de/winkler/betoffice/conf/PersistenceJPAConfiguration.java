@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -31,11 +30,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author Andre Winkler
  */
 @Configuration
-@PropertySource(ignoreResourceNotFound = true, value = {
-        "file:${AWTOOLS_CONFDIR}/register/register.properties",
-        "file:${user.home}/.register.properties",
-        "classpath:/register.properties"
-})
 @EnableTransactionManagement
 @ComponentScan({"de.winkler.betoffice", "de.betoffice"})
 @EnableJpaRepositories(basePackages = { "de.winkler.betoffice" })
