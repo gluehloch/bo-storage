@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -47,43 +47,30 @@ public interface GroupDao extends CommonDao<Group> {
     /**
      * Liefert eine Liste aller Gruppen zu einer Meisterschaft.
      *
-     * @param season
-     *            Die Meisterschaft deren Gruppen gesucht werden.
-     * @return Eine Liste der Gruppen zu der gesuchten Meisterschaft.
+     * @param  season Die Meisterschaft deren Gruppen gesucht werden.
+     * @return        Eine Liste der Gruppen zu der gesuchten Meisterschaft.
      */
     public List<Group> findBySeason(Season season);
 
     /**
      * Liefert eine Liste aller Mannschaften zu einer Gruppe.
      *
-     * @param group
-     *            Die Mannschaften dieser Gruppe werden gesucht.
-     * @return Eine Liste der Mannschaften der gesuchten Gruppe.
+     * @param  group Die Mannschaften dieser Gruppe werden gesucht.
+     * @return       Eine Liste der Mannschaften der gesuchten Gruppe.
      */
     public List<Team> findTeams(Group group);
 
     /**
      * Löscht eine Gruppe.
      *
-     * @param group
-     *            Eine Gruppe.
+     * @param group Eine Gruppe.
      */
     public void delete(Group group);
 
     /**
-     * Löscht alle Gruppen.
-     *
-     * @param groups
-     *            Die Gruppen.
-     */
-    public void deleteAll(List<Group> groups);
-
-    /**
-     * @param season
-     *            Die Meisterschaft deren Gruppe gesucht wird
-     * @param groupType
-     *            Die Gruppe mit dem gesuchten Gruppentyp.
-     * @return Die Gruppe der Meisterschaft
+     * @param  season    Die Meisterschaft deren Gruppe gesucht wird
+     * @param  groupType Die Gruppe mit dem gesuchten Gruppentyp.
+     * @return           Die Gruppe der Meisterschaft
      */
     public Group findBySeasonAndGroupType(Season season, GroupType groupType);
 

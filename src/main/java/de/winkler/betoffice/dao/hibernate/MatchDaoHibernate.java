@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -27,7 +27,8 @@ package de.winkler.betoffice.dao.hibernate;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.query.Query;
+import jakarta.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.MatchDao;
@@ -90,7 +91,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
 
     @Override
     public List<Game> findByHomeTeam(final Team homeTeam) {
-        List<Game> games = getSessionFactory().getCurrentSession()
+        List<Game> games = getEntityManager()
                 .createQuery(QUERY_MATCHES_BY_HOMETEAM, Game.class)
                 .setParameter("homeTeamId", homeTeam.getId()).getResultList();
         return games;
@@ -98,7 +99,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
 
     @Override
     public List<Game> findByGuestTeam(final Team guestTeam) {
-        List<Game> games = getSessionFactory().getCurrentSession()
+        List<Game> games = getEntityManager()
                 .createQuery(QUERY_MATCHES_BY_GUESTTEAM, Game.class)
                 .setParameter("guestTeamId", guestTeam.getId()).getResultList();
         return games;
@@ -106,7 +107,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
 
     @Override
     public List<Game> find(final Team homeTeam, final Team guestTeam) {
-        List<Game> games = getSessionFactory().getCurrentSession()
+        List<Game> games = getEntityManager()
                 .createQuery(QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM, Game.class)
                 .setParameter("homeTeamId", homeTeam.getId())
                 .setParameter("guestTeamId", guestTeam.getId()).getResultList();
@@ -123,7 +124,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
 
     @Override
     public Optional<Game> find(final GameList round, final Team homeTeam, final Team guestTeam) {
-        Query<Game> query = getSessionFactory().getCurrentSession()
+        TypedQuery<Game> query = getEntityManager()
                 .createQuery(QUERY_MATCH_BY_HOME_AND_GUEST_TEAM_AND_ROUND,
                         Game.class)
                 .setParameter("homeTeamId", homeTeam.getId())
@@ -134,7 +135,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
 
     @Override
     public List<Game> find(GameList round) {
-        Query<Game> query = getSessionFactory().getCurrentSession()
+        TypedQuery<Game> query = getEntityManager()
                 .createQuery("from Game g where g.gameList.id = :roundId", Game.class)
                 .setParameter("roundId", round.getId());
         return query.getResultList();

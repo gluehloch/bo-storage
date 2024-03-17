@@ -27,7 +27,9 @@ package de.winkler.betoffice.dao.hibernate;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.query.Query;
+import jakarta.persistence.TypedQuery;
+
+import org.hibernate.Session;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -57,13 +59,13 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
     }
 
     private long countAll() {
-        return getSessionFactory().getCurrentSession()
+        return getEntityManager()
                 .createQuery("select count(*) from Community c", Long.class)
                 .getSingleResult();
     }
 
     public List<User> findAll() {
-        return getSessionFactory().getCurrentSession().createQuery("from User u", User.class).getResultList();
+        return getEntityManager().createQuery("from User u", User.class).getResultList();
     }
 
     public Page<User> findAll(String nicknameFilter, Pageable pageable) {
@@ -72,7 +74,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
 
         List<User> users;
         if (pageable.isPaged()) {
-            users = getSessionFactory().getCurrentSession()
+            users = getEntityManager().unwrap(Session.class)
                     .createQuery(
                             "from User u where LOWER(u.nickname) like LOWER(:filter)",
                             User.class)
@@ -81,7 +83,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
                     .setMaxResults(pageable.getPageSize())
                     .getResultList();
         } else {
-            users = getSessionFactory().getCurrentSession()
+            users = getEntityManager().unwrap(Session.class)
                     .createQuery(
                             "from User u where LOWER(u.nickname) like LOWER(:filter)",
                             User.class)
@@ -94,7 +96,7 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
 
     @Override
     public Optional<User> findByNickname(final Nickname nickname) {
-        Query<User> user = getSessionFactory().getCurrentSession()
+        TypedQuery<User> user = getEntityManager()
                 .createQuery(QUERY_USER_BY_NICKNAME, User.class)
                 .setParameter("nickname", nickname);
         return singleResult(user);

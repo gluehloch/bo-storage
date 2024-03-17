@@ -58,7 +58,7 @@ public class PersistenceJPAConfiguration {
 
       LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
       factory.setJpaVendorAdapter(vendorAdapter);
-      factory.setPackagesToScan("de.awtools.registration");
+      factory.setPackagesToScan("de.winkler.betoffice");
       factory.setDataSource(dataSource);
       factory.setJpaProperties(additionalProperties());
       factory.afterPropertiesSet();

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -26,7 +26,8 @@ package de.winkler.betoffice.dao.hibernate;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.query.Query;
+import jakarta.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.LocationDao;
@@ -47,7 +48,7 @@ public class LocationDaoHibernate extends AbstractCommonDao<Location>
 
     @Override
     public List<Location> findAll() {
-        return getSessionFactory().getCurrentSession()
+        return getEntityManager()
                 .createQuery("from Location as location order by location.name",
                         Location.class)
                 .getResultList();
@@ -55,7 +56,7 @@ public class LocationDaoHibernate extends AbstractCommonDao<Location>
 
     @Override
     public Optional<Location> findByOpenligaid(long openligaid) {
-        Query<Location> query = getSessionFactory().getCurrentSession()
+        TypedQuery<Location> query = getEntityManager()
                 .createQuery(
                         "from Location as location where location.openligaid = :openligaid",
                         Location.class)

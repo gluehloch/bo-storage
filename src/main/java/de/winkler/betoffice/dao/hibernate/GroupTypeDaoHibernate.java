@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -27,7 +27,8 @@ package de.winkler.betoffice.dao.hibernate;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.query.Query;
+import jakarta.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.GroupTypeDao;
@@ -59,14 +60,14 @@ public class GroupTypeDaoHibernate extends AbstractCommonDao<GroupType>
 
     @Override
     public List<GroupType> findAll() {
-        return (getSessionFactory().getCurrentSession()
+        return getEntityManager()
                 .createQuery("from GroupType order by name", GroupType.class)
-                .getResultList());
+                .getResultList();
     }
 
     @Override
     public Optional<GroupType> findByName(final String name) {
-        Query<GroupType> query = getSessionFactory().getCurrentSession()
+        TypedQuery<GroupType> query = getEntityManager()
                 .createQuery(QUERY_GROUPTYPE_BY_NAME, GroupType.class)
                 .setParameter("groupTypeName", name);
 
@@ -75,7 +76,7 @@ public class GroupTypeDaoHibernate extends AbstractCommonDao<GroupType>
 
     @Override
     public List<GroupType> findBySeason(final Season season) {
-        return getSessionFactory().getCurrentSession()
+        return getEntityManager()
                 .createQuery(QUERY_GROUPTYPES_BY_SEASON, GroupType.class)
                 .setParameter("season_id", season.getId()).getResultList();
     }

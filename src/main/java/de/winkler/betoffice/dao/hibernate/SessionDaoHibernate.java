@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2015 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -51,7 +51,7 @@ public class SessionDaoHibernate extends AbstractCommonDao<Session>
     @SuppressWarnings("unchecked")
     @Override
     public List<Session> findByNickname(String nickname) {
-        return getSessionFactory().getCurrentSession()
+        return getEntityManager()
                 .createQuery(
                         "from Session as session where session.nickname = :nickname order by session.login desc")
                 .setParameter("nickname", nickname).getResultList();
@@ -66,7 +66,7 @@ public class SessionDaoHibernate extends AbstractCommonDao<Session>
     @SuppressWarnings("unchecked")
     @Override
     public List<Session> findBySessionId(String sessionId) {
-        return getSessionFactory().getCurrentSession()
+        return getEntityManager()
                 .createQuery("from Session as session "
                         + "left join fetch session.user "
                         + "where session.token = :sessionId order by session.login desc")

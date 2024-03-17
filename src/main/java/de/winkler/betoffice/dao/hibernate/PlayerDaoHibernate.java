@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -26,7 +26,8 @@ package de.winkler.betoffice.dao.hibernate;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.query.Query;
+import jakarta.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.PlayerDao;
@@ -47,7 +48,7 @@ public class PlayerDaoHibernate extends AbstractCommonDao<Player>
 
     @Override
     public List<Player> findAll() {
-        return getSessionFactory().getCurrentSession()
+        return getEntityManager()
                 .createQuery("from Player as player order by player.name",
                         Player.class)
                 .getResultList();
@@ -55,7 +56,7 @@ public class PlayerDaoHibernate extends AbstractCommonDao<Player>
 
     @Override
     public Optional<Player> findByOpenligaid(long openligaid) {
-        Query<Player> query = getSessionFactory().getCurrentSession()
+        TypedQuery<Player> query = getEntityManager()
                 .createQuery(
                         "from Player as player where player.openligaid = :openligaid",
                         Player.class)
@@ -65,7 +66,7 @@ public class PlayerDaoHibernate extends AbstractCommonDao<Player>
 
     @Override
     public Optional<Player> findAllGoalsOfPlayer(long id) {
-        Query<Player> query = getSessionFactory().getCurrentSession()
+        TypedQuery<Player> query = getEntityManager()
                 .createQuery(
                         "from Player as player left join fetch player.goals where player.id = :id",
                         Player.class)

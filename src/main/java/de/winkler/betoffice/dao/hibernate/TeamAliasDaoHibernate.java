@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -26,7 +26,9 @@ package de.winkler.betoffice.dao.hibernate;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.query.Query;
+import jakarta.persistence.TypedQuery;
+
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.TeamAliasDao;
@@ -65,13 +67,12 @@ public class TeamAliasDaoHibernate extends AbstractCommonDao<TeamAlias>
 
     @Override
     public List<TeamAlias> findAll() {
-        return (getSessionFactory().getCurrentSession()
-                .createQuery(QUERY_TEAMALIAS_FINDALL, TeamAlias.class).getResultList());
+        return getEntityManager().createQuery(QUERY_TEAMALIAS_FINDALL, TeamAlias.class).getResultList();
     }
 
     @Override
     public Optional<Team> findByAliasName(final String aliasName) {
-        Query<Team> query = getSessionFactory().getCurrentSession()
+        TypedQuery<Team> query = getEntityManager().unwrap(Session.class)
                 .createNativeQuery(QUERY_TEAMALIAS_BY_NAME, Team.class)
                 .setParameter("alias_name", aliasName);
 
@@ -80,7 +81,7 @@ public class TeamAliasDaoHibernate extends AbstractCommonDao<TeamAlias>
 
     @Override
     public List<TeamAlias> findAliasNames(final Team team) {
-        List<TeamAlias> teams = getSessionFactory().getCurrentSession()
+        List<TeamAlias> teams = getEntityManager()
                 .createQuery(QUERY_TEAMALIAS_BY_TEAM, TeamAlias.class)
                 .setParameter("teamId", team.getId()).getResultList();
         return teams;

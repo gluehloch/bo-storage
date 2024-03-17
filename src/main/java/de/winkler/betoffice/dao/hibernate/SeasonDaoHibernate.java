@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -30,8 +30,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import jakarta.persistence.TypedQuery;
+
+import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.SeasonDao;
@@ -78,7 +80,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
 
     @Override
     public List<Season> findAll() {
-        List<Season> seasons = getSessionFactory().getCurrentSession()
+        List<Season> seasons = getEntityManager()
                 .createQuery("select s from Season s order by s.reference.year", Season.class)
                 .getResultList();
         return seasons;
@@ -86,7 +88,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
 
     @Override
     public Optional<Season> find(final SeasonReference seasonRef) {
-        Query<Season> query = getSessionFactory().getCurrentSession()
+        TypedQuery<Season> query = getEntityManager()
                 .createQuery(QUERY_SEASON_BY_NAME_AND_YEAR, Season.class)
                 .setParameter("name", seasonRef.getName())
                 .setParameter("year", seasonRef.getYear());
@@ -95,12 +97,10 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
     }
     
     @Override
-    public List<TeamResult> calculateTeamRanking(Season season,
-            GroupType groupType) {
-
+    public List<TeamResult> calculateTeamRanking(Season season, GroupType groupType) {
         Map<Team, TeamResult> resultMap = new HashMap<Team, TeamResult>();
 
-        NativeQuery queryTeamGoals = getSessionFactory().getCurrentSession()
+        NativeQuery queryTeamGoals = getEntityManager().unwrap(Session.class)
                 .createNativeQuery(QUERY_TEAM_SEASON_GOALS)
                 .addEntity("team", Team.class)
                 .addScalar("diff", org.hibernate.type.StandardBasicTypes.LONG)
@@ -124,7 +124,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
             resultMap.put(team, tr);
         }
 
-        NativeQuery queryTeamPoints = getSessionFactory().getCurrentSession()
+        NativeQuery queryTeamPoints = getEntityManager().unwrap(Session.class)
                 .createNativeQuery(QUERY_TEAM_SEASON_POINTS)
                 .addEntity("team", Team.class)
                 .addScalar("win", org.hibernate.type.StandardBasicTypes.LONG)
@@ -165,7 +165,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
     public List<TeamResult> calculateTeamRanking(Season season, GroupType groupType, int startIndex, int endIndex) {
         Map<Team, TeamResult> resultMap = new HashMap<Team, TeamResult>();
 
-        NativeQuery queryTeamGoals = getSessionFactory().getCurrentSession()
+        NativeQuery queryTeamGoals = getEntityManager().unwrap(Session.class)
                 .createNativeQuery(QUERY_TEAM_SEASON_RANGE_GOALS)
                 .addEntity("team", Team.class)
                 .addScalar("diff", org.hibernate.type.StandardBasicTypes.LONG)
@@ -191,7 +191,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
             resultMap.put(team, tr);
         }
 
-        NativeQuery queryTeamPoints = getSessionFactory().getCurrentSession()
+        NativeQuery queryTeamPoints = getEntityManager().unwrap(Session.class)
                 .createNativeQuery(QUERY_TEAM_SEASON_RANGE_POINTS)
                 .addEntity("team", Team.class)
                 .addScalar("win", org.hibernate.type.StandardBasicTypes.LONG)

@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -26,7 +26,9 @@ package de.winkler.betoffice.dao.hibernate;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.query.Query;
+import jakarta.persistence.TypedQuery;
+
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.TeamDao;
@@ -64,22 +66,22 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
 
     @Override
     public List<Team> findAll() {
-        return getSessionFactory().getCurrentSession()
+        return getEntityManager()
                 .createQuery("select team from Team as team order by team.name", Team.class)
-                .list();
+                .getResultList();
     }
 
     @Override
     public List<Team> findTeams(TeamType teamType) {
-        return getSessionFactory().getCurrentSession()
+        return getEntityManager()
                 .createQuery(QUERY_TEAM_BY_TYPE, Team.class)
                 .setParameter("teamType", teamType)
-                .list();
+                .getResultList();
     }
 
     @Override
     public Optional<Team> findByName(final String name) {
-        Query<Team> query = getSessionFactory().getCurrentSession()
+        TypedQuery<Team> query = getEntityManager()
                 .createQuery(QUERY_TEAM_BY_NAME, Team.class)
                 .setParameter("teamName", name);
         return singleResult(query);
@@ -87,7 +89,7 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
 
     @Override
     public List<Team> findTeamsBySeasonAndGroup(final Season season, final GroupType groupType) {
-        List<Team> teams = getSessionFactory().getCurrentSession()
+        List<Team> teams = getEntityManager().unwrap(Session.class)
                 .createNativeQuery(QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE, Team.class)
                 .setParameter("season_id", season.getId())
                 .setParameter("grouptype_id", groupType.getId())
@@ -97,7 +99,7 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
 
     @Override
     public Optional<Team> findByOpenligaid(long openligaid) {
-        Query<Team> query = getSessionFactory().getCurrentSession()
+        TypedQuery<Team> query = getEntityManager()
                 .createQuery(QUERY_TEAM_BY_OPENLIGAID, Team.class)
                 .setParameter("openligaid", openligaid);
         return singleResult(query);
