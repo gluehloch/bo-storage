@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.io.FileUtils;
+import org.hibernate.Session;
 import org.hibernate.jdbc.Work;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,7 +63,7 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
     @Test
     public void testDataSource() {
         assertThat(getDataSource()).isNotNull();
-        assertThat(getSessionFactory()).isNotNull();
+        assertThat(getEntityManager()).isNotNull();
         assertThat(teamDao).isNotNull();
     }
 
@@ -101,7 +102,7 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
 
         File teamExportFile = File.createTempFile("team", "dat");
         final ResourceWriter rw = new ResourceWriter(teamExportFile, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        getSessionFactory().getCurrentSession().doWork(new Work() {
+        getEntityManager().unwrap(Session.class).doWork(new Work() {
             @Override
             public void execute(Connection connection) throws SQLException {
                 rw.start(connection, "select * from bo_team", false);

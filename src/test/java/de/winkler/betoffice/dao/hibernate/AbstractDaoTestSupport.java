@@ -25,14 +25,21 @@ package de.winkler.betoffice.dao.hibernate;
 
 import javax.sql.DataSource;
 
-import org.hibernate.SessionFactory;
+import jakarta.persistence.EntityManager;
+
+import org.hibernate.Session;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
+import de.betoffice.database.config.TestPropertiesConfiguration;
 import de.betoffice.database.data.DeleteDatabase;
 import de.dbload.Dbload;
+import de.winkler.betoffice.conf.PersistenceJPAConfiguration;
 
 /**
  * DAO test support. The test method runs in his own transaction. So a lazy-loading exception
@@ -40,37 +47,34 @@ import de.dbload.Dbload;
  *
  * @author by Andre Winkler
  */
-@SpringJUnitConfig(locations = { "/betoffice-test-properties.xml", "/betoffice.xml" })
+// @SpringJUnitConfig(locations = { "/betoffice-test-properties.xml", "/betoffice.xml" })
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = { PersistenceJPAConfiguration.class, TestPropertiesConfiguration.class })
+@ComponentScan({"de.winkler.betoffice", "de.betoffice"})
 public abstract class AbstractDaoTestSupport extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Autowired
     private DataSource dataSource;
 
     @Autowired
-    private SessionFactory sessionFactory;
+    private EntityManager entityManager;
 
     public void prepareDatabase(final Class<?> clazz) {
         deleteDatabase();
-        sessionFactory.getCurrentSession().doWork(connection -> Dbload.read(connection, clazz));
+        entityManager.unwrap(Session.class).doWork(connection -> Dbload.read(connection, clazz));
     }
 
     @AfterEach
     public void deleteDatabase() {
-        getSessionFactory().getCurrentSession().doWork(connection -> DeleteDatabase.deleteDatabase(connection));
+        entityManager.unwrap(Session.class).doWork(connection -> DeleteDatabase.deleteDatabase(connection));
     }
 
-    /**
-     * @return the dataSource
-     */
     public DataSource getDataSource() {
         return dataSource;
     }
 
-    /**
-     * @return the sessionFactory
-     */
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 
 }

@@ -53,7 +53,7 @@ public class LocationDaoHibernateTest extends AbstractDaoTestSupport {
     @Test
     public void testDataSource() {
         assertThat(getDataSource()).isNotNull();
-        assertThat(getSessionFactory()).isNotNull();
+        assertThat(getEntityManager()).isNotNull();
         assertThat(locationDao).isNotNull();
     }
 
