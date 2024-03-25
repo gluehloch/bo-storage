@@ -32,6 +32,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -47,6 +48,7 @@ import de.winkler.betoffice.conf.PersistenceJPAConfiguration;
  *
  * @author by Andre Winkler
  */
+@ActiveProfiles(profiles = "test")
 // @SpringJUnitConfig(locations = { "/betoffice-test-properties.xml", "/betoffice.xml" })
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { PersistenceJPAConfiguration.class, TestPropertiesConfiguration.class })
