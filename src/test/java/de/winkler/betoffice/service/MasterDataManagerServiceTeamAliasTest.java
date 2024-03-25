@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -85,37 +85,26 @@ public class MasterDataManagerServiceTeamAliasTest extends AbstractServiceTest {
         Team rwe = createTeam("RWE", "Rot-Weiss-Essen");
         Team rwo = createTeam("RWO", "Rot-Weiss-Oberhausen");
 
-        TeamAlias rweAlias = masterDataManagerService.createTeamAlias(rwe,
-                "Rot Weiss Essen");
-        TeamAlias rwoAlias = masterDataManagerService.createTeamAlias(rwo,
-                "Rot Weiss Oberhausen");
+        TeamAlias rweAlias = masterDataManagerService.createTeamAlias(rwe, "Rot Weiss Essen");
+        TeamAlias rwoAlias = masterDataManagerService.createTeamAlias(rwo, "Rot Weiss Oberhausen");
 
         assertThat(rweAlias.getAliasName()).isEqualTo("Rot Weiss Essen");
         assertThat(rwoAlias.getAliasName()).isEqualTo("Rot Weiss Oberhausen");
 
-        List<TeamAlias> rweAliasNames = masterDataManagerService
-                .findAllTeamAlias(rwe);
+        List<TeamAlias> rweAliasNames = masterDataManagerService.findAllTeamAlias(rwe);
         assertThat(rweAliasNames).hasSize(1);
-        assertThat(rweAliasNames.get(0).getAliasName())
-                .isEqualTo("Rot Weiss Essen");
+        assertThat(rweAliasNames.get(0).getAliasName()).isEqualTo("Rot Weiss Essen");
 
-        List<TeamAlias> rwoAliasNames = masterDataManagerService
-                .findAllTeamAlias(rwo);
+        List<TeamAlias> rwoAliasNames = masterDataManagerService.findAllTeamAlias(rwo);
         assertThat(rwoAliasNames).hasSize(1);
-        assertThat(rwoAliasNames.get(0).getAliasName())
-                .isEqualTo("Rot Weiss Oberhausen");
+        assertThat(rwoAliasNames.get(0).getAliasName()).isEqualTo("Rot Weiss Oberhausen");
 
-        TeamAlias rweAlias_2 = masterDataManagerService.createTeamAlias(rwe,
-                "Schreck vom Niederrhein");
-        assertThat(rweAlias_2.getAliasName())
-                .isEqualTo("Schreck vom Niederrhein");
-        List<TeamAlias> rweAliasNames_2 = masterDataManagerService
-                .findAllTeamAlias(rwe);
+        TeamAlias rweAlias_2 = masterDataManagerService.createTeamAlias(rwe, "Schreck vom Niederrhein");
+        assertThat(rweAlias_2.getAliasName()).isEqualTo("Schreck vom Niederrhein");
+        List<TeamAlias> rweAliasNames_2 = masterDataManagerService.findAllTeamAlias(rwe);
         assertThat(rweAliasNames_2).hasSize(2);
-        assertThat(rweAliasNames_2.get(0).getAliasName())
-                .isEqualTo("Rot Weiss Essen");
-        assertThat(rweAliasNames_2.get(1).getAliasName())
-                .isEqualTo("Schreck vom Niederrhein");
+        assertThat(rweAliasNames_2.get(0).getAliasName()).isEqualTo("Rot Weiss Essen");
+        assertThat(rweAliasNames_2.get(1).getAliasName()).isEqualTo("Schreck vom Niederrhein");
     }
 
     @Test
@@ -140,22 +129,18 @@ public class MasterDataManagerServiceTeamAliasTest extends AbstractServiceTest {
         Team rwe = createTeam("RWE", "Rot-Weiss-Essen");
         Team rwo = createTeam("RWO", "Rot-Weiss-Oberhausen");
 
-        TeamAlias rweAlias = masterDataManagerService.createTeamAlias(rwe,
-                "Rot Weiss Essen");
-        TeamAlias rwoAlias = masterDataManagerService.createTeamAlias(rwo,
-                "Rot Weiss Oberhausen");
+        TeamAlias rweAlias = masterDataManagerService.createTeamAlias(rwe, "Rot Weiss Essen");
+        TeamAlias rwoAlias = masterDataManagerService.createTeamAlias(rwo, "Rot Weiss Oberhausen");
 
         rweAlias.setAliasName("A new alias name");
         masterDataManagerService.updateTeamAlias(rweAlias);
         rwoAlias.setAliasName("An other value");
         masterDataManagerService.updateTeamAlias(rwoAlias);
 
-        Optional<Team> rweByAlias = masterDataManagerService
-                .findTeamByAlias("A new alias name");
+        Optional<Team> rweByAlias = masterDataManagerService.findTeamByAlias("A new alias name");
         assertThat(rweByAlias.get()).isEqualTo(rwe);
 
-        Optional<Team> rwoByAlias = masterDataManagerService
-                .findTeamByAlias("An other value");
+        Optional<Team> rwoByAlias = masterDataManagerService.findTeamByAlias("An other value");
         assertThat(rwoByAlias.get()).isEqualTo(rwo);
     }
 
@@ -163,19 +148,16 @@ public class MasterDataManagerServiceTeamAliasTest extends AbstractServiceTest {
     public void testDeleteTeamAlias() {
         Team rwe = createTeam("RWE", "Rot-Weiss-Essen");
 
-        TeamAlias rweAlias = masterDataManagerService.createTeamAlias(rwe,
-                "Rot Weiss Essen");
+        TeamAlias rweAlias = masterDataManagerService.createTeamAlias(rwe, "Rot Weiss Essen");
 
-        List<TeamAlias> rweAliasNames = masterDataManagerService
-                .findAllTeamAlias(rwe);
+        List<TeamAlias> rweAliasNames = masterDataManagerService.findAllTeamAlias(rwe);
         assertThat(rweAliasNames).hasSize(1);
 
         masterDataManagerService.deleteTeamAlias(rweAlias);
         rweAliasNames = masterDataManagerService.findAllTeamAlias(rwe);
         assertThat(rweAliasNames).hasSize(0);
 
-        Optional<Team> rwePersistent = masterDataManagerService
-                .findTeamByAlias("Rot Weiss Essen");
+        Optional<Team> rwePersistent = masterDataManagerService.findTeamByAlias("Rot Weiss Essen");
         assertThat(rwePersistent.isPresent()).isFalse();
     }
 

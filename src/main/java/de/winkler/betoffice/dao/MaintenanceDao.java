@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2024 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -34,18 +34,16 @@ public interface MaintenanceDao {
     /**
      * Setzt einen HQL Befehl direkt auf der Datenbank ab.
      *
-     * @param hql
-     *            Ein HQL Befehl.
-     * @return Rückgabeergebnis.
+     * @param  hql Ein HQL Befehl.
+     * @return     Rückgabeergebnis.
      */
     public Object executeHql(String hql);
 
     /**
      * Setzt einen nativen SQL Befehl auf die Datenbank ab.
      *
-     * @param sqlQuery
-     *            Der SQL Befehl.
-     * @return Rückgabaergbenis.
+     * @param  sqlQuery Der SQL Befehl.
+     * @return          Rückgabaergbenis.
      */
     public Object executeSql(String sqlQuery);
 

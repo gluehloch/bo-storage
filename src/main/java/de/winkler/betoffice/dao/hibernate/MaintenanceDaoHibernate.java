@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2016 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -24,7 +24,9 @@
 
 package de.winkler.betoffice.dao.hibernate;
 
-import org.hibernate.SessionFactory;
+import jakarta.persistence.EntityManager;
+
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -38,27 +40,21 @@ import de.winkler.betoffice.dao.MaintenanceDao;
 @Repository("maintenanceDao")
 public class MaintenanceDaoHibernate implements MaintenanceDao {
 
-    // -- sessionFactory ------------------------------------------------------
-
-    private SessionFactory sessionFactory;
+    private EntityManager entityManager;
 
     @Autowired
-    public void setSessionFactory(final SessionFactory _sessionFactory) {
-        sessionFactory = _sessionFactory;
-    }
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
+    public void setEntityManager(final EntityManager _entityManager) {
+        entityManager = _entityManager;
     }
 
     @Override
     public Object executeHql(String hql) {
-        return getSessionFactory().getCurrentSession().createQuery(hql).getResultList();
+        return entityManager.unwrap(Session.class).createQuery(hql).getResultList();
     }
 
     @Override
     public Object executeSql(String sqlQuery) {
-        return getSessionFactory().getCurrentSession().createNativeQuery(sqlQuery).getResultList();
+        return entityManager.unwrap(Session.class).createNativeQuery(sqlQuery).getResultList();
     }
 
 }

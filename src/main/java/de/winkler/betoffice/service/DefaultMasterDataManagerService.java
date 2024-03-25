@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2024 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -149,19 +149,22 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     @Override
     @Transactional
     public void deleteGroupType(final GroupType groupType) {
-        groupTypeDao.delete(groupType);
+        GroupType persistentGroupType = groupTypeDao.findById(groupType.getId());
+        groupTypeDao.delete(persistentGroupType);
     }
 
     @Override
     @Transactional
     public void deleteTeam(final Team team) {
-        teamDao.delete(team);
+        Team persistentTeam = teamDao.findById(team.getId());
+        teamDao.delete(persistentTeam);
     }
 
     @Override
     @Transactional
     public void deleteTeamAlias(final TeamAlias teamAlias) {
-        teamAliasDao.delete(teamAlias);
+        TeamAlias persistentTeamAlias = teamAliasDao.findById(teamAlias.getId());
+        teamAliasDao.delete(persistentTeamAlias);
     }
 
     @Override

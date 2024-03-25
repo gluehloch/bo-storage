@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -126,7 +126,7 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
 
         GameList round = seasonManagerService.findRound(season, 0).orElseThrow();
         assertThat(round.size()).isEqualTo(9);
-        
+
         //
         // find matches
         //
@@ -171,7 +171,7 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
         assertThat(members).extracting("nickname.nickname").contains("Andi", "Bernd_das_Brot", "chris",
                 "Frosch", "Goddard", "Hattwig", "Jogi", "mrTipp", "Peter",
                 "Roenne", "Steffen");
-        
+
         // 
         // find group types
         //
@@ -190,7 +190,7 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
 
         List<Group> groups = seasonManagerService.findGroups(wm2006.get());
         assertThat(groups.size()).isEqualTo(13);
-        
+
         //
         // find teams by group type
         //
@@ -211,7 +211,7 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
 
         List<Team> teamsWM2006Achtelfinale = seasonManagerService.findTeams(achtelfinale);
         assertThat(teamsWM2006Achtelfinale.size()).isEqualTo(16);
-        
+
         //
         // find rounds
         //
@@ -275,16 +275,16 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
         assertEquals(34, ((List<?>) object).size());
 
         Object object2 = databaseMaintenanceService.executeHql(
-        		"""
-        		select
-        			s
-        		from
-        			Season s
-        		 	left join fetch s.groups as group
-                 where
-        		    s.reference.name = 'WM Deutschland'
-        		    and s.reference.year = '2006'
-        		""");
+                """
+                select
+                	s
+                from
+                	Season s
+                 	left join fetch s.groups as group
+                       where
+                    s.reference.name = 'WM Deutschland'
+                    and s.reference.year = '2006'
+                """);
         assertEquals(1, ((List<?>) object2).size());
     }
 

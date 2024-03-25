@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2024 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -81,8 +81,7 @@ public class MasterDataManagerServiceGroupTypeTest extends AbstractServiceTest {
         createGroupType("1. Bundesliga");
         createGroupType("2. Bundesliga");
 
-        List<GroupType> groupTypes = masterDataManagerService
-                .findAllGroupTypes();
+        List<GroupType> groupTypes = masterDataManagerService.findAllGroupTypes();
 
         assertThat(groupTypes.size()).isEqualTo(2);
         assertThat(groupTypes.get(0).getName()).isEqualTo("1. Bundesliga");
@@ -106,15 +105,13 @@ public class MasterDataManagerServiceGroupTypeTest extends AbstractServiceTest {
         createGroupType("Regionalliga Nord");
         createGroupType("Regionalliga Süd");
 
-        Optional<GroupType> regioNord = masterDataManagerService
-                .findGroupType("Regionalliga Nord");
+        Optional<GroupType> regioNord = masterDataManagerService.findGroupType("Regionalliga Nord");
         assertThat(regioNord.get().getName()).isEqualTo("Regionalliga Nord");
 
         regioNord.get().setName("3. Bundesliga");
         masterDataManagerService.updateGroupType(regioNord.get());
 
-        Optional<GroupType> bundesliga_3 = masterDataManagerService
-                .findGroupType("3. Bundesliga");
+        Optional<GroupType> bundesliga_3 = masterDataManagerService.findGroupType("3. Bundesliga");
         assertThat(bundesliga_3.get().getName()).isEqualTo("3. Bundesliga");
     }
 
@@ -123,8 +120,7 @@ public class MasterDataManagerServiceGroupTypeTest extends AbstractServiceTest {
         GroupType bundesliga_1 = createGroupType("1. Bundesliga");
         GroupType bundesliga_2 = createGroupType("2. Bundesliga");
 
-        List<GroupType> groupTypes = masterDataManagerService
-                .findAllGroupTypes();
+        List<GroupType> groupTypes = masterDataManagerService.findAllGroupTypes();
         assertThat(groupTypes.size()).isEqualTo(2);
 
         masterDataManagerService.deleteGroupType(bundesliga_1);
