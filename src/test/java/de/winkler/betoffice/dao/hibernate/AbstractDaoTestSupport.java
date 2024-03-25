@@ -49,7 +49,6 @@ import de.winkler.betoffice.conf.PersistenceJPAConfiguration;
  * @author by Andre Winkler
  */
 @ActiveProfiles(profiles = "test")
-// @SpringJUnitConfig(locations = { "/betoffice-test-properties.xml", "/betoffice.xml" })
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { PersistenceJPAConfiguration.class, TestPropertiesConfiguration.class })
 @ComponentScan({"de.winkler.betoffice", "de.betoffice"})
