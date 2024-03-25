@@ -6,12 +6,19 @@
     </properties>
     <body>
         <!-- Under construction. -->
+        <release version="betoffice-storage-3.1.0" date="2024-??-??" description="Spring configuration">
+            <action dev="andrewinkler" type="update" date="2024-03-25">
+                Spring configuration annotations.
+            </action>
+        </release>
+
+        <!-- Under construction. -->
         <release version="betoffice-storage-3.0.3" date="2024-??-??" description="Tipp form enhancements">
             <action dev="andrewinkler" type="update" date="2024-02-07">
                 Find next game or round.
             </action>
         </release>
-        
+
         <!-- RELEASED -->
         <release version="betoffice-storage-3.0.2" date="2023-12-21" description="Java 21. Spring 6. Hibernate 6.">
             <action dev="andrewinkler" type="update" date="2023-09-21">
