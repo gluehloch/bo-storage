@@ -46,28 +46,32 @@ public interface GoalDao extends CommonDao<Goal> {
     /**
      * Get a list of all goals of a match
      * 
-     * @param match
-     *            The match
-     * @return the goals
+     * @param  game The game
+     * @return      the goals
      */
-	List<Goal> find(Game match);
+    List<Goal> find(Game game);
 
     /**
      * Get a list of all goals of a match
      * 
-     * @param match
-     *            The match
-     * @return the goals
+     * @param  match The match
+     * @return       the goals
      */
-	List<Goal> find(long matchId);
+    List<Goal> find(long matchId);
 
     /**
      * Find a goal by the openligadbid
      * 
-     * @param openligaid
-     *            openligadb ID
-     * @return A goal
+     * @param  openligaid openligadb ID
+     * @return            A goal
      */
     Optional<Goal> findByOpenligaid(long openligaid);
+
+    /**
+     * Delete all goals of a game.
+     * 
+     * @param game the game
+     */
+    void deleteAll(Game game);
 
 }

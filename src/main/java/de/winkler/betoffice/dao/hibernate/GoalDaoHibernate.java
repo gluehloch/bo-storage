@@ -80,4 +80,9 @@ public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements GoalDao
         return goals;
     }
 
+    @Override
+    public void deleteAll(Game game) {
+        getEntityManager().createNativeQuery("DELETE bo_goal g WHERE g.bo_game_ref = :gameId").setParameter("gameId", game.getId());
+    }
+
 }
