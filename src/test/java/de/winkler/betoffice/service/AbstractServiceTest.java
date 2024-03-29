@@ -6,8 +6,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import de.betoffice.database.config.TestPropertiesConfiguration;
 import de.winkler.betoffice.conf.PersistenceJPAConfiguration;
+import de.winkler.betoffice.conf.TestPropertiesConfiguration;
 
 /**
  * Abstract helper class to init the spring test configuration.

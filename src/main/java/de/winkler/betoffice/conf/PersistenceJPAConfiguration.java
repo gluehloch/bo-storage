@@ -6,11 +6,9 @@ import javax.sql.DataSource;
 
 import jakarta.persistence.EntityManagerFactory;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -35,16 +33,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = { "de.winkler.betoffice" })
 public class PersistenceJPAConfiguration {
 
-    @Autowired
-    private PersistenceConfiguration persistenceConfiguration;
-
+    /*
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {
         PropertySourcesPlaceholderConfigurer p = new PropertySourcesPlaceholderConfigurer();
         p.setIgnoreResourceNotFound(true);
         return p;
     }
-
+    */
 
     @Bean
     public EntityManagerFactory entityManagerFactory(DataSource dataSource) {
@@ -76,12 +72,12 @@ public class PersistenceJPAConfiguration {
     */
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource(BetofficeProperties properties) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(persistenceConfiguration.getDriverClassName());
-        dataSource.setUrl(persistenceConfiguration.getUrl());
-        dataSource.setUsername(persistenceConfiguration.getUsername());
-        dataSource.setPassword(persistenceConfiguration.getPassword());
+        dataSource.setDriverClassName(properties.getDriverClassName());
+        dataSource.setUrl(properties.getUrl());
+        dataSource.setUsername(properties.getUsername());
+        dataSource.setPassword(properties.getPassword());
 
         Properties connectionProperties = new java.util.Properties();
         connectionProperties.setProperty("passwordCharacterEncoding", "UTF-8");
@@ -104,7 +100,7 @@ public class PersistenceJPAConfiguration {
 
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MariaDBDialect");
+        // properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MariaDBDialect");
         return properties;
     }
 

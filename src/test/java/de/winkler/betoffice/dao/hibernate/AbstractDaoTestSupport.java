@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -35,12 +35,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.transaction.annotation.Transactional;
 
-import de.betoffice.database.config.TestPropertiesConfiguration;
 import de.betoffice.database.data.DeleteDatabase;
 import de.dbload.Dbload;
 import de.winkler.betoffice.conf.PersistenceJPAConfiguration;
+import de.winkler.betoffice.conf.TestPropertiesConfiguration;
 
 /**
  * DAO test support. The test method runs in his own transaction. So a lazy-loading exception
@@ -52,7 +52,8 @@ import de.winkler.betoffice.conf.PersistenceJPAConfiguration;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { PersistenceJPAConfiguration.class, TestPropertiesConfiguration.class })
 @ComponentScan({"de.winkler.betoffice", "de.betoffice"})
-public abstract class AbstractDaoTestSupport extends AbstractTransactionalJUnit4SpringContextTests {
+@Transactional
+public abstract class AbstractDaoTestSupport {
 
     @Autowired
     private DataSource dataSource;

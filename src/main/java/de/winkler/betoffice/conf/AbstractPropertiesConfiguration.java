@@ -1,15 +1,8 @@
 package de.winkler.betoffice.conf;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
-/**
- * Persistence configuration.
- *
- * @author winkler
- */
-@Component
-public class PersistenceConfiguration {
+public abstract class AbstractPropertiesConfiguration {
 
     @Value("${betoffice.persistence.classname}")
     private String driverClassName;
@@ -53,6 +46,10 @@ public class PersistenceConfiguration {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    BetofficeProperties getProperties() {
+        return new BetofficeProperties(driverClassName, url, username, password);
     }
 
 }
