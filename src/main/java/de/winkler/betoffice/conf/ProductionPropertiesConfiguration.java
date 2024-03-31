@@ -5,10 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
-@Profile(value = "production")
+//@Profile(value = "production")
 @Configuration
-@PropertySource(ignoreResourceNotFound = true, value = {
-        "file:${AWTOOLS_CONFDIR}/betoffice/betoffice.properties",
+@PropertySource(ignoreResourceNotFound = false, value = {
+        /*"file:${user.home}/.betoffice.properties",*/
+        "file:${AWTOOLS_CONFDIR}/betoffice/betoffice.properties"
 })
 public class ProductionPropertiesConfiguration extends AbstractPropertiesConfiguration {
 

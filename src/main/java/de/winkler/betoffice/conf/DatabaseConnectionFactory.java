@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-testutils Copyright (c) 2000-2014 by Andre Winkler. All
+ * Project betoffice-testutils Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -33,7 +33,7 @@ import java.sql.SQLException;
  * @author Andre Winkler
  */
 public class DatabaseConnectionFactory {
-    
+
     private final String username;
     private final String password;
     private final String url;
@@ -50,6 +50,14 @@ public class DatabaseConnectionFactory {
     
     public String username() {
         return username;
+    }
+
+    public String getClassname() {
+        return classname;
+    }
+
+    public String getDialect() {
+        return dialect;
     }
 
     public Connection createConnection() throws SQLException {
