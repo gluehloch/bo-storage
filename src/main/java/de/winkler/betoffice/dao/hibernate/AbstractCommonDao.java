@@ -69,28 +69,28 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
         t = _t;
     }
 
-    public final T findById(final long id) {
+    public T findById(final long id) {
         return (T) getEntityManager().find(t, id);
     }
 
     @Override
-    public final void delete(final T t) {
+    public void delete(final T t) {
         getEntityManager().remove(t);
     }
 
     @Override
-    public final T persist(final T t) {
+    public T persist(final T t) {
         getEntityManager().persist(t);
         return t;
     }
 
     @Override
-    public final void update(final T t) {
+    public void update(final T t) {
         getEntityManager().merge(t);
     }
 
     @Override
-    public final void refresh(final T t) {
+    public void refresh(final T t) {
         getEntityManager().refresh(t);
     }
 
@@ -101,7 +101,7 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
      * @param  objects
      * @return         Das erste Objekt aus der Liste.
      */
-    protected final T first(final List<T> objects) {
+    protected T first(final List<T> objects) {
         if (objects.size() == 0) {
             return null;
         } else {
