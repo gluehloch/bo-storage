@@ -10,7 +10,7 @@
     <artifactId>betoffice-storage</artifactId>
     <name>betoffice storage</name>
     <packaging>jar</packaging>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.1.0</version>
     <description>
         Betoffice storage implementation. Cares for persistence and point
         calculation for teams and users.
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>de.betoffice</groupId>
             <artifactId>betoffice-testutils</artifactId>
-            <version>1.4.0-SNAPSHOT</version>
+            <version>1.4.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
