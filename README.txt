@@ -1,3 +1,11 @@
+# Update the GIT repository URL
+
+```
+git remote set-url origin git@github.com:gluehloch/bo-storage.git
+```
+
+# Licence
+
 =======================================================================================
 README.txt
 =======================================================================================
