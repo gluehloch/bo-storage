@@ -5,6 +5,13 @@
         <author email="andre.winkler@web.de">Andre Winkler</author>
     </properties>
     <body>
+        <!-- Under development -->
+        <release version="betoffice-storage-3.1.1" date="2024-??-??" description="Small interface enhancements">
+            <action dev="andrewinkler" type="update" date="2024-06-02">
+                Small interface enhancements.
+            </action>
+        </release>
+
         <!-- RELEASED -->
         <release version="betoffice-storage-3.1.0" date="2024-04-29" description="Spring configuration">
             <action dev="andrewinkler" type="update" date="2024-03-25">

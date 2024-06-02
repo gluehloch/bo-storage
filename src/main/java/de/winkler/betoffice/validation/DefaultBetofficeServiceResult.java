@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2024 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -25,9 +25,9 @@
 package de.winkler.betoffice.validation;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import de.winkler.betoffice.validation.BetofficeValidationMessage.ErrorType;
-import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
 
 /**
  * Service Result.
@@ -36,38 +36,48 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
  */
 class DefaultBetofficeServiceResult<T> implements BetofficeServiceResult<T> {
 
-	private final T result;
-	private final BetofficeValidationMessage validationMessage;
+    private final T result;
+    private final BetofficeValidationMessage validationMessage;
 
-	private DefaultBetofficeServiceResult() {
-		this.result = null;
-		this.validationMessage = BetofficeValidationMessage.error();
-	}
-	
-	private DefaultBetofficeServiceResult(T result) {
-		this.result = result;
-		this.validationMessage = BetofficeValidationMessage.ok();
-	}
-	
-	@Override
-	public Optional<T> result() {
-		return Optional.ofNullable(result);
-	}
+    private DefaultBetofficeServiceResult() {
+        this.result = null;
+        this.validationMessage = BetofficeValidationMessage.error();
+    }
 
-	@Override
-	public BetofficeValidationMessage message() {
-		return validationMessage;
-	}
+    private DefaultBetofficeServiceResult(T result) {
+        this.result = result;
+        this.validationMessage = BetofficeValidationMessage.ok();
+    }
 
-	static <T> BetofficeServiceResult<T> sucess(T result) {
-		return new DefaultBetofficeServiceResult<>(result);
-	}
-	
-	static <T> BetofficeServiceResult<T> failure() {
-		return new DefaultBetofficeServiceResult<>();
-	}
-	
-	static <T> BetofficeServiceResult<T> failure(ErrorType errorType) {
-		return new DefaultBetofficeServiceResult<>();
-	}
+    @Override
+    public Optional<T> result() {
+        return Optional.ofNullable(result);
+    }
+
+    @Override
+    public BetofficeValidationMessage message() {
+        return validationMessage;
+    }
+
+    static <T> BetofficeServiceResult<T> sucess(T result) {
+        return new DefaultBetofficeServiceResult<>(result);
+    }
+
+    static <T> BetofficeServiceResult<T> failure() {
+        return new DefaultBetofficeServiceResult<>();
+    }
+
+    static <T> BetofficeServiceResult<T> failure(ErrorType errorType) {
+        return new DefaultBetofficeServiceResult<>();
+    }
+
+    @Override
+    public <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+        if (result != null) {
+            return result;
+        } else {
+            throw exceptionSupplier.get();
+        }
+    }
+
 }

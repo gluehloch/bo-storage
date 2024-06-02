@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2024 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -25,6 +25,7 @@
 package de.winkler.betoffice.validation;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import de.winkler.betoffice.validation.BetofficeValidationMessage.ErrorType;
 
@@ -35,20 +36,22 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.ErrorType;
  */
 public interface BetofficeServiceResult<T> {
 
-	Optional<T> result();
-	
-	BetofficeValidationMessage message();
+    Optional<T> result();
 
-	static <T> BetofficeServiceResult<T> sucess(T result) {
-		return DefaultBetofficeServiceResult.sucess(result);
-	}
-	
-	static <T> BetofficeServiceResult<T> failure() {
-		return DefaultBetofficeServiceResult.failure();
-	}
-	
-	static <T> BetofficeServiceResult<T> failure(ErrorType errorType) {
-		return DefaultBetofficeServiceResult.failure(errorType);
-	}
-	
+    <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier) throws X;
+
+    BetofficeValidationMessage message();
+
+    static <T> BetofficeServiceResult<T> sucess(T result) {
+        return DefaultBetofficeServiceResult.sucess(result);
+    }
+
+    static <T> BetofficeServiceResult<T> failure() {
+        return DefaultBetofficeServiceResult.failure();
+    }
+
+    static <T> BetofficeServiceResult<T> failure(ErrorType errorType) {
+        return DefaultBetofficeServiceResult.failure(errorType);
+    }
+
 }
