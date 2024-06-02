@@ -40,6 +40,8 @@ public interface BetofficeServiceResult<T> {
 
     <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier) throws X;
 
+    T orElseThrow();
+
     BetofficeValidationMessage message();
 
     static <T> BetofficeServiceResult<T> sucess(T result) {

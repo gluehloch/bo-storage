@@ -24,6 +24,7 @@
 
 package de.winkler.betoffice.validation;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -78,6 +79,14 @@ class DefaultBetofficeServiceResult<T> implements BetofficeServiceResult<T> {
         } else {
             throw exceptionSupplier.get();
         }
+    }
+
+    @Override
+    public T orElseThrow() {
+        if (result != null) {
+            return result;
+        }
+        throw new NoSuchElementException("No value present");
     }
 
 }
