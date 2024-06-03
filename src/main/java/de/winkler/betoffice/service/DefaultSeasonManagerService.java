@@ -421,11 +421,11 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
         if (!season.getTeamType().equals(team.getTeamType())) {
             messages.add(new BetofficeValidationMessage(
-                    "Der Meisterschaft unterstützt diesen Mannschaftstyp nicht.",
+                    String.format("Die Meisterschaft %s unterstützt diesen Mannschaftstyp %s nicht.", season, team.getTeamType()),
                     null, Severity.ERROR));
         }
 
-        if (messages.size() == 0) {
+        if (messages.isEmpty()) {
             Group group = groupDao.findBySeasonAndGroupType(season, groupType);
             
             List<Team> teams = groupDao.findTeams(group);
