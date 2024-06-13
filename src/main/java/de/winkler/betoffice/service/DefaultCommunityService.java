@@ -104,8 +104,10 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         	return BetofficeServiceResult.failure(ErrorType.COMMUNITY_EXISTS);
         }
         
-        Season persistedSeason = seasonDao.find(seasonRef).orElseThrow();
-        User communityManager = userDao.findByNickname(managerNickname).orElseThrow();
+        Season persistedSeason = seasonDao.find(seasonRef).orElseThrow(
+                () -> new IllegalArgumentException(String.format("%s does not exist.", seasonRef)));
+        User communityManager = userDao.findByNickname(managerNickname).orElseThrow(
+                () -> new IllegalArgumentException(String.format("%s does not exist.", managerNickname)));
 
         Community community = new Community();
         community.setName(communityName);
