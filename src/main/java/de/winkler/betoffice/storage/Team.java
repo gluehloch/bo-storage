@@ -39,8 +39,6 @@ import de.winkler.betoffice.storage.enums.TeamType;
  * Kapselt die Teamdaten.
  *
  * @author by Andre Winkler
- *
- * @hibernate.class table="bo_team"
  */
 @Entity
 @Table(name = "bo_team")
@@ -93,8 +91,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Konstruktor. Erstellt ein minimales Team Objekt.
      *
-     * @param value
-     *              Der Mannschaftsname
+     * @param value Der Mannschaftsname
      */
     public Team(String value) {
         this(value, null, null);
@@ -127,7 +124,7 @@ public class Team extends AbstractStorageObject {
             this.logoResource = logoResource;
             return this;
         }
-        
+
         public TeamBuilder type(TeamType teamType) {
             this.teamType = teamType;
             return this;
@@ -150,7 +147,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Liefert den Primärschlüssel.
      *
-     * @return Der Primärschlüssel.
+     * @return       Der Primärschlüssel.
      *
      * @hibernate.id generator-class="native"
      */
@@ -161,8 +158,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Setzt den Primärschlüssel.
      *
-     * @param value
-     *              Der Primärschlüssel.
+     * @param value Der Primärschlüssel.
      */
     protected void setId(final Long value) {
         id = value;
@@ -173,7 +169,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Liefert den Teamnamen.
      *
-     * @return Der Teamname.
+     * @return             Der Teamname.
      *
      * @hibernate.property column="bo_name" not-null="true" unique="true"
      */
@@ -184,8 +180,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Setzt den Teamnamen.
      *
-     * @param value
-     *              Der Teamname.
+     * @param value Der Teamname.
      */
     public void setName(final String value) {
         name = value;
@@ -196,7 +191,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Liefert den Teamnamen in der Langbezeichnung.
      *
-     * @return Der lange Teamname.
+     * @return             Der lange Teamname.
      *
      * @hibernate.property column="bo_longname"
      */
@@ -207,8 +202,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Setzt den Teamnamen in der Langbezeichnung.
      *
-     * @param value
-     *              Der lange Teamname.
+     * @param value Der lange Teamname.
      */
     public void setLongName(final String value) {
         longName = value;
@@ -239,9 +233,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Liefert das Logo.
      *
-     * @return Das Logo.
-     *
-     * @hibernate.property column="bo_logo"
+     * @return             Das Logo.
      */
     public String getLogo() {
         return logo;
@@ -250,8 +242,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Setzt das Logo.
      *
-     * @param value
-     *              Das Logo.
+     * @param value Das Logo.
      */
     public void setLogo(final String value) {
         logo = value;
@@ -262,11 +253,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Liefert den Mannschaftstyp.
      *
-     * @return Der Modus.
-     *
-     * @hibernate.property column="bo_teamtype"
-     *                     type="de.winkler.betoffice.storage.enums.TeamType"
-     *                     not-null="true"
+     * @return             Der Modus.
      */
     public TeamType getTeamType() {
         return teamType;
@@ -275,8 +262,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Setzt den Mannschaftstyp.
      *
-     * @param value
-     *              Der Mannschaftstyp.
+     * @param value Der Mannschaftstyp.
      */
     public void setTeamType(final TeamType value) {
         teamType = value;
@@ -296,8 +282,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Setzt das Heimspielstadion.
      * 
-     * @param value
-     *              Das Heimspielstadion.
+     * @param value Das Heimspielstadion.
      */
     public void setLocation(Location value) {
         location = value;
@@ -317,8 +302,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Set openligadb ID
      *
-     * @param value
-     *              The openligadb ID
+     * @param value The openligadb ID
      */
     public void setOpenligaid(Long value) {
         openligaid = value;
