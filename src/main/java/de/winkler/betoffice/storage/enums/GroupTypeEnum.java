@@ -24,35 +24,12 @@
 
 package de.winkler.betoffice.storage.enums;
 
-import java.util.Arrays;
-import java.util.List;
+public enum GroupTypeEnum {
 
-/**
- * Klassifizierung einer Mannschaft. Z.B. FIFA oder DFB(Bundesliga) Mannschaft.
- *
- * @author Andre Winkler
- */
-public enum TeamType {
-
-    DFB("DFB"), FIFA("FIFA");
-
-    private final String name;
-
-    private TeamType(final String _name) {
-        name = _name;
-    }
-
-    public String toString() {
-        return name;
-    }
-
-    /**
-     * Returns a list of these enums.
-     *
-     * @return A list with all enums.
-     */
-    public static List<TeamType> toList() {
-        return Arrays.asList(TeamType.values());
-    }
+    LEAGUE, // 0
+    PRELIMINARY_ROUND, // 1
+    KNOCKOUT_ROUND, // 2
+    SEMI_FINAL, // 3
+    FINAL; // 4
 
 }

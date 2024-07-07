@@ -27,6 +27,7 @@ package de.winkler.betoffice.storage;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,6 +35,8 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
+
+import de.winkler.betoffice.storage.enums.GroupTypeEnum;
 
 /**
  * Beschreibt einen Gruppentyp (1. Liga, 2. Liga, Regionalliga Nord, etc.).
@@ -54,6 +57,11 @@ public class GroupType extends AbstractStorageObject implements Comparable<Group
     @Column(name = "bo_name")
     private String name;
 
+    @NotNull
+    @Column(name = "bo_type")
+    @Enumerated
+    private GroupTypeEnum type = GroupTypeEnum.LEAGUE; 
+
     // ------------------------------------------------------------------------
 
     public static GroupType of(String groupTypeName) {
@@ -64,42 +72,33 @@ public class GroupType extends AbstractStorageObject implements Comparable<Group
 
     // -- id ------------------------------------------------------------------
 
-    /**
-     * Liefert den Primärschlüssel.
-     *
-     * @return Der Primärschlüssel.
-     */
     public Long getId() {
         return id;
     }
 
-    /**
-     * Setzt den Primärschlüssel.
-     *
-     * @param value Der Primärschlüssel.
-     */
     protected void setId(final Long value) {
         id = value;
     }
 
     // -- name ----------------------------------------------------------------
 
-    /**
-     * Liest den Namen der Gruppe.
-     *
-     * @return Name der Gruppe.
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Setzt den Namen der Gruppe.
-     *
-     * @param value Name der Gruppe.
-     */
     public void setName(final String value) {
         name = value;
+    }
+
+    // -- type ----------------------------------------------------------------
+
+    public GroupTypeEnum getType() {
+        return type;
+    }
+
+
+    public void setType(GroupTypeEnum type) {
+        this.type = type;
     }
 
     // -- StorageObject -------------------------------------------------------
