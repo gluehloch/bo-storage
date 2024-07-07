@@ -10,6 +10,10 @@
             <action dev="andrewinkler" type="update" date="2024-06-02">
                 Small interface enhancements.
             </action>
+            <action dev="andrewinkler" type="update" date="2024-0-18">
+                Adding type information to class GroupType. Something like 'Vorrunde', 'KO-Runde' und 'Liga'
+                (preliminary round, knockout round, semi-final, final). Round => Vorrunde. Game => Gruppe A, B, ...,H.
+            </action>
         </release>
 
         <!-- RELEASED -->
