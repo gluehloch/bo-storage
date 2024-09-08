@@ -359,7 +359,7 @@ class GameTippTest extends AbstractServiceTest {
         communityService.createUser(userE);
         
         CommunityReference communityReference = CommunityReference.of("TDKB BL 1999/2000");
-        communityService.create(communityReference, seasonReference, "TDKB Bundesliga 1999/2000", communityAdmin);
+        communityService.create(communityReference, seasonReference, "TDKB Bundesliga 1999/2000", "1999/2000", communityAdmin);
 
         List<User> users = communityService.findAllUsers();
 

@@ -75,7 +75,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     public Optional<Community> find(CommunityReference communityReference) {
         return communityDao.find(communityReference);
     }
-    
+
     public List<Community> find(String communityName) {
         return communityDao.find(communityName);
     }
@@ -96,20 +96,25 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
-    public BetofficeServiceResult<Community> create(CommunityReference communityRef, SeasonReference seasonRef, String communityName,
+    public BetofficeServiceResult<Community> create(
+            CommunityReference communityRef,
+            SeasonReference seasonRef,
+            String communityName,
+            String communityYear,
             Nickname managerNickname) {
 
         Optional<Community> definedCommunity = communityDao.find(communityRef);
         if (definedCommunity.isPresent()) {
-        	return BetofficeServiceResult.failure(ErrorType.COMMUNITY_EXISTS);
+            return BetofficeServiceResult.failure(ErrorType.COMMUNITY_EXISTS);
         }
-        
+
         Season persistedSeason = seasonDao.find(seasonRef).orElseThrow(
                 () -> new IllegalArgumentException(String.format("%s does not exist.", seasonRef)));
         User communityManager = userDao.findByNickname(managerNickname).orElseThrow(
                 () -> new IllegalArgumentException(String.format("%s does not exist.", managerNickname)));
 
         Community community = new Community();
+        community.setYear(communityYear);
         community.setName(communityName);
         community.setReference(communityRef);
         community.setCommunityManager(communityManager);
@@ -145,8 +150,8 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     public Community addMembers(CommunityReference communityReference, Set<Nickname> nicknames) {
         Community community = communityDao.find(communityReference).orElseThrow();
         nicknames.stream()
-            .map(n -> userDao.findByNickname(n))
-            .forEach(u -> u.ifPresent(us -> community.addMember(us)));
+                .map(n -> userDao.findByNickname(n))
+                .forEach(u -> u.ifPresent(us -> community.addMember(us)));
         communityDao.update(community);
 
         return community;
@@ -168,7 +173,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         });
         return communityDao.find(reference).orElseThrow();
     }
-    
+
     @Override
     public Optional<User> findUser(Nickname nickname) {
         return userDao.findByNickname(nickname);
@@ -196,15 +201,15 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     @Override
     @Transactional
     public void deleteUser(Nickname nickname) {
-    	userDao.findByNickname(nickname).ifPresent(u -> userDao.delete(u));
+        userDao.findByNickname(nickname).ifPresent(u -> userDao.delete(u));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<User> findAllUsers() {
         return userDao.findAll();
-    }    
-    
+    }
+
     @Override
     @Transactional
     public void updateUser(final User user) {

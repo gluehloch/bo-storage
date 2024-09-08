@@ -100,7 +100,7 @@ class CommunityServiceTest extends AbstractServiceTest {
 
         communityManager = communityService.createUser(communityManager);
         Community community = communityService
-                .create(CommunityReference.of("TDKB"), bundesliga.getReference(), "TDKB_short", frosch)
+                .create(CommunityReference.of("TDKB"), bundesliga.getReference(), "TDKB_short", "2024", frosch)
                 .result()
                 .orElseThrow();
 
@@ -125,7 +125,7 @@ class CommunityServiceTest extends AbstractServiceTest {
         communityManager = communityService.createUser(communityManager);
         CommunityReference communityReference = CommunityReference.of("TDKB");
         Community community = communityService
-                .create(communityReference, bundesliga.getReference(), "TDKB_short", frosch)
+                .create(communityReference, bundesliga.getReference(), "TDKB_short", "2024", frosch)
                 .result()
                 .orElseThrow();
 
@@ -168,11 +168,11 @@ class CommunityServiceTest extends AbstractServiceTest {
 
         communityManager = communityService.createUser(communityManager);
 
-        communityService.create(CommunityReference.of("CM_A"), bundesligaRef, "CM_A_short", nickname);
-        communityService.create(CommunityReference.of("CM_B"), bundesligaRef, "CM_B_short", nickname);
-        communityService.create(CommunityReference.of("CM_C"), bundesligaRef, "CM_C_short", nickname);
-        communityService.create(CommunityReference.of("CM_D"), bundesligaRef, "CM_D_short", nickname);
-        communityService.create(CommunityReference.of("CM_E"), bundesligaRef, "CM_E_short", nickname);
+        communityService.create(CommunityReference.of("CM_A"), bundesligaRef, "CM_A_short", "2024", nickname);
+        communityService.create(CommunityReference.of("CM_B"), bundesligaRef, "CM_B_short", "2024", nickname);
+        communityService.create(CommunityReference.of("CM_C"), bundesligaRef, "CM_C_short", "2024", nickname);
+        communityService.create(CommunityReference.of("CM_D"), bundesligaRef, "CM_D_short", "2024", nickname);
+        communityService.create(CommunityReference.of("CM_E"), bundesligaRef, "CM_E_short", "2024", nickname);
 
         CommunityFilter communityFilter = new CommunityFilter();
         communityFilter.setShortName("CM");
@@ -180,10 +180,10 @@ class CommunityServiceTest extends AbstractServiceTest {
         Page<Community> list = communityService.findCommunities(communityFilter, PageRequest.of(0, 10));
         assertThat(list).hasSize(5);
 
-        communityService.create(CommunityReference.of("aw1"), bundesligaRef, "aw1_short", nickname);
-        communityService.create(CommunityReference.of("aw2"), bundesligaRef, "aw2_short", nickname);
-        communityService.create(CommunityReference.of("aw3"), bundesligaRef, "aw3_short", nickname);
-        communityService.create(CommunityReference.of("aw4"), bundesligaRef, "aw4_short", nickname);
+        communityService.create(CommunityReference.of("aw1"), bundesligaRef, "aw1_short", "2024", nickname);
+        communityService.create(CommunityReference.of("aw2"), bundesligaRef, "aw2_short", "2024", nickname);
+        communityService.create(CommunityReference.of("aw3"), bundesligaRef, "aw3_short", "2024", nickname);
+        communityService.create(CommunityReference.of("aw4"), bundesligaRef, "aw4_short", "2024", nickname);
 
         assertThat(communityService.findCommunities(CommunityFilter.shortName("aw"), PageRequest.of(0, 10))).hasSize(4);
         assertThat(communityService.findCommunities(CommunityFilter.shortName("aw1"), PageRequest.of(0, 10))).hasSize(1);

@@ -54,47 +54,48 @@ public interface CommunityService {
     /**
      * Find a community by its reference.
      *
-     * @param communityReference a community reference
-     * @return a community
+     * @param  communityReference a community reference
+     * @return                    a community
      */
     Optional<Community> find(CommunityReference communityReference);
 
     /**
      * Find a community by name.
      * 
-     * @param communityName community name
-     * @return a community.
+     * @param  communityName community name
+     * @return               a community.
      */
     List<Community> find(String communityName);
 
     /**
      * All users of a community
      * 
-     * @param communityReference reference of a community
-     * @return the users of a community.
+     * @param  communityReference reference of a community
+     * @return                    the users of a community.
      */
     Set<User> findMembers(CommunityReference communityReference);
 
     /**
      * Find all communities.
      *
-     * @param communityFilter a community filter
-     * @param pageable        paging parameter
-     * @return a list of communities
+     * @param  communityFilter a community filter
+     * @param  pageable        paging parameter
+     * @return                 a list of communities
      */
     Page<Community> findCommunities(CommunityFilter communityFilter, Pageable pageable);
 
     /**
      * Create a new community.
      *
-     * @param communityRef    reference of a community.
-     * @param seasonRef       reference of a season.
-     * @param communityName   community name
-     * @param managerNickname nickname of the community manager
-     * @return the create community.
+     * @param  communityRef    reference of a community.
+     * @param  seasonRef       reference of a season.
+     * @param  communityName   community name
+     * @param  communityYear   community year
+     * @param  managerNickname nickname of the community manager
+     * @return                 the create community.
      */
     BetofficeServiceResult<Community> create(CommunityReference communityRef, SeasonReference seasonRef,
-            String communityName, Nickname managerNickname);
+            String communityName, String communityYear, Nickname managerNickname);
 
     /**
      * Delete community.
@@ -106,17 +107,17 @@ public interface CommunityService {
     /**
      * Add a new community member.
      * 
-     * @param communityRef the community name
-     * @param nickname     the new community member
-     * @return the updated community.
+     * @param  communityRef the community name
+     * @param  nickname     the new community member
+     * @return              the updated community.
      */
     Community addMember(CommunityReference communityRef, Nickname nickname);
 
     /**
      * Add community members.
      * 
-     * @param communityRef
-     * @param nicknames
+     * @param  communityRef
+     * @param  nicknames
      * @return
      */
     Community addMembers(CommunityReference communityRef, Set<Nickname> nicknames);
@@ -124,27 +125,27 @@ public interface CommunityService {
     /**
      * Remove a community member.
      * 
-     * @param communityRef the community name
-     * @param nickname     the community member to remove
-     * @return the updated community.
+     * @param  communityRef the community name
+     * @param  nickname     the community member to remove
+     * @return              the updated community.
      */
     Community removeMember(CommunityReference communityRef, Nickname nickname);
 
     /**
      * Remove community members.
      * 
-     * @param communityRef the community name
-     * @param nicknames    the community members to remove
-     * @return the updated community.
+     * @param  communityRef the community name
+     * @param  nicknames    the community members to remove
+     * @return              the updated community.
      */
     Community removeMembers(CommunityReference communityRef, Set<Nickname> nicknames);
 
     /**
      * Find all users.
      * 
-     * @param nicknameFilter a nickname filter
-     * @param pageable       paging parameter
-     * @return list of users
+     * @param  nicknameFilter a nickname filter
+     * @param  pageable       paging parameter
+     * @return                list of users
      */
     Page<User> findUsers(String nicknameFilter, Pageable pageable);
 
@@ -158,8 +159,8 @@ public interface CommunityService {
     /**
      * Find a user by nickname.
      *
-     * @param nickname user identified by nickname
-     * @return a user
+     * @param  nickname user identified by nickname
+     * @return          a user
      */
     Optional<User> findUser(Nickname nickname);
 
@@ -171,8 +172,7 @@ public interface CommunityService {
     User createUser(User user);
 
     /**
-     * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn
-     * dieser keiner Meisterschaft zugeordnet ist.
+     * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn dieser keiner Meisterschaft zugeordnet ist.
      * 
      * @param nickname Ein Teilnehmer.
      */
@@ -188,8 +188,8 @@ public interface CommunityService {
     /**
      * Sucht nach einem Teilnehmer.
      * 
-     * @param userId Die Teilnehmer ID
-     * @return Ein Teilnehmer
+     * @param  userId Die Teilnehmer ID
+     * @return        Ein Teilnehmer
      */
     User findUser(long userId);
 

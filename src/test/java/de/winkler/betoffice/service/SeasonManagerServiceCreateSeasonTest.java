@@ -472,7 +472,7 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     private void createCommunity() {
-        communityService.create(communityReference, seasonReference, "Bundesliga 2010/11", frosch);
+        communityService.create(communityReference, seasonReference, "Bundesliga 2010/11", "2024", frosch);
         communityService.addMembers(communityReference, nicknames);
     }
 

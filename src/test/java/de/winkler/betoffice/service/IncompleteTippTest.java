@@ -136,7 +136,7 @@ public class IncompleteTippTest extends AbstractServiceTest {
         userA.setNickname(nicknameUserA);
         communityService.createUser(userA);
         
-        communityService.create(communityReference, seasonReference, "TDKB Test Community", nicknameUserA);
+        communityService.create(communityReference, seasonReference, "TDKB Test Community", "2024", nicknameUserA);
         communityService.addMember(communityReference, nicknameUserA);
     }
 
