@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -26,7 +26,6 @@ package de.winkler.betoffice.dao;
 import java.util.List;
 import java.util.Optional;
 
-import de.winkler.betoffice.storage.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
