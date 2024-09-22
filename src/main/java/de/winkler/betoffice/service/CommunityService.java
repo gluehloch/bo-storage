@@ -52,6 +52,14 @@ public interface CommunityService {
     }
 
     /**
+     * Find a community by its id.
+     * 
+     * @param  communityId community id
+     * @return             a community
+     */
+    Community find(Long communityId);
+
+    /**
      * Find a community by its reference.
      *
      * @param  communityReference a community reference

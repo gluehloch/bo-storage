@@ -72,10 +72,17 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     @Autowired
     private SeasonDao seasonDao;
 
+    @Override
+    public Community find(Long communityId) {
+        return communityDao.findById(communityId);
+    }
+
+    @Override
     public Optional<Community> find(CommunityReference communityReference) {
         return communityDao.find(communityReference);
     }
 
+    @Override
     public List<Community> find(String communityName) {
         return communityDao.find(communityName);
     }
