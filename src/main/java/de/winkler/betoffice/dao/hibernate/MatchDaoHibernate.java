@@ -59,11 +59,9 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
             + "where match.guestTeam.id = :guestTeamId";
 
     /**
-     * Sucht nach allen bekannten Spielpaarungen mit gesuchter Heim- und
-     * Gastmannschaft.
+     * Sucht nach allen bekannten Spielpaarungen mit gesuchter Heim- und Gastmannschaft.
      */
-    private static final String QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM =
-            """
+    private static final String QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM = """
             select
                 match
             from
@@ -73,17 +71,47 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
             where
                 match.homeTeam.id = :homeTeamId
                 and match.guestTeam.id = :guestTeamId
+            order by
+                match.dateTime desc
             """;
 
     /**
-     * Sucht einer Spielpaarung für einen bestimmten Spieltag mit der gegebenen
-     * Heim- und Gastmannschaft.
+     * Sucht nach allen bekannten Spielpaarungen mit gesuchter Heim- und Gastmannschaft bzw. umgekehrt.
      */
-    private static final String QUERY_MATCH_BY_HOME_AND_GUEST_TEAM_AND_ROUND = "select "
-            + "    match " + "from " + "    Game as match " + "where "
-            + "    match.homeTeam.id = :homeTeamId and "
-            + "    match.guestTeam.id = :guestTeamId and "
-            + "    match.gameList.id = :gameListId ";
+    private static final String QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM_AND_REVERSE = """
+            select
+                match
+            from
+                Game as match
+                left join fetch match.goals
+                left join fetch match.location
+            where
+                (
+                    match.homeTeam.id = :homeTeamId
+                    and match.guestTeam.id = :guestTeamId
+                )
+                or
+                (
+                    match.homeTeam.id = :guestTeamId
+                    and match.guestTeam.id = :homeTeamId
+                )
+            order by
+                match.dateTime desc
+            """;
+
+    /**
+     * Sucht einer Spielpaarung für einen bestimmten Spieltag mit der gegebenen Heim- und Gastmannschaft.
+     */
+    private static final String QUERY_MATCH_BY_HOME_AND_GUEST_TEAM_AND_ROUND = """
+            select
+                match
+            from
+                Game as match
+            where
+                match.homeTeam.id = :homeTeamId
+                and match.guestTeam.id = :guestTeamId
+                and match.gameList.id = :gameListId
+            """;
 
     public MatchDaoHibernate() {
         super(Game.class);
@@ -116,10 +144,13 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
     }
 
     @Override
-    public List<Game> findAll(final Team team1, final Team team2) {
-        List<Game> objects = find(team1, team2);
-        objects.addAll(find(team2, team1));
-        return objects;
+    public List<Game> findAll(final Team homeTeam, final Team guestTeam) {
+        List<Game> games = getEntityManager()
+                .createQuery(QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM_AND_REVERSE, Game.class)
+                .setParameter("homeTeamId", homeTeam.getId())
+                .setParameter("guestTeamId", guestTeam.getId()).getResultList();
+
+        return games;
     }
 
     @Override

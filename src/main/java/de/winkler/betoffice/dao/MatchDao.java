@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2016 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2024 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL  LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -36,69 +36,58 @@ import de.winkler.betoffice.storage.Team;
  *
  * @author by Andre Winkler
  */
- public interface MatchDao extends CommonDao<Game> {
+public interface MatchDao extends CommonDao<Game> {
 
     /**
      * Sucht nach einer bestimmten Spielpaarung für einen Spieltag.
      *
-     * @param round
-     *            Der zu untersuchende Spieltag.
-     * @param homeTeam
-     *            Die Heimmannschaft.
-     * @param guestTeam
-     *            Die Gastmannschaft.
-     * @return Das gefundene Spiel oder <code>null</code>, wenn kein Spiel mit
-     *         diesem Bedingungen vorhanden.
+     * @param  round     Der zu untersuchende Spieltag.
+     * @param  homeTeam  Die Heimmannschaft.
+     * @param  guestTeam Die Gastmannschaft.
+     * @return           Das gefundene Spiel oder <code>null</code>, wenn kein Spiel mit diesem Bedingungen vorhanden.
      */
-     Optional<Game> find(GameList round, Team homeTeam, Team guestTeam);
+    Optional<Game> find(GameList round, Team homeTeam, Team guestTeam);
 
     /**
      * Sucht nach allen Spielen zu einem Spieltag.
      * 
-     * @param round
-     *            Der Spieltag
-     * @return Die Spiele an diesem Spieltag.
+     * @param  round Der Spieltag
+     * @return       Die Spiele an diesem Spieltag.
      */
-     List<Game> find(GameList round);
+    List<Game> find(GameList round);
 
     /**
      * Sucht nach allen Spielpaarungen mit der beteiligten Heimmannschaft.
      *
-     * @param homeTeam
-     *            Die gesuchte Heimmannschaft.
-     * @return Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
+     * @param  homeTeam Die gesuchte Heimmannschaft.
+     * @return          Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
-     List<Game> findByHomeTeam(Team homeTeam);
+    List<Game> findByHomeTeam(Team homeTeam);
 
     /**
      * Sucht nach allen Spielpaarungen mit der beteiligten Gastmannschaft.
      *
-     * @param guestTeam
-     *            Die gesuchte Gastmannschaft.
-     * @return Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
+     * @param  guestTeam Die gesuchte Gastmannschaft.
+     * @return           Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
-     List<Game> findByGuestTeam(Team guestTeam);
+    List<Game> findByGuestTeam(Team guestTeam);
 
     /**
      * Sucht nach allen Spielpaarungen mit der beteiligten Heim- und Gastmannschaft.
      *
-     * @param homeTeam
-     *            Die gesuchte Heimmannschaft.
-     * @param guestTeam
-     *            Die gesuchte Gastmannschaft.
-     * @return Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
+     * @param  homeTeam  Die gesuchte Heimmannschaft.
+     * @param  guestTeam Die gesuchte Gastmannschaft.
+     * @return           Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
-     List<Game> find(Team homeTeam, Team guestTeam);
+    List<Game> find(Team homeTeam, Team guestTeam);
 
     /**
      * Sucht nach allen Spielpaarungen mit den beteiligten Mannschaften.
      *
-     * @param team1
-     *            Die erste gesuchte Mannschaft (Heim wie auswärts).
-     * @param team2
-     *            Die zweite gesuchte Mannschaft (Heim wie auswärts).
-     * @return Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
+     * @param  team1 Die erste gesuchte Mannschaft (Heim wie auswärts).
+     * @param  team2 Die zweite gesuchte Mannschaft (Heim wie auswärts).
+     * @return       Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
-     List<Game> findAll(Team team1, Team team2);
+    List<Game> findAll(Team team1, Team team2);
 
 }
