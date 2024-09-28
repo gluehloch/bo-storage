@@ -94,6 +94,15 @@ public interface MasterDataManagerService {
     public List<Team> findTeams(TeamType teamType);
 
     /**
+     * Liefert einer Liste aller Mannschaften, die den gesuchten Parametern entsprechen.
+     * 
+     * @param  teamType Der gesuchte TeamType. Kann {@code null} sein.
+     * @param  filter   Der Filter (name, long-name, short-name, logo, ...)
+     * @return          Liste mit Mannschaften die den übergebenen Eigenschaften entsprechen
+     */
+    public List<Team> findTeams(Optional<TeamType> teamType, String filter);
+
+    /**
      * Liefert alle Alias Namen zu einer Mannschaft.
      *
      * @param  team Die gesuchte Mannschaft.

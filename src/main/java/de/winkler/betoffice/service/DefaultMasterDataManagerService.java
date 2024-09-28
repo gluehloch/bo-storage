@@ -61,7 +61,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Autowired
     private SeasonDao seasonDao;
-    
+
     @Autowired
     private GroupTypeDao groupTypeDao;
 
@@ -76,7 +76,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Autowired
     private PlayerDao playerDao;
-    
+
     @Override
     @Transactional
     public void createSeason(final Season season) {
@@ -183,6 +183,12 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     @Transactional(readOnly = true)
     public List<Team> findTeams(TeamType teamType) {
         return teamDao.findTeams(teamType);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Team> findTeams(Optional<TeamType> teamType, String filter) {
+        return teamDao.findTeams(teamType, filter);
     }
 
     @Override

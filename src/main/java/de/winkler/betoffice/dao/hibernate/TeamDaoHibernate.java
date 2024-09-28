@@ -80,6 +80,35 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
     }
 
     @Override
+    public List<Team> findTeams(Optional<TeamType> teamType, String filter) {
+        final String query = """
+                SELECT
+                    team
+                FROM
+                    Team as team
+                WHERE
+                    (
+                        LOWER(team.name) LIKE '%' || :filter || '%'
+                        OR LOWER(team.longName) LIKE '%' || :filter || '%'
+                        OR LOWER(team.shortName) LIKE '%' || :filter || '%'
+                        OR LOWER(team.xshortName) LIKE '%' || :filter || '%'
+                        OR LOWER(team.logo) LIKE '%' || :filter || '%'
+                    )
+                    AND
+                    (
+                        :teamType IS NULL OR team.teamType = :teamType
+                    )
+                ORDER BY
+                    team.name
+                """;
+        return getEntityManager()
+                .createQuery(query, Team.class)
+                .setParameter("teamType", teamType.orElse(null))
+                .setParameter("filter", filter)
+                .getResultList();
+    }
+
+    @Override
     public Optional<Team> findByName(final String name) {
         TypedQuery<Team> query = getEntityManager()
                 .createQuery(QUERY_TEAM_BY_NAME, Team.class)

@@ -63,6 +63,15 @@ public interface TeamDao extends CommonDao<Team> {
     List<Team> findTeams(TeamType teamType);
 
     /**
+     * Liefert alle Mannschaften, die vom Typ {@link TeamType} sind.
+     *
+     * @param  teamType Der gesuchte Mannschaftstyp.
+     * @param  filter   für name, long-name, short-name, alias, logo,...
+     * @return          Eine Liste mit Mannschaften.
+     */
+    List<Team> findTeams(Optional<TeamType> teamType, String filter);
+
+    /**
      * Liefert eine Mannschaften mit gesuchten Namen.
      *
      * @param  name Der gesuchte Name.

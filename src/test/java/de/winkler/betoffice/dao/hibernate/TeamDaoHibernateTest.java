@@ -3,20 +3,20 @@
  * Project betoffice-storage Copyright (c) 2000-2019 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
- * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * GNU GENERAL LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
+ * the terms of the GNU General License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
  *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * FOR A PARTICULAR PURPOSE. See the GNU General License for more
  * details.
  *
- * You should have received a copy of the GNU General Public License along with
+ * You should have received a copy of the GNU General License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
@@ -50,25 +50,25 @@ import de.winkler.betoffice.storage.enums.TeamType;
  *
  * @author by Andre Winkler
  */
-public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
+class TeamDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Autowired
     private TeamDao teamDao;
 
     @BeforeEach
-    public void init() {
+    void init() {
         prepareDatabase(TeamDaoHibernateTest.class);
     }
 
     @Test
-    public void testDataSource() {
+    void testDataSource() {
         assertThat(getDataSource()).isNotNull();
         assertThat(getEntityManager()).isNotNull();
         assertThat(teamDao).isNotNull();
     }
 
     @Test
-    public void testTeamDaoOpenligaidFinder() {
+    void testTeamDaoOpenligaidFinder() {
         Optional<Team> rwe = teamDao.findByOpenligaid(10);
         assertThat(rwe.get().getName()).isEqualTo("RWE");
         Optional<Team> rwo = teamDao.findByOpenligaid(20);
@@ -80,7 +80,7 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testTeamDaoFinder() throws Exception {
+    void testTeamDaoFinder() throws Exception {
         List<Team> teams = teamDao.findAll();
         assertThat(teams).hasSize(4);
 
@@ -101,7 +101,8 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(frankreich.getTeamType()).isEqualTo(TeamType.FIFA);
 
         File teamExportFile = File.createTempFile("team", "dat");
-        final ResourceWriter rw = new ResourceWriter(teamExportFile, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        final ResourceWriter rw = new ResourceWriter(teamExportFile,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         getEntityManager().unwrap(Session.class).doWork(new Work() {
             @Override
             public void execute(Connection connection) throws SQLException {
@@ -114,7 +115,14 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testTeamDaoFindAll() {
+    void teamDaoFilterFinder() {
+        Team rwe = teamDao.findByOpenligaid(10).orElseThrow();
+        List<Team> teams = teamDao.findTeams(Optional.empty(), "rwe");
+        assertThat(teams).isNotEmpty().containsExactly(rwe);
+    }
+
+    @Test
+    void testTeamDaoFindAll() {
         List<Team> teams = teamDao.findAll();
         assertEquals(4, teams.size());
         assertEquals("Deutschland", teams.get(0).getName());
@@ -124,7 +132,7 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testTeamDaoFindTeam() {
+    void testTeamDaoFindTeam() {
         Optional<Team> team = teamDao.findByName("RWE");
         assertEquals("RWE", team.get().getName());
         team = teamDao.findByName("RWO");
@@ -132,7 +140,7 @@ public class TeamDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    public void testTeamDaoFindTeams() {
+    void testTeamDaoFindTeams() {
         List<Team> teams = teamDao.findTeams(TeamType.DFB);
         assertEquals(2, teams.size());
         assertEquals("RWE", teams.get(0).getName());
