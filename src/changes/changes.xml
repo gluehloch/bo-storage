@@ -10,9 +10,12 @@
             <action dev="andrewinkler" type="update" date="2024-06-02">
                 Small interface enhancements.
             </action>
-            <action dev="andrewinkler" type="update" date="2024-0-18">
+            <action dev="andrewinkler" type="update" date="2024-06-18">
                 Adding type information to class GroupType. Something like 'Vorrunde', 'KO-Runde' und 'Liga'
                 (preliminary round, knockout round, semi-final, final). Round => Vorrunde. Game => Gruppe A, B, ...,H.
+            </action>
+            <action dev="andrewinkler" type="add" date="2024-09-28">
+                Adding a filter method to find teams by type and name (alias, name, long-name, short-name, logo,...).
             </action>
         </release>
 
