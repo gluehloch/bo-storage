@@ -268,6 +268,30 @@ public interface SeasonManagerService {
     List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin);
 
     /**
+     * Sucht nach Spielen mit der vorgegebenen Mannschaften.
+     *
+     * @param  team Die Mannschaft.
+     * @return      Die gefundenen Spiel.
+     */
+    List<Game> findMatches(Team team);
+
+    /**
+     * Sucht nach alle Heimspielen mit der übergebenen Mannschaft.
+     * 
+     * @param  team Die Mannschaft
+     * @return      Die gefundenen Spiele
+     */
+    List<Game> findMatchesWithHomeTeam(Team team);
+
+    /**
+     * Sucht nach alle Gastspielen mit der übergebenen Mannschaft.
+     * 
+     * @param  team Die Mannschaft
+     * @return      Die gefundenen Spiele
+     */
+    List<Game> findMatchesWithGuestTeam(Team team);
+
+    /**
      * Sucht nach einem Spiel.
      * 
      * @param  gameId Die technische ID des Spiels/game/match.

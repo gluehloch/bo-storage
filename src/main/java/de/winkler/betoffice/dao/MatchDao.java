@@ -90,4 +90,12 @@ public interface MatchDao extends CommonDao<Game> {
      */
     List<Game> findAll(Team team1, Team team2);
 
+    /**
+     * Sucht nach alle Spielpaarungen mit der beteiligten Mannschaften.
+     * 
+     * @param  team Die gesuchte Mannschaft
+     * @return      Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
+     */
+    List<Game> find(Team team);
+
 }

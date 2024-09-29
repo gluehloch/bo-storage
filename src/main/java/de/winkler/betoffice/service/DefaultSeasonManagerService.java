@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -97,7 +97,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Autowired
     private GoalDao goalDao;
-    
+
     @Autowired
     private CommunityDao communityDao;
 
@@ -148,8 +148,35 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional(readOnly = true)
+    public List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin) {
+        List<Game> results = new ArrayList<Game>();
+        if (spin) {
+            results.addAll(matchDao.findAll(homeTeam, guestTeam));
+        } else {
+            results.addAll(matchDao.find(homeTeam, guestTeam));
+        }
+        return results;
+    }
+
+    @Override
+    public List<Game> findMatches(Team team) {
+        return matchDao.find(team);
+    }
+
+    @Override
+    public List<Game> findMatchesWithHomeTeam(Team team) {
+        return matchDao.findByHomeTeam(team);
+    }
+
+    @Override
+    public List<Game> findMatchesWithGuestTeam(Team team) {
+        return matchDao.findByGuestTeam(team);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Goal> findGoalsOfMatch(Game game) {
-    	return goalDao.find(game);
+        return goalDao.find(game);
     }
 
     @Override
@@ -168,18 +195,6 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Transactional(readOnly = true)
     public Optional<Game> findMatch(GameList round, Team homeTeam, Team guestTeam) {
         return matchDao.find(round, homeTeam, guestTeam);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin) {
-        List<Game> results = new ArrayList<Game>();
-        if (spin) {
-            results.addAll(matchDao.findAll(homeTeam, guestTeam));
-        } else {
-            results.addAll(matchDao.find(homeTeam, guestTeam));
-        }
-        return results;
     }
 
     @Override
@@ -362,10 +377,10 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Override
     @Transactional
     public GameList addRound(Season season, int index, ZonedDateTime data, GroupType groupType) {
-       BetofficeValidator.validateRoundIndex(index);
+        BetofficeValidator.validateRoundIndex(index);
 
-       Season seasonEntity = seasonDao.find(season.getReference())
-               .orElseThrow(() -> new IllegalArgumentException(String.format("Season %s not found.", season)));
+        Season seasonEntity = seasonDao.find(season.getReference())
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Season %s not found.", season)));
 
         Optional<GameList> gameList = roundDao.findRound(seasonEntity, index);
         if (gameList.isPresent()) {
@@ -377,7 +392,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
         Group group = groupDao.findBySeasonAndGroupType(seasonEntity, groupTypeEntity);
         if (group == null) {
-            throw new IllegalArgumentException(String.format("Group '%s, GroupType: %s' not found.", seasonEntity, groupTypeEntity));
+            throw new IllegalArgumentException(
+                    String.format("Group '%s, GroupType: %s' not found.", seasonEntity, groupTypeEntity));
         }
 
         GameList round = new GameList();
@@ -402,7 +418,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
         Group group = groupDao.findBySeasonAndGroupType(seasonEntity, groupTypeEntity);
         if (group == null) {
-            throw new IllegalArgumentException(String.format("Group '%s, GroupType: %s' not found.", seasonEntity, groupTypeEntity));
+            throw new IllegalArgumentException(
+                    String.format("Group '%s, GroupType: %s' not found.", seasonEntity, groupTypeEntity));
         }
 
         GameList round = roundDao.findRound(season, index)
@@ -421,16 +438,18 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
         if (!season.getTeamType().equals(team.getTeamType())) {
             messages.add(new BetofficeValidationMessage(
-                    String.format("Die Meisterschaft %s unterstützt diesen Mannschaftstyp %s nicht.", season, team.getTeamType()),
+                    String.format("Die Meisterschaft %s unterstützt diesen Mannschaftstyp %s nicht.", season,
+                            team.getTeamType()),
                     null, Severity.ERROR));
         }
 
         if (messages.isEmpty()) {
             Group group = groupDao.findBySeasonAndGroupType(season, groupType);
-            
+
             List<Team> teams = groupDao.findTeams(group);
             if (teams.contains(team)) {
-                throw new BetofficeValidationException(BetofficeValidationMessage.error("team is already member of group", "team"));
+                throw new BetofficeValidationException(
+                        BetofficeValidationMessage.error("team is already member of group", "team"));
             }
             // Group group = season.getGroup(groupType);
             // TODO Lazy load exception
@@ -476,7 +495,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
                     "Der Meisterschaft sind Communities zugeordnet.", null,
                     Severity.ERROR));
         }
-        
+
         if (!findRounds(season).isEmpty()) {
             messages.add(new BetofficeValidationMessage(
                     "Der Meisterschaft sind Spieltage zugeordnet.", null,

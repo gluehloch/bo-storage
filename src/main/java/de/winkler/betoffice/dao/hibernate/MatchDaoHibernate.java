@@ -47,16 +47,30 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
     /**
      * Sucht nach allen bekannten Spielpaarungen mit gesuchter Heimmannschaft.
      */
-    private static final String QUERY_MATCHES_BY_HOMETEAM = "select match from "
-            + Game.class.getName() + " as match "
-            + "where match.homeTeam.id = :homeTeamId";
+    private static final String QUERY_MATCHES_BY_HOME_TEAM = """
+            select
+                match
+            from
+                Game as match
+            where
+                match.homeTeam.id = :homeTeamId
+            order by
+                match.dateTime desc
+            """;
 
     /**
      * Sucht nach allen bekannten Spielpaarungen mit gesuchter Gastmannschaft.
      */
-    private static final String QUERY_MATCHES_BY_GUESTTEAM = "select match from "
-            + Game.class.getName() + " as match "
-            + "where match.guestTeam.id = :guestTeamId";
+    private static final String QUERY_MATCHES_BY_GUEST_TEAM = """
+            select
+                match
+            from
+                Game as match
+            where
+                match.guestTeam.id = :guestTeamId
+            order by
+                match.dateTime desc
+            """;
 
     /**
      * Sucht nach allen bekannten Spielpaarungen mit gesuchter Heim- und Gastmannschaft.
@@ -99,6 +113,19 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
                 match.dateTime desc
             """;
 
+    private static final String QUERY_MATCHES_BY_TEAM = """
+            select
+                match
+            from
+                Game as match
+                left join fetch match.goals
+                left join fetch match.location
+            where
+                match.homeTeam.id = :teamId
+                or match.guestTeam.id = :teamId
+            order by
+                match.dateTime desc
+            """;
     /**
      * Sucht einer Spielpaarung für einen bestimmten Spieltag mit der gegebenen Heim- und Gastmannschaft.
      */
@@ -120,16 +147,18 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
     @Override
     public List<Game> findByHomeTeam(final Team homeTeam) {
         List<Game> games = getEntityManager()
-                .createQuery(QUERY_MATCHES_BY_HOMETEAM, Game.class)
-                .setParameter("homeTeamId", homeTeam.getId()).getResultList();
+                .createQuery(QUERY_MATCHES_BY_HOME_TEAM, Game.class)
+                .setParameter("homeTeamId", homeTeam.getId())
+                .getResultList();
         return games;
     }
 
     @Override
     public List<Game> findByGuestTeam(final Team guestTeam) {
         List<Game> games = getEntityManager()
-                .createQuery(QUERY_MATCHES_BY_GUESTTEAM, Game.class)
-                .setParameter("guestTeamId", guestTeam.getId()).getResultList();
+                .createQuery(QUERY_MATCHES_BY_GUEST_TEAM, Game.class)
+                .setParameter("guestTeamId", guestTeam.getId())
+                .getResultList();
         return games;
     }
 
@@ -138,7 +167,8 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
         List<Game> games = getEntityManager()
                 .createQuery(QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM, Game.class)
                 .setParameter("homeTeamId", homeTeam.getId())
-                .setParameter("guestTeamId", guestTeam.getId()).getResultList();
+                .setParameter("guestTeamId", guestTeam.getId())
+                .getResultList();
 
         return games;
     }
@@ -148,7 +178,18 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
         List<Game> games = getEntityManager()
                 .createQuery(QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM_AND_REVERSE, Game.class)
                 .setParameter("homeTeamId", homeTeam.getId())
-                .setParameter("guestTeamId", guestTeam.getId()).getResultList();
+                .setParameter("guestTeamId", guestTeam.getId())
+                .getResultList();
+
+        return games;
+    }
+
+    @Override
+    public List<Game> find(Team team) {
+        List<Game> games = getEntityManager()
+                .createQuery(QUERY_MATCHES_BY_TEAM, Game.class)
+                .setParameter("teamId", team.getId())
+                .getResultList();
 
         return games;
     }
