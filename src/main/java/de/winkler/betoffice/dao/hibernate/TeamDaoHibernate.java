@@ -88,7 +88,8 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
                     Team as team
                 WHERE
                     (
-                        LOWER(team.name) LIKE '%' || :filter || '%'
+                        :filter IS NULL
+                        OR LOWER(team.name) LIKE '%' || :filter || '%'
                         OR LOWER(team.longName) LIKE '%' || :filter || '%'
                         OR LOWER(team.shortName) LIKE '%' || :filter || '%'
                         OR LOWER(team.xshortName) LIKE '%' || :filter || '%'
