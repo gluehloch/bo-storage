@@ -60,9 +60,10 @@ public interface MatchDao extends CommonDao<Game> {
      * Sucht nach allen Spielpaarungen mit der beteiligten Heimmannschaft.
      *
      * @param  homeTeam Die gesuchte Heimmannschaft.
+     * @param  limit    Maximal Anzahl an Spielpaarungen
      * @return          Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
-    List<Game> findByHomeTeam(Team homeTeam);
+    List<Game> findByHomeTeam(Team homeTeam, int limit);
 
     /**
      * Sucht nach allen Spielpaarungen mit der beteiligten Gastmannschaft.

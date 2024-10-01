@@ -278,10 +278,11 @@ public interface SeasonManagerService {
     /**
      * Sucht nach alle Heimspielen mit der übergebenen Mannschaft.
      * 
-     * @param  team Die Mannschaft
-     * @return      Die gefundenen Spiele
+     * @param  team  Die Mannschaft
+     * @param  limit Maximale Anzahl an Spielpaarungen
+     * @return       Die gefundenen Spiele
      */
-    List<Game> findMatchesWithHomeTeam(Team team);
+    List<Game> findMatchesWithHomeTeam(Team team, int limit);
 
     /**
      * Sucht nach alle Gastspielen mit der übergebenen Mannschaft.

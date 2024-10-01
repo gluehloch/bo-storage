@@ -164,8 +164,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
-    public List<Game> findMatchesWithHomeTeam(Team team) {
-        return matchDao.findByHomeTeam(team);
+    public List<Game> findMatchesWithHomeTeam(Team team, int limit) {
+        return matchDao.findByHomeTeam(team, limit);
     }
 
     @Override

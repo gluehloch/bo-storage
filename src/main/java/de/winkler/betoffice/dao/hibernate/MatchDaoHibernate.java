@@ -56,6 +56,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
                 match.homeTeam.id = :homeTeamId
             order by
                 match.dateTime desc
+            limit :limit
             """;
 
     /**
@@ -145,10 +146,11 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
     }
 
     @Override
-    public List<Game> findByHomeTeam(final Team homeTeam) {
+    public List<Game> findByHomeTeam(final Team homeTeam, final int limit) {
         List<Game> games = getEntityManager()
                 .createQuery(QUERY_MATCHES_BY_HOME_TEAM, Game.class)
                 .setParameter("homeTeamId", homeTeam.getId())
+                .setParameter("limit", limit)
                 .getResultList();
         return games;
     }
