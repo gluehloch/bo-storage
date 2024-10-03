@@ -112,8 +112,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     public List<TeamResult> calculateTeamRanking(Season season,
             GroupType groupType, int startIndex, int endIndex) {
 
-        return seasonDao.calculateTeamRanking(season,
-                groupType, startIndex, endIndex);
+        return seasonDao.calculateTeamRanking(season, groupType, startIndex, endIndex);
     }
 
     @Override
@@ -142,25 +141,25 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional(readOnly = true)
-    public List<Game> findMatches(Team homeTeam, Team guestTeam) {
-        return matchDao.find(homeTeam, guestTeam);
+    public List<Game> findMatches(Team homeTeam, Team guestTeam, int limit) {
+        return matchDao.find(homeTeam, guestTeam, limit);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin) {
+    public List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin, int limit) {
         List<Game> results = new ArrayList<Game>();
         if (spin) {
-            results.addAll(matchDao.findAll(homeTeam, guestTeam));
+            results.addAll(matchDao.findAll(homeTeam, guestTeam, limit));
         } else {
-            results.addAll(matchDao.find(homeTeam, guestTeam));
+            results.addAll(matchDao.find(homeTeam, guestTeam, limit));
         }
         return results;
     }
 
     @Override
-    public List<Game> findMatches(Team team) {
-        return matchDao.find(team);
+    public List<Game> findMatches(Team team, int limit) {
+        return matchDao.find(team, limit);
     }
 
     @Override
@@ -169,8 +168,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
-    public List<Game> findMatchesWithGuestTeam(Team team) {
-        return matchDao.findByGuestTeam(team);
+    public List<Game> findMatchesWithGuestTeam(Team team, int limit) {
+        return matchDao.findByGuestTeam(team, limit);
     }
 
     @Override

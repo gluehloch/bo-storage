@@ -260,7 +260,7 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         goal1.setResult(new GameResult(0, 1));
         sms.addGoal(stuttgartVsHamburg, goal1);
 
-        List<Game> matches = sms.findMatches(stuttgart, hsv);
+        List<Game> matches = sms.findMatches(stuttgart, hsv, 100);
         assertThat(matches).hasSize(1);
         Game actualMatch = matches.get(0);
         assertThat(actualMatch.getResult().getHomeGoals()).isEqualTo(2);

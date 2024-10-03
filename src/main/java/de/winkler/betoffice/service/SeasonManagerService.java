@@ -253,9 +253,10 @@ public interface SeasonManagerService {
      *
      * @param  homeTeam  Die Heimmannschaft.
      * @param  guestTeam Die Gastmannschaft.
+     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return           Die gemeinsamen Spiele.
      */
-    List<Game> findMatches(Team homeTeam, Team guestTeam);
+    List<Game> findMatches(Team homeTeam, Team guestTeam, int limit);
 
     /**
      * Sucht nach Spielen der vorgegebenen Mannschaften.
@@ -263,17 +264,19 @@ public interface SeasonManagerService {
      * @param  homeTeam  Die Heimmannschaft.
      * @param  guestTeam Die Gastmannschaft.
      * @param  spin      Heim- und Gastmannschaft vertauschen?
+     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return           Die gemeinsamen Spiele.
      */
-    List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin);
+    List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin, int limit);
 
     /**
      * Sucht nach Spielen mit der vorgegebenen Mannschaften.
      *
      * @param  team Die Mannschaft.
+     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return      Die gefundenen Spiel.
      */
-    List<Game> findMatches(Team team);
+    List<Game> findMatches(Team team, int limit);
 
     /**
      * Sucht nach alle Heimspielen mit der übergebenen Mannschaft.
@@ -288,9 +291,10 @@ public interface SeasonManagerService {
      * Sucht nach alle Gastspielen mit der übergebenen Mannschaft.
      * 
      * @param  team Die Mannschaft
+     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return      Die gefundenen Spiele
      */
-    List<Game> findMatchesWithGuestTeam(Team team);
+    List<Game> findMatchesWithGuestTeam(Team team, int limit);
 
     /**
      * Sucht nach einem Spiel.

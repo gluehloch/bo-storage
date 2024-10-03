@@ -60,7 +60,7 @@ public interface MatchDao extends CommonDao<Game> {
      * Sucht nach allen Spielpaarungen mit der beteiligten Heimmannschaft.
      *
      * @param  homeTeam Die gesuchte Heimmannschaft.
-     * @param  limit    Maximal Anzahl an Spielpaarungen
+     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return          Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
     List<Game> findByHomeTeam(Team homeTeam, int limit);
@@ -69,34 +69,38 @@ public interface MatchDao extends CommonDao<Game> {
      * Sucht nach allen Spielpaarungen mit der beteiligten Gastmannschaft.
      *
      * @param  guestTeam Die gesuchte Gastmannschaft.
+     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return           Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
-    List<Game> findByGuestTeam(Team guestTeam);
+    List<Game> findByGuestTeam(Team guestTeam, int limit);
 
     /**
      * Sucht nach allen Spielpaarungen mit der beteiligten Heim- und Gastmannschaft.
      *
      * @param  homeTeam  Die gesuchte Heimmannschaft.
      * @param  guestTeam Die gesuchte Gastmannschaft.
+     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return           Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
-    List<Game> find(Team homeTeam, Team guestTeam);
+    List<Game> find(Team homeTeam, Team guestTeam, int limit);
 
     /**
      * Sucht nach allen Spielpaarungen mit den beteiligten Mannschaften.
      *
      * @param  team1 Die erste gesuchte Mannschaft (Heim wie auswärts).
      * @param  team2 Die zweite gesuchte Mannschaft (Heim wie auswärts).
+     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return       Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
-    List<Game> findAll(Team team1, Team team2);
+    List<Game> findAll(Team team1, Team team2, int limit);
 
     /**
      * Sucht nach alle Spielpaarungen mit der beteiligten Mannschaften.
      * 
      * @param  team Die gesuchte Mannschaft
+     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return      Eine Liste von {@link de.winkler.betoffice.storage.Game} Objekten.
      */
-    List<Game> find(Team team);
+    List<Game> find(Team team, int limit);
 
 }

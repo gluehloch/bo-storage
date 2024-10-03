@@ -56,7 +56,6 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
                 match.homeTeam.id = :homeTeamId
             order by
                 match.dateTime desc
-            limit :limit
             """;
 
     /**
@@ -150,57 +149,57 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
         List<Game> games = getEntityManager()
                 .createQuery(QUERY_MATCHES_BY_HOME_TEAM, Game.class)
                 .setParameter("homeTeamId", homeTeam.getId())
-                .setParameter("limit", limit)
+                .setMaxResults(limit)
                 .getResultList();
         return games;
     }
 
     @Override
-    public List<Game> findByGuestTeam(final Team guestTeam) {
+    public List<Game> findByGuestTeam(final Team guestTeam, int limit) {
         List<Game> games = getEntityManager()
                 .createQuery(QUERY_MATCHES_BY_GUEST_TEAM, Game.class)
                 .setParameter("guestTeamId", guestTeam.getId())
+                .setMaxResults(limit)
                 .getResultList();
         return games;
     }
 
     @Override
-    public List<Game> find(final Team homeTeam, final Team guestTeam) {
+    public List<Game> find(final Team homeTeam, final Team guestTeam, int limit) {
         List<Game> games = getEntityManager()
                 .createQuery(QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM, Game.class)
                 .setParameter("homeTeamId", homeTeam.getId())
                 .setParameter("guestTeamId", guestTeam.getId())
+                .setMaxResults(limit)
                 .getResultList();
-
         return games;
     }
 
     @Override
-    public List<Game> findAll(final Team homeTeam, final Team guestTeam) {
+    public List<Game> findAll(final Team homeTeam, final Team guestTeam, int limit) {
         List<Game> games = getEntityManager()
                 .createQuery(QUERY_MATCHES_BY_HOME_AND_GUEST_TEAM_AND_REVERSE, Game.class)
                 .setParameter("homeTeamId", homeTeam.getId())
                 .setParameter("guestTeamId", guestTeam.getId())
+                .setMaxResults(limit)
                 .getResultList();
-
         return games;
     }
 
     @Override
-    public List<Game> find(Team team) {
+    public List<Game> find(Team team, int limit) {
         List<Game> games = getEntityManager()
                 .createQuery(QUERY_MATCHES_BY_TEAM, Game.class)
                 .setParameter("teamId", team.getId())
+                .setMaxResults(limit)
                 .getResultList();
-
         return games;
     }
 
     @Override
     public Optional<Game> find(final GameList round, final Team homeTeam, final Team guestTeam) {
         TypedQuery<Game> query = getEntityManager()
-                .createQuery(QUERY_MATCH_BY_HOME_AND_GUEST_TEAM_AND_ROUND,
-                        Game.class)
+                .createQuery(QUERY_MATCH_BY_HOME_AND_GUEST_TEAM_AND_ROUND, Game.class)
                 .setParameter("homeTeamId", homeTeam.getId())
                 .setParameter("guestTeamId", guestTeam.getId())
                 .setParameter("gameListId", round.getId());
