@@ -79,6 +79,12 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
                 .getResultList();
     }
 
+    /* TODO Removed the round about search...
+                        OR LOWER(team.longName) LIKE '%' || :filter || '%'
+                        OR LOWER(team.shortName) LIKE '%' || :filter || '%'
+                        OR LOWER(team.xshortName) LIKE '%' || :filter || '%'
+                        OR LOWER(team.logo) LIKE '%' || :filter || '%' 
+     */
     @Override
     public List<Team> findTeams(Optional<TeamType> teamType, String filter) {
         final String query = """
@@ -90,10 +96,6 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
                     (
                         :filter IS NULL
                         OR LOWER(team.name) LIKE '%' || :filter || '%'
-                        OR LOWER(team.longName) LIKE '%' || :filter || '%'
-                        OR LOWER(team.shortName) LIKE '%' || :filter || '%'
-                        OR LOWER(team.xshortName) LIKE '%' || :filter || '%'
-                        OR LOWER(team.logo) LIKE '%' || :filter || '%'
                     )
                     AND
                     (
