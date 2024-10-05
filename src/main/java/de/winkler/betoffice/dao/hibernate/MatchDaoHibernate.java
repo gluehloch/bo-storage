@@ -85,6 +85,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
             where
                 match.homeTeam.id = :homeTeamId
                 and match.guestTeam.id = :guestTeamId
+                and match.played = true
             order by
                 match.dateTime desc
             """;
@@ -109,6 +110,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
                     match.homeTeam.id = :guestTeamId
                     and match.guestTeam.id = :homeTeamId
                 )
+                and match.played = true
             order by
                 match.dateTime desc
             """;
@@ -121,8 +123,11 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
                 left join fetch match.goals
                 left join fetch match.location
             where
-                match.homeTeam.id = :teamId
-                or match.guestTeam.id = :teamId
+                (
+                    match.homeTeam.id = :teamId
+                    or match.guestTeam.id = :teamId
+                )
+                and match.played = true
             order by
                 match.dateTime desc
             """;
