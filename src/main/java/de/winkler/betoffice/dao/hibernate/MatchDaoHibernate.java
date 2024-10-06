@@ -54,6 +54,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
                 Game as match
             where
                 match.homeTeam.id = :homeTeamId
+                and match.played = true
             order by
                 match.dateTime desc
             """;
@@ -68,6 +69,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
                 Game as match
             where
                 match.guestTeam.id = :guestTeamId
+                and match.played = true
             order by
                 match.dateTime desc
             """;
