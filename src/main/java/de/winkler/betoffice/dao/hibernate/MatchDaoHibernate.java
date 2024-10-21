@@ -104,13 +104,15 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
                 left join fetch match.location
             where
                 (
-                    match.homeTeam.id = :homeTeamId
-                    and match.guestTeam.id = :guestTeamId
-                )
-                or
-                (
-                    match.homeTeam.id = :guestTeamId
-                    and match.guestTeam.id = :homeTeamId
+                    (
+                        match.homeTeam.id = :homeTeamId
+                        and match.guestTeam.id = :guestTeamId
+                    )
+                    or
+                    (
+                        match.homeTeam.id = :guestTeamId
+                        and match.guestTeam.id = :homeTeamId
+                    )
                 )
                 and match.played = true
             order by
