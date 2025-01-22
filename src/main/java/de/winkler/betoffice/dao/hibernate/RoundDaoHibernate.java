@@ -183,7 +183,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             """;
 
     /** Findet den naechsten zu tippenden Spieltag. Version 2.0 */
-    private static final String QUERY_NEXT_GAME_BY_DATE = """
+    private static final String QUERY_NEXT_GAME_BY_SEASON_AND_DATE = """
             select
                 gl.bo_datetime round_datetime,
                 gl.id          last_round_id,
@@ -194,6 +194,27 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             where
                 gl.bo_season_ref = :season_id
                 and g.bo_datetime =
+                (
+                    select
+                        min(g2.bo_datetime)
+                    from
+                        bo_game g2
+                    where
+                        g2.bo_datetime > :date
+                )
+            """;
+
+    /** Findet den naechsten zu tippenden Spieltag. Version 2.0 */
+    private static final String QUERY_NEXT_GAME_BY_SEASON = """
+            select
+                gl.bo_datetime round_datetime,
+                gl.id          last_round_id,
+                g.bo_datetime  game_datetime
+            from
+                bo_gamelist gl
+                join bo_game g on (g.bo_gamelist_ref = gl.id)
+            where
+                g.bo_datetime =
                 (
                     select
                         min(g2.bo_datetime)
@@ -245,14 +266,12 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     /**
      * Search for the next game day id.
      */
-    private static final String QUERY_NEXT_ROUND = AbstractCommonDao
-            .loadQuery("query_next_round.sql");
+    private static final String QUERY_NEXT_ROUND = AbstractCommonDao.loadQuery("query_next_round.sql");
 
     /**
      * Search for the last game day id.
      */
-    private static final String QUERY_PREV_ROUND = AbstractCommonDao
-            .loadQuery("query_prev_round.sql");
+    private static final String QUERY_PREV_ROUND = AbstractCommonDao.loadQuery("query_prev_round.sql");
 
     public RoundDaoHibernate() {
         super(GameList.class);
@@ -304,11 +323,23 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     }
 
     @Override
+    public Optional<Long> findNextTippRound(ZonedDateTime date) {
+        NativeQuery<Object> query = getEntityManager().unwrap(Session.class)
+                .createNativeQuery(QUERY_NEXT_ROUND_BY_DATE, Object.class);
+        query.setParameter("date", date, ZonedDateTime.class);
+        return findNextTippRound(query);
+    }
+
+    @Override
     public Optional<Long> findNextTippRound(long seasonId, ZonedDateTime date) {
-        NativeQuery<Object> query = getEntityManager().unwrap(Session.class).createNativeQuery(QUERY_NEXT_GAME_BY_DATE, Object.class);
+        NativeQuery<Object> query = getEntityManager().unwrap(Session.class)
+                .createNativeQuery(QUERY_NEXT_GAME_BY_SEASON_AND_DATE, Object.class);
         query.setParameter("season_id", seasonId);
         query.setParameter("date", date, ZonedDateTime.class);
+        return findNextTippRound(query);
+    }
 
+    private Optional<Long> findNextTippRound(Query query) {
         try {
             List<Object> resultList = query.getResultList();
             if (resultList.size() == 0) {
@@ -339,7 +370,8 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
 
     @Override
     public List<Game> findGames(ZonedDateTime date) {
-        org.hibernate.query.Query<Game> query = getEntityManager().unwrap(Session.class).createQuery(QUERY_GAME_BY_DATE, Game.class);
+        org.hibernate.query.Query<Game> query = getEntityManager().unwrap(Session.class).createQuery(QUERY_GAME_BY_DATE,
+                Game.class);
         query.setParameter("date", date, ZonedDateTime.class);
         return query.getResultList();
     }
@@ -364,11 +396,6 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
         return result;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see de.winkler.betoffice.dao.RoundDao#findNext(long)
-     */
     @Override
     public Optional<Long> findNext(long id) {
         NativeQuery query = getEntityManager().unwrap(Session.class).createNativeQuery(QUERY_NEXT_ROUND);

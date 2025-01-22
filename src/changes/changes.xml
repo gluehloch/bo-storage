@@ -6,7 +6,10 @@
     </properties>
     <body>
         <!-- Under development -->
-        <release version="betoffice-storage-3.1.1" date="2024-??-??" description="Small interface enhancements">
+        <release version="betoffice-storage-3.1.1" date="2025-??-??" description="Small interface enhancements">
+            <action dev="andrewinkler" type="add" date="2025-01-19">
+                Find the next tipp in relation to a current date.
+            </action> 
             <action dev="andrewinkler" type="update" date="2024-06-02">
                 Small interface enhancements.
             </action>

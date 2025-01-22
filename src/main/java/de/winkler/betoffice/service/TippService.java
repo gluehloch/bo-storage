@@ -139,6 +139,14 @@ public interface TippService {
     /**
      * Ermittelt den naechsten zu tippenden Spieltag.
      *
+     * @param  date Das Bezugsdatum
+     * @return      Der naechste zu tippende Spieltag
+     */
+    Optional<GameList> findNextTippRound(ZonedDateTime date);
+
+    /**
+     * Ermittelt den naechsten zu tippenden Spieltag.
+     *
      * @param  seasonId Die Bezugsmeisterschaft
      * @param  date     Das Bezugsdatum
      * @return          Der naechste zu tippende Spieltag

@@ -118,6 +118,14 @@ public interface RoundDao extends CommonDao<GameList> {
     /**
      * Liefert den nächsten zu tippenden Spieltag.
      *
+     * @param  date Das Bezugsdatum.
+     * @return      Der nächste zu tippende Spieltag.
+     */
+    Optional<Long> findNextTippRound(ZonedDateTime date);
+
+    /**
+     * Liefert den nächsten zu tippenden Spieltag.
+     *
      * @param  seasonId Die betreffende Meisterschaft.
      * @param  date     Das Bezugsdatum.
      * @return          Der nächste zu tippende Spieltag.

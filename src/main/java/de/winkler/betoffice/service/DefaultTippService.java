@@ -62,6 +62,7 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
  * @author by Andre Winkler
  */
 @Service("tippService")
+@Transactional(readOnly = true)
 public class DefaultTippService extends AbstractManagerService implements TippService {
 
     /** Logger für die Klasse. */
@@ -258,31 +259,33 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<GameTipp> findTipps(Game match) {
         return gameTippDao.find(match);
     }
 
     @Override
-    @Transactional
     public Optional<GameTipp> findTipp(Game game, User user) {
         return gameTippDao.find(game, user);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<GameTipp> findTipps(long roundId, long userId) {
         return gameTippDao.find(roundId, userId);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<GameTipp> findTipps(long roundId) {
         return gameTippDao.find(roundId);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    public Optional<GameList> findNextTippRound(ZonedDateTime date) {
+        return roundDao
+                .findNextTippRound(date)
+                .flatMap(i -> Optional.of(roundDao.findById(i)));
+    }
+
+    @Override
     public Optional<GameList> findNextTippRound(long seasonId, ZonedDateTime date) {
         return roundDao
                 .findNextTippRound(seasonId, date)
@@ -290,7 +293,6 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<GameList> findPreviousTippRound(long seasonId, ZonedDateTime date) {
         return roundDao
                 .findLastTippRound(seasonId, date)
@@ -307,7 +309,6 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
      * @return       Ein <code>UserResultOfDay</code>
      */
     @Override
-    @Transactional
     public UserResultOfDay getUserPoints(GameList round, User user) {
         UserResultOfDay urod = new UserResultOfDay();
 
