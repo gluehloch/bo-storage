@@ -30,6 +30,7 @@ import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,6 +38,7 @@ import jakarta.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
 
+import de.winkler.betoffice.storage.enums.NotificationType;
 import de.winkler.betoffice.storage.enums.RoleType;
 
 /**
@@ -48,398 +50,410 @@ import de.winkler.betoffice.storage.enums.RoleType;
 @Table(name = "bo_user")
 public class User extends AbstractStorageObject {
 
-	/** serial version id */
-	private static final long serialVersionUID = -1806113679051281041L;
+    /** serial version id */
+    private static final long serialVersionUID = -1806113679051281041L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
 
-	/** Der Nachname des Users. */
-	@Column(name = "bo_name")
-	private String name;
+    /** Der Nachname des Users. */
+    @Column(name = "bo_name")
+    private String name;
 
-	/** Der Vorname des Users. */
-	@Column(name = "bo_surname")
-	private String surname;
+    /** Der Vorname des Users. */
+    @Column(name = "bo_surname")
+    private String surname;
 
-	/** Der Nickname des Users. */
-	@Embedded
-	private Nickname nickname;
+    /** Der Nickname des Users. */
+    @Embedded
+    private Nickname nickname;
 
-	/** Die EMailadresse des Users. */
-	@Column(name = "bo_email")
-	private String email;
+    /** Die EMailadresse des Users. */
+    @Column(name = "bo_email")
+    private String email;
 
-	/** Die Telefonnummer des Users. */
-	@Column(name = "bo_phone")
-	private String phone;
+    /** Die Telefonnummer des Users. */
+    @Column(name = "bo_phone")
+    private String phone;
 
-	/** Das Password des Users. */
-	@Column(name = "bo_password")
-	private String password;
+    /** Das Password des Users. */
+    @Column(name = "bo_password")
+    private String password;
 
-	/** Flag ob User ein Automat ist. */
-	@Column(name = "bo_automat")
-	private boolean automat = false;
+    /** Flag ob User ein Automat ist. */
+    @Column(name = "bo_automat")
+    private boolean automat = false;
 
-	/** Gültigkeitsflag. */
-	@Column(name = "bo_excluded")
-	private boolean exclude = false;
+    /** Gültigkeitsflag. */
+    @Column(name = "bo_excluded")
+    private boolean exclude = false;
 
-	/** Adminstrator Flag. */
-	@Column(name = "bo_admin")
-	private boolean admin = false;
+    /** Adminstrator Flag. */
+    @Column(name = "bo_admin")
+    private boolean admin = false;
 
-	/** Der eventuelle Meistertitel etc. */
-	@Column(name = "bo_title")
-	private String title;
+    /** Der eventuelle Meistertitel etc. */
+    @Column(name = "bo_title")
+    private String title;
 
-	// -- Construction --------------------------------------------------------
+    @Enumerated
+    @Column(name = "bo_notification")
+    private NotificationType notification = NotificationType.NONE;
 
-	/**
-	 * Defaultkonstruktor.
-	 */
-	public User() {
-	}
+    // -- Construction --------------------------------------------------------
 
-	/**
-	 * Konstruktor. Erstellt ein minimales User Objekt.
-	 *
-	 * @param _nickname
-	 */
-	public User(Nickname _nickname) {
-		nickname = _nickname;
-	}
+    /**
+     * Defaultkonstruktor.
+     */
+    public User() {
+    }
 
-	/**
-	 * Konstruktor.
-	 *
-	 * @param nickname    Der Nickname.
-	 * @param aName       Der Username (Nachname).
-	 * @param aSurname    Der Vorname des Users.
-	 * @param aMail       Die Mailadresse.
-	 * @param aPhone      Die Telefonnummer.
-	 * @param aPwd        Das Password.
-	 * @param aTitle      Der Titel.
-	 * @param aIsAuto     Automat?
-	 * @param aIsExcluded Ausgeschlossen?
-	 */
-	public User(Nickname nickname, String aName, String aSurname, String aMail, String aPhone, String aPwd,
-			String aTitle, boolean aIsAuto, boolean aIsExcluded) {
+    /**
+     * Konstruktor. Erstellt ein minimales User Objekt.
+     *
+     * @param _nickname
+     */
+    public User(Nickname _nickname) {
+        nickname = _nickname;
+    }
 
-		setName(aName);
-		setSurname(aSurname);
-		setNickname(nickname);
-		setEmail(aMail);
-		setPhone(aPhone);
-		setPassword(aPwd);
-		setTitle(aTitle);
-		setAutomat(aIsAuto);
-		setExcluded(aIsExcluded);
-	}
+    /**
+     * Konstruktor.
+     *
+     * @param nickname    Der Nickname.
+     * @param aName       Der Username (Nachname).
+     * @param aSurname    Der Vorname des Users.
+     * @param aMail       Die Mailadresse.
+     * @param aPhone      Die Telefonnummer.
+     * @param aPwd        Das Password.
+     * @param aTitle      Der Titel.
+     * @param aIsAuto     Automat?
+     * @param aIsExcluded Ausgeschlossen?
+     */
+    public User(Nickname nickname, String aName, String aSurname, String aMail, String aPhone, String aPwd,
+            String aTitle, boolean aIsAuto, boolean aIsExcluded) {
 
-	// -- id ------------------------------------------------------------------
+        setName(aName);
+        setSurname(aSurname);
+        setNickname(nickname);
+        setEmail(aMail);
+        setPhone(aPhone);
+        setPassword(aPwd);
+        setTitle(aTitle);
+        setAutomat(aIsAuto);
+        setExcluded(aIsExcluded);
+    }
 
-	/**
-	 * Liefert den Primärschlüssel.
-	 *
-	 * @return Der Primärschlüssel.
-	 *
-	 * @hibernate.id generator-class="native"
-	 */
-	public Long getId() {
-		return id;
-	}
+    // -- id ------------------------------------------------------------------
 
-	/**
-	 * Setzt den Primärschlüssel.
-	 *
-	 * @param value Der Primärschlüssel.
-	 */
-	protected void setId(Long value) {
-		id = value;
-	}
+    /**
+     * Liefert den Primärschlüssel.
+     *
+     * @return       Der Primärschlüssel.
+     *
+     * @hibernate.id generator-class="native"
+     */
+    public Long getId() {
+        return id;
+    }
 
-	// -- name ----------------------------------------------------------------
+    /**
+     * Setzt den Primärschlüssel.
+     *
+     * @param value Der Primärschlüssel.
+     */
+    protected void setId(Long value) {
+        id = value;
+    }
 
-	/**
-	 * Liefert den Nachnamen des Users.
-	 *
-	 * @return Der Nachname.
-	 *
-	 * @hibernate.property column="bo_name"
-	 */
-	public String getName() {
-		return name;
-	}
+    // -- name ----------------------------------------------------------------
 
-	/**
-	 * Setzt den Nachnamen des Users.
-	 *
-	 * @param value Der Nachname.
-	 */
-	public void setName(String value) {
-		name = value;
-	}
+    /**
+     * Liefert den Nachnamen des Users.
+     *
+     * @return             Der Nachname.
+     *
+     * @hibernate.property column="bo_name"
+     */
+    public String getName() {
+        return name;
+    }
 
-	// -- surname -------------------------------------------------------------
+    /**
+     * Setzt den Nachnamen des Users.
+     *
+     * @param value Der Nachname.
+     */
+    public void setName(String value) {
+        name = value;
+    }
 
-	/**
-	 * Liefert den Vornamen des Users.
-	 *
-	 * @return Der Vorname.
-	 */
-	public String getSurname() {
-		return surname;
-	}
+    // -- surname -------------------------------------------------------------
 
-	/**
-	 * Setzt den Vornamen des Users.
-	 * 
-	 * @param value Der Vorname.
-	 */
-	public void setSurname(String value) {
-		surname = value;
-	}
+    /**
+     * Liefert den Vornamen des Users.
+     *
+     * @return Der Vorname.
+     */
+    public String getSurname() {
+        return surname;
+    }
 
-	// -- nickName ------------------------------------------------------------
+    /**
+     * Setzt den Vornamen des Users.
+     * 
+     * @param value Der Vorname.
+     */
+    public void setSurname(String value) {
+        surname = value;
+    }
 
-	/**
-	 * Liefert den Nickname des Users.
-	 *
-	 * @return Der Nickname.
-	 */
-	public Nickname getNickname() {
-		return nickname;
-	}
+    // -- nickName ------------------------------------------------------------
 
-	/**
-	 * Setzt den Nickname.
-	 *
-	 * @param value Der Nickname.
-	 */
-	public void setNickname(Nickname value) {
-		nickname = value;
-	}
+    /**
+     * Liefert den Nickname des Users.
+     *
+     * @return Der Nickname.
+     */
+    public Nickname getNickname() {
+        return nickname;
+    }
 
-	// -- email ---------------------------------------------------------------
+    /**
+     * Setzt den Nickname.
+     *
+     * @param value Der Nickname.
+     */
+    public void setNickname(Nickname value) {
+        nickname = value;
+    }
 
-	/**
-	 * Liefert die Mail Adresse.
-	 * 
-	 * @return Die Mail-Adresse.
-	 */
-	public String getEmail() {
-		return email;
-	}
+    // -- email ---------------------------------------------------------------
 
-	/**
-	 * Setzt die EMail Adresse.
-	 *
-	 * @param value Die Mail-Adresse.
-	 */
-	public void setEmail(String value) {
-		email = value;
-	}
+    /**
+     * Liefert die Mail Adresse.
+     * 
+     * @return Die Mail-Adresse.
+     */
+    public String getEmail() {
+        return email;
+    }
 
-	// -- phone ---------------------------------------------------------------
+    /**
+     * Setzt die EMail Adresse.
+     *
+     * @param value Die Mail-Adresse.
+     */
+    public void setEmail(String value) {
+        email = value;
+    }
 
-	/**
-	 * Liefert die Telefonnummer.
-	 *
-	 * @return Die Telefonnummer.
-	 */
-	public String getPhone() {
-		return phone;
-	}
+    // -- phone ---------------------------------------------------------------
 
-	/**
-	 * Setzt die Telefonnummer.
-	 *
-	 * @param value Die Telefonnummer.
-	 */
-	public void setPhone(String value) {
-		phone = value;
-	}
+    /**
+     * Liefert die Telefonnummer.
+     *
+     * @return Die Telefonnummer.
+     */
+    public String getPhone() {
+        return phone;
+    }
 
-	// -- password ------------------------------------------------------------
+    /**
+     * Setzt die Telefonnummer.
+     *
+     * @param value Die Telefonnummer.
+     */
+    public void setPhone(String value) {
+        phone = value;
+    }
 
-	/**
-	 * Liefert das Password.
-	 *
-	 * @return Das Password.
-	 */
-	public String getPassword() {
-		return password;
-	}
+    // -- password ------------------------------------------------------------
 
-	/**
-	 * Setzt das Password.
-	 *
-	 * @param value Das Password.
-	 */
-	public void setPassword(String value) {
-		password = value;
-	}
+    /**
+     * Liefert das Password.
+     *
+     * @return Das Password.
+     */
+    public String getPassword() {
+        return password;
+    }
 
-	// -- automat -------------------------------------------------------------
+    /**
+     * Setzt das Password.
+     *
+     * @param value Das Password.
+     */
+    public void setPassword(String value) {
+        password = value;
+    }
 
-	/**
-	 * Automat oder kein Automat.
-	 *
-	 * @return true, ein Automat; false sonst.
-	 */
-	public boolean isAutomat() {
-		return automat;
-	}
+    // -- automat -------------------------------------------------------------
 
-	/**
-	 * Setzt das Automaten-Flag.
-	 *
-	 * @param value true Automat; false sonst.
-	 */
-	public void setAutomat(boolean value) {
-		automat = value;
-	}
+    /**
+     * Automat oder kein Automat.
+     *
+     * @return true, ein Automat; false sonst.
+     */
+    public boolean isAutomat() {
+        return automat;
+    }
 
-	// -- excluded ------------------------------------------------------------
+    /**
+     * Setzt das Automaten-Flag.
+     *
+     * @param value true Automat; false sonst.
+     */
+    public void setAutomat(boolean value) {
+        automat = value;
+    }
 
-	/**
-	 * User von Teilnahme ausgeschlossen?
-	 *
-	 * @return true ausgeschlossen; false sonst.
-	 */
-	public boolean isExcluded() {
-		return exclude;
-	}
+    // -- excluded ------------------------------------------------------------
 
-	/**
-	 * Setzt das Flag 'Ausschluß'.
-	 *
-	 * @param value true Ausschluß; false sonst.
-	 */
-	public void setExcluded(boolean value) {
-		exclude = value;
-	}
+    /**
+     * User von Teilnahme ausgeschlossen?
+     *
+     * @return true ausgeschlossen; false sonst.
+     */
+    public boolean isExcluded() {
+        return exclude;
+    }
 
-	// -- title ---------------------------------------------------------------
+    /**
+     * Setzt das Flag 'Ausschluß'.
+     *
+     * @param value true Ausschluß; false sonst.
+     */
+    public void setExcluded(boolean value) {
+        exclude = value;
+    }
 
-	/**
-	 * Liefert den Titel des Users.
-	 *
-	 * @return Der Titel.
-	 */
-	public String getTitle() {
-		return title;
-	}
+    // -- title ---------------------------------------------------------------
 
-	/**
-	 * Setzt den Titel des Users.
-	 *
-	 * @param value Der Titel.
-	 */
-	public void setTitle(String value) {
-		title = value;
-	}
+    /**
+     * Liefert den Titel des Users.
+     *
+     * @return Der Titel.
+     */
+    public String getTitle() {
+        return title;
+    }
 
-	// -- admin ---------------------------------------------------------------
+    /**
+     * Setzt den Titel des Users.
+     *
+     * @param value Der Titel.
+     */
+    public void setTitle(String value) {
+        title = value;
+    }
 
-	/**
-	 * Haben wir es hier mit einem Administrator zu tun?
-	 * 
-	 * @return <code>true</code>, wenn dies der Fall ist.
-	 */
-	public boolean isAdmin() {
-		return admin;
-	}
+    public NotificationType getNotification() {
+        return notification;
+    }
 
-	/**
-	 * Setzt das Administrator Flag.
-	 * 
-	 * @param _admin <code>true</code>, wenn dies ein Administrator werden soll.
-	 */
-	public void setAdmin(boolean _admin) {
-		admin = _admin;
-	}
+    public void setNotification(NotificationType notification) {
+        this.notification = notification;
+    }
 
-	// ------------------------------------------------------------------------
+    // -- admin ---------------------------------------------------------------
 
-	/**
-	 * Vergleicht ein Password mit dem Password dieses Users.
-	 *
-	 * @param value Das zu vergleichende Password.
-	 * @return true Passwörter sind gleich; false sonst.
-	 */
-	public boolean comparePwd(String value) {
-		return (StringUtils.equals(value, password));
-	}
+    /**
+     * Haben wir es hier mit einem Administrator zu tun?
+     * 
+     * @return <code>true</code>, wenn dies der Fall ist.
+     */
+    public boolean isAdmin() {
+        return admin;
+    }
 
-	/**
-	 * Liefert Detailinformationen zu diesem Objekt.
-	 *
-	 * @return Ein String.
-	 */
-	public String getDebugInfo() {
-		StringBuilder buf = new StringBuilder();
-		buf.append(name);
-		buf.append(": ");
-		buf.append(surname);
-		buf.append(": ");
-		buf.append(nickname);
-		buf.append(": ");
-		buf.append(email);
-		buf.append(": ");
-		buf.append(phone);
-		buf.append(": ");
-		buf.append(password);
-		return buf.toString();
-	}
+    /**
+     * Setzt das Administrator Flag.
+     * 
+     * @param _admin <code>true</code>, wenn dies ein Administrator werden soll.
+     */
+    public void setAdmin(boolean _admin) {
+        admin = _admin;
+    }
 
-	// -- Role ----------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	public List<RoleType> getRoleTypes() {
-		List<RoleType> roleTypes = new ArrayList<>();
-		if (isAdmin()) {
-			roleTypes.add(RoleType.ADMIN);
-		}
-		if (!isExcluded()) {
-			roleTypes.add(RoleType.TIPPER);
-		}
-		return roleTypes;
-	}
+    /**
+     * Vergleicht ein Password mit dem Password dieses Users.
+     *
+     * @param  value Das zu vergleichende Password.
+     * @return       true Passwörter sind gleich; false sonst.
+     */
+    public boolean comparePwd(String value) {
+        return (StringUtils.equals(value, password));
+    }
 
-	// -- Object --------------------------------------------------------------
+    /**
+     * Liefert Detailinformationen zu diesem Objekt.
+     *
+     * @return Ein String.
+     */
+    public String getDebugInfo() {
+        StringBuilder buf = new StringBuilder();
+        buf.append(name);
+        buf.append(": ");
+        buf.append(surname);
+        buf.append(": ");
+        buf.append(nickname);
+        buf.append(": ");
+        buf.append(email);
+        buf.append(": ");
+        buf.append(phone);
+        buf.append(": ");
+        buf.append(password);
+        return buf.toString();
+    }
 
-	/**
-	 * @see Object#toString()
-	 */
-	public String toString() {
-		return getNickname().toString();
-	}
+    // -- Role ----------------------------------------------------------------
 
-	/**
-	 * @see Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object object) {
-		if (object == null) {
-			return false;
-		} else if (!(object instanceof User)) {
-			return false;
-		} else {
-			User user = (User) object;
-			return (user.getNickname().equals(getNickname()));
-		}
-	}
+    public List<RoleType> getRoleTypes() {
+        List<RoleType> roleTypes = new ArrayList<>();
+        if (isAdmin()) {
+            roleTypes.add(RoleType.ADMIN);
+        }
+        if (!isExcluded()) {
+            roleTypes.add(RoleType.TIPPER);
+        }
+        return roleTypes;
+    }
 
-	/**
-	 * @see Object#hashCode()
-	 */
-	public int hashCode() {
-		int result = 17;
-		result = 37 * result + getNickname().hashCode();
-		return result;
-	}
+    // -- Object --------------------------------------------------------------
+
+    /**
+     * @see Object#toString()
+     */
+    public String toString() {
+        return getNickname().toString();
+    }
+
+    /**
+     * @see Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        } else if (!(object instanceof User)) {
+            return false;
+        } else {
+            User user = (User) object;
+            return (user.getNickname().equals(getNickname()));
+        }
+    }
+
+    /**
+     * @see Object#hashCode()
+     */
+    public int hashCode() {
+        int result = 17;
+        result = 37 * result + getNickname().hashCode();
+        return result;
+    }
 
 }

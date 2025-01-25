@@ -212,6 +212,7 @@ create table bo_user (
     bo_excluded bit,
     bo_title VARCHAR(255),
     bo_admin INTEGER DEFAULT 0,
+    bo_notification INT(2) NOT NULL DEFAULT 0,
     primary key (id)
 ) ENGINE=InnoDB;
 

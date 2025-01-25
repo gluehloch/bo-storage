@@ -8,7 +8,7 @@
         <!-- Under development -->
         <release version="betoffice-storage-3.1.1" date="2025-??-??" description="Small interface enhancements">
             <action dev="andrewinkler" type="add" date="2025-01-25">
-                Added mail properties.
+                Added mail properties. Database table bo_user gets a new column 'bo_notification'.
             </action>
             <action dev="andrewinkler" type="add" date="2025-01-19">
                 Find the next tipp in relation to a current date.
