@@ -27,11 +27,6 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.NonUniqueResultException;
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
-
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
@@ -41,6 +36,10 @@ import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Group;
 import de.winkler.betoffice.storage.Season;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 
 /**
  * Eine Hibernate-DAO Implementierung zur Verwaltung eines Spieltags.
@@ -175,8 +174,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
                             bo_gamelist r,
                             bo_game m
                         where
-                            r.bo_season_ref = :season_id
-                            and r.id = m.bo_gamelist_ref
+                            r.id = m.bo_gamelist_ref
                             and m.bo_datetime >= :date
                     ) as t
                 )

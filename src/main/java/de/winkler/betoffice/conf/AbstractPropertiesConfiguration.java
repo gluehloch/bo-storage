@@ -43,22 +43,22 @@ public abstract class AbstractPropertiesConfiguration {
 
     // -- mail settings
 
-    @Value("${betoffice.mail.username")
+    @Value("${betoffice.mail.username}")
     private String mailUsername;
 
-    @Value("${betoffice.mail.password")
+    @Value("${betoffice.mail.password}")
     private String mailPassword;
 
-    @Value("${betoffice.mail.host")
+    @Value("${betoffice.mail.host}")
     private String mailHost;
 
-    @Value("${betoffice.mail.port")
+    @Value("${betoffice.mail.port}")
     private String mailPort;
 
-    @Value("${betoffice.mail.smtpauth")
+    @Value("${betoffice.mail.smtpauth}")
     private String mailSmtpAuth;
 
-    @Value("${betoffice.mail.starttlsenable")
+    @Value("${betoffice.mail.starttlsenable}")
     private String mailStartTlsEnable;
 
     public String getDriverClassName() {
