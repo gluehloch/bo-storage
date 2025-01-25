@@ -49,7 +49,7 @@
         <dependency>
             <groupId>de.betoffice</groupId>
             <artifactId>betoffice-testutils</artifactId>
-            <version>1.4.0</version>
+            <version>1.4.1-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

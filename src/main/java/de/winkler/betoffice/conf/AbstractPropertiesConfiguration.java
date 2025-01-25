@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2025 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -27,17 +27,39 @@ import org.springframework.beans.factory.annotation.Value;
 
 public abstract class AbstractPropertiesConfiguration {
 
+    // -- database settings
+
     @Value("${betoffice.persistence.classname}")
     private String driverClassName;
 
     @Value("${betoffice.persistence.url}")
     private String url;
-    
+
     @Value("${betoffice.persistence.username}")
     private String username;
-    
+
     @Value("${betoffice.persistence.password}")
     private String password;
+
+    // -- mail settings
+
+    @Value("${betoffice.mail.username")
+    private String mailUsername;
+
+    @Value("${betoffice.mail.password")
+    private String mailPassword;
+
+    @Value("${betoffice.mail.host")
+    private String mailHost;
+
+    @Value("${betoffice.mail.port")
+    private String mailPort;
+
+    @Value("${betoffice.mail.smtpauth")
+    private String mailSmtpAuth;
+
+    @Value("${betoffice.mail.starttlsenable")
+    private String mailStartTlsEnable;
 
     public String getDriverClassName() {
         return driverClassName;
@@ -69,6 +91,30 @@ public abstract class AbstractPropertiesConfiguration {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getMailUsername() {
+        return mailUsername;
+    }
+
+    public String getMailPassword() {
+        return mailPassword;
+    }
+
+    public String getMailHost() {
+        return mailHost;
+    }
+
+    public String getMailPort() {
+        return mailPort;
+    }
+
+    public String getMailSmtpAuth() {
+        return mailSmtpAuth;
+    }
+
+    public String getMailStartTlsEnable() {
+        return mailStartTlsEnable;
     }
 
     BetofficeProperties getProperties() {
