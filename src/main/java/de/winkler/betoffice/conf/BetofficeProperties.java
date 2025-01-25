@@ -30,15 +30,34 @@ public class BetofficeProperties {
     private final String username;
     private final String password;
 
+    private final String mailUsername;
+    private final String mailPassword;
+    private final String mailHost;
+    private final String mailPort;
+    private final boolean mailSmtpAuth;
+    private final boolean mailStartTlsEnable;
+
     public BetofficeProperties(
             String driverClassName,
             String url,
             String username,
-            String password) {
+            String password,
+            String mailUsername,
+            String mailPassword,
+            String mailHost,
+            String mailPort,
+            boolean mailSmtpAuth,
+            boolean mailStartTlsEnable) {
         this.driverClassName = driverClassName;
         this.url = url;
         this.username = username;
         this.password = password;
+        this.mailUsername = mailUsername;
+        this.mailPassword = mailPassword;
+        this.mailHost = mailHost;
+        this.mailPort = mailPort;
+        this.mailSmtpAuth = mailSmtpAuth;
+        this.mailStartTlsEnable = mailStartTlsEnable;
     }
 
     public String getDriverClassName() {
@@ -55,6 +74,30 @@ public class BetofficeProperties {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getMailUsername() {
+        return mailUsername;
+    }
+
+    public String getMailPassword() {
+        return mailPassword;
+    }
+
+    public String getMailHost() {
+        return mailHost;
+    }
+
+    public String getMailPort() {
+        return mailPort;
+    }
+
+    public boolean getMailSmtpAuth() {
+        return mailSmtpAuth;
+    }
+
+    public boolean getMailStartTlsEnable() {
+        return mailStartTlsEnable;
     }
 
 }

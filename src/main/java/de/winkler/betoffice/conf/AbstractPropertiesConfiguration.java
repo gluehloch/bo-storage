@@ -118,7 +118,17 @@ public abstract class AbstractPropertiesConfiguration {
     }
 
     BetofficeProperties getProperties() {
-        return new BetofficeProperties(driverClassName, url, username, password);
+        return new BetofficeProperties(
+                driverClassName,
+                url,
+                username,
+                password,
+                mailUsername,
+                mailPassword,
+                mailHost,
+                mailPort,
+                Boolean.valueOf(mailSmtpAuth),
+                Boolean.valueOf(mailStartTlsEnable));
     }
 
 }
