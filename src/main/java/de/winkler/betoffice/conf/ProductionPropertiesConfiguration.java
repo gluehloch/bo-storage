@@ -27,7 +27,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-//@Profile(value = "production")
+//@Profile(value = "production") // Currently the default profile 
+//
+// Die Eigenschaften aus den Property Dateien entscheiden über die Umgebung. Profile
+// werden in dem Sinne hier nicht verwendet. Es wird immer das Production-Profile geladen.
+// Für die JUnit Tests wird die Konfiguration 'TestPropertiesConfiguration' verwendet.
+//
 @Configuration
 @PropertySource(ignoreResourceNotFound = true, value = {
         "file:${user.home}/.betoffice.properties",
