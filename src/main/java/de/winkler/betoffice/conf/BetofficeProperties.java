@@ -30,6 +30,7 @@ public class BetofficeProperties {
     private final String username;
     private final String password;
 
+    private final boolean mailEnabled;
     private final String mailUsername;
     private final String mailPassword;
     private final String mailHost;
@@ -42,6 +43,7 @@ public class BetofficeProperties {
             String url,
             String username,
             String password,
+            boolean mailEnabled,
             String mailUsername,
             String mailPassword,
             String mailHost,
@@ -52,6 +54,7 @@ public class BetofficeProperties {
         this.url = url;
         this.username = username;
         this.password = password;
+        this.mailEnabled = mailEnabled;
         this.mailUsername = mailUsername;
         this.mailPassword = mailPassword;
         this.mailHost = mailHost;
@@ -74,6 +77,10 @@ public class BetofficeProperties {
 
     public String getPassword() {
         return password;
+    }
+
+    public boolean isMailEnabled() {
+        return mailEnabled;
     }
 
     public String getMailUsername() {

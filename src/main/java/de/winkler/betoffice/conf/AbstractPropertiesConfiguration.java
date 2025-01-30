@@ -43,6 +43,9 @@ public abstract class AbstractPropertiesConfiguration {
 
     // -- mail settings
 
+    @Value("${betoffice.mail.enabled}")
+    private boolean mailEnabled;
+
     @Value("${betoffice.mail.username}")
     private String mailUsername;
 
@@ -93,6 +96,10 @@ public abstract class AbstractPropertiesConfiguration {
         this.password = password;
     }
 
+    public boolean isMailEnabled() {
+        return mailEnabled;
+    }
+
     public String getMailUsername() {
         return mailUsername;
     }
@@ -123,6 +130,7 @@ public abstract class AbstractPropertiesConfiguration {
                 url,
                 username,
                 password,
+                mailEnabled,
                 mailUsername,
                 mailPassword,
                 mailHost,
