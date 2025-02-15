@@ -46,6 +46,7 @@ import de.winkler.betoffice.util.LoggerFactory;
  * @author by Andre Winkler
  */
 @Service("authService")
+@Transactional(readOnly = true)
 public class DefaultAuthService implements AuthService {
 
     private final Logger log = LoggerFactory.make();
@@ -62,11 +63,11 @@ public class DefaultAuthService implements AuthService {
     /**
      * TODO Community Edition: Admin/Tipp ROllen werden nicht einer Tipprunde zugeordnet.
      *
-     * @param name      user name
-     * @param password  user password
-     * @param sessionId SessionId
-     * @param address   ip address
-     * @param browserId browser id
+     * @param  name      user name
+     * @param  password  user password
+     * @param  sessionId SessionId
+     * @param  address   ip address
+     * @param  browserId browser id
      * @return
      */
     @Transactional
@@ -84,7 +85,7 @@ public class DefaultAuthService implements AuthService {
             if (!presentUser.isExcluded()) {
                 roleTypes.add(RoleType.TIPPER);
             }
-            
+
             var now = dateTimeProvider.currentDateTime();
             securityToken = new SecurityToken(sessionId, presentUser, roleTypes, now);
 
@@ -105,11 +106,11 @@ public class DefaultAuthService implements AuthService {
     }
 
     @Transactional
-	@Override
-	public Optional<SecurityToken> findTokenByNickname(Nickname nickname) {
-    	return findTokenByNickname(nickname);
-	}    
-    
+    @Override
+    public Optional<SecurityToken> findTokenByNickname(Nickname nickname) {
+        return findTokenByNickname(nickname);
+    }
+
     @Transactional
     @Override
     public void logout(SecurityToken securityToken) {
@@ -144,9 +145,9 @@ public class DefaultAuthService implements AuthService {
         }
     }
 
-	@Override
-	public Optional<User> findByNickname(Nickname nickname) {
-		return userDao.findByNickname(nickname);
-	}
+    @Override
+    public Optional<User> findByNickname(Nickname nickname) {
+        return userDao.findByNickname(nickname);
+    }
 
 }
