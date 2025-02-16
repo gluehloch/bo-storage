@@ -180,7 +180,8 @@ public interface CommunityService {
     User createUser(User user);
 
     /**
-     * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn dieser keiner Meisterschaft zugeordnet ist.
+     * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn dieser keiner Meisterschaft zugeordnet
+     * ist.
      * 
      * @param nickname Ein Teilnehmer.
      */
@@ -200,5 +201,13 @@ public interface CommunityService {
      * @return        Ein Teilnehmer
      */
     User findUser(long userId);
+
+    /**
+     * Sucht nach einem Teilnehmer anhand seine Change-Tokens.
+     * 
+     * @param  changeToken Das Token mit der Nutzer seine Mail-Änderung quittieren kann.
+     * @return
+     */
+    Optional<User> findUserByChangeToken(String changeToken);
 
 }

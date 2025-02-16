@@ -88,9 +88,9 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
                             "from User u where LOWER(u.nickname) like LOWER(:filter)",
                             User.class)
                     .setParameter("filter", filter)
-                    .getResultList();            
+                    .getResultList();
         }
-        
+
         return new PageImpl<>(users, pageable, total);
     }
 
@@ -99,6 +99,14 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
         TypedQuery<User> user = getEntityManager()
                 .createQuery(QUERY_USER_BY_NICKNAME, User.class)
                 .setParameter("nickname", nickname);
+        return singleResult(user);
+    }
+
+    @Override
+    public Optional<User> findByChangeToken(String changeToken) {
+        TypedQuery<User> user = getEntityManager()
+                .createQuery("SELECT u FROM User u WHERE u.changeToken = :changeToken", User.class)
+                .setParameter("changeToken", changeToken);
         return singleResult(user);
     }
 

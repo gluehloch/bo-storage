@@ -71,7 +71,7 @@ class UserDaoHibernateTest extends AbstractDaoTestSupport {
         user = userDaoHibernate.findByNickname(Nickname.of("fehler"));
         assertThat(user).isNotPresent();
     }
-    
+
     @Test
     void userFindAll() {
         Page<User> users = userDaoHibernate.findAll("Frosch", PageRequest.of(0, 5));
@@ -79,6 +79,15 @@ class UserDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(users.getPageable().getOffset()).isZero();
         assertThat(users.getPageable().getPageSize()).isEqualTo(5);
         assertThat(users.getContent().get(0).getNickname()).isEqualTo(Nickname.of("Frosch"));
+    }
+
+    @Test
+    void userFindByChangeToken() {
+        User user = userDaoHibernate.findByNickname(Nickname.of("Frosch")).orElseThrow();
+        user.setChangeToken("testToken");
+        userDaoHibernate.persist(user);
+        Optional<User> u2 = userDaoHibernate.findByChangeToken("testToken");
+        assertThat(u2).isPresent().contains(user);
     }
 
 }

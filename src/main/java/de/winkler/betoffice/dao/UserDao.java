@@ -64,4 +64,12 @@ public interface UserDao extends CommonDao<User> {
      */
     Optional<User> findByNickname(Nickname nickname);
 
+    /**
+     * Liefert einen Teilnehmer mit dem gesuchten ChangeToken.
+     * 
+     * @param  changeToken Das Change-Token
+     * @return             Ein Teilnehmer
+     */
+    Optional<User> findByChangeToken(String changeToken);
+
 }

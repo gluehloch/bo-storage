@@ -213,6 +213,8 @@ create table bo_user (
     bo_title VARCHAR(255),
     bo_admin INTEGER DEFAULT 0,
     bo_notification INT(2) NOT NULL DEFAULT 0,
+    bo_change_token VARCHAR(2048) comment 'Change Token',
+    bo_change_email VARCHAR(255) comment 'Holds the new email addresse',
     primary key (id)
 ) ENGINE=InnoDB;
 

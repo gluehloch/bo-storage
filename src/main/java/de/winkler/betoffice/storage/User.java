@@ -102,6 +102,12 @@ public class User extends AbstractStorageObject {
     @Column(name = "bo_notification")
     private NotificationType notification = NotificationType.NONE;
 
+    @Column(name = "bo_change_token")
+    private String changeToken;
+
+    @Column(name = "bo_change_email")
+    private String changeEmail;
+
     // -- Construction --------------------------------------------------------
 
     /**
@@ -380,6 +386,26 @@ public class User extends AbstractStorageObject {
 
     // ------------------------------------------------------------------------
 
+    public String getChangeToken() {
+        return changeToken;
+    }
+
+    public void setChangeToken(String changeToken) {
+        this.changeToken = changeToken;
+    }
+
+    // ------------------------------------------------------------------------
+
+    public String getChangeEmail() {
+        return changeEmail;
+    }
+
+    public void setChangeEmail(String changeEmail) {
+        this.changeEmail = changeEmail;
+    }
+
+    // ------------------------------------------------------------------------
+
     /**
      * Vergleicht ein Password mit dem Password dieses Users.
      *
@@ -406,8 +432,6 @@ public class User extends AbstractStorageObject {
         buf.append(email);
         buf.append(": ");
         buf.append(phone);
-        buf.append(": ");
-        buf.append(password);
         return buf.toString();
     }
 
