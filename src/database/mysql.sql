@@ -158,6 +158,7 @@ create table bo_group (
 create table bo_grouptype (
     id bigint not NULL auto_increment,
     bo_name VARCHAR(255) not NULL unique,
+    bo_type INT(2) NOT NULL DEFAULT 0,
     primary key (id)
 ) ENGINE=InnoDB;
 
