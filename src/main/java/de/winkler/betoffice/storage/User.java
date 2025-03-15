@@ -409,6 +409,16 @@ public class User extends AbstractStorageObject {
 
     // ------------------------------------------------------------------------
 
+    public int getChangeSend() {
+        return changeSend;
+    }
+
+    public void setChangeSend(int changeSend) {
+        this.changeSend = changeSend;
+    }
+
+    // ------------------------------------------------------------------------
+
     /**
      * Vergleicht ein Password mit dem Password dieses Users.
      *
