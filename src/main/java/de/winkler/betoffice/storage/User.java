@@ -108,6 +108,9 @@ public class User extends AbstractStorageObject {
     @Column(name = "bo_change_email")
     private String changeEmail;
 
+    @Column(name = "bo_change_send")
+    private int changeSend;
+
     // -- Construction --------------------------------------------------------
 
     /**
