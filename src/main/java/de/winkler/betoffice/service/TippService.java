@@ -121,9 +121,7 @@ public interface TippService {
      * Liefert alle Spieltipps zu einem Spieltag von einem Teilnehmer.
      *
      * @param  roundId Der Spieltag der für die Suche herangezogen werden soll.
-     * 
      * @param  userId  Die Spieltipps von diesem User suchen.
-     * 
      * @return         Die Spieltipps.
      */
     List<GameTipp> findTipps(long roundId, long userId);
