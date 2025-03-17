@@ -243,20 +243,23 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public Optional<User> updateUser(final Nickname nickname, final String name, final String surname,
-            final String mail, final String alternativeMail, final String phone) {
+    public Optional<User> updateUser(
+            final Nickname nickname,
+            final String name,
+            final String surname,
+            final String mail,
+            final String phone) {
 
         return userDao.findByNickname(nickname).map(u -> {
             u.setName(name);
             u.setSurname(surname);
             u.setPhone(phone);
-
             if (!StringUtils.equals(u.getEmail(), mail)) {
-                u.setChangeEmail(alternativeMail);
+                u.setChangeEmail(mail);
                 u.setChangeToken(UUID.randomUUID().toString());
+                // TOOD: Do not send an email notification more than 5 times.
                 sendUserProfileChangeMailNotification.send(u);
             }
-
             return u;
         });
     }

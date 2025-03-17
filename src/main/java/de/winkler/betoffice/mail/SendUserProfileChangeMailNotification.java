@@ -23,16 +23,14 @@
 
 package de.winkler.betoffice.mail;
 
-import jakarta.transaction.Transactional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import de.winkler.betoffice.storage.User;
 
-@Service
+@Component
 public class SendUserProfileChangeMailNotification {
 
     private static final Logger LOG = LoggerFactory.getLogger(SendUserProfileChangeMailNotification.class);
@@ -52,7 +50,6 @@ public class SendUserProfileChangeMailNotification {
      * 
      * @param user The user
      */
-    @Transactional
     public void send(User user) {
         final StringBuilder sb = new StringBuilder();
         sb.append("Hallo ")
@@ -64,7 +61,11 @@ public class SendUserProfileChangeMailNotification {
         // https://tippdiekistebier.de/betoffice-war/office/profile/confirm-update
 
         try {
-            mailTask.send("betoffice@andre-winkler.de", user.getChangeEmail(), "Mail Adresse wurde geändert",
+            user.incrementChangeSend();
+            mailTask.send(
+                    "betoffice@andre-winkler.de",
+                    user.getChangeEmail(),
+                    "Mail Adresse wurde geändert",
                     sb.toString());
         } catch (Exception ex) {
             LOG.error(String.format("Unable to send an email to %s", user.getChangeEmail()), ex);

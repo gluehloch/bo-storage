@@ -190,14 +190,13 @@ public interface CommunityService {
     /**
      * Aktualisierung der Daten eines Teilnehmers.
      *
-     * @param nickname        Nutzerkürzel
-     * @param name            Name
-     * @param surname         Vorname
-     * @param mail            Mail Adresse
-     * @param alternativeMail Die potentielle neue Mail Adresse
-     * @param phone           Telefonnummer
+     * @param nickname Nutzerkürzel
+     * @param name     Name
+     * @param surname  Vorname
+     * @param mail     Mail Adresse
+     * @param phone    Telefonnummer
      */
-    void updateUser(Nickname nickname, String name, String surname, String mail, String alternativeMail, String phone);
+    Optional<User> updateUser(Nickname nickname, String name, String surname, String mail, String phone);
 
     /**
      * Sucht nach einem Teilnehmer.
