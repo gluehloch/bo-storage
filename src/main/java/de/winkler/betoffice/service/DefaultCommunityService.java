@@ -27,10 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -39,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.winkler.betoffice.dao.CommunityDao;
 import de.winkler.betoffice.dao.SeasonDao;
 import de.winkler.betoffice.dao.UserDao;
+import de.winkler.betoffice.mail.SendUserProfileChangeMailNotification;
 import de.winkler.betoffice.storage.Community;
 import de.winkler.betoffice.storage.CommunityFilter;
 import de.winkler.betoffice.storage.CommunityReference;
@@ -59,18 +60,46 @@ import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
  * @author Andre Winkler
  */
 @Service("communityService")
+@Transactional(readOnly = true)
 public class DefaultCommunityService extends AbstractManagerService implements CommunityService {
 
     private static final Logger LOG = LoggerFactory.make();
 
-    @Autowired
-    private CommunityDao communityDao;
+    private final CommunityDao communityDao;
+    private final UserDao userDao;
+    private final SeasonDao seasonDao;
+    private final SendUserProfileChangeMailNotification sendUserProfileChangeMailNotification;
 
-    @Autowired
-    private UserDao userDao;
+    public DefaultCommunityService(
+            final CommunityDao communityDao,
+            final UserDao userDao,
+            final SeasonDao seasonDao,
+            final SendUserProfileChangeMailNotification sendUserProfileChangeMailNotification) {
+        this.communityDao = communityDao;
+        this.userDao = userDao;
+        this.seasonDao = seasonDao;
+        this.sendUserProfileChangeMailNotification = sendUserProfileChangeMailNotification;
+    }
 
-    @Autowired
-    private SeasonDao seasonDao;
+    @Override
+    public Optional<User> findUser(Nickname nickname) {
+        return userDao.findByNickname(nickname);
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return userDao.findAll();
+    }
+
+    @Override
+    public User findUser(long userId) {
+        return userDao.findById(userId);
+    }
+
+    @Override
+    public Optional<User> findUserByChangeToken(String changeToken) {
+        return userDao.findByChangeToken(changeToken);
+    }
 
     @Override
     public Community find(Long communityId) {
@@ -103,6 +132,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
+    @Transactional
     public BetofficeServiceResult<Community> create(
             CommunityReference communityRef,
             SeasonReference seasonRef,
@@ -133,6 +163,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
+    @Transactional
     public void delete(CommunityReference reference) {
         Community community = communityDao.find(reference).orElseThrow();
 
@@ -145,6 +176,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
+    @Transactional
     public Community addMember(CommunityReference communityReference, Nickname nickname) {
         Community community = communityDao.find(communityReference).orElseThrow();
         User user = userDao.findByNickname(nickname).orElseThrow();
@@ -154,6 +186,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
+    @Transactional
     public Community addMembers(CommunityReference communityReference, Set<Nickname> nicknames) {
         Community community = communityDao.find(communityReference).orElseThrow();
         nicknames.stream()
@@ -165,6 +198,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
+    @Transactional
     public Community removeMember(CommunityReference reference, Nickname nickname) {
         User user = userDao.findByNickname(nickname).orElseThrow();
         Community community = communityDao.find(reference).orElseThrow();
@@ -174,16 +208,12 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
+    @Transactional
     public Community removeMembers(CommunityReference reference, Set<Nickname> nicknames) {
         nicknames.stream().forEach(nickname -> {
             removeMember(reference, nickname);
         });
         return communityDao.find(reference).orElseThrow();
-    }
-
-    @Override
-    public Optional<User> findUser(Nickname nickname) {
-        return userDao.findByNickname(nickname);
     }
 
     @Override
@@ -207,31 +237,28 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public void deleteUser(Nickname nickname) {
+    public void deleteUser(final Nickname nickname) {
         userDao.findByNickname(nickname).ifPresent(u -> userDao.delete(u));
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<User> findAllUsers() {
-        return userDao.findAll();
-    }
-
-    @Override
     @Transactional
-    public void updateUser(final User user) {
-        userDao.update(user);
-    }
+    public Optional<User> updateUser(final Nickname nickname, final String name, final String surname,
+            final String mail, final String alternativeMail, final String phone) {
 
-    @Override
-    @Transactional
-    public User findUser(long userId) {
-        return userDao.findById(userId);
-    }
+        return userDao.findByNickname(nickname).map(u -> {
+            u.setName(name);
+            u.setSurname(surname);
+            u.setPhone(phone);
 
-    @Override
-    public Optional<User> findUserByChangeToken(String changeToken) {
-        return userDao.findByChangeToken(changeToken);
+            if (!StringUtils.equals(u.getEmail(), mail)) {
+                u.setChangeEmail(alternativeMail);
+                u.setChangeToken(UUID.randomUUID().toString());
+                sendUserProfileChangeMailNotification.send(u);
+            }
+
+            return u;
+        });
     }
 
 }
