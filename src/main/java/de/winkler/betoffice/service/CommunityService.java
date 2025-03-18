@@ -188,7 +188,8 @@ public interface CommunityService {
     void deleteUser(Nickname nickname);
 
     /**
-     * Aktualisierung der Daten eines Teilnehmers.
+     * Aktualisierung der Daten eines Teilnehmers. Der sogenannte 'Nickname' eines Nutzers kann nicht geändert werden.
+     * Dafür benöitge ich eine seperate Methode.
      *
      * @param nickname Nutzerkürzel
      * @param name     Name

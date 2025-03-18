@@ -46,8 +46,8 @@ import de.winkler.betoffice.validation.BetofficeValidationException;
 /**
  * Test CRUD operations on storage object {@link User}.
  * 
- * TODO: It would be interesting to test a more complex scenario. A user with
- * tips and other related informations. Does MySQL allow delete statements here?
+ * TODO: It would be interesting to test a more complex scenario. A user with tips and other related informations. Does
+ * MySQL allow delete statements here?
  *
  * @author Andre Winkler
  */
@@ -89,7 +89,7 @@ class CommunityServiceUserTest extends AbstractServiceTest {
     @Test
     void testCreateInvalidUser() {
         User invalidUser = new User();
-        
+
         BetofficeValidationException ex = assertThrows(BetofficeValidationException.class, () -> {
             communityService.createUser(invalidUser);
         });
@@ -101,15 +101,21 @@ class CommunityServiceUserTest extends AbstractServiceTest {
         final User frosch = createUser("Frosch", "Andre", "Winkler");
         final User peter = createUser("Peter", "Peter", "Groth");
 
-        final Nickname darkside = Nickname.of("Darkside");
-        frosch.setNickname(darkside);
-        communityService.updateUser(frosch);
+        communityService.updateUser(
+                frosch.getNickname(),
+                "Seidl",
+                "Andy",
+                frosch.getEmail(),
+                frosch.getPhone());
 
-        Optional<User> userDarkside = communityService.findUser(darkside);
-        assertThat(userDarkside).isPresent().hasValueSatisfying(u -> {
-            assertThat(u.getNickname()).isEqualTo(darkside);
-            assertThat(u.getSurname()).isEqualTo("Andre");
-            assertThat(u.getName()).isEqualTo("Winkler");
+        Optional<User> userDarkside = communityService.findUser(Nickname.of("Darkside"));
+        assertThat(userDarkside).isEmpty();
+
+        Optional<User> anotherFrosch = communityService.findUser(frosch.getNickname());
+        assertThat(anotherFrosch).isPresent().hasValueSatisfying(u -> {
+            assertThat(u.getNickname()).isEqualTo(frosch.getNickname());
+            assertThat(u.getSurname()).isEqualTo("Andy");
+            assertThat(u.getName()).isEqualTo("Seidl");
             assertThat(u).isNotEqualTo(peter);
         });
     }
