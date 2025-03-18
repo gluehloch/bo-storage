@@ -254,14 +254,21 @@ public class DefaultCommunityService extends AbstractManagerService implements C
             u.setName(name);
             u.setSurname(surname);
             u.setPhone(phone);
-            if (!StringUtils.equals(u.getEmail(), mail)) {
+            if (hasUserChangedHisMailAddress(u, mail)) {
                 u.setChangeEmail(mail);
                 u.setChangeToken(UUID.randomUUID().toString());
+
+                //
                 // TOOD: Do not send an email notification more than 5 times.
+                //
                 sendUserProfileChangeMailNotification.send(u);
             }
             return u;
         });
+    }
+
+    private boolean hasUserChangedHisMailAddress(User user, String newMailAddress) {
+        return StringUtils.equals(user.getEmail(), newMailAddress);
     }
 
 }
