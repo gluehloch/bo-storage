@@ -189,7 +189,8 @@ public interface CommunityService {
 
     /**
      * Aktualisierung der Daten eines Teilnehmers. Der sogenannte 'Nickname' eines Nutzers kann nicht geändert werden.
-     * Dafür benöitge ich eine seperate Methode.
+     *
+     * TODO: Dafür benöitge ich eine seperate Methode. Oder erst gar nicht anbieten!
      *
      * @param nickname Nutzerkürzel
      * @param name     Name
@@ -198,6 +199,15 @@ public interface CommunityService {
      * @param phone    Telefonnummer
      */
     Optional<User> updateUser(Nickname nickname, String name, String surname, String mail, String phone);
+
+    /**
+     * Bestätigt die Änderung der Mail Adresse.
+     *
+     * @param  nickname    Nutzerkürzel
+     * @param  changeToken Das Token für die Änderung der Mail Adresse
+     * @return             Der geänderte Nutzer
+     */
+    Optional<User> confirmMailAddressChange(Nickname nickname, String changeToken);
 
     /**
      * Sucht nach einem Teilnehmer.

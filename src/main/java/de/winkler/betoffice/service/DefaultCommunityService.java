@@ -271,4 +271,10 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         return StringUtils.equals(user.getEmail(), newMailAddress);
     }
 
+    @Override
+    public Optional<User> confirmMailAddressChange(Nickname nickname, String changeToken) {
+        // TODO Auto-generated method stub
+        return Optional.empty();
+    }
+
 }
