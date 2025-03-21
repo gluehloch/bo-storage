@@ -244,6 +244,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     @Override
     @Transactional
     public Optional<User> updateUser(
+            final boolean adminOperation,
             final Nickname nickname,
             final String name,
             final String surname,
@@ -254,7 +255,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
             u.setName(name);
             u.setSurname(surname);
             u.setPhone(phone);
-            if (hasUserChangedHisMailAddress(u, mail)) {
+            if (!adminOperation && hasUserChangedHisMailAddress(u, mail)) {
                 u.setChangeEmail(mail);
                 u.setChangeToken(UUID.randomUUID().toString());
 

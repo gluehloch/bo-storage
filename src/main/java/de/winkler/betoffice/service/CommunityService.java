@@ -192,13 +192,15 @@ public interface CommunityService {
      *
      * TODO: Dafür benöitge ich eine seperate Methode. Oder erst gar nicht anbieten!
      *
-     * @param nickname Nutzerkürzel
-     * @param name     Name
-     * @param surname  Vorname
-     * @param mail     Mail Adresse
-     * @param phone    Telefonnummer
+     * @param adminOperation Administrator Aktion? Dieser kann die Mail-Adresse beliebig ändern.
+     * @param nickname       Nutzerkürzel
+     * @param name           Name
+     * @param surname        Vorname
+     * @param mail           Mail Adresse
+     * @param phone          Telefonnummer
      */
-    Optional<User> updateUser(Nickname nickname, String name, String surname, String mail, String phone);
+    Optional<User> updateUser(boolean adminOperation, Nickname nickname, String name, String surname, String mail,
+            String phone);
 
     /**
      * Bestätigt die Änderung der Mail Adresse.

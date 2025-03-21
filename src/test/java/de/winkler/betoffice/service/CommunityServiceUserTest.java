@@ -102,6 +102,7 @@ class CommunityServiceUserTest extends AbstractServiceTest {
         final User peter = createUser("Peter", "Peter", "Groth");
 
         communityService.updateUser(
+                true,
                 frosch.getNickname(),
                 "Seidl",
                 "Andy",
