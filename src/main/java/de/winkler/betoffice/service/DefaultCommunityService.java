@@ -269,7 +269,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     private boolean hasUserChangedHisMailAddress(User user, String newMailAddress) {
-        return StringUtils.equals(user.getEmail(), newMailAddress);
+        return !StringUtils.equals(user.getEmail(), newMailAddress);
     }
 
     @Override

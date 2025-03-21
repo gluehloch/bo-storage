@@ -417,7 +417,7 @@ public class User extends AbstractStorageObject {
     }
 
     public void incrementChangeSend() {
-        this.changeSend = this.changeSend++;
+        this.changeSend = this.changeSend == null ? 1 : this.changeSend++;
     }
 
     public void resetChangeSend() {
