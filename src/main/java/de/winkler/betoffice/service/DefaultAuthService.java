@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -128,20 +129,24 @@ public class DefaultAuthService implements AuthService {
 
     @Override
     public Optional<Session> validateSession(String token) {
-        List<Session> sessions = sessionDao.findBySessionId(token);
-
-        if (sessions.isEmpty()) {
-            log.warn(
-                    "Trying to validate the session with an invalid securityToken=[{}]",
-                    token);
+        if (StringUtils.isEmpty(token)) {
+            log.warn("There is no token to validate: token=[{}]", token);
             return Optional.empty();
         } else {
-            Session session = sessions.get(0);
-            session.getUser().getNickname();
-            // TODO Hier koennte man noch mehr pruefen, wie z.B. Browser und IP?
-            // Dann waeren mehr Parameter an diese Methode zu uebergeben.
-            // Vielleicht doch das ganze SecurityToken?
-            return Optional.of(session);
+            List<Session> sessions = sessionDao.findBySessionId(token);
+            if (sessions.isEmpty()) {
+                log.warn(
+                        "Trying to validate the session with an invalid securityToken=[{}]",
+                        token);
+                return Optional.empty();
+            } else {
+                Session session = sessions.get(0);
+                session.getUser().getNickname();
+                // TODO Hier koennte man noch mehr pruefen, wie z.B. Browser und IP?
+                // Dann waeren mehr Parameter an diese Methode zu uebergeben.
+                // Vielleicht doch das ganze SecurityToken?
+                return Optional.of(session);
+            }
         }
     }
 
