@@ -426,6 +426,7 @@ public class User extends AbstractStorageObject {
 
     public void acceptEmailChange() {
         this.email = this.changeEmail;
+        this.changeToken = null;
         this.changeEmail = null;
         this.changeSend = 0;
     }

@@ -273,6 +273,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
+    @Transactional
     public Optional<User> confirmMailAddressChange(Nickname nickname, String changeToken) {
         return userDao.findByNickname(nickname).map(u -> {
             if (StringUtils.equals(changeToken, u.getChangeToken())) {
