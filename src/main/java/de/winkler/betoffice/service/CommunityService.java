@@ -212,6 +212,22 @@ public interface CommunityService {
     Optional<User> confirmMailAddressChange(Nickname nickname, String changeToken);
 
     /**
+     * Versendet die Bestätigungs Mail noch einmal an das neue Email Postfach.
+     * 
+     * @param  nickname Nutzerkürzel
+     * @return          Der betroffene Nutzer
+     */
+    Optional<User> resubmitConfirmationMail(Nickname nickname);
+
+    /**
+     * Nimmt den Email-Änderungswunsch wieder zurück.
+     * 
+     * @param  nickname Nutzerkürzel
+     * @return          Der nicht geänderte Nutzer
+     */
+    Optional<User> abortMailAddressChange(Nickname nickname);
+
+    /**
      * Sucht nach einem Teilnehmer.
      * 
      * @param  userId Die Teilnehmer ID

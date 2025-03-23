@@ -255,26 +255,26 @@ public class DefaultCommunityService extends AbstractManagerService implements C
             u.setName(name);
             u.setSurname(surname);
             u.setPhone(phone);
-            if (!adminOperation && hasUserChangedHisMailAddress(u, mail)) {
+            if (!adminOperation && hasUserChangedHisMailAddress(u, mail) && u.getChangeSend() < 5) {
                 u.setChangeEmail(mail);
                 u.setChangeToken(UUID.randomUUID().toString());
-
-                //
-                // TOOD: Do not send an email notification more than 5 times.
-                //
                 sendUserProfileChangeMailNotification.send(u);
+                u.incrementChangeSend();
+            } else {
+                u.setEmail(mail);
+                u.abortEmailChange();
             }
             return u;
         });
     }
 
-    private boolean hasUserChangedHisMailAddress(User user, String newMailAddress) {
+    private boolean hasUserChangedHisMailAddress(final User user, final String newMailAddress) {
         return !StringUtils.equals(user.getEmail(), newMailAddress);
     }
 
     @Override
     @Transactional
-    public Optional<User> confirmMailAddressChange(Nickname nickname, String changeToken) {
+    public Optional<User> confirmMailAddressChange(final Nickname nickname, final String changeToken) {
         return userDao.findByNickname(nickname).map(u -> {
             if (StringUtils.equals(changeToken, u.getChangeToken())) {
                 u.acceptEmailChange();
@@ -285,6 +285,20 @@ public class DefaultCommunityService extends AbstractManagerService implements C
             }
             return u;
         });
+    }
+
+    @Override
+    @Transactional
+    public Optional<User> abortMailAddressChange(final Nickname nickname) {
+        return userDao.findByNickname(nickname).map(u -> u.abortEmailChange());
+    }
+
+    @Override
+    @Transactional
+    public Optional<User> resubmitConfirmationMail(final Nickname nickname) {
+        return userDao.findByNickname(nickname)
+                .filter(u -> u.getChangeSend() < 5)
+                .map(u -> sendUserProfileChangeMailNotification.send(u));
     }
 
 }

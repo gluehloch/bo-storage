@@ -417,18 +417,28 @@ public class User extends AbstractStorageObject {
     }
 
     public void incrementChangeSend() {
-        this.changeSend = this.changeSend == null ? 1 : this.changeSend++;
+        this.changeSend = this.changeSend == null
+                ? Integer.valueOf(1)
+                : Integer.valueOf(this.changeSend.intValue() + 1);
     }
 
     public void resetChangeSend() {
         this.changeSend = 0;
     }
 
-    public void acceptEmailChange() {
+    public User abortEmailChange() {
+        this.changeToken = null;
+        this.changeEmail = null;
+        this.changeSend = 0;
+        return this;
+    }
+
+    public User acceptEmailChange() {
         this.email = this.changeEmail;
         this.changeToken = null;
         this.changeEmail = null;
         this.changeSend = 0;
+        return this;
     }
 
     // ------------------------------------------------------------------------
