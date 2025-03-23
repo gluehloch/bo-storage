@@ -136,7 +136,7 @@ public class DefaultAuthService implements AuthService {
             List<Session> sessions = sessionDao.findBySessionId(token);
             if (sessions.isEmpty()) {
                 log.warn(
-                        "Trying to validate the session with an invalid securityToken=[{}]",
+                        "Tried to validate the session with an invalid securityToken=[{}]",
                         token);
                 return Optional.empty();
             } else {

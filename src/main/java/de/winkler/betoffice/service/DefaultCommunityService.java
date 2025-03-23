@@ -274,8 +274,16 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     public Optional<User> confirmMailAddressChange(Nickname nickname, String changeToken) {
-        // TODO Auto-generated method stub
-        return Optional.empty();
+        return userDao.findByNickname(nickname).map(u -> {
+            if (StringUtils.equals(changeToken, u.getChangeToken())) {
+                u.acceptEmailChange();
+            } else {
+                LOG.warn("Unable to confirm email change. ChangeTokens are different. {} vs {}", changeToken,
+                        u.getChangeToken());
+                throw new IllegalArgumentException("Unable to confirm email change. ChangeTokens are different.");
+            }
+            return u;
+        });
     }
 
 }
