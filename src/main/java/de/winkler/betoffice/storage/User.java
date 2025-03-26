@@ -27,10 +27,6 @@ package de.winkler.betoffice.storage;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
-import de.winkler.betoffice.storage.enums.NotificationType;
-import de.winkler.betoffice.storage.enums.RoleType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -39,6 +35,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+import org.apache.commons.lang3.StringUtils;
+
+import de.winkler.betoffice.storage.enums.NotificationType;
+import de.winkler.betoffice.storage.enums.RoleType;
 
 /**
  * Die Klasse verwaltet einen Teilnehmer.
@@ -409,7 +410,7 @@ public class User extends AbstractStorageObject {
     // ------------------------------------------------------------------------
 
     public Integer getChangeSend() {
-        return changeSend;
+        return changeSend == null ? 0 : changeSend;
     }
 
     public void setChangeSend(Integer changeSend) {
