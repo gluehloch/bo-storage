@@ -47,6 +47,7 @@ import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.User;
+import de.winkler.betoffice.storage.enums.NotificationType;
 import de.winkler.betoffice.util.LoggerFactory;
 import de.winkler.betoffice.validation.BetofficeServiceResult;
 import de.winkler.betoffice.validation.BetofficeValidationException;
@@ -249,12 +250,14 @@ public class DefaultCommunityService extends AbstractManagerService implements C
             final String name,
             final String surname,
             final String mail,
+            final boolean emailNotification,
             final String phone) {
 
         return userDao.findByNickname(nickname).map(u -> {
             u.setName(name);
             u.setSurname(surname);
             u.setPhone(phone);
+            u.setNotification(emailNotification ? NotificationType.TIPP : NotificationType.NONE);
             if (!adminOperation && hasUserChangedHisMailAddress(u, mail) && u.getChangeSend() < 5) {
                 u.setChangeEmail(mail);
                 u.setChangeToken(UUID.randomUUID().toString());

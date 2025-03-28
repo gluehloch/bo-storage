@@ -41,6 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.User;
+import de.winkler.betoffice.storage.enums.NotificationType;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 
 /**
@@ -107,6 +108,7 @@ class CommunityServiceUserTest extends AbstractServiceTest {
                 "Seidl",
                 "Andy",
                 frosch.getEmail(),
+                false,
                 frosch.getPhone());
 
         Optional<User> userDarkside = communityService.findUser(Nickname.of("Darkside"));
@@ -117,6 +119,7 @@ class CommunityServiceUserTest extends AbstractServiceTest {
             assertThat(u.getNickname()).isEqualTo(frosch.getNickname());
             assertThat(u.getSurname()).isEqualTo("Andy");
             assertThat(u.getName()).isEqualTo("Seidl");
+            assertThat(u.getNotification()).isEqualTo(NotificationType.NONE);
             assertThat(u).isNotEqualTo(peter);
         });
     }
