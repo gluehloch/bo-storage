@@ -36,7 +36,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import de.winkler.betoffice.service.CommunityService;
+import de.winkler.betoffice.service.SeasonManagerService;
 import de.winkler.betoffice.service.TippService;
+import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameTipp;
 import de.winkler.betoffice.storage.Season;
@@ -52,12 +54,15 @@ public class SendReminderMailNotification {
 
     private final TippService tippService;
     private final CommunityService communityService;
+    private final SeasonManagerService seasonManagerService;
     private final MailTask mailTask;
 
     public SendReminderMailNotification(
+            final SeasonManagerService seasonManagerService,
             final TippService tippService,
             final CommunityService communityService,
             final MailTask mailTask) {
+        this.seasonManagerService = seasonManagerService;
         this.tippService = tippService;
         this.communityService = communityService;
         this.mailTask = mailTask;
@@ -77,14 +82,9 @@ public class SendReminderMailNotification {
                     .findMembers(CommunityService.defaultPlayerGroup(season.getReference()));
             members.stream().filter(SendReminderMailNotification::notify).forEach(u -> {
                 try {
-                    List<GameTipp> tipps = tippService.findTipps(nxtr, u);
-                    List<GameTipp> sortedTipps = new ArrayList<>(tipps);
-                    sortedTipps.sort(new Comparator<GameTipp>() {
-                        @Override
-                        public int compare(GameTipp o1, GameTipp o2) {
-                            return o1.getGame().getDateTime().compareTo(o2.getGame().getDateTime());
-                        }
-                    });
+                    List<Game> matches = seasonManagerService.findMatches(nxtr);
+
+                    List<GameTipp> sortedTipps = sort(tippService.findTipps(nxtr, u));
 
                     if (!sortedTipps.isEmpty()
                             && sortedTipps.get(0).getGame().getDateTime().toLocalDate().compareTo(localNow) == 0) {
@@ -115,6 +115,17 @@ public class SendReminderMailNotification {
 
     public static boolean notify(User user) {
         return NotificationType.TIPP.equals(user.getNotification());
+    }
+
+    public static List<GameTipp> sort(List<GameTipp> gameTipps) {
+        List<GameTipp> sortedTipps = new ArrayList<>(gameTipps);
+        sortedTipps.sort(new Comparator<GameTipp>() {
+            @Override
+            public int compare(GameTipp o1, GameTipp o2) {
+                return o1.getGame().getDateTime().compareTo(o2.getGame().getDateTime());
+            }
+        });
+        return sortedTipps;
     }
 
 }

@@ -27,14 +27,13 @@ package de.winkler.betoffice.dao.hibernate;
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.persistence.TypedQuery;
-
 import org.springframework.stereotype.Repository;
 
 import de.winkler.betoffice.dao.MatchDao;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.Team;
+import jakarta.persistence.TypedQuery;
 
 /**
  * The DAO class for access on table bo_game.
@@ -218,7 +217,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
     @Override
     public List<Game> find(GameList round) {
         TypedQuery<Game> query = getEntityManager()
-                .createQuery("from Game g where g.gameList.id = :roundId", Game.class)
+                .createQuery("from Game g where g.gameList.id = :roundId order by g.dateTime", Game.class)
                 .setParameter("roundId", round.getId());
         return query.getResultList();
     }
