@@ -59,5 +59,33 @@ from
 select * from bo_community_user cu, bo_user u where cu.bo_community_ref = 32 and cu.bo_user_ref = u.id;
 select * from bo_community_user cu, bo_user u where cu.bo_community_ref = 33 and cu.bo_user_ref = u.id;
 
+select
+    gl.bo_datetime datetime,
+    gl.id last_round_id
+from
+    bo_gamelist gl
+where
+    gl.bo_datetime =
+    (
+        select
+            min(t.bo_datetime) datetime
+        from
+        (
+            select
+                r.bo_datetime,
+                r.id
+            from
+                bo_gamelist r,
+                bo_game m
+            where
+                r.id = m.bo_gamelist_ref
+                and m.bo_datetime >= now()
+        ) as t
+    )
+    ;
+
+select * from bo_gamelist gl where gl.id = 1009;
+select * from bo_game g where g.bo_gamelist_ref = 1009 order by g.bo_datetime;
+
 
 
