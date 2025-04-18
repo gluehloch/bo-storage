@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2017 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2025 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -22,25 +22,32 @@
  *
  */
 
-package de.winkler.betoffice.service;
+package de.winkler.betoffice.mail;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-/**
- * Provides current date, time and ZoneId.
- * 
- * @author Andre Winkler
- */
-public interface DateTimeProvider {
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 
-    ZoneId defaultZoneId();
+import de.winkler.betoffice.service.DateTimeProvider;
 
-    /**
-     * Get the current date and time.
-     * 
-     * @return the current date and time
-     */
-    ZonedDateTime currentDateTime();
+public class SendReminderMailNotificationConfiguration {
+
+    @Bean
+    @Primary
+    DateTimeProvider dateTimeProvider() {
+        return new DateTimeProvider() {
+            @Override
+            public ZoneId defaultZoneId() {
+                return ZoneId.of("Europe/Berlin");
+            }
+
+            @Override
+            public ZonedDateTime currentDateTime() {
+                return ZonedDateTime.of(2016, 2, 5, 0, 0, 0, 0, defaultZoneId());
+            }
+        };
+    }
 
 }

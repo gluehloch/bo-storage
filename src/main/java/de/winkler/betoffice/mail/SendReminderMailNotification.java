@@ -23,7 +23,6 @@
 
 package de.winkler.betoffice.mail;
 
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -35,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import de.winkler.betoffice.service.CommunityService;
+import de.winkler.betoffice.service.DateTimeProvider;
 import de.winkler.betoffice.service.SeasonManagerService;
 import de.winkler.betoffice.service.TippService;
 import de.winkler.betoffice.storage.Game;
@@ -50,30 +50,37 @@ public class SendReminderMailNotification {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-dd-MM HH:mm");
 
+    private final DateTimeProvider dateTimeProvider;
     private final TippService tippService;
     private final CommunityService communityService;
     private final SeasonManagerService seasonManagerService;
     private final MailTask mailTask;
 
     public SendReminderMailNotification(
+            final DateTimeProvider dateTimeProvider,
             final SeasonManagerService seasonManagerService,
             final TippService tippService,
             final CommunityService communityService,
             final MailTask mailTask) {
+        this.dateTimeProvider = dateTimeProvider;
         this.seasonManagerService = seasonManagerService;
         this.tippService = tippService;
         this.communityService = communityService;
         this.mailTask = mailTask;
     }
 
+    public Optional<GameList> findNextTippRound() {
+        return tippService.findNextTippRound(dateTimeProvider.currentDateTime());
+    }
+
     public void send() {
         // TODO Wie stelle ich sicher, dass die Mail für einen Spieltag nur einmal rausgeschickt wird?
         // Der Job läuft nur einmal am Tag. Falls Spiele an diesem Tag sind, wird eine Mail verschickt.
         // Ist ein Spieltag über mehrere Tage verteilt, bekommt man dann für jeden Tag eine Email.
-        final var now = ZonedDateTime.now();
-        final var localNow = now.toLocalDate();
 
-        Optional<GameList> nextTippRound = tippService.findNextTippRound(now);
+        final var localNow = dateTimeProvider.currentDateTime().toLocalDate();
+        final var nextTippRound = findNextTippRound();
+
         nextTippRound.ifPresent(nxtr -> {
             final var season = nextTippRound.get().getSeason();
             final var matches = seasonManagerService.findMatches(nxtr);
@@ -108,7 +115,9 @@ public class SendReminderMailNotification {
                                     .append(gwt.game().getHomeTeam().getName())
                                     .append(" - ")
                                     .append(gwt.game().getGuestTeam().getName());
-                            if (gwt.gameTipp() != null) {
+                            if (gwt.gameTipp() == null) {
+                                sb.append(" -nicht vorhanden-");
+                            } else {
                                 sb.append(" ")
                                         .append(gwt.gameTipp().getTipp().getHomeGoals())
                                         .append(":")

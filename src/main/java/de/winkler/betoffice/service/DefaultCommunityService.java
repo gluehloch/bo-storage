@@ -29,6 +29,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.persistence.NoResultException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.data.domain.Page;
@@ -129,7 +131,12 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     public Set<User> findMembers(CommunityReference communityReference) {
-        return communityDao.findMembers(communityReference).getUsers();
+        try {
+            final Community community = communityDao.findMembers(communityReference);
+            return community.getUsers();
+        } catch (NoResultException ex) {
+            return Set.of();
+        }
     }
 
     @Override
