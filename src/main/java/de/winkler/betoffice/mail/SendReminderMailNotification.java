@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,6 @@ import de.winkler.betoffice.service.TippService;
 import de.winkler.betoffice.storage.Game;
 import de.winkler.betoffice.storage.GameList;
 import de.winkler.betoffice.storage.GameTipp;
-import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.NotificationType;
 
@@ -77,39 +75,53 @@ public class SendReminderMailNotification {
 
         Optional<GameList> nextTippRound = tippService.findNextTippRound(now);
         nextTippRound.ifPresent(nxtr -> {
-            Season season = nextTippRound.get().getSeason();
-            Set<User> members = communityService
-                    .findMembers(CommunityService.defaultPlayerGroup(season.getReference()));
-            members.stream().filter(SendReminderMailNotification::notify).forEach(u -> {
-                try {
-                    List<Game> matches = seasonManagerService.findMatches(nxtr);
+            final var season = nextTippRound.get().getSeason();
+            final var matches = seasonManagerService.findMatches(nxtr);
+            if (!matches.isEmpty() && matches.get(0).getDateTime().toLocalDate().compareTo(localNow) == 0) {
+                final var members = communityService
+                        .findMembers(CommunityService.defaultPlayerGroup(season.getReference()));
+                members.stream().filter(SendReminderMailNotification::notify).forEach(u -> {
+                    try {
+                        final List<GameTipp> sortedTipps = sort(tippService.findTipps(nxtr, u));
+                        final List<Pair> gameWithTipp = new ArrayList<>();
+                        for (Game m : matches) {
+                            boolean findTipp = false;
+                            for (GameTipp t : sortedTipps) {
+                                if (m.equals(t.getGame())) {
+                                    gameWithTipp.add(new Pair(m, t));
+                                    findTipp = true;
+                                }
+                            }
+                            if (!findTipp) {
+                                gameWithTipp.add(new Pair(m, null));
+                            }
+                        }
 
-                    List<GameTipp> sortedTipps = sort(tippService.findTipps(nxtr, u));
-
-                    if (!sortedTipps.isEmpty()
-                            && sortedTipps.get(0).getGame().getDateTime().toLocalDate().compareTo(localNow) == 0) {
                         StringBuilder sb = new StringBuilder();
                         sb.append("Heute ist Spieltag. Vergiss deinen Tipp nicht: https://tippdiekistebier.de\n");
                         sb.append("Für den aktuellen Spieltag liegen die folgenden Tipps von dir vor:");
 
-                        for (var userTipp : sortedTipps) {
+                        for (var gwt : gameWithTipp) {
                             sb.append("\n")
-                                    .append(userTipp.getGame().getDateTime().format(formatter))
+                                    .append(gwt.game().getDateTime().format(formatter))
                                     .append(" ")
-                                    .append(userTipp.getGame().getHomeTeam().getName())
+                                    .append(gwt.game().getHomeTeam().getName())
                                     .append(" - ")
-                                    .append(userTipp.getGame().getGuestTeam().getName())
-                                    .append(" ")
-                                    .append(userTipp.getTipp().getHomeGoals())
-                                    .append(":")
-                                    .append(userTipp.getTipp().getGuestGoals());
+                                    .append(gwt.game().getGuestTeam().getName());
+                            if (gwt.gameTipp() != null) {
+                                sb.append(" ")
+                                        .append(gwt.gameTipp().getTipp().getHomeGoals())
+                                        .append(":")
+                                        .append(gwt.gameTipp().getTipp().getGuestGoals());
+                            }
                         }
                         mailTask.send("betoffice@andre-winkler.de", u.getEmail(), "Spieltag!", sb.toString());
+
+                    } catch (Exception ex) {
+                        LOG.error(String.format("Unable to send an email to %s", u.getEmail()), ex);
                     }
-                } catch (Exception ex) {
-                    LOG.error(String.format("Unable to send an email to %s", u.getEmail()), ex);
-                }
-            });
+                });
+            }
         });
     }
 
@@ -126,6 +138,9 @@ public class SendReminderMailNotification {
             }
         });
         return sortedTipps;
+    }
+
+    private static record Pair(Game game, GameTipp gameTipp) {
     }
 
 }
