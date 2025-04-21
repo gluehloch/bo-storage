@@ -87,7 +87,7 @@ public class SendReminderMailNotification {
             if (!matches.isEmpty() && matches.get(0).getDateTime().toLocalDate().compareTo(localNow) == 0) {
                 final var members = communityService
                         .findMembers(CommunityService.defaultPlayerGroup(season.getReference()));
-                members.stream().filter(SendReminderMailNotification::notify).forEach(u -> {
+                members.stream().filter(SendReminderMailNotification::userWantsToBeNotified).forEach(u -> {
                     try {
                         final List<GameTipp> sortedTipps = sort(tippService.findTipps(nxtr, u));
                         final List<Pair> gameWithTipp = new ArrayList<>();
@@ -134,7 +134,7 @@ public class SendReminderMailNotification {
         });
     }
 
-    public static boolean notify(User user) {
+    public static boolean userWantsToBeNotified(User user) {
         return NotificationType.TIPP.equals(user.getNotification());
     }
 

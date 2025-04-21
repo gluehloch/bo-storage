@@ -217,6 +217,7 @@ create table bo_user (
     bo_change_token VARCHAR(2048) comment 'Change Token',
     bo_change_email VARCHAR(255) comment 'Holds the new email addresse',
     bo_change_send  integer comment 'Number of notification mails',
+    bo_change_date  DATETIME comment 'Datetime of the requested change',
     primary key (id)
 ) ENGINE=InnoDB;
 

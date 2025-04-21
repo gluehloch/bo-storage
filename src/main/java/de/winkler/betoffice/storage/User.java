@@ -24,6 +24,7 @@
 
 package de.winkler.betoffice.storage;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.TimeZoneStorage;
+import org.hibernate.annotations.TimeZoneStorageType;
 
 import de.winkler.betoffice.storage.enums.NotificationType;
 import de.winkler.betoffice.storage.enums.RoleType;
@@ -110,6 +113,11 @@ public class User extends AbstractStorageObject {
 
     @Column(name = "bo_change_send")
     private Integer changeSend;
+
+    /** date and time of email change request */
+    @Column(name = "bo_change_date")
+    @TimeZoneStorage(TimeZoneStorageType.NORMALIZE)
+    private ZonedDateTime changeDateTime;
 
     // -- Construction --------------------------------------------------------
 
@@ -440,6 +448,16 @@ public class User extends AbstractStorageObject {
         this.changeEmail = null;
         this.changeSend = 0;
         return this;
+    }
+
+    // ------------------------------------------------------------------------
+
+    public ZonedDateTime getChangeDateTime() {
+        return changeDateTime;
+    }
+
+    public void setChangeDateTime(final ZonedDateTime changeDateTime) {
+        this.changeDateTime = changeDateTime;
     }
 
     // ------------------------------------------------------------------------
