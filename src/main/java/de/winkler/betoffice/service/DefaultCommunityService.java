@@ -72,16 +72,19 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     private final UserDao userDao;
     private final SeasonDao seasonDao;
     private final SendUserProfileChangeMailNotification sendUserProfileChangeMailNotification;
+    private final DateTimeProvider dateTimeProvider;
 
     public DefaultCommunityService(
             final CommunityDao communityDao,
             final UserDao userDao,
             final SeasonDao seasonDao,
-            final SendUserProfileChangeMailNotification sendUserProfileChangeMailNotification) {
+            final SendUserProfileChangeMailNotification sendUserProfileChangeMailNotification,
+            final DateTimeProvider dateTimeProvider) {
         this.communityDao = communityDao;
         this.userDao = userDao;
         this.seasonDao = seasonDao;
         this.sendUserProfileChangeMailNotification = sendUserProfileChangeMailNotification;
+        this.dateTimeProvider = dateTimeProvider;
     }
 
     @Override
@@ -268,6 +271,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
             if (!adminOperation && hasUserChangedHisMailAddress(u, mail) && u.getChangeSend() < 5) {
                 u.setChangeEmail(mail);
                 u.setChangeToken(UUID.randomUUID().toString());
+                u.setChangeDateTime(dateTimeProvider.currentDateTime());
                 sendUserProfileChangeMailNotification.send(u);
                 u.incrementChangeSend();
             } else {
