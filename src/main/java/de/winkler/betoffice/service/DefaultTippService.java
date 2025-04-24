@@ -54,7 +54,6 @@ import de.winkler.betoffice.storage.exception.StorageRuntimeException;
 import de.winkler.betoffice.util.LoggerFactory;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 import de.winkler.betoffice.validation.BetofficeValidationMessage;
-import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
 
 /**
  * The default implementation of the {@link TippService}.
@@ -127,12 +126,12 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
 
     private static BetofficeValidationMessage unknwonUser(String unknownUser) {
         String message = String.format("Unknown user with nickname=[%s]", unknownUser);
-        return new BetofficeValidationMessage(message, null, Severity.INFO);
+        return BetofficeValidationMessage.error(message);
     }
 
     private static BetofficeValidationMessage unknwonRoundId(long roundId) {
         String message = String.format("The roundId=[%d] is invalid.", roundId);
-        return new BetofficeValidationMessage(message, null, Severity.ERROR);
+        return BetofficeValidationMessage.error(message);
     }
 
     private static BetofficeValidationException newException(BetofficeValidationMessage message) {

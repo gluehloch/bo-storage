@@ -48,7 +48,6 @@ import de.winkler.betoffice.storage.TeamAlias;
 import de.winkler.betoffice.storage.enums.TeamType;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 import de.winkler.betoffice.validation.BetofficeValidationMessage;
-import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
 
 /**
  * Default-Implementierung der Stammdatenverwaltung.
@@ -95,8 +94,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
         List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
 
         if (StringUtils.isBlank(groupType.getName())) {
-            messages.add(new BetofficeValidationMessage(
-                    "Name ist nicht gesetzt.", "nickName", Severity.ERROR));
+            messages.add(BetofficeValidationMessage.error("Name ist nicht gesetzt."));
         }
 
         if (messages.isEmpty()) {
@@ -112,8 +110,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
         List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
 
         if (StringUtils.isBlank(team.getName())) {
-            messages.add(new BetofficeValidationMessage(
-                    "Name ist nicht gesetzt.", "nickName", Severity.ERROR));
+            messages.add(BetofficeValidationMessage.error("Name ist nicht gesetzt."));
         }
 
         if (messages.isEmpty()) {
@@ -129,8 +126,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
             final String teamAliasName) {
         List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
         if (StringUtils.isBlank(teamAliasName)) {
-            messages.add(new BetofficeValidationMessage(
-                    "Alias Name nicht gesetzt.", "aliasName", Severity.ERROR));
+            messages.add(BetofficeValidationMessage.error("Alias Name nicht gesetzt."));
         }
 
         TeamAlias teamAlias = null;

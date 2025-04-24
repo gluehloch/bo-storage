@@ -34,45 +34,33 @@ public class BetofficeValidationMessage {
     public enum Severity {
         OK, ERROR, WARNING, INFO
     };
-    
+
     public enum ErrorType {
         NO_ERROR, COMMUNITY_EXISTS
-    };    
+    };
 
     private final String message;
-    private final String propertyName;
     private final Severity severity;
-    
-    public static BetofficeValidationMessage error(String message, String propertyName) {
-        return new BetofficeValidationMessage(message, propertyName, Severity.ERROR);
+
+    public static BetofficeValidationMessage error(String message) {
+        return new BetofficeValidationMessage(message, Severity.ERROR);
     }
 
     public static BetofficeValidationMessage error() {
-        return new BetofficeValidationMessage("", "", Severity.ERROR);
+        return new BetofficeValidationMessage("", Severity.ERROR);
     }
 
     public static BetofficeValidationMessage ok() {
-        return new BetofficeValidationMessage("", "", Severity.OK);
+        return new BetofficeValidationMessage("", Severity.OK);
     }
 
-    public BetofficeValidationMessage(final String _message, final String _propertyName, final Severity _severity) {
+    private BetofficeValidationMessage(final String _message, final Severity _severity) {
         message = _message;
-        propertyName = _propertyName;
         severity = _severity;
     }
 
-    /**
-     * @return the message
-     */
     public String getMessage() {
         return message;
-    }
-
-    /**
-     * @return the propertyName
-     */
-    public String getPropertyName() {
-        return propertyName;
     }
 
     /**

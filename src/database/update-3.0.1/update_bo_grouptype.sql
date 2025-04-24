@@ -14,3 +14,4 @@ SELECT version();
 ALTER TABLE bo_user ADD bo_change_token VARCHAR(2048) comment 'Change Token';
 ALTER TABLE bo_user ADD bo_change_email VARCHAR(255)  comment 'Holds the new email addresse';
 ALTER TABLE bo_user ADD bo_change_send  INTEGER       comment 'Number of notification mails';
+ALTER TABLE bo_user ADD bo_change_date  DATETIME      comment 'Datetime of the requested change';

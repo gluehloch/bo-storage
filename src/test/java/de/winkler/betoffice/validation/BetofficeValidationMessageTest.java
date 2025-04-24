@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2019 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2025 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -39,10 +39,8 @@ public class BetofficeValidationMessageTest {
 
     @Test
     public void testBetofficeValidationMessage() {
-        BetofficeValidationMessage ex = new BetofficeValidationMessage(
-                "message", "propertyName", Severity.ERROR);
-        assertThat(ex.getMessage()).isEqualTo("message");
-        assertThat(ex.getPropertyName()).isEqualTo("propertyName");
+        BetofficeValidationMessage ex = BetofficeValidationMessage.error("errorMessage");
+        assertThat(ex.getMessage()).isEqualTo("errorMessage");
         assertThat(ex.getSeverity()).isEqualTo(Severity.ERROR);
     }
 

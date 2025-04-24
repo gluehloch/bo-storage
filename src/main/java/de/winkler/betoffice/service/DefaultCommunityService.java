@@ -23,13 +23,12 @@
 
 package de.winkler.betoffice.service;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-
-import jakarta.persistence.NoResultException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -55,7 +54,7 @@ import de.winkler.betoffice.validation.BetofficeServiceResult;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 import de.winkler.betoffice.validation.BetofficeValidationMessage;
 import de.winkler.betoffice.validation.BetofficeValidationMessage.ErrorType;
-import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
+import jakarta.persistence.NoResultException;
 
 /**
  * Manages a community.
@@ -233,8 +232,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
 
         if (user.getNickname() == null || StringUtils.isBlank(user.getNickname().value())) {
-            messages.add(new BetofficeValidationMessage(
-                    "Nickname ist nicht gesetzt.", "nickName", Severity.ERROR));
+            messages.add(BetofficeValidationMessage.error("Nickname ist nicht gesetzt."));
         }
 
         if (messages.isEmpty()) {
@@ -272,6 +270,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
                 u.setChangeEmail(mail);
                 u.setChangeToken(UUID.randomUUID().toString());
                 u.setChangeDateTime(dateTimeProvider.currentDateTime());
+                u.setChangeDateTime(dateTimeProvider.currentDateTime());
                 sendUserProfileChangeMailNotification.send(u);
                 u.incrementChangeSend();
             } else {
@@ -291,6 +290,17 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     public Optional<User> confirmMailAddressChange(final Nickname nickname, final String changeToken) {
         return userDao.findByNickname(nickname).map(u -> {
             if (StringUtils.equals(changeToken, u.getChangeToken())) {
+                final var changeDateTime = u.getChangeDateTime();
+                final ZonedDateTime changeDateTimePlusTenMinutes = changeDateTime.plusMinutes(10);
+                // --- mailChange --- +10m --- now
+                final var now = dateTimeProvider.currentDateTime();
+                if (changeDateTime.isAfter(now)) {
+                    // TODO should not happen!
+                } else if (now.isBefore(changeDateTimePlusTenMinutes)) {
+                    // Link ist 10 Minuten gültig
+                } else {
+                    // TODO abgelaufen
+                }
                 u.acceptEmailChange();
             } else {
                 LOG.warn("Unable to confirm email change. ChangeTokens are different. {} vs {}", changeToken,

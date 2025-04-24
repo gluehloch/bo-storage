@@ -61,7 +61,6 @@ import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.util.BetofficeValidator;
 import de.winkler.betoffice.validation.BetofficeValidationException;
 import de.winkler.betoffice.validation.BetofficeValidationMessage;
-import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
 
 /**
  * Die Default-Implementierung der Meisterschaftsverwaltung.
@@ -436,10 +435,9 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         List<BetofficeValidationMessage> messages = new ArrayList<>();
 
         if (!season.getTeamType().equals(team.getTeamType())) {
-            messages.add(new BetofficeValidationMessage(
+            messages.add(BetofficeValidationMessage.error(
                     String.format("Die Meisterschaft %s unterstützt diesen Mannschaftstyp %s nicht.", season,
-                            team.getTeamType()),
-                    null, Severity.ERROR));
+                            team.getTeamType())));
         }
 
         if (messages.isEmpty()) {
@@ -448,7 +446,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
             List<Team> teams = groupDao.findTeams(group);
             if (teams.contains(team)) {
                 throw new BetofficeValidationException(
-                        BetofficeValidationMessage.error("team is already member of group", "team"));
+                        BetofficeValidationMessage.error("team is already member of group"));
             }
             // Group group = season.getGroup(groupType);
             // TODO Lazy load exception
@@ -477,9 +475,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
             return season;
         } catch (ConstraintViolationException ex) {
             List<BetofficeValidationMessage> messages = new ArrayList<>();
-            messages.add(new BetofficeValidationMessage(
-                    "Diese Meisterschaft ist bereits vorhanden.", null,
-                    Severity.ERROR));
+            messages.add(BetofficeValidationMessage.error("Diese Meisterschaft ist bereits vorhanden."));
             throw new BetofficeValidationException(messages);
         }
     }
@@ -490,21 +486,15 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         List<BetofficeValidationMessage> messages = new ArrayList<>();
 
         if (!communityDao.find(season.getReference()).isEmpty()) {
-            messages.add(new BetofficeValidationMessage(
-                    "Der Meisterschaft sind Communities zugeordnet.", null,
-                    Severity.ERROR));
+            messages.add(BetofficeValidationMessage.error("Der Meisterschaft sind Communities zugeordnet."));
         }
 
         if (!findRounds(season).isEmpty()) {
-            messages.add(new BetofficeValidationMessage(
-                    "Der Meisterschaft sind Spieltage zugeordnet.", null,
-                    Severity.ERROR));
+            messages.add(BetofficeValidationMessage.error("Der Meisterschaft sind Spieltage zugeordnet."));
         }
 
         if (!findGroups(season).isEmpty()) {
-            messages.add(new BetofficeValidationMessage(
-                    "Der Meisterschaft sind Gruppen zugordnet.", null,
-                    Severity.ERROR));
+            messages.add(BetofficeValidationMessage.error("Der Meisterschaft sind Gruppen zugordnet."));
         }
 
         if (messages.isEmpty()) {
