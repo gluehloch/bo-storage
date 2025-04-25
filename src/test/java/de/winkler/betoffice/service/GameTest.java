@@ -62,9 +62,8 @@ import de.winkler.betoffice.storage.enums.TotoResult;
 import de.winkler.betoffice.test.DateTimeDummyProducer;
 
 /**
- * Testklasse für die Klasse Game. Auf das Testen der einfachen setter-Methoden
- * setHomeTeam(), setGuestTeam(), setGroup() und setGameNumber() wird
- * verzichtet.
+ * Testklasse für die Klasse Game. Auf das Testen der einfachen setter-Methoden setHomeTeam(), setGuestTeam(),
+ * setGroup() und setGameNumber() wird verzichtet.
  *
  * @author Andre Winkler
  */
@@ -80,7 +79,7 @@ class GameTest extends AbstractServiceTest {
 
     @Autowired
     private MasterDataManagerService masterDataManagerService;
-    
+
     @Autowired
     private CommunityService communityService;
 
@@ -181,7 +180,7 @@ class GameTest extends AbstractServiceTest {
 
         assertThat(game1.getDateTime()).isEqualTo(expectedGameDateTime1);
 
-        NullPointerException ex = assertThrows(NullPointerException.class,
+        assertThrows(NullPointerException.class,
                 () -> {
                     tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, null, null, null);
                 });
@@ -199,13 +198,13 @@ class GameTest extends AbstractServiceTest {
     void testGameAddTipp() {
         GameTipp tipp1 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userA, gameResult10, TippStatusType.USER);
         assertThat(tipp1.getTotoResult()).isEqualTo(TotoResult.EQUAL);
-        
+
         GameTipp tipp2 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userB, gameResult10, TippStatusType.USER);
         assertThat(tipp2.getTotoResult()).isEqualTo(TotoResult.EQUAL);
-        
+
         GameTipp tipp3 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userB, gameResult10, TippStatusType.USER);
         assertThat(tipp3.getTotoResult()).isEqualTo(TotoResult.EQUAL);
-        
+
         GameTipp tipp4 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userD, gameResult01, TippStatusType.USER);
         assertThat(tipp4.getTotoResult()).isEqualTo(TotoResult.ZERO);
     }

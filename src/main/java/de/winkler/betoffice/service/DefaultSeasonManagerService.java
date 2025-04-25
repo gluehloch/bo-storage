@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2025 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -69,6 +69,7 @@ import de.winkler.betoffice.validation.ValidationMessage.MessageType;
  * @author by Andre Winkler
  */
 @Service("seasonManagerService")
+@Transactional(readOnly = true)
 public class DefaultSeasonManagerService extends AbstractManagerService implements SeasonManagerService {
 
     @Autowired
@@ -102,13 +103,11 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     private CommunityDao communityDao;
 
     @Override
-    @Transactional(readOnly = true)
     public List<TeamResult> calculateTeamRanking(Season season, GroupType groupType) {
         return seasonDao.calculateTeamRanking(season, groupType);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<TeamResult> calculateTeamRanking(Season season,
             GroupType groupType, int startIndex, int endIndex) {
 
@@ -116,37 +115,31 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Season> findAllSeasons() {
         return seasonDao.findAll();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Team> findTeams(Group group) {
         return groupDao.findTeams(group);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Team> findTeams(Season season, GroupType groupType) {
         return teamDao.findTeamsBySeasonAndGroup(season, groupType);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<GroupType> findGroupTypesBySeason(Season season) {
         return groupTypeDao.findBySeason(season);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Game> findMatches(Team homeTeam, Team guestTeam, int limit) {
         return matchDao.find(homeTeam, guestTeam, limit);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin, int limit) {
         List<Game> results = new ArrayList<Game>();
         if (spin) {
@@ -173,61 +166,51 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Goal> findGoalsOfMatch(Game game) {
         return goalDao.find(game);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Game> findMatches(GameList round) {
         return matchDao.find(round);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Game findMatch(Long gameId) {
         return matchDao.findById(gameId);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Game> findMatch(GameList round, Team homeTeam, Team guestTeam) {
         return matchDao.find(round, homeTeam, guestTeam);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<GameList> findRound(Season season, int index) {
         return roundDao.findRound(season, index);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<GameList> findLastRound(Season season) {
         return roundDao.findLastRound(season);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<GameList> findFirstRound(Season season) {
         return roundDao.findFirstRound(season);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public GameList findRound(long id) {
         return roundDao.findById(id);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<GameList> findRoundGames(long roundId) {
         return roundDao.findRound(roundId);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<GameList> findNextRound(long id) {
         Optional<Long> nextRoundId = roundDao.findNext(id);
         Optional<GameList> nextGameList = Optional.empty();
@@ -238,7 +221,6 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<GameList> findPrevRound(long id) {
         Optional<Long> prevRoundId = roundDao.findPrevious(id);
         Optional<GameList> prevGameList = Optional.empty();
@@ -249,43 +231,36 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<GameList> findRounds(Season season) {
         return roundDao.findRounds(season);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<GameList> findRounds(Group group) {
         return roundDao.findRounds(group);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Group> findGroups(Season season) {
         return groupDao.findBySeason(season);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<GroupType> findGroupTypes(Season season) {
         return (groupTypeDao.findBySeason(season));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Group findGroup(Season season, GroupType groupType) {
         return (groupDao.findBySeasonAndGroupType(season, groupType));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Season> findSeasonByName(String name, String year) {
         return seasonDao.find(SeasonReference.of(year, name));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Season findSeasonById(long id) {
         return seasonDao.findById(id);
     }
@@ -595,19 +570,16 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<GameTipp> findTipps(GameList round, User user) {
         return gameTippDao.find(round, user);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<GameTipp> findTippsByMatch(Game match) {
         return gameTippDao.find(match);
     }
 
     @Override
-    @Transactional(readOnly = false)
     public Optional<Player> findGoalsOfPlayer(long id) {
         return playerDao.findAllGoalsOfPlayer(id);
     }
@@ -622,7 +594,6 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Goal> findAllGoals() {
         return goalDao.findAll();
     }

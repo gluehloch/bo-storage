@@ -80,8 +80,6 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
 
     private static final CommunityReference communityReference = CommunityReference.of("Bundesliga 2010/11");
 
-    private static final GroupType bundesliga1 = new GroupType();
-
     private static final SeasonReference seasonReference = SeasonReference.of("2010/2011", "Bundesliga");
 
     private static final Nickname frosch = Nickname.of("Frosch");

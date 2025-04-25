@@ -72,12 +72,6 @@ class SeasonManagerServiceIT extends AbstractServiceTest {
     @Autowired
     private CommunityService communityService;
 
-    @Autowired
-    private CommunityCalculatorService communityCalculatorService;
-
-    @Autowired
-    private DatabaseMaintenanceService databaseMaintenanceService;
-
     private DatabaseSetUpAndTearDown dsuatd;
 
     @BeforeEach
