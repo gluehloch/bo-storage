@@ -36,7 +36,7 @@ import de.winkler.betoffice.storage.CommunityReference;
 import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.User;
-import de.winkler.betoffice.validation.BetofficeServiceResult;
+import de.winkler.betoffice.validation.ServiceResult;
 
 /**
  * Community service.
@@ -102,7 +102,7 @@ public interface CommunityService {
      * @param  managerNickname nickname of the community manager
      * @return                 the create community.
      */
-    BetofficeServiceResult<Community> create(CommunityReference communityRef, SeasonReference seasonRef,
+    ServiceResult<Community> create(CommunityReference communityRef, SeasonReference seasonRef,
             String communityName, String communityYear, Nickname managerNickname);
 
     /**
@@ -210,7 +210,7 @@ public interface CommunityService {
      * @param  changeToken Das Token für die Änderung der Mail Adresse
      * @return             Der geänderte Nutzer
      */
-    Optional<User> confirmMailAddressChange(Nickname nickname, String changeToken);
+    ServiceResult<User> confirmMailAddressChange(Nickname nickname, String changeToken);
 
     /**
      * Versendet die Bestätigungs Mail noch einmal an das neue Email Postfach.

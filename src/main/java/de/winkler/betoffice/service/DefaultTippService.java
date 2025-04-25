@@ -52,8 +52,9 @@ import de.winkler.betoffice.storage.enums.TotoResult;
 import de.winkler.betoffice.storage.exception.StorageObjectNotFoundException;
 import de.winkler.betoffice.storage.exception.StorageRuntimeException;
 import de.winkler.betoffice.util.LoggerFactory;
-import de.winkler.betoffice.validation.BetofficeValidationException;
-import de.winkler.betoffice.validation.BetofficeValidationMessage;
+import de.winkler.betoffice.validation.ValidationException;
+import de.winkler.betoffice.validation.ValidationMessage;
+import de.winkler.betoffice.validation.ValidationMessage.MessageType;
 
 /**
  * The default implementation of the {@link TippService}.
@@ -124,18 +125,16 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
         return result;
     }
 
-    private static BetofficeValidationMessage unknwonUser(String unknownUser) {
-        String message = String.format("Unknown user with nickname=[%s]", unknownUser);
-        return BetofficeValidationMessage.error(message);
+    private static ValidationMessage unknwonUser(String unknownUser) {
+        return ValidationMessage.error(MessageType.USER_NOT_FOUND, unknownUser);
     }
 
-    private static BetofficeValidationMessage unknwonRoundId(long roundId) {
-        String message = String.format("The roundId=[%d] is invalid.", roundId);
-        return BetofficeValidationMessage.error(message);
+    private static ValidationMessage unknwonRoundId(long roundId) {
+        return ValidationMessage.error(MessageType.ROUND_ID_NOT_FOUND, roundId);
     }
 
-    private static BetofficeValidationException newException(BetofficeValidationMessage message) {
-        return new BetofficeValidationException(List.of(message));
+    private static ValidationException newException(ValidationMessage message) {
+        return new ValidationException(List.of(message));
     }
 
     private static Optional<GameTipp> findTipp(Game game, List<GameTipp> tipps) {

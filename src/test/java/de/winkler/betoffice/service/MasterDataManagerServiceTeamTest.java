@@ -45,7 +45,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.enums.TeamType;
-import de.winkler.betoffice.validation.BetofficeValidationException;
+import de.winkler.betoffice.validation.ValidationException;
 
 /**
  * Test CRUD operations on storage object {@link Team}.
@@ -99,7 +99,7 @@ public class MasterDataManagerServiceTeamTest extends AbstractServiceTest{
     @Test
     public void testCreateInvalidTeam() {
         Team invalidTeam = new Team();
-        BetofficeValidationException  ex = assertThrows(BetofficeValidationException.class, () -> {
+        ValidationException  ex = assertThrows(ValidationException.class, () -> {
             masterDataManagerService.createTeam(invalidTeam);
         });
         assertThat(ex.getMessages()).isNotEmpty();

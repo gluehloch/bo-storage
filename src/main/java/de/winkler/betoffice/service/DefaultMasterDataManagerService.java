@@ -46,8 +46,9 @@ import de.winkler.betoffice.storage.Season;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamAlias;
 import de.winkler.betoffice.storage.enums.TeamType;
-import de.winkler.betoffice.validation.BetofficeValidationException;
-import de.winkler.betoffice.validation.BetofficeValidationMessage;
+import de.winkler.betoffice.validation.ValidationException;
+import de.winkler.betoffice.validation.ValidationMessage;
+import de.winkler.betoffice.validation.ValidationMessage.MessageType;
 
 /**
  * Default-Implementierung der Stammdatenverwaltung.
@@ -91,32 +92,32 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     @Override
     @Transactional
     public void createGroupType(final GroupType groupType) {
-        List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
+        List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
 
         if (StringUtils.isBlank(groupType.getName())) {
-            messages.add(BetofficeValidationMessage.error("Name ist nicht gesetzt."));
+            messages.add(ValidationMessage.error(MessageType.GROUP_TYPE_NAME_IS_NOT_SET));
         }
 
         if (messages.isEmpty()) {
             groupTypeDao.persist(groupType);
         } else {
-            throw new BetofficeValidationException(messages);
+            throw new ValidationException(messages);
         }
     }
 
     @Override
     @Transactional
     public void createTeam(final Team team) {
-        List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
+        List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
 
         if (StringUtils.isBlank(team.getName())) {
-            messages.add(BetofficeValidationMessage.error("Name ist nicht gesetzt."));
+            messages.add(ValidationMessage.error(MessageType.TEAM_NAME_IS_NOT_SET));
         }
 
         if (messages.isEmpty()) {
             teamDao.persist(team);
         } else {
-            throw new BetofficeValidationException(messages);
+            throw new ValidationException(messages);
         }
     }
 
@@ -124,9 +125,9 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
     @Transactional
     public TeamAlias createTeamAlias(final Team team,
             final String teamAliasName) {
-        List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
+        List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
         if (StringUtils.isBlank(teamAliasName)) {
-            messages.add(BetofficeValidationMessage.error("Alias Name nicht gesetzt."));
+            messages.add(ValidationMessage.error(MessageType.TEAM_ALIAS_NAME_IS_NOT_SET));
         }
 
         TeamAlias teamAlias = null;
@@ -136,7 +137,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
             teamAlias.setTeam(team);
             teamAliasDao.persist(teamAlias);
         } else {
-            throw new BetofficeValidationException(messages);
+            throw new ValidationException(messages);
         }
 
         return teamAlias;

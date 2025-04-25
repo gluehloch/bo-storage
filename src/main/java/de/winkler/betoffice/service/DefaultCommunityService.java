@@ -50,10 +50,10 @@ import de.winkler.betoffice.storage.SeasonReference;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.NotificationType;
 import de.winkler.betoffice.util.LoggerFactory;
-import de.winkler.betoffice.validation.BetofficeServiceResult;
-import de.winkler.betoffice.validation.BetofficeValidationException;
-import de.winkler.betoffice.validation.BetofficeValidationMessage;
-import de.winkler.betoffice.validation.BetofficeValidationMessage.ErrorType;
+import de.winkler.betoffice.validation.ServiceResult;
+import de.winkler.betoffice.validation.ValidationException;
+import de.winkler.betoffice.validation.ValidationMessage;
+import de.winkler.betoffice.validation.ValidationMessage.MessageType;
 import jakarta.persistence.NoResultException;
 
 /**
@@ -143,7 +143,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public BetofficeServiceResult<Community> create(
+    public ServiceResult<Community> create(
             CommunityReference communityRef,
             SeasonReference seasonRef,
             String communityName,
@@ -152,7 +152,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
         Optional<Community> definedCommunity = communityDao.find(communityRef);
         if (definedCommunity.isPresent()) {
-            return BetofficeServiceResult.failure(ErrorType.COMMUNITY_EXISTS);
+            return ServiceResult.failure(MessageType.COMMUNITY_EXISTS);
         }
 
         Season persistedSeason = seasonDao.find(seasonRef).orElseThrow(
@@ -169,7 +169,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         community.setSeason(persistedSeason);
         communityDao.persist(community);
 
-        return BetofficeServiceResult.sucess(community);
+        return ServiceResult.sucess(community);
     }
 
     @Override
@@ -229,16 +229,16 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     @Override
     @Transactional
     public User createUser(final User user) {
-        List<BetofficeValidationMessage> messages = new ArrayList<BetofficeValidationMessage>();
+        List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
 
         if (user.getNickname() == null || StringUtils.isBlank(user.getNickname().value())) {
-            messages.add(BetofficeValidationMessage.error("Nickname ist nicht gesetzt."));
+            messages.add(ValidationMessage.error(MessageType.NICKNAME_IS_NOT_SET));
         }
 
         if (messages.isEmpty()) {
             userDao.persist(user);
         } else {
-            throw new BetofficeValidationException(messages);
+            throw new ValidationException(messages);
         }
 
         return user;
@@ -287,28 +287,31 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public Optional<User> confirmMailAddressChange(final Nickname nickname, final String changeToken) {
-        return userDao.findByNickname(nickname).map(u -> {
-            if (StringUtils.equals(changeToken, u.getChangeToken())) {
-                final var changeDateTime = u.getChangeDateTime();
-                final ZonedDateTime changeDateTimePlusTenMinutes = changeDateTime.plusMinutes(10);
-                // --- mailChange --- +10m --- now
-                final var now = dateTimeProvider.currentDateTime();
-                if (changeDateTime.isAfter(now)) {
-                    // TODO should not happen!
-                } else if (now.isBefore(changeDateTimePlusTenMinutes)) {
-                    // Link ist 10 Minuten gültig
-                } else {
-                    // TODO abgelaufen
-                }
-                u.acceptEmailChange();
+    public ServiceResult<User> confirmMailAddressChange(final Nickname nickname, final String changeToken) {
+        final Optional<User> optionalUser = userDao.findByNickname(nickname);
+        if (optionalUser.isEmpty()) {
+            return ServiceResult.failureWithFormattedError(MessageType.USER_NOT_FOUND, nickname.toString());
+        }
+
+        final User user = optionalUser.get();
+        if (StringUtils.equals(changeToken, user.getChangeToken())) {
+            final var changeDateTime = user.getChangeDateTime();
+            final ZonedDateTime changeDateTimePlusTenMinutes = changeDateTime.plusMinutes(10);
+            // --- mailChange --- +10m --- now
+            final var now = dateTimeProvider.currentDateTime();
+            if (changeDateTime.isAfter(now)) {
+                return ServiceResult.failure(MessageType.EMAIL_CHANGE_DATETIME_IS_IN_THE_FUTURE);
+            } else if (now.isBefore(changeDateTimePlusTenMinutes)) {
+                user.acceptEmailChange();
+                return ServiceResult.sucess(user);
             } else {
-                LOG.warn("Unable to confirm email change. ChangeTokens are different. {} vs {}", changeToken,
-                        u.getChangeToken());
-                throw new IllegalArgumentException("Unable to confirm email change. ChangeTokens are different.");
+                return ServiceResult.failure(MessageType.EMAIL_CHANGE_DATETIME_EXPIRED);
             }
-            return u;
-        });
+        } else {
+            LOG.warn("Unable to confirm email change. ChangeTokens are different. {} vs {}", changeToken,
+                    user.getChangeToken());
+            throw new IllegalArgumentException("Unable to confirm email change. ChangeTokens are different.");
+        }
     }
 
     @Override

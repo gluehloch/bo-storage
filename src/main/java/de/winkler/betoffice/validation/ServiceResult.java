@@ -24,17 +24,18 @@
 
 package de.winkler.betoffice.validation;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import de.winkler.betoffice.validation.BetofficeValidationMessage.ErrorType;
+import de.winkler.betoffice.validation.ValidationMessage.MessageType;
 
 /**
  * A service result.
  * 
  * @author Andre Winkler
  */
-public interface BetofficeServiceResult<T> {
+public interface ServiceResult<T> {
 
     Optional<T> result();
 
@@ -42,18 +43,28 @@ public interface BetofficeServiceResult<T> {
 
     T orElseThrow();
 
-    BetofficeValidationMessage message();
+    List<ValidationMessage> messages();
 
-    static <T> BetofficeServiceResult<T> sucess(T result) {
-        return DefaultBetofficeServiceResult.sucess(result);
+    boolean containsAnError();
+
+    static <T> ServiceResult<T> sucess(final T result) {
+        return DefaultServiceResult.sucess(result);
     }
 
-    static <T> BetofficeServiceResult<T> failure() {
-        return DefaultBetofficeServiceResult.failure();
+    static <T> ServiceResult<T> failure() {
+        return DefaultServiceResult.failure();
     }
 
-    static <T> BetofficeServiceResult<T> failure(ErrorType errorType) {
-        return DefaultBetofficeServiceResult.failure(errorType);
+    static <T> ServiceResult<T> failure(final ValidationMessage validationMessage) {
+        return DefaultServiceResult.failure(validationMessage);
+    }
+
+    static <T> ServiceResult<T> failure(MessageType errorType) {
+        return DefaultServiceResult.failure(errorType);
+    }
+
+    static <T> ServiceResult<T> failureWithFormattedError(final MessageType errorType, final String messageParam) {
+        return DefaultServiceResult.failureWithFormattedError(errorType, new Object[] { messageParam });
     }
 
 }

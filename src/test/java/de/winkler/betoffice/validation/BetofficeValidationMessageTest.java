@@ -28,20 +28,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import de.winkler.betoffice.validation.BetofficeValidationMessage.Severity;
+import de.winkler.betoffice.validation.ValidationMessage.MessageType;
+import de.winkler.betoffice.validation.ValidationMessage.Severity;
 
 /**
- * Test for class {@link BetofficeValidationException}.
+ * Test for class {@link ValidationException}.
  *
  * @author by Andre Winkler
  */
 public class BetofficeValidationMessageTest {
 
     @Test
-    public void testBetofficeValidationMessage() {
-        BetofficeValidationMessage ex = BetofficeValidationMessage.error("errorMessage");
-        assertThat(ex.getMessage()).isEqualTo("errorMessage");
-        assertThat(ex.getSeverity()).isEqualTo(Severity.ERROR);
+    public void testValidationMessage() {
+        ValidationMessage vm = ValidationMessage.error(MessageType.UNKNOWN_ERROR);
+        assertThat(vm.getMessage()).isEqualTo("Unbekannter Fehler.");
+        assertThat(vm.getSeverity()).isEqualTo(Severity.ERROR);
+    }
+
+    @Test
+    public void testValidationMessages() {
+        ValidationMessage vm = ValidationMessage.error(MessageType.UNKNOWN_ERROR);
+        ServiceResult<String> failure = ServiceResult.failure(vm);
+        assertThat(failure.result()).isEmpty();
+        assertThat(failure.containsAnError()).isTrue();
+        assertThat(failure.messages()).hasSize(1);
     }
 
 }

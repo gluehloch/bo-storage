@@ -42,7 +42,7 @@ import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.storage.Nickname;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.enums.NotificationType;
-import de.winkler.betoffice.validation.BetofficeValidationException;
+import de.winkler.betoffice.validation.ValidationException;
 
 /**
  * Test CRUD operations on storage object {@link User}.
@@ -91,7 +91,7 @@ class CommunityServiceUserTest extends AbstractServiceTest {
     void testCreateInvalidUser() {
         User invalidUser = new User();
 
-        BetofficeValidationException ex = assertThrows(BetofficeValidationException.class, () -> {
+        ValidationException ex = assertThrows(ValidationException.class, () -> {
             communityService.createUser(invalidUser);
         });
         assertThat(ex.getMessages()).isNotEmpty();

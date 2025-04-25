@@ -40,7 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.storage.GroupType;
-import de.winkler.betoffice.validation.BetofficeValidationException;
+import de.winkler.betoffice.validation.ValidationException;
 
 /**
  * Test for class {@link DefaultMasterDataManagerService}.
@@ -91,7 +91,7 @@ public class MasterDataManagerServiceGroupTypeTest extends AbstractServiceTest {
     @Test
     public void testCreateInvalidGroupType() {
         GroupType invalidGroupType = new GroupType();
-        BetofficeValidationException ex = assertThrows(BetofficeValidationException.class, () -> {
+        ValidationException ex = assertThrows(ValidationException.class, () -> {
             masterDataManagerService.createGroupType(invalidGroupType);
         });
 

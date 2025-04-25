@@ -41,7 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamAlias;
-import de.winkler.betoffice.validation.BetofficeValidationException;
+import de.winkler.betoffice.validation.ValidationException;
 
 /**
  * Test CRUD operations on storage object {@link TeamAlias}.
@@ -111,14 +111,14 @@ public class MasterDataManagerServiceTeamAliasTest extends AbstractServiceTest {
     public void testCreateInvalidTeamAlias() {
         Team rwe = createTeam("RWE", "Rot-Weiss-Essen");
 
-        BetofficeValidationException ex1 = assertThrows(
-                BetofficeValidationException.class, () -> {
+        ValidationException ex1 = assertThrows(
+                ValidationException.class, () -> {
                     masterDataManagerService.createTeamAlias(rwe, "");
                 });
         assertThat(ex1.getMessages()).isNotEmpty();
 
-        BetofficeValidationException ex2 = assertThrows(
-                BetofficeValidationException.class, () -> {
+        ValidationException ex2 = assertThrows(
+                ValidationException.class, () -> {
                     masterDataManagerService.createTeamAlias(rwe, null);
                 });
         assertThat(ex2.getMessages()).isNotEmpty();

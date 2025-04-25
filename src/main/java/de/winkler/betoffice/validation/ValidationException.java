@@ -31,25 +31,25 @@ import java.util.List;
  *
  * @author by Andre Winkler
  */
-public class BetofficeValidationException extends RuntimeException {
+public class ValidationException extends RuntimeException {
 
 	private static final long serialVersionUID = 4503632979162960612L;
 
-	private final List<BetofficeValidationMessage> messages;
+	private final List<ValidationMessage> messages;
 
-    public BetofficeValidationException(BetofficeValidationMessage message) {
+    public ValidationException(ValidationMessage message) {
     	this.messages = new ArrayList<>();
         messages.add(message);
     }
 
-    public BetofficeValidationException(List<BetofficeValidationMessage> messages) {
+    public ValidationException(List<ValidationMessage> messages) {
         this.messages = messages;
     }
 
     /**
      * @return the messages
      */
-    public List<BetofficeValidationMessage> getMessages() {
+    public List<ValidationMessage> getMessages() {
         return messages;
     }
 

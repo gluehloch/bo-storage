@@ -59,8 +59,9 @@ import de.winkler.betoffice.storage.Team;
 import de.winkler.betoffice.storage.TeamResult;
 import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.util.BetofficeValidator;
-import de.winkler.betoffice.validation.BetofficeValidationException;
-import de.winkler.betoffice.validation.BetofficeValidationMessage;
+import de.winkler.betoffice.validation.ValidationException;
+import de.winkler.betoffice.validation.ValidationMessage;
+import de.winkler.betoffice.validation.ValidationMessage.MessageType;
 
 /**
  * Die Default-Implementierung der Meisterschaftsverwaltung.
@@ -432,12 +433,11 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Override
     @Transactional
     public Group addTeam(Season season, GroupType groupType, Team team) {
-        List<BetofficeValidationMessage> messages = new ArrayList<>();
+        List<ValidationMessage> messages = new ArrayList<>();
 
         if (!season.getTeamType().equals(team.getTeamType())) {
-            messages.add(BetofficeValidationMessage.error(
-                    String.format("Die Meisterschaft %s unterstützt diesen Mannschaftstyp %s nicht.", season,
-                            team.getTeamType())));
+            messages.add(ValidationMessage.error(
+                    MessageType.SEASON_DOES_NOT_SUPPORT_THIS_TEAM_TYPE, season, team.getTeamType()));
         }
 
         if (messages.isEmpty()) {
@@ -445,8 +445,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
             List<Team> teams = groupDao.findTeams(group);
             if (teams.contains(team)) {
-                throw new BetofficeValidationException(
-                        BetofficeValidationMessage.error("team is already member of group"));
+                throw new ValidationException(ValidationMessage.error(
+                        MessageType.SEASON_GROUP_TEAM_IS_ALREADY_A_MEMBER, team, season, groupType));
             }
             // Group group = season.getGroup(groupType);
             // TODO Lazy load exception
@@ -454,7 +454,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
             groupDao.update(group);
             return group;
         } else {
-            throw new BetofficeValidationException(messages);
+            throw new ValidationException(messages);
         }
     }
 
@@ -474,33 +474,33 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
             seasonDao.persist(season);
             return season;
         } catch (ConstraintViolationException ex) {
-            List<BetofficeValidationMessage> messages = new ArrayList<>();
-            messages.add(BetofficeValidationMessage.error("Diese Meisterschaft ist bereits vorhanden."));
-            throw new BetofficeValidationException(messages);
+            List<ValidationMessage> messages = new ArrayList<>();
+            messages.add(ValidationMessage.error(MessageType.TEAM_ALREADY_EXISTS));
+            throw new ValidationException(messages);
         }
     }
 
     @Override
     @Transactional
     public void deleteSeason(Season season) {
-        List<BetofficeValidationMessage> messages = new ArrayList<>();
+        List<ValidationMessage> messages = new ArrayList<>();
 
         if (!communityDao.find(season.getReference()).isEmpty()) {
-            messages.add(BetofficeValidationMessage.error("Der Meisterschaft sind Communities zugeordnet."));
+            messages.add(ValidationMessage.error(MessageType.SEASON_DELETE_NOT_POSSIBE_COMMUNITIES_EXISTS));
         }
 
         if (!findRounds(season).isEmpty()) {
-            messages.add(BetofficeValidationMessage.error("Der Meisterschaft sind Spieltage zugeordnet."));
+            messages.add(ValidationMessage.error(MessageType.SEASON_DELETE_NOT_POSSIBLE_ROUNDS_EXISTS));
         }
 
         if (!findGroups(season).isEmpty()) {
-            messages.add(BetofficeValidationMessage.error("Der Meisterschaft sind Gruppen zugordnet."));
+            messages.add(ValidationMessage.error(MessageType.SEASON_DELETE_NOT_POSSIBLE_GROUPS_EXISTS));
         }
 
         if (messages.isEmpty()) {
             seasonDao.delete(season);
         } else {
-            throw new BetofficeValidationException(messages);
+            throw new ValidationException(messages);
         }
     }
 

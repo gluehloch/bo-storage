@@ -60,11 +60,10 @@ import de.winkler.betoffice.storage.User;
 import de.winkler.betoffice.storage.UserResult;
 import de.winkler.betoffice.storage.enums.SeasonType;
 import de.winkler.betoffice.storage.enums.TippStatusType;
-import de.winkler.betoffice.validation.BetofficeValidationException;
+import de.winkler.betoffice.validation.ValidationException;
 
 /**
- * Creates a season and test some service methods of class
- * {@link DefaultSeasonManagerService}.
+ * Creates a season and test some service methods of class {@link DefaultSeasonManagerService}.
  *
  * @author Andre Winkler
  */
@@ -134,9 +133,9 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     @SuppressWarnings("unused")
     private Group buli_2_group;
 
-//    private GameList round_01;
-//    private GameList round_02;
-//    private GameList round_03;
+    //    private GameList round_01;
+    //    private GameList round_02;
+    //    private GameList round_03;
 
     // ------------------------------------------------------------------------
 
@@ -181,12 +180,12 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         try {
             seasonManagerService.deleteSeason(buli_2010);
             fail("Expected a BetofficeValidationException.");
-        } catch (BetofficeValidationException ex) {
+        } catch (ValidationException ex) {
             assertThat(ex.getMessages()).hasSize(2)
                     .extracting("message")
                     .contains(
-                            "Der Meisterschaft sind Spieltage zugeordnet.",
-                            "Der Meisterschaft sind Gruppen zugordnet.");
+                            "Die Meisterschaft kann nicht entfernt werden, da Spieltage zu der Meisterschaft existieren.",
+                            "Die Meisterschaft kann nicht entfernt werden, da Gruppen der Meisterschaft zugeordnet sind.");
         }
     }
 
@@ -273,14 +272,14 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         createUsers();
         createCommunity();
 
-//        DATE_01_09_2010, rwe, schalke, 2, 0
-//        DATE_01_09_2010, hsv, burghausen, 1, 1
-//
-//        DATE_08_09_2010, burghausen, rwe, 1, 1
-//        DATE_08_09_2010, schalke, hsv, 1, 1
-//
-//        DATE_15_09_2010, rwe, hsv, 1, 2
-//        DATE_15_09_2010, burghausen, schalke, 0, 1        
+        //        DATE_01_09_2010, rwe, schalke, 2, 0
+        //        DATE_01_09_2010, hsv, burghausen, 1, 1
+        //
+        //        DATE_08_09_2010, burghausen, rwe, 1, 1
+        //        DATE_08_09_2010, schalke, hsv, 1, 1
+        //
+        //        DATE_15_09_2010, rwe, hsv, 1, 2
+        //        DATE_15_09_2010, burghausen, schalke, 0, 1        
 
         //
         // Frosch 2:0 | 1:1 || 1:1 | 1:1 || 1:2 | 0:1

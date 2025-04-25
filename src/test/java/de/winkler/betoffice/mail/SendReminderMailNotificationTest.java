@@ -34,8 +34,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
-import de.winkler.betoffice.dao.MatchDao;
-import de.winkler.betoffice.dao.RoundDao;
 import de.winkler.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.winkler.betoffice.dao.hibernate.RoundDaoHibernateTest;
 import de.winkler.betoffice.service.DateTimeProvider;
@@ -43,12 +41,6 @@ import de.winkler.betoffice.storage.GameList;
 
 @ContextConfiguration(classes = { SendReminderMailNotificationConfiguration.class })
 class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
-
-    @Autowired
-    private MatchDao matchDao;
-
-    @Autowired
-    private RoundDao roundDao;
 
     @Autowired
     private DateTimeProvider dateTimeProvider;
