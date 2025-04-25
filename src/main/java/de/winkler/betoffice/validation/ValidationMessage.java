@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2025 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -38,7 +38,15 @@ public class ValidationMessage {
         INFO
     };
 
-    public enum MessageType {
+    public interface Message {
+        String key();
+
+        String message();
+
+        String formattedMessage(Object... objects);
+    }
+
+    public enum MessageType implements Message {
         NO_ERROR(""),
         UNKNOWN_ERROR("Unbekannter Fehler."),
         COMMUNITY_EXISTS("Die Community %s existiert nicht."),
@@ -69,12 +77,12 @@ public class ValidationMessage {
             this.message = message;
         }
 
-        public String message() {
-            return message;
+        public String key() {
+            return this.name();
         }
 
-        public String formattedMessage(Object s) {
-            return String.format(message(), s);
+        public String message() {
+            return message;
         }
 
         public String formattedMessage(Object... s) {
