@@ -24,34 +24,36 @@
 
 package de.winkler.betoffice.validation;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-import org.junit.jupiter.api.Test;
+public class ValidationMessages {
 
-import de.winkler.betoffice.validation.ValidationMessage.MessageType;
-import de.winkler.betoffice.validation.ValidationMessage.Severity;
+    private final List<ValidationMessage> messages = new ArrayList<>();
 
-/**
- * Test for class {@link ValidationException}.
- *
- * @author by Andre Winkler
- */
-public class BetofficeValidationMessageTest {
-
-    @Test
-    public void testValidationMessage() {
-        ValidationMessage vm = ValidationMessage.error(MessageType.UNKNOWN_ERROR);
-        assertThat(vm.getMessage()).isEqualTo("Unbekannter Fehler.");
-        assertThat(vm.getSeverity()).isEqualTo(Severity.ERROR);
+    public static ValidationMessages empty() {
+        return new ValidationMessages(List.of());
     }
 
-    @Test
-    public void testValidationMessages() {
-        ValidationMessage vm = ValidationMessage.error(MessageType.UNKNOWN_ERROR);
-        ServiceResult<String> failure = ServiceResult.failure(vm);
-        assertThat(failure.result()).isEmpty();
-        assertThat(failure.containsAnError()).isTrue();
-        assertThat(failure.messages().getMessages()).hasSize(1);
+    public static ValidationMessages of(ValidationMessage validationMessage) {
+        return new ValidationMessages(List.of(validationMessage));
+    }
+
+    public static ValidationMessages of(List<ValidationMessage> validationMessages) {
+        return new ValidationMessages(validationMessages);
+    }
+
+    private ValidationMessages(final List<ValidationMessage> messages) {
+        this.messages.addAll(Objects.requireNonNull(messages));
+    }
+
+    public List<ValidationMessage> getMessages() {
+        return messages;
+    }
+
+    public boolean containsAnError() {
+        return this.messages.stream().anyMatch(i -> i.isAnError());
     }
 
 }

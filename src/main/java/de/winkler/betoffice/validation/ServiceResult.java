@@ -24,7 +24,6 @@
 
 package de.winkler.betoffice.validation;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -43,9 +42,11 @@ public interface ServiceResult<T> {
 
     T orElseThrow();
 
-    List<ValidationMessage> messages();
+    ValidationMessages messages();
 
     boolean containsAnError();
+
+    boolean isSuccessful();
 
     static <T> ServiceResult<T> sucess(final T result) {
         return DefaultServiceResult.sucess(result);

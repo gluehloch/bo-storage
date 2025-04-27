@@ -24,10 +24,8 @@
 
 package de.winkler.betoffice.validation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -41,30 +39,26 @@ import de.winkler.betoffice.validation.ValidationMessage.MessageType;
 class DefaultServiceResult<T> implements ServiceResult<T> {
 
     private final T result;
-    private final List<ValidationMessage> validationMessages = new ArrayList<>();
+    private final ValidationMessages validationMessages;
 
     private DefaultServiceResult(T result) {
         this.result = result;
+        this.validationMessages = ValidationMessages.empty();
     }
 
-    private DefaultServiceResult(T result, ValidationMessage validationMessage) {
+    private DefaultServiceResult(T result, ValidationMessages validationMessages) {
         this.result = result;
-        this.validationMessages.add(Objects.requireNonNull(validationMessage));
-    }
-
-    private DefaultServiceResult(T result, List<ValidationMessage> validationMessages) {
-        this.result = result;
-        this.validationMessages.addAll(Objects.requireNonNull(validationMessages));
+        this.validationMessages = validationMessages;
     }
 
     private DefaultServiceResult(ValidationMessage validationMessage) {
         this.result = null;
-        this.validationMessages.add(Objects.requireNonNull(validationMessage));
+        this.validationMessages = ValidationMessages.of(validationMessage);
     }
 
     private DefaultServiceResult(List<ValidationMessage> validationMessages) {
         this.result = null;
-        this.validationMessages.addAll(Objects.requireNonNull(validationMessages));
+        this.validationMessages = ValidationMessages.of(validationMessages);
     }
 
     @Override
@@ -73,7 +67,7 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
     }
 
     @Override
-    public List<ValidationMessage> messages() {
+    public ValidationMessages messages() {
         return validationMessages;
     }
 
@@ -120,7 +114,12 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
 
     @Override
     public boolean containsAnError() {
-        return this.validationMessages.stream().anyMatch(i -> i.isAnError());
+        return this.validationMessages.containsAnError();
+    }
+
+    @Override
+    public boolean isSuccessful() {
+        return this.result != null && !this.containsAnError();
     }
 
 }
