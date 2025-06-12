@@ -33,7 +33,10 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Profile(value = "test")
 @Configuration
-@PropertySource(ignoreResourceNotFound = true, value = { "classpath:/botest.properties" })
+@PropertySource(ignoreResourceNotFound = true, value = {
+        "file:${user.home}/.betoffice-test.properties",
+        "classpath:/botest.properties"
+})
 public class TestPropertiesConfiguration extends AbstractPropertiesConfiguration {
 
     @Bean
