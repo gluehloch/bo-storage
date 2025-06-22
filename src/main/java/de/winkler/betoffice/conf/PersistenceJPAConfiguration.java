@@ -43,17 +43,15 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * Registration Service Configuration Factory.
- * <br/>
- * Remember: The last property source wins on property name clash!
- * <br/>
+ * Registration Service Configuration Factory. <br/>
+ * Remember: The last property source wins on property name clash! <br/>
  * {@code /register.properties} must be located under {@link src/test/resources}.
  *
  * @author Andre Winkler
  */
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({"de.winkler.betoffice", "de.betoffice"})
+@ComponentScan({ "de.winkler.betoffice", "de.betoffice" })
 @EnableJpaRepositories(basePackages = { "de.winkler.betoffice" })
 public class PersistenceJPAConfiguration {
 
@@ -66,32 +64,17 @@ public class PersistenceJPAConfiguration {
 
     @Bean
     public EntityManagerFactory entityManagerFactory(DataSource dataSource) {
-      HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 
-      LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-      factory.setJpaVendorAdapter(vendorAdapter);
-      factory.setPackagesToScan("de.winkler.betoffice");
-      factory.setDataSource(dataSource);
-      factory.setJpaProperties(additionalProperties());
-      factory.afterPropertiesSet();
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setPackagesToScan("de.winkler.betoffice");
+        factory.setDataSource(dataSource);
+        factory.setJpaProperties(additionalProperties());
+        factory.afterPropertiesSet();
 
-      return factory.getObject();
+        return factory.getObject();
     }
-
-    /*
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[] { "de.awtools.registration" });
-
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(additionalProperties());
-
-        return em;
-    }
-    */
 
     @Bean
     public DataSource dataSource(BetofficeProperties properties) {

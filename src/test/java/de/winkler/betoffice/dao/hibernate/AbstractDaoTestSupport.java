@@ -29,29 +29,19 @@ import jakarta.persistence.EntityManager;
 
 import org.hibernate.Session;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.database.data.DeleteDatabase;
 import de.dbload.Dbload;
-import de.winkler.betoffice.conf.PersistenceJPAConfiguration;
-import de.winkler.betoffice.conf.TestPropertiesConfiguration;
+import de.winkler.betoffice.conf.BetofficeTestConfig;
 
 /**
- * DAO test support. The test method runs in his own transaction. So a lazy-loading exception
- * should not happen here.
+ * DAO test support. The test method runs in his own transaction. So a lazy-loading exception should not happen here.
  *
  * @author by Andre Winkler
  */
-@ActiveProfiles(profiles = "test")
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { PersistenceJPAConfiguration.class, TestPropertiesConfiguration.class })
-@ComponentScan({"de.winkler.betoffice", "de.betoffice"})
+@BetofficeTestConfig
 @Transactional
 public abstract class AbstractDaoTestSupport {
 
