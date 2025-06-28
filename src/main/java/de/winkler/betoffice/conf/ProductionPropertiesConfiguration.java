@@ -25,9 +25,10 @@ package de.winkler.betoffice.conf;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
-//@Profile(value = "production") // Currently the default profile 
+@Profile(value = "production") // Currently the default profile 
 //
 // Die Eigenschaften aus den Property Dateien entscheiden über die Umgebung. Profile
 // werden in dem Sinne hier nicht verwendet. Es wird immer das Production-Profile geladen.
@@ -35,7 +36,6 @@ import org.springframework.context.annotation.PropertySource;
 //
 @Configuration
 @PropertySource(ignoreResourceNotFound = true, value = {
-        "file:${user.home}/.betoffice.properties",
         "file:${AWTOOLS_CONFDIR}/betoffice/betoffice.properties"
 })
 public class ProductionPropertiesConfiguration extends AbstractPropertiesConfiguration {
