@@ -35,7 +35,7 @@ import org.springframework.context.annotation.PropertySource;
 // Für die JUnit Tests wird die Konfiguration 'TestPropertiesConfiguration' verwendet.
 //
 @Configuration
-@PropertySource(ignoreResourceNotFound = true, value = {
+@PropertySource(ignoreResourceNotFound = false, value = {
         "file:${AWTOOLS_CONFDIR}/betoffice/betoffice.properties"
 })
 public class ProductionPropertiesConfiguration extends AbstractPropertiesConfiguration {
