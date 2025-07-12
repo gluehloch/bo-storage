@@ -13,6 +13,7 @@ docker tag 7d9495d03763 maryatdocker/docker-whale:latest
 
 *** Run the image ***
 docker run --name mariadb -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb:latest
+*** Import *.sql to the docker container with the cli from the command line
 docker exec -i mariadb mariadb -u betofficesu --password=betoffice -D betoffice < mysql.sql
 
 TODO: Das Schema wird derzeit nicht angelegt und ist nicht teil eines Images.
