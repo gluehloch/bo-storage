@@ -23,6 +23,10 @@ docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=
 
 docker run --name testtest -p 127.0.0.1:3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d gluehloch/mariadb-awi:latest
 
+*** Docker Network ***
+docker network create betoffice;
+docker network connect betoffice mariadb;
+
 -- Nach Vorbereitung des Images, commit ...
 docker run --name testtest -p 127.0.0.1:3306:3306  -d  gluehloch/mariadb-dbload
 
