@@ -35,7 +35,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource(ignoreResourceNotFound = true, value = {
         "classpath:/botest.properties",
-        "file:${user.home}/.betoffice-test.properties"
+        "file:${user.home}/.awitools/.betoffice-test.properties"
 })
 public class TestPropertiesConfiguration extends AbstractPropertiesConfiguration {
 
