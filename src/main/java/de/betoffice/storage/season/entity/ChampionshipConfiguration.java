@@ -21,7 +21,7 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.betoffice.storage.season;
+package de.betoffice.storage.season.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

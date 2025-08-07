@@ -22,7 +22,7 @@
  *
  */
 
-package de.betoffice.storage;
+package de.betoffice.storage.session.entity;
 
 import java.time.ZonedDateTime;
 

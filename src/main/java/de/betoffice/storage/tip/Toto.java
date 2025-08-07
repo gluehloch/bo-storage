@@ -31,9 +31,7 @@ import java.io.Serializable;
 /**
  * Enumeration Toto.
  * 
- * @author $Author: andrewinkler $
- * @version $Revision: 3782 $ $Date: 2013-07-27 10:44:32 +0200 (Sat, 27 Jul
- *          2013) $
+ * @author Andre Winkler
  */
 public final class Toto implements Comparable<Toto>, Serializable {
 
@@ -71,10 +69,8 @@ public final class Toto implements Comparable<Toto>, Serializable {
     /**
      * Erzeugt ein Toto.
      *
-     * @param name
-     *            Name der Aufzählung.
-     * @param toto
-     *            Der Toto-Wert der Aufzählung.
+     * @param name Name der Aufzählung.
+     * @param toto Der Toto-Wert der Aufzählung.
      */
     private Toto(String name, int toto) {
         this.name = name;
@@ -91,8 +87,7 @@ public final class Toto implements Comparable<Toto>, Serializable {
     }
 
     /**
-     * Liefert den Ordinalwert. Nicht zu verwechseln mit den Toto Werten 1,0 und
-     * 2.
+     * Liefert den Ordinalwert. Nicht zu verwechseln mit den Toto Werten 1,0 und 2.
      *
      * @return Ordinalwert.
      */
@@ -103,21 +98,19 @@ public final class Toto implements Comparable<Toto>, Serializable {
     /**
      * Vergleicht zwei TotoResults miteinander.
      *
-     * @param obj
-     *            Der zu vergleichende TotoResult.
-     * @return Siehe {@link Comparable#compareTo(java.lang.Object)}.
+     * @param  obj Der zu vergleichende TotoResult.
+     * @return     Siehe {@link Comparable#compareTo(java.lang.Object)}.
      */
     public int compareTo(Toto obj) {
         return (ordinal - obj.ordinal);
     }
 
     /**
-     * Methode für die Deserialisierung dieser Klasse. Verhindert das nach der
-     * Deserialisierung doppelte Konstanten nebeneinander existieren.
+     * Methode für die Deserialisierung dieser Klasse. Verhindert das nach der Deserialisierung doppelte Konstanten
+     * nebeneinander existieren.
      *
-     * @return Ein Objekt.
-     * @throws ObjectStreamException
-     *             Da ging was schief.
+     * @return                       Ein Objekt.
+     * @throws ObjectStreamException Da ging was schief.
      */
     private Object readResolve() throws ObjectStreamException {
         return PRIVATE_VALUES[ordinal];

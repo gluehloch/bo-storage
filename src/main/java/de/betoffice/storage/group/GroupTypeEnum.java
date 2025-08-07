@@ -22,7 +22,7 @@
  *
  */
 
-package de.betoffice.storage.season;
+package de.betoffice.storage.group;
 
 public enum GroupTypeEnum {
 

@@ -50,7 +50,6 @@ import jakarta.persistence.Table;
 import de.betoffice.storage.AbstractStorageObject;
 import de.betoffice.storage.StorageConst;
 import de.betoffice.storage.group.entity.GroupType;
-import de.betoffice.storage.season.ChampionshipConfiguration;
 import de.betoffice.storage.season.SeasonType;
 import de.betoffice.storage.team.TeamType;
 import de.betoffice.storage.team.entity.Team;

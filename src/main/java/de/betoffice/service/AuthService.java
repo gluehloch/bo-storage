@@ -25,7 +25,7 @@ package de.betoffice.service;
 
 import java.util.Optional;
 
-import de.betoffice.storage.Session;
+import de.betoffice.storage.session.entity.Session;
 import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.storage.user.entity.User;
 

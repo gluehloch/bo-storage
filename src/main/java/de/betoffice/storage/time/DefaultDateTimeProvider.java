@@ -22,7 +22,7 @@
  *
  */
 
-package de.betoffice.service;
+package de.betoffice.storage.time;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

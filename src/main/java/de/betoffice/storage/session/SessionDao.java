@@ -25,8 +25,8 @@ package de.betoffice.storage.session;
 
 import java.util.List;
 
-import de.betoffice.storage.Session;
 import de.betoffice.storage.community.CommonDao;
+import de.betoffice.storage.session.entity.Session;
 
 /**
  * DAO for table BO_SESSION.

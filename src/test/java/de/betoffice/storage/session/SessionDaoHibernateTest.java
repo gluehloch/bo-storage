@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
-import de.betoffice.storage.Session;
+import de.betoffice.storage.session.entity.Session;
 
 /**
  * A test for {@link SessionDao}.

@@ -34,11 +34,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import de.betoffice.service.CommunityService;
-import de.betoffice.service.DateTimeProvider;
 import de.betoffice.service.SeasonManagerService;
 import de.betoffice.service.TippService;
 import de.betoffice.storage.season.entity.Game;
 import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.time.DateTimeProvider;
 import de.betoffice.storage.tip.GameTipp;
 import de.betoffice.storage.user.entity.User;
 

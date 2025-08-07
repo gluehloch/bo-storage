@@ -27,9 +27,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import de.betoffice.storage.Session;
 import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.session.SessionDao;
+import de.betoffice.storage.session.entity.Session;
 
 /**
  * DAO for BO_SESSION
@@ -37,8 +37,7 @@ import de.betoffice.storage.session.SessionDao;
  * @author by Andre Winkler
  */
 @Repository("sessionDao")
-public class SessionDaoHibernate extends AbstractCommonDao<Session>
-        implements SessionDao {
+public class SessionDaoHibernate extends AbstractCommonDao<Session> implements SessionDao {
 
     SessionDaoHibernate() {
         super(Session.class);
@@ -68,9 +67,15 @@ public class SessionDaoHibernate extends AbstractCommonDao<Session>
     @Override
     public List<Session> findBySessionId(String sessionId) {
         return getEntityManager()
-                .createQuery("from Session as session "
-                        + "left join fetch session.user "
-                        + "where session.token = :sessionId order by session.login desc")
+                .createQuery("""
+                        from
+                            Session as session
+                            left join fetch session.user
+                        where
+                            session.token = :sessionId
+                        order by
+                            session.login desc
+                        """)
                 .setParameter("sessionId", sessionId).getResultList();
     }
 

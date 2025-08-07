@@ -37,7 +37,7 @@ import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 
 import de.betoffice.storage.AbstractStorageObject;
-import de.betoffice.storage.season.GroupTypeEnum;
+import de.betoffice.storage.group.GroupTypeEnum;
 
 /**
  * Beschreibt einen Gruppentyp (1. Liga, 2. Liga, Regionalliga Nord, etc.).

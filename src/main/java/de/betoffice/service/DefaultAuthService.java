@@ -33,8 +33,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.betoffice.storage.Session;
 import de.betoffice.storage.session.SessionDao;
+import de.betoffice.storage.session.entity.Session;
+import de.betoffice.storage.time.DateTimeProvider;
 import de.betoffice.storage.user.RoleType;
 import de.betoffice.storage.user.UserDao;
 import de.betoffice.storage.user.entity.Nickname;
