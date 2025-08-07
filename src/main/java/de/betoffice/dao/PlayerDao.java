@@ -26,7 +26,7 @@ package de.betoffice.dao;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.Player;
+import de.betoffice.storage.season.Player;
 
 /**
  * Player DAO

@@ -27,10 +27,10 @@ package de.betoffice.dao;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.Game;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.GameTipp;
-import de.betoffice.storage.User;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.tip.GameTipp;
+import de.betoffice.storage.user.User;
 
 /**
  * Persistiert die {@link GameTipp} Objekte.

@@ -33,10 +33,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.GroupDao;
 import de.betoffice.dao.SeasonDao;
-import de.betoffice.dao.hibernate.GroupDaoHibernate;
-import de.betoffice.storage.Group;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.SeasonReference;
+import de.betoffice.storage.season.Group;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.season.SeasonReference;
 
 /**
  * Test case for class {@link GroupDaoHibernate}.

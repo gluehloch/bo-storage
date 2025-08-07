@@ -27,8 +27,8 @@ package de.betoffice.dao;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.Team;
-import de.betoffice.storage.TeamAlias;
+import de.betoffice.storage.team.Team;
+import de.betoffice.storage.team.TeamAlias;
 
 /**
  * DAO für die Datenbanktabelle bo_teamalias.

@@ -31,7 +31,7 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.LocationDao;
-import de.betoffice.storage.Location;
+import de.betoffice.storage.season.Location;
 
 /**
  * {@link Location} DAO implementation

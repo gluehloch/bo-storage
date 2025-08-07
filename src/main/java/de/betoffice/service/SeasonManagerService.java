@@ -28,18 +28,18 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.Game;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.GameResult;
-import de.betoffice.storage.GameTipp;
-import de.betoffice.storage.Goal;
-import de.betoffice.storage.Group;
-import de.betoffice.storage.GroupType;
-import de.betoffice.storage.Player;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.Team;
-import de.betoffice.storage.TeamResult;
-import de.betoffice.storage.User;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.GameResult;
+import de.betoffice.storage.season.Goal;
+import de.betoffice.storage.season.Group;
+import de.betoffice.storage.season.GroupType;
+import de.betoffice.storage.season.Player;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.team.Team;
+import de.betoffice.storage.team.TeamResult;
+import de.betoffice.storage.tip.GameTipp;
+import de.betoffice.storage.user.User;
 
 /**
  * Definiert die allgemeine Service-Schnittstelle zur Verwaltung einer Meisterschaft.

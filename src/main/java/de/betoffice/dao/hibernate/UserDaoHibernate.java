@@ -36,8 +36,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.UserDao;
-import de.betoffice.storage.Nickname;
-import de.betoffice.storage.User;
+import de.betoffice.storage.user.Nickname;
+import de.betoffice.storage.user.User;
 
 /**
  * Klasse für den Zugriff auf <code>User</code> Objekte mit Hibernate.

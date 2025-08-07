@@ -27,7 +27,7 @@ package de.betoffice.storage.comparator;
 
 import java.util.Comparator;
 
-import de.betoffice.storage.UserResultOfDay;
+import de.betoffice.storage.tip.UserResultOfDay;
 
 /**
  * Vergleicht zwei UserResultOfDay Objekte miteinander.

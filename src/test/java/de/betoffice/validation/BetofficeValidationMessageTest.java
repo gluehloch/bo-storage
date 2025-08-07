@@ -28,9 +28,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import de.betoffice.validation.ServiceResult;
-import de.betoffice.validation.ValidationException;
-import de.betoffice.validation.ValidationMessage;
 import de.betoffice.validation.ValidationMessage.MessageType;
 import de.betoffice.validation.ValidationMessage.Severity;
 

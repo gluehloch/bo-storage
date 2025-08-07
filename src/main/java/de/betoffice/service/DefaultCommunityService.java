@@ -30,6 +30,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.persistence.NoResultException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.data.domain.Page;
@@ -40,21 +42,20 @@ import org.springframework.transaction.annotation.Transactional;
 import de.betoffice.dao.CommunityDao;
 import de.betoffice.dao.SeasonDao;
 import de.betoffice.dao.UserDao;
+import de.betoffice.mail.NotificationType;
 import de.betoffice.mail.SendUserProfileChangeMailNotification;
-import de.betoffice.storage.Community;
-import de.betoffice.storage.CommunityFilter;
-import de.betoffice.storage.CommunityReference;
-import de.betoffice.storage.Nickname;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.SeasonReference;
-import de.betoffice.storage.User;
-import de.betoffice.storage.enums.NotificationType;
+import de.betoffice.storage.community.Community;
+import de.betoffice.storage.community.CommunityFilter;
+import de.betoffice.storage.community.CommunityReference;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.season.SeasonReference;
+import de.betoffice.storage.user.Nickname;
+import de.betoffice.storage.user.User;
 import de.betoffice.util.LoggerFactory;
 import de.betoffice.validation.ServiceResult;
 import de.betoffice.validation.ValidationException;
 import de.betoffice.validation.ValidationMessage;
 import de.betoffice.validation.ValidationMessage.MessageType;
-import jakarta.persistence.NoResultException;
 
 /**
  * Manages a community.

@@ -27,7 +27,7 @@ package de.betoffice.dao;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.Location;
+import de.betoffice.storage.season.Location;
 
 /**
  * Location DAO.

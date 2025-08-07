@@ -32,8 +32,8 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.GroupTypeDao;
-import de.betoffice.storage.GroupType;
-import de.betoffice.storage.Season;
+import de.betoffice.storage.season.GroupType;
+import de.betoffice.storage.season.Season;
 
 /**
  * Klasse für den Zugriff auf <code>Group</code> Objekte mit Hibernate.

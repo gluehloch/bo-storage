@@ -23,8 +23,9 @@
 
 package de.betoffice.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -42,22 +43,16 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.service.CommunityCalculatorService;
-import de.betoffice.service.CommunityService;
-import de.betoffice.service.DatabaseMaintenanceService;
-import de.betoffice.service.MasterDataManagerService;
-import de.betoffice.service.SeasonManagerService;
-import de.betoffice.service.TippService;
-import de.betoffice.storage.CommunityReference;
-import de.betoffice.storage.Game;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.GameTipp;
-import de.betoffice.storage.Group;
-import de.betoffice.storage.Nickname;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.SeasonRange;
-import de.betoffice.storage.User;
-import de.betoffice.storage.UserResult;
+import de.betoffice.storage.community.CommunityReference;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.Group;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.season.SeasonRange;
+import de.betoffice.storage.tip.GameTipp;
+import de.betoffice.storage.user.Nickname;
+import de.betoffice.storage.user.User;
+import de.betoffice.storage.user.UserResult;
 import de.betoffice.util.LoggerFactory;
 
 /**

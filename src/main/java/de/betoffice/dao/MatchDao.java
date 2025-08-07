@@ -27,9 +27,9 @@ package de.betoffice.dao;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.Game;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.Team;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.team.Team;
 
 /**
  * Dieses DAO sucht nach bestimmten Spielpaarungen.
@@ -61,7 +61,7 @@ public interface MatchDao extends CommonDao<Game> {
      *
      * @param  homeTeam Die gesuchte Heimmannschaft.
      * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
-     * @return          Eine Liste von {@link de.betoffice.storage.Game} Objekten.
+     * @return          Eine Liste von {@link de.betoffice.storage.season.Game} Objekten.
      */
     List<Game> findByHomeTeam(Team homeTeam, int limit);
 
@@ -70,7 +70,7 @@ public interface MatchDao extends CommonDao<Game> {
      *
      * @param  guestTeam Die gesuchte Gastmannschaft.
      * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
-     * @return           Eine Liste von {@link de.betoffice.storage.Game} Objekten.
+     * @return           Eine Liste von {@link de.betoffice.storage.season.Game} Objekten.
      */
     List<Game> findByGuestTeam(Team guestTeam, int limit);
 
@@ -80,7 +80,7 @@ public interface MatchDao extends CommonDao<Game> {
      * @param  homeTeam  Die gesuchte Heimmannschaft.
      * @param  guestTeam Die gesuchte Gastmannschaft.
      * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
-     * @return           Eine Liste von {@link de.betoffice.storage.Game} Objekten.
+     * @return           Eine Liste von {@link de.betoffice.storage.season.Game} Objekten.
      */
     List<Game> find(Team homeTeam, Team guestTeam, int limit);
 
@@ -90,7 +90,7 @@ public interface MatchDao extends CommonDao<Game> {
      * @param  team1 Die erste gesuchte Mannschaft (Heim wie auswärts).
      * @param  team2 Die zweite gesuchte Mannschaft (Heim wie auswärts).
      * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
-     * @return       Eine Liste von {@link de.betoffice.storage.Game} Objekten.
+     * @return       Eine Liste von {@link de.betoffice.storage.season.Game} Objekten.
      */
     List<Game> findAll(Team team1, Team team2, int limit);
 
@@ -99,7 +99,7 @@ public interface MatchDao extends CommonDao<Game> {
      * 
      * @param  team Die gesuchte Mannschaft
      * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
-     * @return      Eine Liste von {@link de.betoffice.storage.Game} Objekten.
+     * @return      Eine Liste von {@link de.betoffice.storage.season.Game} Objekten.
      */
     List<Game> find(Team team, int limit);
 

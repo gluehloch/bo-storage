@@ -37,11 +37,10 @@ import de.betoffice.service.CommunityService;
 import de.betoffice.service.DateTimeProvider;
 import de.betoffice.service.SeasonManagerService;
 import de.betoffice.service.TippService;
-import de.betoffice.storage.Game;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.GameTipp;
-import de.betoffice.storage.User;
-import de.betoffice.storage.enums.NotificationType;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.tip.GameTipp;
+import de.betoffice.storage.user.User;
 
 @Service
 public class SendReminderMailNotification {

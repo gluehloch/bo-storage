@@ -40,19 +40,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.service.CommunityService;
-import de.betoffice.service.DefaultSeasonManagerService;
-import de.betoffice.service.MasterDataManagerService;
-import de.betoffice.service.SeasonManagerService;
-import de.betoffice.service.TippService;
-import de.betoffice.storage.Community;
-import de.betoffice.storage.CommunityReference;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.GameTipp;
-import de.betoffice.storage.Group;
-import de.betoffice.storage.GroupType;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.User;
+import de.betoffice.storage.community.Community;
+import de.betoffice.storage.community.CommunityReference;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.Group;
+import de.betoffice.storage.season.GroupType;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.tip.GameTipp;
+import de.betoffice.storage.user.User;
 
 /**
  * Testet das Verhalten von {@link DefaultSeasonManagerService}.

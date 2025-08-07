@@ -23,8 +23,9 @@
 
 package de.betoffice.test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +37,15 @@ import de.betoffice.service.CommunityService;
 import de.betoffice.service.MasterDataManagerService;
 import de.betoffice.service.SeasonManagerService;
 import de.betoffice.service.TippService;
-import de.betoffice.storage.Game;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.GameResult;
-import de.betoffice.storage.Group;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.SeasonReference;
-import de.betoffice.storage.Team;
 import de.betoffice.storage.enums.SeasonType;
-import de.betoffice.storage.enums.TippStatusType;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.GameResult;
+import de.betoffice.storage.season.Group;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.season.SeasonReference;
+import de.betoffice.storage.team.Team;
+import de.betoffice.storage.tip.TippStatusType;
 
 /**
  * Baut ein Testszenario für BetOffice auf. <br>

@@ -26,10 +26,10 @@ package de.betoffice.dao;
 
 import java.util.List;
 
-import de.betoffice.storage.Community;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.SeasonRange;
-import de.betoffice.storage.UserResult;
+import de.betoffice.storage.community.Community;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.SeasonRange;
+import de.betoffice.storage.user.UserResult;
 
 /**
  * Berechnet die Teilnehmertabelle.

@@ -32,8 +32,8 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.TeamAliasDao;
-import de.betoffice.storage.Team;
-import de.betoffice.storage.TeamAlias;
+import de.betoffice.storage.team.Team;
+import de.betoffice.storage.team.TeamAlias;
 
 /**
  * Die Hibernate Implementierung des DAO {@link TeamAliasDao}.

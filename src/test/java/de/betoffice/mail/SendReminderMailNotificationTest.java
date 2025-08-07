@@ -36,9 +36,8 @@ import org.springframework.test.context.ContextConfiguration;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.dao.hibernate.RoundDaoHibernateTest;
-import de.betoffice.mail.SendReminderMailNotification;
 import de.betoffice.service.DateTimeProvider;
-import de.betoffice.storage.GameList;
+import de.betoffice.storage.season.GameList;
 
 @ContextConfiguration(classes = { SendReminderMailNotificationConfiguration.class })
 class SendReminderMailNotificationTest extends AbstractDaoTestSupport {

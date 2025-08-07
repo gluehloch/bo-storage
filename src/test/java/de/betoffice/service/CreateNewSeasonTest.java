@@ -23,10 +23,11 @@
 
 package de.betoffice.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.sql.SQLException;
 import java.time.ZonedDateTime;
@@ -41,24 +42,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.service.DatabaseMaintenanceService;
-import de.betoffice.service.MasterDataManagerService;
-import de.betoffice.service.SeasonManagerService;
-import de.betoffice.storage.Game;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.GameResult;
-import de.betoffice.storage.Goal;
-import de.betoffice.storage.Group;
-import de.betoffice.storage.GroupType;
-import de.betoffice.storage.Location;
-import de.betoffice.storage.Player;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.SeasonReference;
-import de.betoffice.storage.Team;
+import de.betoffice.database.data.DeleteDatabase;
 import de.betoffice.storage.enums.GoalType;
 import de.betoffice.storage.enums.SeasonType;
 import de.betoffice.storage.enums.TeamType;
-import de.betoffice.database.data.DeleteDatabase;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.GameResult;
+import de.betoffice.storage.season.Goal;
+import de.betoffice.storage.season.Group;
+import de.betoffice.storage.season.GroupType;
+import de.betoffice.storage.season.Location;
+import de.betoffice.storage.season.Player;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.season.SeasonReference;
+import de.betoffice.storage.team.Team;
 
 /**
  * Testet das Erstellen einer neuen Meisterschaft.

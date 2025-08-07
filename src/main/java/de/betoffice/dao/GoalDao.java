@@ -26,8 +26,8 @@ package de.betoffice.dao;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.Game;
-import de.betoffice.storage.Goal;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.Goal;
 
 /**
  * The DAO for the goals.

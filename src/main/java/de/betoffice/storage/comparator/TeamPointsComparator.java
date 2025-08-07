@@ -27,7 +27,7 @@ package de.betoffice.storage.comparator;
 
 import java.util.Comparator;
 
-import de.betoffice.storage.TeamResult;
+import de.betoffice.storage.team.TeamResult;
 
 /**
  * Vergleicht zwei Mannschaften (@link de.betoffice.storage.TeamResult})

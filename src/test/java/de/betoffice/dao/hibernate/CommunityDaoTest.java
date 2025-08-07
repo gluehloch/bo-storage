@@ -35,9 +35,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import de.betoffice.dao.CommunityDao;
-import de.betoffice.storage.Community;
-import de.betoffice.storage.CommunityFilter;
-import de.betoffice.storage.CommunityReference;
+import de.betoffice.storage.community.Community;
+import de.betoffice.storage.community.CommunityFilter;
+import de.betoffice.storage.community.CommunityReference;
 
 /**
  * Test for class {@link CommunityDao}.

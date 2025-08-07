@@ -28,7 +28,7 @@ import java.util.Comparator;
 
 import org.slf4j.Logger;
 
-import de.betoffice.storage.UserResult;
+import de.betoffice.storage.user.UserResult;
 import de.betoffice.util.LoggerFactory;
 
 /**

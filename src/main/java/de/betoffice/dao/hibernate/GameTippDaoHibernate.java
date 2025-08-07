@@ -30,9 +30,9 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.GameTippDao;
-import de.betoffice.storage.Game;
-import de.betoffice.storage.GameTipp;
-import de.betoffice.storage.User;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.tip.GameTipp;
+import de.betoffice.storage.user.User;
 
 /**
  * Hibernate DAO fuer den Zugriff auf {@link GameTipp}.

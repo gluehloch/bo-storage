@@ -30,11 +30,11 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import de.betoffice.storage.Nickname;
-import de.betoffice.storage.User;
+import de.betoffice.storage.user.Nickname;
+import de.betoffice.storage.user.User;
 
 /**
- * DAO Klasse für den Zugriff auf {@link de.betoffice.storage.User}.
+ * DAO Klasse für den Zugriff auf {@link de.betoffice.storage.user.User}.
  *
  * @author by Andre Winkler
  */

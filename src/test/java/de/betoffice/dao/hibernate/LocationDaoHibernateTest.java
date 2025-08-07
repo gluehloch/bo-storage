@@ -33,8 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.LocationDao;
-import de.betoffice.dao.hibernate.LocationDaoHibernate;
-import de.betoffice.storage.Location;
+import de.betoffice.storage.season.Location;
 
 /**
  * Test for {@link LocationDaoHibernate}.

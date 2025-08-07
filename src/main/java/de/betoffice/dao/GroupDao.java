@@ -25,10 +25,10 @@ package de.betoffice.dao;
 
 import java.util.List;
 
-import de.betoffice.storage.Group;
-import de.betoffice.storage.GroupType;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.Team;
+import de.betoffice.storage.season.Group;
+import de.betoffice.storage.season.GroupType;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.team.Team;
 
 /**
  * DAO zur Verwaltung der {@link Group}s.

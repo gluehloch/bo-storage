@@ -27,10 +27,10 @@ package de.betoffice.storage.comparator;
 
 import java.util.Comparator;
 
-import de.betoffice.storage.Group;
+import de.betoffice.storage.season.Group;
 
 /**
- * Vergleicht zu {@link de.betoffice.storage.Group}s über den Namen des
+ * Vergleicht zu {@link de.betoffice.storage.season.Group}s über den Namen des
  * GroupTypes miteinander.
  * 
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $

@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import de.betoffice.dao.hibernate.FilterBuilder;
-
 public class FilterBuilderTest {
 
     @Test

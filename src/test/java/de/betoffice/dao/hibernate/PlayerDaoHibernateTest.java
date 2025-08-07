@@ -33,8 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.PlayerDao;
-import de.betoffice.dao.hibernate.PlayerDaoHibernate;
-import de.betoffice.storage.Player;
+import de.betoffice.storage.season.Player;
 
 /**
  * Test for {@link PlayerDaoHibernate}.

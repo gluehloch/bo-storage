@@ -27,7 +27,7 @@ package de.betoffice.storage.comparator;
 import java.util.Comparator;
 import java.util.Objects;
 
-import de.betoffice.storage.User;
+import de.betoffice.storage.user.User;
 
 /**
  * Vergleicht zwei Teilnehmer mit ihrem Namen.

@@ -27,10 +27,10 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.Game;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.Group;
-import de.betoffice.storage.Season;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.Group;
+import de.betoffice.storage.season.Season;
 
 /**
  * DAO für das persistente Verhalten von Spieltagen.

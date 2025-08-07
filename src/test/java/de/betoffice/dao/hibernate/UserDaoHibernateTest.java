@@ -36,9 +36,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import de.betoffice.dao.UserDao;
-import de.betoffice.dao.hibernate.UserDaoHibernate;
-import de.betoffice.storage.Nickname;
-import de.betoffice.storage.User;
+import de.betoffice.storage.user.Nickname;
+import de.betoffice.storage.user.User;
 
 /**
  * Test for class {@link UserDaoHibernate}.

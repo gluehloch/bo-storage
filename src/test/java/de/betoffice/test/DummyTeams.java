@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import de.betoffice.storage.Team;
+import de.betoffice.storage.team.Team;
 
 /**
  * Eine Utility Klasse für die Testunterstützung. Diese Klasse generiert Mengen

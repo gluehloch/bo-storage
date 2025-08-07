@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.betoffice.dao.GroupDao;
 import de.betoffice.dao.RoundDao;
 import de.betoffice.dao.SeasonDao;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.Group;
-import de.betoffice.storage.Season;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.Group;
+import de.betoffice.storage.season.Season;
 
 public class RoundDaoWithoutGameHibernateTest extends AbstractDaoTestSupport {
 

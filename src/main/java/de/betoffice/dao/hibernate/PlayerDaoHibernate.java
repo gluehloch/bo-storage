@@ -31,7 +31,7 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.PlayerDao;
-import de.betoffice.storage.Player;
+import de.betoffice.storage.season.Player;
 
 /**
  * The implementation of {@link PlayerDao}.

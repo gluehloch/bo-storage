@@ -40,12 +40,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.CommunityRankingDao;
-import de.betoffice.storage.Community;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.SeasonRange;
-import de.betoffice.storage.User;
-import de.betoffice.storage.UserResult;
+import de.betoffice.storage.community.Community;
 import de.betoffice.storage.comparator.UserPointsComparator;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.SeasonRange;
+import de.betoffice.storage.user.User;
+import de.betoffice.storage.user.UserResult;
 
 @Repository("communityRankingDao")
 public class CommunityRankingDaoHibernate implements CommunityRankingDao {

@@ -32,10 +32,10 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.TeamDao;
-import de.betoffice.storage.GroupType;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.Team;
 import de.betoffice.storage.enums.TeamType;
+import de.betoffice.storage.season.GroupType;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.team.Team;
 
 /**
  * Klasse für den Zugriff auf <code>Team</code> Objekte mit Hibernate.

@@ -27,7 +27,7 @@ package de.betoffice.storage.comparator;
 
 import java.util.Comparator;
 
-import de.betoffice.storage.TeamAlias;
+import de.betoffice.storage.team.TeamAlias;
 
 /**
  * Compares two {@link TeamAlias} objects.

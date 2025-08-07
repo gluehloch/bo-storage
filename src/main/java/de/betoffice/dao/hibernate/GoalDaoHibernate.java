@@ -31,8 +31,8 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.GoalDao;
-import de.betoffice.storage.Game;
-import de.betoffice.storage.Goal;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.Goal;
 
 /**
  * The default implementation of the {@link GoalDao}.

@@ -23,8 +23,9 @@
 
 package de.betoffice.dao.hibernate;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.sql.Connection;
@@ -41,8 +42,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.TeamDao;
-import de.betoffice.storage.Team;
 import de.betoffice.storage.enums.TeamType;
+import de.betoffice.storage.team.Team;
 import de.dbload.csv.writer.ResourceWriter;
 
 /**

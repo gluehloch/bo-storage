@@ -27,7 +27,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -37,12 +36,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.service.DatabaseMaintenanceService;
-import de.betoffice.service.DefaultMasterDataManagerService;
-import de.betoffice.service.MasterDataManagerService;
-import de.betoffice.service.SeasonManagerService;
-import de.betoffice.storage.Team;
-import de.betoffice.storage.TeamAlias;
+import de.betoffice.storage.team.Team;
+import de.betoffice.storage.team.TeamAlias;
 
 /**
  * Test of class {@link DefaultMasterDataManagerService}.

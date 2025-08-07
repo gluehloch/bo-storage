@@ -26,13 +26,13 @@ package de.betoffice.dao;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.GroupType;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.SeasonReference;
-import de.betoffice.storage.TeamResult;
+import de.betoffice.storage.season.GroupType;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.season.SeasonReference;
+import de.betoffice.storage.team.TeamResult;
 
 /**
- * DAO Klasse für den Zugriff auf {@link de.betoffice.storage.Season} Objekte.
+ * DAO Klasse für den Zugriff auf {@link de.betoffice.storage.season.Season} Objekte.
  *
  * @author by Andre Winkler
  */

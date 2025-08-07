@@ -31,10 +31,10 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.GroupDao;
-import de.betoffice.storage.Group;
-import de.betoffice.storage.GroupType;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.Team;
+import de.betoffice.storage.season.Group;
+import de.betoffice.storage.season.GroupType;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.team.Team;
 
 /**
  * Implementierung von {@link GroupDao}.

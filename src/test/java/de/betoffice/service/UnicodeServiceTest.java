@@ -37,10 +37,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.service.DatabaseMaintenanceService;
-import de.betoffice.service.MasterDataManagerService;
-import de.betoffice.service.SeasonManagerService;
-import de.betoffice.storage.Team;
+import de.betoffice.storage.team.Team;
 
 /**
  * Testet die korrekte Verwendung von Unicode Zeichen.

@@ -24,8 +24,9 @@
 
 package de.betoffice.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
 import java.util.Set;
@@ -40,16 +41,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.service.CommunityService;
-import de.betoffice.service.SeasonManagerService;
-import de.betoffice.storage.Community;
-import de.betoffice.storage.CommunityFilter;
-import de.betoffice.storage.CommunityReference;
-import de.betoffice.storage.Nickname;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.SeasonReference;
-import de.betoffice.storage.User;
+import de.betoffice.storage.community.Community;
+import de.betoffice.storage.community.CommunityFilter;
+import de.betoffice.storage.community.CommunityReference;
 import de.betoffice.storage.enums.SeasonType;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.season.SeasonReference;
+import de.betoffice.storage.user.Nickname;
+import de.betoffice.storage.user.User;
 
 /**
  * Service test for the community manager.

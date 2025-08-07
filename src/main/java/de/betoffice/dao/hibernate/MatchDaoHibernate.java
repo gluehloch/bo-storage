@@ -27,13 +27,14 @@ package de.betoffice.dao.hibernate;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.MatchDao;
-import de.betoffice.storage.Game;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.Team;
-import jakarta.persistence.TypedQuery;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.team.Team;
 
 /**
  * The DAO class for access on table bo_game.

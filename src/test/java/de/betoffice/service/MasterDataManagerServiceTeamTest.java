@@ -28,10 +28,11 @@
 
 package de.betoffice.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.sql.SQLException;   
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,11 +44,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.service.DatabaseMaintenanceService;
-import de.betoffice.service.MasterDataManagerService;
-import de.betoffice.service.SeasonManagerService;
-import de.betoffice.storage.Team;
 import de.betoffice.storage.enums.TeamType;
+import de.betoffice.storage.team.Team;
 import de.betoffice.validation.ValidationException;
 
 /**

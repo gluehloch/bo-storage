@@ -31,11 +31,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.dao.CommunityDao;
 import de.betoffice.dao.CommunityRankingDao;
-import de.betoffice.storage.Community;
-import de.betoffice.storage.CommunityReference;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.SeasonRange;
-import de.betoffice.storage.UserResult;
+import de.betoffice.storage.community.Community;
+import de.betoffice.storage.community.CommunityReference;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.SeasonRange;
+import de.betoffice.storage.user.UserResult;
 
 /**
  * Default Implementierung von {@link CommunityCalculatorService}.

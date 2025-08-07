@@ -26,8 +26,7 @@ package de.betoffice.storage;
 import java.io.Serializable;
 
 /**
- * Abstrakte Oberklasse für StorageObjects. Implementiert die Schnittstelle
- * StorageObject.
+ * Abstrakte Oberklasse für StorageObjects. Implementiert die Schnittstelle StorageObject.
  * 
  * @author Andre Winkler
  */
@@ -36,7 +35,7 @@ public abstract class AbstractStorageObject implements StorageObject, Serializab
     /** serial version id */
     private static final long serialVersionUID = -6571773252125809193L;
 
-    AbstractStorageObject() {
+    public AbstractStorageObject() {
     }
 
 }

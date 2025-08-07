@@ -38,10 +38,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.CommunityDao;
-import de.betoffice.storage.Community;
-import de.betoffice.storage.CommunityFilter;
-import de.betoffice.storage.CommunityReference;
-import de.betoffice.storage.SeasonReference;
+import de.betoffice.storage.community.Community;
+import de.betoffice.storage.community.CommunityFilter;
+import de.betoffice.storage.community.CommunityReference;
+import de.betoffice.storage.season.SeasonReference;
 
 @Repository("communityDao")
 public class CommunityDaoHibernate extends AbstractCommonDao<Community> implements CommunityDao {

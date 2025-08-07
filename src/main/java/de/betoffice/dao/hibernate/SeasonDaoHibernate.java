@@ -37,16 +37,16 @@ import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.SeasonDao;
-import de.betoffice.storage.Group;
-import de.betoffice.storage.GroupType;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.SeasonReference;
-import de.betoffice.storage.Team;
-import de.betoffice.storage.TeamResult;
 import de.betoffice.storage.comparator.TeamPointsComparator;
+import de.betoffice.storage.season.Group;
+import de.betoffice.storage.season.GroupType;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.season.SeasonReference;
+import de.betoffice.storage.team.Team;
+import de.betoffice.storage.team.TeamResult;
 
 /**
- * Klasse für den Zugriff auf {@link de.betoffice.storage.Season}. Zusätzlich liefern die Methoden
+ * Klasse für den Zugriff auf {@link de.betoffice.storage.season.Season}. Zusätzlich liefern die Methoden
  * {@link #calculateTeamRanking(Season, Group)} und {@link #calculateTeamRanking(Season, Group, int, int)} das
  * Tabellenbild zu der Parameterkombination ({@link Season}, {@link Group}).
  *

@@ -27,19 +27,20 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
+
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.RoundDao;
-import de.betoffice.storage.Game;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.Group;
-import de.betoffice.storage.Season;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.NonUniqueResultException;
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.Group;
+import de.betoffice.storage.season.Season;
 
 /**
  * Eine Hibernate-DAO Implementierung zur Verwaltung eines Spieltags.

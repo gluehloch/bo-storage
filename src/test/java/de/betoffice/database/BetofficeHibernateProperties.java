@@ -30,16 +30,16 @@ import java.util.Properties;
 import org.hibernate.cfg.Configuration;
 
 import de.betoffice.database.hibernate.HibernateProperties;
-import de.betoffice.storage.Game;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.GameTipp;
-import de.betoffice.storage.Group;
-import de.betoffice.storage.GroupType;
-import de.betoffice.storage.Season;
 import de.betoffice.storage.Session;
-import de.betoffice.storage.Team;
-import de.betoffice.storage.TeamAlias;
-import de.betoffice.storage.User;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.Group;
+import de.betoffice.storage.season.GroupType;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.team.Team;
+import de.betoffice.storage.team.TeamAlias;
+import de.betoffice.storage.tip.GameTipp;
+import de.betoffice.storage.user.User;
 
 /**
  * Definiert die Konstanten für die <code>hibernate.properties</code> Datei.

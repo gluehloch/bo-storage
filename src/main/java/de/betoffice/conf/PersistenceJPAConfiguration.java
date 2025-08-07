@@ -27,6 +27,8 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import jakarta.persistence.EntityManagerFactory;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -39,8 +41,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import jakarta.persistence.EntityManagerFactory;
 
 /**
  * Registration Service Configuration Factory. <br/>

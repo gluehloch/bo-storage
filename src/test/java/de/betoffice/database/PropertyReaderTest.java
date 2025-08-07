@@ -23,8 +23,9 @@
 
 package de.betoffice.database;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.InputStream;
 import java.util.Properties;

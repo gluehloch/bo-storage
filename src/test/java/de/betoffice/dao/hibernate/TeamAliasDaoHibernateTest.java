@@ -34,9 +34,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.TeamAliasDao;
 import de.betoffice.dao.TeamDao;
-import de.betoffice.dao.hibernate.TeamAliasDaoHibernate;
-import de.betoffice.storage.Team;
-import de.betoffice.storage.TeamAlias;
+import de.betoffice.storage.team.Team;
+import de.betoffice.storage.team.TeamAlias;
 
 /**
  * Test for class {@link TeamAliasDaoHibernate}.

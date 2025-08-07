@@ -35,10 +35,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.dao.SessionDao;
 import de.betoffice.dao.UserDao;
-import de.betoffice.storage.Nickname;
 import de.betoffice.storage.Session;
-import de.betoffice.storage.User;
 import de.betoffice.storage.enums.RoleType;
+import de.betoffice.storage.user.Nickname;
+import de.betoffice.storage.user.User;
 import de.betoffice.util.LoggerFactory;
 
 /**

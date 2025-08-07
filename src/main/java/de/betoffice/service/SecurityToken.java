@@ -28,8 +28,8 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
 
-import de.betoffice.storage.User;
 import de.betoffice.storage.enums.RoleType;
+import de.betoffice.storage.user.User;
 
 /**
  * I don´t know. But something to hold session data.

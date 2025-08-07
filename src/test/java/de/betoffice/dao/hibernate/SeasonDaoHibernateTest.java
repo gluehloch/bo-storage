@@ -23,8 +23,9 @@
 
 package de.betoffice.dao.hibernate;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
@@ -33,10 +34,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.SeasonDao;
-import de.betoffice.dao.hibernate.SeasonDaoHibernate;
-import de.betoffice.storage.Season;
-import de.betoffice.storage.SeasonReference;
 import de.betoffice.storage.enums.TeamType;
+import de.betoffice.storage.season.Season;
+import de.betoffice.storage.season.SeasonReference;
 
 /**
  * Testet isoliert das DAO {@link SeasonDaoHibernate}.

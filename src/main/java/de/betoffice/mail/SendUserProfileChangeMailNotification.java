@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import de.betoffice.storage.User;
+import de.betoffice.storage.user.User;
 
 @Component
 public class SendUserProfileChangeMailNotification {

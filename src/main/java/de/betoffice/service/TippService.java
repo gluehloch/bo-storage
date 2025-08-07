@@ -27,14 +27,14 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.Game;
-import de.betoffice.storage.GameList;
-import de.betoffice.storage.GameResult;
-import de.betoffice.storage.GameTipp;
-import de.betoffice.storage.TippDto;
-import de.betoffice.storage.User;
-import de.betoffice.storage.UserResultOfDay;
-import de.betoffice.storage.enums.TippStatusType;
+import de.betoffice.storage.season.Game;
+import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.GameResult;
+import de.betoffice.storage.tip.GameTipp;
+import de.betoffice.storage.tip.TippDto;
+import de.betoffice.storage.tip.TippStatusType;
+import de.betoffice.storage.tip.UserResultOfDay;
+import de.betoffice.storage.user.User;
 
 /**
  * Allocates a service for adding, updating and removing tipps. A special method for evaluating Tipp mails.
