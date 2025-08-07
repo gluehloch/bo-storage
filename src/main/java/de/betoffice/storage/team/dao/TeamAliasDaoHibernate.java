@@ -31,7 +31,7 @@ import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import de.betoffice.dao.hibernate.AbstractCommonDao;
+import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.team.TeamAlias;
 import de.betoffice.storage.team.TeamAliasDao;
 import de.betoffice.storage.team.entity.Team;

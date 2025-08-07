@@ -39,9 +39,9 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import de.betoffice.dao.hibernate.AbstractCommonDao;
 import de.betoffice.storage.community.CommunityRankingDao;
 import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.SeasonRange;
 import de.betoffice.storage.season.entity.GameList;
 import de.betoffice.storage.tip.UserPointsComparator;

@@ -21,7 +21,7 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.betoffice.dao.hibernate;
+package de.betoffice.storage.hibernate;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

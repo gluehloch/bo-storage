@@ -1,4 +1,4 @@
-package de.betoffice.dao.hibernate;
+package de.betoffice.storage.hibernate;
 
 public class FilterBuilder {
 

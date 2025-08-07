@@ -13,12 +13,12 @@ Unit Tests im betoffice-storage Paket
 
 * DAO Test
 
-  Die DAO Klassen im Paket <<<de.betoffice.dao.hibernate>>>.
+  Die DAO Klassen im Paket <<<de.betoffice.storage.hibernate>>>.
   Diese Tests kommen ohne Spring aus und verwenden die Funktionen von
   Hibernate, Unitils und DBUnit. Allgemeine Oberklasse ist hier
-  <<<de.betoffice.dao.hibernate.HibernateDaoTestSupport>>>
+  <<<de.betoffice.storage.hibernate.HibernateDaoTestSupport>>>
   Im Verzeichnis <<<PROJECT/src/test/resource>>> und dort im Paket
-  <<<de.betoffice.dao.hibernate>>> wird die initiale
+  <<<de.betoffice.storage.hibernate>>> wird die initiale
   DBUnit Datenbankbefüllung erwartet. Folgende Dateien sind an einem Test
   in dieser Schicht involviert (Beispiel anhand der Testklasse
   SeasonDaoHibernateTest):
@@ -40,10 +40,10 @@ src
                !
                +---/test-mysql-hibernate.cfg.xml
                !   (Die Datei wird von der Utility Klasse
-               !    <<<de.betoffice.dao.hibernate.HibernateDaoTestSupport>>>
+               !    <<<de.betoffice.storage.hibernate.HibernateDaoTestSupport>>>
                !    verwendet.)
                !
-               +---/de.betoffice.dao.hibernate.SeasonDaoHibernateTest.xml
+               +---/de.betoffice.storage.hibernate.SeasonDaoHibernateTest.xml
                !   (Daten für die Beladung der Testdatenbank im DBUnit Format.)
                !
                +---/unitils.properties

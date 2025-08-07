@@ -30,7 +30,7 @@ import jakarta.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
-import de.betoffice.dao.hibernate.AbstractCommonDao;
+import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.GoalDao;
 import de.betoffice.storage.season.entity.Game;
 import de.betoffice.storage.season.entity.Goal;

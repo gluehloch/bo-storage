@@ -24,7 +24,7 @@
 
 package de.betoffice.storage.community.dao;
 
-import static de.betoffice.dao.hibernate.FilterBuilder.filter;
+import static de.betoffice.storage.hibernate.FilterBuilder.filter;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,11 +37,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import de.betoffice.dao.hibernate.AbstractCommonDao;
 import de.betoffice.storage.community.CommunityDao;
 import de.betoffice.storage.community.CommunityFilter;
 import de.betoffice.storage.community.entity.Community;
 import de.betoffice.storage.community.entity.CommunityReference;
+import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.entity.SeasonReference;
 
 @Repository("communityDao")

@@ -31,9 +31,9 @@ import jakarta.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
-import de.betoffice.dao.hibernate.AbstractCommonDao;
 import de.betoffice.storage.group.GroupTypeDao;
 import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.entity.Season;
 
 /**

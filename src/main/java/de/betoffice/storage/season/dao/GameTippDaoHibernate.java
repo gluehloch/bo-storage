@@ -29,7 +29,7 @@ import java.util.Optional;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import de.betoffice.dao.hibernate.AbstractCommonDao;
+import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.GameTippDao;
 import de.betoffice.storage.season.entity.Game;
 import de.betoffice.storage.tip.GameTipp;

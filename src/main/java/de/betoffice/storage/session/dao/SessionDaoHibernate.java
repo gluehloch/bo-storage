@@ -27,8 +27,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import de.betoffice.dao.hibernate.AbstractCommonDao;
 import de.betoffice.storage.Session;
+import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.session.SessionDao;
 
 /**

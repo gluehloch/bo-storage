@@ -36,9 +36,9 @@ import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
 
-import de.betoffice.dao.hibernate.AbstractCommonDao;
 import de.betoffice.storage.comparator.TeamPointsComparator;
 import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.SeasonDao;
 import de.betoffice.storage.season.entity.Group;
 import de.betoffice.storage.season.entity.Season;
