@@ -22,7 +22,7 @@
  *
  */
 
-package de.betoffice.storage.season.dao;
+package de.betoffice.storage.group.dao;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +32,8 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.dao.hibernate.AbstractCommonDao;
-import de.betoffice.storage.season.GroupTypeDao;
-import de.betoffice.storage.season.entity.GroupType;
+import de.betoffice.storage.group.GroupTypeDao;
+import de.betoffice.storage.group.entity.GroupType;
 import de.betoffice.storage.season.entity.Season;
 
 /**

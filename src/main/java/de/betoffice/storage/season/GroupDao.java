@@ -26,8 +26,8 @@ package de.betoffice.storage.season;
 import java.util.List;
 
 import de.betoffice.storage.community.CommonDao;
+import de.betoffice.storage.group.entity.GroupType;
 import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.GroupType;
 import de.betoffice.storage.season.entity.Season;
 import de.betoffice.storage.team.entity.Team;
 

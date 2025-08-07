@@ -41,6 +41,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import de.betoffice.storage.AbstractStorageObject;
+import de.betoffice.storage.group.entity.GroupType;
 import de.betoffice.storage.team.entity.Team;
 
 /**

@@ -46,12 +46,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
+import de.betoffice.storage.group.entity.GroupType;
 import de.betoffice.storage.season.SeasonType;
 import de.betoffice.storage.season.entity.Game;
 import de.betoffice.storage.season.entity.GameList;
 import de.betoffice.storage.season.entity.GameResult;
 import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.GroupType;
 import de.betoffice.storage.season.entity.Season;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.team.entity.Team;

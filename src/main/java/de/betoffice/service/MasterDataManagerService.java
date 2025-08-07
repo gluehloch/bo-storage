@@ -26,7 +26,7 @@ package de.betoffice.service;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.season.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupType;
 import de.betoffice.storage.season.entity.Location;
 import de.betoffice.storage.season.entity.Player;
 import de.betoffice.storage.season.entity.Season;

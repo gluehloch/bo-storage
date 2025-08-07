@@ -38,10 +38,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
+import de.betoffice.storage.group.GroupTypeDao;
+import de.betoffice.storage.group.entity.GroupType;
 import de.betoffice.storage.season.dao.RoundDaoHibernate;
 import de.betoffice.storage.season.entity.GameList;
 import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.GroupType;
 import de.betoffice.storage.season.entity.Season;
 import de.betoffice.test.DateTimeDummyProducer;
 

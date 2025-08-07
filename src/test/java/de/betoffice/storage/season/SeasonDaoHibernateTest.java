@@ -34,7 +34,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
-import de.betoffice.storage.season.SeasonDao;
 import de.betoffice.storage.season.dao.SeasonDaoHibernate;
 import de.betoffice.storage.season.entity.Season;
 import de.betoffice.storage.season.entity.SeasonReference;
@@ -72,16 +71,16 @@ class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
     @Test
     void testSeasonFindByName() {
         assertThat(seasonDaoHibernate.find(SeasonReference.of("2000/2001", "1. Bundesliga")))
-            .hasValueSatisfying(season -> {
-                assertThat(season.getReference().getName()).isEqualTo("1. Bundesliga");
-                assertThat(season.getReference().getYear()).isEqualTo("2000/2001");
-            });
+                .hasValueSatisfying(season -> {
+                    assertThat(season.getReference().getName()).isEqualTo("1. Bundesliga");
+                    assertThat(season.getReference().getYear()).isEqualTo("2000/2001");
+                });
 
         assertThat(seasonDaoHibernate.find(SeasonReference.of("2001/2002", "1. Bundesliga")))
-            .hasValueSatisfying(season -> {
-                assertEquals("1. Bundesliga", season.getReference().getName());
-                assertEquals("2001/2002", season.getReference().getYear());
-            });
+                .hasValueSatisfying(season -> {
+                    assertEquals("1. Bundesliga", season.getReference().getName());
+                    assertEquals("2001/2002", season.getReference().getYear());
+                });
     }
 
     @Test

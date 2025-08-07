@@ -23,7 +23,7 @@
  *
  */
 
-package de.betoffice.storage.season.entity;
+package de.betoffice.storage.group.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

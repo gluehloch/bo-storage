@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
-import de.betoffice.storage.season.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupType;
 import de.betoffice.storage.team.TeamAlias;
 import de.betoffice.storage.team.entity.Team;
 import de.betoffice.storage.user.entity.User;

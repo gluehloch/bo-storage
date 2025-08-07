@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.storage.season.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupType;
 import de.betoffice.validation.ValidationException;
 
 /**

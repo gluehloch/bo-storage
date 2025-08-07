@@ -27,10 +27,10 @@ package de.betoffice.storage.comparator;
 
 import java.util.Comparator;
 
-import de.betoffice.storage.season.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupType;
 
 /**
- * Definiert einen Comparator für {@link de.betoffice.storage.season.entity.GroupType}
+ * Definiert einen Comparator für {@link de.betoffice.storage.group.entity.GroupType}
  * Objekte. Zum Vergleich wird der Gruppenname herangezogen.
  * 
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $

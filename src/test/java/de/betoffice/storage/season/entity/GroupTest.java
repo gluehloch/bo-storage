@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import de.betoffice.storage.group.entity.GroupType;
 import de.betoffice.storage.season.SeasonType;
 
 /**

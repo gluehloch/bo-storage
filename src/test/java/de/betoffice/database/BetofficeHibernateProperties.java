@@ -31,10 +31,10 @@ import org.hibernate.cfg.Configuration;
 
 import de.betoffice.database.hibernate.HibernateProperties;
 import de.betoffice.storage.Session;
+import de.betoffice.storage.group.entity.GroupType;
 import de.betoffice.storage.season.entity.Game;
 import de.betoffice.storage.season.entity.GameList;
 import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.GroupType;
 import de.betoffice.storage.season.entity.Season;
 import de.betoffice.storage.team.TeamAlias;
 import de.betoffice.storage.team.entity.Team;

@@ -28,12 +28,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import de.betoffice.storage.group.entity.GroupType;
 import de.betoffice.storage.season.entity.Game;
 import de.betoffice.storage.season.entity.GameList;
 import de.betoffice.storage.season.entity.GameResult;
 import de.betoffice.storage.season.entity.Goal;
 import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.GroupType;
 import de.betoffice.storage.season.entity.Player;
 import de.betoffice.storage.season.entity.Season;
 import de.betoffice.storage.team.TeamResult;

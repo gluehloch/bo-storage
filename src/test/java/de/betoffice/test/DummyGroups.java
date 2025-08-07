@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import de.betoffice.storage.season.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupType;
 
 /**
  * Stellt ein paar Gruppentypen zu Testzwecken zur Verfügung. <br>

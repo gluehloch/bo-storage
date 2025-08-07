@@ -22,7 +22,7 @@
  *
  */
 
-package de.betoffice.storage.season;
+package de.betoffice.storage.group;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -34,8 +34,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
-import de.betoffice.storage.season.dao.GroupTypeDaoHibernate;
-import de.betoffice.storage.season.entity.GroupType;
+import de.betoffice.storage.group.dao.GroupTypeDaoHibernate;
+import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.season.SeasonDao;
 import de.betoffice.storage.season.entity.Season;
 import de.betoffice.storage.season.entity.SeasonReference;
 

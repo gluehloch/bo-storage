@@ -33,11 +33,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.betoffice.storage.season.GroupTypeDao;
+import de.betoffice.storage.group.GroupTypeDao;
+import de.betoffice.storage.group.entity.GroupType;
 import de.betoffice.storage.season.LocationDao;
 import de.betoffice.storage.season.PlayerDao;
 import de.betoffice.storage.season.SeasonDao;
-import de.betoffice.storage.season.entity.GroupType;
 import de.betoffice.storage.season.entity.Location;
 import de.betoffice.storage.season.entity.Player;
 import de.betoffice.storage.season.entity.Season;

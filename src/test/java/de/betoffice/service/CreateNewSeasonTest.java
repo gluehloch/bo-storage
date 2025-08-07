@@ -43,6 +43,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.database.data.DeleteDatabase;
+import de.betoffice.storage.group.entity.GroupType;
 import de.betoffice.storage.season.GoalType;
 import de.betoffice.storage.season.SeasonType;
 import de.betoffice.storage.season.entity.Game;
@@ -50,7 +51,6 @@ import de.betoffice.storage.season.entity.GameList;
 import de.betoffice.storage.season.entity.GameResult;
 import de.betoffice.storage.season.entity.Goal;
 import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.GroupType;
 import de.betoffice.storage.season.entity.Location;
 import de.betoffice.storage.season.entity.Player;
 import de.betoffice.storage.season.entity.Season;
