@@ -1,11 +1,11 @@
-package de.winkler.betoffice.service
+package de.betoffice.service
 
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import org.springframework.beans.factory.BeanFactory
 
-import de.winkler.betoffice.database.MySqlDatabasedTestSupport
-import de.winkler.betoffice.database.MySqlDatabasedTestSupport.DataLoader
+import de.betoffice.database.MySqlDatabasedTestSupport
+import de.betoffice.database.MySqlDatabasedTestSupport.DataLoader
 
 /**
  * Bestimmt für Wartungsaufgaben.

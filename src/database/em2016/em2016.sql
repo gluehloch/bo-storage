@@ -23,7 +23,7 @@ INSERT INTO bo_team(id, bo_name, bo_longname, bo_logo, bo_teamtype, bo_location_
 SELECT 'The new EM 2016 season ...' AS '';
 -- EM 2016
 INSERT INTO bo_season(id,  bo_exportdirectory, bo_exporttemplate, bo_year, bo_name, bo_mode, bo_teamtype, bo_openligaleagueshortcut, bo_openligaleagueseason)
-    VALUES(24, 'aktuell', 'de.winkler.betoffice.veloexport.WMVelocityExport', '2016', 'EM 2016', 5, 1, NULL, NULL);
+    VALUES(24, 'aktuell', 'de.betoffice.veloexport.WMVelocityExport', '2016', 'EM 2016', 5, 1, NULL, NULL);
 
 -- GRUPPEN: A, B, C, D, E, F
 /*
