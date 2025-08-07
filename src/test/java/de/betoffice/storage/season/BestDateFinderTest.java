@@ -32,6 +32,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import de.betoffice.storage.season.entity.GameList;
 import de.betoffice.test.DateTimeDummyProducer;
 
 /**

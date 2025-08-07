@@ -43,16 +43,16 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.storage.community.CommunityReference;
-import de.betoffice.storage.season.Game;
-import de.betoffice.storage.season.GameList;
-import de.betoffice.storage.season.Group;
-import de.betoffice.storage.season.Season;
+import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonRange;
+import de.betoffice.storage.season.entity.Game;
+import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.Group;
+import de.betoffice.storage.season.entity.Season;
 import de.betoffice.storage.tip.GameTipp;
-import de.betoffice.storage.user.Nickname;
-import de.betoffice.storage.user.User;
 import de.betoffice.storage.user.UserResult;
+import de.betoffice.storage.user.entity.Nickname;
+import de.betoffice.storage.user.entity.User;
 import de.betoffice.util.LoggerFactory;
 
 /**

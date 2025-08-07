@@ -44,17 +44,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.storage.community.CommunityReference;
-import de.betoffice.storage.enums.SeasonType;
-import de.betoffice.storage.season.Game;
-import de.betoffice.storage.season.GameList;
-import de.betoffice.storage.season.GameResult;
-import de.betoffice.storage.season.Group;
-import de.betoffice.storage.season.GroupType;
-import de.betoffice.storage.season.Season;
-import de.betoffice.storage.team.Team;
+import de.betoffice.storage.community.entity.CommunityReference;
+import de.betoffice.storage.season.SeasonType;
+import de.betoffice.storage.season.entity.Game;
+import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameResult;
+import de.betoffice.storage.season.entity.Group;
+import de.betoffice.storage.season.entity.GroupType;
+import de.betoffice.storage.season.entity.Season;
 import de.betoffice.storage.team.TeamResult;
-import de.betoffice.storage.user.User;
+import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.user.entity.User;
 
 /**
  * Test of the finder methods of {@link SeasonManagerService}.

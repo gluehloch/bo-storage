@@ -38,7 +38,7 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.TimeZoneStorage;
 import org.hibernate.annotations.TimeZoneStorageType;
 
-import de.betoffice.storage.user.User;
+import de.betoffice.storage.user.entity.User;
 
 /**
  * Holds user session data.

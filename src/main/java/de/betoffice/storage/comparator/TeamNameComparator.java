@@ -27,7 +27,7 @@ package de.betoffice.storage.comparator;
 
 import java.util.Comparator;
 
-import de.betoffice.storage.team.Team;
+import de.betoffice.storage.team.entity.Team;
 
 /**
  * Vergleicht zwei Team bezüglich ihres Teamnames.

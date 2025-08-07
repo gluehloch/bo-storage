@@ -41,8 +41,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.mail.NotificationType;
-import de.betoffice.storage.user.Nickname;
-import de.betoffice.storage.user.User;
+import de.betoffice.storage.user.entity.Nickname;
+import de.betoffice.storage.user.entity.User;
 import de.betoffice.validation.ValidationException;
 
 /**

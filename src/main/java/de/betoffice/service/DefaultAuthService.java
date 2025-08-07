@@ -33,12 +33,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.betoffice.dao.SessionDao;
-import de.betoffice.dao.UserDao;
 import de.betoffice.storage.Session;
-import de.betoffice.storage.enums.RoleType;
-import de.betoffice.storage.user.Nickname;
-import de.betoffice.storage.user.User;
+import de.betoffice.storage.session.SessionDao;
+import de.betoffice.storage.user.RoleType;
+import de.betoffice.storage.user.UserDao;
+import de.betoffice.storage.user.entity.Nickname;
+import de.betoffice.storage.user.entity.User;
 import de.betoffice.util.LoggerFactory;
 
 /**

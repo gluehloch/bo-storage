@@ -26,6 +26,7 @@ package de.betoffice.storage.user;
 
 import org.slf4j.Logger;
 
+import de.betoffice.storage.user.entity.User;
 import de.betoffice.util.LoggerFactory;
 
 /**

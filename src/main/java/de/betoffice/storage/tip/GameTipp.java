@@ -41,10 +41,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import de.betoffice.storage.AbstractStorageObject;
-import de.betoffice.storage.season.Game;
-import de.betoffice.storage.season.GameResult;
-import de.betoffice.storage.user.User;
+import de.betoffice.storage.season.entity.Game;
+import de.betoffice.storage.season.entity.GameResult;
 import de.betoffice.storage.user.UserResult;
+import de.betoffice.storage.user.entity.User;
 
 /**
  * Verwaltet den Spieltipp/GameTipp eines Spiels eines Teilnehmers.

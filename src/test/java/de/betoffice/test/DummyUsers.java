@@ -28,8 +28,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import de.betoffice.storage.user.Nickname;
-import de.betoffice.storage.user.User;
+import de.betoffice.storage.user.entity.Nickname;
+import de.betoffice.storage.user.entity.User;
 
 /**
  * Verwaltet die Properties von betoffice. <br>

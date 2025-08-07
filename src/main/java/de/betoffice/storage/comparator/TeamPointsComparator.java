@@ -2,7 +2,7 @@
  * $Id: TeamPointsComparator.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2009 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2025 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -30,23 +30,18 @@ import java.util.Comparator;
 import de.betoffice.storage.team.TeamResult;
 
 /**
- * Vergleicht zwei Mannschaften (@link de.betoffice.storage.TeamResult})
- * miteinander.
+ * Vergleicht zwei Mannschaften (@link de.betoffice.storage.TeamResult}) miteinander.
  * 
- * @author by Andre Winkler, $LastChangedBy: andrewinkler $
- * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
- *          +0200 (Sat, 27 Jul 2013) $
+ * @author Andre Winkler
  */
 public class TeamPointsComparator implements Comparator<TeamResult> {
 
     /**
      * Vergleicht zwei TeamResults miteinander.
      *
-     * @param team1
-     *            Ein TeamResult.
-     * @param team2
-     *            Ein TeamResult.
-     * @return -1, 0 oder +1..
+     * @param  team1 Ein TeamResult.
+     * @param  team2 Ein TeamResult.
+     * @return       -1, 0 oder +1..
      */
     public int compare(TeamResult team1, TeamResult team2) {
         return (TeamResult.isBetterAs(team1, team2) * -1);

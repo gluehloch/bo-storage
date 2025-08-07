@@ -27,7 +27,7 @@ package de.betoffice.storage.comparator;
 
 import java.util.Comparator;
 
-import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.season.entity.GameList;
 
 /**
  * Sortiert die Spieltage nach deren Index.

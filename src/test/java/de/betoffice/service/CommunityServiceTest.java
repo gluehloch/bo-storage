@@ -41,14 +41,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.storage.community.Community;
 import de.betoffice.storage.community.CommunityFilter;
-import de.betoffice.storage.community.CommunityReference;
-import de.betoffice.storage.enums.SeasonType;
-import de.betoffice.storage.season.Season;
-import de.betoffice.storage.season.SeasonReference;
-import de.betoffice.storage.user.Nickname;
-import de.betoffice.storage.user.User;
+import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityReference;
+import de.betoffice.storage.season.SeasonType;
+import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonReference;
+import de.betoffice.storage.user.entity.Nickname;
+import de.betoffice.storage.user.entity.User;
 
 /**
  * Service test for the community manager.

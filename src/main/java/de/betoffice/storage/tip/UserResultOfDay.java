@@ -26,8 +26,8 @@ package de.betoffice.storage.tip;
 
 import org.apache.commons.lang3.Validate;
 
-import de.betoffice.storage.user.User;
 import de.betoffice.storage.user.UserResult;
+import de.betoffice.storage.user.entity.User;
 
 /**
  * Verwaltet die Tippstatistik eines Teilnehmers für einen Spieltag.

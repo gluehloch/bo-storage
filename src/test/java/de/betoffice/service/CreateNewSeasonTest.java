@@ -43,20 +43,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.database.data.DeleteDatabase;
-import de.betoffice.storage.enums.GoalType;
-import de.betoffice.storage.enums.SeasonType;
-import de.betoffice.storage.enums.TeamType;
-import de.betoffice.storage.season.Game;
-import de.betoffice.storage.season.GameList;
-import de.betoffice.storage.season.GameResult;
-import de.betoffice.storage.season.Goal;
-import de.betoffice.storage.season.Group;
-import de.betoffice.storage.season.GroupType;
-import de.betoffice.storage.season.Location;
-import de.betoffice.storage.season.Player;
-import de.betoffice.storage.season.Season;
-import de.betoffice.storage.season.SeasonReference;
-import de.betoffice.storage.team.Team;
+import de.betoffice.storage.season.GoalType;
+import de.betoffice.storage.season.SeasonType;
+import de.betoffice.storage.season.entity.Game;
+import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameResult;
+import de.betoffice.storage.season.entity.Goal;
+import de.betoffice.storage.season.entity.Group;
+import de.betoffice.storage.season.entity.GroupType;
+import de.betoffice.storage.season.entity.Location;
+import de.betoffice.storage.season.entity.Player;
+import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonReference;
+import de.betoffice.storage.team.TeamType;
+import de.betoffice.storage.team.entity.Team;
 
 /**
  * Testet das Erstellen einer neuen Meisterschaft.

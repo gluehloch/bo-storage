@@ -34,9 +34,8 @@ import jakarta.persistence.TypedQuery;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
-import de.betoffice.dao.CommonDao;
+import de.betoffice.storage.community.CommonDao;
 
 /**
  * Utility Implementierung von {@link CommonDao}.
@@ -45,7 +44,6 @@ import de.betoffice.dao.CommonDao;
  *
  * @param  <T> Der Typ den dieses DAO unterstützt.
  */
-@Transactional
 public abstract class AbstractCommonDao<T> implements CommonDao<T> {
 
     private final Class<T> t;
@@ -65,7 +63,7 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
 
     // ------------------------------------------------------------------------
 
-    AbstractCommonDao(final Class<T> _t) {
+    protected AbstractCommonDao(final Class<T> _t) {
         t = _t;
     }
 
@@ -123,7 +121,7 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
         }
     }
 
-    static <T> Optional<T> singleResult(TypedQuery<T> query) {
+    public static <T> Optional<T> singleResult(TypedQuery<T> query) {
         Optional<T> optionalResult;
         try {
             T result = query.getSingleResult();
@@ -140,7 +138,7 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
      * @param  list A Hibernate query result list
      * @return      The query single result
      */
-    static <T> Optional<T> singleResult(List<T> list) {
+    public static <T> Optional<T> singleResult(List<T> list) {
         Optional<T> optionalResult = Optional.empty();
         if (list.size() > 0) {
             optionalResult = Optional.of(list.get(0));

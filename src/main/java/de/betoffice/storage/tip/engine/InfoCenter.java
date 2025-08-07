@@ -31,13 +31,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.betoffice.service.TippService;
-import de.betoffice.storage.season.Game;
-import de.betoffice.storage.season.GameList;
-import de.betoffice.storage.season.GameResult;
+import de.betoffice.storage.season.entity.Game;
+import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameResult;
 import de.betoffice.storage.tip.GameTipp;
 import de.betoffice.storage.tip.TippStatusType;
 import de.betoffice.storage.tip.UserResultOfDay;
-import de.betoffice.storage.user.User;
+import de.betoffice.storage.user.entity.User;
 
 /**
  * Hier befinden sich die Methoden um den besten, schlechtesten und den Durchschnittstipp zu ermitteln.

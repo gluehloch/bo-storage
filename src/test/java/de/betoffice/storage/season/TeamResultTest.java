@@ -27,7 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
-import de.betoffice.storage.enums.SeasonType;
+import de.betoffice.storage.season.entity.Group;
+import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.team.TeamResult;
 import de.betoffice.test.DummyGroups;
 import de.betoffice.test.DummyTeams;

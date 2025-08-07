@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.storage.season.Season;
+import de.betoffice.storage.season.entity.Season;
 
 /**
  * Test for Spring´s JUnit and annotation support.

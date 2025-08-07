@@ -28,8 +28,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import de.betoffice.storage.enums.TeamType;
-
 /**
  * Test of class {@link TeamType}.
  *

@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.betoffice.storage.season.entity.GameResult;
 import de.betoffice.storage.tip.Toto;
 
 /**

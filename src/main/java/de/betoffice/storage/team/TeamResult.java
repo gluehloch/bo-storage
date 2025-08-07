@@ -26,9 +26,10 @@ package de.betoffice.storage.team;
 
 import java.util.Objects;
 
-import de.betoffice.storage.season.Game;
-import de.betoffice.storage.season.GroupType;
-import de.betoffice.storage.season.Season;
+import de.betoffice.storage.season.entity.Game;
+import de.betoffice.storage.season.entity.GroupType;
+import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.team.entity.Team;
 
 /**
  * TeamResult verwaltet die errechneten Daten einer Mannschaft für eine Saison

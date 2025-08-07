@@ -25,9 +25,9 @@ package de.betoffice.service;
 
 import java.util.List;
 
-import de.betoffice.storage.community.CommunityReference;
-import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonRange;
+import de.betoffice.storage.season.entity.GameList;
 import de.betoffice.storage.user.UserResult;
 
 /**

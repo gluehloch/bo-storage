@@ -33,7 +33,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import de.betoffice.storage.comparator.UserPointsComparator;
+import de.betoffice.storage.tip.UserPointsComparator;
+import de.betoffice.storage.user.entity.Nickname;
+import de.betoffice.storage.user.entity.User;
 
 /**
  * Testet den {@link Comparator} {@link UserPointsComparator}.

@@ -30,12 +30,12 @@ import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import de.betoffice.storage.community.Community;
 import de.betoffice.storage.community.CommunityFilter;
-import de.betoffice.storage.community.CommunityReference;
-import de.betoffice.storage.season.SeasonReference;
-import de.betoffice.storage.user.Nickname;
-import de.betoffice.storage.user.User;
+import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityReference;
+import de.betoffice.storage.season.entity.SeasonReference;
+import de.betoffice.storage.user.entity.Nickname;
+import de.betoffice.storage.user.entity.User;
 import de.betoffice.validation.ServiceResult;
 
 /**

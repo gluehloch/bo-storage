@@ -26,13 +26,13 @@ package de.betoffice.service;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.enums.TeamType;
-import de.betoffice.storage.season.GroupType;
-import de.betoffice.storage.season.Location;
-import de.betoffice.storage.season.Player;
-import de.betoffice.storage.season.Season;
-import de.betoffice.storage.team.Team;
+import de.betoffice.storage.season.entity.GroupType;
+import de.betoffice.storage.season.entity.Location;
+import de.betoffice.storage.season.entity.Player;
+import de.betoffice.storage.season.entity.Season;
 import de.betoffice.storage.team.TeamAlias;
+import de.betoffice.storage.team.TeamType;
+import de.betoffice.storage.team.entity.Team;
 
 /**
  * Verwaltet die Stammdaten von betoffice: Meisterschaft, Teilnehmer, Mannschaften und Ligen.

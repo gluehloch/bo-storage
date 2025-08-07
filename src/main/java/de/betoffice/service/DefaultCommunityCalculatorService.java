@@ -29,12 +29,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.betoffice.dao.CommunityDao;
-import de.betoffice.dao.CommunityRankingDao;
-import de.betoffice.storage.community.Community;
-import de.betoffice.storage.community.CommunityReference;
-import de.betoffice.storage.season.GameList;
+import de.betoffice.storage.community.CommunityDao;
+import de.betoffice.storage.community.CommunityRankingDao;
+import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonRange;
+import de.betoffice.storage.season.entity.GameList;
 import de.betoffice.storage.user.UserResult;
 
 /**

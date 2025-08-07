@@ -26,8 +26,8 @@ package de.betoffice.service;
 import java.util.Optional;
 
 import de.betoffice.storage.Session;
-import de.betoffice.storage.user.Nickname;
-import de.betoffice.storage.user.User;
+import de.betoffice.storage.user.entity.Nickname;
+import de.betoffice.storage.user.entity.User;
 
 /**
  * Authentication and authorization service.

@@ -35,10 +35,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
-import de.betoffice.storage.season.GroupType;
-import de.betoffice.storage.team.Team;
+import de.betoffice.storage.season.entity.GroupType;
 import de.betoffice.storage.team.TeamAlias;
-import de.betoffice.storage.user.User;
+import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.user.entity.User;
 
 /**
  * Test for class {@link DefaultMasterDataManagerService}.
