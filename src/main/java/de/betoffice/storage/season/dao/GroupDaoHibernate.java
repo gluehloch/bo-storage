@@ -47,16 +47,15 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements Group
 
     /** Sucht nach allen Gruppen zu einer Meisterschaft. */
     private static final String QUERY_GROUPS_FROM_SEASON = AbstractCommonDao
-            .loadQuery("hql_groups_season.sql");
+            .loadQuery(GroupDaoHibernate.class, "hql_groups_season.sql");
 
     private static final String QUERY_TEAMS_BY_GROUP = AbstractCommonDao
-            .loadQuery("query_teams_group.sql");
+            .loadQuery(GroupDaoHibernate.class, "query_teams_group.sql");
 
     /**
      * Sucht nach einer <code>Group</code>s anhand Meisterschaft und Gruppentyp.
      */
-    private static final String QUERY_GROUP_BY_SEASON_AND_GROUPTYPE =
-            "select grp "
+    private static final String QUERY_GROUP_BY_SEASON_AND_GROUPTYPE = "select grp "
             + " from Group as grp "
             + "   inner join fetch grp.season as season "
             + "   inner join fetch grp.groupType as gt "

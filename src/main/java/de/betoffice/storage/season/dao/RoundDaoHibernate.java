@@ -266,12 +266,14 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     /**
      * Search for the next game day id.
      */
-    private static final String QUERY_NEXT_ROUND = AbstractCommonDao.loadQuery("query_next_round.sql");
+    private static final String QUERY_NEXT_ROUND = AbstractCommonDao.loadQuery(RoundDaoHibernate.class,
+            "query_next_round.sql");
 
     /**
      * Search for the last game day id.
      */
-    private static final String QUERY_PREV_ROUND = AbstractCommonDao.loadQuery("query_prev_round.sql");
+    private static final String QUERY_PREV_ROUND = AbstractCommonDao.loadQuery(RoundDaoHibernate.class,
+            "query_prev_round.sql");
 
     public RoundDaoHibernate() {
         super(GameList.class);

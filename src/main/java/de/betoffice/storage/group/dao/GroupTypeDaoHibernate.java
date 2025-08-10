@@ -51,7 +51,7 @@ public class GroupTypeDaoHibernate extends AbstractCommonDao<GroupType>
             + "groupType.name = :groupTypeName order by groupType.name";
 
     private static final String QUERY_GROUPTYPES_BY_SEASON = AbstractCommonDao
-            .loadQuery("hql_grouptype_season.sql");
+            .loadQuery(GroupTypeDaoHibernate.class, "hql_grouptype_season.sql");
 
     // ------------------------------------------------------------------------
 

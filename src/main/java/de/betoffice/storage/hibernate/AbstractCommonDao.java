@@ -24,6 +24,7 @@
 package de.betoffice.storage.hibernate;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Optional;
@@ -110,12 +111,18 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
     /**
      * Lädt eine SQL Query aus den Java Resourcen.
      *
+     * @param  clazz Die Klasse, die die Query Resourcen enthält.
      * @param  query Query Resourcen Name.
      * @return       Die Query oder eine {@link RuntimeException} falls nichts gefunden werden konnte.
      */
-    public static final String loadQuery(final String query) {
+    public static final String loadQuery(final Class<?> clazz, final String query) {
         try {
-            return IOUtils.toString(AbstractCommonDao.class.getResourceAsStream(query), Charset.forName("UTF-8"));
+            final InputStream resourceAsStream = clazz.getResourceAsStream(query);
+            if (resourceAsStream == null) {
+                throw new RuntimeException(
+                        "Could not find query resource: " + query + " for class: " + clazz.getName());
+            }
+            return IOUtils.toString(resourceAsStream, Charset.forName("UTF-8"));
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

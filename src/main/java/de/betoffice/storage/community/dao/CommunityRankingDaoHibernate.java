@@ -52,22 +52,22 @@ import de.betoffice.storage.user.entity.User;
 public class CommunityRankingDaoHibernate implements CommunityRankingDao {
 
     private static final String QUERY_SEASON_13_POINTS = AbstractCommonDao
-            .loadQuery("query_userresult_season_13.sql");
+            .loadQuery(CommunityRankingDaoHibernate.class, "query_userresult_season_13.sql");
 
     private static final String QUERY_SEASON_10_POINTS = AbstractCommonDao
-            .loadQuery("query_userresult_season_10.sql");
+            .loadQuery(CommunityRankingDaoHibernate.class, "query_userresult_season_10.sql");
 
     private static final String QUERY_SEASON_RANGE_13_POINTS = AbstractCommonDao
-            .loadQuery("query_userresult_season_range_13.sql");
+            .loadQuery(CommunityRankingDaoHibernate.class, "query_userresult_season_range_13.sql");
 
     private static final String QUERY_SEASON_RANGE_10_POINTS = AbstractCommonDao
-            .loadQuery("query_userresult_season_range_10.sql");
+            .loadQuery(CommunityRankingDaoHibernate.class, "query_userresult_season_range_10.sql");
 
     private static final String QUERY_SEASON_RANGE_COUNT_MATCHES = AbstractCommonDao
-            .loadQuery("query_countmatches_season_range.sql");
+            .loadQuery(CommunityRankingDaoHibernate.class, "query_countmatches_season_range.sql");
 
     private static final String QUERY_SEASON_COUNT_MATCHES = AbstractCommonDao
-            .loadQuery("query_countmatches_season.sql");
+            .loadQuery(CommunityRankingDaoHibernate.class, "query_countmatches_season.sql");
 
     private final static String PARAMETER_COMMUNITY_ID = "community_id";
     private final static String PARAMETER_SEASON_ID = "season_id";
@@ -78,7 +78,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
     @Override
     public List<UserResult> calculateUserRanking(final Community community, final SeasonRange seasonRange) {
         final Collection<User> users = community.getUsers();
-        
+
         Map<User, UserResult> resultMap = new HashMap<>();
         for (User user : users) {
             resultMap.put(user, new UserResult(user));

@@ -48,7 +48,7 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
         implements TeamDao {
 
     private static final String QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE = AbstractCommonDao
-            .loadQuery("query_teams_by_season_and_grouptype.sql");
+            .loadQuery(TeamDaoHibernate.class, "query_teams_by_season_and_grouptype.sql");
 
     /** Sucht nach allen Teams mit einem bestimmten Namen. */
     public static final String QUERY_TEAM_BY_NAME = "select team from Team as team where team.name = :teamName";

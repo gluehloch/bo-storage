@@ -62,16 +62,16 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
             + "where season.reference.name = :name and season.reference.year = :year";
 
     private static final String QUERY_TEAM_SEASON_GOALS = AbstractCommonDao
-            .loadQuery("query_teamresult_season_goals.sql");
+            .loadQuery(SeasonDaoHibernate.class, "query_teamresult_season_goals.sql");
 
     private static final String QUERY_TEAM_SEASON_POINTS = AbstractCommonDao
-            .loadQuery("query_teamresult_season_points.sql");
+            .loadQuery(SeasonDaoHibernate.class, "query_teamresult_season_points.sql");
 
     private static final String QUERY_TEAM_SEASON_RANGE_GOALS = AbstractCommonDao
-            .loadQuery("query_teamresult_season_range_goals.sql");
+            .loadQuery(SeasonDaoHibernate.class, "query_teamresult_season_range_goals.sql");
 
     private static final String QUERY_TEAM_SEASON_RANGE_POINTS = AbstractCommonDao
-            .loadQuery("query_teamresult_season_range_points.sql");
+            .loadQuery(SeasonDaoHibernate.class, "query_teamresult_season_range_points.sql");
 
     // ------------------------------------------------------------------------
 
@@ -96,7 +96,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
 
         return singleResult(query);
     }
-    
+
     @Override
     public List<TeamResult> calculateTeamRanking(Season season, GroupType groupType) {
         Map<Team, TeamResult> resultMap = new HashMap<Team, TeamResult>();
