@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
 /**
- * Configuration for dev environment.
+ * Configuration for the test environment.
  */
 @Profile(value = "test")
 @Configuration
