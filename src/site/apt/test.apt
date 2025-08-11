@@ -5,7 +5,7 @@ Unit Tests im betoffice-storage Paket
   mit dem Datenbank-User 'sportwetten' und Passwort 'sportwetten'
   angelegt ist. Als weitere Testdatenbank ist Derby vorgesehen. In einzelnen
   Testfällen wird Derby bereits verwendet
-  (Siehe <<<de.winkler.betoffice.database.DerbyStorageTest>>>). Als weitere
+  (Siehe <<<de.betoffice.database.DerbyStorageTest>>>). Als weitere
   Hilfsmittel sind im Einsatz: Unitils, Coberture (Auswertung der
   Testabdeckung) und Mockito.
 
@@ -13,12 +13,12 @@ Unit Tests im betoffice-storage Paket
 
 * DAO Test
 
-  Die DAO Klassen im Paket <<<de.winkler.betoffice.dao.hibernate>>>.
+  Die DAO Klassen im Paket <<<de.betoffice.storage.hibernate>>>.
   Diese Tests kommen ohne Spring aus und verwenden die Funktionen von
   Hibernate, Unitils und DBUnit. Allgemeine Oberklasse ist hier
-  <<<de.winkler.betoffice.dao.hibernate.HibernateDaoTestSupport>>>
+  <<<de.betoffice.storage.hibernate.HibernateDaoTestSupport>>>
   Im Verzeichnis <<<PROJECT/src/test/resource>>> und dort im Paket
-  <<<de.winkler.betoffice.dao.hibernate>>> wird die initiale
+  <<<de.betoffice.storage.hibernate>>> wird die initiale
   DBUnit Datenbankbefüllung erwartet. Folgende Dateien sind an einem Test
   in dieser Schicht involviert (Beispiel anhand der Testklasse
   SeasonDaoHibernateTest):
@@ -40,10 +40,10 @@ src
                !
                +---/test-mysql-hibernate.cfg.xml
                !   (Die Datei wird von der Utility Klasse
-               !    <<<de.winkler.betoffice.dao.hibernate.HibernateDaoTestSupport>>>
+               !    <<<de.betoffice.storage.hibernate.HibernateDaoTestSupport>>>
                !    verwendet.)
                !
-               +---/de.winkler.betoffice.dao.hibernate.SeasonDaoHibernateTest.xml
+               +---/de.betoffice.storage.hibernate.SeasonDaoHibernateTest.xml
                !   (Daten für die Beladung der Testdatenbank im DBUnit Format.)
                !
                +---/unitils.properties
@@ -69,7 +69,7 @@ src
 * Service Layer
 
   Eine Architektur Schicht über dem DAO Layer. Die Klassen im Paket
-  <<<de.winkler.betoffice.service>>> bilden den fachlichen Kern der Anwendung.
+  <<<de.betoffice.service>>> bilden den fachlichen Kern der Anwendung.
   über diese Schnittstelle greifen alle anderen Anwendungen auf
   betoffice-storage zu. Auf dieser Ebene kommt Spring zum Einsatz und muss
   dementsprechend in den Testklasse angesprochen und unterstützt werden.
@@ -79,7 +79,7 @@ src
   zu können, liegen diese unter dem Verzeichnis <<<src/main>>> bzw.
   <<<src/resources>>>.
   Als Testunterstützung fungiert die Klasse
-  <<<de.winkler.betoffice.test.service.ServiceTestSupport>>>. Hier finden sich
+  <<<de.betoffice.test.service.ServiceTestSupport>>>. Hier finden sich
   die Eigenschaften für den Zugriff auf die Objekte
   <<<PersistenceTestSupport>>> und <<<MySqlDatabasedTestSupport>>>, welche
   das Rückgrat der Testumgebung in dieser Schicht bilden.
@@ -157,7 +157,7 @@ src
 
   Ein weiteres Experiment ist das Testen mit Groovy.
   Zur Unterstützung der Groovy Testklassen existiert die Groovy-Klasse
-  <<<de.winkler.betoffice.service.BetofficePersistenceTestCase>>>. Im Testfall
+  <<<de.betoffice.service.BetofficePersistenceTestCase>>>. Im Testfall
   steht eine MySQL Datenbank zur Verfügung, die mit einigen Stammdaten
   vorbefüllt ist. Die <<<#assertDbTableEquals(...)>>> Methoden vergleichen
   Ergebnisse von Datenbankabfragen mit dem erwarteten Ergebnis. Im Quellcode

@@ -59,7 +59,7 @@ Object databaseMaintenanceService = context
 
     Nach erfolgreicher Konfigurationsauswahl stehen dann die folgenden Service
     Klassen, die sich im Paket
-    <<<de.winkler.betoffice.service>>> wiederfinden, zur Verfügung:
+    <<<de.betoffice.service>>> wiederfinden, zur Verfügung:
 
     * MasterDataManagerService. Bean ID: <<<masterDataManagerService>>>
 
