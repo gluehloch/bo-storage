@@ -30,6 +30,11 @@ import org.springframework.context.annotation.PropertySource;
 
 /**
  * Configuration for the test environment.
+ * 
+ * <cite> The values in the @PropertySource annotation are processed in the order they are listed. In your code,
+ * classpath:/botest.properties is loaded first, followed by file:${user.home}/.awitools/.betoffice-test.properties. If
+ * a property is defined in both files, the value from the later file (.betoffice-test.properties) will override the
+ * earlier one. </cite>
  */
 @Profile(value = "test")
 @Configuration
