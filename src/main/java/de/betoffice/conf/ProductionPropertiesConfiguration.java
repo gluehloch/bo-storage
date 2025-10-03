@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
-@Profile(value = "production") // Currently the default profile 
+@Profile("production")
 @Configuration
 @PropertySource(ignoreResourceNotFound = false, value = {
         "file:${AWTOOLS_CONFDIR}/betoffice/betoffice.properties"
