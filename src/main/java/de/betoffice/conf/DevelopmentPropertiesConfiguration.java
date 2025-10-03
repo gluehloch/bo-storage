@@ -29,8 +29,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 
 /**
- * Configuration for dev environment. Currently not used, because {@link ProductionPropertiesConfiguration}
- * takes the whole work.
+ * Configuration for dev environment.
  */
 @Profile(value = "dev")
 @Configuration
