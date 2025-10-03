@@ -6,6 +6,10 @@
     </properties>
     <body>
         <!-- Under development -->
+        <release version="betoffice-storage-3.2.0" date="2025-08-07" description="Package structure redesign">
+        </release>
+
+        <!-- RELEASED -->
         <release version="betoffice-storage-3.1.1" date="2025-08-07" description="Small interface enhancements">
             <action dev="andrewinkler" type="add" date="2025-03-21">
                 Added some methodes to the CommunityService to support 'user changes his email' process.
