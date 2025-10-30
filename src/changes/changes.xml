@@ -7,12 +7,20 @@
     <body>
         <!-- Under development -->
         <release version="betoffice-storage-3.2.0" date="2025-08-07" description="Package structure redesign">
+            <action dev="andrewinkler" type="update" date="2025-07-15">
+                Redesign package structure. Moved all service classes to package
+                de.winkler.betoffice.storage.service. Moved all dao classes to package
+                de.winkler.betoffice.storage.dao.
+            </action>
+            <action dev="andrewinkler" type="update" date="2025-06-30">
+                Refactored the CommunityService interface.
+            </action>
         </release>
 
         <!-- RELEASED -->
         <release version="betoffice-storage-3.1.1" date="2025-08-07" description="Small interface enhancements">
             <action dev="andrewinkler" type="add" date="2025-03-21">
-                Added some methodes to the CommunityService to support 'user changes his email' process.
+                Added some methods to the CommunityService to support 'user changes his email' process.
             </action>
             <action dev="andrewinkler" type="add" date="2025-01-25">
                 Added mail properties. Database table bo_user gets a new column 'bo_notification'.
