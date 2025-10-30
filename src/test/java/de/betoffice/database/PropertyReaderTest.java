@@ -23,9 +23,8 @@
 
 package de.betoffice.database;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.InputStream;
 import java.util.Properties;
@@ -45,8 +44,7 @@ public class PropertyReaderTest {
     /**
      * Der Test mit {@link Properties} funktioniert.
      *
-     * @throws Exception
-     *             Ups
+     * @throws Exception Ups
      */
     @Test
     public void testReadPropertyFiles() throws Exception {
@@ -55,11 +53,12 @@ public class PropertyReaderTest {
         Properties props = new Properties();
         props.load(is);
 
-        assertThat(props.getProperty("betoffice.persistence.username")).isEqualTo("test");
-        assertThat(props.getProperty("betoffice.persistence.password")).isEqualTo("test");
-        assertThat(props.getProperty("betoffice.persistence.url")).isEqualTo("jdbc:mariadb://127.0.0.1/botest");
+        assertThat(props.getProperty("betoffice.persistence.username")).isEqualTo("betofficetest");
+        assertThat(props.getProperty("betoffice.persistence.password")).isEqualTo("xxx");
+        assertThat(props.getProperty("betoffice.persistence.url")).isEqualTo("jdbc:mariadb://127.0.0.1/betofficetest");
         assertThat(props.getProperty("betoffice.persistence.classname")).isEqualTo("org.mariadb.jdbc.Driver");
-        assertThat(props.getProperty("betoffice.persistence.dialect")).isEqualTo("org.hibernate.dialect.MariaDBDialect");
+        assertThat(props.getProperty("betoffice.persistence.dialect"))
+                .isEqualTo("org.hibernate.dialect.MariaDBDialect");
     }
 
 }
