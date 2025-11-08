@@ -6,7 +6,9 @@
     </properties>
     <body>
         <!-- Under development -->
-        <release version="betoffice-storage-3.2.0" date="2025-08-07" description="Package structure redesign">
+
+        <!-- RELEASED -->
+        <release version="betoffice-storage-3.2.0" date="2025-11-08" description="JDK 25 / Package structure redesign">
             <action dev="andrewinkler" type="update" date="2025-07-15">
                 Redesign package structure. Moved all service classes to package
                 de.winkler.betoffice.storage.service. Moved all dao classes to package
