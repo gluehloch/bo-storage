@@ -106,6 +106,7 @@ public class PersistenceJPAConfiguration {
     Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MariaDBDialect");
+        properties.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
         return properties;
     }
 
