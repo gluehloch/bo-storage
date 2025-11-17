@@ -31,7 +31,7 @@ import org.springframework.context.annotation.PropertySource;
 /**
  * Configuration for dev environment.
  */
-@Profile(value = "dev")
+@Profile(value = { "dev", "default" })
 @Configuration
 @PropertySource(ignoreResourceNotFound = true, value = { "classpath:/bodev.properties" })
 public class DevelopmentPropertiesConfiguration extends AbstractPropertiesConfiguration {
