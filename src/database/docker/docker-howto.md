@@ -13,11 +13,11 @@ docker pull mariadb:12.0.2-noble
 ## RUN The Image
 
 ```
-docker run --name mariadb -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb:latest
+docker run --name mariadb -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb:12.0.2-noble
 ```
 Import *.sql to the docker container with the cli from the command line
 ```
-docker exec -i mariadb mariadb -u betofficesu --password=betoffice -D betoffice < mysql.sql
+docker exec -it mariadb11 bash
 ```
 
 TODO: Das Schema wird derzeit nicht angelegt und ist nicht teil eines Images.
