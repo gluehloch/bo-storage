@@ -7,6 +7,7 @@
         <artifactId>betoffice-maven-parent</artifactId>
         <version>1.15.1</version>
     </parent>
+    <groupId>de.betoffice</groupId>
     <artifactId>betoffice-storage</artifactId>
     <name>betoffice storage</name>
     <packaging>jar</packaging>
