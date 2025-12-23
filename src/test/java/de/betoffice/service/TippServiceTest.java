@@ -25,29 +25,33 @@ package de.betoffice.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
 import org.junit.jupiter.api.Test;
 
 public class TippServiceTest {
 
     @Test
     public void beforeOrAfterGameDateTimeWithDifferenTimeZone() {
-        DateTime gameDateTime = new DateTime(2020, 6, 20, 16, 00, DateTimeZone.forID("Europe/Berlin"));
-        
+        ZonedDateTime gameDateTime = ZonedDateTime.of(
+            LocalDateTime.of(2020, 6, 20, 16, 0),
+            ZoneId.of("Europe/Berlin")
+        );
         // Die UTC Zeitzone ist im Sommer zwei Stunden hinter 'Europe/Berlin'
         // D.h. Sommerzeit: 'Europe/Berlin' 16:00 Uhr => 'UTC'          14:00 oder
         //                  'UTC' 16 Uhr             => 'Europe/Berlin' 18:00
-        assertThat(new DateTime(2020, 6, 20, 12, 00, DateTimeZone.UTC).isBefore(gameDateTime)).isTrue();
-        assertThat(new DateTime(2020, 6, 20, 13, 00, DateTimeZone.UTC).isBefore(gameDateTime)).isTrue();
-        assertThat(new DateTime(2020, 6, 20, 13, 59, DateTimeZone.UTC).isBefore(gameDateTime)).isTrue();
-        assertThat(new DateTime(2020, 6, 20, 13, 59, 59, DateTimeZone.UTC).isBefore(gameDateTime)).isTrue();
-        assertThat(new DateTime(2020, 6, 20, 14, 00, DateTimeZone.UTC).isBefore(gameDateTime)).isFalse();
-        assertThat(new DateTime(2020, 6, 20, 15, 00, DateTimeZone.UTC).isBefore(gameDateTime)).isFalse();
-        assertThat(new DateTime(2020, 6, 20, 16, 00, DateTimeZone.UTC).isBefore(gameDateTime)).isFalse();
-        assertThat(new DateTime(2020, 6, 20, 17, 00, DateTimeZone.UTC).isBefore(gameDateTime)).isFalse();
-        assertThat(new DateTime(2020, 6, 20, 18, 00, DateTimeZone.UTC).isBefore(gameDateTime)).isFalse();
-        assertThat(new DateTime(2020, 6, 20, 19, 00, DateTimeZone.UTC).isBefore(gameDateTime)).isFalse();
+        assertThat(ZonedDateTime.of(LocalDateTime.of(2020, 6, 20, 12, 0), ZoneId.of("UTC")).isBefore(gameDateTime)).isTrue();
+        assertThat(ZonedDateTime.of(LocalDateTime.of(2020, 6, 20, 13, 0), ZoneId.of("UTC")).isBefore(gameDateTime)).isTrue();
+        assertThat(ZonedDateTime.of(LocalDateTime.of(2020, 6, 20, 13, 59), ZoneId.of("UTC")).isBefore(gameDateTime)).isTrue();
+        assertThat(ZonedDateTime.of(LocalDateTime.of(2020, 6, 20, 13, 59, 59), ZoneId.of("UTC")).isBefore(gameDateTime)).isTrue();
+        assertThat(ZonedDateTime.of(LocalDateTime.of(2020, 6, 20, 14, 0), ZoneId.of("UTC")).isBefore(gameDateTime)).isFalse();
+        assertThat(ZonedDateTime.of(LocalDateTime.of(2020, 6, 20, 15, 0), ZoneId.of("UTC")).isBefore(gameDateTime)).isFalse();
+        assertThat(ZonedDateTime.of(LocalDateTime.of(2020, 6, 20, 16, 0), ZoneId.of("UTC")).isBefore(gameDateTime)).isFalse();
+        assertThat(ZonedDateTime.of(LocalDateTime.of(2020, 6, 20, 17, 0), ZoneId.of("UTC")).isBefore(gameDateTime)).isFalse();
+        assertThat(ZonedDateTime.of(LocalDateTime.of(2020, 6, 20, 18, 0), ZoneId.of("UTC")).isBefore(gameDateTime)).isFalse();
+        assertThat(ZonedDateTime.of(LocalDateTime.of(2020, 6, 20, 19, 0), ZoneId.of("UTC")).isBefore(gameDateTime)).isFalse();
     }
 
 }

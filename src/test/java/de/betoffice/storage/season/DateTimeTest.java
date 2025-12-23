@@ -27,9 +27,11 @@ package de.betoffice.storage.season;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
-import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -41,18 +43,17 @@ public class DateTimeTest {
 
     @Test
     public void testDateTime() {
-        DateTime dateTime = new DateTime("1971-03-24T21:15:16");
-        Date date = dateTime.toDate();
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(LocalDateTime.parse("1971-03-24T21:15:16"), ZoneId.systemDefault());
+        Date date = Date.from(zonedDateTime.toInstant());
 
-        DateTime dateTimeAfter = new DateTime("1971-03-24T21:16:17");
-        Date dateAfter = dateTimeAfter.toDate();
+        ZonedDateTime zonedDateTimeAfter = ZonedDateTime.of(LocalDateTime.parse("1971-03-24T21:16:17"), ZoneId.systemDefault());
+        Date dateAfter = Date.from(zonedDateTimeAfter.toInstant());
 
-        assertTrue(dateTimeAfter.isAfter(dateTime));
+        assertTrue(zonedDateTimeAfter.isAfter(zonedDateTime));
         assertTrue(dateAfter.after(date));
 
-        DateTime dateTimeWithConstructor = new DateTime(1971, 3, 24, 21, 15,
-                16);
-        assertEquals(dateTime, dateTimeWithConstructor);
+        ZonedDateTime zonedDateTimeWithConstructor = ZonedDateTime.of(LocalDateTime.of(1971, 3, 24, 21, 15, 16), ZoneId.systemDefault());
+        assertEquals(zonedDateTime, zonedDateTimeWithConstructor);
     }
 
 }
