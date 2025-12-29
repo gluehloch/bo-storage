@@ -79,6 +79,8 @@ public interface AuthService {
 	 */
 	Optional<Session> validateSession(String token);
 
+	boolean isAdminSession(String token);
+
 	//
 	// /**
 	// * Find the role for a user session.

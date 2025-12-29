@@ -156,4 +156,11 @@ public class DefaultAuthService implements AuthService {
         return userDao.findByNickname(nickname);
     }
 
+    @Override
+    public boolean isAdminSession(String token) {
+        return validateSession(token).map(session -> {
+            return session.getUser().getRoleTypes().stream().anyMatch(RoleType.ADMIN::equals);
+        }).orElse(false);
+    }
+
 }
