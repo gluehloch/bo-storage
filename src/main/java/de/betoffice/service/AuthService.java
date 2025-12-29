@@ -69,7 +69,7 @@ public interface AuthService {
 	 * 
 	 * @param securityToken a security token
 	 */
-	void logout(SecurityToken securityToken);
+	void logout(String securityToken);
 
 	/**
 	 * Vaidates the user session.
