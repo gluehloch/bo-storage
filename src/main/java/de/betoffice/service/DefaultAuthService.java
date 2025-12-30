@@ -107,7 +107,6 @@ public class DefaultAuthService implements AuthService {
         return securityToken;
     }
 
-    @Transactional
     @Override
     public Optional<SecurityToken> findTokenByNickname(Nickname nickname) {
         return findTokenByNickname(nickname);
@@ -154,6 +153,11 @@ public class DefaultAuthService implements AuthService {
     @Override
     public Optional<User> findByNickname(Nickname nickname) {
         return userDao.findByNickname(nickname);
+    }
+
+    @Override
+    public boolean isAdminSession(String token) {
+        return validateSession(token).map(s -> s.getUser().getRoleTypes().contains(RoleType.ADMIN)).orElse(false);
     }
 
 }

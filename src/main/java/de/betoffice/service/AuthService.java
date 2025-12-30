@@ -36,68 +36,70 @@ import de.betoffice.storage.user.entity.User;
  */
 public interface AuthService {
 
-	/**
-	 * Find a user with defined nickname.
-	 * 
-	 * @param nickname the nickname of the user
-	 * @return a user
-	 */
-	Optional<User> findByNickname(Nickname nickname);
+    /**
+     * Find a user with defined nickname.
+     * 
+     * @param  nickname the nickname of the user
+     * @return          a user
+     */
+    Optional<User> findByNickname(Nickname nickname);
 
-	/**
-	 * Find the security token for user.
-	 * 
-	 * @param nickname the nickname of the user
-	 * @return the security token
-	 */
-	Optional<SecurityToken> findTokenByNickname(Nickname nickname);
+    /**
+     * Find the security token for user.
+     * 
+     * @param  nickname the nickname of the user
+     * @return          the security token
+     */
+    Optional<SecurityToken> findTokenByNickname(Nickname nickname);
 
-	/**
-	 * Login to betoffice. On success you get a {@link SecurityToken}.
-	 *
-	 * @param name      user name
-	 * @param password  user password
-	 * @param sessionId SessionId
-	 * @param address   ip address
-	 * @param browserId browser id
-	 * @return a security token
-	 */
-	SecurityToken login(Nickname name, String password, String sessionId, String address, String browserId);
+    /**
+     * Login to betoffice. On success you get a {@link SecurityToken}.
+     *
+     * @param  name      user name
+     * @param  password  user password
+     * @param  sessionId SessionId
+     * @param  address   ip address
+     * @param  browserId browser id
+     * @return           a security token
+     */
+    SecurityToken login(Nickname name, String password, String sessionId, String address, String browserId);
 
-	/**
-	 * Logout of betoffice.
-	 * 
-	 * @param securityToken a security token
-	 */
-	void logout(SecurityToken securityToken);
+    /**
+     * Logout of betoffice.
+     * 
+     * @param securityToken a security token
+     */
+    void logout(SecurityToken securityToken);
 
-	/**
-	 * Vaidates the user session.
-	 * 
-	 * @param token a security token
-	 * @return a valid user session
-	 */
-	Optional<Session> validateSession(String token);
+    /**
+     * Vaidates the user session.
+     * 
+     * @param  token a security token
+     * @return       a valid user session
+     */
+    Optional<Session> validateSession(String token);
 
-	//
-	// /**
-	// * Find the role for a user session.
-	// *
-	// * @param token
-	// * a security token
-	// * @return the role
-	// */
-	// RoleType findRole(SecurityToken token);
-	//
-	// /**
-	// * Find the role for a user session.
-	// *
-	// * @param token
-	// * a security token
-	// * @param season
-	// * a championship
-	// * @return the role for the specific championship
-	// */
-	// RoleType findRole(SecurityToken token, Season season);
+    boolean isAdminSession(String token);
+
+    //
+    // /**
+    // * Find the role for a user session.
+    // *
+    // * @param token
+    // * a security token
+    // * @return the role
+    // */
+    // RoleType findRole(SecurityToken token);
+    //
+    // /**
+    // * Find the role for a user session.
+    // *
+    // * @param token
+    // * a security token
+    // * @param season
+    // * a championship
+    // * @return the role for the specific championship
+    // */
+    // RoleType findRole(SecurityToken token, Season season);
 
 }
