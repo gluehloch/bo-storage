@@ -114,9 +114,8 @@ public class DefaultAuthService implements AuthService {
 
     @Transactional
     @Override
-    public void logout(SecurityToken securityToken) {
-        List<Session> sessions = sessionDao.findBySessionId(securityToken.getToken());
-
+    public void logout(String securityToken) {
+        List<Session> sessions = sessionDao.findBySessionId(securityToken);
         if (sessions.isEmpty()) {
             log.warn("Trying to logout with an invalid securityToken=[{}]", securityToken);
         } else {

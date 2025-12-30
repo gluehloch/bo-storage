@@ -49,11 +49,23 @@
     </dependencyManagement>
     -->
     <dependencies>
+    	<!-- Jakarta Validation with Provider and EL expression language. -->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.2</version>
         </dependency>
+		<dependency>
+		    <groupId>org.hibernate.validator</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		    <version>8.0.3.Final</version>
+		</dependency>        
+		<dependency>
+		    <groupId>org.glassfish.expressly</groupId>
+		    <artifactId>expressly</artifactId>
+		    <version>5.0.0</version>
+		</dependency>
+
         <dependency>
             <groupId>org.eclipse.angus</groupId>
             <artifactId>angus-mail</artifactId>
