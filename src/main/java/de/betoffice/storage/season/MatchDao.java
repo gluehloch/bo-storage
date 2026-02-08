@@ -24,6 +24,7 @@
 
 package de.betoffice.storage.season;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,7 +71,7 @@ public interface MatchDao extends CommonDao<Game> {
      * Sucht nach allen Spielpaarungen mit der beteiligten Gastmannschaft.
      *
      * @param  guestTeam Die gesuchte Gastmannschaft.
-     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
+     * @param  limit     Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return           Eine Liste von {@link de.betoffice.storage.season.entity.Game} Objekten.
      */
     List<Game> findByGuestTeam(Team guestTeam, int limit);
@@ -80,7 +81,7 @@ public interface MatchDao extends CommonDao<Game> {
      *
      * @param  homeTeam  Die gesuchte Heimmannschaft.
      * @param  guestTeam Die gesuchte Gastmannschaft.
-     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
+     * @param  limit     Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return           Eine Liste von {@link de.betoffice.storage.season.entity.Game} Objekten.
      */
     List<Game> find(Team homeTeam, Team guestTeam, int limit);
@@ -90,7 +91,7 @@ public interface MatchDao extends CommonDao<Game> {
      *
      * @param  team1 Die erste gesuchte Mannschaft (Heim wie auswärts).
      * @param  team2 Die zweite gesuchte Mannschaft (Heim wie auswärts).
-     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
+     * @param  limit Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return       Eine Liste von {@link de.betoffice.storage.season.entity.Game} Objekten.
      */
     List<Game> findAll(Team team1, Team team2, int limit);
@@ -98,10 +99,18 @@ public interface MatchDao extends CommonDao<Game> {
     /**
      * Sucht nach alle Spielpaarungen mit der beteiligten Mannschaften.
      * 
-     * @param  team Die gesuchte Mannschaft
-     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
-     * @return      Eine Liste von {@link de.betoffice.storage.season.entity.Game} Objekten.
+     * @param  team  Die gesuchte Mannschaft
+     * @param  limit Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
+     * @return       Eine Liste von {@link de.betoffice.storage.season.entity.Game} Objekten.
      */
     List<Game> find(Team team, int limit);
+
+    /**
+     * Liefert alle Spielpaarungen für ein Datum.
+     * 
+     * @param  date Das gesuchte Datum
+     * @return Alle Spielpaarungen für dieses Datum.
+     */
+    List<Game> findByDay(ZonedDateTime date);
 
 }

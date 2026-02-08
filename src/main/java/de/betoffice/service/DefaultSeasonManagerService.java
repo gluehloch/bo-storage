@@ -176,6 +176,11 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
+    public List<Game> findMatches(ZonedDateTime dateTime) {
+        return matchDao.findByDay(dateTime);
+    }
+
+    @Override
     public Game findMatch(Long gameId) {
         return matchDao.findById(gameId);
     }

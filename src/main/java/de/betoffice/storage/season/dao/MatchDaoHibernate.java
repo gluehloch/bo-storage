@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -24,6 +24,7 @@
 
 package de.betoffice.storage.season.dao;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -150,10 +151,32 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
                 and match.gameList.id = :gameListId
             """;
 
+    private static final String QUERY_MATCHES_BY_DAY = """
+            select
+                game 
+            from
+                Game game
+                join game.homeTeam
+                join game.guestTeam
+                join game.group
+                join game.group.groupType
+            where
+                DATE(game.dateTime) = DATE(:date)
+            """;
+    
     public MatchDaoHibernate() {
         super(Game.class);
     }
 
+    @Override
+    public List<Game> findByDay(final ZonedDateTime date) {
+        List<Game> games = getEntityManager()
+                .createQuery(QUERY_MATCHES_BY_DAY, Game.class)
+                .setParameter("date", date)
+                .getResultList();
+        return games;
+    }
+    
     @Override
     public List<Game> findByHomeTeam(final Team homeTeam, final int limit) {
         List<Game> games = getEntityManager()

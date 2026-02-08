@@ -142,7 +142,7 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
 
         List<Game> allMatchesStuttgartHsv = seasonManagerService.findMatches(stuttgart, hsv, true, 100);
         assertThat(allMatchesStuttgartHsv.size()).isEqualTo(34);
-        
+
         assertThat(seasonManagerService.findMatchesWithHomeTeam(hsv, 10)).isNotEmpty();
         assertThat(seasonManagerService.findMatchesWithGuestTeam(stuttgart, 10)).isNotEmpty();
         assertThat(seasonManagerService.findMatches(hsv, 10)).isNotEmpty();
@@ -246,6 +246,21 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
         GameList platz3 = roundsWm2006.get(23);
         Optional<Game> platz3Match = seasonManagerService.findMatch(platz3, deutschland.get(), portugal.get());
         assertThat(platz3Match.get().getResult()).isEqualTo(new GameResult(3, 1));
+
+        //
+        // Find games of a day
+        //
+        
+        // TODO https://github.com/gluehloch/bo-storage/issues/4 
+//        List<Game> games = seasonManagerService.findMatches(spieltag_2.getDateTime());
+//        assertThat(games).hasSize(3);
+//        assertThat(games.get(0).getHomeTeam().getName()).isEqualTo("Deutschland");
+//        assertThat(games.get(0).getGuestTeam().getName()).isEqualTo("Costa Rica");
+//        assertThat(games.get(1).getHomeTeam().getName()).isEqualTo("Polen");
+//        assertThat(games.get(1).getGuestTeam().getName()).isEqualTo("Ecuador");
+//
+//        assertThat(games.get(0).getDateTime().toLocalDate()).isEqualTo(spieltag_2.getDateTime().toLocalDate());
+//        assertThat(games.get(1).getDateTime().toLocalDate()).isEqualTo(spieltag_2.getDateTime().toLocalDate());
     }
 
     @Test
@@ -280,15 +295,15 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
 
         Object object2 = databaseMaintenanceService.executeHql(
                 """
-                select
-                	s
-                from
-                	Season s
-                 	left join fetch s.groups as group
-                       where
-                    s.reference.name = 'WM Deutschland'
-                    and s.reference.year = '2006'
-                """);
+                        select
+                        	s
+                        from
+                        	Season s
+                         	left join fetch s.groups as group
+                               where
+                            s.reference.name = 'WM Deutschland'
+                            and s.reference.year = '2006'
+                        """);
         assertEquals(1, ((List<?>) object2).size());
     }
 

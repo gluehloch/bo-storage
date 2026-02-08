@@ -249,11 +249,19 @@ public interface SeasonManagerService {
     List<Game> findMatches(GameList round);
 
     /**
+     * Liefert alle Spielpaarungen für ein Datum.
+     * 
+     * @param  dateTime Das Bezugsdatum
+     * @return Alle Spielpaarungen für dieses Datum.
+     */
+    List<Game> findMatches(ZonedDateTime dateTime);
+
+    /**
      * Sucht nach Spielen der vorgegebenen Mannschaften.
      *
      * @param  homeTeam  Die Heimmannschaft.
      * @param  guestTeam Die Gastmannschaft.
-     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
+     * @param  limit     Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return           Die gemeinsamen Spiele.
      */
     List<Game> findMatches(Team homeTeam, Team guestTeam, int limit);
@@ -264,7 +272,7 @@ public interface SeasonManagerService {
      * @param  homeTeam  Die Heimmannschaft.
      * @param  guestTeam Die Gastmannschaft.
      * @param  spin      Heim- und Gastmannschaft vertauschen?
-     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
+     * @param  limit     Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
      * @return           Die gemeinsamen Spiele.
      */
     List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin, int limit);
@@ -272,9 +280,9 @@ public interface SeasonManagerService {
     /**
      * Sucht nach Spielen mit der vorgegebenen Mannschaften.
      *
-     * @param  team Die Mannschaft.
-     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
-     * @return      Die gefundenen Spiel.
+     * @param  team  Die Mannschaft.
+     * @param  limit Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
+     * @return       Die gefundenen Spiel.
      */
     List<Game> findMatches(Team team, int limit);
 
@@ -290,9 +298,9 @@ public interface SeasonManagerService {
     /**
      * Sucht nach alle Gastspielen mit der übergebenen Mannschaft.
      * 
-     * @param  team Die Mannschaft
-     * @param  limit    Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
-     * @return      Die gefundenen Spiele
+     * @param  team  Die Mannschaft
+     * @param  limit Maximal Anzahl an Spielpaarungen ist zurück geliefert werden sollen
+     * @return       Die gefundenen Spiele
      */
     List<Game> findMatchesWithGuestTeam(Team team, int limit);
 

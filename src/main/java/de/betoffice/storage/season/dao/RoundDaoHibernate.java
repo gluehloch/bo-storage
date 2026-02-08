@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -158,27 +158,20 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     /** Findet den naechsten zu tippenden Spieltag. */
     private static final String QUERY_NEXT_ROUND_BY_DATE = """
             select
-                gl.bo_datetime datetime,
-                gl.id last_round_id
+                gl.bo_datetime round_datetime,
+                gl.id          last_round_id
             from
                 bo_gamelist gl
+                join bo_game g on (g.bo_gamelist_ref = gl.id)
             where
-                gl.bo_datetime =
+                g.bo_datetime =
                 (
                     select
-                        min(t.bo_datetime) datetime
+                        min(g2.bo_datetime)
                     from
-                    (
-                        select
-                            r.bo_datetime,
-                            r.id
-                        from
-                            bo_gamelist r,
-                            bo_game m
-                        where
-                            r.id = m.bo_gamelist_ref
-                            and m.bo_datetime >= :date
-                    ) as t
+                        bo_game g2
+                    where
+                        g2.bo_datetime > :date
                 )
             """;
 
@@ -343,7 +336,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
 
     private Optional<Long> findNextTippRound(Query query) {
         try {
-            List<Object> resultList = query.getResultList();
+            List<?> resultList = query.getResultList();
             if (resultList.size() == 0) {
                 return Optional.empty();
             }
