@@ -8,7 +8,9 @@ select
   tabelle.bo_teamtype,
   tabelle.bo_location_ref,
   tabelle.bo_openligaid,
-  SUM(pos_goals - neg_goals) as diff, SUM(pos_goals) as pos_goals, SUM(neg_goals) as neg_goals
+  SUM(pos_goals - neg_goals) as diff,
+  SUM(pos_goals)             as pos_goals,
+  SUM(neg_goals)             as neg_goals
 from
 (
     (
