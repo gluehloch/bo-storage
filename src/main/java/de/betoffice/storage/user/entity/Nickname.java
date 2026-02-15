@@ -32,7 +32,7 @@ import jakarta.persistence.Embeddable;
 import org.apache.commons.lang3.StringUtils;
 
 @Embeddable
-public class Nickname implements Comparable<Nickname> {
+public class # implements Comparable<Nickname> {
 
     /** Der Nickname des Users. */
     @Column(name = "bo_nickname")
@@ -67,8 +67,7 @@ public class Nickname implements Comparable<Nickname> {
 
     @Override
     public int compareTo(Nickname o) {
-        // return this.nickname.toLowerCase().compareTo(o.nickname.toLowerCase());
-        return this.nickname.compareTo(o.nickname);
+        return this.nickname.toLowerCase().compareTo(o.nickname.toLowerCase());
     }
 
     @Override
