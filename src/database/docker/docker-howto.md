@@ -7,14 +7,17 @@ docker pull mariadb/latest
 ```
 oder eine spezielle Version des Images (latest hängt mind. eine Hauptversion hinterher):
 ```
-docker pull mariadb:12.0.2-noble
+docker pull mariadb:12.2.2-noble2
 ```
 
 ## RUN The Image
 
 ```
-docker run --name mariadb -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb:12.0.2-noble
+docker run --name mariadb11 -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb:12.2.2-noble
 ```
+Info: Z.Z. Haben bei mir alle MariaDB Instanzen den Namen 11. Das gilt für MariaDB 10, 11 und 12. Der Namen taucht im JDBC
+Connection wieder auf.
+
 Import *.sql to the docker container with the cli from the command line
 ```
 docker exec -it mariadb11 bash

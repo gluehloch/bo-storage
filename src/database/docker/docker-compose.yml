@@ -1,0 +1,23 @@
+# docker-compose.yml / docker compose -p betoffice up -d
+version: "3.8"
+
+services:
+  mariadb:
+    image: mariadb:12.2.2-noble
+    container_name: mariadb11
+    restart: unless-stopped
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "yes"    # allow empty root password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d:ro
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - betoffice
+volumes:
+  mariadb_data:
+
+networks:
+  betoffice:
+    external: true
