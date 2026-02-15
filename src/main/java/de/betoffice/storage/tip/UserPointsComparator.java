@@ -59,8 +59,7 @@ public final class UserPointsComparator implements Comparator<UserResult> {
             } else if (u1.getUserWin() < u2.getUserWin()) {
                 retcode = 1;
             } else if (u1.getUserWin() == u2.getUserWin()) {
-                retcode = u1.getUser().getNickname().toLowerCase().compareTo(
-                        u2.getUser().getNickname().toLowerCase());
+                retcode = u1.getUser().getNickname().compareTo(u2.getUser().getNickname());
             } else {
                 throw new IllegalStateException();
             }

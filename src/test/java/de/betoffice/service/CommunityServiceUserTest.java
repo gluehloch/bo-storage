@@ -106,8 +106,8 @@ class CommunityServiceUserTest extends AbstractServiceTest {
         communityService.updateUser(
                 true,
                 frosch.getNickname(),
-                "Seidl",
-                "Andy",
+                "Winkler-Update",
+                "Andre-Update",
                 frosch.getEmail(),
                 false,
                 frosch.getPhone());
@@ -118,8 +118,8 @@ class CommunityServiceUserTest extends AbstractServiceTest {
         Optional<User> anotherFrosch = communityService.findUser(frosch.getNickname());
         assertThat(anotherFrosch).isPresent().hasValueSatisfying(u -> {
             assertThat(u.getNickname()).isEqualTo(frosch.getNickname());
-            assertThat(u.getSurname()).isEqualTo("Andy");
-            assertThat(u.getName()).isEqualTo("Seidl");
+            assertThat(u.getSurname()).isEqualTo("Andre-Update");
+            assertThat(u.getName()).isEqualTo("Winkler-Update");
             assertThat(u.getNotification()).isEqualTo(NotificationType.NONE);
             assertThat(u).isNotEqualTo(peter);
         });

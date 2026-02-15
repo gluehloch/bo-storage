@@ -231,10 +231,15 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     @Override
     @Transactional
     public User createUser(final User user) {
-        List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
+        final List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
 
         if (user.getNickname() == null || StringUtils.isBlank(user.getNickname().value())) {
             messages.add(ValidationMessage.error(MessageType.NICKNAME_IS_NOT_SET));
+        } else {
+            final List<User> lowerCaseNickname = userDao.findLowerCaseNickname(user.getNickname().getNickname());
+            if (!lowerCaseNickname.isEmpty()) {
+                messages.add(ValidationMessage.error(MessageType.NICKNAME_ALREADY_EXISTS, user));
+            }
         }
 
         if (messages.isEmpty()) {

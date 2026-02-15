@@ -96,7 +96,7 @@ public class DefaultAuthService implements AuthService {
             session.setFailedLogins(0);
             session.setLogin(now);
             session.setLogout(null);
-            session.setNickname(name.getNickname());
+            session.setNickname(user.get().getNickname().getNickname());
             session.setRemoteAddress(address);
             session.setToken(securityToken.getToken());
             session.setUser(user.get());

@@ -49,9 +49,12 @@ import de.betoffice.storage.user.entity.User;
 public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao {
 
     /** Sucht nach allen Usern mit einem bestimmten Nick-Namen. */
-    private static final String QUERY_USER_BY_NICKNAME = "from "
-            + User.class.getName() + " as user " + "where "
-            + "user.nickname = :nickname";
+    private static final String QUERY_USER_BY_NICKNAME = """
+            from
+                User as user
+            where
+                user.nickname = :nickname
+            """;
 
     // ------------------------------------------------------------------------
 
@@ -65,10 +68,19 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
                 .getSingleResult();
     }
 
+    @Override
     public List<User> findAll() {
         return getEntityManager().createQuery("from User u", User.class).getResultList();
     }
 
+    @Override
+    public List<User> findLowerCaseNickname(String nickname) {
+        return getEntityManager().createQuery("from User u where LOWER(u.nickname) = LOWER(:nickname)", User.class)
+                .setParameter("nickname", nickname)
+                .getResultList();
+    }
+
+    @Override
     public Page<User> findAll(String nicknameFilter, Pageable pageable) {
         long total = countAll();
         String filter = new StringBuilder("%").append(nicknameFilter).append("%").toString();

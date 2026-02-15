@@ -54,8 +54,11 @@ public class ValidationMessage {
                 "Der Bestätigungsmail wurde in der Zukunft verschickt."),
         EMAIL_CHANGE_DATETIME_EXPIRED(
                 "Die Bestätigungslink für die Änderung der Email-Adresse ist nicht mehr gültig."),
+
         USER_NOT_FOUND("Der Nutzer %s ist nicht bekannt."),
         NICKNAME_IS_NOT_SET("Nickname ist nicht gesetzt."),
+        NICKNAME_ALREADY_EXISTS("Nickname %s wird bereits verwendet."),
+
         GROUP_TYPE_NAME_IS_NOT_SET("Gruppentyp Name ist nicht gesetzt."),
         TEAM_NAME_IS_NOT_SET("Mannschaftsname ist nicht gesetzt."),
         TEAM_ALIAS_NAME_IS_NOT_SET("Alias Mannschaftsname ist nicht gesetzt."),

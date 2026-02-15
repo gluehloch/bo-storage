@@ -65,13 +65,10 @@ public class Nickname implements Comparable<Nickname> {
         nickname = value;
     }
 
-    public String toLowerCase() {
-        return this.nickname.toLowerCase();
-    }
-
     @Override
     public int compareTo(Nickname o) {
-        return this.nickname.toLowerCase().compareTo(o.nickname.toLowerCase());
+        // return this.nickname.toLowerCase().compareTo(o.nickname.toLowerCase());
+        return this.nickname.compareTo(o.nickname);
     }
 
     @Override
@@ -93,7 +90,7 @@ public class Nickname implements Comparable<Nickname> {
         if (getClass() != obj.getClass())
             return false;
         Nickname other = (Nickname) obj;
-        return StringUtils.equalsIgnoreCase(nickname, other.nickname);
+        return Objects.equals(nickname, other.nickname);
     }
 
 }

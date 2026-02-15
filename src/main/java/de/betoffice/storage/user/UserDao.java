@@ -58,6 +58,14 @@ public interface UserDao extends CommonDao<User> {
     Page<User> findAll(String nicknameFilter, Pageable pageable);
 
     /**
+     * Liefert alle Teilnehmer mit gesuchten Nickname. Es wird nicht zwischen Groß- und Kleinschreibung unterschieden.
+     *
+     * @param  nickname Der gesuchte Nickname.
+     * @return          Liste aller Teilnehmer mit gesuchten Nickname.
+     */
+    List<User> findLowerCaseNickname(String nickname);
+
+    /**
      * Liefert einen Teilnehmer mit gesuchten Nickname.
      *
      * @param  nickname Der gesuchte Nickname.
