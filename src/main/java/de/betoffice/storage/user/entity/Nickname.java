@@ -32,7 +32,7 @@ import jakarta.persistence.Embeddable;
 import org.apache.commons.lang3.StringUtils;
 
 @Embeddable
-public class # implements Comparable<Nickname> {
+public class Nickname implements Comparable<Nickname> {
 
     /** Der Nickname des Users. */
     @Column(name = "bo_nickname")
