@@ -15,6 +15,10 @@
             <action dev="andrewinkler" type="add" date="2026-02-15">
                 Added a Docker compose file for MariaDB. It creates prod and test databases.
             </action>
+            <action dev="andrewinkler" type="add" date="2026-03-04">
+                Updated to Hibernate 7. Siehe Test RoundDaoHibernateTest#findGamesWithTimeZoneEuropeOrUtc2.
+                Damit sind Abfrage und Ergebnis in der selben Zeitzone.
+            </action>
         </release>
 
         <!-- RELEASED -->
