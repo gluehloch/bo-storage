@@ -77,6 +77,11 @@ public class PersistenceJPAConfiguration {
     }
 
     @Bean
+    public jakarta.persistence.EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
+        return entityManagerFactory.createEntityManager();
+    }
+
+    @Bean
     public DataSource dataSource(BetofficeProperties properties) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(properties.getDriverClassName());

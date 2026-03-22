@@ -33,6 +33,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.storage.group.entity.GroupType;
@@ -91,6 +93,7 @@ public class MasterDataManagerServiceFinderTest extends AbstractDaoTestSupport {
     }
 
     @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void testFindAliasNamesByTeam() {
         Optional<Team> koeln = masterDataManagerService
                 .findTeamByAlias("1.FC Köln");
