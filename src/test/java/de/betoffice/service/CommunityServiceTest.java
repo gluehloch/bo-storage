@@ -91,7 +91,7 @@ class CommunityServiceTest {
 
     @Test
     void createCommunity() {
-        assertThat(TestTransaction.isActive()).isTrue();
+        assertThat(TestTransaction.isActive()).isFalse();
 
         Season bundesliga = new Season(SeasonReference.of("2020/2021", "Bundesliga"));
         bundesliga.setMode(SeasonType.LEAGUE);
