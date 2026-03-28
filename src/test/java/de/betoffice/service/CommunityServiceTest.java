@@ -39,7 +39,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.transaction.TestTransaction;
 
+import de.betoffice.conf.BetofficeTestConfig;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.storage.community.CommunityFilter;
 import de.betoffice.storage.community.entity.Community;
@@ -55,7 +57,8 @@ import de.betoffice.storage.user.entity.User;
  * 
  * @author Andre Winkler
  */
-class CommunityServiceTest extends AbstractServiceTest {
+@BetofficeTestConfig
+class CommunityServiceTest {
 
     @Autowired
     private DataSource dataSource;
@@ -85,9 +88,11 @@ class CommunityServiceTest extends AbstractServiceTest {
         SeasonReference seasonReference = SeasonReference.of("2006", "WM Deutschland");
         assertThat(CommunityService.defaultPlayerGroup(seasonReference).getShortName()).isEqualTo("TDKB 2006");
     }
-    
+
     @Test
     void createCommunity() {
+        assertThat(TestTransaction.isActive()).isTrue();
+
         Season bundesliga = new Season(SeasonReference.of("2020/2021", "Bundesliga"));
         bundesliga.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(bundesliga);
@@ -100,6 +105,7 @@ class CommunityServiceTest extends AbstractServiceTest {
         communityManager.setPassword("Passwort");
 
         communityManager = communityService.createUser(communityManager);
+
         Community community = communityService
                 .create(CommunityReference.of("TDKB"), bundesliga.getReference(), "TDKB_short", "2024", frosch)
                 .result()
@@ -187,7 +193,8 @@ class CommunityServiceTest extends AbstractServiceTest {
         communityService.create(CommunityReference.of("aw4"), bundesligaRef, "aw4_short", "2024", nickname);
 
         assertThat(communityService.findCommunities(CommunityFilter.shortName("aw"), PageRequest.of(0, 10))).hasSize(4);
-        assertThat(communityService.findCommunities(CommunityFilter.shortName("aw1"), PageRequest.of(0, 10))).hasSize(1);
+        assertThat(communityService.findCommunities(CommunityFilter.shortName("aw1"), PageRequest.of(0, 10)))
+                .hasSize(1);
     }
 
 }
