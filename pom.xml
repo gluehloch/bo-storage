@@ -74,6 +74,14 @@
         </dependency>
 
         <!-- Some problems with an old version -->
+        <!--
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+    <version>4.0.5</version>
+</dependency>        
+-->
         <dependency>
             <groupId>com.ibm.icu</groupId>
             <artifactId>icu4j</artifactId>
