@@ -104,14 +104,14 @@ public class PersistenceJPAConfiguration {
     }
 
     @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+    public static PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MariaDBDialect");
-        properties.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
+        // properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MariaDBDialect");
+        properties.setProperty("hibernate.boot.allow_jdbc_metadata_access", "true");
         return properties;
     }
 
