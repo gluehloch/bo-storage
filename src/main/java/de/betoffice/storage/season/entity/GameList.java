@@ -44,7 +44,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderColumn;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 
 import org.hibernate.annotations.TimeZoneStorage;
@@ -88,7 +88,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
     private Group group;
 
     @OneToMany(mappedBy = "gameList", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @OrderColumn(name = "bo_index")
+    @OrderBy("bo_index")
     private List<Game> gameList = new ArrayList<>();
 
     // -- Construction --------------------------------------------------------
