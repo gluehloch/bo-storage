@@ -41,6 +41,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.orm.jpa.SharedEntityManagerCreator;
 
 /**
  * Registration Service Configuration Factory. <br/>
@@ -78,7 +79,13 @@ public class PersistenceJPAConfiguration {
 
     @Bean
     public jakarta.persistence.EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
-        return entityManagerFactory.createEntityManager();
+        // Nach der Spring 6 nach Spring 7 Umstellung waren alle transaktionalen Tests fehlerhaft.
+        // Im DB-Layer wird Hibernate verwendet. JPA kommt nicht zur Anwendung. Die Spring-JPA
+        // Magic findet hier keine Anwendung.
+        
+        // Use a Spring-managed shared EntityManager so it is properly synchronized
+        // with Spring transactions (proxy that delegates to transactional EntityManager).
+        return SharedEntityManagerCreator.createSharedEntityManager(entityManagerFactory);
     }
 
     @Bean
