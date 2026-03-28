@@ -30,6 +30,7 @@ import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.conf.BetofficeTestConfig;
 import de.betoffice.database.data.DeleteDatabase;
@@ -41,6 +42,7 @@ import de.dbload.Dbload;
  * @author by Andre Winkler
  */
 @BetofficeTestConfig
+@Transactional
 public abstract class AbstractDaoTestSupport {
 
     @Autowired
