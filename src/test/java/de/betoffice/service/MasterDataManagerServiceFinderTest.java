@@ -33,8 +33,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.storage.group.entity.GroupType;
@@ -54,7 +52,7 @@ public class MasterDataManagerServiceFinderTest extends AbstractDaoTestSupport {
 
     @Autowired
     protected CommunityService communityService;
-    
+
     @Autowired
     protected MasterDataManagerService masterDataManagerService;
 
@@ -76,37 +74,29 @@ public class MasterDataManagerServiceFinderTest extends AbstractDaoTestSupport {
 
     @Test
     public void testFindTeamAliasNames() {
-        Optional<Team> wolfsburg = masterDataManagerService
-                .findTeamByAlias("VfL Wolfsburg");
+        Optional<Team> wolfsburg = masterDataManagerService.findTeamByAlias("VfL Wolfsburg");
         assertThat(wolfsburg.isPresent()).isTrue();
 
-        Optional<Team> koeln = masterDataManagerService
-                .findTeamByAlias("1.FC Köln");
+        Optional<Team> koeln = masterDataManagerService.findTeamByAlias("1.FC Köln");
         assertThat(koeln.isPresent()).isTrue();
 
-        Optional<Team> bayernMuenchen2 = masterDataManagerService
-                .findTeam("FC Bayern München");
-        Optional<Team> bayernMuenchen = masterDataManagerService
-                .findTeamByAlias("Bayern München");
+        Optional<Team> bayernMuenchen2 = masterDataManagerService.findTeam("FC Bayern München");
+        Optional<Team> bayernMuenchen = masterDataManagerService.findTeamByAlias("Bayern München");
 
         assertThat(bayernMuenchen.get()).isEqualTo(bayernMuenchen2.get());
     }
 
     @Test
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void testFindAliasNamesByTeam() {
-        Optional<Team> koeln = masterDataManagerService
-                .findTeamByAlias("1.FC Köln");
+        Optional<Team> koeln = masterDataManagerService.findTeamByAlias("1.FC Köln");
         assertThat(koeln.isPresent()).isTrue();
 
-        List<TeamAlias> teamAliasNames = masterDataManagerService
-                .findAllTeamAlias(koeln.get());
+        List<TeamAlias> teamAliasNames = masterDataManagerService.findAllTeamAlias(koeln.get());
         assertThat(teamAliasNames.size()).isEqualTo(3);
 
-        masterDataManagerService.createTeamAlias(koeln.get(),
-                "Karnevalsverein");
-        Optional<Team> koeln2 = masterDataManagerService
-                .findTeamByAlias("Karnevalsverein");
+        masterDataManagerService.createTeamAlias(koeln.get(), "Karnevalsverein");
+
+        Optional<Team> koeln2 = masterDataManagerService.findTeamByAlias("Karnevalsverein");
 
         assertThat(koeln2.get().getName()).isEqualTo(koeln.get().getName());
     }
@@ -125,8 +115,7 @@ public class MasterDataManagerServiceFinderTest extends AbstractDaoTestSupport {
 
     @Test
     public void testFindAllGroupTypes() {
-        List<GroupType> groupTypes = masterDataManagerService
-                .findAllGroupTypes();
+        List<GroupType> groupTypes = masterDataManagerService.findAllGroupTypes();
         assertThat(groupTypes.size()).isEqualTo(14);
     }
 

@@ -14,7 +14,7 @@ import de.betoffice.conf.TestPropertiesConfiguration;
  */
 @SpringJUnitConfig(classes = { PersistenceJPAConfiguration.class, TestPropertiesConfiguration.class })
 @ActiveProfiles(profiles = "test")
-@ComponentScan({"de.betoffice", "de.betoffice"})
+@ComponentScan({ "de.betoffice", "de.betoffice" })
 public abstract class AbstractServiceTest {
 
 }
