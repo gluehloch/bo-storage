@@ -191,13 +191,6 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         // Suche mit TZ Europe/Berlin liefert kein Ergebnis! (keine Normalisierung der Abfrage durch Hibernate!)
         final var gamesByEuropeBerlin = roundDao.findGames(dt_2016_01_05__15_00_00_EuropeBerlin);
         assertThat(gamesByEuropeBerlin).isEmpty();
-
-        //
-        // Folgerung: Die Suche mit UTC liefert das gewünschte Ergebnis. Die Entity enthält die normalisierten Zeitstempel Europe/Berlin.
-        // Wie werden die Zeitstempel in der Datenbank gespeichert? MARIA DB speichert alle Zeitstempel als UTC!
-        //
-        // D.h. alle Abfragen mit einem Zeitstempel müssen in UTC erfolgen.
-        // 
     }
 
     /**
