@@ -29,7 +29,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.TestExecutionListeners.MergeMode;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -38,15 +37,11 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @SpringJUnitConfig(classes = { PersistenceJPAConfiguration.class, TestPropertiesConfiguration.class })
 @ActiveProfiles(profiles = "test")
 @EnableTransactionManagement
-@ContextConfiguration(classes = {
-        PersistenceJPAConfiguration.class,
-        TestPropertiesConfiguration.class })
 @TestExecutionListeners(value = {
         DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
