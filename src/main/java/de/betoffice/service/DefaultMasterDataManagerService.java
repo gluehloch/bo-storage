@@ -123,8 +123,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public TeamAlias createTeamAlias(final Team team,
-            final String teamAliasName) {
+    public TeamAlias createTeamAlias(final Team team, final String teamAliasName) {
         List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
         if (StringUtils.isBlank(teamAliasName)) {
             messages.add(ValidationMessage.error(MessageType.TEAM_ALIAS_NAME_IS_NOT_SET));

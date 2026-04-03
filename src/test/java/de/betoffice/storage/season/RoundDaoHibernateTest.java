@@ -35,6 +35,7 @@ import java.util.Optional;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -166,17 +167,16 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         assertThat(dateTime_2016_05__18_00_00.getHour()).isEqualTo(20);
     }
 
+    /**
+     * @see #findGamesWithTimeZoneEuropeOrUtcWithoutTimeZoneNormalization()
+     */
+    @Disabled("Does not work with Hibernate 7")
     @Test
     void findGamesWithTimeZoneEuropeOrUtc() {
-        // Suche mit TZ Europe/Berlin liefert kein Ergebnis! (keine Normalisierung der Abfrage durch Hibernate!)
-        var dt_2016_01_05__15_00_00_EuropeBerlin = ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN);
-        var gamesByEuropeBerlin = roundDao.findGames(dt_2016_01_05__15_00_00_EuropeBerlin);
-        assertThat(gamesByEuropeBerlin).isEmpty();
-
         //
         // Suche mit TZ UTC liefert das gewünschte Ergebnis! Aber die Entity ...
         //
-        var dt_2016_01_05__15_00_00_utc = ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_UTC);
+        final var dt_2016_01_05__15_00_00_utc = ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_UTC);
         var gamesByUTC = roundDao.findGames(dt_2016_01_05__15_00_00_utc);
         assertThat(gamesByUTC).hasSize(2);
         assertThat(gamesByUTC.get(0).getDateTime()).isNotEqualTo(dt_2016_01_05__15_00_00_utc);
@@ -184,8 +184,33 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
         //
         // ... enthält die normalisierten Zeitstempel. In dem Fall die Zeitstempel mit der TZ Europe/Berlin.
         //
+        final var dt_2016_01_05__15_00_00_EuropeBerlin = ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN);
         assertThat(gamesByUTC.get(0).getDateTime()).isEqualTo(dt_2016_01_05__15_00_00_EuropeBerlin);
         assertThat(gamesByUTC.get(1).getDateTime()).isEqualTo(dt_2016_01_05__15_00_00_EuropeBerlin);
+
+        // Suche mit TZ Europe/Berlin liefert kein Ergebnis! (keine Normalisierung der Abfrage durch Hibernate!)
+        final var gamesByEuropeBerlin = roundDao.findGames(dt_2016_01_05__15_00_00_EuropeBerlin);
+        assertThat(gamesByEuropeBerlin).isEmpty();
+    }
+
+    /**
+     * @see #findGamesWithTimeZoneEuropeOrUtc()
+     */
+    @Test
+    void findGamesWithTimeZoneEuropeOrUtcWithoutTimeZoneNormalization() {
+        //
+        // Suche mit TZ UTC liefert NICHT das gewünschte Ergebnis! Aber die Entity ...
+        //
+        final var dt_2016_01_05__15_00_00_utc = ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_UTC);
+        final var gamesByUTC = roundDao.findGames(dt_2016_01_05__15_00_00_utc);
+        assertThat(gamesByUTC).hasSize(0);
+
+        // Suche mit TZ Europe/Berlin liefert DAS gewünschte Ergebnis! (keine Normalisierung der Abfrage durch Hibernate!)
+        final var dt_2016_01_05__15_00_00_EuropeBerlin = ZonedDateTime.of(2016, 1, 5, 15, 0, 0, 0, ZONE_EUROPE_BERLIN);
+        final var gamesByEuropeBerlin = roundDao.findGames(dt_2016_01_05__15_00_00_EuropeBerlin);
+        assertThat(gamesByEuropeBerlin).hasSize(2);
+        assertThat(gamesByEuropeBerlin.get(0).getDateTime()).isEqualTo(dt_2016_01_05__15_00_00_EuropeBerlin);
+        assertThat(gamesByEuropeBerlin.get(1).getDateTime()).isEqualTo(dt_2016_01_05__15_00_00_EuropeBerlin);
 
         //
         // Folgerung: Die Suche mit UTC liefert das gewünschte Ergebnis. Die Entity enthält die normalisierten Zeitstempel Europe/Berlin.

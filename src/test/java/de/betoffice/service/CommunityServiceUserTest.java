@@ -39,6 +39,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.betoffice.conf.BetofficeTestConfig;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.mail.NotificationType;
 import de.betoffice.storage.user.entity.Nickname;
@@ -53,7 +54,8 @@ import de.betoffice.validation.ValidationException;
  *
  * @author Andre Winkler
  */
-class CommunityServiceUserTest extends AbstractServiceTest {
+@BetofficeTestConfig
+class CommunityServiceUserTest {
 
     @Autowired
     private DataSource dataSource;

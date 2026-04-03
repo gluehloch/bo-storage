@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>de.winkler.betoffice</groupId>
         <artifactId>betoffice-maven-parent</artifactId>
-        <version>1.15.1</version>
+        <version>1.16.0-SNAPSHOT</version>
     </parent>
     <groupId>de.betoffice</groupId>
     <artifactId>betoffice-storage</artifactId>
@@ -49,30 +50,38 @@
     </dependencyManagement>
     -->
     <dependencies>
-    	<!-- Jakarta Validation with Provider and EL expression language. -->
+        <!-- Jakarta Validation with Provider and EL expression language. -->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.2</version>
         </dependency>
-		<dependency>
-		    <groupId>org.hibernate.validator</groupId>
-		    <artifactId>hibernate-validator</artifactId>
-		    <version>8.0.3.Final</version>
-		</dependency>        
-		<dependency>
-		    <groupId>org.glassfish.expressly</groupId>
-		    <artifactId>expressly</artifactId>
-		    <version>5.0.0</version>
-		</dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.3.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.expressly</groupId>
+            <artifactId>expressly</artifactId>
+            <version>5.0.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.eclipse.angus</groupId>
             <artifactId>angus-mail</artifactId>
             <version>2.0.1</version>
         </dependency>
-        
+
         <!-- Some problems with an old version -->
+        <!--
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+    <version>4.0.5</version>
+</dependency>        
+-->
         <dependency>
             <groupId>com.ibm.icu</groupId>
             <artifactId>icu4j</artifactId>
@@ -88,7 +97,8 @@
     <distributionManagement>
         <site>
             <id>gluehloch-repository</id>
-            <url>scp://maven.gluehloch.de/var/www/projects.gluehloch/betoffice/core/betoffice-storage</url>
+            <url>
+                scp://maven.gluehloch.de/var/www/projects.gluehloch/betoffice/core/betoffice-storage</url>
         </site>
     </distributionManagement>
 </project>
