@@ -6,6 +6,8 @@
     </properties>
     <body>
         <!-- Under development -->
+        
+         <!-- RELEASED -->
         <release version="betoffice-storage-3.2.1" date="2026-04-03" description="Dependency Update Release">
             <action dev="andrewinkler" type="fix" date="2026-01-15">
                The security token stores the nickname of the persisted user. Not the nickname of the login process.

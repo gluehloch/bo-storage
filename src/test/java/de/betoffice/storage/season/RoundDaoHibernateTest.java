@@ -168,7 +168,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     }
 
     /**
-     * @see #findGamesWithTimeZoneEuropeOrUtc2()
+     * @see #findGamesWithTimeZoneEuropeOrUtcWithoutTimeZoneNormalization()
      */
     @Disabled("Does not work with Hibernate 7")
     @Test
@@ -204,7 +204,7 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
      * @see #findGamesWithTimeZoneEuropeOrUtc()
      */
     @Test
-    void findGamesWithTimeZoneEuropeOrUtc2() {
+    void findGamesWithTimeZoneEuropeOrUtcWithoutTimeZoneNormalization() {
         //
         // Suche mit TZ UTC liefert NICHT das gewünschte Ergebnis! Aber die Entity ...
         //
