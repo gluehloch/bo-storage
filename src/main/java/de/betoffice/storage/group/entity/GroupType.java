@@ -1,8 +1,7 @@
 /*
- * $Id: GroupType.java 3782 2013-07-27 08:44:32Z andrewinkler $
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2026 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -33,8 +32,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-
-import org.apache.commons.lang3.StringUtils;
 
 import de.betoffice.storage.AbstractStorageObject;
 import de.betoffice.storage.group.GroupTypeEnum;
@@ -100,26 +97,6 @@ public class GroupType extends AbstractStorageObject implements Comparable<Group
 
     public void setType(GroupTypeEnum type) {
         this.type = type;
-    }
-
-    // -- StorageObject -------------------------------------------------------
-
-    /**
-     * Prüft, ob die Eigenschaften dieses Objekts komplett und gültig gefüllt sind,
-     * damit es evt. Weiterverarbeitungen erfahren kann. Folgende Eigenschaften
-     * müssen gesetzt sein:
-     * <ul>
-     * <li>name</li>
-     * </ul>
-     *
-     * @return true, Objekt in Ordnung; false, es ist was falsch.
-     */
-    public boolean isValid() {
-        if (StringUtils.isBlank(name)) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
     // -- Comparable ----------------------------------------------------------
