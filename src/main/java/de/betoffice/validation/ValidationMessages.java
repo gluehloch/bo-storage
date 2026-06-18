@@ -32,6 +32,10 @@ public class ValidationMessages {
 
     private final List<ValidationMessage> messages = new ArrayList<>();
 
+    public static ValidationMessages ok() {
+        return ValidationMessages.empty();
+    }
+
     public static ValidationMessages empty() {
         return new ValidationMessages(List.of());
     }

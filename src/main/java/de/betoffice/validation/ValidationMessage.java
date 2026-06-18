@@ -50,10 +50,8 @@ public class ValidationMessage {
         NO_ERROR(""),
         UNKNOWN_ERROR("Unbekannter Fehler."),
         COMMUNITY_EXISTS("Die Community %s existiert nicht."),
-        EMAIL_CHANGE_DATETIME_IS_IN_THE_FUTURE(
-                "Der Bestätigungsmail wurde in der Zukunft verschickt."),
-        EMAIL_CHANGE_DATETIME_EXPIRED(
-                "Die Bestätigungslink für die Änderung der Email-Adresse ist nicht mehr gültig."),
+        EMAIL_CHANGE_DATETIME_IS_IN_THE_FUTURE("Der Bestätigungsmail wurde in der Zukunft verschickt."),
+        EMAIL_CHANGE_DATETIME_EXPIRED("Die Bestätigungslink für die Änderung der Email-Adresse ist nicht mehr gültig."),
 
         USER_NOT_FOUND("Der Nutzer %s ist nicht bekannt."),
         NICKNAME_IS_NOT_SET("Nickname ist nicht gesetzt."),
@@ -72,7 +70,10 @@ public class ValidationMessage {
         SEASON_DOES_NOT_SUPPORT_THIS_TEAM_TYPE("Die Meisterschaft %s unterstützt diesen Mannschaftstyp %s nicht."),
         SEASON_GROUP_TEAM_IS_ALREADY_A_MEMBER(
                 "Die Mannschaft '%s' ist bereits Teil der Meisterschaft '%s' für die Gruppe '%s'."),
-        ROUND_ID_NOT_FOUND("Eine Spielrunde mit der ID '%d' ist nicht vorhanden.");
+
+        ROUND_ID_MISMATCH("Die übergebenen Spielrunden-IDs stimmen nicht überein. (übergeben: %d, erwartet: %d)"),
+        ROUND_ID_NOT_FOUND("Eine Spielrunde mit der ID '%d' ist nicht vorhanden."),
+        GROUP_TYPE_NOT_FOUND("Die Meisterschaft (%s, %s) unterstützt den Gruppentyp '%s' nicht.");
 
         private final String message;
 

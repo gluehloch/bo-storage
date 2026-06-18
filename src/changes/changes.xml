@@ -6,6 +6,12 @@
     </properties>
     <body>
         <!-- Under development -->
+         <!-- RELEASED -->
+        <release version="betoffice-storage-3.2.2" date="2026-06-14" description="Season management refinemment">
+            <action dev="andrewinkler" type="update" date="2026-06-14">
+               ValidationMessages update.
+            </action>
+        </release>
         
          <!-- RELEASED -->
         <release version="betoffice-storage-3.2.1" date="2026-04-03" description="Dependency Update Release">

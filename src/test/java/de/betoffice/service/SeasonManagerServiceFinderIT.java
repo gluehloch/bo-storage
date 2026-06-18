@@ -179,7 +179,7 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
         // 
         // find group types
         //
-        List<GroupType> groupTypes = seasonManagerService.findGroupTypesBySeason(wm2006.get());
+        List<GroupType> groupTypes = seasonManagerService.findGroupTypes(wm2006.get());
         assertThat(groupTypes.size()).isEqualTo(13);
 
         String[] groupTypesWm2006 = new String[] { "Achtelfinale", "Finale",
@@ -250,17 +250,17 @@ class SeasonManagerServiceFinderIT extends AbstractServiceTest {
         //
         // Find games of a day
         //
-        
+
         // TODO https://github.com/gluehloch/bo-storage/issues/4 
-//        List<Game> games = seasonManagerService.findMatches(spieltag_2.getDateTime());
-//        assertThat(games).hasSize(3);
-//        assertThat(games.get(0).getHomeTeam().getName()).isEqualTo("Deutschland");
-//        assertThat(games.get(0).getGuestTeam().getName()).isEqualTo("Costa Rica");
-//        assertThat(games.get(1).getHomeTeam().getName()).isEqualTo("Polen");
-//        assertThat(games.get(1).getGuestTeam().getName()).isEqualTo("Ecuador");
-//
-//        assertThat(games.get(0).getDateTime().toLocalDate()).isEqualTo(spieltag_2.getDateTime().toLocalDate());
-//        assertThat(games.get(1).getDateTime().toLocalDate()).isEqualTo(spieltag_2.getDateTime().toLocalDate());
+        //        List<Game> games = seasonManagerService.findMatches(spieltag_2.getDateTime());
+        //        assertThat(games).hasSize(3);
+        //        assertThat(games.get(0).getHomeTeam().getName()).isEqualTo("Deutschland");
+        //        assertThat(games.get(0).getGuestTeam().getName()).isEqualTo("Costa Rica");
+        //        assertThat(games.get(1).getHomeTeam().getName()).isEqualTo("Polen");
+        //        assertThat(games.get(1).getGuestTeam().getName()).isEqualTo("Ecuador");
+        //
+        //        assertThat(games.get(0).getDateTime().toLocalDate()).isEqualTo(spieltag_2.getDateTime().toLocalDate());
+        //        assertThat(games.get(1).getDateTime().toLocalDate()).isEqualTo(spieltag_2.getDateTime().toLocalDate());
     }
 
     @Test

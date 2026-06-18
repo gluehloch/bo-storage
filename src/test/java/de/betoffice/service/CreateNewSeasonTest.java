@@ -182,7 +182,7 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         Team wolfsburg = mdms.findTeam("VfL Wolfsburg").orElseThrow();
         Team fcKoeln = mdms.findTeam("1.FC Köln").orElseThrow();
         Team hansaRostock = mdms.findTeam("Hansa Rostock").orElseThrow();
-        
+
         GroupType groupTypeA = mdms.findGroupType("Gruppe A").orElseThrow();
         GroupType groupTypeB = mdms.findGroupType("Gruppe B").orElseThrow();
 
@@ -191,7 +191,7 @@ class CreateNewSeasonTest extends AbstractServiceTest {
 
         Group groupA = season.getGroup(groupTypeA);
         Group groupB = season.getGroup(groupTypeB);
-        
+
         sms.addTeam(season, groupTypeA, stuttgart);
         sms.addTeam(season, groupTypeA, hsv);
         sms.addTeam(season, groupTypeA, dortmund);
@@ -199,29 +199,29 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         sms.addTeam(season, groupTypeA, fcKoeln);
         sms.addTeam(season, groupTypeA, hansaRostock);
 
-        List<GroupType> groupTypes = sms.findGroupTypesBySeason(season);
+        List<GroupType> groupTypes = sms.findGroupTypes(season);
         assertEquals(groupTypeA.getId(), groupTypes.get(0).getId());
         assertEquals(groupTypeB.getId(), groupTypes.get(1).getId());
         assertThat(groupTypes).hasSize(2);
 
         sms.removeGroupType(season, groupTypeB);
-        groupTypes = sms.findGroupTypesBySeason(season);
+        groupTypes = sms.findGroupTypes(season);
         assertEquals(groupTypeA.getId(), groupTypes.get(0).getId());
         assertThat(groupTypes).hasSize(1);
 
         ZonedDateTime now = ZonedDateTime.now();
         GameList round1 = sms.addRound(season, now, groupTypeA);
         GameList round2 = sms.addRound(season, now.plusDays(1), groupTypeA);
-        
+
         Game stuttgartVsHamburg = sms.addMatch(round1, now, groupA, stuttgart, hsv);
         assertThat(stuttgartVsHamburg.getIndex()).isEqualTo(0);
-        
+
         Game dortmundVsWolfsburg = sms.addMatch(round1, now, groupA, dortmund, wolfsburg);
         assertThat(dortmundVsWolfsburg.getIndex()).isEqualTo(1);
-        
-        Game fcKoelnVsHansRostock = sms.addMatch(round1,  now,  groupA,  fcKoeln,  hansaRostock);
+
+        Game fcKoelnVsHansRostock = sms.addMatch(round1, now, groupA, fcKoeln, hansaRostock);
         assertThat(fcKoelnVsHansRostock.getIndex()).isEqualTo(2);
-        
+
         stuttgartVsHamburg.setResult(2, 2, true);
         stuttgartVsHamburg.setHalfTimeGoals(new GameResult(1, 1));
 
@@ -284,13 +284,14 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         Optional<Player> lippens2 = seasonManagerService
                 .findGoalsOfPlayer(lippens.get().getId());
         assertThat(lippens2.get().getGoals().size()).isEqualTo(1);
-        
+
         List<GameList> rounds = sms.findRounds(season);
         GameList gameList = sms.findRoundGames(rounds.get(0).getId()).orElseThrow();
         assertThat(gameList.size()).isEqualTo(3);
 
         Game dortmundVsHsv = seasonManagerService.addMatch(round2, now.plusDays(1), groupA, dortmund, hsv);
-        Game hansaRostockVsWolfsburg = seasonManagerService.addMatch(round2, now.plusDays(1), groupA, hansaRostock, wolfsburg);
+        Game hansaRostockVsWolfsburg = seasonManagerService.addMatch(round2, now.plusDays(1), groupA, hansaRostock,
+                wolfsburg);
         assertThat(seasonManagerService.findRound(season, 1)).isPresent().hasValueSatisfying(round -> {
             assertThat(round.getIndex()).isEqualTo(1);
             assertThat(round.getGroup()).isEqualTo(groupA);

@@ -233,14 +233,6 @@ public interface SeasonManagerService {
     Group findGroup(Season season, GroupType groupType);
 
     /**
-     * Liefert die aktiven Gruppentypen der Meisterschaft.
-     *
-     * @param  season Die betreffende Meisterschaft.
-     * @return        Die aktiven Gruppentypen zu der gesuchten Meisterschaft.
-     */
-    List<GroupType> findGroupTypesBySeason(Season season);
-
-    /**
      * Liefert die Spiele zu einem Spieltag.
      * 
      * @param  round Der Spieltag.
@@ -252,7 +244,7 @@ public interface SeasonManagerService {
      * Liefert alle Spielpaarungen für ein Datum.
      * 
      * @param  dateTime Das Bezugsdatum
-     * @return Alle Spielpaarungen für dieses Datum.
+     * @return          Alle Spielpaarungen für dieses Datum.
      */
     List<Game> findMatches(ZonedDateTime dateTime);
 

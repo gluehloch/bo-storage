@@ -133,6 +133,7 @@ create table bo_gamelist (
     bo_group_ref bigint,
     bo_datetime datetime,
     bo_openligaid bigint,
+    bo_type INT(2) NOT NULL DEFAULT 0,
     primary key (id)
 ) ENGINE=InnoDB;
 

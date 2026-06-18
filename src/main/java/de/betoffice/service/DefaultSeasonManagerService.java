@@ -130,8 +130,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
-    public List<GroupType> findGroupTypesBySeason(Season season) {
-        return groupTypeDao.findBySeason(season);
+    public List<GroupType> findGroupTypes(Season season) {
+        return (groupTypeDao.findBySeason(season));
     }
 
     @Override
@@ -248,11 +248,6 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Override
     public List<Group> findGroups(Season season) {
         return groupDao.findBySeason(season);
-    }
-
-    @Override
-    public List<GroupType> findGroupTypes(Season season) {
-        return (groupTypeDao.findBySeason(season));
     }
 
     @Override
