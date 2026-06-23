@@ -60,4 +60,25 @@ public class ValidationMessages {
         return this.messages.stream().anyMatch(i -> i.isAnError());
     }
 
+    public static ValidationMessagesBuilder builder() {
+        return new ValidationMessagesBuilder();
+    }
+
+    public static class ValidationMessagesBuilder {
+        private final List<ValidationMessage> messages = new ArrayList<>();
+
+        public ValidationMessagesBuilder add(ValidationMessage validationMessage) {
+            this.messages.add(validationMessage);
+            return this;
+        }
+
+        public ValidationMessages build() {
+            return new ValidationMessages(messages);
+        }
+
+        public boolean containsAnError() {
+            return this.messages.stream().anyMatch(i -> i.isAnError());
+        }
+    }
+
 }
