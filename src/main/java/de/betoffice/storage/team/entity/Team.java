@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2023 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -48,6 +48,8 @@ public class Team extends AbstractStorageObject {
 
     /** serial version id */
     private static final long serialVersionUID = -3181346057831881080L;
+
+    public static final String NOCH_NICHT_VERFUEGBAR = "[noch_nicht_bekannt]";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -235,7 +237,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Liefert das Logo.
      *
-     * @return             Das Logo.
+     * @return Das Logo.
      */
     public String getLogo() {
         return logo;
@@ -255,7 +257,7 @@ public class Team extends AbstractStorageObject {
     /**
      * Liefert den Mannschaftstyp.
      *
-     * @return             Der Modus.
+     * @return Der Modus.
      */
     public TeamType getTeamType() {
         return teamType;
