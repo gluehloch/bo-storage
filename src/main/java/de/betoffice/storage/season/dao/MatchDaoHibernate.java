@@ -153,7 +153,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
 
     private static final String QUERY_MATCHES_BY_DAY = """
             select
-                game 
+                game
             from
                 Game game
                 join game.homeTeam
@@ -163,7 +163,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
             where
                 DATE(game.dateTime) = DATE(:date)
             """;
-    
+
     public MatchDaoHibernate() {
         super(Game.class);
     }
@@ -176,7 +176,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
                 .getResultList();
         return games;
     }
-    
+
     @Override
     public List<Game> findByHomeTeam(final Team homeTeam, final int limit) {
         List<Game> games = getEntityManager()
@@ -245,6 +245,20 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
                 .createQuery("from Game g where g.gameList.id = :roundId order by g.dateTime", Game.class)
                 .setParameter("roundId", round.getId());
         return query.getResultList();
+    }
+
+    @Override
+    public Optional<Game> findByOpenligadbId(long openligadbId) {
+        TypedQuery<Game> query = getEntityManager().createQuery(
+                """
+                        select
+                            match
+                        from
+                            Game as match
+                        where
+                            match.openligadbId = :openligadbId
+                        """, Game.class).setParameter("openligadbId", openligadbId);
+        return singleResult(query);
     }
 
 }

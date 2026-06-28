@@ -51,6 +51,15 @@ public interface MatchDao extends CommonDao<Game> {
     Optional<Game> find(GameList round, Team homeTeam, Team guestTeam);
 
     /**
+     * Sucher nach einer Spielpaarung anhand der OpenligaDB ID.
+     * 
+     * @param  openligadbId OpenligaDB ID
+     * @return              Das gefundene Spiel oder <code>null</code>, wenn kein Spiel mit diesem Bedingungen
+     *                      vorhanden.
+     */
+    Optional<Game> findByOpenligadbId(long openligadbId);
+
+    /**
      * Sucht nach allen Spielen zu einem Spieltag.
      * 
      * @param  round Der Spieltag
@@ -109,7 +118,7 @@ public interface MatchDao extends CommonDao<Game> {
      * Liefert alle Spielpaarungen für ein Datum.
      * 
      * @param  date Das gesuchte Datum
-     * @return Alle Spielpaarungen für dieses Datum.
+     * @return      Alle Spielpaarungen für dieses Datum.
      */
     List<Game> findByDay(ZonedDateTime date);
 
