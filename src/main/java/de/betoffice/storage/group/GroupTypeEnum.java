@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2024 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -26,10 +26,20 @@ package de.betoffice.storage.group;
 
 public enum GroupTypeEnum {
 
-    LEAGUE, // 0
-    PRELIMINARY_ROUND, // 1
-    KNOCKOUT_ROUND, // 2
-    SEMI_FINAL, // 3
-    FINAL; // 4
+    LEAGUE(false), // 0
+    PRELIMINARY_ROUND(false), // 1
+    KNOCKOUT_ROUND(true), // 2
+    SEMI_FINAL(true), // 3
+    FINAL(true); // 4
+
+    private final boolean knockout;
+
+    private GroupTypeEnum(boolean knockout) {
+        this.knockout = knockout;
+    }
+
+    public boolean isKnockout() {
+        return knockout;
+    }
 
 }
