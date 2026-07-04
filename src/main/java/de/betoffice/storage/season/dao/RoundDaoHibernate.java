@@ -110,15 +110,18 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     /**
      * Sucht nach allen Spieltagen einer Meisterschaft fuer eine bestimmte Gruppe.
      */
-    private static final String QUERY_GAMELIST_AND_GAMES_BY_SEASON_GROUP = "select "
-            + "distinct round "
-            + "from "
-            + "    GameList as round "
-            + "    left join fetch round.gameList game "
-            + "where "
-            + "    game.group.id = :groupId "
-            + "order"
-            + "    by round.index";
+    private static final String QUERY_GAMELIST_AND_GAMES_BY_SEASON_GROUP = 
+            """
+            select
+                distinct round
+            from
+                GameList as round
+                left join fetch round.gameList game
+            where
+                game is null or game.group.id = :groupId
+            order
+                by round.index
+            """;
 
     /** Sucht nach einem Spieltag zu einen Spiel. */
     private static final String QUERY_GAMELIST_OF_GAME = "select round "

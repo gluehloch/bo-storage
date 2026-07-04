@@ -17,7 +17,7 @@ public class RoundDaoWithoutGameHibernateTest extends AbstractDaoTestSupport {
 
     @Autowired
     private SeasonDao seasonDao;
-    
+
     @Autowired
     private RoundDao roundDao;
 
@@ -31,16 +31,17 @@ public class RoundDaoWithoutGameHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void findRoundWithoutGames() {
+        // FIXED: Spieltage ohne Spiele werden ausgegeben. Anpassung der Abfrage `roundDao.findRounds(Group)`.
         // Den Spieltagen sind keine Spiele zugeordnet. Die Selektion ueber die Gruppe kann nur funktionieren,
         // wenn es Spiele gibt, die einer Gruppe zugeordnet sind.
         final Group group = groupDao.findById(1L);
         final List<GameList> rounds1 = roundDao.findRounds(group);
-        assertThat(rounds1).hasSize(0);
-        
+        assertThat(rounds1).hasSize(5);
+
         // In diesem Fall muessen die Spieltage ueber die Meisterschaft selektiert werden. 
-        final Season season = seasonDao.findById(1L);       
+        final Season season = seasonDao.findById(1L);
         final List<GameList> rounds2 = roundDao.findRounds(season);
-        assertThat(rounds2).hasSize(5);        
+        assertThat(rounds2).hasSize(5);
     }
 
 }

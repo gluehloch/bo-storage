@@ -256,7 +256,7 @@ public class MatchDaoHibernate extends AbstractCommonDao<Game> implements MatchD
                         from
                             Game as match
                         where
-                            match.openligadbId = :openligadbId
+                            match.openligaid = :openligadbId
                         """, Game.class).setParameter("openligadbId", openligadbId);
         return singleResult(query);
     }
