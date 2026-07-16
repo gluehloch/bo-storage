@@ -430,6 +430,17 @@ public interface SeasonManagerService {
     void removeTeams(Season season, GroupType groupType, Collection<Team> teams);
 
     /**
+     * Ergänzt eine Meisterschaft um einen Spieltag.
+     *
+     * @param  season    Meisterschaft
+     * @param  index     Index der Runde (zwischen 0..N-1)
+     * @param  data      Spieltagsdatum
+     * @param  groupType Gruppentyp
+     * @return           Der angelegt Spieltag.
+     */
+    GameList addRound(Season season, int index, ZonedDateTime data, GroupType groupType);
+
+    /**
      * Ergänzt die Meisterschaft um einen Spieltag.
      *
      * @param  season    Zugehörige Meisterschaft.
@@ -532,17 +543,6 @@ public interface SeasonManagerService {
      * @param modifiedMatches Die zu aktualisierenden Spielpaarungen.
      */
     void updateMatch(Collection<Game> modifiedMatches);
-
-    /**
-     * Ergänzt eine Meisterschaft um einen Spieltag.
-     *
-     * @param  season    Meisterschaft
-     * @param  index     Index der Runde (zwischen 0..N-1)
-     * @param  data      Spieltagsdatum
-     * @param  groupType Gruppentyp
-     * @return           Der angelegt Spieltag.
-     */
-    GameList addRound(Season season, int index, ZonedDateTime data, GroupType groupType);
 
     /**
      * Aktualisiert das Datum/Gruppentyp für einen Spieltag.

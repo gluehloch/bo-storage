@@ -489,8 +489,15 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     @Override
     @Transactional
     public void removeRound(Season season, GameList round) {
-        season.removeGameList(round);
+        Season season2 = seasonDao.findById(season.getId());
+        season2.removeGameList(round);
         roundDao.delete(round);
+
+        List<GameList> rounds = roundDao.findRounds(season);
+        for (int i = 0; i < rounds.size(); i++) {
+            GameList r = rounds.get(i);
+            r.setIndex(i);
+        }
     }
 
     @Override

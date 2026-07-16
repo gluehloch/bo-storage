@@ -71,10 +71,12 @@ public class ValidationMessage {
         SEASON_GROUP_TEAM_IS_ALREADY_A_MEMBER(
                 "Die Mannschaft '%s' ist bereits Teil der Meisterschaft '%s' für die Gruppe '%s'."),
 
+        GROUPTYPE_ID_NOT_FOUND("Der Gruppentyp mit der ID %s ist nicht vorhanden."),
+        SEASON_ID_NOT_FOUND("Die Meisterschaft mit der ID %s ist nicht vorhanden."),
         SEASON_ID_MISMATCH("Die übergebenen Meisterschafts-IDs stimmen nicht überein. (übergeben: %d, erwartet: %d)"),
         ROUND_ID_MISMATCH("Die übergebenen Spielrunden-IDs stimmen nicht überein. (übergeben: %d, erwartet: %d)"),
         ROUND_ID_NOT_FOUND("Eine Spielrunde mit der ID '%d' ist nicht vorhanden."),
-        GROUP_TYPE_NOT_FOUND("Die Meisterschaft (%s, %s) unterstützt den Gruppentyp '%s' nicht.");
+        SEASON_GROUP_NOT_FOUND("Die Meisterschaft (%s, %s) unterstützt den Gruppentyp '%s' nicht.");
 
         private final String message;
 
