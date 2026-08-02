@@ -27,7 +27,12 @@
  *
  * @author by Andre Winkler
  */
-use betoffice;
+
+/* Falls 'docker-compose' verwendet wird, ist die Zeile 'use betoffice' zu entkommentieren.
+ * TODO: Kann man das nicht anders lösen?
+ * 
+ * use betoffice;
+ */
 
 select 'Start installation of betoffice 2.6.0 MySQL schema.' as INFO;
 select version();
