@@ -452,6 +452,8 @@ public interface SeasonManagerService {
     GameList addRound(Season season, ZonedDateTime date, GroupType groupType);
 
     /**
+     * TODO Funktioniert in dieser Form nicht. Die Transaktionsgenzen werden hier nicht korrekt gesetzt.
+     * 
      * Entfernt einen Spieltag.
      *
      * @param season Die betreffende Meisterschaft.
