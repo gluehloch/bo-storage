@@ -31,6 +31,7 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.SoftAssertions;
@@ -80,6 +81,18 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
     @BeforeEach
     void init() {
         prepareDatabase(RoundDaoHibernateTest.class);
+    }
+
+    @Test
+    void testRoundInde() {
+        Season season = seasonDao.findById(SEASON_ID);
+        List<GameList> rounds = roundDao.findRounds(season);
+        assertThat(rounds).hasSize(5);
+        assertThat(rounds.get(0).getIndex()).isEqualTo(0);
+        assertThat(rounds.get(1).getIndex()).isEqualTo(1);
+        assertThat(rounds.get(2).getIndex()).isEqualTo(2);
+        assertThat(rounds.get(3).getIndex()).isEqualTo(3);
+        assertThat(rounds.get(4).getIndex()).isEqualTo(4);
     }
 
     @Test
