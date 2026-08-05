@@ -6,12 +6,14 @@
     </properties>
     <body>
         <!-- Under development -->
+
+        <!-- RELEASED -->
         <release version="betoffice-storage-3.2.2" date="2026-06-14" description="Season management refinemment">
             <action dev="andrewinkler" type="update" date="2026-06-14">
                 ValidationMessages update.
             </action>
             <action dev="andrewinkler" type="update" date="2026-07-04">
-                Spieltagsabfrage über Gruppen-ID liefert ein Eregbnis, auch wenn der Gruppe keine Spiele zugeordnet sind.
+                Spieltagsabfrage über Gruppen-ID liefert ein Ergebnis, auch wenn der Gruppe keine Spiele zugeordnet sind.
                 Siehe Test RoundDaoHibernateTest#findRoundsByGroupIdWithNoGames.
             </action>
         </release>
