@@ -69,7 +69,7 @@ public class CommunityEntity extends AbstractStorageObject {
     @NotNull
     @Column(name = "bo_name")
     private String name;
-    
+
     @NotNull
     @Column(name = "bo_year")
     private String year;
@@ -81,14 +81,12 @@ public class CommunityEntity extends AbstractStorageObject {
     @ManyToOne
     @JoinColumn(name = "bo_season_ref")
     private SeasonEntity season;
-    
+
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
     }, fetch = FetchType.LAZY)
-    @JoinTable(name = "bo_community_user",
-        joinColumns = @JoinColumn(name = "bo_community_ref"),
-        inverseJoinColumns = @JoinColumn(name = "bo_user_ref"))
+    @JoinTable(name = "bo_community_user", joinColumns = @JoinColumn(name = "bo_community_ref"), inverseJoinColumns = @JoinColumn(name = "bo_user_ref"))
     private Set<UserEntity> users = new HashSet<>();
 
     public Long getId() {
@@ -102,7 +100,7 @@ public class CommunityEntity extends AbstractStorageObject {
     public CommunityReference getReference() {
         return reference;
     }
-    
+
     public void setReference(CommunityReference reference) {
         this.reference = reference;
     }
@@ -116,11 +114,11 @@ public class CommunityEntity extends AbstractStorageObject {
     }
 
     public String getYear() {
-    	return year;
+        return year;
     }
-    
+
     public void setYear(String year) {
-    	this.year = year;
+        this.year = year;
     }
 
     public UserEntity getCommunityManager() {
@@ -130,11 +128,11 @@ public class CommunityEntity extends AbstractStorageObject {
     public void setCommunityManager(UserEntity user) {
         this.communityManager = user;
     }
-    
+
     public SeasonEntity getSeason() {
         return season;
     }
-    
+
     public void setSeason(SeasonEntity season) {
         this.season = season;
     }
@@ -150,11 +148,11 @@ public class CommunityEntity extends AbstractStorageObject {
     public void addMember(UserEntity user) {
         users.add(user);
     }
-    
+
     public void removeMember(UserEntity user) {
         users.remove(user);
     }
-    
+
     @Override
     public String toString() {
         return name;
@@ -164,11 +162,11 @@ public class CommunityEntity extends AbstractStorageObject {
     public boolean equals(final Object object) {
         if (object == null) {
             return false;
-        } else if (!(object instanceof GroupEntity)) {
+        } else if (!(object instanceof CommunityEntity)) {
             return false;
         } else {
             CommunityEntity community = (CommunityEntity) object;
-            return community.getId().equals(getId());           
+            return community.getId().equals(getId());
         }
     }
 
