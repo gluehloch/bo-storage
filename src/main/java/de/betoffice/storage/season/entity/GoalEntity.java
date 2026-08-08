@@ -46,7 +46,7 @@ import de.betoffice.storage.season.GoalType;
  */
 @Entity
 @Table(name = "bo_goal")
-public class Goal extends AbstractStorageObject {
+public class GoalEntity extends AbstractStorageObject {
 
     private static final long serialVersionUID = -3103409341667493346L;
 
@@ -70,11 +70,11 @@ public class Goal extends AbstractStorageObject {
 
     @ManyToOne
     @JoinColumn(name = "bo_game_ref")
-    private Game game;
+    private GameEntity game;
 
     @ManyToOne
     @JoinColumn(name = "bo_player_ref")
-    private Player player;
+    private PlayerEntity player;
 
     @Enumerated
     @Column(name = "bo_goaltype")
@@ -150,7 +150,7 @@ public class Goal extends AbstractStorageObject {
     /**
      * @return the game
      */
-    public Game getGame() {
+    public GameEntity getGame() {
         return game;
     }
 
@@ -158,7 +158,7 @@ public class Goal extends AbstractStorageObject {
      * @param game
      *            the game to set
      */
-    public void setGame(Game game) {
+    public void setGame(GameEntity game) {
         this.game = game;
     }
 
@@ -167,7 +167,7 @@ public class Goal extends AbstractStorageObject {
     /**
      * @return the player
      */
-    public Player getPlayer() {
+    public PlayerEntity getPlayer() {
         return player;
     }
 
@@ -175,7 +175,7 @@ public class Goal extends AbstractStorageObject {
      * @param player
      *            the player to set
      */
-    public void setPlayer(Player player) {
+    public void setPlayer(PlayerEntity player) {
         this.player = player;
     }
 

@@ -41,10 +41,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import de.betoffice.storage.AbstractStorageObject;
-import de.betoffice.storage.season.entity.Game;
+import de.betoffice.storage.season.entity.GameEntity;
 import de.betoffice.storage.season.entity.GameResult;
 import de.betoffice.storage.user.UserResult;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Verwaltet den Spieltipp/GameTipp eines Spiels eines Teilnehmers.
@@ -55,7 +55,7 @@ import de.betoffice.storage.user.entity.User;
  */
 @Entity
 @Table(name = "bo_gametipp")
-public class GameTipp extends AbstractStorageObject implements Comparator<GameTipp> {
+public class GameTippEntity extends AbstractStorageObject implements Comparator<GameTippEntity> {
 
     /** serial version id */
     private static final long serialVersionUID = -3043191976453282242L;
@@ -80,14 +80,14 @@ public class GameTipp extends AbstractStorageObject implements Comparator<GameTi
 
     @ManyToOne
     @JoinColumn(name = "bo_user_ref")
-    private User user;
+    private UserEntity user;
 
     @Column(name = "bo_token")
     private String token;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "bo_game_ref")
-    private Game game;
+    private GameEntity game;
 
     @Enumerated
     @Column(name = "bo_status")
@@ -190,7 +190,7 @@ public class GameTipp extends AbstractStorageObject implements Comparator<GameTi
      *
      * @hibernate.many-to-one column="bo_user_ref" cascade="none"
      */
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
@@ -202,7 +202,7 @@ public class GameTipp extends AbstractStorageObject implements Comparator<GameTi
      * @throws IllegalArgumentException
      *             value als null-Parameter übergeben.
      */
-    public void setUser(final User value) {
+    public void setUser(final UserEntity value) {
         user = value;
     }
 
@@ -236,7 +236,7 @@ public class GameTipp extends AbstractStorageObject implements Comparator<GameTi
      *
      * @hibernate.many-to-one column="bo_game_ref" cascade="all"
      */
-    public Game getGame() {
+    public GameEntity getGame() {
         return game;
     }
 
@@ -247,7 +247,7 @@ public class GameTipp extends AbstractStorageObject implements Comparator<GameTi
      * @param value
      *            Die neue Game Zuordnung.
      */
-    public void setGame(final Game value) {
+    public void setGame(final GameEntity value) {
         game = value;
     }
 
@@ -390,7 +390,7 @@ public class GameTipp extends AbstractStorageObject implements Comparator<GameTi
     // -- Comparator ----------------------------------------------------------
 
     @Override
-    public int compare(GameTipp o1, GameTipp o2) {
+    public int compare(GameTippEntity o1, GameTippEntity o2) {
         if (o1.getPoints() > o2.getPoints()) {
             return 1;
         } else if (o1.getPoints() == o2.getPoints()) {
@@ -415,7 +415,7 @@ public class GameTipp extends AbstractStorageObject implements Comparator<GameTi
             return false;
         if (getClass() != obj.getClass())
             return false;
-        GameTipp other = (GameTipp) obj;
+        GameTippEntity other = (GameTippEntity) obj;
         return id != null && id.equals(other.getId());
     }
     

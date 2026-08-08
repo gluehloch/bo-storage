@@ -27,23 +27,23 @@ import java.util.List;
 import java.util.Optional;
 
 import de.betoffice.storage.community.CommonDao;
-import de.betoffice.storage.group.entity.GroupType;
-import de.betoffice.storage.season.entity.Season;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
- * DAO Klasse für den Zugriff auf {@link de.betoffice.storage.team.entity.Team} Objekte.
+ * DAO Klasse für den Zugriff auf {@link de.betoffice.storage.team.entity.TeamEntity} Objekte.
  *
  * @author by Andre Winkler
  */
-public interface TeamDao extends CommonDao<Team> {
+public interface TeamDao extends CommonDao<TeamEntity> {
 
     /**
      * All teams ordered by team name.
      * 
      * @return a list of team names
      */
-    List<Team> findAll();
+    List<TeamEntity> findAll();
 
     /**
      * Sucht nach allen Mannschaften zu einer Meisterschaft und Gruppe.
@@ -52,7 +52,7 @@ public interface TeamDao extends CommonDao<Team> {
      * @param  groupType GroupType
      * @return           List of teams
      */
-    List<Team> findTeamsBySeasonAndGroup(Season season, GroupType groupType);
+    List<TeamEntity> findTeamsBySeasonAndGroup(SeasonEntity season, GroupTypeEntity groupType);
 
     /**
      * Liefert alle Mannschaften, die vom Typ {@link TeamType} sind.
@@ -60,7 +60,7 @@ public interface TeamDao extends CommonDao<Team> {
      * @param  teamType Der gesuchte Mannschaftstyp.
      * @return          Eine Liste mit Mannschaften.
      */
-    List<Team> findTeams(TeamType teamType);
+    List<TeamEntity> findTeams(TeamType teamType);
 
     /**
      * Liefert alle Mannschaften, die vom Typ {@link TeamType} sind.
@@ -69,7 +69,7 @@ public interface TeamDao extends CommonDao<Team> {
      * @param  filter   für name, long-name, short-name, alias, logo,...
      * @return          Eine Liste mit Mannschaften.
      */
-    List<Team> findTeams(Optional<TeamType> teamType, String filter);
+    List<TeamEntity> findTeams(Optional<TeamType> teamType, String filter);
 
     /**
      * Liefert eine Mannschaften mit gesuchten Namen.
@@ -77,7 +77,7 @@ public interface TeamDao extends CommonDao<Team> {
      * @param  name Der gesuchte Name.
      * @return      Eine Mannschaften.
      */
-    Optional<Team> findByName(String name);
+    Optional<TeamEntity> findByName(String name);
 
     /**
      * Sucht nach einer Mannschaft anhand der Openligadb ID.
@@ -85,6 +85,6 @@ public interface TeamDao extends CommonDao<Team> {
      * @param  id Die Openligadb ID
      * @return    Eine Mannschaft.
      */
-    Optional<Team> findByOpenligaid(long id);
+    Optional<TeamEntity> findByOpenligaid(long id);
 
 }

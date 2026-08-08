@@ -25,7 +25,7 @@
 
 package de.betoffice.storage.exception;
 
-import de.betoffice.storage.StorageObject;
+import de.betoffice.storage.EntityId;
 
 /**
  * Es wird versucht ein Objekt zu erzeugen, bzw. ins Datenmodell zu übernehmen,
@@ -41,7 +41,7 @@ public class StorageObjectExistsException extends StorageException {
     private static final long serialVersionUID = 166319867472846693L;
 
     /** Das bereits existierende StorageObject. */
-    private StorageObject object;
+    private EntityId object;
 
     /**
      * Defaultkonstruktor.
@@ -56,7 +56,7 @@ public class StorageObjectExistsException extends StorageException {
      * @param obj
      *            Das existierende StorageObject.
      */
-    public StorageObjectExistsException(StorageObject obj) {
+    public StorageObjectExistsException(EntityId obj) {
         super();
         object = obj;
     }
@@ -78,7 +78,7 @@ public class StorageObjectExistsException extends StorageException {
      *
      * @return Das existierende StorageObject.
      */
-    public StorageObject getObject() {
+    public EntityId getObject() {
         return object;
     }
 

@@ -38,7 +38,7 @@ import org.springframework.data.domain.Pageable;
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.storage.user.dao.UserDaoHibernate;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Test for class {@link UserDaoHibernate}.
@@ -57,7 +57,7 @@ class UserDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void userDaoHibernateFindAll() {
-        Page<User> users = userDaoHibernate.findAll("", Pageable.unpaged());
+        Page<UserEntity> users = userDaoHibernate.findAll("", Pageable.unpaged());
         assertThat(users).hasSize(3);
         assertThat(users.getContent().get(0).getNickname().value()).isEqualTo("Frosch");
         assertThat(users.getContent().get(1).getNickname().value()).isEqualTo("Hattwig");
@@ -66,7 +66,7 @@ class UserDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void userDaoHibernateFindByNickname() {
-        Optional<User> user = userDaoHibernate.findByNickname(Nickname.of("Frosch"));
+        Optional<UserEntity> user = userDaoHibernate.findByNickname(Nickname.of("Frosch"));
         assertThat(user.get().getSurname()).isEqualTo("Adam");
 
         user = userDaoHibernate.findByNickname(Nickname.of("fehler"));
@@ -75,7 +75,7 @@ class UserDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void userFindAll() {
-        Page<User> users = userDaoHibernate.findAll("Frosch", PageRequest.of(0, 5));
+        Page<UserEntity> users = userDaoHibernate.findAll("Frosch", PageRequest.of(0, 5));
         assertThat(users.getContent()).hasSize(1);
         assertThat(users.getPageable().getOffset()).isZero();
         assertThat(users.getPageable().getPageSize()).isEqualTo(5);
@@ -84,10 +84,10 @@ class UserDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void userFindByChangeToken() {
-        User user = userDaoHibernate.findByNickname(Nickname.of("Frosch")).orElseThrow();
+        UserEntity user = userDaoHibernate.findByNickname(Nickname.of("Frosch")).orElseThrow();
         user.setChangeToken("testToken");
         userDaoHibernate.persist(user);
-        Optional<User> u2 = userDaoHibernate.findByChangeToken("testToken");
+        Optional<UserEntity> u2 = userDaoHibernate.findByChangeToken("testToken");
         assertThat(u2).isPresent().contains(user);
     }
 

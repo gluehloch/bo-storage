@@ -39,7 +39,7 @@ import de.betoffice.storage.AbstractStorageObject;
  */
 @Entity
 @Table(name = "bo_location")
-public class Location extends AbstractStorageObject {
+public class LocationEntity extends AbstractStorageObject {
 
     private static final long serialVersionUID = -5731266845767848350L;
 

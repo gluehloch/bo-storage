@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Verwaltet die Properties von betoffice. <br>
@@ -69,7 +69,7 @@ public final class DummyUsers {
     public static final int AUTOMAT = 4;
 
     /** Die Teilnehmer. */
-    private final List<User> users = new ArrayList<User>();
+    private final List<UserEntity> users = new ArrayList<UserEntity>();
 
     public DummyUsers() {
         createUsers();
@@ -80,8 +80,8 @@ public final class DummyUsers {
      *
      * @return Die Teilnehmer.
      */
-    public User[] users() {
-        return users.toArray(new User[users.size()]);
+    public UserEntity[] users() {
+        return users.toArray(new UserEntity[users.size()]);
     }
 
     /**
@@ -89,7 +89,7 @@ public final class DummyUsers {
      *
      * @return Die Teilnehmer.
      */
-    public List<User> toList() {
+    public List<UserEntity> toList() {
         return Collections.unmodifiableList(users);
     }
 
@@ -99,7 +99,7 @@ public final class DummyUsers {
      * @param user
      *            Ein neuer Testteilnehmer.
      */
-    public void add(final User user) {
+    public void add(final UserEntity user) {
         users.add(user);
     }
 
@@ -109,7 +109,7 @@ public final class DummyUsers {
      * @param user
      *            Der zu entfernende Teilnehmer.
      */
-    public void delete(final User user) {
+    public void delete(final UserEntity user) {
         users.remove(user);
     }
 
@@ -118,7 +118,7 @@ public final class DummyUsers {
      */
     private void createUsers() {
         for (int i = 0; i < USER_PROPS.length; i++) {
-            User user = new User();
+            UserEntity user = new UserEntity();
             user.setNickname(Nickname.of(USER_PROPS[i][0].toString()));
             user.setSurname(USER_PROPS[i][1].toString());
             user.setName(USER_PROPS[i][2].toString());

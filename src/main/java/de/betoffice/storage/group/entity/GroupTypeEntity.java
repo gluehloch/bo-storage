@@ -41,7 +41,7 @@ import de.betoffice.storage.group.GroupTypeEnum;
  */
 @Entity
 @Table(name = "bo_grouptype")
-public class GroupType extends AbstractStorageObject implements Comparable<GroupType> {
+public class GroupTypeEntity extends AbstractStorageObject implements Comparable<GroupTypeEntity> {
 
     /** serial version */
     private static final long serialVersionUID = -8513852915020891940L;
@@ -62,8 +62,8 @@ public class GroupType extends AbstractStorageObject implements Comparable<Group
 
     // ------------------------------------------------------------------------
 
-    public static GroupType of(String groupTypeName) {
-        GroupType groupType = new GroupType();
+    public static GroupTypeEntity of(String groupTypeName) {
+        GroupTypeEntity groupType = new GroupTypeEntity();
         groupType.setName(groupTypeName);
         return groupType;
     }
@@ -106,7 +106,7 @@ public class GroupType extends AbstractStorageObject implements Comparable<Group
      *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
-    public int compareTo(final GroupType o) {
+    public int compareTo(final GroupTypeEntity o) {
         return (getName().compareTo(o.getName()));
     }
 
@@ -121,10 +121,10 @@ public class GroupType extends AbstractStorageObject implements Comparable<Group
     public boolean equals(final Object object) {
         if (object == null) {
             return false;
-        } else if (!(object instanceof GroupType)) {
+        } else if (!(object instanceof GroupTypeEntity)) {
             return false;
         } else {
-            GroupType groupType = (GroupType) object;
+            GroupTypeEntity groupType = (GroupTypeEntity) object;
             if (groupType.getName().equals(getName())) {
                 return true;
             } else {

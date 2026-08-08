@@ -40,8 +40,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.storage.season.SeasonType;
-import de.betoffice.storage.season.entity.Season;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.season.entity.SeasonEntity;
+import de.betoffice.storage.team.entity.TeamEntity;
 import de.betoffice.test.DummyTeams;
 import de.betoffice.test.ScenarioBuilder;
 
@@ -77,7 +77,7 @@ public class SeasonTest extends AbstractServiceTest {
 
     @Test
     public void testSeasonProperties() {
-        Season season = seasonManagerService.findSeasonByName("Bundesliga", "1994/1995").orElseThrow();
+        SeasonEntity season = seasonManagerService.findSeasonByName("Bundesliga", "1994/1995").orElseThrow();
         assertThat(season.getReference().getName()).isEqualTo("Bundesliga");
         assertThat(season.getReference().getYear()).isEqualTo("1994/1995");
         assertThat(season.getMode()).isEqualTo(SeasonType.LEAGUE);
@@ -85,7 +85,7 @@ public class SeasonTest extends AbstractServiceTest {
 
     @Test
     public void testGetGamesOfDay() {
-        Season season = new Season();
+        SeasonEntity season = new SeasonEntity();
         assertThrows(IndexOutOfBoundsException.class, () -> {
             season.getGamesOfDay(0);
         });
@@ -108,15 +108,15 @@ public class SeasonTest extends AbstractServiceTest {
         assertThat(sceneBuilder.getErsteBundesliga().getTeams()).isNotNull();
         assertThat(sceneBuilder.getZweiteBundesliga().getTeams()).isNotNull();
 
-        Team bochum = sceneBuilder.getTeams().teams()[DummyTeams.BOCHUM];
-        Team rwe = sceneBuilder.getTeams().teams()[DummyTeams.RWE];
-        Team bvb = sceneBuilder.getTeams().teams()[DummyTeams.BVB];
+        TeamEntity bochum = sceneBuilder.getTeams().teams()[DummyTeams.BOCHUM];
+        TeamEntity rwe = sceneBuilder.getTeams().teams()[DummyTeams.RWE];
+        TeamEntity bvb = sceneBuilder.getTeams().teams()[DummyTeams.BVB];
 
-        List<Team> teamsErsteBundesliga = seasonManagerService.findTeams(sceneBuilder.getErsteBundesliga());
+        List<TeamEntity> teamsErsteBundesliga = seasonManagerService.findTeams(sceneBuilder.getErsteBundesliga());
         assertThat(teamsErsteBundesliga).hasSize(10);
         assertThat(teamsErsteBundesliga).containsOnlyElementsOf(sceneBuilder.getTeams().toList());
 
-        List<Team> teamsZweiteBundesliga = seasonManagerService.findTeams(sceneBuilder.getZweiteBundesliga());
+        List<TeamEntity> teamsZweiteBundesliga = seasonManagerService.findTeams(sceneBuilder.getZweiteBundesliga());
         assertThat(teamsZweiteBundesliga).hasSize(3);
         assertThat(teamsZweiteBundesliga).contains(bochum, rwe, bvb);
 

@@ -43,11 +43,11 @@ import de.betoffice.conf.BetofficeTestConfig;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.mail.NotificationType;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 import de.betoffice.validation.ValidationException;
 
 /**
- * Test CRUD operations on storage object {@link User}.
+ * Test CRUD operations on storage object {@link UserEntity}.
  * 
  * TODO: It would be interesting to test a more complex scenario. A user with tips and other related informations. Does
  * MySQL allow delete statements here?
@@ -83,7 +83,7 @@ class CommunityServiceUserTest {
         createUser("Frosch", "Andre", "Winkler");
         createUser("Peter", "Peter", "Groth");
 
-        List<User> users = communityService.findAllUsers();
+        List<UserEntity> users = communityService.findAllUsers();
 
         assertThat(users).hasSize(2);
         assertThat(users.get(0).getNickname().value()).isEqualTo("Frosch");
@@ -92,7 +92,7 @@ class CommunityServiceUserTest {
 
     @Test
     void testCreateInvalidUser() {
-        User invalidUser = new User();
+        UserEntity invalidUser = new UserEntity();
 
         ValidationException ex = assertThrows(ValidationException.class, () -> {
             communityService.createUser(invalidUser);
@@ -102,8 +102,8 @@ class CommunityServiceUserTest {
 
     @Test
     void testUpdateUser() {
-        final User frosch = createUser("Frosch", "Andre", "Winkler");
-        final User peter = createUser("Peter", "Peter", "Groth");
+        final UserEntity frosch = createUser("Frosch", "Andre", "Winkler");
+        final UserEntity peter = createUser("Peter", "Peter", "Groth");
 
         communityService.updateUser(
                 true,
@@ -114,10 +114,10 @@ class CommunityServiceUserTest {
                 false,
                 frosch.getPhone());
 
-        Optional<User> userDarkside = communityService.findUser(Nickname.of("Darkside"));
+        Optional<UserEntity> userDarkside = communityService.findUser(Nickname.of("Darkside"));
         assertThat(userDarkside).isEmpty();
 
-        Optional<User> anotherFrosch = communityService.findUser(frosch.getNickname());
+        Optional<UserEntity> anotherFrosch = communityService.findUser(frosch.getNickname());
         assertThat(anotherFrosch).isPresent().hasValueSatisfying(u -> {
             assertThat(u.getNickname()).isEqualTo(frosch.getNickname());
             assertThat(u.getSurname()).isEqualTo("Andre-Update");
@@ -129,11 +129,11 @@ class CommunityServiceUserTest {
 
     @Test
     void testDeleteUser() {
-        User frosch = createUser("Frosch", "Andre", "Winkler");
-        User peter = createUser("Peter", "Peter", "Groth");
+        UserEntity frosch = createUser("Frosch", "Andre", "Winkler");
+        UserEntity peter = createUser("Peter", "Peter", "Groth");
 
         communityService.deleteUser(frosch.getNickname());
-        List<User> users = communityService.findAllUsers();
+        List<UserEntity> users = communityService.findAllUsers();
 
         assertThat(users).hasSize(1);
         assertThat(users.get(0).getNickname()).isEqualTo(peter.getNickname());
@@ -144,9 +144,9 @@ class CommunityServiceUserTest {
         assertThat(users.size()).isEqualTo(0);
     }
 
-    private User createUser(String nickname, String surname, String name) {
+    private UserEntity createUser(String nickname, String surname, String name) {
         Nickname nick = Nickname.of(nickname);
-        User user = new User();
+        UserEntity user = new UserEntity();
         user.setNickname(nick);
         user.setName(name);
         user.setSurname(surname);

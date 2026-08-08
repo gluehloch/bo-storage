@@ -26,10 +26,10 @@ package de.betoffice.storage.team;
 
 import java.util.Objects;
 
-import de.betoffice.storage.group.entity.GroupType;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.Season;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * TeamResult verwaltet die errechneten Daten einer Mannschaft für eine Saison
@@ -45,11 +45,11 @@ public class TeamResult implements Comparable<TeamResult> {
     /** serial version id */
     private static final long serialVersionUID = -6690928605407554417L;
 
-    private final Season season;
+    private final SeasonEntity season;
 
-    private final GroupType groupType;
+    private final GroupTypeEntity groupType;
 
-    private final Team team;
+    private final TeamEntity team;
 
     private int posGoals;
 
@@ -63,21 +63,21 @@ public class TeamResult implements Comparable<TeamResult> {
 
     private int tablePosition;
 
-    public TeamResult(Season _season, GroupType _groupType, Team _team) {
+    public TeamResult(SeasonEntity _season, GroupTypeEntity _groupType, TeamEntity _team) {
         season = _season;
         groupType = _groupType;
         team = _team;
     }
 
-    public Season getSeason() {
+    public SeasonEntity getSeason() {
         return season;
     }
 
-    public GroupType getGroupType() {
+    public GroupTypeEntity getGroupType() {
         return groupType;
     }
 
-    public Team getTeam() {
+    public TeamEntity getTeam() {
         return team;
     }
 
@@ -164,7 +164,7 @@ public class TeamResult implements Comparable<TeamResult> {
     }
 
     public int getPoints() {
-        return getWin() * Game.WIN + getRemis() * Game.REMIS;
+        return getWin() * GameEntity.WIN + getRemis() * GameEntity.REMIS;
     }
 
     public int getGames() {

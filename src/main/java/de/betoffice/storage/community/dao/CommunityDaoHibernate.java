@@ -39,37 +39,37 @@ import org.springframework.stereotype.Repository;
 
 import de.betoffice.storage.community.CommunityDao;
 import de.betoffice.storage.community.CommunityFilter;
-import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.entity.SeasonReference;
 
 @Repository("communityDao")
-public class CommunityDaoHibernate extends AbstractCommonDao<Community> implements CommunityDao {
+public class CommunityDaoHibernate extends AbstractCommonDao<CommunityEntity> implements CommunityDao {
 
     public CommunityDaoHibernate() {
-        super(Community.class);
+        super(CommunityEntity.class);
     }
 
     @Override
-    public Optional<Community> find(CommunityReference reference) {
-        TypedQuery<Community> query = getEntityManager()
-                .createQuery("from Community c left join fetch c.users where c.reference.shortName = :shortName",
-                        Community.class)
+    public Optional<CommunityEntity> find(CommunityReference reference) {
+        TypedQuery<CommunityEntity> query = getEntityManager()
+                .createQuery("from CommunityEntity c left join fetch c.users where c.reference.shortName = :shortName",
+                        CommunityEntity.class)
                 .setParameter("shortName", reference.getShortName());
         return singleResult(query);
     }
 
     @Override
-    public List<Community> find(String name) {
+    public List<CommunityEntity> find(String name) {
         return getEntityManager()
-                .createQuery("from Community c left join fetch c.users where c.name = :name", Community.class)
+                .createQuery("from CommunityEntity c left join fetch c.users where c.name = :name", CommunityEntity.class)
                 .setParameter("name", name)
                 .getResultList();
     }
 
     @Override
-    public Page<Community> findAll(CommunityFilter communityFilter, Pageable pageable) {
+    public Page<CommunityEntity> findAll(CommunityFilter communityFilter, Pageable pageable) {
         long total = countAll();
 
         Optional<String> sqlsort = Optional.empty();
@@ -81,16 +81,16 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
                             .collect(Collectors.joining(", ")));
         }
 
-        TypedQuery<Community> communityQuery = getEntityManager()
+        TypedQuery<CommunityEntity> communityQuery = getEntityManager()
                 .createQuery(
                         "FROM "
-                                + " Community c "
+                                + " CommunityEntity c "
                                 + "WHERE "
                                 + filter("shortName", "c.reference.shortName")
                                 + " AND "
                                 + filter("name", "c.name")
                                 + sqlsort.orElse(""),
-                        Community.class)
+                        CommunityEntity.class)
                 .setParameter("shortName", communityFilter.getShortName())
                 .setParameter("name", communityFilter.getName());
 
@@ -102,14 +102,14 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
             communityQuery.setMaxResults(Integer.MAX_VALUE);
         }
 
-        List<Community> communities = communityQuery.getResultList();
+        List<CommunityEntity> communities = communityQuery.getResultList();
 
         return new PageImpl<>(communities, pageable, total);
     }
 
     private long countAll() {
         return getEntityManager()
-                .createQuery("select count(*) from Community c", Long.class)
+                .createQuery("select count(*) from CommunityEntity c", Long.class)
                 .getSingleResult();
     }
 
@@ -119,21 +119,21 @@ public class CommunityDaoHibernate extends AbstractCommonDao<Community> implemen
     }
 
     @Override
-    public Community findMembers(CommunityReference community) {
+    public CommunityEntity findMembers(CommunityReference community) {
         return getEntityManager()
                 .createQuery(
-                        "select c from Community c left join fetch c.users where c.reference.shortName = :communityShortName",
-                        Community.class)
+                        "select c from CommunityEntity c left join fetch c.users where c.reference.shortName = :communityShortName",
+                        CommunityEntity.class)
                 .setParameter("communityShortName", community.getShortName())
                 .getSingleResult();
     }
 
     @Override
-    public List<Community> find(SeasonReference seasonReference) {
+    public List<CommunityEntity> find(SeasonReference seasonReference) {
         return getEntityManager()
-                .createQuery("from Community c "
+                .createQuery("from CommunityEntity c "
                         + "where c.season.reference.name = :name "
-                        + "      and c.season.reference.year = :year", Community.class)
+                        + "      and c.season.reference.year = :year", CommunityEntity.class)
                 .setParameter("name", seasonReference.getName())
                 .setParameter("year", seasonReference.getYear())
                 .getResultList();

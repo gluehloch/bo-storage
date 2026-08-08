@@ -41,8 +41,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import de.betoffice.storage.AbstractStorageObject;
-import de.betoffice.storage.group.entity.GroupType;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Verwaltet die Daten einer Gruppe.
@@ -53,7 +53,7 @@ import de.betoffice.storage.team.entity.Team;
  */
 @Entity
 @Table(name = "bo_group")
-public class Group extends AbstractStorageObject {
+public class GroupEntity extends AbstractStorageObject {
 
     /** serial version */
     private static final long serialVersionUID = 2621079132943084772L;
@@ -65,18 +65,18 @@ public class Group extends AbstractStorageObject {
 
     @ManyToOne
     @JoinColumn(name = "bo_season_ref")
-    private Season season;
+    private SeasonEntity season;
 
     // Die N:M Mittlertabelle bo_team(id) <-> bo_team_group(bo_team_ref, bo_group_ref) <-> bo_group(id)
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "bo_team_group", 
         joinColumns = @JoinColumn(name = "bo_group_ref"), // FK column which references bo_group#id
         inverseJoinColumns = @JoinColumn(name = "bo_team_ref")) // FK column reverse side bo_team#id
-    private Set<Team> teams = new HashSet<>();
+    private Set<TeamEntity> teams = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "bo_grouptype_ref")
-    private GroupType groupType;
+    private GroupTypeEntity groupType;
 
     // -- id ------------------------------------------------------------------
 
@@ -108,17 +108,17 @@ public class Group extends AbstractStorageObject {
      *
      * @return Die Saison zu dieser Gruppe.
      */
-    public Season getSeason() {
+    public SeasonEntity getSeason() {
         return season;
     }
 
     /**
-     * Setzt die Saison. Wird von {@link Season#addGroup(Group)} aufgerufen.
+     * Setzt die Saison. Wird von {@link SeasonEntity#addGroup(GroupEntity)} aufgerufen.
      *
      * @param value
      *            Eine Saison.
      */
-    protected void setSeason(final Season value) {
+    protected void setSeason(final SeasonEntity value) {
         Objects.requireNonNull(value);
         season = value;
     }
@@ -130,7 +130,7 @@ public class Group extends AbstractStorageObject {
      *
      * @return Die Mannschaften dieser Gruppe.
      */
-    public Set<Team> getTeams() {
+    public Set<TeamEntity> getTeams() {
         return teams;
     }
 
@@ -140,7 +140,7 @@ public class Group extends AbstractStorageObject {
      * @param value
      *            Die Mannschaften dieser Gruppe.
      */
-    protected void setTeams(final Set<Team> value) {
+    protected void setTeams(final Set<TeamEntity> value) {
         teams = value;
     }
 
@@ -150,7 +150,7 @@ public class Group extends AbstractStorageObject {
      * @param value
      *            Eine Mannschaft.
      */
-    public void addTeam(final Team value) {
+    public void addTeam(final TeamEntity value) {
         Objects.requireNonNull(value);
         teams.add(value);
     }
@@ -161,7 +161,7 @@ public class Group extends AbstractStorageObject {
      * @param value
      *            Eine Mannschaft.
      */
-    public void removeTeam(final Team value) {
+    public void removeTeam(final TeamEntity value) {
         Objects.requireNonNull(value);
         teams.remove(value);
     }
@@ -173,7 +173,7 @@ public class Group extends AbstractStorageObject {
      *            Das zu untersuchende Team.
      * @return true, gehört zu Gruppe; false sonst.
      */
-    public boolean isGroupMember(final Team team) {
+    public boolean isGroupMember(final TeamEntity team) {
         return teams.contains(team);
     }
 
@@ -184,7 +184,7 @@ public class Group extends AbstractStorageObject {
      *
      * @return Der Gruppentyp.
      */
-    public GroupType getGroupType() {
+    public GroupTypeEntity getGroupType() {
         return groupType;
     }
 
@@ -194,7 +194,7 @@ public class Group extends AbstractStorageObject {
      * @param value
      *            Der Gruppentyp.
      */
-    public void setGroupType(final GroupType value) {
+    public void setGroupType(final GroupTypeEntity value) {
         groupType = value;
     }
 
@@ -231,10 +231,10 @@ public class Group extends AbstractStorageObject {
     public boolean equals(final Object object) {
         if (object == null) {
             return false;
-        } else if (!(object instanceof Group)) {
+        } else if (!(object instanceof GroupEntity)) {
             return false;
         } else {
-            Group group = (Group) object;
+            GroupEntity group = (GroupEntity) object;
             return Objects.equals(getSeason(), group.getSeason())
                     && Objects.equals(getGroupType(), group.getGroupType());
         }

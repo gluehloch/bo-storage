@@ -38,7 +38,7 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.TimeZoneStorage;
 import org.hibernate.annotations.TimeZoneStorageType;
 
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Holds user session data.
@@ -47,7 +47,7 @@ import de.betoffice.storage.user.entity.User;
  */
 @Entity
 @Table(name = "bo_session")
-public class Session {
+public class SessionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,7 +80,7 @@ public class Session {
     /** Der eingeloggte Spieler. Referenziert die Spalte {@code BO_USER#bo_user_ref} */
     @ManyToOne
     @JoinColumn(name = "bo_user_ref")
-    private User user;
+    private UserEntity user;
 
     // -- id ------------------------------------------------------------------
 
@@ -188,7 +188,7 @@ public class Session {
      *
      * @hibernate.many-to-one column="bo_user_ref" cascade="none"
      */
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
@@ -200,7 +200,7 @@ public class Session {
      * @throws IllegalArgumentException
      *             value als null-Parameter übergeben.
      */
-    public void setUser(final User value) {
+    public void setUser(final UserEntity value) {
         user = value;
     }
 

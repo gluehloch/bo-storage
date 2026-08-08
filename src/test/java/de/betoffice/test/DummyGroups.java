@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 
 /**
  * Stellt ein paar Gruppentypen zu Testzwecken zur Verfügung. <br>
@@ -83,7 +83,7 @@ public final class DummyGroups {
     public static final int ACHTELFINALE = 9;
 
     /** Die Gruppentypen. */
-    private List<GroupType> groupTypes = new ArrayList<GroupType>();
+    private List<GroupTypeEntity> groupTypes = new ArrayList<GroupTypeEntity>();
 
     public DummyGroups() {
         createGroups();
@@ -94,8 +94,8 @@ public final class DummyGroups {
      *
      * @return Die Gruppentypen.
      */
-    public GroupType[] groupTypes() {
-        return groupTypes.toArray(new GroupType[groupTypes.size()]);
+    public GroupTypeEntity[] groupTypes() {
+        return groupTypes.toArray(new GroupTypeEntity[groupTypes.size()]);
     }
 
     /**
@@ -103,7 +103,7 @@ public final class DummyGroups {
      *
      * @return Die Gruppentypen.
      */
-    public List<GroupType> toList() {
+    public List<GroupTypeEntity> toList() {
         return Collections.unmodifiableList(groupTypes);
     }
 
@@ -113,7 +113,7 @@ public final class DummyGroups {
      * @param groupType
      *            Eine neue Testliga.
      */
-    public void add(final GroupType groupType) {
+    public void add(final GroupTypeEntity groupType) {
         groupTypes.add(groupType);
     }
 
@@ -123,7 +123,7 @@ public final class DummyGroups {
      * @param groupType
      *            Die zu entfernende Liga.
      */
-    public void delete(final GroupType groupType) {
+    public void delete(final GroupTypeEntity groupType) {
         groupTypes.remove(groupType);
     }
 
@@ -132,7 +132,7 @@ public final class DummyGroups {
      */
     private void createGroups() {
         for (int i = 0; i < GROUPTYPE_PROPS.length; i++) {
-            GroupType groupType = new GroupType();
+            GroupTypeEntity groupType = new GroupTypeEntity();
             groupType.setName(GROUPTYPE_PROPS[i][0]);
             groupTypes.add(groupType);
         }

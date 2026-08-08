@@ -44,13 +44,13 @@ import org.springframework.test.context.transaction.TestTransaction;
 import de.betoffice.conf.BetofficeTestConfig;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.storage.community.CommunityFilter;
-import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonType;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Service test for the community manager.
@@ -93,12 +93,12 @@ class CommunityServiceTest {
     void createCommunity() {
         assertThat(TestTransaction.isActive()).isFalse();
 
-        Season bundesliga = new Season(SeasonReference.of("2020/2021", "Bundesliga"));
+        SeasonEntity bundesliga = new SeasonEntity(SeasonReference.of("2020/2021", "Bundesliga"));
         bundesliga.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(bundesliga);
 
         Nickname frosch = Nickname.of("Frosch");
-        User communityManager = new User();
+        UserEntity communityManager = new UserEntity();
         communityManager.setEmail("email@email.de");
         communityManager.setName("Andre");
         communityManager.setNickname(frosch);
@@ -106,7 +106,7 @@ class CommunityServiceTest {
 
         communityManager = communityService.createUser(communityManager);
 
-        Community community = communityService
+        CommunityEntity community = communityService
                 .create(CommunityReference.of("TDKB"), bundesliga.getReference(), "TDKB_short", "2024", frosch)
                 .result()
                 .orElseThrow();
@@ -118,12 +118,12 @@ class CommunityServiceTest {
 
     @Test
     void addAndRemoveCommunityMembers() {
-        Season bundesliga = new Season(SeasonReference.of("2020/2021", "Bundesliga"));
+        SeasonEntity bundesliga = new SeasonEntity(SeasonReference.of("2020/2021", "Bundesliga"));
         bundesliga.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(bundesliga);
 
         Nickname frosch = Nickname.of("Frosch");
-        User communityManager = new User();
+        UserEntity communityManager = new UserEntity();
         communityManager.setEmail("email@email.de");
         communityManager.setName("Andre");
         communityManager.setNickname(frosch);
@@ -131,13 +131,13 @@ class CommunityServiceTest {
 
         communityManager = communityService.createUser(communityManager);
         CommunityReference communityReference = CommunityReference.of("TDKB");
-        Community community = communityService
+        CommunityEntity community = communityService
                 .create(communityReference, bundesliga.getReference(), "TDKB_short", "2024", frosch)
                 .result()
                 .orElseThrow();
 
         Nickname demoA = Nickname.of("DemoA");
-        User demoUserA = new User();
+        UserEntity demoUserA = new UserEntity();
         demoUserA.setEmail("demoA@email.de");
         demoUserA.setName("DemoA-Name");
         demoUserA.setNickname(demoA);
@@ -145,7 +145,7 @@ class CommunityServiceTest {
         demoUserA = communityService.createUser(demoUserA);
 
         Nickname demoB = Nickname.of("DemoB");
-        User demoUserB = new User();
+        UserEntity demoUserB = new UserEntity();
         demoUserB.setEmail("demoB@email.de");
         demoUserB.setName("DemoB-Name");
         demoUserB.setNickname(demoB);
@@ -155,19 +155,19 @@ class CommunityServiceTest {
         communityService.addMember(community.getReference(), demoUserA.getNickname());
         communityService.addMember(community.getReference(), demoUserB.getNickname());
 
-        Set<User> members = communityService.findMembers(community.getReference());
+        Set<UserEntity> members = communityService.findMembers(community.getReference());
         assertThat(members).hasSize(2);
     }
 
     @Test
     void filterCommunities() {
         SeasonReference bundesligaRef = SeasonReference.of("2020/2021", "Bundesliga");
-        Season bundesliga = new Season(bundesligaRef);
+        SeasonEntity bundesliga = new SeasonEntity(bundesligaRef);
         bundesliga.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(bundesliga);
 
         Nickname nickname = Nickname.of("Andre");
-        User communityManager = new User();
+        UserEntity communityManager = new UserEntity();
         communityManager.setEmail("email@email.de");
         communityManager.setName("Andre");
         communityManager.setNickname(nickname);
@@ -184,7 +184,7 @@ class CommunityServiceTest {
         CommunityFilter communityFilter = new CommunityFilter();
         communityFilter.setShortName("CM");
 
-        Page<Community> list = communityService.findCommunities(communityFilter, PageRequest.of(0, 10));
+        Page<CommunityEntity> list = communityService.findCommunities(communityFilter, PageRequest.of(0, 10));
         assertThat(list).hasSize(5);
 
         communityService.create(CommunityReference.of("aw1"), bundesligaRef, "aw1_short", "2024", nickname);

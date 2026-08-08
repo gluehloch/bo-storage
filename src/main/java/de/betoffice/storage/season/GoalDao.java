@@ -27,22 +27,22 @@ import java.util.List;
 import java.util.Optional;
 
 import de.betoffice.storage.community.CommonDao;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.Goal;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GoalEntity;
 
 /**
  * The DAO for the goals.
  *
  * @author by Andre Winkler
  */
-public interface GoalDao extends CommonDao<Goal> {
+public interface GoalDao extends CommonDao<GoalEntity> {
 
     /**
      * Get a list of all goals.
      * 
      * @return a list of all goals
      */
-    List<Goal> findAll();
+    List<GoalEntity> findAll();
 
     /**
      * Get a list of all goals of a match
@@ -50,7 +50,7 @@ public interface GoalDao extends CommonDao<Goal> {
      * @param  game The game
      * @return      the goals
      */
-    List<Goal> find(Game game);
+    List<GoalEntity> find(GameEntity game);
 
     /**
      * Get a list of all goals of a match
@@ -58,7 +58,7 @@ public interface GoalDao extends CommonDao<Goal> {
      * @param  match The match
      * @return       the goals
      */
-    List<Goal> find(long matchId);
+    List<GoalEntity> find(long matchId);
 
     /**
      * Find a goal by the openligadbid
@@ -66,13 +66,13 @@ public interface GoalDao extends CommonDao<Goal> {
      * @param  openligaid openligadb ID
      * @return            A goal
      */
-    Optional<Goal> findByOpenligaid(long openligaid);
+    Optional<GoalEntity> findByOpenligaid(long openligaid);
 
     /**
      * Delete all goals of a game.
      * 
      * @param game the game
      */
-    void deleteAll(Game game);
+    void deleteAll(GameEntity game);
 
 }

@@ -25,7 +25,7 @@
 
 package de.betoffice.storage.exception;
 
-import de.betoffice.storage.StorageObject;
+import de.betoffice.storage.EntityId;
 
 /**
  * Diese Exception wird im Zusammenhang mit der <code>checkValidity()</code>.
@@ -41,7 +41,7 @@ public class StorageObjectNotValidException extends StorageRuntimeException {
     private static final long serialVersionUID = -722656677279364482L;
 
     /** Das bereits ungültige StorageObject. */
-    private StorageObject object;
+    private EntityId object;
 
     public StorageObjectNotValidException() {
         super();
@@ -53,7 +53,7 @@ public class StorageObjectNotValidException extends StorageRuntimeException {
      * @param obj
      *            Das ungültige StorageObject.
      */
-    public StorageObjectNotValidException(final StorageObject obj) {
+    public StorageObjectNotValidException(final EntityId obj) {
         super("Not valid: " + obj.toString());
         object = obj;
     }
@@ -67,7 +67,7 @@ public class StorageObjectNotValidException extends StorageRuntimeException {
      *
      * @return Das existierende StorageObject.
      */
-    public StorageObject getObject() {
+    public EntityId getObject() {
         return object;
     }
 

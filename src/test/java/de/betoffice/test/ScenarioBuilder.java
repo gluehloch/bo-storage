@@ -38,13 +38,13 @@ import de.betoffice.service.MasterDataManagerService;
 import de.betoffice.service.SeasonManagerService;
 import de.betoffice.service.TippService;
 import de.betoffice.storage.season.SeasonType;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.season.entity.GameResult;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 import de.betoffice.storage.tip.TippStatusType;
 
 /**
@@ -70,26 +70,26 @@ public class ScenarioBuilder {
     @Autowired
     private TippService tippService;
 
-    private final List<Season> seasons = new ArrayList<Season>();
+    private final List<SeasonEntity> seasons = new ArrayList<SeasonEntity>();
 
     private final GameResult gr10 = GameResult.of(1, 0);
     private final GameResult gr01 = GameResult.of(0, 1);
     private final GameResult gr11 = GameResult.of(1, 1);
     private final GameResult gr21 = GameResult.of(2, 1);
 
-    private Season season;
-    private Group ersteBundesliga;
-    private Group zweiteBundesliga;
-    private Team rwe;
-    private Team s04;
-    private Game game1;
-    private Game game2;
-    private Game game3;
-    private Game game4;
+    private SeasonEntity season;
+    private GroupEntity ersteBundesliga;
+    private GroupEntity zweiteBundesliga;
+    private TeamEntity rwe;
+    private TeamEntity s04;
+    private GameEntity game1;
+    private GameEntity game2;
+    private GameEntity game3;
+    private GameEntity game4;
 
-    private final List<Game> matches = new ArrayList<Game>();
+    private final List<GameEntity> matches = new ArrayList<GameEntity>();
 
-    private GameList round1;
+    private GameListEntity round1;
 
     private DummyTeams teams;
 
@@ -194,7 +194,7 @@ public class ScenarioBuilder {
         users.toList().stream().forEach(communityService::createUser);
 
         // Saison erzeugen.
-        season = new Season(SeasonReference.of("1994/1995", "Bundesliga"));
+        season = new SeasonEntity(SeasonReference.of("1994/1995", "Bundesliga"));
         season.setMode(SeasonType.LEAGUE);
         seasons.add(season);
         seasonManagerService.createSeason(season);
@@ -287,51 +287,51 @@ public class ScenarioBuilder {
     // von createScenario.
     //
 
-    public Group getErsteBundesliga() {
+    public GroupEntity getErsteBundesliga() {
         return ersteBundesliga;
     }
 
-    public Group getZweiteBundesliga() {
+    public GroupEntity getZweiteBundesliga() {
         return zweiteBundesliga;
     }
 
-    public Team getRwe() {
+    public TeamEntity getRwe() {
         return rwe;
     }
 
-    public Team getS04() {
+    public TeamEntity getS04() {
         return s04;
     }
 
-    public Season getSeason() {
+    public SeasonEntity getSeason() {
         return season;
     }
 
-    public List<Season> getChampionships() {
+    public List<SeasonEntity> getChampionships() {
         return seasons;
     }
 
-    public Game getGame1() {
+    public GameEntity getGame1() {
         return game1;
     }
 
-    public Game getGame2() {
+    public GameEntity getGame2() {
         return game2;
     }
 
-    public Game getGame3() {
+    public GameEntity getGame3() {
         return game3;
     }
 
-    public Game getGame4() {
+    public GameEntity getGame4() {
         return game4;
     }
 
-    public List<Game> getMatches() {
+    public List<GameEntity> getMatches() {
         return matches;
     }
 
-    public GameList getRound1() {
+    public GameListEntity getRound1() {
         return round1;
     }
 
@@ -339,7 +339,7 @@ public class ScenarioBuilder {
     // Generator Methoden
     //
 
-    private void createGroups(final Season _season) {
+    private void createGroups(final SeasonEntity _season) {
         season = seasonManagerService.addGroupType(season, groups.groupTypes()[DummyGroups.BULI_1]);
         ersteBundesliga = season.getGroup(groups.groupTypes()[DummyGroups.BULI_1]);
         season = seasonManagerService.addGroupType(season, groups.groupTypes()[DummyGroups.BULI_2]);

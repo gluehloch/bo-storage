@@ -40,14 +40,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
-import de.betoffice.storage.group.entity.GroupType;
-import de.betoffice.storage.season.entity.GameList;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
-import de.betoffice.storage.tip.GameTipp;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
+import de.betoffice.storage.tip.GameTippEntity;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Testet das Verhalten von {@link DefaultSeasonManagerService}.
@@ -87,25 +87,25 @@ class SeasonManagerServiceIT extends AbstractServiceTest {
 
     @Test
     void testAddGroupToBundesliga2006() {
-        Season bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
-        GroupType liga2 = new GroupType();
+        SeasonEntity bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
+        GroupTypeEntity liga2 = new GroupTypeEntity();
         liga2.setName("2. Liga");
         masterDataManagerService.createGroupType(liga2);
-        Season modifiedSeason = seasonManagerService.addGroupType(bundesliga, liga2);
-        Group group = seasonManagerService.findGroup(modifiedSeason, liga2);
+        SeasonEntity modifiedSeason = seasonManagerService.addGroupType(bundesliga, liga2);
+        GroupEntity group = seasonManagerService.findGroup(modifiedSeason, liga2);
         assertThat(modifiedSeason.getGroups()).contains(group);
     }
 
     @Test
     void findTipp() {
         final CommunityReference communityReference = CommunityReference.of("TDKB 2006/2007");
-        Season bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
+        SeasonEntity bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
 
-        Community community = communityService.find(communityReference).orElseThrow();
+        CommunityEntity community = communityService.find(communityReference).orElseThrow();
         assertThat(community.getSeason()).isEqualTo(bundesliga);
         assertThat(community.getSeason()).isEqualTo(bundesliga);
 
-        Set<User> users = communityService.findMembers(communityReference);
+        Set<UserEntity> users = communityService.findMembers(communityReference);
 
         assertThat(users).hasSize(10);
         assertThat(users).extracting("nickname.nickname", "name").contains(
@@ -120,10 +120,10 @@ class SeasonManagerServiceIT extends AbstractServiceTest {
                 tuple("Roenne", "Rönnebeck"),
                 tuple("Steffen", "Bucksath"));
 
-        GameList round = seasonManagerService.findRound(bundesliga, 0).orElseThrow();
+        GameListEntity round = seasonManagerService.findRound(bundesliga, 0).orElseThrow();
         assertThat(round.unmodifiableList()).hasSize(9);
 
-        List<GameTipp> tipp = tippService.findTipps(round.getId());
+        List<GameTippEntity> tipp = tippService.findTipps(round.getId());
         assertThat(tipp).hasSize(81);
     }
 

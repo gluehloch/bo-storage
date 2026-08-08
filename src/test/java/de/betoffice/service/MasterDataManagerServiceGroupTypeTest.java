@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.validation.ValidationException;
 
 /**
@@ -82,7 +82,7 @@ public class MasterDataManagerServiceGroupTypeTest extends AbstractServiceTest {
         createGroupType("1. Bundesliga");
         createGroupType("2. Bundesliga");
 
-        List<GroupType> groupTypes = masterDataManagerService.findAllGroupTypes();
+        List<GroupTypeEntity> groupTypes = masterDataManagerService.findAllGroupTypes();
 
         assertThat(groupTypes.size()).isEqualTo(2);
         assertThat(groupTypes.get(0).getName()).isEqualTo("1. Bundesliga");
@@ -91,7 +91,7 @@ public class MasterDataManagerServiceGroupTypeTest extends AbstractServiceTest {
 
     @Test
     public void testCreateInvalidGroupType() {
-        GroupType invalidGroupType = new GroupType();
+        GroupTypeEntity invalidGroupType = new GroupTypeEntity();
         ValidationException ex = assertThrows(ValidationException.class, () -> {
             masterDataManagerService.createGroupType(invalidGroupType);
         });
@@ -106,22 +106,22 @@ public class MasterDataManagerServiceGroupTypeTest extends AbstractServiceTest {
         createGroupType("Regionalliga Nord");
         createGroupType("Regionalliga Süd");
 
-        Optional<GroupType> regioNord = masterDataManagerService.findGroupType("Regionalliga Nord");
+        Optional<GroupTypeEntity> regioNord = masterDataManagerService.findGroupType("Regionalliga Nord");
         assertThat(regioNord.get().getName()).isEqualTo("Regionalliga Nord");
 
         regioNord.get().setName("3. Bundesliga");
         masterDataManagerService.updateGroupType(regioNord.get());
 
-        Optional<GroupType> bundesliga_3 = masterDataManagerService.findGroupType("3. Bundesliga");
+        Optional<GroupTypeEntity> bundesliga_3 = masterDataManagerService.findGroupType("3. Bundesliga");
         assertThat(bundesliga_3.get().getName()).isEqualTo("3. Bundesliga");
     }
 
     @Test
     public void testDeleteGroupType() {
-        GroupType bundesliga_1 = createGroupType("1. Bundesliga");
-        GroupType bundesliga_2 = createGroupType("2. Bundesliga");
+        GroupTypeEntity bundesliga_1 = createGroupType("1. Bundesliga");
+        GroupTypeEntity bundesliga_2 = createGroupType("2. Bundesliga");
 
-        List<GroupType> groupTypes = masterDataManagerService.findAllGroupTypes();
+        List<GroupTypeEntity> groupTypes = masterDataManagerService.findAllGroupTypes();
         assertThat(groupTypes.size()).isEqualTo(2);
 
         masterDataManagerService.deleteGroupType(bundesliga_1);
@@ -135,8 +135,8 @@ public class MasterDataManagerServiceGroupTypeTest extends AbstractServiceTest {
         assertThat(groupTypes.size()).isEqualTo(0);
     }
 
-    private GroupType createGroupType(final String groupTypeName) {
-        GroupType groupType = new GroupType();
+    private GroupTypeEntity createGroupType(final String groupTypeName) {
+        GroupTypeEntity groupType = new GroupTypeEntity();
         groupType.setName(groupTypeName);
         masterDataManagerService.createGroupType(groupType);
         return groupType;

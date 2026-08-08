@@ -43,9 +43,9 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 import de.betoffice.storage.AbstractStorageObject;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Defines a group of players.
@@ -54,7 +54,7 @@ import de.betoffice.storage.user.entity.User;
  */
 @Entity
 @Table(name = "bo_community")
-public class Community extends AbstractStorageObject {
+public class CommunityEntity extends AbstractStorageObject {
 
     private static final long serialVersionUID = -7239278975374588294L;
 
@@ -76,11 +76,11 @@ public class Community extends AbstractStorageObject {
 
     @ManyToOne
     @JoinColumn(name = "bo_user_ref")
-    private User communityManager;
+    private UserEntity communityManager;
 
     @ManyToOne
     @JoinColumn(name = "bo_season_ref")
-    private Season season;
+    private SeasonEntity season;
     
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
@@ -89,7 +89,7 @@ public class Community extends AbstractStorageObject {
     @JoinTable(name = "bo_community_user",
         joinColumns = @JoinColumn(name = "bo_community_ref"),
         inverseJoinColumns = @JoinColumn(name = "bo_user_ref"))
-    private Set<User> users = new HashSet<>();
+    private Set<UserEntity> users = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -123,35 +123,35 @@ public class Community extends AbstractStorageObject {
     	this.year = year;
     }
 
-    public User getCommunityManager() {
+    public UserEntity getCommunityManager() {
         return communityManager;
     }
 
-    public void setCommunityManager(User user) {
+    public void setCommunityManager(UserEntity user) {
         this.communityManager = user;
     }
     
-    public Season getSeason() {
+    public SeasonEntity getSeason() {
         return season;
     }
     
-    public void setSeason(Season season) {
+    public void setSeason(SeasonEntity season) {
         this.season = season;
     }
 
-    public Set<User> getUsers() {
+    public Set<UserEntity> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(Set<UserEntity> users) {
         this.users = users;
     }
 
-    public void addMember(User user) {
+    public void addMember(UserEntity user) {
         users.add(user);
     }
     
-    public void removeMember(User user) {
+    public void removeMember(UserEntity user) {
         users.remove(user);
     }
     
@@ -164,10 +164,10 @@ public class Community extends AbstractStorageObject {
     public boolean equals(final Object object) {
         if (object == null) {
             return false;
-        } else if (!(object instanceof Group)) {
+        } else if (!(object instanceof GroupEntity)) {
             return false;
         } else {
-            Community community = (Community) object;
+            CommunityEntity community = (CommunityEntity) object;
             return community.getId().equals(getId());           
         }
     }

@@ -49,10 +49,10 @@ import jakarta.persistence.Table;
 
 import de.betoffice.storage.AbstractStorageObject;
 import de.betoffice.storage.StorageConst;
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.SeasonType;
 import de.betoffice.storage.team.TeamType;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Verwaltet die Daten einer Saison.
@@ -61,7 +61,7 @@ import de.betoffice.storage.team.entity.Team;
  */
 @Entity
 @Table(name = "bo_season")
-public class Season extends AbstractStorageObject {
+public class SeasonEntity extends AbstractStorageObject {
 
     /** serial version */
     private static final long serialVersionUID = -8992251563826611291L;
@@ -89,20 +89,20 @@ public class Season extends AbstractStorageObject {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bo_season_ref")
-    private Set<Group> groups = new HashSet<>();
+    private Set<GroupEntity> groups = new HashSet<>();
 
     /** Eine Liste der Spieltage/GameList. */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bo_season_ref")
     @OrderColumn(name = "bo_index")
-    private List<GameList> gameList = new ArrayList<>();
+    private List<GameListEntity> gameList = new ArrayList<>();
 
     // -- Construction --------------------------------------------------------
 
-    public Season() {
+    public SeasonEntity() {
     }
     
-    public Season(SeasonReference sr) {
+    public SeasonEntity(SeasonReference sr) {
         this.reference = sr;
     }
 
@@ -208,7 +208,7 @@ public class Season extends AbstractStorageObject {
      * 
      * @return Eine Menge mit Gruppen der Saison.
      */
-    public Set<Group> getGroups() {
+    public Set<GroupEntity> getGroups() {
         return groups;
     }
 
@@ -217,7 +217,7 @@ public class Season extends AbstractStorageObject {
      * 
      * @param value Die Grupppen.
      */
-    protected void setGroups(final Set<Group> value) {
+    protected void setGroups(final Set<GroupEntity> value) {
         groups = value;
     }
 
@@ -228,8 +228,8 @@ public class Season extends AbstractStorageObject {
      * @return               Die passende Gruppe. Kann <code>null</code> liefern, wenn keine passende Gruppe gefunden.
      * @deprecated           Better use a service method.
      */
-    public Group getGroup(final GroupType groupType) {
-        for (Group group : getGroups()) {
+    public GroupEntity getGroup(final GroupTypeEntity groupType) {
+        for (GroupEntity group : getGroups()) {
             if (group.getGroupType().equals(groupType)) {
                 return group;
             }
@@ -242,7 +242,7 @@ public class Season extends AbstractStorageObject {
      * 
      * @param group Eine weitere Gruppe.
      */
-    public void addGroup(final Group group) {
+    public void addGroup(final GroupEntity group) {
         Objects.requireNonNull(group);
         group.setSeason(this);
         groups.add(group);
@@ -253,9 +253,9 @@ public class Season extends AbstractStorageObject {
      * 
      * @param values Eine Liste von Gruppen.
      */
-    public void addGroups(final Set<Group> values) {
+    public void addGroups(final Set<GroupEntity> values) {
         Objects.requireNonNull(values);
-        for (Group group : values) {
+        for (GroupEntity group : values) {
             addGroup(group);
         }
     }
@@ -265,7 +265,7 @@ public class Season extends AbstractStorageObject {
      * 
      * @param group Die zu entfernende Gruppe.
      */
-    public void removeGroup(final Group group) {
+    public void removeGroup(final GroupEntity group) {
         Objects.requireNonNull(group.getSeason());
         Objects.requireNonNull(group.getSeason().equals(this));
 
@@ -276,12 +276,12 @@ public class Season extends AbstractStorageObject {
      * Deaktiviert eine Gruppe.
      * 
      * @param  groupType Der zu deaktivierende Gruppentyp.
-     * @return           Das entfernte {@link Group} Objekt. Kann <code>null</code> sein, wenn kein entsprechendes
-     *                   {@link Group} Objekt gefunden.
+     * @return           Das entfernte {@link GroupEntity} Objekt. Kann <code>null</code> sein, wenn kein entsprechendes
+     *                   {@link GroupEntity} Objekt gefunden.
      */
-    public Group removeGroup(final GroupType groupType) {
-        for (Iterator<Group> i = getGroups().iterator(); i.hasNext();) {
-            Group tmp = i.next();
+    public GroupEntity removeGroup(final GroupTypeEntity groupType) {
+        for (Iterator<GroupEntity> i = getGroups().iterator(); i.hasNext();) {
+            GroupEntity tmp = i.next();
             if (tmp.getGroupType().equals(groupType)) {
                 i.remove();
                 return tmp;
@@ -295,9 +295,9 @@ public class Season extends AbstractStorageObject {
      * 
      * @return Alle Mannschaften, die dieser Saison zugeordnet sind.
      */
-    public Set<Team> getTeams() {
-        Set<Team> teams = new HashSet<Team>();
-        for (Group group : getGroups()) {
+    public Set<TeamEntity> getTeams() {
+        Set<TeamEntity> teams = new HashSet<TeamEntity>();
+        for (GroupEntity group : getGroups()) {
             teams.addAll(group.getTeams());
         }
         return teams;
@@ -308,9 +308,9 @@ public class Season extends AbstractStorageObject {
      * 
      * @return Eine Liste mit <code>GroupType</code>.
      */
-    public List<GroupType> getGroupTypes() {
-        List<GroupType> result = new ArrayList<GroupType>();
-        for (Group group : getGroups()) {
+    public List<GroupTypeEntity> getGroupTypes() {
+        List<GroupTypeEntity> result = new ArrayList<GroupTypeEntity>();
+        for (GroupEntity group : getGroups()) {
             result.add(group.getGroupType());
         }
         return result;
@@ -319,11 +319,11 @@ public class Season extends AbstractStorageObject {
     // -- gameDayList ---------------------------------------------------------
 
     /**
-     * Liefert alle Spieltage. Eine <code>List</code> von {@link GameList} Objekten.
+     * Liefert alle Spieltage. Eine <code>List</code> von {@link GameListEntity} Objekten.
      * 
      * @return Die Spieltage.
      */
-    protected List<GameList> getGameList() {
+    protected List<GameListEntity> getGameList() {
         return gameList;
     }
 
@@ -332,7 +332,7 @@ public class Season extends AbstractStorageObject {
      * 
      * @param value Eine Spieltagsliste.
      */
-    protected void setGameList(final List<GameList> value) {
+    protected void setGameList(final List<GameListEntity> value) {
         Objects.requireNonNull(value);
         gameList = value;
     }
@@ -342,7 +342,7 @@ public class Season extends AbstractStorageObject {
      * 
      * @return Liste aller Spieltage (GameList).
      */
-    public List<GameList> toGameList() {
+    public List<GameListEntity> toGameList() {
         return Collections.unmodifiableList(gameList);
     }
 
@@ -351,7 +351,7 @@ public class Season extends AbstractStorageObject {
      * 
      * @return Liste aller Spieltage (GameList).
      */
-    public List<GameList> toGameList(Predicate<GameList> filter) {
+    public List<GameListEntity> toGameList(Predicate<GameListEntity> filter) {
         return gameList.stream().filter(filter).collect(Collectors.toList());
     }
 
@@ -380,7 +380,7 @@ public class Season extends AbstractStorageObject {
      * @param  _gameList Die zu prüfende GameList/Spieltag
      * @return           true, vorhanden; false, nicht vorhanden.
      */
-    public boolean contains(final GameList _gameList) {
+    public boolean contains(final GameListEntity _gameList) {
         return (gameList.contains(_gameList));
     }
 
@@ -392,7 +392,7 @@ public class Season extends AbstractStorageObject {
      *                   Saison/Meisterschaft zugeordnet!
      * @deprecated       Better use a service method.
      */
-    public GameList getGamesOfDay(final int dayNr) {
+    public GameListEntity getGamesOfDay(final int dayNr) {
         if ((dayNr >= gameList.size()) || (dayNr < 0)) {
             throw new IndexOutOfBoundsException("dayNr '" + dayNr
                     + "' out of bounds!");
@@ -400,7 +400,7 @@ public class Season extends AbstractStorageObject {
             return null;
         }
 
-        for (GameList currGameList : gameList) {
+        for (GameListEntity currGameList : gameList) {
             if (currGameList.getIndex() == StorageConst.INDEX_UNDEFINED) {
                 String dateTime = DateTimeFormatter.ISO_DATE_TIME.format(currGameList.getDateTime());
                 throw new IllegalStateException("current round index: "
@@ -422,12 +422,12 @@ public class Season extends AbstractStorageObject {
      * @param  newRound                 Ein Spieltag.
      * @throws IllegalArgumentException GameListe bereits vorhanden oder ein Attribut von gameList nicht gesetzt.
      */
-    public void addGameList(final GameList newRound) {
+    public void addGameList(final GameListEntity newRound) {
         Objects.requireNonNull(newRound, "The newRound parameter is null.");
         Objects.requireNonNull(newRound.getDateTime(), "The datetime field of newRound is null.");
         Objects.requireNonNull(newRound.getGroup(), "The group field of newRound is null.");
 
-        for (GameList gl : getGameList()) {
+        for (GameListEntity gl : getGameList()) {
             if (gl.getDateTime() != null
                     && gl.getDateTime().equals(newRound.getDateTime())
                     && gl.getGroup().equals(newRound.getGroup())) {
@@ -452,8 +452,8 @@ public class Season extends AbstractStorageObject {
      * Entfernt alle Spieltage.
      */
     public void removeAllGameList() {
-        List<GameList> tmp = new ArrayList<GameList>(getGameList());
-        for (GameList gl : tmp) {
+        List<GameListEntity> tmp = new ArrayList<GameListEntity>(getGameList());
+        for (GameListEntity gl : tmp) {
             gl.removeAllGame();
             removeGameList(gl);
         }
@@ -464,7 +464,7 @@ public class Season extends AbstractStorageObject {
      * 
      * @param _gameList Ein Spieltag.
      */
-    public void removeGameList(final GameList _gameList) {
+    public void removeGameList(final GameListEntity _gameList) {
         Objects.requireNonNull(_gameList);
 
         if (!gameList.contains(_gameList)) {
@@ -502,10 +502,10 @@ public class Season extends AbstractStorageObject {
     public final boolean equals(final Object object) {
         if (object == null) {
             return false;
-        } else if (!(object instanceof Season)) {
+        } else if (!(object instanceof SeasonEntity)) {
             return false;
         } else {
-            Season ssn = (Season) object;
+            SeasonEntity ssn = (SeasonEntity) object;
             return getReference().equals(ssn.getReference());
         }
     }

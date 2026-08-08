@@ -26,14 +26,14 @@ package de.betoffice.storage.session;
 import java.util.List;
 
 import de.betoffice.storage.community.CommonDao;
-import de.betoffice.storage.session.entity.Session;
+import de.betoffice.storage.session.entity.SessionEntity;
 
 /**
  * DAO for table BO_SESSION.
  *
  * @author by Andre Winkler
  */
-public interface SessionDao extends CommonDao<Session> {
+public interface SessionDao extends CommonDao<SessionEntity> {
 
     /**
      * Returns all logins for user with name 'nickname'.
@@ -42,7 +42,7 @@ public interface SessionDao extends CommonDao<Session> {
      *            the nickname of the user
      * @return a list of login sessions
      */
-    public List<Session> findByNickname(String nickname);
+    public List<SessionEntity> findByNickname(String nickname);
 
     /**
      * Returns the session id of an authorized user.
@@ -51,6 +51,6 @@ public interface SessionDao extends CommonDao<Session> {
      *            session id
      * @return The session of the authorized user
      */
-    public List<Session> findBySessionId(String sessionId);
+    public List<SessionEntity> findBySessionId(String sessionId);
 
 }

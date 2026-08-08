@@ -60,7 +60,7 @@ import de.betoffice.storage.AbstractStorageObject;
  */
 @Entity
 @Table(name = "bo_gamelist")
-public class GameList extends AbstractStorageObject implements Comparable<GameList> {
+public class GameListEntity extends AbstractStorageObject implements Comparable<GameListEntity> {
 
     /** serial version */
     private static final long serialVersionUID = -3629753274439214154L;
@@ -82,20 +82,20 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
 
     @ManyToOne
     @JoinColumn(name = "bo_season_ref")
-    private Season season;
+    private SeasonEntity season;
 
     @ManyToOne
     @JoinColumn(name = "bo_group_ref")
-    private Group group;
+    private GroupEntity group;
 
     @OneToMany(mappedBy = "gameList", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy("bo_index")
     @OrderColumn(name = "bo_index")
-    private List<Game> gameList = new ArrayList<>();
+    private List<GameEntity> gameList = new ArrayList<>();
 
     // -- Construction --------------------------------------------------------
 
-    public GameList() {
+    public GameListEntity() {
     }
 
     // -- id ------------------------------------------------------------------
@@ -127,7 +127,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      *
      * @return Die Liste der Spiele.
      */
-    protected List<Game> getGameList() {
+    protected List<GameEntity> getGameList() {
         return gameList;
     }
 
@@ -136,7 +136,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      *
      * @param value Die Liste der Spiele.
      */
-    protected void setGameList(final List<Game> value) {
+    protected void setGameList(final List<GameEntity> value) {
         Objects.requireNonNull(value);
         gameList = value;
     }
@@ -146,7 +146,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      *
      * @param value Eine Spielpaarung.
      */
-    public void addGame(final Game value) {
+    public void addGame(final GameEntity value) {
         Objects.requireNonNull(value);
         if (gameList.contains(value)) {
             throw new IllegalArgumentException("The game '" + value + "' already exists!");
@@ -161,8 +161,8 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      * Entfernt alle Spielpaarungen. Funktioniert nur, wenn keine Tipps vorhanden sind.
      */
     public void removeAllGame() {
-        List<Game> tmp = new ArrayList<Game>(getGameList());
-        for (Game game : tmp) {
+        List<GameEntity> tmp = new ArrayList<GameEntity>(getGameList());
+        for (GameEntity game : tmp) {
             removeGame(game);
         }
     }
@@ -172,7 +172,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      *
      * @param value Die zu entfernende Spielpaarung.
      */
-    public void removeGame(final Game value) {
+    public void removeGame(final GameEntity value) {
         Objects.requireNonNull(value);
         if (!gameList.contains(value)) {
             throw new IllegalArgumentException(value + " nicht vorhanden!");
@@ -188,7 +188,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      * @param  _group Die Gruppe deren Spiele gefragt sind.
      * @return        Eine Liste aller Spiele der gefragten Gruppe. Diese Liste kann nicht modifiziert werden.
      */
-    public List<Game> toList(final Group _group) {
+    public List<GameEntity> toList(final GroupEntity _group) {
         return toList(game -> game.getGroup().equals(_group));
     }
 
@@ -198,16 +198,16 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      * @param  filter Filterkriterium fuer die in Frage kommenden Spiele.
      * @return        Eine Liste aller Spiele der gefragten Gruppe. Diese Liste kann nicht modifiziert werden.
      */
-    public List<Game> toList(Predicate<Game> filter) {
+    public List<GameEntity> toList(Predicate<GameEntity> filter) {
         return gameList.stream().filter(filter).toList();
     }
 
     /**
      * Liefert eine nicht modifizierbare Liste aller Spiele des Spieltags.
      *
-     * @return Liste aller Spiele ({@link Game}) eines Spieltags.
+     * @return Liste aller Spiele ({@link GameEntity}) eines Spieltags.
      */
-    public List<Game> unmodifiableList() {
+    public List<GameEntity> unmodifiableList() {
         return Collections.unmodifiableList(gameList);
     }
 
@@ -217,7 +217,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      * @param  _index Index eines Spiels.
      * @return        Das Spiel mit dem gesuchten Index.
      */
-    public Game get(final int _index) {
+    public GameEntity get(final int _index) {
         return (gameList.get(_index));
     }
 
@@ -227,8 +227,8 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      * @param  id Die Datenbank ID
      * @return    Ein Spiel aus diesem Spieltag.
      */
-    public Game getById(final long id) {
-        for (Game game : gameList) {
+    public GameEntity getById(final long id) {
+        for (GameEntity game : gameList) {
             if (game.getId() == id) {
                 return game;
             }
@@ -308,20 +308,20 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      *
      * @return Die zugehörige Saison.
      */
-    public Season getSeason() {
+    public SeasonEntity getSeason() {
         return season;
     }
 
     /**
      * Setzt die Saison/Spieltagsliste, die zu diesem Spieltag gehört. Wird gesetzt, wenn die Spieltagsliste einer
-     * Saison/GameDayList zugeordnet wird. Der Aufruf erfolgt aus der Methode {@link Season#addGameList(GameList)}.
+     * Saison/GameDayList zugeordnet wird. Der Aufruf erfolgt aus der Methode {@link SeasonEntity#addGameList(GameListEntity)}.
      *
      * @param value Die zugehörige Saison. Kann <code>null</code> sein. Dann wurde diese Spieltagsliste aus einer Saison
      *                  entfernt.
      *
-     * @see         Season#addGameList(GameList)
+     * @see         SeasonEntity#addGameList(GameListEntity)
      */
-    public void setSeason(final Season value) {
+    public void setSeason(final SeasonEntity value) {
         season = value;
     }
 
@@ -332,7 +332,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      *
      * @return Die zugehörige Gruppe.
      */
-    public Group getGroup() {
+    public GroupEntity getGroup() {
         return group;
     }
 
@@ -341,7 +341,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      *
      * @param value Die zugehörige Gruppe. Kann <code>null</code> sein!
      */
-    public void setGroup(final Group value) {
+    public void setGroup(final GroupEntity value) {
         group = value;
     }
 
@@ -373,7 +373,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      * @param  _gameList Der zu vergleichende Spieltag.
      * @return           true, Spieltag liegt vor dem übergebenen Spieltag; false sonst.
      */
-    public boolean isBefore(final GameList _gameList) {
+    public boolean isBefore(final GameListEntity _gameList) {
         if (getIndex() < _gameList.getIndex()) {
             return true;
         } else {
@@ -387,7 +387,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      * @param  gd Der zu vergleichende Spieltag.
      * @return    true, Spieltag liegt nach dem übergebenen Spieltag; false sonst.
      */
-    public boolean isAfter(final GameList gd) {
+    public boolean isAfter(final GameListEntity gd) {
         if (getIndex() > gd.getIndex()) {
             return true;
         } else {
@@ -402,7 +402,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      */
     public LocalDate findBestRoundDate() {
         List<ZonedDateTime> matchDates = new ArrayList<>();
-        for (Game match : gameList) {
+        for (GameEntity match : gameList) {
             matchDates.add(match.getDateTime());
         }
 
@@ -477,7 +477,7 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
      *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
-    public int compareTo(final GameList _round) {
+    public int compareTo(final GameListEntity _round) {
         if (this.getIndex() < _round.getIndex())
             return -1;
         else if (this.getIndex() > _round.getIndex())
@@ -499,10 +499,10 @@ public class GameList extends AbstractStorageObject implements Comparable<GameLi
     public boolean equals(Object object) {
         if (object == null) {
             return false;
-        } else if (!(object instanceof GameList)) {
+        } else if (!(object instanceof GameListEntity)) {
             return false;
         } else {
-            GameList other = (GameList) object;
+            GameListEntity other = (GameListEntity) object;
             return other.getId().equals(this.getId());
         }
     }

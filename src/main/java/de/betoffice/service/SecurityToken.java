@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Objects;
 
 import de.betoffice.storage.user.RoleType;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * I don´t know. But something to hold session data.
@@ -39,7 +39,7 @@ import de.betoffice.storage.user.entity.User;
 public class SecurityToken {
 
 	private final String token;
-	private final User user;
+	private final UserEntity user;
 	private final List<RoleType> roleTypes;
 	private final ZonedDateTime loginTime;
 
@@ -51,7 +51,7 @@ public class SecurityToken {
 	 * @param _roleTypes Role of the user
 	 * @param _loginTime Zeitpunkt des einloggens.
 	 */
-	public SecurityToken(String _token, User _user, List<RoleType> _roleTypes, ZonedDateTime _loginTime) {
+	public SecurityToken(String _token, UserEntity _user, List<RoleType> _roleTypes, ZonedDateTime _loginTime) {
 		Objects.nonNull(_token);
 		Objects.nonNull(_user);
 		Objects.nonNull(_roleTypes);
@@ -67,7 +67,7 @@ public class SecurityToken {
 		return token;
 	}
 
-	public User getUser() {
+	public UserEntity getUser() {
 		return user;
 	}
 

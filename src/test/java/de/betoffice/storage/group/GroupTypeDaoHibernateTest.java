@@ -35,9 +35,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.storage.group.dao.GroupTypeDaoHibernate;
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.SeasonDao;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 
 /**
@@ -60,7 +60,7 @@ class GroupTypeDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testGroupTypeDaoHibernateFindAll() {
-        List<GroupType> groupTypes = groupTypeDao.findAll();
+        List<GroupTypeEntity> groupTypes = groupTypeDao.findAll();
         assertEquals(3, groupTypes.size());
         assertEquals("1. Liga", groupTypes.get(0).getName());
         assertEquals("2. Liga", groupTypes.get(1).getName());
@@ -69,8 +69,8 @@ class GroupTypeDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testGroupTypeDaoHibernateFindBySeason() {
-        Optional<Season> season = seasonDao.find(SeasonReference.of("1000", "4711"));
-        List<GroupType> findBySeason = groupTypeDao.findBySeason(season.get());
+        Optional<SeasonEntity> season = seasonDao.find(SeasonReference.of("1000", "4711"));
+        List<GroupTypeEntity> findBySeason = groupTypeDao.findBySeason(season.get());
         assertEquals("1. Liga", findBySeason.get(0).getName());
         assertEquals("2. Liga", findBySeason.get(1).getName());
         assertEquals(2, findBySeason.size());

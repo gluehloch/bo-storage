@@ -52,7 +52,7 @@ import de.betoffice.storage.user.RoleType;
  */
 @Entity
 @Table(name = "bo_user")
-public class User extends AbstractStorageObject {
+public class UserEntity extends AbstractStorageObject {
 
     /** serial version id */
     private static final long serialVersionUID = -1806113679051281041L;
@@ -125,7 +125,7 @@ public class User extends AbstractStorageObject {
     /**
      * Defaultkonstruktor.
      */
-    public User() {
+    public UserEntity() {
     }
 
     /**
@@ -133,7 +133,7 @@ public class User extends AbstractStorageObject {
      *
      * @param _nickname
      */
-    public User(Nickname _nickname) {
+    public UserEntity(Nickname _nickname) {
         nickname = _nickname;
     }
 
@@ -150,7 +150,7 @@ public class User extends AbstractStorageObject {
      * @param aIsAuto     Automat?
      * @param aIsExcluded Ausgeschlossen?
      */
-    public User(Nickname nickname, String aName, String aSurname, String aMail, String aPhone, String aPwd,
+    public UserEntity(Nickname nickname, String aName, String aSurname, String aMail, String aPhone, String aPwd,
             String aTitle, boolean aIsAuto, boolean aIsExcluded) {
 
         setName(aName);
@@ -436,14 +436,14 @@ public class User extends AbstractStorageObject {
         this.changeSend = 0;
     }
 
-    public User abortEmailChange() {
+    public UserEntity abortEmailChange() {
         this.changeToken = null;
         this.changeEmail = null;
         this.changeSend = 0;
         return this;
     }
 
-    public User acceptEmailChange() {
+    public UserEntity acceptEmailChange() {
         this.email = this.changeEmail;
         this.changeToken = null;
         this.changeEmail = null;
@@ -520,10 +520,10 @@ public class User extends AbstractStorageObject {
     public boolean equals(Object object) {
         if (object == null) {
             return false;
-        } else if (!(object instanceof User)) {
+        } else if (!(object instanceof UserEntity)) {
             return false;
         } else {
-            User user = (User) object;
+            UserEntity user = (UserEntity) object;
             return (user.getNickname().equals(getNickname()));
         }
     }

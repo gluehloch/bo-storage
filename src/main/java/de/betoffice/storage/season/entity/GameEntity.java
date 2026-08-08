@@ -45,7 +45,7 @@ import org.hibernate.annotations.TimeZoneStorage;
 import org.hibernate.annotations.TimeZoneStorageType;
 
 import de.betoffice.storage.AbstractStorageObject;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Kapselt alle Daten eines Fussballspiels.
@@ -54,7 +54,7 @@ import de.betoffice.storage.team.entity.Team;
  */
 @Entity
 @Table(name = "bo_game")
-public class Game extends AbstractStorageObject implements Comparable<Game> {
+public class GameEntity extends AbstractStorageObject implements Comparable<GameEntity> {
 
     /** serial version id */
     private static final long serialVersionUID = 8861153553430553696L;
@@ -84,17 +84,17 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
     /** Die zugehörige Gruppe. */
     @ManyToOne
     @JoinColumn(name = "bo_group_ref")
-    private Group group;
+    private GroupEntity group;
 
     /** Die Heimmannschaft. */
     @ManyToOne
     @JoinColumn(name = "bo_hometeam_ref")
-    private Team homeTeam;
+    private TeamEntity homeTeam;
 
     /** Die Gastmannschaft. */
     @ManyToOne
     @JoinColumn(name = "bo_guestteam_ref")
-    private Team guestTeam;
+    private TeamEntity guestTeam;
 
     /** Spiel beendet? */
     @Column(name = "bo_isplayed")
@@ -131,18 +131,18 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     @ManyToOne
     @JoinColumn(name = "bo_location_ref")
-    private Location location;
+    private LocationEntity location;
 
     @Column(name = "bo_index")
     private int index;
 
     @ManyToOne
     @JoinColumn(name = "bo_gamelist_ref")
-    private GameList gameList;
+    private GameListEntity gameList;
 
     @OneToMany(mappedBy = "game")
     @OrderBy("bo_index")
-    private List<Goal> goals = new ArrayList<>();
+    private List<GoalEntity> goals = new ArrayList<>();
 
     /** http://www.openligadb.de */
     @Column(name = "bo_openligaid")
@@ -154,7 +154,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     // -- Construction --------------------------------------------------------
 
-    public Game() {
+    public GameEntity() {
     }
 
     // -- id ------------------------------------------------------------------
@@ -210,7 +210,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *
      * @hibernate.many-to-one column="bo_group_ref" cascade="none"
      */
-    public Group getGroup() {
+    public GroupEntity getGroup() {
         return group;
     }
 
@@ -220,7 +220,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * @param value
      *            Die Gruppe.
      */
-    public void setGroup(final Group value) {
+    public void setGroup(final GroupEntity value) {
         group = value;
     }
 
@@ -233,7 +233,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *
      * @hibernate.many-to-one column="bo_hometeam_ref" cascade="none"
      */
-    public Team getHomeTeam() {
+    public TeamEntity getHomeTeam() {
         return homeTeam;
     }
 
@@ -243,7 +243,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * @param value
      *            Die Heimmannschaft.
      */
-    public void setHomeTeam(final Team value) {
+    public void setHomeTeam(final TeamEntity value) {
         homeTeam = value;
     }
 
@@ -256,7 +256,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *
      * @hibernate.many-to-one column="bo_guestteam_ref" cascade="none"
      */
-    public Team getGuestTeam() {
+    public TeamEntity getGuestTeam() {
         return guestTeam;
     }
 
@@ -266,7 +266,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * @param value
      *            Die Gastmannschaft.
      */
-    public void setGuestTeam(final Team value) {
+    public void setGuestTeam(final TeamEntity value) {
         guestTeam = value;
     }
 
@@ -371,11 +371,11 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     // -- location -------------------------------------------------------------
 
-    public Location getLocation() {
+    public LocationEntity getLocation() {
         return location;
     }
 
-    public void setLocation(Location _location) {
+    public void setLocation(LocationEntity _location) {
         location = _location;
     }
 
@@ -413,23 +413,23 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      *                        not-null="false"
      *                        class="de.betoffice.storage.GameList"
      */
-    public GameList getGameList() {
+    public GameListEntity getGameList() {
         return gameList;
     }
 
     /**
      * Setzt den Spieltag für dieses Spiel. Wird gesetzt, wenn Game einer
      * GameList zugeordnet wird, d.h. der Aufruf erfolgt aus der Methode
-     * {@link GameList#addGame(Game)}.
+     * {@link GameListEntity#addGame(GameEntity)}.
      *
      * @param value
      *            Der Spieltag. Der Parameter kann <code>null</code> sein. In
      *            diesem Fall wird eine Spielpaarung aus einem Spieltag
      *            gelöscht.
      *
-     * @see GameList#addGame(Game)
+     * @see GameListEntity#addGame(GameEntity)
      */
-    protected void setGameList(final GameList value) {
+    protected void setGameList(final GameListEntity value) {
         gameList = value;
     }
 
@@ -461,15 +461,15 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
 
     // -- goals ---------------------------------------------------------------
 
-    public List<Goal> getGoals() {
+    public List<GoalEntity> getGoals() {
         return goals;
     }
 
-    protected void setGoals(List<Goal> _goals) {
+    protected void setGoals(List<GoalEntity> _goals) {
         goals = _goals;
     }
 
-    public void addGoal(Goal goal) {
+    public void addGoal(GoalEntity goal) {
         goals.add(goal);
     }
 
@@ -532,7 +532,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Game other = (Game) obj;
+        GameEntity other = (GameEntity) obj;
         return id != null && id.equals(other.getId());
     }
 
@@ -543,7 +543,7 @@ public class Game extends AbstractStorageObject implements Comparable<Game> {
      * 
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
-    public int compareTo(final Game _game) {
+    public int compareTo(final GameEntity _game) {
         if (this.getIndex() < _game.getIndex())
             return -1;
         else if (this.getIndex() > _game.getIndex())

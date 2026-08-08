@@ -34,7 +34,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import de.betoffice.storage.AbstractStorageObject;
-import de.betoffice.storage.season.entity.Location;
+import de.betoffice.storage.season.entity.LocationEntity;
 import de.betoffice.storage.team.TeamType;
 
 /**
@@ -44,7 +44,7 @@ import de.betoffice.storage.team.TeamType;
  */
 @Entity
 @Table(name = "bo_team")
-public class Team extends AbstractStorageObject {
+public class TeamEntity extends AbstractStorageObject {
 
     /** serial version id */
     private static final long serialVersionUID = -3181346057831881080L;
@@ -82,14 +82,14 @@ public class Team extends AbstractStorageObject {
     /** Heimspiel Stadion */
     @ManyToOne
     @JoinColumn(name = "bo_location_ref")
-    private Location location;
+    private LocationEntity location;
 
     // -- Construction --------------------------------------------------------
 
     /**
      * Defaultkonstruktor.
      */
-    public Team() {
+    public TeamEntity() {
     }
 
     /**
@@ -97,11 +97,11 @@ public class Team extends AbstractStorageObject {
      *
      * @param value Der Mannschaftsname
      */
-    public Team(String value) {
+    public TeamEntity(String value) {
         this(value, null, null);
     }
 
-    public Team(String _name, String _longName, String _logo) {
+    public TeamEntity(String _name, String _longName, String _logo) {
         setName(_name);
         setLongName(_longName);
         setLogo(_logo);
@@ -134,8 +134,8 @@ public class Team extends AbstractStorageObject {
             return this;
         }
 
-        public Team build() {
-            var team = new Team();
+        public TeamEntity build() {
+            var team = new TeamEntity();
             team.setName(name);
             team.setLongName(longName);
             team.setLogo(logoResource);
@@ -279,7 +279,7 @@ public class Team extends AbstractStorageObject {
      * 
      * @return Das Heimspielstadion.
      */
-    public Location getLocation() {
+    public LocationEntity getLocation() {
         return location;
     }
 
@@ -288,7 +288,7 @@ public class Team extends AbstractStorageObject {
      * 
      * @param value Das Heimspielstadion.
      */
-    public void setLocation(Location value) {
+    public void setLocation(LocationEntity value) {
         location = value;
     }
 
@@ -327,10 +327,10 @@ public class Team extends AbstractStorageObject {
     public boolean equals(final Object object) {
         if (object == null) {
             return false;
-        } else if (!(object instanceof Team)) {
+        } else if (!(object instanceof TeamEntity)) {
             return false;
         } else {
-            Team team = (Team) object;
+            TeamEntity team = (TeamEntity) object;
             return (team.getName().equals(getName()));
         }
     }

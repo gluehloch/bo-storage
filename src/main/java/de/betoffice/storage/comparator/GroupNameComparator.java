@@ -27,17 +27,17 @@ package de.betoffice.storage.comparator;
 
 import java.util.Comparator;
 
-import de.betoffice.storage.season.entity.Group;
+import de.betoffice.storage.season.entity.GroupEntity;
 
 /**
- * Vergleicht zu {@link de.betoffice.storage.season.entity.Group}s über den Namen des
+ * Vergleicht zu {@link de.betoffice.storage.season.entity.GroupEntity}s über den Namen des
  * GroupTypes miteinander.
  * 
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
  * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
  *          +0200 (Sat, 27 Jul 2013) $
  */
-public class GroupNameComparator implements Comparator<Group> {
+public class GroupNameComparator implements Comparator<GroupEntity> {
 
     /**
      * Vergleicht zwei Gruppen miteinander.
@@ -48,7 +48,7 @@ public class GroupNameComparator implements Comparator<Group> {
      *            Eine Gruppe.
      * @return -1, 0 oder +1. Vergleich der Gruppennamen.
      */
-    public int compare(Group group1, Group group2) {
+    public int compare(GroupEntity group1, GroupEntity group2) {
         return (group1.getGroupType().getName().compareTo(group2.getGroupType()
                 .getName()));
     }

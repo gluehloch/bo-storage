@@ -42,7 +42,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 import de.dbload.csv.writer.ResourceWriter;
 
 /**
@@ -69,34 +69,34 @@ class TeamDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testTeamDaoOpenligaidFinder() {
-        Optional<Team> rwe = teamDao.findByOpenligaid(10);
+        Optional<TeamEntity> rwe = teamDao.findByOpenligaid(10);
         assertThat(rwe.get().getName()).isEqualTo("RWE");
-        Optional<Team> rwo = teamDao.findByOpenligaid(20);
+        Optional<TeamEntity> rwo = teamDao.findByOpenligaid(20);
         assertThat(rwo.get().getName()).isEqualTo("RWO");
-        Optional<Team> deutschland = teamDao.findByOpenligaid(30);
+        Optional<TeamEntity> deutschland = teamDao.findByOpenligaid(30);
         assertThat(deutschland.get().getName()).isEqualTo("Deutschland");
-        Optional<Team> frankreich = teamDao.findByOpenligaid(40);
+        Optional<TeamEntity> frankreich = teamDao.findByOpenligaid(40);
         assertThat(frankreich.get().getName()).isEqualTo("Frankreich");
     }
 
     @Test
     void testTeamDaoFinder() throws Exception {
-        List<Team> teams = teamDao.findAll();
+        List<TeamEntity> teams = teamDao.findAll();
         assertThat(teams).hasSize(4);
 
-        Team rwe = teamDao.findById(1);
+        TeamEntity rwe = teamDao.findById(1);
         assertThat(rwe.getName()).isEqualTo("RWE");
         assertThat(rwe.getTeamType()).isEqualTo(TeamType.DFB);
 
-        Team rwo = teamDao.findById(2);
+        TeamEntity rwo = teamDao.findById(2);
         assertThat(rwo.getName()).isEqualTo("RWO");
         assertThat(rwo.getTeamType()).isEqualTo(TeamType.DFB);
 
-        Team deutschland = teamDao.findById(3);
+        TeamEntity deutschland = teamDao.findById(3);
         assertThat(deutschland.getName()).isEqualTo("Deutschland");
         assertThat(deutschland.getTeamType()).isEqualTo(TeamType.FIFA);
 
-        Team frankreich = teamDao.findById(4);
+        TeamEntity frankreich = teamDao.findById(4);
         assertThat(frankreich.getName()).isEqualTo("Frankreich");
         assertThat(frankreich.getTeamType()).isEqualTo(TeamType.FIFA);
 
@@ -116,14 +116,14 @@ class TeamDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void teamDaoFilterFinder() {
-        Team rwe = teamDao.findByOpenligaid(10).orElseThrow();
-        List<Team> teams = teamDao.findTeams(Optional.empty(), "rwe");
+        TeamEntity rwe = teamDao.findByOpenligaid(10).orElseThrow();
+        List<TeamEntity> teams = teamDao.findTeams(Optional.empty(), "rwe");
         assertThat(teams).isNotEmpty().containsExactly(rwe);
     }
 
     @Test
     void testTeamDaoFindAll() {
-        List<Team> teams = teamDao.findAll();
+        List<TeamEntity> teams = teamDao.findAll();
         assertEquals(4, teams.size());
         assertEquals("Deutschland", teams.get(0).getName());
         assertEquals("Frankreich", teams.get(1).getName());
@@ -133,7 +133,7 @@ class TeamDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testTeamDaoFindTeam() {
-        Optional<Team> team = teamDao.findByName("RWE");
+        Optional<TeamEntity> team = teamDao.findByName("RWE");
         assertEquals("RWE", team.get().getName());
         team = teamDao.findByName("RWO");
         assertEquals("RWO", team.get().getName());
@@ -141,7 +141,7 @@ class TeamDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testTeamDaoFindTeams() {
-        List<Team> teams = teamDao.findTeams(TeamType.DFB);
+        List<TeamEntity> teams = teamDao.findTeams(TeamType.DFB);
         assertEquals(2, teams.size());
         assertEquals("RWE", teams.get(0).getName());
         assertEquals(TeamType.DFB, teams.get(0).getTeamType());

@@ -30,7 +30,7 @@ package de.betoffice.storage;
  * 
  * @author Andre Winkler
  */
-public interface StorageObject {
+public interface EntityId {
 
     Long getId();
 

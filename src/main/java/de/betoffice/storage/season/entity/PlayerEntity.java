@@ -44,7 +44,7 @@ import de.betoffice.storage.AbstractStorageObject;
  */
 @Entity
 @Table(name = "bo_player")
-public class Player extends AbstractStorageObject {
+public class PlayerEntity extends AbstractStorageObject {
 
     private static final long serialVersionUID = 7264908918810836616L;
 
@@ -64,7 +64,7 @@ public class Player extends AbstractStorageObject {
 
     @OneToMany
     @JoinColumn(name = "bo_player_ref")
-    private Set<Goal> goals = new HashSet<>();
+    private Set<GoalEntity> goals = new HashSet<>();
 
     /**
      * @return the id
@@ -114,7 +114,7 @@ public class Player extends AbstractStorageObject {
     /**
      * @return the goals
      */
-    public Set<Goal> getGoals() {
+    public Set<GoalEntity> getGoals() {
         return goals;
     }
 
@@ -122,7 +122,7 @@ public class Player extends AbstractStorageObject {
      * @param goals
      *            the goals to set
      */
-    public void setGoals(Set<Goal> goals) {
+    public void setGoals(Set<GoalEntity> goals) {
         this.goals = goals;
     }
 

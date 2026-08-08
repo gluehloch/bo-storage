@@ -28,17 +28,17 @@ import java.util.List;
 import java.util.Optional;
 
 import de.betoffice.storage.community.CommonDao;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 
 /**
  * DAO für das persistente Verhalten von Spieltagen.
  *
  * @author by Andre Winkler
  */
-public interface RoundDao extends CommonDao<GameList> {
+public interface RoundDao extends CommonDao<GameListEntity> {
 
     /**
      * Liefert alle Spieltage einer Meisterschaft. Die Spiele der Spieltage werden nicht geladen.
@@ -46,7 +46,7 @@ public interface RoundDao extends CommonDao<GameList> {
      * @param  season Die Meisterschaft dessen Spieltage gesucht werden.
      * @return        Die Spieltage der gesuchten Meisterschaft.
      */
-    List<GameList> findRounds(Season season);
+    List<GameListEntity> findRounds(SeasonEntity season);
 
     /**
      * Liefert alle Spieltage inklusive der Spiele einer Gruppe.
@@ -54,7 +54,7 @@ public interface RoundDao extends CommonDao<GameList> {
      * @param  group Die Gruppe
      * @return       Die Spieltage dieser Gruppe
      */
-    List<GameList> findRounds(Group group);
+    List<GameListEntity> findRounds(GroupEntity group);
 
     /**
      * Liefert einen Spieltag einer Meisterschaft. Die Spiele des Spieltags werden ebenfalls geladen.
@@ -63,7 +63,7 @@ public interface RoundDao extends CommonDao<GameList> {
      * @param  index  Der Index des Spieltags (0 .. size-1).
      * @return        Der Spieltag.
      */
-    Optional<GameList> findRound(Season season, int index);
+    Optional<GameListEntity> findRound(SeasonEntity season, int index);
 
     /**
      * Sucht nach einem Spieltag zu dem uerbgebenen Spiel. Die Spiele werden nicht geladen.
@@ -71,16 +71,16 @@ public interface RoundDao extends CommonDao<GameList> {
      * @param  game Das Spiel.
      * @return      Der Spieltag zu dem dieses Spiel gehört.
      */
-    Optional<GameList> findRoundByGame(Game game);
+    Optional<GameListEntity> findRoundByGame(GameEntity game);
 
     /**
      * Liefert einen Spieltag einer Meisterschaft mit allen Spielen.
      * 
-     * @see            #findRound(Season, int)
+     * @see            #findRound(SeasonEntity, int)
      * @param  roundId Die ID des Spieltags
      * @return         Der Spieltag
      */
-    Optional<GameList> findRound(long roundId);
+    Optional<GameListEntity> findRound(long roundId);
 
     /**
      * Liefert den nächsten Spieltag der Meisterschaft.
@@ -113,7 +113,7 @@ public interface RoundDao extends CommonDao<GameList> {
      * @param  date Das Bezugsdatum.
      * @return      Das Spiel zu diesem Datum.
      */
-    List<Game> findGames(ZonedDateTime date);
+    List<GameEntity> findGames(ZonedDateTime date);
 
     /**
      * Liefert den nächsten zu tippenden Spieltag.
@@ -147,7 +147,7 @@ public interface RoundDao extends CommonDao<GameList> {
      * @param  season Die betreffende Meisterschaft
      * @return        der letzte Spieltag der Meisterschaft
      */
-    Optional<GameList> findLastRound(Season season);
+    Optional<GameListEntity> findLastRound(SeasonEntity season);
 
     /**
      * Liefert die erste Runde einer Meisterschaft.
@@ -155,6 +155,6 @@ public interface RoundDao extends CommonDao<GameList> {
      * @param  season Die betrefffende Meisterschaft
      * @return        der erste Spieltag der Meisterschaft
      */
-    Optional<GameList> findFirstRound(Season season);
+    Optional<GameListEntity> findFirstRound(SeasonEntity season);
 
 }
