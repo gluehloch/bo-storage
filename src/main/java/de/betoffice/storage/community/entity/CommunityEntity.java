@@ -43,7 +43,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 import de.betoffice.storage.AbstractStorageObject;
-import de.betoffice.storage.season.entity.GroupEntity;
 import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.user.entity.UserEntity;
 

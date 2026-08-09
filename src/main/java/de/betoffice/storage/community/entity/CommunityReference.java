@@ -40,7 +40,7 @@ public class CommunityReference {
 
     @Override
     public int hashCode() {
-        return Objects.hash(shortName);
+        return Objects.hash(shortName.toLowerCase());
     }
 
     @Override
@@ -52,7 +52,7 @@ public class CommunityReference {
         if (getClass() != obj.getClass())
             return false;
         CommunityReference other = (CommunityReference) obj;
-        return StringUtils.equalsIgnoreCase(shortName, other.shortName);
+        return shortName.equalsIgnoreCase(other.getShortName());
     }
 
 }
