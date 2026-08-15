@@ -1,5 +1,6 @@
 package de.betoffice.storage.community.entity;
 
+import java.util.Locale;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -40,7 +41,7 @@ public class CommunityReference {
 
     @Override
     public int hashCode() {
-        return Objects.hash(shortName.toLowerCase());
+        return Objects.hash(shortName.toLowerCase(Locale.ROOT));
     }
 
     @Override

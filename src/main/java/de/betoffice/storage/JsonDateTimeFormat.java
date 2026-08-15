@@ -1,7 +1,7 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2013-2026 by Andre Winkler. All
- * rights reserved.
+ * Project betoffice-jweb Copyright (c) 2015-2026 by Andre Winkler. All rights
+ * reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
@@ -21,18 +21,12 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.betoffice.storage.season;
+package de.betoffice.storage;
 
-/**
- * Ein Abschnitt einer Meisterschaft. Z.B. die Spieltag 10.-20.
- * 
- * @author            Andre Winkler
- *
- * @param  startIndex Start-Index (10. Spieltag). Gezählt wird mit 0.
- * @param  endIndex   End-Index (20. Spieltag).
- */
-public record SeasonRange(int startIndex, int endIndex) {
-    public static SeasonRange of(int startIndex, int endIndex) {
-        return new SeasonRange(startIndex, endIndex);
-    }
+public class JsonDateTimeFormat {
+
+    public static final String DATETIME_PATTERN = "yyyy-MM-dd'T'HH:mmZ";
+    // public static final String DATETIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSz";
+    public static final String TIMZONE = "Europe/Berlin";
+
 }

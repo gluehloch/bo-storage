@@ -23,16 +23,42 @@
 
 package de.betoffice.storage.season;
 
-/**
- * Ein Abschnitt einer Meisterschaft. Z.B. die Spieltag 10.-20.
- * 
- * @author            Andre Winkler
- *
- * @param  startIndex Start-Index (10. Spieltag). Gezählt wird mit 0.
- * @param  endIndex   End-Index (20. Spieltag).
- */
-public record SeasonRange(int startIndex, int endIndex) {
-    public static SeasonRange of(int startIndex, int endIndex) {
-        return new SeasonRange(startIndex, endIndex);
+import java.time.ZonedDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import de.betoffice.storage.JsonDateTimeFormat;
+
+public class AddRoundJson {
+
+    private Long seasonId;
+    private Long groupTypeId;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JsonDateTimeFormat.DATETIME_PATTERN, timezone = JsonDateTimeFormat.TIMZONE)
+    private ZonedDateTime dateTime;
+
+    public Long getSeasonId() {
+        return seasonId;
     }
+
+    public void setSeasonId(Long seasonId) {
+        this.seasonId = seasonId;
+    }
+
+    public final Long getGroupTypeId() {
+        return groupTypeId;
+    }
+
+    public final void setGroupTypeId(Long groupTypeId) {
+        this.groupTypeId = groupTypeId;
+    }
+
+    public final ZonedDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public final void setDateTime(ZonedDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
 }

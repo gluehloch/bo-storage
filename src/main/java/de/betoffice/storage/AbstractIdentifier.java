@@ -1,7 +1,7 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2013-2026 by Andre Winkler. All
- * rights reserved.
+ * Project betoffice-jadmin Copyright (c) 2013-2016 by Andre Winkler. All rights
+ * reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
@@ -21,18 +21,30 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.betoffice.storage.season;
+package de.betoffice.storage;
 
 /**
- * Ein Abschnitt einer Meisterschaft. Z.B. die Spieltag 10.-20.
+ * Holds an ID.
  * 
- * @author            Andre Winkler
- *
- * @param  startIndex Start-Index (10. Spieltag). Gezählt wird mit 0.
- * @param  endIndex   End-Index (20. Spieltag).
+ * @author Andre Winkler
  */
-public record SeasonRange(int startIndex, int endIndex) {
-    public static SeasonRange of(int startIndex, int endIndex) {
-        return new SeasonRange(startIndex, endIndex);
+public abstract class AbstractIdentifier implements EntityId {
+
+    private Long id;
+
+    /**
+     * @return the id
+     */
+    @Override
+    public final Long getId() {
+        return id;
     }
+
+    /**
+     * @param id the id to set
+     */
+    public final void setId(Long id) {
+        this.id = id;
+    }
+
 }

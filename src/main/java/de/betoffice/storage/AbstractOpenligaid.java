@@ -1,7 +1,7 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2013-2026 by Andre Winkler. All
- * rights reserved.
+ * Project betoffice-jadmin Copyright (c) 2013-2023 by Andre Winkler. All rights
+ * reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
@@ -20,19 +20,30 @@
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
-
-package de.betoffice.storage.season;
+package de.betoffice.storage;
 
 /**
- * Ein Abschnitt einer Meisterschaft. Z.B. die Spieltag 10.-20.
- * 
- * @author            Andre Winkler
+ * The openligadb id. Could be <code>null</code>.
  *
- * @param  startIndex Start-Index (10. Spieltag). Gezählt wird mit 0.
- * @param  endIndex   End-Index (20. Spieltag).
+ * @author Andre Winkler
  */
-public record SeasonRange(int startIndex, int endIndex) {
-    public static SeasonRange of(int startIndex, int endIndex) {
-        return new SeasonRange(startIndex, endIndex);
+public abstract class AbstractOpenligaid extends AbstractIdentifier implements OpenligaObject {
+
+    private Long openligaid;
+
+    /**
+     * @return the openligaid
+     */
+    public final Long getOpenligaid() {
+        return openligaid;
     }
+
+    /**
+     * @param openligaid
+     *            the openligaid to set
+     */
+    public final void setOpenligaid(Long openligaid) {
+        this.openligaid = openligaid;
+    }
+
 }
