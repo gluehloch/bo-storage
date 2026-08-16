@@ -112,12 +112,12 @@ public class JsonBuilder {
     }
 
     public static GameDto toJson(GameEntity game) {
-        GameDto gameJson = GameJsonMapper.map(game, new GameDto());
+        GameDto gameJson = GameDtoMapper.map(game, new GameDto());
         return gameJson;
     }
 
     public static GameWithGoalsJson toGameWithGoalsJson(GameEntity game) {
-        GameWithGoalsJson gameJson = GameJsonMapper.map(game, new GameWithGoalsJson());
+        GameWithGoalsJson gameJson = GameDtoMapper.map(game, new GameWithGoalsJson());
         return gameJson;
     }
 

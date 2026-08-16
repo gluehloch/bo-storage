@@ -1,7 +1,7 @@
 /*
  * ============================================================================
- * Project betoffice-jweb-misc Copyright (c) 2013-2024 by Andre Winkler. All rights
- * reserved.
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
@@ -28,17 +28,15 @@ import java.util.function.Supplier;
 
 import de.betoffice.storage.season.GameDto;
 import de.betoffice.storage.season.GameResultDto;
-import de.betoffice.web.json.IGameJson;
-import de.betoffice.web.json.JsonBuilder;
 
 /**
  * Mapping of {@link Game} to {@link GameDto}.
  * 
  * @author Andre Winkler
  */
-public class GameJsonMapper {
+public class GameDtoMapper {
 
-    public static <T extends IGameJson> T map(GameEntity game, T gameJson) {
+    public static GameDto map(GameEntity game, GameDto gameJson) {
         gameJson.setId(game.getId());
         gameJson.setRoundId(game.getGameList().getId());
         gameJson.setOpenligaid(game.getOpenligaid());
@@ -67,9 +65,9 @@ public class GameJsonMapper {
         return gameJson;
     }
 
-    public static <T extends IGameJson> List<T> map(List<GameEntity> games, Supplier<T> supplier) {
+    public static List<GameDto> map(List<GameEntity> games, Supplier<GameDto> supplier) {
         return games.stream().map(game -> {
-            T json = supplier.get();
+            GameDto json = supplier.get();
             json = map(game, json);
             return json;
         }).toList();

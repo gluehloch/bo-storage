@@ -36,7 +36,7 @@ public class HistoryTeamVsTeamJsonMapper {
     public static HistoryTeamVsTeamJson map(List<GameEntity> games) {
         HistoryTeamVsTeamJson history = new HistoryTeamVsTeamJson();
         for (GameEntity game : games) {
-            TeamVsTeamJson json = new TeamVsTeamJson();
+            TeamVsTeamDto json = new TeamVsTeamDto();
             json.setHomeTeamName(game.getHomeTeam().getName());
             json.setGuestTeamName(game.getGuestTeam().getName());
             json.setHomeTeamGoals(game.getResult().getHomeGoals());

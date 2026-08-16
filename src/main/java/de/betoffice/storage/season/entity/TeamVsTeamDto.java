@@ -34,7 +34,7 @@ import de.betoffice.storage.JsonDateTimeFormat;
  * Team versus team info.
  * 
  */
-public class TeamVsTeamJson {
+public class TeamVsTeamDto {
 
     private String homeTeamName;
     private String guestTeamName;

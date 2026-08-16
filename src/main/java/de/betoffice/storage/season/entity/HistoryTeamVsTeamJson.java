@@ -36,13 +36,13 @@ import de.betoffice.web.json.TeamVsTeamJson;
  */
 public class HistoryTeamVsTeamJson {
 
-    private List<TeamVsTeamJson> games = new ArrayList<>();
+    private List<TeamVsTeamDto> games = new ArrayList<>();
 
-    public List<TeamVsTeamJson> getGames() {
+    public List<TeamVsTeamDto> getGames() {
         return games;
     }
 
-    public void addGame(TeamVsTeamJson teamVsTeamJson) {
+    public void addGame(TeamVsTeamDto teamVsTeamJson) {
         games.add(teamVsTeamJson);
     }
 
@@ -50,7 +50,7 @@ public class HistoryTeamVsTeamJson {
     public String toString() {
         StringBuilder sb = new StringBuilder("HistoryTeamVsTeamJson [");
         sb.append("]");
-        for (TeamVsTeamJson match : games) {
+        for (TeamVsTeamDto match : games) {
             sb.append("(").append(match).append(")");
         }
         return sb.toString();
