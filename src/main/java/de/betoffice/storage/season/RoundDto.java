@@ -33,8 +33,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import de.betoffice.storage.AbstractIdentifier;
 import de.betoffice.storage.JsonDateTimeFormat;
-import de.betoffice.web.json.GameJson;
-import de.betoffice.web.json.GroupTypeJson;
+import de.betoffice.storage.group.GroupTypeDto;
 
 /**
  * JSON data for a round.

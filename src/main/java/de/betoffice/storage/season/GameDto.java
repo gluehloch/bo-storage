@@ -29,19 +29,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import de.betoffice.storage.AbstractOpenligaid;
 import de.betoffice.storage.JsonDateTimeFormat;
 import de.betoffice.storage.group.GroupTypeDto;
 import de.betoffice.storage.team.TeamDto;
-import de.betoffice.web.json.IGameJson;
 
 /**
  * The game data as JSON.
  * 
  * @author Andre Winkler
  */
-public class GameDto extends AbstractOpenligaid implements IGameJson {
+@JsonInclude(Include.NON_NULL)
+public class GameDto extends AbstractOpenligaid {
 
     private int index;
     private Long roundId;
@@ -58,141 +60,127 @@ public class GameDto extends AbstractOpenligaid implements IGameJson {
     private boolean finished;
     private boolean ko;
 
-    private List<GameTippJson> tipps = new ArrayList<>();
+    private List<GoalDto> goals = new ArrayList<>();
+    private List<GameTippDto> tipps = new ArrayList<>();
 
-    @Override
     public int getIndex() {
         return index;
     }
 
-    @Override
     public void setIndex(int index) {
         this.index = index;
     }
 
-    @Override
+
     public Long getRoundId() {
         return roundId;
     }
 
-    @Override
     public void setRoundId(Long roundId) {
         this.roundId = roundId;
     }
 
-    @Override
     public ZonedDateTime getDateTime() {
         return dateTime;
     }
 
-    @Override
     public void setDateTime(ZonedDateTime dateTime) {
         this.dateTime = dateTime;
     }
 
-    @Override
     public TeamDto getHomeTeam() {
         return homeTeam;
     }
 
-    @Override
     public void setHomeTeam(TeamDto homeTeam) {
         this.homeTeam = homeTeam;
     }
 
-    @Override
     public TeamDto getGuestTeam() {
         return guestTeam;
     }
 
-    @Override
     public GroupTypeDto getGroupType() {
         return groupType;
     }
 
-    @Override
     public void setGroupType(GroupTypeDto groupType) {
         this.groupType = groupType;
     }
 
-    @Override
     public void setGuestTeam(TeamDto guestTeam) {
         this.guestTeam = guestTeam;
     }
 
-    @Override
     public GameResultDto getHalfTimeResult() {
         return halfTimeResult;
     }
 
-    @Override
     public void setHalfTimeResult(GameResultDto halfTimeResult) {
         this.halfTimeResult = halfTimeResult;
     }
 
-    @Override
     public GameResultDto getResult() {
         return result;
     }
 
-    @Override
     public void setResult(GameResultDto result) {
         this.result = result;
     }
 
-    @Override
     public GameResultDto getOvertimeResult() {
         return overtimeResult;
     }
 
-    @Override
     public void setOvertimeResult(GameResultDto overtimeResult) {
         this.overtimeResult = overtimeResult;
     }
 
-    @Override
     public GameResultDto getPenaltyResult() {
         return penaltyResult;
     }
 
-    @Override
     public void setPenaltyResult(GameResultDto penaltyResult) {
         this.penaltyResult = penaltyResult;
     }
 
-    @Override
     public boolean isFinished() {
         return finished;
     }
 
-    @Override
     public void setFinished(boolean finished) {
         this.finished = finished;
     }
 
-    @Override
     public boolean isKo() {
         return ko;
     }
 
-    @Override
     public void setKo(boolean ko) {
         this.ko = ko;
     }
 
-    public List<GameTippJson> getTipps() {
+    public List<GameTippDto> getTipps() {
         return tipps;
     }
 
-    public void setTipps(List<GameTippJson> tipps) {
+    public void setTipps(List<GameTippDto> tipps) {
         this.tipps.clear();
         this.tipps.addAll(tipps);
     }
 
-    public void addTipp(GameTippJson tipp) {
+    public void addTipp(GameTippDto tipp) {
         this.tipps.add(tipp);
     }
 
+    public List<GoalDto> getGoals() {
+        return goals;
+    }
+
+    public void setGoals(List<GoalDto> goals) {
+        this.goals = goals;
+    }
+    
     @Override
     public String toString() {
         return "GameDto [index=" + index + ", roundId=" + roundId
