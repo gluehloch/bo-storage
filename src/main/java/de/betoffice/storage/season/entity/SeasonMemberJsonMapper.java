@@ -26,8 +26,6 @@ package de.betoffice.storage.season.entity;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.security.core.userdetails.User;
-
 import de.betoffice.storage.user.entity.UserEntity;
 
 /**

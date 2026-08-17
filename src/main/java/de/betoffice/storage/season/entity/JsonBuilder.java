@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-jweb-misc Copyright (c) 2013-2024 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2013-2026 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -28,10 +28,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import de.betoffice.service.SecurityToken;
 import de.betoffice.storage.group.GroupTypeDto;
-import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.group.entity.GroupTypeDtoMapper;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.GameDto;
 import de.betoffice.storage.season.GameResultDto;
 import de.betoffice.storage.season.GameTippDto;
@@ -41,13 +40,11 @@ import de.betoffice.storage.season.TeamResultDto;
 import de.betoffice.storage.season.UserRankingDto;
 import de.betoffice.storage.team.TeamDto;
 import de.betoffice.storage.team.TeamResult;
-import de.betoffice.storage.team.entity.TeamEntity;
 import de.betoffice.storage.team.entity.TeamDtoMapper;
+import de.betoffice.storage.team.entity.TeamEntity;
 import de.betoffice.storage.tip.GameTippEntity;
 import de.betoffice.storage.user.UserResult;
 import de.betoffice.storage.user.entity.UserDtoMapper;
-import de.betoffice.web.json.SecurityTokenJson;
-import de.betoffice.web.json.SecurityTokenJsonMapper;
 
 /**
  * Create JSON objects.
@@ -116,8 +113,8 @@ public class JsonBuilder {
         return gameJson;
     }
 
-    public static GameWithGoalsJson toGameWithGoalsJson(GameEntity game) {
-        GameWithGoalsJson gameJson = GameDtoMapper.map(game, new GameWithGoalsJson());
+    public static GameDto toGameWithGoalsJson(GameEntity game) {
+        GameDto gameJson = GameDtoMapper.map(game, new GameDto());
         return gameJson;
     }
 

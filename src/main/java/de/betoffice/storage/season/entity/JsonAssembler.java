@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-jweb-misc Copyright (c) 2013-2017 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -24,13 +24,14 @@
 package de.betoffice.storage.season.entity;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import de.betoffice.storage.season.GameDto;
 import de.betoffice.storage.season.GameResultDto;
 import de.betoffice.storage.season.GameTippDto;
 import de.betoffice.storage.season.RoundDto;
-import de.betoffice.storage.season.DtoAssembler.SeasonAssembler;
+import de.betoffice.storage.season.SeasonDto;
 import de.betoffice.storage.tip.GameTippEntity;
 
 /**
@@ -39,6 +40,57 @@ import de.betoffice.storage.tip.GameTippEntity;
  * @author Andre Winkler
  */
 public class JsonAssembler {
+
+    public static class SeasonAssembler {
+        private SeasonEntity season;
+        private List<GameListEntity> rounds;
+        private GameListEntity currentRound;
+
+        private SeasonAssembler(SeasonEntity _season) {
+            season = _season;
+        }
+
+        public SeasonAssembler rounds() {
+            rounds = season.toGameList();
+            return this;
+        }
+
+        public SeasonAssembler rounds(List<GameListEntity> _rounds) {
+            rounds = _rounds;
+            return this;
+        }
+
+        public SeasonAssembler rounds(Predicate<GameListEntity> filter) {
+            rounds = season.toGameList(filter);
+            return this;
+        }
+
+        public SeasonAssembler currentRound(GameListEntity _currentRound) {
+            currentRound = _currentRound;
+            return this;
+        }
+
+        public SeasonAssembler currentRound(Optional<GameListEntity> _currentRound) {
+            return currentRound(_currentRound.orElse(null));
+        }
+
+        public SeasonDto assemble() {
+            SeasonDto seasonJson = JsonBuilder.toJson(season);
+            if (rounds == null || rounds.isEmpty()) {
+                seasonJson.getRounds().clear();
+            } else {
+                List<RoundDto> gameListJson = JsonBuilder.toJsonWithGameList(rounds);
+                seasonJson.getRounds().clear();
+                seasonJson.getRounds().addAll(gameListJson);
+            }
+
+            if (currentRound != null) {
+                seasonJson.setCurrentRoundId(currentRound.getId());
+            }
+
+            return seasonJson;
+        }
+    }
 
     public static class RoundAssembler {
         private GameListEntity round;
@@ -125,7 +177,7 @@ public class JsonAssembler {
                 // No games? Finished or what? I guess, it is finished.
                 finished = false;
             } else {
-                for (IGameJson game : round.getGames()) {
+                for (GameDto game : round.getGames()) {
                     finished = finished && game.isFinished();
                 }
             }
