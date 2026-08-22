@@ -51,7 +51,7 @@ import de.betoffice.storage.user.entity.UserDtoMapper;
  *
  * @author Andre Winkler
  */
-public class JsonBuilder {
+public class DtoBuilder {
 
     public static SeasonDto toJson(SeasonEntity  season) {
         return SeasonDtoMapper.map(season, new SeasonDto());
@@ -70,8 +70,8 @@ public class JsonBuilder {
     }
 
     public static RoundDto toJsonWithGames(GameListEntity gameList) {
-        RoundDto roundJson = JsonBuilder.toJson(gameList);
-        List<GameDto> gameJson = JsonBuilder.toJsonWithGames(gameList.unmodifiableList());
+        RoundDto roundJson = DtoBuilder.toJson(gameList);
+        List<GameDto> gameJson = DtoBuilder.toJsonWithGames(gameList.unmodifiableList());
         roundJson.getGames().addAll(gameJson);
         return roundJson;
     }
@@ -121,13 +121,13 @@ public class JsonBuilder {
     public static List<GameDto> toJsonWithGames(List<GameEntity> games) {
         List<GameDto> gameJsons = new ArrayList<>();
         for (GameEntity game : games) {
-            gameJsons.add(JsonBuilder.toJson(game));
+            gameJsons.add(DtoBuilder.toJson(game));
         }
         return gameJsons;
     }
 
     public static List<GameDto> toJsonWithGamesAndTipps(List<GameEntity> games, List<GameTippEntity> tipps) {
-        List<GameDto> gameJsons = games.stream().map(game -> JsonBuilder.toJson(game)).collect(Collectors.toList());
+        List<GameDto> gameJsons = games.stream().map(game -> DtoBuilder.toJson(game)).collect(Collectors.toList());
 
         gameJsons.stream().forEach(gameJson -> {
             tipps.stream().filter(t -> {
@@ -148,7 +148,7 @@ public class JsonBuilder {
     public static List<GameDto> toJsonWithGamesAndTipps(List<GameEntity> games, Set<GameTippEntity> tipps) {
         List<GameDto> gameJsons = new ArrayList<>();
         for (GameEntity game : games) {
-            GameDto gameJson = JsonBuilder.toJson(game);
+            GameDto gameJson = DtoBuilder.toJson(game);
             gameJsons.add(gameJson);
             for (GameTippEntity tipp : tipps) {
                 GameTippDto tippJson = toJson(tipp);

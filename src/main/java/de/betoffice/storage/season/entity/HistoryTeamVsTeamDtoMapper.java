@@ -23,34 +23,30 @@
 
 package de.betoffice.storage.season.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import de.betoffice.storage.season.HistoryTeamVsTeamDto;
+import de.betoffice.storage.season.TeamVsTeamDto;
+
 /**
- * Holds the history of some matches of two teams.
+ * Mapping
  *
  * @author Andre Winkler
  */
-public class HistoryTeamVsTeamJson {
+public class HistoryTeamVsTeamDtoMapper {
 
-    private List<TeamVsTeamDto> games = new ArrayList<>();
-
-    public List<TeamVsTeamDto> getGames() {
-        return games;
-    }
-
-    public void addGame(TeamVsTeamDto teamVsTeamJson) {
-        games.add(teamVsTeamJson);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("HistoryTeamVsTeamJson [");
-        sb.append("]");
-        for (TeamVsTeamDto match : games) {
-            sb.append("(").append(match).append(")");
+    public static HistoryTeamVsTeamDto map(List<GameEntity> games) {
+        HistoryTeamVsTeamDto history = new HistoryTeamVsTeamDto();
+        for (GameEntity game : games) {
+            TeamVsTeamDto json = new TeamVsTeamDto();
+            json.setHomeTeamName(game.getHomeTeam().getName());
+            json.setGuestTeamName(game.getGuestTeam().getName());
+            json.setHomeTeamGoals(game.getResult().getHomeGoals());
+            json.setGuestTeamGoals(game.getResult().getGuestGoals());
+            json.setMatchDate(game.getDateTime());
+            history.addGame(json);
         }
-        return sb.toString();
+        return history;
     }
 
 }

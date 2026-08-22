@@ -1,7 +1,7 @@
 /*
  * ============================================================================
- * Project betoffice-jweb-misc Copyright (c) 2016 by Andre Winkler. All rights
- * reserved.
+ * Project betoffice-storage Copyright (c) 2013-2026 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
@@ -34,7 +34,7 @@ import de.betoffice.storage.season.TeamResultDto;
  * 
  * @author Andre Winkler
  */
-public class GroupTeamTableJson {
+public class GroupTeamTableDto {
 
     private GroupTypeDto groupTypeJson;
 

@@ -39,7 +39,7 @@ import de.betoffice.storage.season.entity.GameEntity;
 import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.season.entity.GameResult;
 import de.betoffice.storage.season.entity.GroupEntity;
-import de.betoffice.storage.season.entity.JsonBuilder;
+import de.betoffice.storage.season.entity.DtoBuilder;
 import de.betoffice.storage.team.entity.TeamEntity;
 import de.betoffice.storage.tip.GameTippEntity;
 import de.betoffice.storage.tip.TippStatusType;
@@ -94,7 +94,7 @@ class GameTippJsonAssemblerTest {
         tipp.setTipp(GameResult.of(2, 1), TippStatusType.USER);
         gameTipps.add(tipp);
 
-        List<GameDto> gamesAndTipps = JsonBuilder.toJsonWithGamesAndTipps(games, gameTipps);
+        List<GameDto> gamesAndTipps = DtoBuilder.toJsonWithGamesAndTipps(games, gameTipps);
 
         assertThat(gamesAndTipps).hasSize(1);
         GameDto gameJson = gamesAndTipps.get(0);

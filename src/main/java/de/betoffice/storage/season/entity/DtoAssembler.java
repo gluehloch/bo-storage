@@ -39,7 +39,7 @@ import de.betoffice.storage.tip.GameTippEntity;
  * 
  * @author Andre Winkler
  */
-public class JsonAssembler {
+public class DtoAssembler {
 
     public static class SeasonAssembler {
         private SeasonEntity season;
@@ -75,11 +75,11 @@ public class JsonAssembler {
         }
 
         public SeasonDto assemble() {
-            SeasonDto seasonJson = JsonBuilder.toJson(season);
+            SeasonDto seasonJson = DtoBuilder.toJson(season);
             if (rounds == null || rounds.isEmpty()) {
                 seasonJson.getRounds().clear();
             } else {
-                List<RoundDto> gameListJson = JsonBuilder.toJsonWithGameList(rounds);
+                List<RoundDto> gameListJson = DtoBuilder.toJsonWithGameList(rounds);
                 seasonJson.getRounds().clear();
                 seasonJson.getRounds().addAll(gameListJson);
             }
@@ -141,24 +141,24 @@ public class JsonAssembler {
         }
 
         public RoundDto assemble() {
-            RoundDto roundJson = JsonBuilder.toJson(round);
+            RoundDto roundJson = DtoBuilder.toJson(round);
             if (games == null || games.isEmpty()) {
                 roundJson.getGames().clear();
             } else {
                 List<GameDto> gameJsons = null;
                 if (hasToAddEmptyTipp) {
-                    gameJsons = JsonBuilder.toJsonWithGames(games);
+                    gameJsons = DtoBuilder.toJsonWithGames(games);
                     for (GameDto gj : gameJsons) {
                         GameTippDto gameTippJson = new GameTippDto();
                         gameTippJson.setTipp(new GameResultDto());
                         gj.addTipp(gameTippJson);
                     }
                 } else if (tipps != null && !tipps.isEmpty()) {
-                    gameJsons = JsonBuilder.toJsonWithGamesAndTipps(games, tipps);
+                    gameJsons = DtoBuilder.toJsonWithGamesAndTipps(games, tipps);
                 } else if (hasToAddTipp) {
-                    gameJsons = JsonBuilder.toJsonWithGamesAndTipps(games, tipps);
+                    gameJsons = DtoBuilder.toJsonWithGamesAndTipps(games, tipps);
                 } else {
-                    gameJsons = JsonBuilder.toJsonWithGames(games);
+                    gameJsons = DtoBuilder.toJsonWithGames(games);
                 }
 
                 roundJson.getGames().clear();

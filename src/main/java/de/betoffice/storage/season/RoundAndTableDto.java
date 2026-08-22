@@ -21,20 +21,19 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.betoffice.storage.season.entity;
+package de.betoffice.storage.season;
 
-import de.betoffice.storage.group.entity.GroupTeamTableJson;
-import de.betoffice.storage.season.RoundDto;
+import de.betoffice.storage.group.entity.GroupTeamTableDto;
 
 /**
  * Round and table data.
  *
  * @author Andre Winkler
  */
-public class RoundAndTableJson {
+public class RoundAndTableDto {
 
     private RoundDto roundJson;
-    private GroupTeamTableJson groupTeamTableJsons;
+    private GroupTeamTableDto groupTeamTableJsons;
 
     /**
      * @return the roundJson
@@ -54,7 +53,7 @@ public class RoundAndTableJson {
     /**
      * @return the groupTeamTableJson
      */
-    public GroupTeamTableJson getGroupTeamTableJsons() {
+    public GroupTeamTableDto getGroupTeamTableJsons() {
         return groupTeamTableJsons;
     }
 
@@ -62,7 +61,7 @@ public class RoundAndTableJson {
      * @param groupTeamTableJson
      *            the groupTeamTableJson to set
      */
-    public void setGroupTeamTableJson(GroupTeamTableJson groupTeamTableJson) {
+    public void setGroupTeamTableJson(GroupTeamTableDto groupTeamTableJson) {
         groupTeamTableJsons = groupTeamTableJson;
     }
 

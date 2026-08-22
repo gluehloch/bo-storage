@@ -45,22 +45,22 @@ public class GameDtoMapper {
         gameJson.setKo(game.isKo());
         gameJson.setDateTime(game.getDateTime());
 
-        GameResultDto halfTimeGoals = JsonBuilder.toJson(game.getHalfTimeGoals());
+        GameResultDto halfTimeGoals = DtoBuilder.toJson(game.getHalfTimeGoals());
         gameJson.setHalfTimeResult(halfTimeGoals);
 
-        GameResultDto gameResult = JsonBuilder.toJson(game.getResult());
+        GameResultDto gameResult = DtoBuilder.toJson(game.getResult());
         gameJson.setResult(gameResult);
 
-        GameResultDto penaltyGoals = JsonBuilder.toJson(game.getPenaltyGoals());
+        GameResultDto penaltyGoals = DtoBuilder.toJson(game.getPenaltyGoals());
         gameJson.setPenaltyResult(penaltyGoals);
 
-        GameResultDto overtimeGoals = JsonBuilder.toJson(game.getOverTimeGoals());
+        GameResultDto overtimeGoals = DtoBuilder.toJson(game.getOverTimeGoals());
         gameJson.setOvertimeResult(overtimeGoals);
 
-        gameJson.setHomeTeam(JsonBuilder.toJson(game.getHomeTeam()));
-        gameJson.setGuestTeam(JsonBuilder.toJson(game.getGuestTeam()));
+        gameJson.setHomeTeam(DtoBuilder.toJson(game.getHomeTeam()));
+        gameJson.setGuestTeam(DtoBuilder.toJson(game.getGuestTeam()));
 
-        gameJson.setGroupType(JsonBuilder.toJson(game.getGroup().getGroupType()));
+        gameJson.setGroupType(DtoBuilder.toJson(game.getGroup().getGroupType()));
 
         return gameJson;
     }

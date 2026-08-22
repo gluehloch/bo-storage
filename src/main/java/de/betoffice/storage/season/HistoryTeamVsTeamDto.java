@@ -1,7 +1,7 @@
 /*
  * ============================================================================
- * Project betoffice-jweb Copyright (c) 2026 by Andre Winkler. All rights
- * reserved.
+ * Project betoffice-storage Copyright (c) 2013-2026 by Andre Winkler. All
+ * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
  * MODIFICATION
@@ -21,37 +21,36 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package de.betoffice.storage.season.entity;
+package de.betoffice.storage.season;
 
-import de.betoffice.storage.AbstractIdentifier;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * A tipp member of a season.
- * 
+ * Holds the history of some matches of two teams.
+ *
  * @author Andre Winkler
  */
-public class SeasonMemberJson extends AbstractIdentifier {
+public class HistoryTeamVsTeamDto {
 
-    private String nickname;
+    private List<TeamVsTeamDto> games = new ArrayList<>();
 
-    /**
-     * @return the nickname
-     */
-    public String getNickname() {
-        return nickname;
+    public List<TeamVsTeamDto> getGames() {
+        return games;
     }
 
-    /**
-     * @param nickname
-     *            the nickname to set
-     */
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void addGame(TeamVsTeamDto teamVsTeamDto) {
+        games.add(teamVsTeamDto);
     }
 
     @Override
     public String toString() {
-        return "SeasonMemberJson [nickname=" + nickname + "]";
+        StringBuilder sb = new StringBuilder("HistoryTeamVsTeamJson [");
+        sb.append("]");
+        for (TeamVsTeamDto match : games) {
+            sb.append("(").append(match).append(")");
+        }
+        return sb.toString();
     }
 
 }
