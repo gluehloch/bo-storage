@@ -45,7 +45,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
-import de.betoffice.storage.exception.StorageObjectNotFoundException;
 import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.SeasonType;
 import de.betoffice.storage.season.entity.GameEntity;
@@ -80,7 +79,7 @@ class GameTippTest extends AbstractServiceTest {
 
     @Autowired
     private MasterDataManagerService masterDataManagerService;
-    
+
     @Autowired
     private CommunityService communityService;
 
@@ -113,11 +112,11 @@ class GameTippTest extends AbstractServiceTest {
             this.user = user;
         }
 
-        public boolean executeTest() throws StorageObjectNotFoundException {
+        public boolean executeTest() {
             getGame().setResult(testResult);
             getGame().setPlayed(true);
             seasonManagerService.updateMatch(getGame());
-            
+
             TotoResult _testResult = tippService.findTipp(getGame(), user).orElseThrow().getTotoResult();
 
             assertEquals(expectedToto, _testResult);
@@ -158,15 +157,11 @@ class GameTippTest extends AbstractServiceTest {
     private GroupEntity group;
 
     /**
-     * Testet den Listener der Klasse GameTipp. Bei Änderungen am Spielergebniss
-     * schlägt sich dies auf den Punktestand des Tippers nieder, der für dieses
-     * Spiel einen Tipp abgegeben hat.
-     * 
-     * @throws StorageObjectNotFoundException
-     *             Da ging was schief.
+     * Testet den Listener der Klasse GameTipp. Bei Änderungen am Spielergebniss schlägt sich dies auf den Punktestand
+     * des Tippers nieder, der für dieses Spiel einen Tipp abgegeben hat.
      */
     @Test
-    public void testGameListener() throws StorageObjectNotFoundException {
+    public void testGameListener() {
         // GameTipp ist ein Listener für die Objekte Game. Ändert sich
         // das Ergebnis eines Spiels, wird in GameTipp automatisch
         // der neue Punktewert des Tippers berechnet.
@@ -265,7 +260,7 @@ class GameTippTest extends AbstractServiceTest {
             GameTippEntity gameTippUserC = tippService.findTipp(game, userC).orElseThrow();
             assertThat(gameTippUserC.getTotoResult()).isEqualTo(TotoResult.EQUAL);
             assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nEqualValue);
-            
+
             GameTippEntity gameTippUserD = tippService.findTipp(game, userD).orElseThrow();
             assertThat(gameTippUserD.getTotoResult()).isEqualTo(TotoResult.ZERO);
             assertThat(gameTippUserD.getPoints()).isEqualTo(UserResult.nZeroValue);
@@ -294,11 +289,11 @@ class GameTippTest extends AbstractServiceTest {
             GameTippEntity gameTippUserC = tippService.findTipp(game, userC).orElseThrow();
             assertThat(gameTippUserC.getTotoResult()).isEqualTo(TotoResult.UNDEFINED);
             assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nZeroValue);
-            
+
             GameTippEntity gameTippUserD = tippService.findTipp(game, userD).orElseThrow();
             assertThat(gameTippUserD.getTotoResult()).isEqualTo(TotoResult.UNDEFINED);
             assertThat(gameTippUserD.getPoints()).isEqualTo(UserResult.nZeroValue);
-            
+
             List<GameTippEntity> tipp = tippService.findTipps(game.getGameList().getId());
             assertThat(tipp).hasSize(4);
             assertThat(tipp).contains(gameTippUserA, gameTippUserB, gameTippUserC);
@@ -358,9 +353,10 @@ class GameTippTest extends AbstractServiceTest {
         userE = new UserEntity();
         userE.setNickname(Nickname.of("User E"));
         communityService.createUser(userE);
-        
+
         CommunityReference communityReference = CommunityReference.of("TDKB BL 1999/2000");
-        communityService.create(communityReference, seasonReference, "TDKB Bundesliga 1999/2000", "1999/2000", communityAdmin);
+        communityService.create(communityReference, seasonReference, "TDKB Bundesliga 1999/2000", "1999/2000",
+                communityAdmin);
 
         List<UserEntity> users = communityService.findAllUsers();
 
