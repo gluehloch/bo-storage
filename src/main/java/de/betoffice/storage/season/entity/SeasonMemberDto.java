@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-jweb Copyright (c) 2026 by Andre Winkler. All rights
+ * Project betoffice-storage Copyright (c) 2026 by Andre Winkler. All rights
  * reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -30,7 +30,7 @@ import de.betoffice.storage.AbstractIdentifier;
  * 
  * @author Andre Winkler
  */
-public class SeasonMemberJson extends AbstractIdentifier {
+public class SeasonMemberDto extends AbstractIdentifier {
 
     private String nickname;
 

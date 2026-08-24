@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-jweb Copyright (c) 2017-2022 by Andre Winkler. All rights
+ * Project betoffice-storage Copyright (c) 2017-2022 by Andre Winkler. All rights
  * reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -29,24 +29,24 @@ import java.util.List;
 import de.betoffice.storage.user.entity.UserEntity;
 
 /**
- * Map {@link User} to {@link SeasonMemberJson}.
+ * Map {@link User} to {@link SeasonMemberDto}.
  * 
  * @author Andre Winkler
  */
-public class SeasonMemberJsonMapper {
+public class SeasonMemberDtoMapper {
 
-    public static SeasonMemberJson map(UserEntity user, SeasonMemberJson seasonMemberJson) {
+    public static SeasonMemberDto map(UserEntity user, SeasonMemberDto seasonMemberJson) {
         seasonMemberJson.setId(user.getId());
         seasonMemberJson.setNickname(user.getNickname().value());
         return seasonMemberJson;
     }
 
-    public static List<SeasonMemberJson> map(Collection<UserEntity> users) {
-        return users.stream().map(SeasonMemberJsonMapper::map).toList();
+    public static List<SeasonMemberDto> map(Collection<UserEntity> users) {
+        return users.stream().map(SeasonMemberDtoMapper::map).toList();
     }
 
-    private static SeasonMemberJson map(UserEntity user) {
-        return map(user, new SeasonMemberJson());
+    private static SeasonMemberDto map(UserEntity user) {
+        return map(user, new SeasonMemberDto());
     }
 
 }
