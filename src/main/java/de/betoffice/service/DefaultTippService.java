@@ -34,7 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.betoffice.storage.exception.StorageObjectNotFoundException;
 import de.betoffice.storage.exception.StorageRuntimeException;
 import de.betoffice.storage.season.GameTippDao;
 import de.betoffice.storage.season.MatchDao;
@@ -86,12 +85,14 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
 
     @Override
     @Transactional
-    public GameTippEntity createOrUpdateTipp(String token, GameEntity match, UserEntity user, GameResult tipp, TippStatusType status) {
+    public GameTippEntity createOrUpdateTipp(String token, GameEntity match, UserEntity user, GameResult tipp,
+            TippStatusType status) {
         GameListEntity round = roundDao.findRoundByGame(match).orElseThrow();
         return createOrUpdateTipp(token, round, match, user, tipp, status);
     }
 
-    private GameTippEntity createOrUpdateTipp(String token, GameListEntity round, GameEntity game, UserEntity user, GameResult tipp,
+    private GameTippEntity createOrUpdateTipp(String token, GameListEntity round, GameEntity game, UserEntity user,
+            GameResult tipp,
             TippStatusType status) {
         Date now = Date.from(datetimeProvider.currentDateTime().toInstant());
 
@@ -117,7 +118,8 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
 
     @Override
     @Transactional
-    public List<GameTippEntity> createOrUpdateTipp(String token, GameListEntity round, UserEntity user, List<GameResult> tipps,
+    public List<GameTippEntity> createOrUpdateTipp(String token, GameListEntity round, UserEntity user,
+            List<GameResult> tipps,
             TippStatusType status) {
         List<GameTippEntity> result = new ArrayList<>();
         for (int i = 0; i < round.size(); i++) {
@@ -179,7 +181,8 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
             return tippDto;
         }
 
-        public static PartiallyCompleteTippDto of(UserEntity user, GameEntity game, String token, ZonedDateTime submitTime,
+        public static PartiallyCompleteTippDto of(UserEntity user, GameEntity game, String token,
+                ZonedDateTime submitTime,
                 GameTippDto gameTipp) {
 
             return new PartiallyCompleteTippDto(user, game, token, submitTime, gameTipp);
@@ -316,37 +319,31 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
         urod.setUser(user);
         for (GameTippEntity gameTipp : tippsByRoundAndUser) {
             if (gameTipp.getGame().isPlayed()) {
-                try {
-                    //
-                    // Zu bemerken ist, dass alle Tipps eines Spieltags den
-                    // gleichen Status besitzen müssen. Ist dies nicht der
-                    // Fall, wird eine RuntimeException geworfen.
-                    //
-                    // TODO Dieser Fall kann aber trotzdem auftreten:
-                    // Automatische MinTipp-Generierung und anschliessendes
-                    // teilweises, manuelles Ändern der Tipps.
-                    //
-                    if ((urod.getStatus() != null) && !(gameTipp.getStatus().equals(urod.getStatus()))) {
+                //
+                // Zu bemerken ist, dass alle Tipps eines Spieltags den
+                // gleichen Status besitzen müssen. Ist dies nicht der
+                // Fall, wird eine RuntimeException geworfen.
+                //
+                // TODO Dieser Fall kann aber trotzdem auftreten:
+                // Automatische MinTipp-Generierung und anschliessendes
+                // teilweises, manuelles Ändern der Tipps.
+                //
+                if ((urod.getStatus() != null) && !(gameTipp.getStatus().equals(urod.getStatus()))) {
+                    log.error("Der Tipp " + gameTipp + " ist fehlerhaft!");
+                    throw new StorageRuntimeException(
+                            "Ein Tipp wurde automatisch generiert. "
+                                    + "Ein anderer Tipp wurde per Teilnehmer "
+                                    + "generiert. Dieser Zustand sollte nicht "
+                                    + "auftreten!");
+                }
 
-                        log.error("Der Tipp " + gameTipp + " ist fehlerhaft!");
-                        throw new StorageRuntimeException(
-                                "Ein Tipp wurde automatisch generiert. "
-                                        + "Ein anderer Tipp wurde per Teilnehmer "
-                                        + "generiert. Dieser Zustand sollte nicht "
-                                        + "auftreten!");
-                    }
+                urod.setStatus(gameTipp.getStatus());
+                urod.setTipps(urod.getTipps() + 1);
 
-                    urod.setStatus(gameTipp.getStatus());
-                    urod.setTipps(urod.getTipps() + 1);
-
-                    if (gameTipp.getTotoResult() == TotoResult.EQUAL) {
-                        urod.setWin(urod.getWin() + 1);
-                    } else if (gameTipp.getTotoResult() == TotoResult.TOTO) {
-                        urod.setToto(urod.getToto() + 1);
-                    }
-                } catch (StorageObjectNotFoundException ex) {
-                    // Ist Ok, dann müssen auch keine Punkte addiert werden.
-                    log.info("Kein Tipp für game: " + gameTipp.getGame() + " vorhanden");
+                if (gameTipp.getTotoResult() == TotoResult.EQUAL) {
+                    urod.setWin(urod.getWin() + 1);
+                } else if (gameTipp.getTotoResult() == TotoResult.TOTO) {
+                    urod.setToto(urod.getToto() + 1);
                 }
             }
         }
