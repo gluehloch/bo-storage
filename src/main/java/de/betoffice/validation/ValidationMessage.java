@@ -49,7 +49,7 @@ public class ValidationMessage {
     public enum MessageType implements Message {
         NO_ERROR(""),
         UNKNOWN_ERROR("Unbekannter Fehler."),
-        COMMUNITY_EXISTS("Die Community %s existiert nicht."),
+        COMMUNITY_EXISTS("Die Community %s existiert bereits."),
         EMAIL_CHANGE_DATETIME_IS_IN_THE_FUTURE("Der Bestätigungsmail wurde in der Zukunft verschickt."),
         EMAIL_CHANGE_DATETIME_EXPIRED("Die Bestätigungslink für die Änderung der Email-Adresse ist nicht mehr gültig."),
 
@@ -73,6 +73,7 @@ public class ValidationMessage {
 
         GROUPTYPE_ID_NOT_FOUND("Der Gruppentyp mit der ID %s ist nicht vorhanden."),
         SEASON_ID_NOT_FOUND("Die Meisterschaft mit der ID %s ist nicht vorhanden."),
+        SEASON_REFERENCE_NOT_FOUND("Die Meisterschaft mit der Referenz %s ist nicht vorhanden."),
         SEASON_ID_MISMATCH("Die übergebenen Meisterschafts-IDs stimmen nicht überein. (übergeben: %d, erwartet: %d)"),
         ROUND_ID_MISMATCH("Die übergebenen Spielrunden-IDs stimmen nicht überein. (übergeben: %d, erwartet: %d)"),
         ROUND_ID_NOT_FOUND("Eine Spielrunde mit der ID '%d' ist nicht vorhanden."),
