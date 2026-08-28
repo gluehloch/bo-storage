@@ -69,7 +69,7 @@ public abstract class AbstractCommonDao<T> implements CommonDao<T> {
     }
 
     public T findById(final long id) {
-        return (T) getEntityManager().find(t, id);
+        return getEntityManager().find(t, id);
     }
 
     @Override

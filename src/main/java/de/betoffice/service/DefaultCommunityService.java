@@ -41,13 +41,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.mail.NotificationType;
 import de.betoffice.mail.SendUserProfileChangeMailNotification;
+import de.betoffice.service.request.CommunityCreateCommand;
 import de.betoffice.storage.community.CommunityDao;
+import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
+import de.betoffice.storage.community.entity.CommunityDtoMapper;
 import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonDao;
 import de.betoffice.storage.season.entity.SeasonEntity;
-import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.time.DateTimeProvider;
 import de.betoffice.storage.user.UserDao;
 import de.betoffice.storage.user.entity.Nickname;
@@ -57,6 +59,8 @@ import de.betoffice.validation.ServiceResult;
 import de.betoffice.validation.ValidationException;
 import de.betoffice.validation.ValidationMessage;
 import de.betoffice.validation.ValidationMessage.MessageType;
+import de.betoffice.validation.ValidationMessages;
+import de.betoffice.validation.ValidationMessages.ValidationMessagesBuilder;
 
 /**
  * Manages a community.
@@ -109,8 +113,9 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
-    public CommunityEntity find(Long communityId) {
-        return communityDao.findById(communityId);
+    public CommunityDto find(Long communityId) {
+        CommunityEntity byId = communityDao.findById(communityId);
+        return CommunityDtoMapper.map(byId);
     }
 
     @Override
@@ -124,8 +129,8 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
-    public Page<CommunityEntity> findCommunities(CommunityFilter communityFilter, Pageable pageable) {
-        return communityDao.findAll(communityFilter, pageable);
+    public Page<CommunityDto> findCommunities(CommunityFilter communityFilter, Pageable pageable) {
+        return communityDao.findAll(communityFilter, pageable).map(CommunityDtoMapper::map);
     }
 
     @Override
@@ -145,33 +150,38 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public ServiceResult<CommunityEntity> create(
-            CommunityReference communityRef,
-            SeasonReference seasonRef,
-            String communityName,
-            String communityYear,
-            Nickname managerNickname) {
+    public ServiceResult<CommunityDto> create(CommunityCreateCommand communityCreateCommand) {
+        final ValidationMessagesBuilder validationMessagesBuilder = ValidationMessages.builder();
 
-        Optional<CommunityEntity> definedCommunity = communityDao.find(communityRef);
+        final Optional<CommunityEntity> definedCommunity = communityDao.find(communityCreateCommand.communityRef());
         if (definedCommunity.isPresent()) {
-            return ServiceResult.failure(MessageType.COMMUNITY_EXISTS);
+            validationMessagesBuilder.addFormattedMessage(MessageType.COMMUNITY_EXISTS,
+                    communityCreateCommand.communityRef());
         }
 
-        SeasonEntity persistedSeason = seasonDao.find(seasonRef).orElseThrow(
-                () -> new IllegalArgumentException(String.format("%s does not exist.", seasonRef)));
-        UserEntity communityManager = userDao.findByNickname(managerNickname).orElseThrow(
-                () -> new IllegalArgumentException(String.format("%s does not exist.", managerNickname)));
+        final SeasonEntity persistedSeason = seasonDao.find(communityCreateCommand.seasonRef()).orElseGet(() -> {
+            validationMessagesBuilder.addFormattedMessage(MessageType.SEASON_REFERENCE_NOT_FOUND,
+                    communityCreateCommand.seasonRef());
+            return null;
+        });
+
+        final UserEntity communityManager = userDao.findByNickname(communityCreateCommand.managerNickname())
+                .orElseGet(() -> {
+                    validationMessagesBuilder.addFormattedMessage(MessageType.USER_NOT_FOUND,
+                            communityCreateCommand.managerNickname());
+                    return null;
+                });
 
         CommunityEntity community = new CommunityEntity();
-        community.setYear(communityYear);
-        community.setName(communityName);
-        community.setReference(communityRef);
+        community.setYear(communityCreateCommand.communityYear());
+        community.setName(communityCreateCommand.communityName());
+        community.setReference(communityCreateCommand.communityRef());
         community.setCommunityManager(communityManager);
 
         community.setSeason(persistedSeason);
         communityDao.persist(community);
 
-        return ServiceResult.sucess(community);
+        return ServiceResult.sucess(CommunityDtoMapper.map(community));
     }
 
     @Override

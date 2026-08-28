@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import de.betoffice.validation.ValidationMessage.MessageType;
+
 public class ValidationMessages {
 
     private final List<ValidationMessage> messages = new ArrayList<>();
@@ -69,6 +71,11 @@ public class ValidationMessages {
 
         public ValidationMessagesBuilder add(ValidationMessage validationMessage) {
             this.messages.add(validationMessage);
+            return this;
+        }
+
+        public ValidationMessagesBuilder addFormattedMessage(MessageType messageType, Object... args) {
+            this.messages.add(ValidationMessage.error(messageType, args));
             return this;
         }
 

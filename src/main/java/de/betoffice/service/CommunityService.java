@@ -30,6 +30,8 @@ import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import de.betoffice.service.request.CommunityCreateCommand;
+import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
 import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
@@ -57,7 +59,7 @@ public interface CommunityService {
      * @param  communityId community id
      * @return             a community
      */
-    CommunityEntity find(Long communityId);
+    CommunityDto find(Long communityId);
 
     /**
      * Find a community by its reference.
@@ -90,20 +92,15 @@ public interface CommunityService {
      * @param  pageable        paging parameter
      * @return                 a list of communities
      */
-    Page<CommunityEntity> findCommunities(CommunityFilter communityFilter, Pageable pageable);
+    Page<CommunityDto> findCommunities(CommunityFilter communityFilter, Pageable pageable);
 
     /**
      * Create a new community.
      *
-     * @param  communityRef    reference of a community.
-     * @param  seasonRef       reference of a season.
-     * @param  communityName   community name
-     * @param  communityYear   community year
-     * @param  managerNickname nickname of the community manager
+     * @param  communityCreateCommand everything needed to create a new community
      * @return                 the create community.
      */
-    ServiceResult<CommunityEntity> create(CommunityReference communityRef, SeasonReference seasonRef,
-            String communityName, String communityYear, Nickname managerNickname);
+    ServiceResult<CommunityDto> create(CommunityCreateCommand communityCreateCommand);
 
     /**
      * Delete community.

@@ -64,7 +64,7 @@ public interface ServiceResult<T> {
         return DefaultServiceResult.failure(errorType);
     }
 
-    static <T> ServiceResult<T> failureWithFormattedError(final MessageType errorType, final String messageParam) {
+    static <T> ServiceResult<T> failureWithFormattedError(final MessageType errorType, final Object messageParam) {
         return DefaultServiceResult.failureWithFormattedError(errorType, new Object[] { messageParam });
     }
 

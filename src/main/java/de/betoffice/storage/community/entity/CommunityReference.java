@@ -56,4 +56,9 @@ public class CommunityReference {
         return shortName.equalsIgnoreCase(other.getShortName());
     }
 
+    @Override
+    public String toString() {
+        return "CommunityReference [shortName=" + shortName + "]";
+    }
+
 }
