@@ -28,7 +28,7 @@ import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.season.SeasonDto;
 import de.betoffice.storage.season.entity.SeasonDtoMapper;
 import de.betoffice.storage.user.PartyDto;
-import de.betoffice.storage.user.entity.PartyJsonMapper;
+import de.betoffice.storage.user.entity.PartyDtoMapper;
 
 public class CommunityDtoMapper {
 
@@ -41,7 +41,7 @@ public class CommunityDtoMapper {
         json.setName(community.getName());
         json.setYear(community.getYear());
         json.setShortName(community.getReference().getShortName());
-        json.setCommunityManager(PartyJsonMapper.mapSmall(community.getCommunityManager(), new PartyDto()));
+        json.setCommunityManager(PartyDtoMapper.mapSmall(community.getCommunityManager(), new PartyDto()));
         json.setSeason(SeasonDtoMapper.map(community.getSeason(), new SeasonDto()));
         return json;
     }

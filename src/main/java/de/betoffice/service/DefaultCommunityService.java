@@ -42,7 +42,9 @@ import org.springframework.transaction.annotation.Transactional;
 import de.betoffice.mail.NotificationType;
 import de.betoffice.mail.SendUserProfileChangeMailNotification;
 import de.betoffice.storage.community.CommunityDao;
+import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
+import de.betoffice.storage.community.entity.CommunityDtoMapper;
 import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonDao;
@@ -109,8 +111,9 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
-    public CommunityEntity find(Long communityId) {
-        return communityDao.findById(communityId);
+    public CommunityDto find(Long communityId) {
+        CommunityEntity byId = communityDao.findById(communityId);
+        return CommunityDtoMapper.map(byId);
     }
 
     @Override
@@ -124,8 +127,8 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
-    public Page<CommunityEntity> findCommunities(CommunityFilter communityFilter, Pageable pageable) {
-        return communityDao.findAll(communityFilter, pageable);
+    public Page<CommunityDto> findCommunities(CommunityFilter communityFilter, Pageable pageable) {
+        return communityDao.findAll(communityFilter, pageable).map(CommunityDtoMapper::map);
     }
 
     @Override

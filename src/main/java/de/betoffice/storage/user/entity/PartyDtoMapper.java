@@ -33,32 +33,33 @@ import de.betoffice.storage.user.PartyDto;
  * 
  * @author Andre Winkler
  */
-public class PartyJsonMapper {
+public class PartyDtoMapper {
 
-    public static PartyDto mapSmall(UserEntity user, PartyDto partyJson) {
-        partyJson.setId(user.getId());
-        partyJson.setName(user.getName());
-        partyJson.setSurname(user.getSurname());
-        partyJson.setMail(user.getEmail());
-        partyJson.setNickname(user.getNickname().value());
-        return partyJson;
+    public static PartyDto mapSmall(UserEntity user, PartyDto partyDto) {
+        partyDto.setId(user.getId());
+        partyDto.setName(user.getName());
+        partyDto.setSurname(user.getSurname());
+        partyDto.setMail(user.getEmail());
+        partyDto.setNickname(user.getNickname().value());
+        return partyDto;
     }
 
-    public static PartyDto map(UserEntity user, PartyDto partyJson) {
-        partyJson.setId(user.getId());
-        partyJson.setName(user.getName());
-        partyJson.setSurname(user.getSurname());
-        partyJson.setMail(user.getEmail());
-        partyJson.setNickname(user.getNickname().value());
-        partyJson.setPassword(user.getPassword());
-        partyJson.setPhone(user.getPhone());
-        partyJson.setTitle(user.getTitle());
-        partyJson.setEmailNotificationEnabled(NotificationType.TIPP.equals(user.getNotification()));
-        return partyJson;
+    public static PartyDto map(UserEntity user, PartyDto partyDto) {
+        partyDto.setId(user.getId());
+        partyDto.setName(user.getName());
+        partyDto.setSurname(user.getSurname());
+        partyDto.setMail(user.getEmail());
+        partyDto.setNickname(user.getNickname().value());
+        // TODO Should be removed.
+        partyDto.setPassword(user.getPassword());
+        partyDto.setPhone(user.getPhone());
+        partyDto.setTitle(user.getTitle());
+        partyDto.setEmailNotificationEnabled(NotificationType.TIPP.equals(user.getNotification()));
+        return partyDto;
     }
 
     public static List<PartyDto> map(List<UserEntity> users) {
-        return users.stream().map(PartyJsonMapper::map).toList();
+        return users.stream().map(PartyDtoMapper::map).toList();
     }
 
     private static PartyDto map(UserEntity user) {

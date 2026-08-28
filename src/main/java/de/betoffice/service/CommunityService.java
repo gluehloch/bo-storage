@@ -30,6 +30,7 @@ import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
 import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
@@ -57,7 +58,7 @@ public interface CommunityService {
      * @param  communityId community id
      * @return             a community
      */
-    CommunityEntity find(Long communityId);
+    CommunityDto find(Long communityId);
 
     /**
      * Find a community by its reference.
@@ -90,7 +91,7 @@ public interface CommunityService {
      * @param  pageable        paging parameter
      * @return                 a list of communities
      */
-    Page<CommunityEntity> findCommunities(CommunityFilter communityFilter, Pageable pageable);
+    Page<CommunityDto> findCommunities(CommunityFilter communityFilter, Pageable pageable);
 
     /**
      * Create a new community.
