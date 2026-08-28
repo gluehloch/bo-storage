@@ -25,6 +25,7 @@
 package de.betoffice.validation;
 
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import de.betoffice.validation.ValidationMessage.MessageType;
@@ -60,6 +61,10 @@ public interface ServiceResult<T> {
         return DefaultServiceResult.failure(validationMessage);
     }
 
+    static <T> ServiceResult<T> failure(final ValidationMessages validationMessages) {
+        return DefaultServiceResult.failure(validationMessages);
+    }
+
     static <T> ServiceResult<T> failure(MessageType errorType) {
         return DefaultServiceResult.failure(errorType);
     }
@@ -67,5 +72,7 @@ public interface ServiceResult<T> {
     static <T> ServiceResult<T> failureWithFormattedError(final MessageType errorType, final Object messageParam) {
         return DefaultServiceResult.failureWithFormattedError(errorType, new Object[] { messageParam });
     }
+
+    <R> Optional<R> map(Function<T, R> mapper);
 
 }

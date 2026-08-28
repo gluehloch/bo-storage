@@ -50,6 +50,7 @@ import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonDao;
 import de.betoffice.storage.season.entity.SeasonEntity;
+import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.time.DateTimeProvider;
 import de.betoffice.storage.user.UserDao;
 import de.betoffice.storage.user.entity.Nickname;
@@ -67,7 +68,7 @@ import de.betoffice.validation.ValidationMessages.ValidationMessagesBuilder;
  * 
  * @author Andre Winkler
  */
-@Service("communityService")
+@Service
 @Transactional(readOnly = true)
 public class DefaultCommunityService extends AbstractManagerService implements CommunityService {
 
@@ -151,37 +152,84 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     @Override
     @Transactional
     public ServiceResult<CommunityDto> create(CommunityCreateCommand communityCreateCommand) {
-        final ValidationMessagesBuilder validationMessagesBuilder = ValidationMessages.builder();
-
-        final Optional<CommunityEntity> definedCommunity = communityDao.find(communityCreateCommand.communityRef());
-        if (definedCommunity.isPresent()) {
-            validationMessagesBuilder.addFormattedMessage(MessageType.COMMUNITY_EXISTS,
-                    communityCreateCommand.communityRef());
+        final ValidationContext vc = validateCreateCommand(new ValidationMessagesBuilder(), communityCreateCommand);
+        if (vc.getValidationMessages().containsAnError()) {
+            return ServiceResult.failure(vc.getValidationMessages());
+        } else {
+            final CommunityEntity community = persistCommunity(communityCreateCommand, vc);
+            return ServiceResult.sucess(CommunityDtoMapper.map(community));
         }
+    }
 
-        final SeasonEntity persistedSeason = seasonDao.find(communityCreateCommand.seasonRef()).orElseGet(() -> {
-            validationMessagesBuilder.addFormattedMessage(MessageType.SEASON_REFERENCE_NOT_FOUND,
-                    communityCreateCommand.seasonRef());
-            return null;
-        });
-
-        final UserEntity communityManager = userDao.findByNickname(communityCreateCommand.managerNickname())
-                .orElseGet(() -> {
-                    validationMessagesBuilder.addFormattedMessage(MessageType.USER_NOT_FOUND,
-                            communityCreateCommand.managerNickname());
-                    return null;
-                });
-
-        CommunityEntity community = new CommunityEntity();
+    private CommunityEntity persistCommunity(CommunityCreateCommand communityCreateCommand,
+            final ValidationContext vc) {
+        final CommunityEntity community = new CommunityEntity();
         community.setYear(communityCreateCommand.communityYear());
         community.setName(communityCreateCommand.communityName());
         community.setReference(communityCreateCommand.communityRef());
-        community.setCommunityManager(communityManager);
-
-        community.setSeason(persistedSeason);
+        community.setCommunityManager(vc.getCommunityManager());
+        community.setSeason(vc.getSeason());
         communityDao.persist(community);
+        return community;
+    }
 
-        return ServiceResult.sucess(CommunityDtoMapper.map(community));
+    private ValidationContext validateCreateCommand(
+            final ValidationMessagesBuilder vmb,
+            final CommunityCreateCommand cmd) {
+
+        return new ValidationContext(vmb)
+                .validateCommunityReferenceDoesNotExist(cmd.communityRef())
+                .validateSeason(cmd.seasonRef())
+                .validateCommunityManager(cmd.managerNickname());
+    }
+
+    private class ValidationContext {
+        private ValidationMessagesBuilder validationMessagesBuilder;
+        private SeasonEntity season;
+        private UserEntity communityManager;
+
+        public ValidationContext(ValidationMessagesBuilder validationMessagesBuilder) {
+            this.validationMessagesBuilder = validationMessagesBuilder;
+        }
+
+        ValidationMessages getValidationMessages() {
+            return validationMessagesBuilder.build();
+        }
+
+        SeasonEntity getSeason() {
+            return season;
+        }
+
+        UserEntity getCommunityManager() {
+            return communityManager;
+        }
+
+        public ValidationContext validateSeason(SeasonReference seasonRef) {
+            final var season = DefaultCommunityService.this.seasonDao.find(seasonRef);
+            if (!season.isPresent()) {
+                validationMessagesBuilder.addFormattedMessage(MessageType.SEASON_REFERENCE_NOT_FOUND, seasonRef);
+            } else {
+                this.season = season.get();
+            }
+            return this;
+        }
+
+        public ValidationContext validateCommunityManager(Nickname managerNickname) {
+            final var user = DefaultCommunityService.this.userDao.findByNickname(managerNickname);
+            if (!user.isPresent()) {
+                validationMessagesBuilder.addFormattedMessage(MessageType.USER_NOT_FOUND, managerNickname);
+            } else {
+                this.communityManager = user.get();
+            }
+            return this;
+        }
+
+        public ValidationContext validateCommunityReferenceDoesNotExist(CommunityReference communityRef) {
+            if (DefaultCommunityService.this.communityDao.find(communityRef).isPresent()) {
+                validationMessagesBuilder.addFormattedMessage(MessageType.COMMUNITY_EXISTS, communityRef);
+            }
+            return this;
+        }
     }
 
     @Override

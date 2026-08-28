@@ -43,6 +43,8 @@ import org.springframework.test.context.transaction.TestTransaction;
 
 import de.betoffice.conf.BetofficeTestConfig;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
+import de.betoffice.service.request.CommunityCreateCommand;
+import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
 import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
@@ -51,6 +53,7 @@ import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.storage.user.entity.UserEntity;
+import de.betoffice.validation.ServiceResult;
 
 /**
  * Service test for the community manager.
@@ -106,11 +109,16 @@ class CommunityServiceTest {
 
         communityManager = communityService.createUser(communityManager);
 
-        CommunityEntity community = communityService
-                .create(CommunityReference.of("TDKB"), bundesliga.getReference(), "TDKB_short", "2024", frosch)
-                .result()
-                .orElseThrow();
-
+        CommunityCreateCommand command = new CommunityCreateCommand(
+                CommunityReference.of("TDKB"), 
+                bundesliga.getReference(),
+                "TDKB_short", 
+                "2024", 
+                frosch);
+        
+        ServiceResult<CommunityDto> serviceResult = communityService.create(command);
+        assertThat(serviceResult.isSuccessful()).isTrue();
+        CommunityDto community = serviceResult.orElseThrow();
         assertThat(community.getCommunityManager()).isEqualTo(communityManager);
         assertEquals("TDKB_short", community.getName());
         assertEquals(communityManager.getId(), community.getCommunityManager().getId());
