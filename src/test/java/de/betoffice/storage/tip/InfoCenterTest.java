@@ -44,12 +44,12 @@ import de.betoffice.service.AbstractServiceTest;
 import de.betoffice.service.DatabaseSetUpAndTearDown;
 import de.betoffice.service.SeasonManagerService;
 import de.betoffice.service.TippService;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.season.entity.GameResult;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.tip.engine.InfoCenter;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 import de.betoffice.test.DateTimeDummyProducer;
 import de.betoffice.test.DummyUsers;
 import de.betoffice.test.ScenarioBuilder;
@@ -84,15 +84,15 @@ public class InfoCenterTest extends AbstractServiceTest {
     @Autowired
     private InfoCenter infoCenter;
     
-    private List<User> users;
+    private List<UserEntity> users;
 
-    private User frosch;
+    private UserEntity frosch;
 
-    private User hattwig;
+    private UserEntity hattwig;
 
-    private User mrTipp;
+    private UserEntity mrTipp;
 
-    private User peter;
+    private UserEntity peter;
 
     @Autowired
     protected DataSource dataSource;
@@ -118,11 +118,11 @@ public class InfoCenterTest extends AbstractServiceTest {
             infoCenter.findBestTipp(null, null);
         });
 
-        GameList firstRound = seasonManagerService.findRound(scene.getSeason(), 0).orElseThrow();
+        GameListEntity firstRound = seasonManagerService.findRound(scene.getSeason(), 0).orElseThrow();
         
         // Bei einer Standardeinstellung 13/10/0 ergeben sich folgende Werte:
-        Game game = firstRound.get(0);
-        GameTipp tipp = tippService.findTipp(game, frosch).orElseThrow();
+        GameEntity game = firstRound.get(0);
+        GameTippEntity tipp = tippService.findTipp(game, frosch).orElseThrow();
         assertEquals(tipp.getTipp().getToto(), game.getResult().getToto());
 
         UserResultOfDay urod = tippService.getUserPoints(firstRound, frosch);
@@ -175,8 +175,8 @@ public class InfoCenterTest extends AbstractServiceTest {
 
         assertEquals(mrTipp, infoCenter.findWorstTipp(seasonManagerService.findRounds(scene.getSeason()).get(0), users).getUser());
 
-        Season season = seasonManagerService.findSeasonById(scene.getSeason().getId());
-        GameList firstRound = seasonManagerService.findRound(season, 0).orElseThrow();
+        SeasonEntity season = seasonManagerService.findSeasonById(scene.getSeason().getId());
+        GameListEntity firstRound = seasonManagerService.findRound(season, 0).orElseThrow();
         assertEquals(mrTipp, infoCenter.findWorstTipp(firstRound, users).getUser());
 
         // User A: 26 Punkte
@@ -212,17 +212,17 @@ public class InfoCenterTest extends AbstractServiceTest {
         
         assertEquals(infoCenter.findMediumTipp(scene.getGame1(), scene.getUsers().toList()), GameResult.of(1, 0));
 
-        GameList firstRound = seasonManagerService.findRound(scene.getSeason(), 0).orElseThrow();
-        Game ohneTipp = seasonManagerService.addMatch(firstRound, DateTimeDummyProducer.DATE_1971_03_24, scene.getErsteBundesliga(), scene.getRwe(), scene.getS04());
+        GameListEntity firstRound = seasonManagerService.findRound(scene.getSeason(), 0).orElseThrow();
+        GameEntity ohneTipp = seasonManagerService.addMatch(firstRound, DateTimeDummyProducer.DATE_1971_03_24, scene.getErsteBundesliga(), scene.getRwe(), scene.getS04());
         assertTrue(infoCenter.findMediumTipp(ohneTipp, scene.getUsers().toList()) == null);
 
-        Game nurAutoTipp = seasonManagerService.addMatch(firstRound, DateTimeDummyProducer.DATE_1971_03_24, scene.getErsteBundesliga(), scene.getS04(), scene.getRwe());        
+        GameEntity nurAutoTipp = seasonManagerService.addMatch(firstRound, DateTimeDummyProducer.DATE_1971_03_24, scene.getErsteBundesliga(), scene.getS04(), scene.getRwe());        
         tippService.createOrUpdateTipp(JUNIT_TOKEN, nurAutoTipp, frosch, GameResult.of(1, 0), TippStatusType.AUTO);
         tippService.createOrUpdateTipp(JUNIT_TOKEN, nurAutoTipp, hattwig, GameResult.of(1, 0), TippStatusType.AUTO);
 
         assertTrue(infoCenter.findMediumTipp(nurAutoTipp, scene.getUsers().toList()) == null);
 
-        Game newGame = seasonManagerService.addMatch(firstRound, DateTimeDummyProducer.DATE_2002_01_01, scene.getErsteBundesliga(), scene.getS04(), scene.getRwe());        
+        GameEntity newGame = seasonManagerService.addMatch(firstRound, DateTimeDummyProducer.DATE_2002_01_01, scene.getErsteBundesliga(), scene.getS04(), scene.getRwe());        
 
         tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, frosch, GameResult.of(1, 0), TippStatusType.USER);
         tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, hattwig, GameResult.of(1, 0), TippStatusType.USER);

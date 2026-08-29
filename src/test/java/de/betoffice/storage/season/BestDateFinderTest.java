@@ -32,7 +32,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.test.DateTimeDummyProducer;
 
 /**
@@ -54,7 +54,7 @@ public class BestDateFinderTest {
         dates.add(DateTimeDummyProducer.DT5_2014_08_24_160000);
         dates.add(DateTimeDummyProducer.DT6_2014_08_24_190000);
 
-        LocalDate bestDate = GameList.findBestDate(dates);
+        LocalDate bestDate = GameListEntity.findBestDate(dates);
         assertThat(bestDate).isEqualTo(DateTimeDummyProducer.DT3_2014_08_23_153000.toLocalDate());
         
         dates.add(DateTimeDummyProducer.DT5_2014_08_24_160000);
@@ -62,7 +62,7 @@ public class BestDateFinderTest {
         dates.add(DateTimeDummyProducer.DT6_2014_08_24_190000);
         dates.add(DateTimeDummyProducer.DT6_2014_08_24_190000);
         
-        LocalDate bestDate2 = GameList.findBestDate(dates);
+        LocalDate bestDate2 = GameListEntity.findBestDate(dates);
         assertThat(bestDate2).isEqualTo(DateTimeDummyProducer.DT5_2014_08_24_160000.toLocalDate());
     }
 

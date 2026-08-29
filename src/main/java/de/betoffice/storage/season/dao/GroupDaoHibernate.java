@@ -30,12 +30,12 @@ import jakarta.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.GroupDao;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Implementierung von {@link GroupDao}.
@@ -43,7 +43,7 @@ import de.betoffice.storage.team.entity.Team;
  * @author by Andre Winkler
  */
 @Repository("groupDao")
-public class GroupDaoHibernate extends AbstractCommonDao<Group> implements GroupDao {
+public class GroupDaoHibernate extends AbstractCommonDao<GroupEntity> implements GroupDao {
 
     /** Sucht nach allen Gruppen zu einer Meisterschaft. */
     private static final String QUERY_GROUPS_FROM_SEASON = AbstractCommonDao
@@ -56,7 +56,7 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements Group
      * Sucht nach einer <code>Group</code>s anhand Meisterschaft und Gruppentyp.
      */
     private static final String QUERY_GROUP_BY_SEASON_AND_GROUPTYPE = "select grp "
-            + " from Group as grp "
+            + " from GroupEntity as grp "
             + "   inner join fetch grp.season as season "
             + "   inner join fetch grp.groupType as gt "
             + "   left join fetch grp.teams teams "
@@ -65,38 +65,38 @@ public class GroupDaoHibernate extends AbstractCommonDao<Group> implements Group
             + "   and gt.id = :groupTypeId";
 
     public GroupDaoHibernate() {
-        super(Group.class);
+        super(GroupEntity.class);
     }
 
     @Override
-    public List<Group> findAll() {
-        List<Group> groups = getEntityManager()
-                .createQuery("select g from group g", Group.class).getResultList();
+    public List<GroupEntity> findAll() {
+        List<GroupEntity> groups = getEntityManager()
+                .createQuery("select g from GroupEntity", GroupEntity.class).getResultList();
         return groups;
     }
 
     @Override
-    public List<Group> findBySeason(final Season season) {
-        List<Group> objects = getEntityManager()
-                .createQuery(QUERY_GROUPS_FROM_SEASON, Group.class)
+    public List<GroupEntity> findBySeason(final SeasonEntity season) {
+        List<GroupEntity> objects = getEntityManager()
+                .createQuery(QUERY_GROUPS_FROM_SEASON, GroupEntity.class)
                 .setParameter("seasonId", season.getId()).getResultList();
         return objects;
     }
 
     @Override
-    public List<Team> findTeams(final Group group) {
+    public List<TeamEntity> findTeams(final GroupEntity group) {
         Query query = getEntityManager()
-                .createNativeQuery(QUERY_TEAMS_BY_GROUP, Team.class)
+                .createNativeQuery(QUERY_TEAMS_BY_GROUP, TeamEntity.class)
                 .setParameter("group_id", group.getId());
 
-        List<Team> teams = query.getResultList();
+        List<TeamEntity> teams = query.getResultList();
         return teams;
     }
 
     @Override
-    public Group findBySeasonAndGroupType(Season season, GroupType groupType) {
-        TypedQuery<Group> query = getEntityManager()
-                .createQuery(QUERY_GROUP_BY_SEASON_AND_GROUPTYPE, Group.class)
+    public GroupEntity findBySeasonAndGroupType(SeasonEntity season, GroupTypeEntity groupType) {
+        TypedQuery<GroupEntity> query = getEntityManager()
+                .createQuery(QUERY_GROUP_BY_SEASON_AND_GROUPTYPE, GroupEntity.class)
                 .setParameter("seasonId", season.getId())
                 .setParameter("groupTypeId", groupType.getId());
         return query.getSingleResult();

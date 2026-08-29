@@ -36,11 +36,11 @@ import org.springframework.stereotype.Service;
 import de.betoffice.service.CommunityService;
 import de.betoffice.service.SeasonManagerService;
 import de.betoffice.service.TippService;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.time.DateTimeProvider;
-import de.betoffice.storage.tip.GameTipp;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.tip.GameTippEntity;
+import de.betoffice.storage.user.entity.UserEntity;
 
 @Service
 public class SendReminderMailNotification {
@@ -68,7 +68,7 @@ public class SendReminderMailNotification {
         this.mailTask = mailTask;
     }
 
-    public Optional<GameList> findNextTippRound() {
+    public Optional<GameListEntity> findNextTippRound() {
         return tippService.findNextTippRound(dateTimeProvider.currentDateTime());
     }
 
@@ -88,11 +88,11 @@ public class SendReminderMailNotification {
                         .findMembers(CommunityService.defaultPlayerGroup(season.getReference()));
                 members.stream().filter(SendReminderMailNotification::userWantsToBeNotified).forEach(u -> {
                     try {
-                        final List<GameTipp> sortedTipps = sort(tippService.findTipps(nxtr, u));
+                        final List<GameTippEntity> sortedTipps = sort(tippService.findTipps(nxtr, u));
                         final List<Pair> gameWithTipp = new ArrayList<>();
-                        for (Game m : matches) {
+                        for (GameEntity m : matches) {
                             boolean findTipp = false;
-                            for (GameTipp t : sortedTipps) {
+                            for (GameTippEntity t : sortedTipps) {
                                 if (m.equals(t.getGame())) {
                                     gameWithTipp.add(new Pair(m, t));
                                     findTipp = true;
@@ -133,22 +133,22 @@ public class SendReminderMailNotification {
         });
     }
 
-    public static boolean userWantsToBeNotified(User user) {
+    public static boolean userWantsToBeNotified(UserEntity user) {
         return NotificationType.TIPP.equals(user.getNotification());
     }
 
-    public static List<GameTipp> sort(List<GameTipp> gameTipps) {
-        List<GameTipp> sortedTipps = new ArrayList<>(gameTipps);
-        sortedTipps.sort(new Comparator<GameTipp>() {
+    public static List<GameTippEntity> sort(List<GameTippEntity> gameTipps) {
+        List<GameTippEntity> sortedTipps = new ArrayList<>(gameTipps);
+        sortedTipps.sort(new Comparator<GameTippEntity>() {
             @Override
-            public int compare(GameTipp o1, GameTipp o2) {
+            public int compare(GameTippEntity o1, GameTippEntity o2) {
                 return o1.getGame().getDateTime().compareTo(o2.getGame().getDateTime());
             }
         });
         return sortedTipps;
     }
 
-    private static record Pair(Game game, GameTipp gameTipp) {
+    private static record Pair(GameEntity game, GameTippEntity gameTipp) {
     }
 
 }

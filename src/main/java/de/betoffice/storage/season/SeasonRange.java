@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2013-2026 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -26,14 +26,13 @@ package de.betoffice.storage.season;
 /**
  * Ein Abschnitt einer Meisterschaft. Z.B. die Spieltag 10.-20.
  * 
- * @author Andre Winkler
+ * @author            Andre Winkler
  *
- * @param startIndex Start-Index (10. Spieltag). Gezählt wird mit 0.
- * @param endIndex End-Index (20. Spieltag).
+ * @param  startIndex Start-Index (10. Spieltag). Gezählt wird mit 0.
+ * @param  endIndex   End-Index (20. Spieltag).
  */
 public record SeasonRange(int startIndex, int endIndex) {
     public static SeasonRange of(int startIndex, int endIndex) {
         return new SeasonRange(startIndex, endIndex);
     }
 }
-

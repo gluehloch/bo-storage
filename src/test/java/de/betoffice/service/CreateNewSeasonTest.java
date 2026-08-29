@@ -43,20 +43,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.database.data.DeleteDatabase;
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.GoalType;
 import de.betoffice.storage.season.SeasonType;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.season.entity.GameResult;
-import de.betoffice.storage.season.entity.Goal;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Location;
-import de.betoffice.storage.season.entity.Player;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.GoalEntity;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.LocationEntity;
+import de.betoffice.storage.season.entity.PlayerEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.team.TeamType;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Testet das Erstellen einer neuen Meisterschaft.
@@ -102,17 +102,17 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         final SeasonManagerService sms = seasonManagerService;
         final MasterDataManagerService mdms = masterDataManagerService;
 
-        GroupType groupA = mdms.findGroupType("Gruppe A").orElseThrow();
+        GroupTypeEntity groupA = mdms.findGroupType("Gruppe A").orElseThrow();
 
-        Season season = new Season(SeasonReference.of("2000/2001", "Bundesliga"));
+        SeasonEntity season = new SeasonEntity(SeasonReference.of("2000/2001", "Bundesliga"));
         season.setMode(SeasonType.LEAGUE);
         season.setTeamType(TeamType.DFB);
         sms.createSeason(season);
         sms.addGroupType(season, groupA);
 
-        GameList round0 = seasonManagerService.addRound(season, 0, NOW, groupA);
-        GameList round1 = seasonManagerService.addRound(season, 1, NOW.plusDays(1), groupA);
-        GameList round2 = seasonManagerService.addRound(season, 2, NOW.plusDays(2), groupA);
+        GameListEntity round0 = seasonManagerService.addRound(season, 0, NOW, groupA);
+        GameListEntity round1 = seasonManagerService.addRound(season, 1, NOW.plusDays(1), groupA);
+        GameListEntity round2 = seasonManagerService.addRound(season, 2, NOW.plusDays(2), groupA);
 
         assertThat(round0.getIndex()).isEqualTo(0);
         assertThat(round1.getIndex()).isEqualTo(1);
@@ -137,22 +137,22 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         SeasonManagerService sms = seasonManagerService;
         MasterDataManagerService mdms = masterDataManagerService;
 
-        Season season = new Season(SeasonReference.of("2001/2002", "Bundesliga"));
+        SeasonEntity season = new SeasonEntity(SeasonReference.of("2001/2002", "Bundesliga"));
         season.setMode(SeasonType.LEAGUE);
         season.setTeamType(TeamType.DFB);
         sms.createSeason(season);
 
-        Season seasonClone = sms.findSeasonById(season.getId());
+        SeasonEntity seasonClone = sms.findSeasonById(season.getId());
         assertThat(seasonClone.getReference().getName()).isEqualTo(season.getReference().getName());
         assertThat(seasonClone.getReference().getYear()).isEqualTo(season.getReference().getYear());
 
-        Team stuttgart = mdms.findTeam("VfB Stuttgart").orElseThrow();
-        Team hsv = mdms.findTeam("Hamburger SV").orElseThrow();
-        Team deutschland = mdms.findTeam("Deutschland").orElseThrow();
+        TeamEntity stuttgart = mdms.findTeam("VfB Stuttgart").orElseThrow();
+        TeamEntity hsv = mdms.findTeam("Hamburger SV").orElseThrow();
+        TeamEntity deutschland = mdms.findTeam("Deutschland").orElseThrow();
 
-        GroupType groupA = mdms.findGroupType("Gruppe A").orElseThrow();
-        final Season updatedSeason = sms.addGroupType(season, groupA);
-        Group group = updatedSeason.getGroup(groupA);
+        GroupTypeEntity groupA = mdms.findGroupType("Gruppe A").orElseThrow();
+        final SeasonEntity updatedSeason = sms.addGroupType(season, groupA);
+        GroupEntity group = updatedSeason.getGroup(groupA);
         group = sms.addTeam(updatedSeason, groupA, stuttgart);
         group = sms.addTeam(updatedSeason, groupA, hsv);
         assertThat(group.getTeams()).hasSize(2);
@@ -168,29 +168,29 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         SeasonManagerService sms = seasonManagerService;
         MasterDataManagerService mdms = masterDataManagerService;
 
-        Season season = new Season(SeasonReference.of("2020/2021", "Bundesliga"));
+        SeasonEntity season = new SeasonEntity(SeasonReference.of("2020/2021", "Bundesliga"));
         season.setMode(SeasonType.LEAGUE);
         season.setTeamType(TeamType.DFB);
         sms.createSeason(season);
 
-        Season season2 = sms.findSeasonById(season.getId());
+        SeasonEntity season2 = sms.findSeasonById(season.getId());
         assertThat(season2.getReference()).isEqualTo(season.getReference());
 
-        Team stuttgart = mdms.findTeam("VfB Stuttgart").orElseThrow();
-        Team hsv = mdms.findTeam("Hamburger SV").orElseThrow();
-        Team dortmund = mdms.findTeam("Borussia Dortmund").orElseThrow();
-        Team wolfsburg = mdms.findTeam("VfL Wolfsburg").orElseThrow();
-        Team fcKoeln = mdms.findTeam("1.FC Köln").orElseThrow();
-        Team hansaRostock = mdms.findTeam("Hansa Rostock").orElseThrow();
+        TeamEntity stuttgart = mdms.findTeam("VfB Stuttgart").orElseThrow();
+        TeamEntity hsv = mdms.findTeam("Hamburger SV").orElseThrow();
+        TeamEntity dortmund = mdms.findTeam("Borussia Dortmund").orElseThrow();
+        TeamEntity wolfsburg = mdms.findTeam("VfL Wolfsburg").orElseThrow();
+        TeamEntity fcKoeln = mdms.findTeam("1.FC Köln").orElseThrow();
+        TeamEntity hansaRostock = mdms.findTeam("Hansa Rostock").orElseThrow();
 
-        GroupType groupTypeA = mdms.findGroupType("Gruppe A").orElseThrow();
-        GroupType groupTypeB = mdms.findGroupType("Gruppe B").orElseThrow();
+        GroupTypeEntity groupTypeA = mdms.findGroupType("Gruppe A").orElseThrow();
+        GroupTypeEntity groupTypeB = mdms.findGroupType("Gruppe B").orElseThrow();
 
         season = sms.addGroupType(season, groupTypeA);
         season = sms.addGroupType(season, groupTypeB);
 
-        Group groupA = season.getGroup(groupTypeA);
-        Group groupB = season.getGroup(groupTypeB);
+        GroupEntity groupA = season.getGroup(groupTypeA);
+        GroupEntity groupB = season.getGroup(groupTypeB);
 
         sms.addTeam(season, groupTypeA, stuttgart);
         sms.addTeam(season, groupTypeA, hsv);
@@ -199,7 +199,7 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         sms.addTeam(season, groupTypeA, fcKoeln);
         sms.addTeam(season, groupTypeA, hansaRostock);
 
-        List<GroupType> groupTypes = sms.findGroupTypes(season);
+        List<GroupTypeEntity> groupTypes = sms.findGroupTypes(season);
         assertEquals(groupTypeA.getId(), groupTypes.get(0).getId());
         assertEquals(groupTypeB.getId(), groupTypes.get(1).getId());
         assertThat(groupTypes).hasSize(2);
@@ -210,16 +210,16 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         assertThat(groupTypes).hasSize(1);
 
         ZonedDateTime now = ZonedDateTime.now();
-        GameList round1 = sms.addRound(season, now, groupTypeA);
-        GameList round2 = sms.addRound(season, now.plusDays(1), groupTypeA);
+        GameListEntity round1 = sms.addRound(season, now, groupTypeA);
+        GameListEntity round2 = sms.addRound(season, now.plusDays(1), groupTypeA);
 
-        Game stuttgartVsHamburg = sms.addMatch(round1, now, groupA, stuttgart, hsv);
+        GameEntity stuttgartVsHamburg = sms.addMatch(round1, now, groupA, stuttgart, hsv);
         assertThat(stuttgartVsHamburg.getIndex()).isEqualTo(0);
 
-        Game dortmundVsWolfsburg = sms.addMatch(round1, now, groupA, dortmund, wolfsburg);
+        GameEntity dortmundVsWolfsburg = sms.addMatch(round1, now, groupA, dortmund, wolfsburg);
         assertThat(dortmundVsWolfsburg.getIndex()).isEqualTo(1);
 
-        Game fcKoelnVsHansRostock = sms.addMatch(round1, now, groupA, fcKoeln, hansaRostock);
+        GameEntity fcKoelnVsHansRostock = sms.addMatch(round1, now, groupA, fcKoeln, hansaRostock);
         assertThat(fcKoelnVsHansRostock.getIndex()).isEqualTo(2);
 
         stuttgartVsHamburg.setResult(2, 2, true);
@@ -228,20 +228,20 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         dortmundVsWolfsburg.setResult(1, 0, true);
         dortmundVsWolfsburg.setHalfTimeGoals(0, 0);
 
-        Location imtecharena = new Location();
+        LocationEntity imtecharena = new LocationEntity();
         imtecharena.setCity("Hamburg");
         imtecharena.setName("Imtecharena");
         imtecharena.setGeodat("10.10.10.10");
         imtecharena.setOpenligaid(4711L);
         masterDataManagerService.createLocation(imtecharena);
 
-        Player frankMill = new Player();
+        PlayerEntity frankMill = new PlayerEntity();
         frankMill.setName("Mill");
         frankMill.setVorname("Frank");
         frankMill.setOpenligaid(1L);
         masterDataManagerService.createPlayer(frankMill);
 
-        Player enteLippens = new Player();
+        PlayerEntity enteLippens = new PlayerEntity();
         enteLippens.setName("Lippens");
         enteLippens.setVorname("Ente");
         enteLippens.setOpenligaid(2L);
@@ -251,7 +251,7 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         sms.updateMatch(stuttgartVsHamburg);
         sms.updateMatch(dortmundVsWolfsburg);
 
-        Goal goal1 = new Goal();
+        GoalEntity goal1 = new GoalEntity();
         goal1.setIndex(0);
         goal1.setComment("RWE macht wieder ein Tor.");
         goal1.setGoalType(GoalType.REGULAR);
@@ -261,9 +261,9 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         goal1.setResult(new GameResult(0, 1));
         sms.addGoal(stuttgartVsHamburg, goal1);
 
-        List<Game> matches = sms.findMatches(stuttgart, hsv, 100);
+        List<GameEntity> matches = sms.findMatches(stuttgart, hsv, 100);
         assertThat(matches).hasSize(1);
-        Game actualMatch = matches.get(0);
+        GameEntity actualMatch = matches.get(0);
         assertThat(actualMatch.getResult().getHomeGoals()).isEqualTo(2);
         assertThat(actualMatch.getResult().getGuestGoals()).isEqualTo(2);
         assertThat(actualMatch.getHalfTimeGoals().getHomeGoals()).isEqualTo(1);
@@ -272,25 +272,25 @@ class CreateNewSeasonTest extends AbstractServiceTest {
         assertThat(actualMatch.getGoals().size()).isEqualTo(1);
         assertThat(actualMatch.getLocation().getName()).isEqualTo("Imtecharena");
 
-        Player playerByOpenligaid = masterDataManagerService.findPlayerByOpenligaid(1L).orElseThrow();
+        PlayerEntity playerByOpenligaid = masterDataManagerService.findPlayerByOpenligaid(1L).orElseThrow();
         assertThat(playerByOpenligaid.getName()).isEqualTo("Mill");
 
-        List<Goal> goals = sms.findAllGoals();
+        List<GoalEntity> goals = sms.findAllGoals();
         assertThat(goals.size()).isEqualTo(1);
         assertThat(goals.get(0).getPlayer().getName()).isEqualTo("Lippens");
 
-        Optional<Player> lippens = masterDataManagerService
+        Optional<PlayerEntity> lippens = masterDataManagerService
                 .findPlayerByOpenligaid(2L);
-        Optional<Player> lippens2 = seasonManagerService
+        Optional<PlayerEntity> lippens2 = seasonManagerService
                 .findGoalsOfPlayer(lippens.get().getId());
         assertThat(lippens2.get().getGoals().size()).isEqualTo(1);
 
-        List<GameList> rounds = sms.findRounds(season);
-        GameList gameList = sms.findRoundGames(rounds.get(0).getId()).orElseThrow();
+        List<GameListEntity> rounds = sms.findRounds(season);
+        GameListEntity gameList = sms.findRoundGames(rounds.get(0).getId()).orElseThrow();
         assertThat(gameList.size()).isEqualTo(3);
 
-        Game dortmundVsHsv = seasonManagerService.addMatch(round2, now.plusDays(1), groupA, dortmund, hsv);
-        Game hansaRostockVsWolfsburg = seasonManagerService.addMatch(round2, now.plusDays(1), groupA, hansaRostock,
+        GameEntity dortmundVsHsv = seasonManagerService.addMatch(round2, now.plusDays(1), groupA, dortmund, hsv);
+        GameEntity hansaRostockVsWolfsburg = seasonManagerService.addMatch(round2, now.plusDays(1), groupA, hansaRostock,
                 wolfsburg);
         assertThat(seasonManagerService.findRound(season, 1)).isPresent().hasValueSatisfying(round -> {
             assertThat(round.getIndex()).isEqualTo(1);

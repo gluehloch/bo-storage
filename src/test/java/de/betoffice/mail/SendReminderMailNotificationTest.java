@@ -36,7 +36,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.storage.season.RoundDaoHibernateTest;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.time.DateTimeProvider;
 
 @ContextConfiguration(classes = { SendReminderMailNotificationConfiguration.class })
@@ -58,7 +58,7 @@ class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
         assertThat(dateTimeProvider.currentDateTime())
                 .isEqualTo(ZonedDateTime.of(2016, 2, 5, 0, 0, 0, 0, dateTimeProvider.defaultZoneId()));
 
-        Optional<GameList> nextTippRound = sendReminderMailNotification.findNextTippRound();
+        Optional<GameListEntity> nextTippRound = sendReminderMailNotification.findNextTippRound();
         assertThat(nextTippRound).isNotEmpty();
 
         sendReminderMailNotification.send();

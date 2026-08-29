@@ -41,7 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.storage.team.TeamAlias;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 import de.betoffice.validation.ValidationException;
 
 /**
@@ -83,8 +83,8 @@ public class MasterDataManagerServiceTeamAliasTest extends AbstractServiceTest {
 
     @Test
     public void testCreateTeamAlias() {
-        Team rwe = createTeam("RWE", "Rot-Weiss-Essen");
-        Team rwo = createTeam("RWO", "Rot-Weiss-Oberhausen");
+        TeamEntity rwe = createTeam("RWE", "Rot-Weiss-Essen");
+        TeamEntity rwo = createTeam("RWO", "Rot-Weiss-Oberhausen");
 
         TeamAlias rweAlias = masterDataManagerService.createTeamAlias(rwe, "Rot Weiss Essen");
         TeamAlias rwoAlias = masterDataManagerService.createTeamAlias(rwo, "Rot Weiss Oberhausen");
@@ -110,7 +110,7 @@ public class MasterDataManagerServiceTeamAliasTest extends AbstractServiceTest {
 
     @Test
     public void testCreateInvalidTeamAlias() {
-        Team rwe = createTeam("RWE", "Rot-Weiss-Essen");
+        TeamEntity rwe = createTeam("RWE", "Rot-Weiss-Essen");
 
         ValidationException ex1 = assertThrows(
                 ValidationException.class, () -> {
@@ -127,8 +127,8 @@ public class MasterDataManagerServiceTeamAliasTest extends AbstractServiceTest {
 
     @Test
     public void testUpdateTeamAlias() {
-        Team rwe = createTeam("RWE", "Rot-Weiss-Essen");
-        Team rwo = createTeam("RWO", "Rot-Weiss-Oberhausen");
+        TeamEntity rwe = createTeam("RWE", "Rot-Weiss-Essen");
+        TeamEntity rwo = createTeam("RWO", "Rot-Weiss-Oberhausen");
 
         TeamAlias rweAlias = masterDataManagerService.createTeamAlias(rwe, "Rot Weiss Essen");
         TeamAlias rwoAlias = masterDataManagerService.createTeamAlias(rwo, "Rot Weiss Oberhausen");
@@ -138,16 +138,16 @@ public class MasterDataManagerServiceTeamAliasTest extends AbstractServiceTest {
         rwoAlias.setAliasName("An other value");
         masterDataManagerService.updateTeamAlias(rwoAlias);
 
-        Optional<Team> rweByAlias = masterDataManagerService.findTeamByAlias("A new alias name");
+        Optional<TeamEntity> rweByAlias = masterDataManagerService.findTeamByAlias("A new alias name");
         assertThat(rweByAlias.get()).isEqualTo(rwe);
 
-        Optional<Team> rwoByAlias = masterDataManagerService.findTeamByAlias("An other value");
+        Optional<TeamEntity> rwoByAlias = masterDataManagerService.findTeamByAlias("An other value");
         assertThat(rwoByAlias.get()).isEqualTo(rwo);
     }
 
     @Test
     public void testDeleteTeamAlias() {
-        Team rwe = createTeam("RWE", "Rot-Weiss-Essen");
+        TeamEntity rwe = createTeam("RWE", "Rot-Weiss-Essen");
 
         TeamAlias rweAlias = masterDataManagerService.createTeamAlias(rwe, "Rot Weiss Essen");
 
@@ -158,12 +158,12 @@ public class MasterDataManagerServiceTeamAliasTest extends AbstractServiceTest {
         rweAliasNames = masterDataManagerService.findAllTeamAlias(rwe);
         assertThat(rweAliasNames).hasSize(0);
 
-        Optional<Team> rwePersistent = masterDataManagerService.findTeamByAlias("Rot Weiss Essen");
+        Optional<TeamEntity> rwePersistent = masterDataManagerService.findTeamByAlias("Rot Weiss Essen");
         assertThat(rwePersistent.isPresent()).isFalse();
     }
 
-    private Team createTeam(final String name, final String longname) {
-        Team team = new Team();
+    private TeamEntity createTeam(final String name, final String longname) {
+        TeamEntity team = new TeamEntity();
         team.setName(name);
         team.setLongName(longname);
         masterDataManagerService.createTeam(team);

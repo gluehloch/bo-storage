@@ -38,10 +38,10 @@ import org.springframework.stereotype.Repository;
 
 import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.RoundDao;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 
 /**
  * Eine Hibernate-DAO Implementierung zur Verwaltung eines Spieltags.
@@ -49,7 +49,7 @@ import de.betoffice.storage.season.entity.Season;
  * @author by Andre Winkler
  */
 @Repository("roundDao")
-public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements RoundDao {
+public class RoundDaoHibernate extends AbstractCommonDao<GameListEntity> implements RoundDao {
 
     /**
      * Sucht nach allen Spieltagen einer Meisterschaft.
@@ -58,7 +58,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             select
                 gl
             from
-                GameList gl
+                GameListEntity gl
             where
                 gl.season.id = :seasonId
             order by
@@ -72,7 +72,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             select
                 gl
             from
-                GameList gl
+                GameListEntity gl
             where
                 gl.season.id = :seasonId
                 and gl.index =
@@ -80,7 +80,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
                     select
                         max(index)
                     from
-                        GameList gl2
+                        GameListEntity gl2
                     where
                         gl2.season.id = gl.season.id
                 )
@@ -93,15 +93,15 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             select
             	gl
             from
-                  	GameList gl
-                  where
+                  	GameListEntity gl
+            where
             	gl.season.id = :seasonId
                 and gl.index =
                 (
             		select
                   		min(index)
                 	from
-                  		GameList gl2
+                  		GameListEntity gl2
                   	where
                   		gl2.season.id = gl.season.id
                 )
@@ -110,12 +110,11 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     /**
      * Sucht nach allen Spieltagen einer Meisterschaft fuer eine bestimmte Gruppe.
      */
-    private static final String QUERY_GAMELIST_AND_GAMES_BY_SEASON_GROUP = 
-            """
+    private static final String QUERY_GAMELIST_AND_GAMES_BY_SEASON_GROUP = """
             select
                 distinct round
             from
-                GameList as round
+                GameListEntity as round
                 left join fetch round.gameList game
             where
                 game is null or game.group.id = :groupId
@@ -126,7 +125,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     /** Sucht nach einem Spieltag zu einen Spiel. */
     private static final String QUERY_GAMELIST_OF_GAME = "select round "
             + "from "
-            + "    GameList as round "
+            + "    GameListEntity as round "
             + "    join round.gameList game "
             + "where "
             + "     game.id = :gameId";
@@ -136,7 +135,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
      */
     private static final String QUERY_ROUND_AND_GAMES_BY_INDEX = "select round "
             + "from "
-            + "    GameList as round "
+            + "    GameListEntity as round "
             + "    left join fetch round.gameList game "
             + "    left join fetch game.homeTeam "
             + "    left join fetch game.guestTeam "
@@ -150,7 +149,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
      */
     private static final String QUERY_ROUND_AND_GAMES_BY_ID = "select round "
             + "from "
-            + "    GameList as round "
+            + "    GameListEntity as round "
             + "    left join fetch round.gameList game "
             + "    left join fetch game.homeTeam "
             + "    left join fetch game.guestTeam "
@@ -234,7 +233,7 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             select
                 g
             from
-                Game g
+                GameEntity g
             where
                 g.dateTime = :date
             """;
@@ -272,31 +271,31 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
             "query_prev_round.sql");
 
     public RoundDaoHibernate() {
-        super(GameList.class);
+        super(GameListEntity.class);
     }
 
     @Override
-    public List<GameList> findRounds(Season season) {
-        List<GameList> objects = getEntityManager()
-                .createQuery(QUERY_GAMELIST_BY_SEASON, GameList.class)
+    public List<GameListEntity> findRounds(SeasonEntity season) {
+        List<GameListEntity> objects = getEntityManager()
+                .createQuery(QUERY_GAMELIST_BY_SEASON, GameListEntity.class)
                 .setParameter("seasonId", season.getId())
                 .getResultList();
         return objects;
     }
 
     @Override
-    public List<GameList> findRounds(Group group) {
-        List<GameList> objects = getEntityManager()
-                .createQuery(QUERY_GAMELIST_AND_GAMES_BY_SEASON_GROUP, GameList.class)
+    public List<GameListEntity> findRounds(GroupEntity group) {
+        List<GameListEntity> objects = getEntityManager()
+                .createQuery(QUERY_GAMELIST_AND_GAMES_BY_SEASON_GROUP, GameListEntity.class)
                 .setParameter("groupId", group.getId())
                 .getResultList();
         return objects;
     }
 
     @Override
-    public Optional<GameList> findRound(Season season, int index) {
-        TypedQuery<GameList> query = getEntityManager()
-                .createQuery(QUERY_ROUND_AND_GAMES_BY_INDEX, GameList.class)
+    public Optional<GameListEntity> findRound(SeasonEntity season, int index) {
+        TypedQuery<GameListEntity> query = getEntityManager()
+                .createQuery(QUERY_ROUND_AND_GAMES_BY_INDEX, GameListEntity.class)
                 .setParameter("seasonId", season.getId())
                 .setParameter("index", Integer.valueOf(index));
 
@@ -304,18 +303,18 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     }
 
     @Override
-    public Optional<GameList> findRound(long roundId) {
-        TypedQuery<GameList> query = getEntityManager()
-                .createQuery(QUERY_ROUND_AND_GAMES_BY_ID, GameList.class)
+    public Optional<GameListEntity> findRound(long roundId) {
+        TypedQuery<GameListEntity> query = getEntityManager()
+                .createQuery(QUERY_ROUND_AND_GAMES_BY_ID, GameListEntity.class)
                 .setParameter("roundId", roundId);
 
         return singleResult(query);
     }
 
     @Override
-    public Optional<GameList> findRoundByGame(Game game) {
-        TypedQuery<GameList> query = getEntityManager()
-                .createQuery(QUERY_GAMELIST_OF_GAME, GameList.class)
+    public Optional<GameListEntity> findRoundByGame(GameEntity game) {
+        TypedQuery<GameListEntity> query = getEntityManager()
+                .createQuery(QUERY_GAMELIST_OF_GAME, GameListEntity.class)
                 .setParameter("gameId", game.getId());
         return singleResult(query);
     }
@@ -367,9 +366,10 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     }
 
     @Override
-    public List<Game> findGames(ZonedDateTime date) {
-        org.hibernate.query.Query<Game> query = getEntityManager().unwrap(Session.class).createQuery(QUERY_GAME_BY_DATE,
-                Game.class);
+    public List<GameEntity> findGames(ZonedDateTime date) {
+        org.hibernate.query.Query<GameEntity> query = getEntityManager().unwrap(Session.class).createQuery(
+                QUERY_GAME_BY_DATE,
+                GameEntity.class);
         query.setParameter("date", date, ZonedDateTime.class);
         return query.getResultList();
     }
@@ -425,17 +425,17 @@ public class RoundDaoHibernate extends AbstractCommonDao<GameList> implements Ro
     }
 
     @Override
-    public Optional<GameList> findLastRound(Season season) {
-        TypedQuery<GameList> query = getEntityManager().unwrap(Session.class)
-                .createQuery(QUERY_LAST_GAMELIST_BY_SEASON, GameList.class)
+    public Optional<GameListEntity> findLastRound(SeasonEntity season) {
+        TypedQuery<GameListEntity> query = getEntityManager().unwrap(Session.class)
+                .createQuery(QUERY_LAST_GAMELIST_BY_SEASON, GameListEntity.class)
                 .setParameter("seasonId", season.getId());
         return singleResult(query);
     }
 
     @Override
-    public Optional<GameList> findFirstRound(Season season) {
-        TypedQuery<GameList> query = getEntityManager().unwrap(Session.class)
-                .createQuery(QUERY_FIRST_GAMELIST_BY_SEASON, GameList.class)
+    public Optional<GameListEntity> findFirstRound(SeasonEntity season) {
+        TypedQuery<GameListEntity> query = getEntityManager().unwrap(Session.class)
+                .createQuery(QUERY_FIRST_GAMELIST_BY_SEASON, GameListEntity.class)
                 .setParameter("seasonId", season.getId());
         return singleResult(query);
     }

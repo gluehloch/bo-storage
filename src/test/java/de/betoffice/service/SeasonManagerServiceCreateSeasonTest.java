@@ -49,20 +49,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
+import de.betoffice.service.request.CommunityCreateCommand;
 import de.betoffice.storage.community.entity.CommunityReference;
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.SeasonType;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.season.entity.GameResult;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 import de.betoffice.storage.tip.TippStatusType;
 import de.betoffice.storage.user.UserResult;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 import de.betoffice.validation.ValidationException;
 
 /**
@@ -121,18 +122,18 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         dsuatd.tearDown();
     }
 
-    private Team rwe;
-    private Team schalke;
-    private Team burghausen;
-    private Team hsv;
+    private TeamEntity rwe;
+    private TeamEntity schalke;
+    private TeamEntity burghausen;
+    private TeamEntity hsv;
 
-    private GroupType bundesliga_1;
-    private GroupType bundesliga_2;
+    private GroupTypeEntity bundesliga_1;
+    private GroupTypeEntity bundesliga_2;
 
-    private Season buli_2010;
-    private Group buli_1_group;
+    private SeasonEntity buli_2010;
+    private GroupEntity buli_1_group;
     @SuppressWarnings("unused")
-    private Group buli_2_group;
+    private GroupEntity buli_2_group;
 
     //    private GameList round_01;
     //    private GameList round_02;
@@ -159,10 +160,10 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         createUsers();
         createCommunity();
 
-        List<Team> removeTeams = Arrays.asList(rwe, schalke);
+        List<TeamEntity> removeTeams = Arrays.asList(rwe, schalke);
         seasonManagerService.removeTeams(buli_2010, bundesliga_1, removeTeams);
 
-        List<Team> teams = seasonManagerService.findTeams(buli_2010, bundesliga_1);
+        List<TeamEntity> teams = seasonManagerService.findTeams(buli_2010, bundesliga_1);
         assertThat(teams).hasSize(2);
         assertThat(teams.get(0)).isEqualTo(hsv);
         assertThat(teams.get(1)).isEqualTo(burghausen);
@@ -197,7 +198,7 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         createSeason();
         createGroups();
 
-        List<Team> teams = new ArrayList<>();
+        List<TeamEntity> teams = new ArrayList<>();
         teams.add(hsv);
         teams.add(schalke);
         teams.add(burghausen);
@@ -216,12 +217,12 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         addTeamsToBuli1();
         createRounds();
 
-        List<GameList> rounds = seasonManagerService.findRounds(buli_2010);
+        List<GameListEntity> rounds = seasonManagerService.findRounds(buli_2010);
         assertThat(rounds).hasSize(3);
 
         seasonManagerService.removeRound(buli_2010, rounds.get(0));
 
-        List<GameList> roundsAfterDelete = seasonManagerService.findRounds(buli_2010);
+        List<GameListEntity> roundsAfterDelete = seasonManagerService.findRounds(buli_2010);
         assertThat(roundsAfterDelete).hasSize(2);
     }
 
@@ -231,9 +232,9 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         createGroupTypes();
         createSeason();
 
-        User userFrosch = createUser(frosch, "Andre", "Winkler");
-        User userPeter = createUser(peter, "Peter", "Groth");
-        User userMrTipp = createUser(mrTipp, "Markus", "Rohloff");
+        UserEntity userFrosch = createUser(frosch, "Andre", "Winkler");
+        UserEntity userPeter = createUser(peter, "Peter", "Groth");
+        UserEntity userMrTipp = createUser(mrTipp, "Markus", "Rohloff");
         createCommunity();
 
         communityService.removeMember(communityReference, frosch);
@@ -243,7 +244,7 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         communityService.addMember(communityReference, frosch);
         communityService.addMember(communityReference, peter);
 
-        Set<User> members = communityService.findMembers(communityReference);
+        Set<UserEntity> members = communityService.findMembers(communityReference);
         assertThat(members).hasSize(2).containsExactly(userFrosch, userPeter);
     }
 
@@ -251,22 +252,22 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     void testCreateMatches() {
         createTeams();
         createGroupTypes();
-        Season season = createSeason();
+        SeasonEntity season = createSeason();
         createGroups();
         addTeamsToBuli1();
         createRounds();
         createMatches();
 
-        List<GameList> rounds = seasonManagerService.findRounds(season);
+        List<GameListEntity> rounds = seasonManagerService.findRounds(season);
         assertThat(rounds).hasSize(3);
 
-        GameList round1 = seasonManagerService.findRound(season, 0).orElseThrow();
+        GameListEntity round1 = seasonManagerService.findRound(season, 0).orElseThrow();
         assertThat(round1.size()).isEqualTo(2);
 
-        GameList round2 = seasonManagerService.findRound(season, 1).orElseThrow();
+        GameListEntity round2 = seasonManagerService.findRound(season, 1).orElseThrow();
         assertThat(round2.size()).isEqualTo(2);
 
-        GameList round3 = seasonManagerService.findRound(season, 2).orElseThrow();
+        GameListEntity round3 = seasonManagerService.findRound(season, 2).orElseThrow();
         assertThat(round3.size()).isEqualTo(2);
     }
 
@@ -295,13 +296,13 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         // Frosch 2:0 | 1:1 || 1:1 | 1:1 || 1:2 | 0:1
         //
 
-        User userFrosch = communityService.findUser(frosch).orElseThrow();
-        User userPeter = communityService.findUser(peter).orElseThrow();
-        User userMrTipp = communityService.findUser(mrTipp).orElseThrow();
+        UserEntity userFrosch = communityService.findUser(frosch).orElseThrow();
+        UserEntity userPeter = communityService.findUser(peter).orElseThrow();
+        UserEntity userMrTipp = communityService.findUser(mrTipp).orElseThrow();
 
-        GameList round_01 = seasonManagerService.findRound(buli_2010, 0).orElseThrow();
-        GameList round_02 = seasonManagerService.findRound(buli_2010, 1).orElseThrow();
-        GameList round_03 = seasonManagerService.findRound(buli_2010, 2).orElseThrow();
+        GameListEntity round_01 = seasonManagerService.findRound(buli_2010, 0).orElseThrow();
+        GameListEntity round_02 = seasonManagerService.findRound(buli_2010, 1).orElseThrow();
+        GameListEntity round_03 = seasonManagerService.findRound(buli_2010, 2).orElseThrow();
 
         tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, userFrosch,
                 List.of(new GameResult(2, 0), new GameResult(1, 1)), TippStatusType.USER);
@@ -371,14 +372,14 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     private void createMatch(final int roundIndex, final ZonedDateTime date,
-            final Team homeTeam, final Team guestTeam, final int homeGoals,
+            final TeamEntity homeTeam, final TeamEntity guestTeam, final int homeGoals,
             final int guestGoals) {
 
         seasonManagerService.addMatch(buli_2010, roundIndex, date, bundesliga_1,
                 homeTeam, guestTeam, homeGoals, guestGoals);
 
-        GameList round = seasonManagerService.findRound(buli_2010, roundIndex).orElseThrow();
-        Game match = seasonManagerService.findMatch(round, homeTeam, guestTeam).orElseThrow();
+        GameListEntity round = seasonManagerService.findRound(buli_2010, roundIndex).orElseThrow();
+        GameEntity match = seasonManagerService.findMatch(round, homeTeam, guestTeam).orElseThrow();
 
         assertThat(match.getHomeTeam()).isEqualTo(homeTeam);
         assertThat(match.getGuestTeam()).isEqualTo(guestTeam);
@@ -402,19 +403,19 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     private void addTeamsToBuli1() {
-        Group group = seasonManagerService.addTeam(buli_2010, bundesliga_1, hsv);
+        GroupEntity group = seasonManagerService.addTeam(buli_2010, bundesliga_1, hsv);
         group = seasonManagerService.addTeam(buli_2010, bundesliga_1, schalke);
         group = seasonManagerService.addTeam(buli_2010, bundesliga_1, burghausen);
         group = seasonManagerService.addTeam(buli_2010, bundesliga_1, rwe);
         assertThat(group.getTeams()).hasSize(4);
-        List<Group> groups = seasonManagerService.findGroups(buli_2010);
+        List<GroupEntity> groups = seasonManagerService.findGroups(buli_2010);
         assertThat(groups.get(0).getTeams()).hasSize(4);
     }
 
-    private GameList createRound(final int roundNr, final ZonedDateTime date) {
-        GameList round = seasonManagerService.addRound(buli_2010, date, bundesliga_1);
+    private GameListEntity createRound(final int roundNr, final ZonedDateTime date) {
+        GameListEntity round = seasonManagerService.addRound(buli_2010, date, bundesliga_1);
         assertThat(round.getSeason().size()).isEqualTo(roundNr);
-        List<GameList> rounds = seasonManagerService.findRounds(buli_2010);
+        List<GameListEntity> rounds = seasonManagerService.findRounds(buli_2010);
         assertThat(rounds).hasSize(roundNr);
         assertThat(rounds.get(roundNr - 1).getDateTime()).isEqualTo(date);
         return round;
@@ -433,13 +434,13 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         assertThat(buli_2_group.getSeason()).isEqualTo(buli_2010);
         assertThat(buli_2_group.getGroupType()).isEqualTo(bundesliga_2);
 
-        List<Group> groups = seasonManagerService.findGroups(buli_2010);
+        List<GroupEntity> groups = seasonManagerService.findGroups(buli_2010);
         assertThat(groups).hasSize(2);
         assertThat(groups).containsExactlyInAnyOrder(buli_1_group, buli_2_group);
     }
 
-    private Season createSeason() {
-        buli_2010 = new Season();
+    private SeasonEntity createSeason() {
+        buli_2010 = new SeasonEntity();
         buli_2010.setReference(seasonReference);
         buli_2010.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(buli_2010);
@@ -462,8 +463,8 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         assertThat(masterDataManagerService.findAllTeams()).hasSize(4);
     }
 
-    private Team createTeam(final String name, final String longname) {
-        Team team = new Team();
+    private TeamEntity createTeam(final String name, final String longname) {
+        TeamEntity team = new TeamEntity();
         team.setName(name);
         team.setLongName(longname);
         masterDataManagerService.createTeam(team);
@@ -471,8 +472,8 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         return team;
     }
 
-    private GroupType createGroupType(final String groupTypeName) {
-        GroupType groupType = new GroupType();
+    private GroupTypeEntity createGroupType(final String groupTypeName) {
+        GroupTypeEntity groupType = new GroupTypeEntity();
         groupType.setName(groupTypeName);
         masterDataManagerService.createGroupType(groupType);
         assertThat(masterDataManagerService.findGroupType(groupTypeName).get())
@@ -481,7 +482,7 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     private void createCommunity() {
-        communityService.create(communityReference, seasonReference, "Bundesliga 2010/11", "2024", frosch);
+        communityService.create(new CommunityCreateCommand(communityReference, seasonReference, "Bundesliga 2010/11", "2024", frosch));
         communityService.addMembers(communityReference, nicknames);
     }
 
@@ -491,8 +492,8 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         createUser(mrTipp, "Markus", "Rohloff");
     }
 
-    private User createUser(Nickname nickname, String surname, String name) {
-        User user = new User();
+    private UserEntity createUser(Nickname nickname, String surname, String name) {
+        UserEntity user = new UserEntity();
         user.setNickname(nickname);
         user.setName(name);
         user.setSurname(surname);

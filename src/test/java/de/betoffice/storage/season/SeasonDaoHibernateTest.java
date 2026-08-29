@@ -35,7 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.storage.season.dao.SeasonDaoHibernate;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.team.TeamType;
 
@@ -56,7 +56,7 @@ class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testSeasonFindAll() {
-        List<Season> seasons = seasonDaoHibernate.findAll();
+        List<SeasonEntity> seasons = seasonDaoHibernate.findAll();
         assertEquals(4, seasons.size());
         assertEquals("1. Bundesliga", seasons.get(0).getReference().getName());
         assertEquals("1999/2000", seasons.get(0).getReference().getYear());
@@ -85,7 +85,7 @@ class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testSeasonFindByNameGroupTeam() {
-        Season season = seasonDaoHibernate.find(SeasonReference.of("2000/2001", "1. Bundesliga")).orElseThrow();
+        SeasonEntity season = seasonDaoHibernate.find(SeasonReference.of("2000/2001", "1. Bundesliga")).orElseThrow();
         assertEquals("1. Bundesliga", season.getReference().getName());
         assertEquals("2000/2001", season.getReference().getYear());
         assertEquals(0, season.getGroups().size());
@@ -93,8 +93,8 @@ class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testSeasonDaoHibernate() {
-        Season season = seasonDaoHibernate.find(SeasonReference.of("1999/2000", "1. Bundesliga")).orElseThrow();
-        Season season2 = seasonDaoHibernate.findById(season.getId());
+        SeasonEntity season = seasonDaoHibernate.find(SeasonReference.of("1999/2000", "1. Bundesliga")).orElseThrow();
+        SeasonEntity season2 = seasonDaoHibernate.findById(season.getId());
 
         assertEquals("1999/2000", season.getReference().getYear());
         assertEquals("1. Bundesliga", season.getReference().getName());
@@ -103,7 +103,7 @@ class SeasonDaoHibernateTest extends AbstractDaoTestSupport {
         assertEquals("1. Bundesliga", season2.getReference().getName());
         assertEquals(TeamType.DFB, season2.getTeamType());
 
-        List<Season> seasons = seasonDaoHibernate.findAll();
+        List<SeasonEntity> seasons = seasonDaoHibernate.findAll();
         assertEquals(4, seasons.size());
 
         assertThat(seasons.get(0).getReference().getYear()).isEqualTo("1999/2000");

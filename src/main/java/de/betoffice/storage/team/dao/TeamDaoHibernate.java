@@ -31,12 +31,12 @@ import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.hibernate.AbstractCommonDao;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.team.TeamDao;
 import de.betoffice.storage.team.TeamType;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Klasse für den Zugriff auf <code>Team</code> Objekte mit Hibernate.
@@ -44,38 +44,41 @@ import de.betoffice.storage.team.entity.Team;
  * @author Andre Winkler
  */
 @Repository("teamDao")
-public class TeamDaoHibernate extends AbstractCommonDao<Team>
+public class TeamDaoHibernate extends AbstractCommonDao<TeamEntity>
         implements TeamDao {
 
     private static final String QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE = AbstractCommonDao
             .loadQuery(TeamDaoHibernate.class, "query_teams_by_season_and_grouptype.sql");
 
     /** Sucht nach allen Teams mit einem bestimmten Namen. */
-    public static final String QUERY_TEAM_BY_NAME = "select team from Team as team where team.name = :teamName";
+    public static final String QUERY_TEAM_BY_NAME = 
+            "select team from TeamEntity as team where team.name = :teamName";
 
     /** Sucht nach allen Teams mit einem bestimmten Typen. */
-    public static final String QUERY_TEAM_BY_TYPE = "select team from Team as team where team.teamType = :teamType order by team.name";
+    public static final String QUERY_TEAM_BY_TYPE = 
+            "select team from TeamEntity as team where team.teamType = :teamType order by team.name";
 
     /** Sucht nach einer Mannschaft anhand der openligadb ID. */
-    public static final String QUERY_TEAM_BY_OPENLIGAID = "select team from Team as team where team.openligaid = :openligaid";
+    public static final String QUERY_TEAM_BY_OPENLIGAID = 
+            "select team from TeamEntity as team where team.openligaid = :openligaid";
 
     // ------------------------------------------------------------------------
 
     public TeamDaoHibernate() {
-        super(Team.class);
+        super(TeamEntity.class);
     }
 
     @Override
-    public List<Team> findAll() {
+    public List<TeamEntity> findAll() {
         return getEntityManager()
-                .createQuery("select team from Team as team order by team.name", Team.class)
+                .createQuery("select team from TeamEntity as team order by team.name", TeamEntity.class)
                 .getResultList();
     }
 
     @Override
-    public List<Team> findTeams(TeamType teamType) {
+    public List<TeamEntity> findTeams(TeamType teamType) {
         return getEntityManager()
-                .createQuery(QUERY_TEAM_BY_TYPE, Team.class)
+                .createQuery(QUERY_TEAM_BY_TYPE, TeamEntity.class)
                 .setParameter("teamType", teamType)
                 .getResultList();
     }
@@ -87,12 +90,12 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
                         OR LOWER(team.logo) LIKE '%' || :filter || '%' 
      */
     @Override
-    public List<Team> findTeams(Optional<TeamType> teamType, String filter) {
+    public List<TeamEntity> findTeams(Optional<TeamType> teamType, String filter) {
         final String query = """
                 SELECT
                     team
                 FROM
-                    Team as team
+                    TeamEntity as team
                 WHERE
                     (
                         :filter IS NULL
@@ -106,24 +109,24 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
                     team.name
                 """;
         return getEntityManager()
-                .createQuery(query, Team.class)
+                .createQuery(query, TeamEntity.class)
                 .setParameter("teamType", teamType.orElse(null))
                 .setParameter("filter", filter)
                 .getResultList();
     }
 
     @Override
-    public Optional<Team> findByName(final String name) {
-        TypedQuery<Team> query = getEntityManager()
-                .createQuery(QUERY_TEAM_BY_NAME, Team.class)
+    public Optional<TeamEntity> findByName(final String name) {
+        TypedQuery<TeamEntity> query = getEntityManager()
+                .createQuery(QUERY_TEAM_BY_NAME, TeamEntity.class)
                 .setParameter("teamName", name);
         return singleResult(query);
     }
 
     @Override
-    public List<Team> findTeamsBySeasonAndGroup(final Season season, final GroupType groupType) {
-        List<Team> teams = getEntityManager().unwrap(Session.class)
-                .createNativeQuery(QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE, Team.class)
+    public List<TeamEntity> findTeamsBySeasonAndGroup(final SeasonEntity season, final GroupTypeEntity groupType) {
+        List<TeamEntity> teams = getEntityManager().unwrap(Session.class)
+                .createNativeQuery(QUERY_TEAMS_BY_SEASON_AND_GROUPTYPE, TeamEntity.class)
                 .setParameter("season_id", season.getId())
                 .setParameter("grouptype_id", groupType.getId())
                 .list();
@@ -131,9 +134,9 @@ public class TeamDaoHibernate extends AbstractCommonDao<Team>
     }
 
     @Override
-    public Optional<Team> findByOpenligaid(long openligaid) {
-        TypedQuery<Team> query = getEntityManager()
-                .createQuery(QUERY_TEAM_BY_OPENLIGAID, Team.class)
+    public Optional<TeamEntity> findByOpenligaid(long openligaid) {
+        TypedQuery<TeamEntity> query = getEntityManager()
+                .createQuery(QUERY_TEAM_BY_OPENLIGAID, TeamEntity.class)
                 .setParameter("openligaid", openligaid);
         return singleResult(query);
     }

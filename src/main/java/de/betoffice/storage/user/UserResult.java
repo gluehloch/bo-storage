@@ -26,7 +26,7 @@ package de.betoffice.storage.user;
 
 import org.slf4j.Logger;
 
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 import de.betoffice.util.LoggerFactory;
 
 /**
@@ -49,7 +49,7 @@ public class UserResult {
     public static final long nZeroValue = 0;
 
     /** Der zugeordnete Teilnehmer/Tipper/User */
-    private final User user;
+    private final UserEntity user;
 
     /** Anzahl der 'Toto Tipp richtig'. */
     private int totoWin = 0;
@@ -68,7 +68,7 @@ public class UserResult {
      *
      * @param _user Der Teilnehmer.
      */
-    public UserResult(final User _user) {
+    public UserResult(final UserEntity _user) {
         user = _user;
     }
 
@@ -95,7 +95,7 @@ public class UserResult {
         tabPos = 0;
     }
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
@@ -145,10 +145,10 @@ public class UserResult {
     public boolean equals(final Object object) {
         if (object == null) {
             return false;
-        } else if (!(object instanceof User)) {
+        } else if (!(object instanceof UserEntity)) {
             return false;
         } else {
-            User user = (User) object;
+            UserEntity user = (UserEntity) object;
             return (user.getNickname().equals(getUser().getNickname()));
         }
     }

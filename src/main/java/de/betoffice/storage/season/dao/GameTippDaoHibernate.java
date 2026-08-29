@@ -31,23 +31,23 @@ import org.springframework.stereotype.Repository;
 
 import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.GameTippDao;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.tip.GameTipp;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.tip.GameTippEntity;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
- * Hibernate DAO fuer den Zugriff auf {@link GameTipp}.
+ * Hibernate DAO fuer den Zugriff auf {@link GameTippEntity}.
  *
  * @author by Andre Winkler
  */
 @Repository("gameTippDao")
-public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements GameTippDao {
+public class GameTippDaoHibernate extends AbstractCommonDao<GameTippEntity> implements GameTippDao {
 
     /**
      * Sucht nach allen Spieltipps zu einem Spieltag.
      */
     private static final String QUERY_GAMETIPP_BY_MATCH = "from "
-            + "    GameTipp gametipp"
+            + "    GameTippEntity gametipp"
             + "    join fetch gametipp.user "
             + "    join fetch gametipp.game "
             + "where "
@@ -57,7 +57,7 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
      * Sucht nach einem Spieltipp zu Spiel und Teilnehmer.
      */
     private static final String QUERY_GAMETIPP_BY_MATCH_AND_USER = "from "
-            + "    GameTipp gametipp"
+            + "    GameTippEntity gametipp"
             + "    join fetch gametipp.user "
             + "    join fetch gametipp.game "
             + "where "
@@ -67,7 +67,7 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
     private static final String QUERY_ROUND_AND_TIPPS_BY_USER_AND_ROUND = "select "
             + "    tipp "
             + "from "
-            + "    GameTipp as tipp "
+            + "    GameTippEntity as tipp "
             + "    join fetch tipp.game game "
             + "    join fetch game.homeTeam "
             + "    join fetch game.guestTeam "
@@ -81,7 +81,7 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
     private static final String QUERY_ROUND_AND_TIPPS_BY_ROUND = "select "
             + "    tipp "
             + "from "
-            + "    GameTipp as tipp "
+            + "    GameTippEntity as tipp "
             + "    join fetch tipp.game game "
             + "    join fetch game.homeTeam "
             + "    join fetch game.guestTeam "
@@ -92,22 +92,22 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
             + "    round.id = :roundId";
 
     public GameTippDaoHibernate() {
-        super(GameTipp.class);
+        super(GameTippEntity.class);
     }
 
     @Override
-    public List<GameTipp> find(Game match) {
-        List<GameTipp> tipps = getEntityManager()
-                .createQuery(QUERY_GAMETIPP_BY_MATCH, GameTipp.class)
+    public List<GameTippEntity> find(GameEntity match) {
+        List<GameTippEntity> tipps = getEntityManager()
+                .createQuery(QUERY_GAMETIPP_BY_MATCH, GameTippEntity.class)
                 .setParameter("gameId", match.getId())
                 .getResultList();
         return tipps;
     }
 
     @Override
-    public Optional<GameTipp> find(Game game, User user) {
-        Optional<GameTipp> tipp = getEntityManager().unwrap(Session.class)
-                .createQuery(QUERY_GAMETIPP_BY_MATCH_AND_USER, GameTipp.class)
+    public Optional<GameTippEntity> find(GameEntity game, UserEntity user) {
+        Optional<GameTippEntity> tipp = getEntityManager().unwrap(Session.class)
+                .createQuery(QUERY_GAMETIPP_BY_MATCH_AND_USER, GameTippEntity.class)
                 .setParameter("gameId", game.getId())
                 .setParameter("userId", user.getId())
                 .uniqueResultOptional();
@@ -115,9 +115,9 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
     }
 
     @Override
-    public List<GameTipp> find(long roundId, long userId) {
-        List<GameTipp> tipps = getEntityManager()
-                .createQuery(QUERY_ROUND_AND_TIPPS_BY_USER_AND_ROUND, GameTipp.class)
+    public List<GameTippEntity> find(long roundId, long userId) {
+        List<GameTippEntity> tipps = getEntityManager()
+                .createQuery(QUERY_ROUND_AND_TIPPS_BY_USER_AND_ROUND, GameTippEntity.class)
                 .setParameter("roundId", roundId)
                 .setParameter("userId", userId)
                 .getResultList();
@@ -125,9 +125,9 @@ public class GameTippDaoHibernate extends AbstractCommonDao<GameTipp> implements
     }
 
     @Override
-    public List<GameTipp> find(long roundId) {
-        List<GameTipp> tipps = getEntityManager()
-                .createQuery(QUERY_ROUND_AND_TIPPS_BY_ROUND, GameTipp.class)
+    public List<GameTippEntity> find(long roundId) {
+        List<GameTippEntity> tipps = getEntityManager()
+                .createQuery(QUERY_ROUND_AND_TIPPS_BY_ROUND, GameTippEntity.class)
                 .setParameter("roundId", roundId)
                 .getResultList();
         return tipps;

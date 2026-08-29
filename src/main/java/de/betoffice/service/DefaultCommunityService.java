@@ -1,6 +1,6 @@
 /*
  * =============================================================================
- * Project betoffice-storage Copyright (c) 2000-2025 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * =============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -41,29 +41,34 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.mail.NotificationType;
 import de.betoffice.mail.SendUserProfileChangeMailNotification;
+import de.betoffice.service.request.CommunityCreateCommand;
 import de.betoffice.storage.community.CommunityDao;
+import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
-import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityDtoMapper;
+import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonDao;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.time.DateTimeProvider;
 import de.betoffice.storage.user.UserDao;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 import de.betoffice.util.LoggerFactory;
 import de.betoffice.validation.ServiceResult;
 import de.betoffice.validation.ValidationException;
 import de.betoffice.validation.ValidationMessage;
 import de.betoffice.validation.ValidationMessage.MessageType;
+import de.betoffice.validation.ValidationMessages;
+import de.betoffice.validation.ValidationMessages.ValidationMessagesBuilder;
 
 /**
  * Manages a community.
  * 
  * @author Andre Winkler
  */
-@Service("communityService")
+@Service
 @Transactional(readOnly = true)
 public class DefaultCommunityService extends AbstractManagerService implements CommunityService {
 
@@ -89,54 +94,55 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
-    public Optional<User> findUser(Nickname nickname) {
+    public Optional<UserEntity> findUser(Nickname nickname) {
         return userDao.findByNickname(nickname);
     }
 
     @Override
-    public List<User> findAllUsers() {
+    public List<UserEntity> findAllUsers() {
         return userDao.findAll();
     }
 
     @Override
-    public User findUser(long userId) {
+    public UserEntity findUser(long userId) {
         return userDao.findById(userId);
     }
 
     @Override
-    public Optional<User> findUserByChangeToken(String changeToken) {
+    public Optional<UserEntity> findUserByChangeToken(String changeToken) {
         return userDao.findByChangeToken(changeToken);
     }
 
     @Override
-    public Community find(Long communityId) {
-        return communityDao.findById(communityId);
+    public CommunityDto find(Long communityId) {
+        CommunityEntity byId = communityDao.findById(communityId);
+        return CommunityDtoMapper.map(byId);
     }
 
     @Override
-    public Optional<Community> find(CommunityReference communityReference) {
-        return communityDao.find(communityReference);
+    public Optional<CommunityDto> find(CommunityReference communityReference) {
+        return CommunityDtoMapper.map(communityDao.find(communityReference));
     }
 
     @Override
-    public List<Community> find(String communityName) {
-        return communityDao.find(communityName);
+    public List<CommunityDto> find(String communityName) {
+        return CommunityDtoMapper.map(communityDao.find(communityName));
     }
 
     @Override
-    public Page<Community> findCommunities(CommunityFilter communityFilter, Pageable pageable) {
-        return communityDao.findAll(communityFilter, pageable);
+    public Page<CommunityDto> findCommunities(CommunityFilter communityFilter, Pageable pageable) {
+        return communityDao.findAll(communityFilter, pageable).map(CommunityDtoMapper::map);
     }
 
     @Override
-    public Page<User> findUsers(String nicknameFilter, Pageable pageable) {
+    public Page<UserEntity> findUsers(String nicknameFilter, Pageable pageable) {
         return userDao.findAll(nicknameFilter, pageable);
     }
 
     @Override
-    public Set<User> findMembers(CommunityReference communityReference) {
+    public Set<UserEntity> findMembers(CommunityReference communityReference) {
         try {
-            final Community community = communityDao.findMembers(communityReference);
+            final CommunityEntity community = communityDao.findMembers(communityReference);
             return community.getUsers();
         } catch (NoResultException ex) {
             return Set.of();
@@ -145,39 +151,91 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public ServiceResult<Community> create(
-            CommunityReference communityRef,
-            SeasonReference seasonRef,
-            String communityName,
-            String communityYear,
-            Nickname managerNickname) {
+    public ServiceResult<CommunityDto> create(CommunityCreateCommand communityCreateCommand) {
+        final ValidationContext vc = validateCreateCommand(new ValidationMessagesBuilder(), communityCreateCommand);
+        if (vc.getValidationMessages().containsAnError()) {
+            return ServiceResult.failure(vc.getValidationMessages());
+        } else {
+            final CommunityEntity community = persistCommunity(communityCreateCommand, vc);
+            return ServiceResult.sucess(CommunityDtoMapper.map(community));
+        }
+    }
 
-        Optional<Community> definedCommunity = communityDao.find(communityRef);
-        if (definedCommunity.isPresent()) {
-            return ServiceResult.failure(MessageType.COMMUNITY_EXISTS);
+    private CommunityEntity persistCommunity(CommunityCreateCommand communityCreateCommand,
+            final ValidationContext vc) {
+        final CommunityEntity community = new CommunityEntity();
+        community.setYear(communityCreateCommand.communityYear());
+        community.setName(communityCreateCommand.communityName());
+        community.setReference(communityCreateCommand.communityRef());
+        community.setCommunityManager(vc.getCommunityManager());
+        community.setSeason(vc.getSeason());
+        communityDao.persist(community);
+        return community;
+    }
+
+    private ValidationContext validateCreateCommand(
+            final ValidationMessagesBuilder vmb,
+            final CommunityCreateCommand cmd) {
+
+        return new ValidationContext(vmb)
+                .validateCommunityReferenceDoesNotExist(cmd.communityRef())
+                .validateSeason(cmd.seasonRef())
+                .validateCommunityManager(cmd.managerNickname());
+    }
+
+    private class ValidationContext {
+        private ValidationMessagesBuilder validationMessagesBuilder;
+        private SeasonEntity season;
+        private UserEntity communityManager;
+
+        public ValidationContext(ValidationMessagesBuilder validationMessagesBuilder) {
+            this.validationMessagesBuilder = validationMessagesBuilder;
         }
 
-        Season persistedSeason = seasonDao.find(seasonRef).orElseThrow(
-                () -> new IllegalArgumentException(String.format("%s does not exist.", seasonRef)));
-        User communityManager = userDao.findByNickname(managerNickname).orElseThrow(
-                () -> new IllegalArgumentException(String.format("%s does not exist.", managerNickname)));
+        ValidationMessages getValidationMessages() {
+            return validationMessagesBuilder.build();
+        }
 
-        Community community = new Community();
-        community.setYear(communityYear);
-        community.setName(communityName);
-        community.setReference(communityRef);
-        community.setCommunityManager(communityManager);
+        SeasonEntity getSeason() {
+            return season;
+        }
 
-        community.setSeason(persistedSeason);
-        communityDao.persist(community);
+        UserEntity getCommunityManager() {
+            return communityManager;
+        }
 
-        return ServiceResult.sucess(community);
+        public ValidationContext validateSeason(SeasonReference seasonRef) {
+            final var season = DefaultCommunityService.this.seasonDao.find(seasonRef);
+            if (!season.isPresent()) {
+                validationMessagesBuilder.addFormattedMessage(MessageType.SEASON_REFERENCE_NOT_FOUND, seasonRef);
+            } else {
+                this.season = season.get();
+            }
+            return this;
+        }
+
+        public ValidationContext validateCommunityManager(Nickname managerNickname) {
+            final var user = DefaultCommunityService.this.userDao.findByNickname(managerNickname);
+            if (!user.isPresent()) {
+                validationMessagesBuilder.addFormattedMessage(MessageType.USER_NOT_FOUND, managerNickname);
+            } else {
+                this.communityManager = user.get();
+            }
+            return this;
+        }
+
+        public ValidationContext validateCommunityReferenceDoesNotExist(CommunityReference communityRef) {
+            if (DefaultCommunityService.this.communityDao.find(communityRef).isPresent()) {
+                validationMessagesBuilder.addFormattedMessage(MessageType.COMMUNITY_EXISTS, communityRef);
+            }
+            return this;
+        }
     }
 
     @Override
     @Transactional
     public void delete(CommunityReference reference) {
-        Community community = communityDao.find(reference).orElseThrow();
+        CommunityEntity community = communityDao.find(reference).orElseThrow();
 
         if (communityDao.hasMembers(reference)) {
             LOG.warn("Unable to delete community '{}'. The Community has members.", community);
@@ -189,54 +247,53 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public Community addMember(CommunityReference communityReference, Nickname nickname) {
-        Community community = communityDao.find(communityReference).orElseThrow();
-        User user = userDao.findByNickname(nickname).orElseThrow();
+    public CommunityDto addMember(CommunityReference communityReference, Nickname nickname) {
+        CommunityEntity community = communityDao.find(communityReference).orElseThrow();
+        UserEntity user = userDao.findByNickname(nickname).orElseThrow();
         community.addMember(user);
         communityDao.update(community);
-        return community;
+        return CommunityDtoMapper.map(community);
     }
 
     @Override
     @Transactional
-    public Community addMembers(CommunityReference communityReference, Set<Nickname> nicknames) {
-        Community community = communityDao.find(communityReference).orElseThrow();
+    public CommunityDto addMembers(CommunityReference communityReference, Set<Nickname> nicknames) {
+        CommunityEntity community = communityDao.find(communityReference).orElseThrow();
         nicknames.stream()
                 .map(n -> userDao.findByNickname(n))
                 .forEach(u -> u.ifPresent(us -> community.addMember(us)));
         communityDao.update(community);
-
-        return community;
+        return CommunityDtoMapper.map(community);
     }
 
     @Override
     @Transactional
-    public Community removeMember(CommunityReference reference, Nickname nickname) {
-        User user = userDao.findByNickname(nickname).orElseThrow();
-        Community community = communityDao.find(reference).orElseThrow();
+    public CommunityDto removeMember(CommunityReference reference, Nickname nickname) {
+        UserEntity user = userDao.findByNickname(nickname).orElseThrow();
+        CommunityEntity community = communityDao.find(reference).orElseThrow();
         community.removeMember(user);
         communityDao.update(community);
-        return community;
+        return CommunityDtoMapper.map(community);
     }
 
     @Override
     @Transactional
-    public Community removeMembers(CommunityReference reference, Set<Nickname> nicknames) {
+    public CommunityDto removeMembers(CommunityReference reference, Set<Nickname> nicknames) {
         nicknames.stream().forEach(nickname -> {
             removeMember(reference, nickname);
         });
-        return communityDao.find(reference).orElseThrow();
+        return CommunityDtoMapper.map(communityDao.find(reference).orElseThrow());
     }
 
     @Override
     @Transactional
-    public User createUser(final User user) {
+    public UserEntity createUser(final UserEntity user) {
         final List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
 
         if (user.getNickname() == null || StringUtils.isBlank(user.getNickname().value())) {
             messages.add(ValidationMessage.error(MessageType.NICKNAME_IS_NOT_SET));
         } else {
-            final List<User> lowerCaseNickname = userDao.findLowerCaseNickname(user.getNickname().getNickname());
+            final List<UserEntity> lowerCaseNickname = userDao.findLowerCaseNickname(user.getNickname().getNickname());
             if (!lowerCaseNickname.isEmpty()) {
                 messages.add(ValidationMessage.error(MessageType.NICKNAME_ALREADY_EXISTS, user));
             }
@@ -259,7 +316,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public Optional<User> updateUser(
+    public Optional<UserEntity> updateUser(
             final boolean adminOperation,
             final Nickname nickname,
             final String name,
@@ -288,19 +345,19 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         });
     }
 
-    private boolean hasUserChangedHisMailAddress(final User user, final String newMailAddress) {
+    private boolean hasUserChangedHisMailAddress(final UserEntity user, final String newMailAddress) {
         return !StringUtils.equals(user.getEmail(), newMailAddress);
     }
 
     @Override
     @Transactional
-    public ServiceResult<User> confirmMailAddressChange(final Nickname nickname, final String changeToken) {
-        final Optional<User> optionalUser = userDao.findByNickname(nickname);
+    public ServiceResult<UserEntity> confirmMailAddressChange(final Nickname nickname, final String changeToken) {
+        final Optional<UserEntity> optionalUser = userDao.findByNickname(nickname);
         if (optionalUser.isEmpty()) {
             return ServiceResult.failureWithFormattedError(MessageType.USER_NOT_FOUND, nickname.toString());
         }
 
-        final User user = optionalUser.get();
+        final UserEntity user = optionalUser.get();
         if (StringUtils.equals(changeToken, user.getChangeToken())) {
             final var changeDateTime = user.getChangeDateTime();
             final ZonedDateTime changeDateTimePlusTenMinutes = changeDateTime.plusMinutes(10);
@@ -323,13 +380,13 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public Optional<User> abortMailAddressChange(final Nickname nickname) {
+    public Optional<UserEntity> abortMailAddressChange(final Nickname nickname) {
         return userDao.findByNickname(nickname).map(u -> u.abortEmailChange());
     }
 
     @Override
     @Transactional
-    public Optional<User> resubmitConfirmationMail(final Nickname nickname) {
+    public Optional<UserEntity> resubmitConfirmationMail(final Nickname nickname) {
         return userDao.findByNickname(nickname)
                 .filter(u -> u.getChangeSend() < 5)
                 .map(u -> sendUserProfileChangeMailNotification.send(u));
