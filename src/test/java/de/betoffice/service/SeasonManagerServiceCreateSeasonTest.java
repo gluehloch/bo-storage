@@ -49,6 +49,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
+import de.betoffice.service.request.CommunityCreateCommand;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.SeasonType;
@@ -481,7 +482,7 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     private void createCommunity() {
-        communityService.create(communityReference, seasonReference, "Bundesliga 2010/11", "2024", frosch);
+        communityService.create(new CommunityCreateCommand(communityReference, seasonReference, "Bundesliga 2010/11", "2024", frosch));
         communityService.addMembers(communityReference, nicknames);
     }
 

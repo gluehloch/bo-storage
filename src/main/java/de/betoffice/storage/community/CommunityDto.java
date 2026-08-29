@@ -26,6 +26,7 @@ package de.betoffice.storage.community;
 import java.io.Serializable;
 
 import de.betoffice.storage.AbstractIdentifier;
+import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonDto;
 import de.betoffice.storage.user.PartyDto;
 
@@ -77,6 +78,10 @@ public class CommunityDto extends AbstractIdentifier implements Serializable {
 
     public void setSeason(SeasonDto season) {
         this.season = season;
+    }
+
+    public CommunityReference toCommunityReference() {
+        return CommunityReference.of(shortName);
     }
 
     @Override

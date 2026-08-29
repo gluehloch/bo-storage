@@ -33,6 +33,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import de.betoffice.service.request.CommunityCreateCommand;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.SeasonType;
@@ -136,7 +137,7 @@ public class IncompleteTippTest extends AbstractServiceTest {
         userA.setNickname(nicknameUserA);
         communityService.createUser(userA);
         
-        communityService.create(communityReference, seasonReference, "TDKB Test Community", "2024", nicknameUserA);
+        communityService.create(new CommunityCreateCommand(communityReference, seasonReference, "TDKB Test Community", "2024", nicknameUserA));
         communityService.addMember(communityReference, nicknameUserA);
     }
 

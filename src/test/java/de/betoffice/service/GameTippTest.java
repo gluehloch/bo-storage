@@ -43,6 +43,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
+import de.betoffice.service.request.CommunityCreateCommand;
 import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.group.entity.GroupTypeEntity;
@@ -355,13 +356,13 @@ class GameTippTest extends AbstractServiceTest {
         communityService.createUser(userE);
 
         CommunityReference communityReference = CommunityReference.of("TDKB BL 1999/2000");
-        communityService.create(communityReference, seasonReference, "TDKB Bundesliga 1999/2000", "1999/2000",
-                communityAdmin);
+        communityService.create(new CommunityCreateCommand(communityReference, seasonReference, "TDKB Bundesliga 1999/2000", "1999/2000",
+                communityAdmin));
 
         List<UserEntity> users = communityService.findAllUsers();
 
         Set<Nickname> nicknames = users.stream().map(u -> u.getNickname()).collect(Collectors.toSet());
-        CommunityEntity community = communityService.addMembers(communityReference, nicknames);
+        communityService.addMembers(communityReference, nicknames);
 
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userA, gr10, TippStatusType.USER);
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userB, gr01, TippStatusType.USER);
