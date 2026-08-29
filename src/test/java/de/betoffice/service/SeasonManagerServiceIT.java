@@ -40,6 +40,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
+import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.group.entity.GroupTypeEntity;
@@ -101,9 +102,9 @@ class SeasonManagerServiceIT extends AbstractServiceTest {
         final CommunityReference communityReference = CommunityReference.of("TDKB 2006/2007");
         SeasonEntity bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
 
-        CommunityEntity community = communityService.find(communityReference).orElseThrow();
-        assertThat(community.getSeason()).isEqualTo(bundesliga);
-        assertThat(community.getSeason()).isEqualTo(bundesliga);
+        CommunityDto community = communityService.find(communityReference).orElseThrow();
+        assertThat(community.getSeason().getName()).isEqualTo(bundesliga.getReference().getName());
+        assertThat(community.getSeason().getYear()).isEqualTo(bundesliga.getReference().getYear());
 
         Set<UserEntity> users = communityService.findMembers(communityReference);
 

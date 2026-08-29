@@ -67,7 +67,7 @@ public interface CommunityService {
      * @param  communityReference a community reference
      * @return                    a community
      */
-    Optional<CommunityEntity> find(CommunityReference communityReference);
+    Optional<CommunityDto> find(CommunityReference communityReference);
 
     /**
      * Find a community by name.
@@ -75,7 +75,7 @@ public interface CommunityService {
      * @param  communityName community name
      * @return               a community.
      */
-    List<CommunityEntity> find(String communityName);
+    List<CommunityDto> find(String communityName);
 
     /**
      * All users of a community
@@ -116,7 +116,7 @@ public interface CommunityService {
      * @param  nickname     the new community member
      * @return              the updated community.
      */
-    CommunityEntity addMember(CommunityReference communityRef, Nickname nickname);
+    CommunityDto addMember(CommunityReference communityRef, Nickname nickname);
 
     /**
      * Add community members.
@@ -125,7 +125,7 @@ public interface CommunityService {
      * @param  nicknames
      * @return
      */
-    CommunityEntity addMembers(CommunityReference communityRef, Set<Nickname> nicknames);
+    CommunityDto addMembers(CommunityReference communityRef, Set<Nickname> nicknames);
 
     /**
      * Remove a community member.
@@ -134,7 +134,7 @@ public interface CommunityService {
      * @param  nickname     the community member to remove
      * @return              the updated community.
      */
-    CommunityEntity removeMember(CommunityReference communityRef, Nickname nickname);
+    CommunityDto removeMember(CommunityReference communityRef, Nickname nickname);
 
     /**
      * Remove community members.
@@ -143,7 +143,7 @@ public interface CommunityService {
      * @param  nicknames    the community members to remove
      * @return              the updated community.
      */
-    CommunityEntity removeMembers(CommunityReference communityRef, Set<Nickname> nicknames);
+    CommunityDto removeMembers(CommunityReference communityRef, Set<Nickname> nicknames);
 
     /**
      * Find all users.

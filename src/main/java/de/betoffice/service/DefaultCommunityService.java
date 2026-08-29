@@ -1,6 +1,6 @@
 /*
  * =============================================================================
- * Project betoffice-storage Copyright (c) 2000-2025 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * =============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -120,13 +120,13 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     @Override
-    public Optional<CommunityEntity> find(CommunityReference communityReference) {
-        return communityDao.find(communityReference);
+    public Optional<CommunityDto> find(CommunityReference communityReference) {
+        return CommunityDtoMapper.map(communityDao.find(communityReference));
     }
 
     @Override
-    public List<CommunityEntity> find(String communityName) {
-        return communityDao.find(communityName);
+    public List<CommunityDto> find(String communityName) {
+        return CommunityDtoMapper.map(communityDao.find(communityName));
     }
 
     @Override
@@ -247,43 +247,42 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public CommunityEntity addMember(CommunityReference communityReference, Nickname nickname) {
+    public CommunityDto addMember(CommunityReference communityReference, Nickname nickname) {
         CommunityEntity community = communityDao.find(communityReference).orElseThrow();
         UserEntity user = userDao.findByNickname(nickname).orElseThrow();
         community.addMember(user);
         communityDao.update(community);
-        return community;
+        return CommunityDtoMapper.map(community);
     }
 
     @Override
     @Transactional
-    public CommunityEntity addMembers(CommunityReference communityReference, Set<Nickname> nicknames) {
+    public CommunityDto addMembers(CommunityReference communityReference, Set<Nickname> nicknames) {
         CommunityEntity community = communityDao.find(communityReference).orElseThrow();
         nicknames.stream()
                 .map(n -> userDao.findByNickname(n))
                 .forEach(u -> u.ifPresent(us -> community.addMember(us)));
         communityDao.update(community);
-
-        return community;
+        return CommunityDtoMapper.map(community);
     }
 
     @Override
     @Transactional
-    public CommunityEntity removeMember(CommunityReference reference, Nickname nickname) {
+    public CommunityDto removeMember(CommunityReference reference, Nickname nickname) {
         UserEntity user = userDao.findByNickname(nickname).orElseThrow();
         CommunityEntity community = communityDao.find(reference).orElseThrow();
         community.removeMember(user);
         communityDao.update(community);
-        return community;
+        return CommunityDtoMapper.map(community);
     }
 
     @Override
     @Transactional
-    public CommunityEntity removeMembers(CommunityReference reference, Set<Nickname> nicknames) {
+    public CommunityDto removeMembers(CommunityReference reference, Set<Nickname> nicknames) {
         nicknames.stream().forEach(nickname -> {
             removeMember(reference, nickname);
         });
-        return communityDao.find(reference).orElseThrow();
+        return CommunityDtoMapper.map(communityDao.find(reference).orElseThrow());
     }
 
     @Override

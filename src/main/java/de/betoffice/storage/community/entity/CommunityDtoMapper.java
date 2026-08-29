@@ -24,6 +24,9 @@
 
 package de.betoffice.storage.community.entity;
 
+import java.util.List;
+import java.util.Optional;
+
 import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.season.SeasonDto;
 import de.betoffice.storage.season.entity.SeasonDtoMapper;
@@ -32,8 +35,16 @@ import de.betoffice.storage.user.entity.PartyDtoMapper;
 
 public class CommunityDtoMapper {
 
+    public static Optional<CommunityDto> map(Optional<CommunityEntity> community) {
+        return community.map(c -> map(c, new CommunityDto()));
+    }
+
     public static CommunityDto map(CommunityEntity community) {
         return map(community, new CommunityDto());
+    }
+
+    public static List<CommunityDto> map(List<CommunityEntity> community) {
+        return community.stream().map(c -> map(c, new CommunityDto())).toList();
     }
 
     public static CommunityDto map(CommunityEntity community, CommunityDto json) {
