@@ -84,8 +84,7 @@ public class SendReminderMailNotification {
             final var season = nextTippRound.get().getSeason();
             final var matches = seasonManagerService.findMatches(nxtr);
             if (!matches.isEmpty() && matches.get(0).getDateTime().toLocalDate().compareTo(localNow) == 0) {
-                final var members = communityService
-                        .findMembers(CommunityService.defaultPlayerGroup(season.getReference()));
+                final var members = communityService.findMembers(CommunityService.defaultPlayerGroup(season.getReference()));
                 members.stream().filter(SendReminderMailNotification::userWantsToBeNotified).forEach(u -> {
                     try {
                         final List<GameTippEntity> sortedTipps = sort(tippService.findTipps(nxtr, u));

@@ -31,8 +31,12 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+
+import com.icegreen.greenmail.junit5.GreenMailExtension;
+import com.icegreen.greenmail.util.ServerSetupTest;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.storage.season.RoundDaoHibernateTest;
@@ -42,6 +46,12 @@ import de.betoffice.storage.time.DateTimeProvider;
 @ContextConfiguration(classes = { SendReminderMailNotificationConfiguration.class })
 class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
 
+    @RegisterExtension
+    static GreenMailExtension greenMail = new GreenMailExtension(ServerSetupTest.SMTP);
+    
+    // @Autowired
+    //private GreenMailBean greenMailBean;
+    
     @Autowired
     private DateTimeProvider dateTimeProvider;
 
