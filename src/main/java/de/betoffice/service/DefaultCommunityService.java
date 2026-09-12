@@ -42,6 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 import de.betoffice.mail.NotificationType;
 import de.betoffice.mail.SendUserProfileChangeMailNotification;
 import de.betoffice.service.request.CommunityCreateCommand;
+import de.betoffice.service.request.UserCreateCommand;
 import de.betoffice.storage.community.CommunityDao;
 import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
@@ -287,7 +288,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public UserEntity createUser(final UserEntity user) {
+    public UserEntity createUser(final UserCreateCommand user) {
         final List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
 
         if (user.getNickname() == null || StringUtils.isBlank(user.getNickname().value())) {

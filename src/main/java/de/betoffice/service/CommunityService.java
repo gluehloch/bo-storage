@@ -31,6 +31,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import de.betoffice.service.request.CommunityCreateCommand;
+import de.betoffice.service.request.UserCreateCommand;
 import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
 import de.betoffice.storage.community.entity.CommunityEntity;
@@ -174,7 +175,7 @@ public interface CommunityService {
      *
      * @param user Ein Teilnehmer.
      */
-    UserEntity createUser(UserEntity user);
+    UserEntity createUser(UserCreateCommand userCreateCommand);
 
     /**
      * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn dieser keiner Meisterschaft zugeordnet

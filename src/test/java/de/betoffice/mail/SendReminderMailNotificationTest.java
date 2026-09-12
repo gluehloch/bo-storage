@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2025 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2026 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -24,7 +24,7 @@
 
 package de.betoffice.mail;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.time.ZonedDateTime;
 import java.util.Optional;
@@ -39,8 +39,13 @@ import com.icegreen.greenmail.junit5.GreenMailExtension;
 import com.icegreen.greenmail.util.ServerSetupTest;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
+import de.betoffice.service.CommunityService;
+import de.betoffice.service.request.CommunityCreateCommand;
+import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.RoundDaoHibernateTest;
 import de.betoffice.storage.season.entity.GameListEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
+import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.time.DateTimeProvider;
 
 @ContextConfiguration(classes = { SendReminderMailNotificationConfiguration.class })
@@ -48,16 +53,16 @@ class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
 
     @RegisterExtension
     static GreenMailExtension greenMail = new GreenMailExtension(ServerSetupTest.SMTP);
-    
-    // @Autowired
-    //private GreenMailBean greenMailBean;
-    
+
     @Autowired
     private DateTimeProvider dateTimeProvider;
 
     @Autowired
     private SendReminderMailNotification sendReminderMailNotification;
 
+    @Autowired
+    private CommunityService communityService;
+    
     @BeforeEach
     void before() {
         this.prepareDatabase(RoundDaoHibernateTest.class);
@@ -70,6 +75,22 @@ class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
 
         Optional<GameListEntity> nextTippRound = sendReminderMailNotification.findNextTippRound();
         assertThat(nextTippRound).isNotEmpty();
+
+        communityService.createUser(null);
+        
+        
+        final CommunityReference communityReference = CommunityReference.of("TC");
+        final SeasonEntity season = nextTippRound.get().getSeason();
+        final SeasonReference seasonReference = season.getReference();
+        
+        final CommunityCreateCommand createCommunityCommand = new CommunityCreateCommand(
+                communityReference,
+                seasonReference,
+                "Test Community",
+                "2024",
+                );
+        
+        communityService.create(createCommunityCommand);
 
         sendReminderMailNotification.send();
     }
