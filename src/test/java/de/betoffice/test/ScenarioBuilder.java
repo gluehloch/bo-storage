@@ -193,9 +193,11 @@ public class ScenarioBuilder {
         users = new DummyUsers();
         users.toList()
                 .stream()
-                .map(i -> new UserCreateCommand(i.getNickname().toString(), i.getSurname(), i.getName(), i.getEmail(),
+                .map(i -> new UserCreateCommand(i.getNickname().value(), i.getSurname(), i.getName(), i.getEmail(),
                         i.getPassword(), i.getPhone()))
-                .forEach(communityService::create);
+                .forEach(i -> {
+                    communityService.create(i).orElseThrow();
+                });
 
         // Saison erzeugen.
         season = new SeasonEntity(SeasonReference.of("1994/1995", "Bundesliga"));
