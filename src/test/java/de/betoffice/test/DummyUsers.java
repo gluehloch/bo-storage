@@ -125,6 +125,7 @@ public final class DummyUsers {
             user.setPassword(USER_PROPS[i][3].toString());
             user.setPhone(USER_PROPS[i][4].toString());
             user.setAutomat(((Boolean) USER_PROPS[i][5]).booleanValue());
+            user.setEmail(user.getNickname().value() + "@betoffice.de");
             users.add(user);
         }
     }
