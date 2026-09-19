@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2020 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2026 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -34,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.service.request.CommunityCreateCommand;
+import de.betoffice.service.request.UserCreateCommand;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.SeasonType;
@@ -49,6 +50,7 @@ import de.betoffice.storage.tip.TippDto;
 import de.betoffice.storage.tip.TippStatusType;
 import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.storage.user.entity.UserEntity;
+import de.betoffice.storage.user.entity.UserProfileDto;
 import de.betoffice.test.DateTimeDummyProducer;
 
 public class IncompleteTippTest extends AbstractServiceTest {
@@ -58,7 +60,7 @@ public class IncompleteTippTest extends AbstractServiceTest {
 
     @Autowired
     private CommunityService communityService;
-    
+
     @Autowired
     private TippService tippService;
 
@@ -72,16 +74,16 @@ public class IncompleteTippTest extends AbstractServiceTest {
     private GameListEntity round;
     private GameEntity luebeckRwe;
     private GameEntity rweLuebeck;
-    
+
     @Test
     @Transactional
     void sendTippAfterKickOff() {
         GameListEntity roundGames = seasonManagerService.findRoundGames(round.getId()).orElseThrow();
         assertThat(roundGames.size()).isEqualTo(2);
 
-        UserEntity user = communityService.findUser(nicknameUserA).orElseThrow();        
-        tippService.createOrUpdateTipp("1", luebeckRwe, user, GameResult.of(1, 0), TippStatusType.USER);
-        
+        UserEntity user = communityService.findUser(nicknameUserA).orElseThrow();
+        tippService.createOrUpdateTipp("1", luebeckRwe, user.getNickname(), GameResult.of(1, 0), TippStatusType.USER);
+
         //
         // Tipp für Lübeck-RWE vorhanden: 1:0. Es wird versucht den Tipp nachträglich zu ändern.
         //
@@ -91,7 +93,7 @@ public class IncompleteTippTest extends AbstractServiceTest {
         tippDto.addGameTipp(tippDto.addTipp(luebeckRwe.getId(), 2, 0));
         tippDto.setSubmitTime(DateTimeDummyProducer.DATE_1971_03_24.plusDays(1));
         tippService.validateKickOffTimeAndAddTipp(tippDto);
-        
+
         assertThat(tippService.findTipps(round.getId())).hasSize(1);
         List<GameTippEntity> tipps = tippService.findTipps(round, user);
         assertThat(tipps).hasSize(1);
@@ -133,11 +135,12 @@ public class IncompleteTippTest extends AbstractServiceTest {
         luebeckRwe = seasonManagerService.addMatch(round, DateTimeDummyProducer.DATE_1971_03_24, group, luebeck, rwe);
         rweLuebeck = seasonManagerService.addMatch(round, DateTimeDummyProducer.DATE_1971_03_24, group, rwe, luebeck);
 
-        UserEntity userA = new UserEntity();
-        userA.setNickname(nicknameUserA);
-        communityService.createUser(userA);
-        
-        communityService.create(new CommunityCreateCommand(communityReference, seasonReference, "TDKB Test Community", "2024", nicknameUserA));
+        final UserProfileDto userA = communityService
+                .create(new UserCreateCommand("User A", "Another surname", "User A", "another@email.com", null, null))
+                .orElseThrow();
+
+        communityService.create(new CommunityCreateCommand(communityReference, seasonReference, "TDKB Test Community",
+                "2024", nicknameUserA));
         communityService.addMember(communityReference, nicknameUserA);
     }
 

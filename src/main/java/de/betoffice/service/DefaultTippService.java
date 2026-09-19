@@ -85,23 +85,26 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
 
     @Override
     @Transactional
-    public GameTippEntity createOrUpdateTipp(String token, GameEntity match, UserEntity user, GameResult tipp,
+    public GameTippEntity createOrUpdateTipp(String token, GameEntity match, Nickname user, GameResult tipp,
             TippStatusType status) {
         GameListEntity round = roundDao.findRoundByGame(match).orElseThrow();
         return createOrUpdateTipp(token, round, match, user, tipp, status);
     }
 
-    private GameTippEntity createOrUpdateTipp(String token, GameListEntity round, GameEntity game, UserEntity user,
+    private GameTippEntity createOrUpdateTipp(String token, GameListEntity round, GameEntity game, Nickname user,
             GameResult tipp,
             TippStatusType status) {
-        Date now = Date.from(datetimeProvider.currentDateTime().toInstant());
 
-        Optional<GameTippEntity> gameTipp = gameTippDao.find(game, user);
+        final Date now = Date.from(datetimeProvider.currentDateTime().toInstant());
+        final UserEntity userEntity = userDao.findByNickname(user).orElseThrow(
+                () -> newException(unknwonUser(user.getNickname())));
+
+        Optional<GameTippEntity> gameTipp = gameTippDao.find(game, userEntity);
         if (gameTipp.isPresent()) {
             GameTippEntity updateGameTipp = gameTipp.get();
             updateGameTipp.setToken(token);
             updateGameTipp.setLastUpdateTime(now);
-            updateGameTipp.setUser(user);
+            updateGameTipp.setUser(userEntity);
             updateGameTipp.setTipp(tipp, status);
             return gameTippDao.persist(updateGameTipp);
         } else {
@@ -109,7 +112,7 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
             newGameTipp.setToken(token);
             newGameTipp.setCreationTime(now);
             newGameTipp.setLastUpdateTime(now);
-            newGameTipp.setUser(user);
+            newGameTipp.setUser(userEntity);
             newGameTipp.setGame(game);
             newGameTipp.setTipp(tipp, status);
             return gameTippDao.persist(newGameTipp);
@@ -118,9 +121,10 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
 
     @Override
     @Transactional
-    public List<GameTippEntity> createOrUpdateTipp(String token, GameListEntity round, UserEntity user,
+    public List<GameTippEntity> createOrUpdateTipp(String token, GameListEntity round, Nickname user,
             List<GameResult> tipps,
             TippStatusType status) {
+
         List<GameTippEntity> result = new ArrayList<>();
         for (int i = 0; i < round.size(); i++) {
             result.add(createOrUpdateTipp(token, round.get(i), user, tipps.get(i), status));
@@ -266,8 +270,9 @@ public class DefaultTippService extends AbstractManagerService implements TippSe
     }
 
     @Override
-    public Optional<GameTippEntity> findTipp(GameEntity game, UserEntity user) {
-        return gameTippDao.find(game, user);
+    public Optional<GameTippEntity> findTipp(GameEntity game, Nickname user) {
+        final UserEntity userEntity = userDao.findByNickname(user).orElseThrow(() -> newException(unknwonUser(user.getNickname())));
+        return gameTippDao.find(game, userEntity);
     }
 
     @Override

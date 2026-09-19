@@ -24,8 +24,6 @@
 
 package de.betoffice.service;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
@@ -47,7 +45,6 @@ import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.storage.user.entity.UserEntity;
 import de.betoffice.storage.user.entity.UserProfileDto;
 import de.betoffice.validation.ServiceResult;
-import de.betoffice.validation.ValidationException;
 
 /**
  * Test CRUD operations on storage object {@link UserEntity}.
@@ -104,24 +101,24 @@ class CommunityServiceUserTest {
 
     @Test
     void testUpdateUser() {
-        final UserEntity frosch = createUser("Frosch", "Andre", "Winkler");
-        final UserEntity peter = createUser("Peter", "Peter", "Groth");
+        final UserProfileDto frosch = createUser("Frosch", "Andre", "Winkler");
+        final UserProfileDto peter = createUser("Peter", "Peter", "Groth");
 
         communityService.updateUser(
                 true,
-                frosch.getNickname(),
+                Nickname.of(frosch.getNickname()),
                 "Winkler-Update",
                 "Andre-Update",
-                frosch.getEmail(),
+                frosch.getMail(),
                 false,
                 frosch.getPhone());
 
         Optional<UserEntity> userDarkside = communityService.findUser(Nickname.of("Darkside"));
         assertThat(userDarkside).isEmpty();
 
-        Optional<UserEntity> anotherFrosch = communityService.findUser(frosch.getNickname());
+        Optional<UserEntity> anotherFrosch = communityService.findUser(Nickname.of(frosch.getNickname()));
         assertThat(anotherFrosch).isPresent().hasValueSatisfying(u -> {
-            assertThat(u.getNickname()).isEqualTo(frosch.getNickname());
+            assertThat(u.getNickname().value()).isEqualTo(frosch.getNickname());
             assertThat(u.getSurname()).isEqualTo("Andre-Update");
             assertThat(u.getName()).isEqualTo("Winkler-Update");
             assertThat(u.getNotification()).isEqualTo(NotificationType.NONE);
@@ -131,29 +128,26 @@ class CommunityServiceUserTest {
 
     @Test
     void testDeleteUser() {
-        UserEntity frosch = createUser("Frosch", "Andre", "Winkler");
-        UserEntity peter = createUser("Peter", "Peter", "Groth");
+        final UserProfileDto frosch = createUser("Frosch", "Andre", "Winkler");
+        final UserProfileDto peter = createUser("Peter", "Peter", "Groth");
 
-        communityService.deleteUser(frosch.getNickname());
+        communityService.deleteUser(Nickname.of(frosch.getNickname()));
         List<UserEntity> users = communityService.findAllUsers();
 
         assertThat(users).hasSize(1);
-        assertThat(users.get(0).getNickname()).isEqualTo(peter.getNickname());
+        assertThat(users.get(0).getNickname().value()).isEqualTo(peter.getNickname());
 
-        communityService.deleteUser(peter.getNickname());
+        communityService.deleteUser(Nickname.of(peter.getNickname()));
         users = communityService.findAllUsers();
 
         assertThat(users.size()).isEqualTo(0);
     }
 
-    private UserEntity createUser(String nickname, String surname, String name) {
-        Nickname nick = Nickname.of(nickname);
-        UserEntity user = new UserEntity();
-        user.setNickname(nick);
-        user.setName(name);
-        user.setSurname(surname);
-        communityService.createUser(user);
-        return user;
+    private UserProfileDto createUser(String nickname, String surname, String name) {
+        UserCreateCommand createUserCommand = new UserCreateCommand(nickname, surname, name, "another@email.com", null,
+                null);
+        ServiceResult<UserProfileDto> serviceResult = communityService.create(createUserCommand);
+        return serviceResult.orElseThrow();
     }
 
 }

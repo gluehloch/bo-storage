@@ -25,6 +25,7 @@ package de.betoffice.storage.user.entity;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -40,6 +41,11 @@ public class UserProfileDto implements Serializable {
 
     public String getNickname() {
         return nickname;
+    }
+    
+    @JsonIgnore
+    public Nickname toNickname() {
+        return Nickname.of(nickname);
     }
 
     public void setNickname(String nickname) {

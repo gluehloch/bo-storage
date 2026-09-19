@@ -74,16 +74,16 @@ public class InfoCenterTest extends AbstractServiceTest {
 
     @Autowired
     private TippService tippService;
-    
+
     @Autowired
     private SeasonManagerService seasonManagerService;
-    
+
     @Autowired
     private ScenarioBuilder scene;
 
     @Autowired
     private InfoCenter infoCenter;
-    
+
     private List<UserEntity> users;
 
     private UserEntity frosch;
@@ -119,10 +119,10 @@ public class InfoCenterTest extends AbstractServiceTest {
         });
 
         GameListEntity firstRound = seasonManagerService.findRound(scene.getSeason(), 0).orElseThrow();
-        
+
         // Bei einer Standardeinstellung 13/10/0 ergeben sich folgende Werte:
         GameEntity game = firstRound.get(0);
-        GameTippEntity tipp = tippService.findTipp(game, frosch).orElseThrow();
+        GameTippEntity tipp = tippService.findTipp(game, frosch.getNickname()).orElseThrow();
         assertEquals(tipp.getTipp().getToto(), game.getResult().getToto());
 
         UserResultOfDay urod = tippService.getUserPoints(firstRound, frosch);
@@ -173,7 +173,8 @@ public class InfoCenterTest extends AbstractServiceTest {
         // User C hat keinen Tipp richtig. Alle anderen mind. einen
         // Tipp richtig.
 
-        assertEquals(mrTipp, infoCenter.findWorstTipp(seasonManagerService.findRounds(scene.getSeason()).get(0), users).getUser());
+        assertEquals(mrTipp,
+                infoCenter.findWorstTipp(seasonManagerService.findRounds(scene.getSeason()).get(0), users).getUser());
 
         SeasonEntity season = seasonManagerService.findSeasonById(scene.getSeason().getId());
         GameListEntity firstRound = seasonManagerService.findRound(season, 0).orElseThrow();
@@ -201,7 +202,8 @@ public class InfoCenterTest extends AbstractServiceTest {
 
         // User C hat keinen Tipp richtig. Alle anderen mind. einen
         // einen Tipp richtig.
-        assertEquals(hattwig, infoCenter.findWorstTipp(seasonManagerService.findRounds(scene.getSeason()).get(0), users).getUser());
+        assertEquals(hattwig,
+                infoCenter.findWorstTipp(seasonManagerService.findRounds(scene.getSeason()).get(0), users).getUser());
     }
 
     @Test
@@ -209,61 +211,84 @@ public class InfoCenterTest extends AbstractServiceTest {
         assertThrows(NullPointerException.class, () -> {
             infoCenter.findMediumTipp(null, null);
         });
-        
+
         assertEquals(infoCenter.findMediumTipp(scene.getGame1(), scene.getUsers().toList()), GameResult.of(1, 0));
 
         GameListEntity firstRound = seasonManagerService.findRound(scene.getSeason(), 0).orElseThrow();
-        GameEntity ohneTipp = seasonManagerService.addMatch(firstRound, DateTimeDummyProducer.DATE_1971_03_24, scene.getErsteBundesliga(), scene.getRwe(), scene.getS04());
+        GameEntity ohneTipp = seasonManagerService.addMatch(firstRound, DateTimeDummyProducer.DATE_1971_03_24,
+                scene.getErsteBundesliga(), scene.getRwe(), scene.getS04());
         assertTrue(infoCenter.findMediumTipp(ohneTipp, scene.getUsers().toList()) == null);
 
-        GameEntity nurAutoTipp = seasonManagerService.addMatch(firstRound, DateTimeDummyProducer.DATE_1971_03_24, scene.getErsteBundesliga(), scene.getS04(), scene.getRwe());        
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, nurAutoTipp, frosch, GameResult.of(1, 0), TippStatusType.AUTO);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, nurAutoTipp, hattwig, GameResult.of(1, 0), TippStatusType.AUTO);
+        GameEntity nurAutoTipp = seasonManagerService.addMatch(firstRound, DateTimeDummyProducer.DATE_1971_03_24,
+                scene.getErsteBundesliga(), scene.getS04(), scene.getRwe());
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, nurAutoTipp, frosch.getNickname(), GameResult.of(1, 0),
+                TippStatusType.AUTO);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, nurAutoTipp, hattwig.getNickname(), GameResult.of(1, 0),
+                TippStatusType.AUTO);
 
         assertTrue(infoCenter.findMediumTipp(nurAutoTipp, scene.getUsers().toList()) == null);
 
-        GameEntity newGame = seasonManagerService.addMatch(firstRound, DateTimeDummyProducer.DATE_2002_01_01, scene.getErsteBundesliga(), scene.getS04(), scene.getRwe());        
+        GameEntity newGame = seasonManagerService.addMatch(firstRound, DateTimeDummyProducer.DATE_2002_01_01,
+                scene.getErsteBundesliga(), scene.getS04(), scene.getRwe());
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, frosch, GameResult.of(1, 0), TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, hattwig, GameResult.of(1, 0), TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, mrTipp, GameResult.of(1, 0), TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, frosch.getNickname(), GameResult.of(1, 0),
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, hattwig.getNickname(), GameResult.of(1, 0),
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, mrTipp.getNickname(), GameResult.of(1, 0),
+                TippStatusType.USER);
 
         assertEquals(infoCenter.findMediumTipp(newGame, scene.getUsers().toList()), GameResult.of(1, 0));
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, frosch, GameResult.of(0, 1), TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, hattwig, GameResult.of(0, 1), TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, mrTipp, GameResult.of(0, 1), TippStatusType.USER);        
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, frosch.getNickname(), GameResult.of(0, 1),
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, hattwig.getNickname(), GameResult.of(0, 1),
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, mrTipp.getNickname(), GameResult.of(0, 1),
+                TippStatusType.USER);
 
         assertEquals(infoCenter.findMediumTipp(newGame, scene.getUsers().toList()), GameResult.of(0, 1));
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, frosch, GameResult.of(1, 1), TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, hattwig, GameResult.of(1, 1), TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, mrTipp, GameResult.of(1, 1), TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, frosch.getNickname(), GameResult.of(1, 1),
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, hattwig.getNickname(), GameResult.of(1, 1),
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, mrTipp.getNickname(), GameResult.of(1, 1),
+                TippStatusType.USER);
 
         assertEquals(infoCenter.findMediumTipp(newGame, scene.getUsers().toList()), GameResult.of(1, 1));
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, frosch, GameResult.of(2, 1), TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, hattwig, GameResult.of(1, 3), TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, mrTipp, GameResult.of(2, 1), TippStatusType.USER);                
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, frosch.getNickname(), GameResult.of(2, 1),
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, hattwig.getNickname(), GameResult.of(1, 3),
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, mrTipp.getNickname(), GameResult.of(2, 1),
+                TippStatusType.USER);
 
         assertEquals(infoCenter.findMediumTipp(newGame, scene.getUsers().toList()), GameResult.of(1, 1));
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, frosch, GameResult.of(2, 1), TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, hattwig, GameResult.of(1, 4), TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, mrTipp, GameResult.of(2, 1), TippStatusType.USER);        
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, frosch.getNickname(), GameResult.of(2, 1),
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, hattwig.getNickname(), GameResult.of(1, 4),
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, mrTipp.getNickname(), GameResult.of(2, 1),
+                TippStatusType.USER);
 
         assertEquals(infoCenter.findMediumTipp(newGame, scene.getUsers().toList()), GameResult.of(1, 2));
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, frosch, GameResult.of(0, 1), TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, hattwig, GameResult.of(4, 3), TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, mrTipp, GameResult.of(2, 2), TippStatusType.USER);        
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, frosch.getNickname(), GameResult.of(0, 1),
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, hattwig.getNickname(), GameResult.of(4, 3),
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, newGame, mrTipp.getNickname(), GameResult.of(2, 2),
+                TippStatusType.USER);
 
         assertEquals(infoCenter.findMediumTipp(newGame, scene.getUsers().toList()), GameResult.of(2, 2));
     }
 
     private void createData() throws Exception {
         scene.initialize();
-        
+
         frosch = scene.getUsers().users()[DummyUsers.FROSCH];
         hattwig = scene.getUsers().users()[DummyUsers.HATTWIG];
         mrTipp = scene.getUsers().users()[DummyUsers.MRTIPP];

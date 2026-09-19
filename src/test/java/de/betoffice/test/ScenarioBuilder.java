@@ -193,7 +193,8 @@ public class ScenarioBuilder {
         users = new DummyUsers();
         users.toList()
                 .stream()
-                .map(i -> new UserCreateCommand(i.getNickname().toString(), i.getSurname(), i.getName(), i.getEmail(),i.getPassword(), i.getPhone()))
+                .map(i -> new UserCreateCommand(i.getNickname().toString(), i.getSurname(), i.getName(), i.getEmail(),
+                        i.getPassword(), i.getPhone()))
                 .forEach(communityService::create);
 
         // Saison erzeugen.
@@ -256,32 +257,44 @@ public class ScenarioBuilder {
         matches.add(game4);
 
         // Spiel 1
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.FROSCH], gr10, TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.HATTWIG], gr01,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.FROSCH].getNickname(), gr10,
                 TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.PETER], gr21, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.HATTWIG].getNickname(), gr01,
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.MRTIPP].getNickname(), gr11,
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.PETER].getNickname(), gr21,
+                TippStatusType.USER);
 
         // Spiel 2
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users.users()[DummyUsers.FROSCH], gr10, TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users.users()[DummyUsers.HATTWIG], gr01,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users.users()[DummyUsers.FROSCH].getNickname(), gr10,
                 TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users.users()[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users.users()[DummyUsers.PETER], gr21, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users.users()[DummyUsers.HATTWIG].getNickname(), gr01,
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users.users()[DummyUsers.MRTIPP].getNickname(), gr11,
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game2, users.users()[DummyUsers.PETER].getNickname(), gr21,
+                TippStatusType.USER);
 
         // Spiel 3
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users.users()[DummyUsers.FROSCH], gr10, TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users.users()[DummyUsers.HATTWIG], gr01,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users.users()[DummyUsers.FROSCH].getNickname(), gr10,
                 TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users.users()[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users.users()[DummyUsers.PETER], gr21, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users.users()[DummyUsers.HATTWIG].getNickname(), gr01,
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users.users()[DummyUsers.MRTIPP].getNickname(), gr11,
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game3, users.users()[DummyUsers.PETER].getNickname(), gr21,
+                TippStatusType.USER);
 
         // Spiel 4
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.FROSCH], gr10, TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.HATTWIG], gr01,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.FROSCH].getNickname(), gr10,
                 TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.MRTIPP], gr11, TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.PETER], gr21, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.HATTWIG].getNickname(), gr01,
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.MRTIPP].getNickname(), gr11,
+                TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game4, users.users()[DummyUsers.PETER].getNickname(), gr21,
+                TippStatusType.USER);
 
         assertThat(seasonManagerService.findTeams(getSeason(), getZweiteBundesliga().getGroupType())).hasSize(3);
     }

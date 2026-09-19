@@ -41,6 +41,7 @@ import com.icegreen.greenmail.util.ServerSetupTest;
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.service.CommunityService;
 import de.betoffice.service.request.CommunityCreateCommand;
+import de.betoffice.service.request.UserCreateCommand;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.RoundDaoHibernateTest;
 import de.betoffice.storage.season.entity.GameListEntity;
@@ -62,7 +63,7 @@ class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
 
     @Autowired
     private CommunityService communityService;
-    
+
     @BeforeEach
     void before() {
         this.prepareDatabase(RoundDaoHibernateTest.class);
@@ -76,20 +77,26 @@ class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
         Optional<GameListEntity> nextTippRound = sendReminderMailNotification.findNextTippRound();
         assertThat(nextTippRound).isNotEmpty();
 
-        communityService.createUser(null);
-        
-        
+        final UserCreateCommand userCreateCommand = new UserCreateCommand(
+                "Nickname",
+                "Winkler",
+                "Andre",
+                "mail@mail.com",
+                "password",
+                "12121212");
+        communityService.create(userCreateCommand);
+
         final CommunityReference communityReference = CommunityReference.of("TC");
         final SeasonEntity season = nextTippRound.get().getSeason();
         final SeasonReference seasonReference = season.getReference();
-        
+
         final CommunityCreateCommand createCommunityCommand = new CommunityCreateCommand(
                 communityReference,
                 seasonReference,
                 "Test Community",
                 "2024",
-                );
-        
+                userCreateCommand.toNickname());
+
         communityService.create(createCommunityCommand);
 
         sendReminderMailNotification.send();

@@ -34,6 +34,7 @@ import de.betoffice.storage.tip.GameTippEntity;
 import de.betoffice.storage.tip.TippDto;
 import de.betoffice.storage.tip.TippStatusType;
 import de.betoffice.storage.tip.UserResultOfDay;
+import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.storage.user.entity.UserEntity;
 
 /**
@@ -63,7 +64,7 @@ public interface TippService {
      * @param  status Tipp-Status.
      * @return        Der erstellte {@link GameTippEntity}.
      */
-    GameTippEntity createOrUpdateTipp(String token, GameEntity match, UserEntity user, GameResult tipp, TippStatusType status);
+    GameTippEntity createOrUpdateTipp(String token, GameEntity match, Nickname user, GameResult tipp, TippStatusType status);
 
     /**
      * Legt die Tipps für einen kompletten Spieltag in der Datenbank an. <b>ACHTUNG:</b> Es findet keine Prüfung statt,
@@ -76,7 +77,7 @@ public interface TippService {
      * @param  status Der Status für diese Tipps.
      * @return        Die erstellen {@code GameTipps}.
      */
-    List<GameTippEntity> createOrUpdateTipp(String token, GameListEntity round, UserEntity user, List<GameResult> tipps,
+    List<GameTippEntity> createOrUpdateTipp(String token, GameListEntity round, Nickname user, List<GameResult> tipps,
             TippStatusType status);
 
     /**
@@ -104,7 +105,7 @@ public interface TippService {
      * @param  user Der Teilnehmer
      * @return      Der Spieltipp zu den gesuchten Parametern
      */
-    Optional<GameTippEntity> findTipp(GameEntity game, UserEntity user);
+    Optional<GameTippEntity> findTipp(GameEntity game, Nickname user);
 
     /**
      * Liefert alle Spieltipps zu einem Spieltag von einem Teilnehmer.

@@ -306,37 +306,37 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         GameListEntity round_02 = seasonManagerService.findRound(buli_2010, 1).orElseThrow();
         GameListEntity round_03 = seasonManagerService.findRound(buli_2010, 2).orElseThrow();
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, userFrosch,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, userFrosch.getNickname(),
                 List.of(new GameResult(2, 0), new GameResult(1, 1)), TippStatusType.USER);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, userFrosch,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, userFrosch.getNickname(),
                 List.of(new GameResult(1, 1), new GameResult(1, 1)), TippStatusType.USER);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, userFrosch,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, userFrosch.getNickname(),
                 List.of(new GameResult(1, 2), new GameResult(0, 1)), TippStatusType.USER);
 
         //
         // Peter
         //
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, userPeter,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, userPeter.getNickname(),
                 List.of(new GameResult(1, 1), new GameResult(1, 1)), TippStatusType.USER);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, userPeter,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, userPeter.getNickname(),
                 List.of(new GameResult(2, 1), new GameResult(2, 1)), TippStatusType.USER);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, userPeter,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, userPeter.getNickname(),
                 List.of(new GameResult(1, 2), new GameResult(0, 1)), TippStatusType.USER);
 
         //
         // mrTipp
         //
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, userMrTipp,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_01, userMrTipp.getNickname(),
                 List.of(new GameResult(2, 1), new GameResult(0, 0)), TippStatusType.USER);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, userMrTipp,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_02, userMrTipp.getNickname(),
                 List.of(new GameResult(2, 2), new GameResult(2, 2)), TippStatusType.USER);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, userMrTipp,
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, round_03, userMrTipp.getNickname(),
                 List.of(new GameResult(1, 3), new GameResult(0, 2)), TippStatusType.USER);
 
         //
@@ -496,7 +496,8 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     private UserProfileDto createUser(Nickname nickname, String surname, String name) {
-        UserCreateCommand createUserCommand = new UserCreateCommand(nickname.value(), surname, name, "another@email.com", null, null);
+        UserCreateCommand createUserCommand = new UserCreateCommand(nickname.value(), surname, name,
+                "another@email.com", null, null);
         ServiceResult<UserProfileDto> serviceResult = communityService.create(createUserCommand);
         return serviceResult.orElseThrow();
     }
