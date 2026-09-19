@@ -50,12 +50,14 @@ public class ValidationMessage {
         NO_ERROR(""),
         UNKNOWN_ERROR("Unbekannter Fehler."),
         COMMUNITY_EXISTS("Die Community %s existiert bereits."),
+        COMMUNITY_NOT_FOUND("Die Community %s ist nicht bekannt."),
         EMAIL_CHANGE_DATETIME_IS_IN_THE_FUTURE("Der Bestätigungsmail wurde in der Zukunft verschickt."),
         EMAIL_CHANGE_DATETIME_EXPIRED("Die Bestätigungslink für die Änderung der Email-Adresse ist nicht mehr gültig."),
 
         USER_NOT_FOUND("Der Nutzer %s ist nicht bekannt."),
         NICKNAME_IS_NOT_SET("Nickname ist nicht gesetzt."),
         NICKNAME_ALREADY_EXISTS("Nickname %s wird bereits verwendet."),
+        MAIL_IS_NOT_SET("Email-Adresse ist nicht gesetzt."),
 
         GROUP_TYPE_NAME_IS_NOT_SET("Gruppentyp Name ist nicht gesetzt."),
         TEAM_NAME_IS_NOT_SET("Mannschaftsname ist nicht gesetzt."),

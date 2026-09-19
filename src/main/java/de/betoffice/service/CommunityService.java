@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -39,6 +39,7 @@ import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.storage.user.entity.UserEntity;
+import de.betoffice.storage.user.entity.UserProfileDto;
 import de.betoffice.validation.ServiceResult;
 
 /**
@@ -117,7 +118,7 @@ public interface CommunityService {
      * @param  nickname     the new community member
      * @return              the updated community.
      */
-    CommunityDto addMember(CommunityReference communityRef, Nickname nickname);
+    ServiceResult<CommunityDto> addMember(CommunityReference communityRef, Nickname nickname);
 
     /**
      * Add community members.
@@ -175,7 +176,7 @@ public interface CommunityService {
      *
      * @param user Ein Teilnehmer.
      */
-    UserEntity createUser(UserCreateCommand userCreateCommand);
+    ServiceResult<UserProfileDto> create(final UserCreateCommand user);
 
     /**
      * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn dieser keiner Meisterschaft zugeordnet

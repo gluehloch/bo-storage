@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -37,6 +37,7 @@ import de.betoffice.service.CommunityService;
 import de.betoffice.service.MasterDataManagerService;
 import de.betoffice.service.SeasonManagerService;
 import de.betoffice.service.TippService;
+import de.betoffice.service.request.UserCreateCommand;
 import de.betoffice.storage.season.SeasonType;
 import de.betoffice.storage.season.entity.GameEntity;
 import de.betoffice.storage.season.entity.GameListEntity;
@@ -66,7 +67,7 @@ public class ScenarioBuilder {
 
     @Autowired
     private CommunityService communityService;
-    
+
     @Autowired
     private TippService tippService;
 
@@ -180,8 +181,7 @@ public class ScenarioBuilder {
      * </li>
      * </ul>
      * 
-     * @throws Exception
-     *             Da ging was schief.
+     * @throws Exception Da ging was schief.
      */
     public void initialize() throws Exception {
         teams = new DummyTeams();
@@ -191,7 +191,10 @@ public class ScenarioBuilder {
         groups.toList().stream().forEach(masterDataManagerService::createGroupType);
 
         users = new DummyUsers();
-        users.toList().stream().forEach(communityService::createUser);
+        users.toList()
+                .stream()
+                .map(i -> new UserCreateCommand(i.getNickname().toString(), i.getSurname(), i.getName(), i.getEmail(),i.getPassword(), i.getPhone()))
+                .forEach(communityService::create);
 
         // Saison erzeugen.
         season = new SeasonEntity(SeasonReference.of("1994/1995", "Bundesliga"));
@@ -212,7 +215,8 @@ public class ScenarioBuilder {
         seasonManagerService.addTeam(season, zweiteBundesliga.getGroupType(), teams.teams()[DummyTeams.RWE]);
 
         // Spieltag erzeugen, Spiel eintragen.
-        round1 = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_2002_01_02, ersteBundesliga.getGroupType());
+        round1 = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_2002_01_02,
+                ersteBundesliga.getGroupType());
 
         // Spiele erzeugen.
         game1 = seasonManagerService.addMatch(round1,
@@ -250,7 +254,7 @@ public class ScenarioBuilder {
         matches.add(game2);
         matches.add(game3);
         matches.add(game4);
-        
+
         // Spiel 1
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.FROSCH], gr10, TippStatusType.USER);
         tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, users.users()[DummyUsers.HATTWIG], gr01,

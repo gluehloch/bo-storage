@@ -56,6 +56,8 @@ import de.betoffice.storage.time.DateTimeProvider;
 import de.betoffice.storage.user.UserDao;
 import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.storage.user.entity.UserEntity;
+import de.betoffice.storage.user.entity.UserProfileDto;
+import de.betoffice.storage.user.entity.UserProfileDtoMapper;
 import de.betoffice.util.LoggerFactory;
 import de.betoffice.validation.ServiceResult;
 import de.betoffice.validation.ValidationException;
@@ -153,7 +155,8 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     @Override
     @Transactional
     public ServiceResult<CommunityDto> create(CommunityCreateCommand communityCreateCommand) {
-        final ValidationContext vc = validateCreateCommand(new ValidationMessagesBuilder(), communityCreateCommand);
+        final CreateCommunityValidationContext vc = validateCreateCommunityCommand(new ValidationMessagesBuilder(),
+                communityCreateCommand);
         if (vc.getValidationMessages().containsAnError()) {
             return ServiceResult.failure(vc.getValidationMessages());
         } else {
@@ -163,7 +166,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     private CommunityEntity persistCommunity(CommunityCreateCommand communityCreateCommand,
-            final ValidationContext vc) {
+            final CreateCommunityValidationContext vc) {
         final CommunityEntity community = new CommunityEntity();
         community.setYear(communityCreateCommand.communityYear());
         community.setName(communityCreateCommand.communityName());
@@ -174,63 +177,39 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         return community;
     }
 
-    private ValidationContext validateCreateCommand(
+    private UserEntity persistUser(UserCreateCommand userCreateCommand, final CreateUserValidationContext vc) {
+        final UserEntity user = new UserEntity();
+        user.setNickname(Nickname.of(userCreateCommand.nickname()));
+        user.setEmail(userCreateCommand.email());
+        user.setName(userCreateCommand.lastName());
+        user.setSurname(userCreateCommand.firstName());
+        user.setAdmin(false);
+        user.setAutomat(false);
+        user.setNotification(NotificationType.NONE);
+        user.setPassword(userCreateCommand.password());
+        user.setPhone(userCreateCommand.phone());
+        user.setTitle(null);
+        userDao.persist(user);
+        return user;
+    }
+
+    private CreateCommunityValidationContext validateCreateCommunityCommand(
             final ValidationMessagesBuilder vmb,
             final CommunityCreateCommand cmd) {
 
-        return new ValidationContext(vmb)
+        return new CreateCommunityValidationContext(vmb)
                 .validateCommunityReferenceDoesNotExist(cmd.communityRef())
                 .validateSeason(cmd.seasonRef())
                 .validateCommunityManager(cmd.managerNickname());
     }
 
-    private class ValidationContext {
-        private ValidationMessagesBuilder validationMessagesBuilder;
-        private SeasonEntity season;
-        private UserEntity communityManager;
+    private CreateUserValidationContext validateCreateUserCommand(
+            final ValidationMessagesBuilder vmb,
+            final UserCreateCommand cmd) {
 
-        public ValidationContext(ValidationMessagesBuilder validationMessagesBuilder) {
-            this.validationMessagesBuilder = validationMessagesBuilder;
-        }
-
-        ValidationMessages getValidationMessages() {
-            return validationMessagesBuilder.build();
-        }
-
-        SeasonEntity getSeason() {
-            return season;
-        }
-
-        UserEntity getCommunityManager() {
-            return communityManager;
-        }
-
-        public ValidationContext validateSeason(SeasonReference seasonRef) {
-            final var season = DefaultCommunityService.this.seasonDao.find(seasonRef);
-            if (!season.isPresent()) {
-                validationMessagesBuilder.addFormattedMessage(MessageType.SEASON_REFERENCE_NOT_FOUND, seasonRef);
-            } else {
-                this.season = season.get();
-            }
-            return this;
-        }
-
-        public ValidationContext validateCommunityManager(Nickname managerNickname) {
-            final var user = DefaultCommunityService.this.userDao.findByNickname(managerNickname);
-            if (!user.isPresent()) {
-                validationMessagesBuilder.addFormattedMessage(MessageType.USER_NOT_FOUND, managerNickname);
-            } else {
-                this.communityManager = user.get();
-            }
-            return this;
-        }
-
-        public ValidationContext validateCommunityReferenceDoesNotExist(CommunityReference communityRef) {
-            if (DefaultCommunityService.this.communityDao.find(communityRef).isPresent()) {
-                validationMessagesBuilder.addFormattedMessage(MessageType.COMMUNITY_EXISTS, communityRef);
-            }
-            return this;
-        }
+        return new CreateUserValidationContext(vmb)
+                .validateNicknameIsUnique(Nickname.of(cmd.nickname()))
+                .validateEmail(cmd.email());
     }
 
     @Override
@@ -248,12 +227,12 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public CommunityDto addMember(CommunityReference communityReference, Nickname nickname) {
+    public ServiceResult<CommunityDto> addMember(CommunityReference communityReference, Nickname nickname) {
         CommunityEntity community = communityDao.find(communityReference).orElseThrow();
         UserEntity user = userDao.findByNickname(nickname).orElseThrow();
         community.addMember(user);
         communityDao.update(community);
-        return CommunityDtoMapper.map(community);
+        return ServiceResult.sucess(CommunityDtoMapper.map(community));
     }
 
     @Override
@@ -288,25 +267,14 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public UserEntity createUser(final UserCreateCommand user) {
-        final List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
-
-        if (user.getNickname() == null || StringUtils.isBlank(user.getNickname().value())) {
-            messages.add(ValidationMessage.error(MessageType.NICKNAME_IS_NOT_SET));
+    public ServiceResult<UserProfileDto> create(final UserCreateCommand user) {
+        final CreateUserValidationContext vc = validateCreateUserCommand(new ValidationMessagesBuilder(), user);
+        if (vc.getValidationMessages().containsAnError()) {
+            return ServiceResult.failure(vc.getValidationMessages());
         } else {
-            final List<UserEntity> lowerCaseNickname = userDao.findLowerCaseNickname(user.getNickname().getNickname());
-            if (!lowerCaseNickname.isEmpty()) {
-                messages.add(ValidationMessage.error(MessageType.NICKNAME_ALREADY_EXISTS, user));
-            }
+            final UserEntity userEntity = persistUser(user, vc);
+            return ServiceResult.sucess(UserProfileDtoMapper.map(userEntity));
         }
-
-        if (messages.isEmpty()) {
-            userDao.persist(user);
-        } else {
-            throw new ValidationException(messages);
-        }
-
-        return user;
     }
 
     @Override
@@ -391,6 +359,126 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         return userDao.findByNickname(nickname)
                 .filter(u -> u.getChangeSend() < 5)
                 .map(u -> sendUserProfileChangeMailNotification.send(u));
+    }
+
+    private class AddMemberValidationContext {
+        private ValidationMessagesBuilder validationMessagesBuilder;
+        private CommunityEntity community;
+        private UserEntity user;
+
+        public AddMemberValidationContext(ValidationMessagesBuilder validationMessagesBuilder) {
+            this.validationMessagesBuilder = validationMessagesBuilder;
+        }
+
+        ValidationMessages getValidationMessages() {
+            return validationMessagesBuilder.build();
+        }
+
+        public CommunityEntity getCommunity() {
+            return community;
+        }
+
+        public UserEntity getUser() {
+            return user;
+        }
+
+        public AddMemberValidationContext validateCommunityExists(CommunityReference communityReference) {
+            final Optional<CommunityEntity> optionalCommunity = communityDao.find(communityReference);
+            if (optionalCommunity.isEmpty()) {
+                validationMessagesBuilder.addFormattedMessage(MessageType.COMMUNITY_NOT_FOUND, communityReference);
+            } else {
+                this.community = optionalCommunity.get();
+            }
+            return this;
+        }
+
+        public AddMemberValidationContext validateUserExists(Nickname nickname) {
+            if (userDao.findByNickname(nickname).isEmpty()) {
+                validationMessagesBuilder.addFormattedMessage(MessageType.USER_NOT_FOUND, nickname);
+            }
+            return this;
+        }
+    }
+
+    private class CreateUserValidationContext {
+        private ValidationMessagesBuilder validationMessagesBuilder;
+
+        public CreateUserValidationContext(ValidationMessagesBuilder validationMessagesBuilder) {
+            this.validationMessagesBuilder = validationMessagesBuilder;
+        }
+
+        ValidationMessages getValidationMessages() {
+            return validationMessagesBuilder.build();
+        }
+
+        public CreateUserValidationContext validateNicknameIsUnique(Nickname nickname) {
+            if (nickname == null || StringUtils.isBlank(nickname.value())) {
+                validationMessagesBuilder.add(ValidationMessage.error(MessageType.NICKNAME_IS_NOT_SET));
+            } else {
+                final List<UserEntity> lowerCaseNickname = userDao.findLowerCaseNickname(nickname.getNickname());
+                if (!lowerCaseNickname.isEmpty()) {
+                    validationMessagesBuilder.addFormattedMessage(MessageType.NICKNAME_ALREADY_EXISTS, nickname);
+                }
+            }
+            return this;
+        }
+
+        public CreateUserValidationContext validateEmail(String email) {
+            if (StringUtils.isBlank(email)) {
+                validationMessagesBuilder.add(ValidationMessage.error(MessageType.MAIL_IS_NOT_SET));
+            }
+            return this;
+        }
+    }
+
+    private class CreateCommunityValidationContext {
+        private ValidationMessagesBuilder validationMessagesBuilder;
+        private SeasonEntity season;
+        private UserEntity communityManager;
+
+        public CreateCommunityValidationContext(ValidationMessagesBuilder validationMessagesBuilder) {
+            this.validationMessagesBuilder = validationMessagesBuilder;
+        }
+
+        ValidationMessages getValidationMessages() {
+            return validationMessagesBuilder.build();
+        }
+
+        SeasonEntity getSeason() {
+            return season;
+        }
+
+        UserEntity getCommunityManager() {
+            return communityManager;
+        }
+
+        public CreateCommunityValidationContext validateSeason(SeasonReference seasonRef) {
+            final var season = DefaultCommunityService.this.seasonDao.find(seasonRef);
+            if (!season.isPresent()) {
+                validationMessagesBuilder.addFormattedMessage(MessageType.SEASON_REFERENCE_NOT_FOUND, seasonRef);
+            } else {
+                this.season = season.get();
+            }
+            return this;
+        }
+
+        public CreateCommunityValidationContext validateCommunityManager(Nickname managerNickname) {
+            final var user = DefaultCommunityService.this.userDao.findByNickname(managerNickname);
+            if (!user.isPresent()) {
+                validationMessagesBuilder.addFormattedMessage(MessageType.USER_NOT_FOUND, managerNickname);
+            } else {
+                this.communityManager = user.get();
+            }
+            return this;
+        }
+
+        public CreateCommunityValidationContext validateCommunityReferenceDoesNotExist(
+                CommunityReference communityRef) {
+            if (DefaultCommunityService.this.communityDao.find(communityRef).isPresent()) {
+                validationMessagesBuilder.addFormattedMessage(MessageType.COMMUNITY_EXISTS, communityRef);
+            }
+            return this;
+        }
     }
 
 }

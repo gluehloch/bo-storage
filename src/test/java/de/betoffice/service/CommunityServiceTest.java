@@ -42,6 +42,7 @@ import org.springframework.test.context.transaction.TestTransaction;
 import de.betoffice.conf.BetofficeTestConfig;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.service.request.CommunityCreateCommand;
+import de.betoffice.service.request.UserCreateCommand;
 import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
 import de.betoffice.storage.community.entity.CommunityReference;
@@ -50,6 +51,7 @@ import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.storage.user.entity.UserEntity;
+import de.betoffice.storage.user.entity.UserProfileDto;
 import de.betoffice.validation.ServiceResult;
 
 /**
@@ -97,31 +99,27 @@ class CommunityServiceTest {
         bundesliga.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(bundesliga);
 
-        final Nickname frosch = Nickname.of("Frosch");
-        final UserEntity communityManager = new UserEntity();
-        communityManager.setEmail("email@email.de");
-        communityManager.setName("Andre");
-        communityManager.setNickname(frosch);
-        communityManager.setPassword("Passwort");
-
-        final UserEntity persistedCommunityManager = communityService.createUser(communityManager);
-        assertThat(persistedCommunityManager.getName()).isEqualTo(communityManager.getName());
+        final Nickname nickname = Nickname.of("Frosch");
+        final UserCreateCommand createUserCommand = new UserCreateCommand(nickname.getNickname(), "Andre", "Winkler",
+                "email@email.de", "Password", "1234567890");
+        final ServiceResult<UserProfileDto> serviceResult = communityService.create(createUserCommand);
+        assertThat(serviceResult.isSuccessful()).isTrue();
+        assertThat(serviceResult.orElseThrow().getSurname()).isEqualTo("Andre");
+        assertThat(serviceResult.orElseThrow().getName()).isEqualTo("Winkler");
 
         final CommunityCreateCommand command = new CommunityCreateCommand(
                 CommunityReference.of("TDKB"),
                 bundesliga.getReference(),
                 "TDKB_short",
                 "2024",
-                frosch);
+                nickname);
 
-        final ServiceResult<CommunityDto> serviceResult = communityService.create(command);
-        assertThat(serviceResult.isSuccessful()).isTrue();
+        final ServiceResult<CommunityDto> serviceResult2 = communityService.create(command);
+        assertThat(serviceResult2.isSuccessful()).isTrue();
 
-        final CommunityDto community = serviceResult.orElseThrow();
-        assertThat(community.getCommunityManager().getNickname())
-                .isEqualTo(communityManager.getNickname().getNickname());
+        final CommunityDto community = serviceResult2.orElseThrow();
+        assertThat(community.getCommunityManager().getNickname()).isEqualTo("Frosch");
         assertThat(community.getName()).isEqualTo("TDKB_short");
-        assertThat(communityManager.getId()).isEqualTo(community.getCommunityManager().getId());
     }
 
     @Test
@@ -133,12 +131,21 @@ class CommunityServiceTest {
         final Nickname frosch = Nickname.of("Frosch");
         final UserEntity communityManager = new UserEntity();
         communityManager.setEmail("email@email.de");
-        communityManager.setName("Andre");
+        communityManager.setName("Winkler");
+        communityManager.setSurname("Andre");
         communityManager.setNickname(frosch);
         communityManager.setPassword("Passwort");
 
-        final UserEntity persistedCommunityManager = communityService.createUser(communityManager);
-        assertThat(persistedCommunityManager.getName()).isEqualTo(communityManager.getName());
+        final UserCreateCommand userCreateCommand = new UserCreateCommand(
+                communityManager.getNickname().getNickname(),
+                communityManager.getSurname(),
+                communityManager.getName(),
+                communityManager.getEmail(),
+                communityManager.getPassword(),
+                "1234567890");
+        final ServiceResult<UserProfileDto> serviceResultCreateUser = communityService.create(userCreateCommand);
+        assertThat(serviceResultCreateUser.isSuccessful()).isTrue();
+        assertThat(serviceResultCreateUser.orElseThrow().getName()).isEqualTo(communityManager.getName());
 
         final CommunityCreateCommand command = new CommunityCreateCommand(
                 CommunityReference.of("TDKB"),
@@ -146,33 +153,26 @@ class CommunityServiceTest {
                 "TDKB_short",
                 "2024",
                 frosch);
+        final ServiceResult<CommunityDto> serviceResultCreateCommunity = communityService.create(command);
+        assertThat(serviceResultCreateCommunity.isSuccessful()).isTrue();
 
-        final ServiceResult<CommunityDto> serviceResult = communityService.create(command);
-        assertThat(serviceResult.isSuccessful()).isTrue();
-
-        final CommunityDto community = serviceResult.orElseThrow();
+        final CommunityDto community = serviceResultCreateCommunity.orElseThrow();
         assertThat(community.getCommunityManager().getNickname())
                 .isEqualTo(communityManager.getNickname().getNickname());
         assertThat(community.getName()).isEqualTo("TDKB_short");
 
-        final Nickname demoA = Nickname.of("DemoA");
-        UserEntity demoUserA = new UserEntity();
-        demoUserA.setEmail("demoA@email.de");
-        demoUserA.setName("DemoA-Name");
-        demoUserA.setNickname(demoA);
-        demoUserA.setPassword("DemoA-Password");
-        demoUserA = communityService.createUser(demoUserA);
+        final UserCreateCommand createUserACommand = new UserCreateCommand("DemoA", "DemoA-FirstName", "DemoA-LastName",
+                "demoA@email.de", "DemoA-Password", "1234567890");
+        final ServiceResult<UserProfileDto> serviceResult2 = communityService.create(createUserACommand);
 
-        final Nickname demoB = Nickname.of("DemoB");
-        UserEntity demoUserB = new UserEntity();
-        demoUserB.setEmail("demoB@email.de");
-        demoUserB.setName("DemoB-Name");
-        demoUserB.setNickname(demoB);
-        demoUserB.setPassword("DemoB-Password");
-        demoUserB = communityService.createUser(demoUserB);
+        final UserCreateCommand createuserBCommand = new UserCreateCommand("DemoB", "DemoB-FirstName", "DemoB-LastName",
+                "demoB@email.de", "DemoB-Password", "1234567890");
+        final ServiceResult<UserProfileDto> serviceResult3 = communityService.create(createuserBCommand);
 
-        communityService.addMember(community.toCommunityReference(), demoUserA.getNickname());
-        communityService.addMember(community.toCommunityReference(), demoUserB.getNickname());
+        communityService.addMember(community.toCommunityReference(),
+                Nickname.of(serviceResult2.orElseThrow().getNickname()));
+        communityService.addMember(community.toCommunityReference(),
+                Nickname.of(serviceResult3.orElseThrow().getNickname()));
 
         final Set<UserEntity> members = communityService.findMembers(community.toCommunityReference());
         assertThat(members).hasSize(2);
@@ -185,14 +185,11 @@ class CommunityServiceTest {
         bundesliga.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(bundesliga);
 
-        Nickname nickname = Nickname.of("Andre");
-        UserEntity communityManager = new UserEntity();
-        communityManager.setEmail("email@email.de");
-        communityManager.setName("Andre");
-        communityManager.setNickname(nickname);
-        communityManager.setPassword("Passwort");
-
-        communityManager = communityService.createUser(communityManager);
+        final Nickname nickname = Nickname.of("Frosch");
+        final UserCreateCommand createUserCommand = new UserCreateCommand(nickname.getNickname(), "Andre", "Winkler",
+                "email@email.de", "Password", "1234567890");
+        final ServiceResult<UserProfileDto> serviceResult = communityService.create(createUserCommand);
+        assertThat(serviceResult.isSuccessful()).isTrue();
 
         communityService.create(new CommunityCreateCommand(
                 CommunityReference.of("CM_A"), bundesligaRef, "CM_A_short", "2024", nickname));
