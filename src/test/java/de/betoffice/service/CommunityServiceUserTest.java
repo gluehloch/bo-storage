@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -42,8 +42,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.betoffice.conf.BetofficeTestConfig;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.mail.NotificationType;
+import de.betoffice.service.request.UserCreateCommand;
 import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.storage.user.entity.UserEntity;
+import de.betoffice.storage.user.entity.UserProfileDto;
+import de.betoffice.validation.ServiceResult;
 import de.betoffice.validation.ValidationException;
 
 /**
@@ -92,12 +95,11 @@ class CommunityServiceUserTest {
 
     @Test
     void testCreateInvalidUser() {
-        UserEntity invalidUser = new UserEntity();
-
-        ValidationException ex = assertThrows(ValidationException.class, () -> {
-            communityService.createUser(invalidUser);
-        });
-        assertThat(ex.getMessages()).isNotEmpty();
+        final UserCreateCommand createUserCommand = new UserCreateCommand("", "Andre", "Winkler",
+                "email@email.de", "Password", "1234567890");
+        final ServiceResult<UserProfileDto> serviceResult = communityService.create(createUserCommand);
+        assertThat(serviceResult.isSuccessful()).isFalse();
+        assertThat(serviceResult.messages().containsAnError()).isTrue();
     }
 
     @Test

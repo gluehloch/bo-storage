@@ -24,7 +24,6 @@
 package de.betoffice.service;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -60,7 +59,6 @@ import de.betoffice.storage.user.entity.UserProfileDto;
 import de.betoffice.storage.user.entity.UserProfileDtoMapper;
 import de.betoffice.util.LoggerFactory;
 import de.betoffice.validation.ServiceResult;
-import de.betoffice.validation.ValidationException;
 import de.betoffice.validation.ValidationMessage;
 import de.betoffice.validation.ValidationMessage.MessageType;
 import de.betoffice.validation.ValidationMessages;
@@ -208,7 +206,8 @@ public class DefaultCommunityService extends AbstractManagerService implements C
             final UserCreateCommand cmd) {
 
         return new CreateUserValidationContext(vmb)
-                .validateNicknameIsUnique(Nickname.of(cmd.nickname()))
+                .validateNicknameIsNotBlank(cmd.nickname())
+                .validateNicknameIsUnique(cmd.nickname())
                 .validateEmail(cmd.email());
     }
 
@@ -411,14 +410,21 @@ public class DefaultCommunityService extends AbstractManagerService implements C
             return validationMessagesBuilder.build();
         }
 
-        public CreateUserValidationContext validateNicknameIsUnique(Nickname nickname) {
-            if (nickname == null || StringUtils.isBlank(nickname.value())) {
+        public CreateUserValidationContext validateNicknameIsNotBlank(String nickname) {
+            if (nickname == null || StringUtils.isBlank(nickname)) {
                 validationMessagesBuilder.add(ValidationMessage.error(MessageType.NICKNAME_IS_NOT_SET));
-            } else {
-                final List<UserEntity> lowerCaseNickname = userDao.findLowerCaseNickname(nickname.getNickname());
-                if (!lowerCaseNickname.isEmpty()) {
-                    validationMessagesBuilder.addFormattedMessage(MessageType.NICKNAME_ALREADY_EXISTS, nickname);
-                }
+            }
+            return this;
+        }
+
+        public CreateUserValidationContext validateNicknameIsUnique(String nickname) {
+            if (validationMessagesBuilder.containsAnError()) {
+                return this;
+            }
+
+            final List<UserEntity> lowerCaseNickname = userDao.findLowerCaseNickname(nickname);
+            if (!lowerCaseNickname.isEmpty()) {
+                validationMessagesBuilder.addFormattedMessage(MessageType.NICKNAME_ALREADY_EXISTS, nickname);
             }
             return this;
         }
