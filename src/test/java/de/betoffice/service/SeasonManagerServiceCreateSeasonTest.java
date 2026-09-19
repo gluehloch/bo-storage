@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -46,10 +46,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.service.request.CommunityCreateCommand;
+import de.betoffice.service.request.UserCreateCommand;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.SeasonType;
@@ -64,6 +64,8 @@ import de.betoffice.storage.tip.TippStatusType;
 import de.betoffice.storage.user.UserResult;
 import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.storage.user.entity.UserEntity;
+import de.betoffice.storage.user.entity.UserProfileDto;
+import de.betoffice.validation.ServiceResult;
 import de.betoffice.validation.ValidationException;
 
 /**
@@ -232,9 +234,9 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         createGroupTypes();
         createSeason();
 
-        UserEntity userFrosch = createUser(frosch, "Andre", "Winkler");
-        UserEntity userPeter = createUser(peter, "Peter", "Groth");
-        UserEntity userMrTipp = createUser(mrTipp, "Markus", "Rohloff");
+        createUser(frosch, "Andre", "Winkler");
+        createUser(peter, "Peter", "Groth");
+        createUser(mrTipp, "Markus", "Rohloff");
         createCommunity();
 
         communityService.removeMember(communityReference, frosch);
@@ -245,7 +247,7 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         communityService.addMember(communityReference, peter);
 
         Set<UserEntity> members = communityService.findMembers(communityReference);
-        assertThat(members).hasSize(2).containsExactly(userFrosch, userPeter);
+        assertThat(members).hasSize(2).extracting(UserEntity::getNickname).contains(frosch, peter);
     }
 
     @Test
@@ -482,7 +484,8 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     }
 
     private void createCommunity() {
-        communityService.create(new CommunityCreateCommand(communityReference, seasonReference, "Bundesliga 2010/11", "2024", frosch));
+        communityService.create(
+                new CommunityCreateCommand(communityReference, seasonReference, "Bundesliga 2010/11", "2024", frosch));
         communityService.addMembers(communityReference, nicknames);
     }
 
@@ -492,13 +495,10 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         createUser(mrTipp, "Markus", "Rohloff");
     }
 
-    private UserEntity createUser(Nickname nickname, String surname, String name) {
-        UserEntity user = new UserEntity();
-        user.setNickname(nickname);
-        user.setName(name);
-        user.setSurname(surname);
-        communityService.createUser(user);
-        return user;
+    private UserProfileDto createUser(Nickname nickname, String surname, String name) {
+        UserCreateCommand createUserCommand = new UserCreateCommand(nickname.value(), surname, name, "another@email.com", null, null);
+        ServiceResult<UserProfileDto> serviceResult = communityService.create(createUserCommand);
+        return serviceResult.orElseThrow();
     }
 
 }
