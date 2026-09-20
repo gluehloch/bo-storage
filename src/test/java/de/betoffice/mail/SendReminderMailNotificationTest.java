@@ -26,8 +26,12 @@ package de.betoffice.mail;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.Optional;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,7 +81,7 @@ class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
     }
 
     @Test
-    void sendNotification() {
+    void sendNotification() throws MessagingException, IOException {
         final ZonedDateTime zonedDateTime = ZonedDateTime.of(2016, 2, 5, 0, 0, 0, 0, dateTimeProvider.defaultZoneId());
         assertThat(dateTimeProvider.currentDateTime()).isEqualTo(zonedDateTime);
 
@@ -118,8 +122,18 @@ class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
         assertThat(greenMail.isRunning()).isTrue();
         sendReminderMailNotification.send();
 
-        assertThat(greenMail.getReceivedMessages(/*"mail.com"*/ /*"andre-winkler.de"*/).length).isEqualTo(1);
-        // final var msgReceived = greenMail.getReceivedMessagesForDomain("bar@example.com")[0];
+        final MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+        assertThat(receivedMessages.length).isEqualTo(1);
+        assertThat(receivedMessages[0].getSubject()).isEqualTo("Spieltag!");
+        assertThat(receivedMessages[0].getContent().toString()).isEqualToNormalizingWhitespace(
+                """
+                        Heute ist Spieltag. Vergiss deinen Tipp nicht: https://tippdiekistebier.de
+                          Für den aktuellen Spieltag liegen die folgenden Tipps von dir vor:
+                          2016-05-02 15:00 RWE - RWO -nicht vorhanden-
+                          2016-05-02 15:00 RWE - RWO -nicht vorhanden-
+                          2016-05-02 20:00 RWE - RWO -nicht vorhanden-
+                          2016-06-02 18:00 RWE - RWO -nicht vorhanden-
+                                        """);
     }
 
 }
