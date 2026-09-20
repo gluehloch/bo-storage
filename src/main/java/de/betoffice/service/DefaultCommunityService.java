@@ -183,7 +183,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         user.setSurname(userCreateCommand.firstName());
         user.setAdmin(false);
         user.setAutomat(false);
-        user.setNotification(NotificationType.NONE);
+        user.setNotification(NotificationType.TIPP);
         user.setPassword(userCreateCommand.password());
         user.setPhone(userCreateCommand.phone());
         user.setTitle(null);

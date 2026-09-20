@@ -34,7 +34,6 @@ import de.betoffice.service.request.CommunityCreateCommand;
 import de.betoffice.service.request.UserCreateCommand;
 import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
-import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.user.entity.Nickname;
@@ -100,7 +99,7 @@ public interface CommunityService {
      * Create a new community.
      *
      * @param  communityCreateCommand everything needed to create a new community
-     * @return                 the create community.
+     * @return                        the create community.
      */
     ServiceResult<CommunityDto> create(CommunityCreateCommand communityCreateCommand);
 

@@ -40,14 +40,18 @@ import com.icegreen.greenmail.util.ServerSetupTest;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.service.CommunityService;
+import de.betoffice.service.TippService;
 import de.betoffice.service.request.CommunityCreateCommand;
 import de.betoffice.service.request.UserCreateCommand;
+import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.RoundDaoHibernateTest;
 import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.time.DateTimeProvider;
+import de.betoffice.storage.user.entity.Nickname;
+import de.betoffice.validation.ServiceResult;
 
 @ContextConfiguration(classes = { SendReminderMailNotificationConfiguration.class })
 class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
@@ -64,6 +68,9 @@ class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
     @Autowired
     private CommunityService communityService;
 
+    @Autowired
+    private TippService tippService;
+
     @BeforeEach
     void before() {
         this.prepareDatabase(RoundDaoHibernateTest.class);
@@ -71,11 +78,16 @@ class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
 
     @Test
     void sendNotification() {
-        assertThat(dateTimeProvider.currentDateTime())
-                .isEqualTo(ZonedDateTime.of(2016, 2, 5, 0, 0, 0, 0, dateTimeProvider.defaultZoneId()));
+        final ZonedDateTime zonedDateTime = ZonedDateTime.of(2016, 2, 5, 0, 0, 0, 0, dateTimeProvider.defaultZoneId());
+        assertThat(dateTimeProvider.currentDateTime()).isEqualTo(zonedDateTime);
 
-        Optional<GameListEntity> nextTippRound = sendReminderMailNotification.findNextTippRound();
+        final Optional<GameListEntity> nextTippRound = sendReminderMailNotification.findNextTippRound();
         assertThat(nextTippRound).isNotEmpty();
+
+        final Optional<GameListEntity> nextTippRound2 = tippService.findNextTippRound(zonedDateTime);
+        assertThat(nextTippRound2).isNotEmpty();
+        assertThat(nextTippRound2.get().getSeason().getReference())
+                .isEqualTo(nextTippRound.get().getSeason().getReference());
 
         final UserCreateCommand userCreateCommand = new UserCreateCommand(
                 "Nickname",
@@ -86,9 +98,9 @@ class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
                 "12121212");
         communityService.create(userCreateCommand);
 
-        final CommunityReference communityReference = CommunityReference.of("TC");
         final SeasonEntity season = nextTippRound.get().getSeason();
         final SeasonReference seasonReference = season.getReference();
+        final CommunityReference communityReference = CommunityService.defaultPlayerGroup(seasonReference);
 
         final CommunityCreateCommand createCommunityCommand = new CommunityCreateCommand(
                 communityReference,
@@ -96,10 +108,18 @@ class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
                 "Test Community",
                 "2024",
                 userCreateCommand.toNickname());
-
         communityService.create(createCommunityCommand);
 
+        ServiceResult<CommunityDto> member = communityService.addMember(communityReference, Nickname.of("Nickname"));
+        assertThat(member.isSuccessful()).isTrue();
+
+        //greenMail.setServerStartupTimeout(5000);
+        // ServerSetup serverSetup = new ServerSetup(0, null, null);
+        assertThat(greenMail.isRunning()).isTrue();
         sendReminderMailNotification.send();
+
+        assertThat(greenMail.getReceivedMessages(/*"mail.com"*/ /*"andre-winkler.de"*/).length).isEqualTo(1);
+        // final var msgReceived = greenMail.getReceivedMessagesForDomain("bar@example.com")[0];
     }
 
 }
