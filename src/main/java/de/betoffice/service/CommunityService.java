@@ -126,7 +126,7 @@ public interface CommunityService {
      * @param  nicknames
      * @return
      */
-    CommunityDto addMembers(CommunityReference communityRef, Set<Nickname> nicknames);
+    ServiceResult<CommunityDto> addMembers(CommunityReference communityRef, Set<Nickname> nicknames);
 
     /**
      * Remove a community member.

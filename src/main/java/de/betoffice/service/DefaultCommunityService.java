@@ -211,6 +211,26 @@ public class DefaultCommunityService extends AbstractManagerService implements C
                 .validateEmail(cmd.email());
     }
 
+    private AddMemberValidationContext validateAddMemberCommand(
+            final ValidationMessagesBuilder vmb,
+            final CommunityReference communityReference,
+            final Nickname nickname) {
+
+        return new AddMemberValidationContext(vmb)
+                .validateCommunityExists(communityReference)
+                .validateUserExists(nickname);
+    }
+
+    private AddMemberValidationContext validateAddMembersCommand(
+            final ValidationMessagesBuilder vmb,
+            final CommunityReference communityReference,
+            final Set<Nickname> nicknames) {
+
+        return new AddMemberValidationContext(vmb)
+                .validateCommunityExists(communityReference)
+                .validateUsersExists(nicknames);
+    }
+
     @Override
     @Transactional
     public void delete(CommunityReference reference) {
@@ -227,22 +247,31 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     @Override
     @Transactional
     public ServiceResult<CommunityDto> addMember(CommunityReference communityReference, Nickname nickname) {
-        CommunityEntity community = communityDao.find(communityReference).orElseThrow();
-        UserEntity user = userDao.findByNickname(nickname).orElseThrow();
-        community.addMember(user);
-        communityDao.update(community);
-        return ServiceResult.sucess(CommunityDtoMapper.map(community));
+        final AddMemberValidationContext vc = validateAddMemberCommand(new ValidationMessagesBuilder(),
+                communityReference, nickname);
+        if (vc.getValidationMessages().containsAnError()) {
+            return ServiceResult.failure(vc.getValidationMessages());
+        } else {
+            vc.getCommunity().addMember(vc.getUser());
+            communityDao.update(vc.getCommunity());
+            return ServiceResult.sucess(CommunityDtoMapper.map(vc.getCommunity()));
+        }
     }
 
     @Override
     @Transactional
-    public CommunityDto addMembers(CommunityReference communityReference, Set<Nickname> nicknames) {
-        CommunityEntity community = communityDao.find(communityReference).orElseThrow();
-        nicknames.stream()
-                .map(n -> userDao.findByNickname(n))
-                .forEach(u -> u.ifPresent(us -> community.addMember(us)));
-        communityDao.update(community);
-        return CommunityDtoMapper.map(community);
+    public ServiceResult<CommunityDto> addMembers(CommunityReference communityReference, Set<Nickname> nicknames) {
+        final AddMemberValidationContext vc = validateAddMembersCommand(new ValidationMessagesBuilder(),
+                communityReference, nicknames);
+        if (vc.getValidationMessages().containsAnError()) {
+            return ServiceResult.failure(vc.getValidationMessages());
+        } else {
+            nicknames.stream()
+                    .map(n -> userDao.findByNickname(n)).filter( Optional::isPresent)
+                    .map(us -> vc.getCommunity().addMember(us));
+            communityDao.update(vc.getCommunity());
+            return ServiceResult.sucess(CommunityDtoMapper.map(vc.getCommunity()));
+        }
     }
 
     @Override
@@ -395,6 +424,11 @@ public class DefaultCommunityService extends AbstractManagerService implements C
             if (userDao.findByNickname(nickname).isEmpty()) {
                 validationMessagesBuilder.addFormattedMessage(MessageType.USER_NOT_FOUND, nickname);
             }
+            return this;
+        }
+
+        public AddMemberValidationContext validateUsersExists(Set<Nickname> nickname) {
+            nickname.forEach(n -> validateUserExists(n));
             return this;
         }
     }
