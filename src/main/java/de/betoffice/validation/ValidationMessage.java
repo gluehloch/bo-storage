@@ -57,6 +57,7 @@ public class ValidationMessage {
         USER_NOT_FOUND("Der Nutzer %s ist nicht bekannt."),
         NICKNAME_IS_NOT_SET("Nickname ist nicht gesetzt."),
         NICKNAME_ALREADY_EXISTS("Nickname %s wird bereits verwendet."),
+        NICKNAME_CONTAINS_WHITESPACES_AT_THE_BEGINNING_OR_END("Nickname darf keine Leerzeichen am Anfang oder Ende enthalten."),
         MAIL_IS_NOT_SET("Email-Adresse ist nicht gesetzt."),
 
         GROUP_TYPE_NAME_IS_NOT_SET("Gruppentyp Name ist nicht gesetzt."),

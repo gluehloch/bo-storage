@@ -74,6 +74,11 @@ public class ValidationMessages {
             return this;
         }
 
+        public ValidationMessagesBuilder addError(MessageType messageType) {
+            this.messages.add(ValidationMessage.error(messageType));
+            return this;
+        }
+
         public ValidationMessagesBuilder addFormattedMessage(MessageType messageType, Object... args) {
             this.messages.add(ValidationMessage.error(messageType, args));
             return this;
