@@ -51,6 +51,7 @@ public class ValidationMessage {
         UNKNOWN_ERROR("Unbekannter Fehler."),
         COMMUNITY_EXISTS("Die Community %s existiert bereits."),
         COMMUNITY_NOT_FOUND("Die Community %s ist nicht bekannt."),
+        COMMUNITY_CANNOT_BE_DELETED_CAUSE_OF_MEMBERS("Die Community %s kann nicht gelöscht werden, da ihr Mitglieder zugeordnet sind."),
         EMAIL_CHANGE_DATETIME_IS_IN_THE_FUTURE("Der Bestätigungsmail wurde in der Zukunft verschickt."),
         EMAIL_CHANGE_DATETIME_EXPIRED("Die Bestätigungslink für die Änderung der Email-Adresse ist nicht mehr gültig."),
 

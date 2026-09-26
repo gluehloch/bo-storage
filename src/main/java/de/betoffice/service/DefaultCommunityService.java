@@ -164,6 +164,20 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         return ServiceResult.sucess(CommunityDtoMapper.map(community));
     }
 
+    @Override
+    @Transactional
+    public ServiceResult<Void> delete(CommunityReference reference) {
+        final ValidationMessagesBuilder vmb = new ValidationMessagesBuilder();
+        final Optional<DeleteCommunityResolved> community = validateAndResolveCommunityForDelete(vmb, reference);
+        if (vmb.containsAnError()) {
+            return ServiceResult.failure(vmb.build());
+        }
+
+        communityDao.delete(community.orElseThrow().community());
+        // TODO damit ist das ServiceResult.isSuccessful() false!
+        return ServiceResult.sucess(null);
+    }
+
     private CommunityEntity persistCommunity(CreateCommunityResolved ccr) {
         final CommunityEntity community = new CommunityEntity();
         community.setYear(ccr.communityCreateCommand().communityYear());
@@ -191,15 +205,6 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         return user;
     }
 
-    //    private CreateCommunityValidationContext validateCreateCommunityCommand(
-    //            final ValidationMessagesBuilder vmb,
-    //            final CommunityCreateCommand cmd) {
-    //
-    //        return new CreateCommunityValidationContext(vmb)
-    //                .validateCommunityReferenceDoesNotExist(cmd.communityRef())
-    //                .validateSeason(cmd.seasonRef())
-    //                .validateCommunityManager(cmd.managerNickname());
-    //    }
     //
     //    private CreateUserValidationContext validateCreateUserCommand(
     //            final ValidationMessagesBuilder vmb,
@@ -211,38 +216,6 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     //                .validateEmail(cmd.email());
     //    }
     //
-    //    private AddMemberValidationContext validateAddMemberCommand(
-    //            final ValidationMessagesBuilder vmb,
-    //            final CommunityReference communityReference,
-    //            final Nickname nickname) {
-    //
-    //        return new AddMemberValidationContext(vmb)
-    //                .validateCommunityExists(communityReference)
-    //                .validateUserExists(nickname);
-    //    }
-    //
-    //    private AddMemberValidationContext validateAddMembersCommand(
-    //            final ValidationMessagesBuilder vmb,
-    //            final CommunityReference communityReference,
-    //            final Set<Nickname> nicknames) {
-    //
-    //        return new AddMemberValidationContext(vmb)
-    //                .validateCommunityExists(communityReference)
-    //                .validateUsersExists(nicknames);
-    //    }
-
-    @Override
-    @Transactional
-    public void delete(CommunityReference reference) {
-        CommunityEntity community = communityDao.find(reference).orElseThrow();
-
-        if (communityDao.hasMembers(reference)) {
-            LOG.warn("Unable to delete community '{}'. The Community has members.", community);
-            throw new IllegalArgumentException("Unable to delete community. The Community has members.");
-        }
-
-        communityDao.delete(community);
-    }
 
     @Override
     @Transactional
@@ -421,6 +394,18 @@ public class DefaultCommunityService extends AbstractManagerService implements C
                 communityManager.orElseThrow()));
     }
 
+    private Optional<DeleteCommunityResolved> validateAndResolveCommunityForDelete(
+            final ValidationMessagesBuilder vmb,
+            final CommunityReference communityReference) {
+
+        final Optional<CommunityEntity> community = resolveCommunity(vmb, communityReference);
+
+        if (communityDao.hasMembers(communityReference)) {
+            vmb.addFormattedMessage(MessageType.COMMUNITY_CANNOT_BE_DELETED_CAUSE_OF_MEMBERS, communityReference);
+        }
+        return Optional.of(new DeleteCommunityResolved(community.orElseThrow()));
+    }
+
     private Optional<AddMemberResolved> validateAndResolveAddMember(
             final ValidationMessagesBuilder vmb,
             final CommunityReference communityReference,
@@ -486,6 +471,9 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     private record CreateCommunityResolved(CommunityCreateCommand communityCreateCommand, SeasonEntity season,
             UserEntity communityManager) {
+    }
+    
+    private record DeleteCommunityResolved(CommunityEntity community) {
     }
 
     private record AddMemberResolved(CommunityEntity community, UserEntity user) {

@@ -107,8 +107,9 @@ public interface CommunityService {
      * Delete community.
      * 
      * @param communityRef the community name to delete
+     * @return service result and the deleted community
      */
-    void delete(CommunityReference communityRef);
+    ServiceResult<Void> delete(CommunityReference communityRef);
 
     /**
      * Add a new community member.
