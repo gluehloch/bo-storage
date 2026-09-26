@@ -31,13 +31,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.betoffice.service.TippService;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.season.entity.GameResult;
-import de.betoffice.storage.tip.GameTipp;
+import de.betoffice.storage.tip.GameTippEntity;
 import de.betoffice.storage.tip.TippStatusType;
 import de.betoffice.storage.tip.UserResultOfDay;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Hier befinden sich die Methoden um den besten, schlechtesten und den Durchschnittstipp zu ermitteln.
@@ -62,12 +62,12 @@ public final class InfoCenter {
      * @throws IllegalArgumentException
      *             Falls gamelist gleich null.
      */
-    public UserResultOfDay findBestTipp(GameList gamelist, List<User> users) {
+    public UserResultOfDay findBestTipp(GameListEntity gamelist, List<UserEntity> users) {
         Validate.notNull(gamelist);
         Validate.notNull(users);
 
         UserResultOfDay max = null;
-        for (User user : users) {
+        for (UserEntity user : users) {
             if (!user.isExcluded()) {
                 UserResultOfDay points = tippService.getUserPoints(gamelist, user);
 
@@ -93,13 +93,13 @@ public final class InfoCenter {
      * @return Der Tagestipp, der den schlechtesten Tipp abgegeben hat. Kann 0 sein,
      *         wenn kein 'echter', gültiger Tagestipp vorhanden ist.
      */
-    public UserResultOfDay findWorstTipp(GameList gamelist, List<User> users) {
+    public UserResultOfDay findWorstTipp(GameListEntity gamelist, List<UserEntity> users) {
         Validate.notNull(gamelist);
         Validate.notNull(users);
 
         UserResultOfDay min = null;
 
-        for (User user : users) {
+        for (UserEntity user : users) {
             // Nur User, die Aktiv geschaltet sind.
             if (!user.isExcluded()) {
                 UserResultOfDay urod = tippService.getUserPoints(gamelist, user);
@@ -130,16 +130,16 @@ public final class InfoCenter {
      * @return Der Mitteltipp. null wenn keine Tipps vorhanden, sonst den
      *         Mitteltipp.
      */
-    public GameResult findMediumTipp(Game game, List<User> users) {
+    public GameResult findMediumTipp(GameEntity game, List<UserEntity> users) {
         Validate.notNull(game, "game ist null");
 
         int homeGoals = 0;
         int guestGoals = 0;
         int counter = 0;
 
-        List<GameTipp> tipps = tippService.findTipps(game);
+        List<GameTippEntity> tipps = tippService.findTipps(game);
 
-        for (GameTipp tipp : tipps) {
+        for (GameTippEntity tipp : tipps) {
             if (TippStatusType.USER.equals(tipp.getStatus())) {
                 counter++;
                 homeGoals += tipp.getTipp().getHomeGoals();

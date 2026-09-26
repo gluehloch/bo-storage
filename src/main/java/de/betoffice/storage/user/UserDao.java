@@ -32,21 +32,21 @@ import org.springframework.data.domain.Pageable;
 
 import de.betoffice.storage.community.CommonDao;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
- * DAO Klasse für den Zugriff auf {@link de.betoffice.storage.user.entity.User}.
+ * DAO Klasse für den Zugriff auf {@link de.betoffice.storage.user.entity.UserEntity}.
  *
  * @author by Andre Winkler
  */
-public interface UserDao extends CommonDao<User> {
+public interface UserDao extends CommonDao<UserEntity> {
 
     /**
      * Find all users. But you should better use {@link #findAll(String, Pageable)}.
      *
      * @return all uses
      */
-    List<User> findAll();
+    List<UserEntity> findAll();
 
     /**
      * Find all users.
@@ -55,7 +55,7 @@ public interface UserDao extends CommonDao<User> {
      * @param  pageable       paging params
      * @return                all users
      */
-    Page<User> findAll(String nicknameFilter, Pageable pageable);
+    Page<UserEntity> findAll(String nicknameFilter, Pageable pageable);
 
     /**
      * Liefert alle Teilnehmer mit gesuchten Nickname. Es wird nicht zwischen Groß- und Kleinschreibung unterschieden.
@@ -63,7 +63,7 @@ public interface UserDao extends CommonDao<User> {
      * @param  nickname Der gesuchte Nickname.
      * @return          Liste aller Teilnehmer mit gesuchten Nickname.
      */
-    List<User> findLowerCaseNickname(String nickname);
+    List<UserEntity> findLowerCaseNickname(String nickname);
 
     /**
      * Liefert einen Teilnehmer mit gesuchten Nickname.
@@ -71,7 +71,7 @@ public interface UserDao extends CommonDao<User> {
      * @param  nickname Der gesuchte Nickname.
      * @return          Ein Teilnehmer.
      */
-    Optional<User> findByNickname(Nickname nickname);
+    Optional<UserEntity> findByNickname(Nickname nickname);
 
     /**
      * Liefert einen Teilnehmer mit dem gesuchten ChangeToken.
@@ -79,6 +79,6 @@ public interface UserDao extends CommonDao<User> {
      * @param  changeToken Das Change-Token
      * @return             Ein Teilnehmer
      */
-    Optional<User> findByChangeToken(String changeToken);
+    Optional<UserEntity> findByChangeToken(String changeToken);
 
 }

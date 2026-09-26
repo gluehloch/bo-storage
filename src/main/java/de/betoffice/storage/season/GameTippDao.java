@@ -28,17 +28,17 @@ import java.util.List;
 import java.util.Optional;
 
 import de.betoffice.storage.community.CommonDao;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
-import de.betoffice.storage.tip.GameTipp;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
+import de.betoffice.storage.tip.GameTippEntity;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
- * Persistiert die {@link GameTipp} Objekte.
+ * Persistiert die {@link GameTippEntity} Objekte.
  *
  * @author by Andre Winkler
  */
-public interface GameTippDao extends CommonDao<GameTipp> {
+public interface GameTippDao extends CommonDao<GameTippEntity> {
 
     /**
      * Liefert alle Spiel-Tipps zu einem Spiel.
@@ -47,7 +47,7 @@ public interface GameTippDao extends CommonDao<GameTipp> {
      *            Die Spiel-Tipps zu dieser Spielpaarung.
      * @return Die Spiel-Tipps.
      */
-    List<GameTipp> find(Game match);
+    List<GameTippEntity> find(GameEntity match);
 
     /**
      * Liefert einen Spieltipp zu einem Spiel und Teilnehmer.
@@ -58,7 +58,7 @@ public interface GameTippDao extends CommonDao<GameTipp> {
      *            Der Teilnehmer
      * @return Der Spieltipp
      */
-    Optional<GameTipp> find(Game game, User user);
+    Optional<GameTippEntity> find(GameEntity game, UserEntity user);
 
     /**
      * Liefert alle Spieltipps zu einem Spieltag zu einem Teilnehmer.
@@ -69,7 +69,7 @@ public interface GameTippDao extends CommonDao<GameTipp> {
      *            Der Teilnehmer.
      * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
      */
-    default List<GameTipp> find(GameList round, User user) {
+    default List<GameTippEntity> find(GameListEntity round, UserEntity user) {
         return find(round.getId(), user.getId());
     }
 
@@ -82,7 +82,7 @@ public interface GameTippDao extends CommonDao<GameTipp> {
      *            Der Teilnehmer.
      * @return Eine Liste der Tipps zu dem gesuchten Spieltag und Teilnehmer.
      */
-    List<GameTipp> find(long roundId, long userId);
+    List<GameTippEntity> find(long roundId, long userId);
 
     /**
      * Liefert alle Spieltipos zu einem Spieltag.
@@ -91,6 +91,6 @@ public interface GameTippDao extends CommonDao<GameTipp> {
      *            Der Spieltag.
      * @return Eine List der Tipps zu dem gesuchten Spieltag.
      */
-    List<GameTipp> find(long roundId);
+    List<GameTippEntity> find(long roundId);
 
 }

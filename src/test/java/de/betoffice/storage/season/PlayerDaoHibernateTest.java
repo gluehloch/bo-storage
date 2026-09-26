@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.storage.season.dao.PlayerDaoHibernate;
-import de.betoffice.storage.season.entity.Player;
+import de.betoffice.storage.season.entity.PlayerEntity;
 
 /**
  * Test for {@link PlayerDaoHibernate}.
@@ -60,25 +60,25 @@ public class PlayerDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testPlayerFinder() throws Exception {
-        List<Player> player = playerDao.findAll();
+        List<PlayerEntity> player = playerDao.findAll();
         assertThat(player.size()).isEqualTo(4);
 
-        Player mill = playerDao.findById(1);
+        PlayerEntity mill = playerDao.findById(1);
         assertThat(mill.getName()).isEqualTo("Mill");
         assertThat(mill.getVorname()).isEqualTo("Frank");
         assertThat(mill.getOpenligaid()).isEqualTo(1L);
 
-        Player lippens = playerDao.findById(2);
+        PlayerEntity lippens = playerDao.findById(2);
         assertThat(lippens.getName()).isEqualTo("Lippens");
         assertThat(lippens.getVorname()).isEqualTo("Ente");
         assertThat(lippens.getOpenligaid()).isEqualTo(2L);
 
-        Player winkler = playerDao.findById(3);
+        PlayerEntity winkler = playerDao.findById(3);
         assertThat(winkler.getName()).isEqualTo("Winkler");
         assertThat(winkler.getVorname()).isEqualTo("Erwin");
         assertThat(winkler.getOpenligaid()).isEqualTo(3L);
 
-        Player koen = playerDao.findById(4);
+        PlayerEntity koen = playerDao.findById(4);
         assertThat(koen.getName()).isEqualTo("Koen");
         assertThat(koen.getVorname()).isEqualTo("Erwin");
         assertThat(koen.getOpenligaid()).isEqualTo(4L);

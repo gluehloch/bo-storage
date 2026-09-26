@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 @Component
 public class SendUserProfileChangeMailNotification {
@@ -50,7 +50,7 @@ public class SendUserProfileChangeMailNotification {
      * 
      * @param user The user
      */
-    public User send(User user) {
+    public UserEntity send(UserEntity user) {
         final StringBuilder sb = new StringBuilder();
         sb.append("Hallo ")
                 .append(user.getNickname().value()).append("!")

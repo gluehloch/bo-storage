@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 import de.betoffice.storage.community.CommonDao;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * DAO für die Datenbanktabelle bo_teamalias.
@@ -51,7 +51,7 @@ public interface TeamAliasDao extends CommonDao<TeamAlias> {
      *            Der gesuchte Aliasname.
      * @return Eine Mannschaften.
      */
-    Optional<Team> findByAliasName(String aliasName);
+    Optional<TeamEntity> findByAliasName(String aliasName);
 
     /**
      * Liefert die Alias Namen einer Mannschaft.
@@ -60,6 +60,6 @@ public interface TeamAliasDao extends CommonDao<TeamAlias> {
      *            Die gesuchte Mannschaft.
      * @return Die Alias Namen der Mannschaft.
      */
-    List<TeamAlias> findAliasNames(Team team);
+    List<TeamAlias> findAliasNames(TeamEntity team);
 
 }

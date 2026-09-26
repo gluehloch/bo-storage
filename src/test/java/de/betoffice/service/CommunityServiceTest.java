@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -24,8 +24,6 @@
 
 package de.betoffice.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
@@ -43,14 +41,18 @@ import org.springframework.test.context.transaction.TestTransaction;
 
 import de.betoffice.conf.BetofficeTestConfig;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
+import de.betoffice.service.request.CommunityCreateCommand;
+import de.betoffice.service.request.UserCreateCommand;
+import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
-import de.betoffice.storage.community.entity.Community;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonType;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
+import de.betoffice.storage.user.entity.UserProfileDto;
+import de.betoffice.validation.ServiceResult;
 
 /**
  * Service test for the community manager.
@@ -93,106 +95,130 @@ class CommunityServiceTest {
     void createCommunity() {
         assertThat(TestTransaction.isActive()).isFalse();
 
-        Season bundesliga = new Season(SeasonReference.of("2020/2021", "Bundesliga"));
+        final SeasonEntity bundesliga = new SeasonEntity(SeasonReference.of("2020/2021", "Bundesliga"));
         bundesliga.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(bundesliga);
 
-        Nickname frosch = Nickname.of("Frosch");
-        User communityManager = new User();
-        communityManager.setEmail("email@email.de");
-        communityManager.setName("Andre");
-        communityManager.setNickname(frosch);
-        communityManager.setPassword("Passwort");
+        final Nickname nickname = Nickname.of("Frosch");
+        final UserCreateCommand createUserCommand = new UserCreateCommand(nickname.getNickname(), "Andre", "Winkler",
+                "email@email.de", "Password", "1234567890");
+        final ServiceResult<UserProfileDto> serviceResult = communityService.create(createUserCommand);
+        assertThat(serviceResult.isSuccessful()).isTrue();
+        assertThat(serviceResult.orElseThrow().getSurname()).isEqualTo("Andre");
+        assertThat(serviceResult.orElseThrow().getName()).isEqualTo("Winkler");
 
-        communityManager = communityService.createUser(communityManager);
+        final CommunityCreateCommand command = new CommunityCreateCommand(
+                CommunityReference.of("TDKB"),
+                bundesliga.getReference(),
+                "TDKB_short",
+                "2024",
+                nickname);
 
-        Community community = communityService
-                .create(CommunityReference.of("TDKB"), bundesliga.getReference(), "TDKB_short", "2024", frosch)
-                .result()
-                .orElseThrow();
+        final ServiceResult<CommunityDto> serviceResult2 = communityService.create(command);
+        assertThat(serviceResult2.isSuccessful()).isTrue();
 
-        assertThat(community.getCommunityManager()).isEqualTo(communityManager);
-        assertEquals("TDKB_short", community.getName());
-        assertEquals(communityManager.getId(), community.getCommunityManager().getId());
+        final CommunityDto community = serviceResult2.orElseThrow();
+        assertThat(community.getCommunityManager().getNickname()).isEqualTo("Frosch");
+        assertThat(community.getName()).isEqualTo("TDKB_short");
     }
 
     @Test
     void addAndRemoveCommunityMembers() {
-        Season bundesliga = new Season(SeasonReference.of("2020/2021", "Bundesliga"));
+        final SeasonEntity bundesliga = new SeasonEntity(SeasonReference.of("2020/2021", "Bundesliga"));
         bundesliga.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(bundesliga);
 
-        Nickname frosch = Nickname.of("Frosch");
-        User communityManager = new User();
+        final Nickname frosch = Nickname.of("Frosch");
+        final UserEntity communityManager = new UserEntity();
         communityManager.setEmail("email@email.de");
-        communityManager.setName("Andre");
+        communityManager.setName("Winkler");
+        communityManager.setSurname("Andre");
         communityManager.setNickname(frosch);
         communityManager.setPassword("Passwort");
 
-        communityManager = communityService.createUser(communityManager);
-        CommunityReference communityReference = CommunityReference.of("TDKB");
-        Community community = communityService
-                .create(communityReference, bundesliga.getReference(), "TDKB_short", "2024", frosch)
-                .result()
-                .orElseThrow();
+        final UserCreateCommand userCreateCommand = new UserCreateCommand(
+                communityManager.getNickname().getNickname(),
+                communityManager.getSurname(),
+                communityManager.getName(),
+                communityManager.getEmail(),
+                communityManager.getPassword(),
+                "1234567890");
+        final ServiceResult<UserProfileDto> serviceResultCreateUser = communityService.create(userCreateCommand);
+        assertThat(serviceResultCreateUser.isSuccessful()).isTrue();
+        assertThat(serviceResultCreateUser.orElseThrow().getName()).isEqualTo(communityManager.getName());
 
-        Nickname demoA = Nickname.of("DemoA");
-        User demoUserA = new User();
-        demoUserA.setEmail("demoA@email.de");
-        demoUserA.setName("DemoA-Name");
-        demoUserA.setNickname(demoA);
-        demoUserA.setPassword("DemoA-Password");
-        demoUserA = communityService.createUser(demoUserA);
+        final CommunityCreateCommand command = new CommunityCreateCommand(
+                CommunityReference.of("TDKB"),
+                bundesliga.getReference(),
+                "TDKB_short",
+                "2024",
+                frosch);
+        final ServiceResult<CommunityDto> serviceResultCreateCommunity = communityService.create(command);
+        assertThat(serviceResultCreateCommunity.isSuccessful()).isTrue();
 
-        Nickname demoB = Nickname.of("DemoB");
-        User demoUserB = new User();
-        demoUserB.setEmail("demoB@email.de");
-        demoUserB.setName("DemoB-Name");
-        demoUserB.setNickname(demoB);
-        demoUserB.setPassword("DemoB-Password");
-        demoUserB = communityService.createUser(demoUserB);
+        final CommunityDto community = serviceResultCreateCommunity.orElseThrow();
+        assertThat(community.getCommunityManager().getNickname())
+                .isEqualTo(communityManager.getNickname().getNickname());
+        assertThat(community.getName()).isEqualTo("TDKB_short");
 
-        communityService.addMember(community.getReference(), demoUserA.getNickname());
-        communityService.addMember(community.getReference(), demoUserB.getNickname());
+        final UserCreateCommand createUserACommand = new UserCreateCommand("DemoA", "DemoA-FirstName", "DemoA-LastName",
+                "demoA@email.de", "DemoA-Password", "1234567890");
+        final ServiceResult<UserProfileDto> serviceResult2 = communityService.create(createUserACommand);
 
-        Set<User> members = communityService.findMembers(community.getReference());
+        final UserCreateCommand createuserBCommand = new UserCreateCommand("DemoB", "DemoB-FirstName", "DemoB-LastName",
+                "demoB@email.de", "DemoB-Password", "1234567890");
+        final ServiceResult<UserProfileDto> serviceResult3 = communityService.create(createuserBCommand);
+
+        communityService.addMember(community.toCommunityReference(),
+                Nickname.of(serviceResult2.orElseThrow().getNickname()));
+        communityService.addMember(community.toCommunityReference(),
+                Nickname.of(serviceResult3.orElseThrow().getNickname()));
+
+        final Set<UserEntity> members = communityService.findMembers(community.toCommunityReference());
         assertThat(members).hasSize(2);
     }
 
     @Test
     void filterCommunities() {
         SeasonReference bundesligaRef = SeasonReference.of("2020/2021", "Bundesliga");
-        Season bundesliga = new Season(bundesligaRef);
+        SeasonEntity bundesliga = new SeasonEntity(bundesligaRef);
         bundesliga.setMode(SeasonType.LEAGUE);
         seasonManagerService.createSeason(bundesliga);
 
-        Nickname nickname = Nickname.of("Andre");
-        User communityManager = new User();
-        communityManager.setEmail("email@email.de");
-        communityManager.setName("Andre");
-        communityManager.setNickname(nickname);
-        communityManager.setPassword("Passwort");
+        final Nickname nickname = Nickname.of("Frosch");
+        final UserCreateCommand createUserCommand = new UserCreateCommand(nickname.getNickname(), "Andre", "Winkler",
+                "email@email.de", "Password", "1234567890");
+        final ServiceResult<UserProfileDto> serviceResult = communityService.create(createUserCommand);
+        assertThat(serviceResult.isSuccessful()).isTrue();
 
-        communityManager = communityService.createUser(communityManager);
-
-        communityService.create(CommunityReference.of("CM_A"), bundesligaRef, "CM_A_short", "2024", nickname);
-        communityService.create(CommunityReference.of("CM_B"), bundesligaRef, "CM_B_short", "2024", nickname);
-        communityService.create(CommunityReference.of("CM_C"), bundesligaRef, "CM_C_short", "2024", nickname);
-        communityService.create(CommunityReference.of("CM_D"), bundesligaRef, "CM_D_short", "2024", nickname);
-        communityService.create(CommunityReference.of("CM_E"), bundesligaRef, "CM_E_short", "2024", nickname);
+        communityService.create(new CommunityCreateCommand(
+                CommunityReference.of("CM_A"), bundesligaRef, "CM_A_short", "2024", nickname));
+        communityService.create(new CommunityCreateCommand(
+                CommunityReference.of("CM_B"), bundesligaRef, "CM_B_short", "2024", nickname));
+        communityService.create(new CommunityCreateCommand(
+                CommunityReference.of("CM_C"), bundesligaRef, "CM_C_short", "2024", nickname));
+        communityService.create(new CommunityCreateCommand(
+                CommunityReference.of("CM_D"), bundesligaRef, "CM_D_short", "2024", nickname));
+        communityService.create(new CommunityCreateCommand(
+                CommunityReference.of("CM_E"), bundesligaRef, "CM_E_short", "2024", nickname));
 
         CommunityFilter communityFilter = new CommunityFilter();
         communityFilter.setShortName("CM");
 
-        Page<Community> list = communityService.findCommunities(communityFilter, PageRequest.of(0, 10));
+        Page<CommunityDto> list = communityService.findCommunities(communityFilter, PageRequest.of(0, 10));
         assertThat(list).hasSize(5);
 
-        communityService.create(CommunityReference.of("aw1"), bundesligaRef, "aw1_short", "2024", nickname);
-        communityService.create(CommunityReference.of("aw2"), bundesligaRef, "aw2_short", "2024", nickname);
-        communityService.create(CommunityReference.of("aw3"), bundesligaRef, "aw3_short", "2024", nickname);
-        communityService.create(CommunityReference.of("aw4"), bundesligaRef, "aw4_short", "2024", nickname);
+        communityService.create(
+                new CommunityCreateCommand(CommunityReference.of("aw1"), bundesligaRef, "aw1_short", "2024", nickname));
+        communityService.create(
+                new CommunityCreateCommand(CommunityReference.of("aw2"), bundesligaRef, "aw2_short", "2024", nickname));
+        communityService.create(
+                new CommunityCreateCommand(CommunityReference.of("aw3"), bundesligaRef, "aw3_short", "2024", nickname));
+        communityService.create(
+                new CommunityCreateCommand(CommunityReference.of("aw4"), bundesligaRef, "aw4_short", "2024", nickname));
 
-        assertThat(communityService.findCommunities(CommunityFilter.shortName("aw"), PageRequest.of(0, 10))).hasSize(4);
+        assertThat(communityService.findCommunities(CommunityFilter.shortName("aw"), PageRequest.of(0, 10)))
+                .hasSize(4);
         assertThat(communityService.findCommunities(CommunityFilter.shortName("aw1"), PageRequest.of(0, 10)))
                 .hasSize(1);
     }

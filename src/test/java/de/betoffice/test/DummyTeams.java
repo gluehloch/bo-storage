@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Eine Utility Klasse für die Testunterstützung. Diese Klasse generiert Mengen
@@ -87,7 +87,7 @@ public final class DummyTeams {
     public static final int LUEBECK = 9;
 
     /** Die Mannschaften. */
-    private final List<Team> teams = new ArrayList<Team>();
+    private final List<TeamEntity> teams = new ArrayList<TeamEntity>();
 
     /**
      * Konstruktor.
@@ -101,8 +101,8 @@ public final class DummyTeams {
      *
      * @return Die Mannschaften.
      */
-    public Team[] teams() {
-        return teams.toArray(new Team[teams.size()]);
+    public TeamEntity[] teams() {
+        return teams.toArray(new TeamEntity[teams.size()]);
     }
 
     /**
@@ -110,7 +110,7 @@ public final class DummyTeams {
      *
      * @return Die Mannschaften.
      */
-    public List<Team> toList() {
+    public List<TeamEntity> toList() {
         return Collections.unmodifiableList(teams);
     }
 
@@ -120,7 +120,7 @@ public final class DummyTeams {
      * @param team
      *            Eine neue Testmannschaft.
      */
-    public void add(final Team team) {
+    public void add(final TeamEntity team) {
         teams.add(team);
     }
 
@@ -130,7 +130,7 @@ public final class DummyTeams {
      * @param team
      *            Eine Mannschaft.
      */
-    public void delete(final Team team) {
+    public void delete(final TeamEntity team) {
         teams.remove(team);
     }
 
@@ -142,7 +142,7 @@ public final class DummyTeams {
      */
     private void createTeams() {
         for (int i = 0; i < TEAM_PROPS.length; i++) {
-            Team team = new Team();
+            TeamEntity team = new TeamEntity();
             team.setName(TEAM_PROPS[i][0]);
             team.setLongName(TEAM_PROPS[i][1]);
             team.setLogo(TEAM_PROPS[i][2]);

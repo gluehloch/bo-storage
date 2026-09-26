@@ -28,16 +28,16 @@ import java.util.List;
 import java.util.Optional;
 
 import de.betoffice.storage.community.CommonDao;
-import de.betoffice.storage.group.entity.GroupType;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 
 /**
- * DAO Klasse für den Zugriff auf {@link de.betoffice.storage.group.entity.GroupType}
+ * DAO Klasse für den Zugriff auf {@link de.betoffice.storage.group.entity.GroupTypeEntity}
  * Objekte.
  *
  * @author by Andre Winkler
  */
-public interface GroupTypeDao extends CommonDao<GroupType> {
+public interface GroupTypeDao extends CommonDao<GroupTypeEntity> {
 
     /**
      * Liefert einen Gruppetyp mit gesuchten Namen.
@@ -46,7 +46,7 @@ public interface GroupTypeDao extends CommonDao<GroupType> {
      *            Der gesuchte Name.
      * @return Ein Gruppentyp.
      */
-    Optional<GroupType> findByName(String name);
+    Optional<GroupTypeEntity> findByName(String name);
 
     /**
      * Liefert eine Liste der zugeordneten Gruppentypen einer Meisterschaft.
@@ -55,13 +55,13 @@ public interface GroupTypeDao extends CommonDao<GroupType> {
      *            Die gesuchte Meisterschaft.
      * @return Die zugeordneten Gruppentypen der gesuchten Meisterschaft.
      */
-    List<GroupType> findBySeason(Season season);
+    List<GroupTypeEntity> findBySeason(SeasonEntity season);
 
     /**
      * All group types sorted name.
      * 
      * @return all group types
      */
-    List<GroupType> findAll();
+    List<GroupTypeEntity> findAll();
 
 }

@@ -29,7 +29,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.entity.SeasonReference;
 
@@ -38,7 +38,7 @@ import de.betoffice.storage.season.entity.SeasonReference;
  * 
  * @author Andre Winkler
  */
-public interface CommunityDao extends CommonDao<Community> {
+public interface CommunityDao extends CommonDao<CommunityEntity> {
 
 	/**
 	 * Find community by short name.
@@ -46,7 +46,7 @@ public interface CommunityDao extends CommonDao<Community> {
 	 * @param reference The reference to identify a community.
 	 * @return
 	 */
-	Optional<Community> find(CommunityReference reference);
+	Optional<CommunityEntity> find(CommunityReference reference);
 
 	/**
 	 * Find communities by name.
@@ -54,7 +54,7 @@ public interface CommunityDao extends CommonDao<Community> {
 	 * @param name the community name
 	 * @return the community
 	 */
-	List<Community> find(String name);
+	List<CommunityEntity> find(String name);
 
 	/**
 	 * Find all communities as page.
@@ -63,7 +63,7 @@ public interface CommunityDao extends CommonDao<Community> {
 	 * @param pageable       paging params
 	 * @return all communities
 	 */
-	Page<Community> findAll(CommunityFilter communityFiler, Pageable pageable);
+	Page<CommunityEntity> findAll(CommunityFilter communityFiler, Pageable pageable);
 
 	/**
 	 * Are there still any community members?
@@ -79,7 +79,7 @@ public interface CommunityDao extends CommonDao<Community> {
 	 * @param reference reference for a community.
 	 * @return the community with all members.
 	 */
-	Community findMembers(CommunityReference reference);
+	CommunityEntity findMembers(CommunityReference reference);
 
 	/**
 	 * Find all communities of a season.
@@ -87,6 +87,6 @@ public interface CommunityDao extends CommonDao<Community> {
 	 * @param seasonReference reference for a season.
 	 * @return list of communities
 	 */
-	List<Community> find(SeasonReference seasonReference);
+	List<CommunityEntity> find(SeasonReference seasonReference);
 	
 }

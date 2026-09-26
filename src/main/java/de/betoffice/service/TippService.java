@@ -27,14 +27,15 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.season.entity.GameResult;
-import de.betoffice.storage.tip.GameTipp;
+import de.betoffice.storage.tip.GameTippEntity;
 import de.betoffice.storage.tip.TippDto;
 import de.betoffice.storage.tip.TippStatusType;
 import de.betoffice.storage.tip.UserResultOfDay;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.Nickname;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Allocates a service for adding, updating and removing tipps. A special method for evaluating Tipp mails.
@@ -50,7 +51,7 @@ public interface TippService {
      * @param  user  Der Teilnehmer, dessen Punktestand ermittelt werden soll.
      * @return       Der errechnete Punktestand.
      */
-    UserResultOfDay getUserPoints(GameList round, User user);
+    UserResultOfDay getUserPoints(GameListEntity round, UserEntity user);
 
     /**
      * Einen Tipp einer Spielpaarung hinzufügen/aktualisieren. <b>ACHTUNG:</b> Es findet keine Prüfung statt, ob der
@@ -61,9 +62,9 @@ public interface TippService {
      * @param  user   Der Tipper.
      * @param  tipp   Das getippte Endergebnis
      * @param  status Tipp-Status.
-     * @return        Der erstellte {@link GameTipp}.
+     * @return        Der erstellte {@link GameTippEntity}.
      */
-    GameTipp createOrUpdateTipp(String token, Game match, User user, GameResult tipp, TippStatusType status);
+    GameTippEntity createOrUpdateTipp(String token, GameEntity match, Nickname user, GameResult tipp, TippStatusType status);
 
     /**
      * Legt die Tipps für einen kompletten Spieltag in der Datenbank an. <b>ACHTUNG:</b> Es findet keine Prüfung statt,
@@ -76,7 +77,7 @@ public interface TippService {
      * @param  status Der Status für diese Tipps.
      * @return        Die erstellen {@code GameTipps}.
      */
-    List<GameTipp> createOrUpdateTipp(String token, GameList round, User user, List<GameResult> tipps,
+    List<GameTippEntity> createOrUpdateTipp(String token, GameListEntity round, Nickname user, List<GameResult> tipps,
             TippStatusType status);
 
     /**
@@ -87,7 +88,7 @@ public interface TippService {
      * @param  tippDto Der Spieltipp
      * @return         Die erstellen {@code GameTipps}.
      */
-    List<GameTipp> validateKickOffTimeAndAddTipp(TippDto tippDto);
+    List<GameTippEntity> validateKickOffTimeAndAddTipp(TippDto tippDto);
 
     /**
      * Liefert alle Spieltipps zu einer Spielpaarung.
@@ -95,7 +96,7 @@ public interface TippService {
      * @param  match Die Spielpaarung deren Spieltipps gesucht werden.
      * @return       Die Spieltipps.
      */
-    List<GameTipp> findTipps(Game match);
+    List<GameTippEntity> findTipps(GameEntity match);
 
     /**
      * Liefert den Spieltipp einer Spielers zu einer Spielpaarung.
@@ -104,7 +105,7 @@ public interface TippService {
      * @param  user Der Teilnehmer
      * @return      Der Spieltipp zu den gesuchten Parametern
      */
-    Optional<GameTipp> findTipp(Game game, User user);
+    Optional<GameTippEntity> findTipp(GameEntity game, Nickname user);
 
     /**
      * Liefert alle Spieltipps zu einem Spieltag von einem Teilnehmer.
@@ -113,7 +114,7 @@ public interface TippService {
      * @param  user  Die Spieltipps von diesem User suchen.
      * @return       Die Spieltipps.
      */
-    default List<GameTipp> findTipps(GameList round, User user) {
+    default List<GameTippEntity> findTipps(GameListEntity round, UserEntity user) {
         return findTipps(round.getId(), user.getId());
     }
 
@@ -124,7 +125,7 @@ public interface TippService {
      * @param  userId  Die Spieltipps von diesem User suchen.
      * @return         Die Spieltipps.
      */
-    List<GameTipp> findTipps(long roundId, long userId);
+    List<GameTippEntity> findTipps(long roundId, long userId);
 
     /**
      * Liefert alle Spieltipps zu einem Spieltag.
@@ -132,7 +133,7 @@ public interface TippService {
      * @param  roundId Der gesuchte Spieltag.
      * @return         Die Spieltipps.
      */
-    List<GameTipp> findTipps(long roundId);
+    List<GameTippEntity> findTipps(long roundId);
 
     /**
      * Ermittelt den naechsten zu tippenden Spieltag.
@@ -140,7 +141,7 @@ public interface TippService {
      * @param  date Das Bezugsdatum
      * @return      Der naechste zu tippende Spieltag
      */
-    Optional<GameList> findNextTippRound(ZonedDateTime date);
+    Optional<GameListEntity> findNextTippRound(ZonedDateTime date);
 
     /**
      * Ermittelt den naechsten zu tippenden Spieltag.
@@ -149,7 +150,7 @@ public interface TippService {
      * @param  date     Das Bezugsdatum
      * @return          Der naechste zu tippende Spieltag
      */
-    Optional<GameList> findNextTippRound(long seasonId, ZonedDateTime date);
+    Optional<GameListEntity> findNextTippRound(long seasonId, ZonedDateTime date);
 
     /**
      * Ermittelt den letzten zu tippenden Spieltag.
@@ -158,6 +159,6 @@ public interface TippService {
      * @param  date     Das Bezugsdatum
      * @return          Der naechste zu tippende Spieltag
      */
-    Optional<GameList> findPreviousTippRound(long seasonId, ZonedDateTime date);
+    Optional<GameListEntity> findPreviousTippRound(long seasonId, ZonedDateTime date);
 
 }

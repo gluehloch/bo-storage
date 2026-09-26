@@ -40,13 +40,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.storage.community.CommunityRankingDao;
-import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.SeasonRange;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.tip.UserPointsComparator;
 import de.betoffice.storage.user.UserResult;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 @Repository("communityRankingDao")
 public class CommunityRankingDaoHibernate implements CommunityRankingDao {
@@ -76,18 +76,18 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
     private EntityManager entityManager;
 
     @Override
-    public List<UserResult> calculateUserRanking(final Community community, final SeasonRange seasonRange) {
-        final Collection<User> users = community.getUsers();
+    public List<UserResult> calculateUserRanking(final CommunityEntity community, final SeasonRange seasonRange) {
+        final Collection<UserEntity> users = community.getUsers();
 
-        Map<User, UserResult> resultMap = new HashMap<>();
-        for (User user : users) {
+        Map<UserEntity, UserResult> resultMap = new HashMap<>();
+        for (UserEntity user : users) {
             resultMap.put(user, new UserResult(user));
         }
 
         /* count(*) as 'full_points', u.* */
         Query<Object> query13 = entityManager.unwrap(Session.class)
                 .createNativeQuery(QUERY_SEASON_RANGE_13_POINTS, Object.class)
-                .addEntity("user", User.class).addScalar("full_points",
+                .addEntity("user", UserEntity.class).addScalar("full_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query13.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
         query13.setParameter("start_index", seasonRange.startIndex());
@@ -96,7 +96,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
         List<?> resultQuery13 = query13.list();
         for (Object object : resultQuery13) {
             Object[] row = (Object[]) object;
-            User user = (User) row[0];
+            UserEntity user = (UserEntity) row[0];
             int fullPoints = ((Long) row[1]).intValue();
 
             if (resultMap.containsKey(user)) {
@@ -111,7 +111,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
         /* count(*) as 'half_points', u.* */
         NativeQuery<Object> query10 = entityManager.unwrap(Session.class)
                 .createNativeQuery(QUERY_SEASON_RANGE_10_POINTS, Object.class)
-                .addEntity("user", User.class).addScalar("half_points",
+                .addEntity("user", UserEntity.class).addScalar("half_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query10.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
         query10.setParameter("start_index", seasonRange.startIndex());
@@ -120,7 +120,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
         List<?> resultQuery10 = query10.list();
         for (Object object : resultQuery10) {
             Object[] row = (Object[]) object;
-            User user = (User) row[0];
+            UserEntity user = (UserEntity) row[0];
             int halfPoints = ((Long) row[1]).intValue();
             if (resultMap.containsKey(user)) {
                 resultMap.get(user).setUserTotoWin(halfPoints);
@@ -145,29 +145,29 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
     }
 
     @Override
-    public List<UserResult> calculateUserRanking(final Community community, final GameList round) {
+    public List<UserResult> calculateUserRanking(final CommunityEntity community, final GameListEntity round) {
         return calculateUserRanking(community, SeasonRange.of(round.getIndex(), round.getIndex()));
     }
 
     @Override
-    public List<UserResult> calculateUserRanking(final Community community) {
-        final Collection<User> users = community.getUsers();
+    public List<UserResult> calculateUserRanking(final CommunityEntity community) {
+        final Collection<UserEntity> users = community.getUsers();
 
-        Map<User, UserResult> resultMap = new HashMap<>();
-        for (User user : users) {
+        Map<UserEntity, UserResult> resultMap = new HashMap<>();
+        for (UserEntity user : users) {
             resultMap.put(user, new UserResult(user));
         }
 
         /* count(*) as 'full_points', u.* */
         NativeQuery<Object> query13 = entityManager.unwrap(Session.class)
                 .createNativeQuery(QUERY_SEASON_13_POINTS, Object.class)
-                .addEntity("user", User.class).addScalar("full_points",
+                .addEntity("user", UserEntity.class).addScalar("full_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query13.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
         List<?> resultQuery13 = query13.list();
         for (Object object : resultQuery13) {
             Object[] row = (Object[]) object;
-            User user = (User) row[0];
+            UserEntity user = (UserEntity) row[0];
             int fullPoints = ((Long) row[1]).intValue();
 
             if (resultMap.containsKey(user)) {
@@ -182,13 +182,13 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
         /* count(*) as 'half_points', u.* */
         NativeQuery<Object> query10 = entityManager.unwrap(Session.class)
                 .createNativeQuery(QUERY_SEASON_10_POINTS, Object.class)
-                .addEntity("user", User.class).addScalar("half_points",
+                .addEntity("user", UserEntity.class).addScalar("half_points",
                         org.hibernate.type.StandardBasicTypes.LONG);
         query10.setParameter(PARAMETER_COMMUNITY_ID, community.getId());
         List<?> resultQuery10 = query10.list();
         for (Object object : resultQuery10) {
             Object[] row = (Object[]) object;
-            User user = (User) row[0];
+            UserEntity user = (UserEntity) row[0];
             int halfPoints = ((Long) row[1]).intValue();
 
             if (resultMap.containsKey(user)) {
@@ -216,7 +216,7 @@ public class CommunityRankingDaoHibernate implements CommunityRankingDao {
      * @param  countMatches Anzahl der Spielpaarungen.
      * @return              Eine sortierte Liste der {@link UserResult}s.
      */
-    private List<UserResult> userResultMapToList(Map<User, UserResult> resultMap, int countMatches) {
+    private List<UserResult> userResultMapToList(Map<UserEntity, UserResult> resultMap, int countMatches) {
         List<UserResult> userResults = new ArrayList<>();
         userResults.addAll(resultMap.values());
         Collections.sort(userResults, new UserPointsComparator());

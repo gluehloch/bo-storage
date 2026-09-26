@@ -26,14 +26,14 @@ package de.betoffice.storage.comparator;
 
 import java.util.Comparator;
 
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameListEntity;
 
 /**
  * Sortiert die Spieltage nach deren Index.
  *
  * @author by Andre Winkler
  */
-public class GameDayComparator implements Comparator<GameList> {
+public class GameDayComparator implements Comparator<GameListEntity> {
 
     /**
      * Vergleicht zwei GameList miteinander.
@@ -42,7 +42,7 @@ public class GameDayComparator implements Comparator<GameList> {
      * @param  o2 GameList Nr 2.
      * @return    -1, o1 &lt; o2; 0, o1 == o2; +1, o1 &gt; o2.
      */
-    public int compare(GameList o1, GameList o2) {
+    public int compare(GameListEntity o1, GameListEntity o2) {
         if (o1.getIndex() > o2.getIndex()) {
             return 1;
         } else {

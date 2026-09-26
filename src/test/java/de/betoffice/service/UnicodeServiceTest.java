@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Testet die korrekte Verwendung von Unicode Zeichen.
@@ -73,13 +73,13 @@ public class UnicodeServiceTest extends AbstractServiceTest {
 
     @Test
     public void testUnicodeServiceTest() {
-        Team team = new Team();
+        TeamEntity team = new TeamEntity();
         team.setName("Äöüß");
         team.setLongName("Äöüß");
         team.setLogo("Äöüß");
         masterDataManagerService.createTeam(team);
 
-        Optional<Team> team2 = masterDataManagerService.findTeam("Äöüß");
+        Optional<TeamEntity> team2 = masterDataManagerService.findTeam("Äöüß");
         assertEquals(team, team2.get());
     }
 

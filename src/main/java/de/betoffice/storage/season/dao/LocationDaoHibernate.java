@@ -32,35 +32,35 @@ import org.springframework.stereotype.Repository;
 
 import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.LocationDao;
-import de.betoffice.storage.season.entity.Location;
+import de.betoffice.storage.season.entity.LocationEntity;
 
 /**
- * {@link Location} DAO implementation
+ * {@link LocationEntity} DAO implementation
  *
  * @author by Andre Winkler
  */
 @Repository("locationDao")
-public class LocationDaoHibernate extends AbstractCommonDao<Location>
+public class LocationDaoHibernate extends AbstractCommonDao<LocationEntity>
         implements LocationDao {
 
     public LocationDaoHibernate() {
-        super(Location.class);
+        super(LocationEntity.class);
     }
 
     @Override
-    public List<Location> findAll() {
+    public List<LocationEntity> findAll() {
         return getEntityManager()
-                .createQuery("from Location as location order by location.name",
-                        Location.class)
+                .createQuery("from LocationEntity as location order by location.name",
+                        LocationEntity.class)
                 .getResultList();
     }
 
     @Override
-    public Optional<Location> findByOpenligaid(long openligaid) {
-        TypedQuery<Location> query = getEntityManager()
+    public Optional<LocationEntity> findByOpenligaid(long openligaid) {
+        TypedQuery<LocationEntity> query = getEntityManager()
                 .createQuery(
-                        "from Location as location where location.openligaid = :openligaid",
-                        Location.class)
+                        "from LocationEntity as location where location.openligaid = :openligaid",
+                        LocationEntity.class)
                 .setParameter("openligaid", openligaid);
         return singleResult(query);
     }

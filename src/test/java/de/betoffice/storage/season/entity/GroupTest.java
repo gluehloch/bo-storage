@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.SeasonType;
 
 /**
@@ -41,14 +41,14 @@ class GroupTest {
 
     @Test
     void testAllGroupsContains() throws Exception {
-        Season season = new Season(SeasonReference.of("1998/1999", "Bundesliga"));
+        SeasonEntity season = new SeasonEntity(SeasonReference.of("1998/1999", "Bundesliga"));
         season.setMode(SeasonType.CL);
 
-        GroupType groupA = new GroupType();
+        GroupTypeEntity groupA = new GroupTypeEntity();
         groupA.setName("Gruppe A");
-        GroupType groupB = new GroupType();
+        GroupTypeEntity groupB = new GroupTypeEntity();
         groupB.setName("Gruppe B");
-        GroupType groupC = new GroupType();
+        GroupTypeEntity groupC = new GroupTypeEntity();
         groupC.setName("Gruppe C");
 
         
@@ -56,7 +56,7 @@ class GroupTest {
             season.addGroup(null);
         });
 
-        Group group = new Group();
+        GroupEntity group = new GroupEntity();
         group.setGroupType(groupA);
         season.addGroup(group);
         assertEquals(season, group.getSeason());

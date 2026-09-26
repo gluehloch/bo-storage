@@ -34,12 +34,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.storage.session.SessionDao;
-import de.betoffice.storage.session.entity.Session;
+import de.betoffice.storage.session.entity.SessionEntity;
 import de.betoffice.storage.time.DateTimeProvider;
 import de.betoffice.storage.user.RoleType;
 import de.betoffice.storage.user.UserDao;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 import de.betoffice.util.LoggerFactory;
 
 /**
@@ -75,11 +75,11 @@ public class DefaultAuthService implements AuthService {
     @Transactional
     @Override
     public SecurityToken login(Nickname name, String password, String sessionId, String address, String browserId) {
-        Optional<User> user = userDao.findByNickname(name);
+        Optional<UserEntity> user = userDao.findByNickname(name);
 
         SecurityToken securityToken = null;
         if (user.isPresent() && user.get().comparePwd(password)) {
-            User presentUser = user.get();
+            UserEntity presentUser = user.get();
             List<RoleType> roleTypes = new ArrayList<>();
             if (presentUser.isAdmin()) {
                 roleTypes.add(RoleType.ADMIN);
@@ -91,7 +91,7 @@ public class DefaultAuthService implements AuthService {
             var now = dateTimeProvider.currentDateTime();
             securityToken = new SecurityToken(sessionId, presentUser, roleTypes, now);
 
-            Session session = new Session();
+            SessionEntity session = new SessionEntity();
             session.setBrowser(browserId);
             session.setFailedLogins(0);
             session.setLogin(now);
@@ -115,11 +115,11 @@ public class DefaultAuthService implements AuthService {
     @Transactional
     @Override
     public void logout(String securityToken) {
-        List<Session> sessions = sessionDao.findBySessionId(securityToken);
+        List<SessionEntity> sessions = sessionDao.findBySessionId(securityToken);
         if (sessions.isEmpty()) {
             log.warn("Trying to logout with an invalid securityToken=[{}]", securityToken);
         } else {
-            for (Session session : sessions) {
+            for (SessionEntity session : sessions) {
                 session.setLogout(dateTimeProvider.currentDateTime());
                 sessionDao.persist(session);
             }
@@ -127,19 +127,19 @@ public class DefaultAuthService implements AuthService {
     }
 
     @Override
-    public Optional<Session> validateSession(String token) {
+    public Optional<SessionEntity> validateSession(String token) {
         if (StringUtils.isEmpty(token)) {
             log.warn("There is no token to validate: token=[{}]", token);
             return Optional.empty();
         } else {
-            List<Session> sessions = sessionDao.findBySessionId(token);
+            List<SessionEntity> sessions = sessionDao.findBySessionId(token);
             if (sessions.isEmpty()) {
                 log.warn(
                         "Tried to validate the session with an invalid securityToken=[{}]",
                         token);
                 return Optional.empty();
             } else {
-                Session session = sessions.get(0);
+                SessionEntity session = sessions.get(0);
                 session.getUser().getNickname();
                 // TODO Hier koennte man noch mehr pruefen, wie z.B. Browser und IP?
                 // Dann waeren mehr Parameter an diese Methode zu uebergeben.
@@ -150,7 +150,7 @@ public class DefaultAuthService implements AuthService {
     }
 
     @Override
-    public Optional<User> findByNickname(Nickname nickname) {
+    public Optional<UserEntity> findByNickname(Nickname nickname) {
         return userDao.findByNickname(nickname);
     }
 

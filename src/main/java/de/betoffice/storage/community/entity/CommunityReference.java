@@ -1,5 +1,6 @@
 package de.betoffice.storage.community.entity;
 
+import java.util.Locale;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -40,7 +41,7 @@ public class CommunityReference {
 
     @Override
     public int hashCode() {
-        return Objects.hash(shortName);
+        return Objects.hash(shortName.toLowerCase(Locale.ROOT));
     }
 
     @Override
@@ -52,7 +53,12 @@ public class CommunityReference {
         if (getClass() != obj.getClass())
             return false;
         CommunityReference other = (CommunityReference) obj;
-        return StringUtils.equalsIgnoreCase(shortName, other.shortName);
+        return shortName.equalsIgnoreCase(other.getShortName());
+    }
+
+    @Override
+    public String toString() {
+        return "CommunityReference [shortName=" + shortName + "]";
     }
 
 }

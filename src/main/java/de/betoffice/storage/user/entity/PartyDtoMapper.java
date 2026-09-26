@@ -1,0 +1,81 @@
+/*
+ * ============================================================================
+ * Project betoffice-jweb Copyright (c) 2016-2024 by Andre Winkler. All rights
+ * reserved.
+ * ============================================================================
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
+package de.betoffice.storage.user.entity;
+
+import java.util.List;
+
+import de.betoffice.mail.NotificationType;
+import de.betoffice.storage.user.PartyDto;
+
+/**
+ * Map {@link User} to {@link PartyDto}.
+ * 
+ * @author Andre Winkler
+ */
+public class PartyDtoMapper {
+
+    public static PartyDto mapSmall(UserEntity user, PartyDto partyDto) {
+        partyDto.setId(user.getId());
+        partyDto.setName(user.getName());
+        partyDto.setSurname(user.getSurname());
+        partyDto.setMail(user.getEmail());
+        partyDto.setNickname(user.getNickname().value());
+        return partyDto;
+    }
+
+    public static PartyDto map(UserEntity user, PartyDto partyDto) {
+        partyDto.setId(user.getId());
+        partyDto.setName(user.getName());
+        partyDto.setSurname(user.getSurname());
+        partyDto.setMail(user.getEmail());
+        partyDto.setNickname(user.getNickname().value());
+        // TODO Should be removed.
+        partyDto.setPassword(user.getPassword());
+        partyDto.setPhone(user.getPhone());
+        partyDto.setTitle(user.getTitle());
+        partyDto.setEmailNotificationEnabled(NotificationType.TIPP.equals(user.getNotification()));
+        return partyDto;
+    }
+
+    public static List<PartyDto> map(List<UserEntity> users) {
+        return users.stream().map(PartyDtoMapper::map).toList();
+    }
+
+    private static PartyDto map(UserEntity user) {
+        return map(user, new PartyDto());
+    }
+
+    public static UserEntity reverse(PartyDto partyJson, UserEntity user) {
+        user.setName(partyJson.getName());
+        user.setSurname(partyJson.getSurname());
+        user.setEmail(partyJson.getMail());
+        user.setNickname(Nickname.of(partyJson.getNickname()));
+        user.setPassword(partyJson.getPassword());
+        user.setPhone(partyJson.getPhone());
+        user.setTitle(partyJson.getTitle());
+        user.setNotification(partyJson.isEmailNotificationEnabled() ? NotificationType.TIPP : NotificationType.NONE);
+        return user;
+    }
+
+}

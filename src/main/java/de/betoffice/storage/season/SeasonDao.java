@@ -27,24 +27,24 @@ import java.util.List;
 import java.util.Optional;
 
 import de.betoffice.storage.community.CommonDao;
-import de.betoffice.storage.group.entity.GroupType;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.team.TeamResult;
 
 /**
- * DAO Klasse für den Zugriff auf {@link de.betoffice.storage.season.entity.Season} Objekte.
+ * DAO Klasse für den Zugriff auf {@link de.betoffice.storage.season.entity.SeasonEntity} Objekte.
  *
  * @author by Andre Winkler
  */
-public interface SeasonDao extends CommonDao<Season> {
+public interface SeasonDao extends CommonDao<SeasonEntity> {
 
     /**
      * Find all seasons ordered by year.
      * 
      * @return All seasons.
      */
-    List<Season> findAll();
+    List<SeasonEntity> findAll();
 
     /**
      * Liefert eine Meisterschaft mit gesuchten Namen und Jahrgang.
@@ -52,7 +52,7 @@ public interface SeasonDao extends CommonDao<Season> {
      * @param  seasonRef Referenz zu einer Meisterschaft.
      * @return           Eine Meisterschaft.
      */
-    Optional<Season> find(SeasonReference seasonRef);
+    Optional<SeasonEntity> find(SeasonReference seasonRef);
 
     /**
      * Startet die Tabellenberechnung der Mannschaften einer Meisterschaft.
@@ -61,7 +61,7 @@ public interface SeasonDao extends CommonDao<Season> {
      * @param  groupType Die Liga/Gruppe die berechnet werden soll.
      * @return           Eine sortierte Liste der Tabelle.
      */
-    List<TeamResult> calculateTeamRanking(Season season, GroupType groupType);
+    List<TeamResult> calculateTeamRanking(SeasonEntity season, GroupTypeEntity groupType);
 
     /**
      * Startet die Tabellenberechnung der Mannschaften einer Meisterschaft über bestimmte Spielrunden.
@@ -72,7 +72,7 @@ public interface SeasonDao extends CommonDao<Season> {
      * @param  endIndex   Index des End-Spieltags (0..N-1).
      * @return            Eine sortierte Liste der Tabelle.
      */
-    List<TeamResult> calculateTeamRanking(Season season, GroupType groupType,
+    List<TeamResult> calculateTeamRanking(SeasonEntity season, GroupTypeEntity groupType,
             int startIndex, int endIndex);
 
 }

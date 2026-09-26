@@ -37,7 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.storage.team.TeamAlias;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Test of class {@link DefaultMasterDataManagerService}.
@@ -75,7 +75,7 @@ public class MasterDataManagerServiceUpdateTest extends AbstractServiceTest {
 
     @Test
     public void testDeleteTeamAliasName() {
-        Team koeln = masterDataManagerService.findTeam("1.FC Köln").orElseThrow();
+        TeamEntity koeln = masterDataManagerService.findTeam("1.FC Köln").orElseThrow();
 
         TeamAlias teamAlias = masterDataManagerService.createTeamAlias(koeln, "Karnevalsverein");
         List<TeamAlias> teamAliasNames = masterDataManagerService.findAllTeamAlias(koeln);
@@ -89,7 +89,7 @@ public class MasterDataManagerServiceUpdateTest extends AbstractServiceTest {
     @Test
     public void testUpdateTeamAliasName() {
         List<TeamAlias> teamAliasNames = null;
-        Team koeln = masterDataManagerService.findTeam("1.FC Köln").orElseThrow();
+        TeamEntity koeln = masterDataManagerService.findTeam("1.FC Köln").orElseThrow();
 
         TeamAlias teamAlias = masterDataManagerService.createTeamAlias(koeln, "Karnevalsverein");
         teamAliasNames = masterDataManagerService.findAllTeamAlias(koeln);
@@ -97,7 +97,7 @@ public class MasterDataManagerServiceUpdateTest extends AbstractServiceTest {
 
         teamAlias.setAliasName("Fortuna Köln");
         masterDataManagerService.updateTeamAlias(teamAlias);
-        Team koeln2 = masterDataManagerService.findTeamByAlias("Fortuna Köln").orElseThrow();
+        TeamEntity koeln2 = masterDataManagerService.findTeamByAlias("Fortuna Köln").orElseThrow();
         assertThat(koeln2.getName()).isEqualTo(koeln.getName());
     }
 

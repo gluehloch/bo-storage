@@ -27,6 +27,7 @@ package de.betoffice.validation;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import de.betoffice.validation.ValidationMessage.MessageType;
@@ -48,6 +49,11 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
 
     private DefaultServiceResult(T result, ValidationMessages validationMessages) {
         this.result = result;
+        this.validationMessages = validationMessages;
+    }
+
+    private DefaultServiceResult(ValidationMessages validationMessages) {
+        this.result = null;
         this.validationMessages = validationMessages;
     }
 
@@ -87,6 +93,10 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
         return new DefaultServiceResult<T>(validationMessage);
     }
 
+    static <T> ServiceResult<T> failure(final ValidationMessages validationMessages) {
+        return new DefaultServiceResult<T>( validationMessages);
+    }
+
     static <T> ServiceResult<T> failure(MessageType errorType) {
         return new DefaultServiceResult<T>(ValidationMessage.error(errorType));
     }
@@ -120,6 +130,11 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
     @Override
     public boolean isSuccessful() {
         return this.result != null && !this.containsAnError();
+    }
+
+    @Override
+    public <R> Optional<R> map(Function<T, R> mapper) {
+        return Optional.ofNullable( mapper.apply(result) );
     }
 
 }

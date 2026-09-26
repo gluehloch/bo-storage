@@ -43,24 +43,25 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.storage.community.entity.Community;
+import de.betoffice.service.request.CommunityCreateCommand;
+import de.betoffice.service.request.UserCreateCommand;
 import de.betoffice.storage.community.entity.CommunityReference;
-import de.betoffice.storage.exception.StorageObjectNotFoundException;
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.SeasonType;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.season.entity.GameResult;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
-import de.betoffice.storage.team.entity.Team;
-import de.betoffice.storage.tip.GameTipp;
+import de.betoffice.storage.team.entity.TeamEntity;
+import de.betoffice.storage.tip.GameTippEntity;
 import de.betoffice.storage.tip.TippStatusType;
 import de.betoffice.storage.tip.TotoResult;
 import de.betoffice.storage.user.UserResult;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
+import de.betoffice.storage.user.entity.UserProfileDto;
 import de.betoffice.test.DateTimeDummyProducer;
 
 /**
@@ -80,7 +81,7 @@ class GameTippTest extends AbstractServiceTest {
 
     @Autowired
     private MasterDataManagerService masterDataManagerService;
-    
+
     @Autowired
     private CommunityService communityService;
 
@@ -105,20 +106,20 @@ class GameTippTest extends AbstractServiceTest {
     private class TestSpec {
         private final GameResult testResult;
         private final TotoResult expectedToto;
-        private final User user;
+        private final UserProfileDto user;
 
-        public TestSpec(GameResult gameResult, TotoResult totoResult, User user) {
+        public TestSpec(GameResult gameResult, TotoResult totoResult, UserProfileDto user) {
             this.testResult = gameResult;
             this.expectedToto = totoResult;
             this.user = user;
         }
 
-        public boolean executeTest() throws StorageObjectNotFoundException {
+        public boolean executeTest() {
             getGame().setResult(testResult);
             getGame().setPlayed(true);
             seasonManagerService.updateMatch(getGame());
-            
-            TotoResult _testResult = tippService.findTipp(getGame(), user).orElseThrow().getTotoResult();
+
+            TotoResult _testResult = tippService.findTipp(getGame(), user.toNickname()).orElseThrow().getTotoResult();
 
             assertEquals(expectedToto, _testResult);
             return (expectedToto.equals(_testResult));
@@ -134,39 +135,35 @@ class GameTippTest extends AbstractServiceTest {
             buf.append(user);
             buf.append(" Getippt: ");
 
-            GameTipp tipp = tippService.findTipp(game, user).orElseThrow();
+            GameTippEntity tipp = tippService.findTipp(game, user.toNickname()).orElseThrow();
             buf.append(tipp);
 
             return buf.toString();
         }
     }
 
-    private final List<User> allUsers = new ArrayList<User>();
+    private final List<UserEntity> allUsers = new ArrayList<UserEntity>();
 
-    private Game game;
+    private GameEntity game;
     private GameResult gr10 = new GameResult(1, 0);
     private GameResult gr01 = new GameResult(0, 1);
     private GameResult gr11 = new GameResult(1, 1);
     private GameResult gr21 = new GameResult(2, 1);
     private GameResult gr23 = new GameResult(2, 3);
-    private User userA;
-    private User userB;
-    private User userC;
-    private User userD;
-    private User userE;
-    private Season season;
-    private Group group;
+    private UserProfileDto userA;
+    private UserProfileDto userB;
+    private UserProfileDto userC;
+    private UserProfileDto userD;
+    private UserProfileDto userE;
+    private SeasonEntity season;
+    private GroupEntity group;
 
     /**
-     * Testet den Listener der Klasse GameTipp. Bei Änderungen am Spielergebniss
-     * schlägt sich dies auf den Punktestand des Tippers nieder, der für dieses
-     * Spiel einen Tipp abgegeben hat.
-     * 
-     * @throws StorageObjectNotFoundException
-     *             Da ging was schief.
+     * Testet den Listener der Klasse GameTipp. Bei Änderungen am Spielergebniss schlägt sich dies auf den Punktestand
+     * des Tippers nieder, der für dieses Spiel einen Tipp abgegeben hat.
      */
     @Test
-    public void testGameListener() throws StorageObjectNotFoundException {
+    public void testGameListener() {
         // GameTipp ist ein Listener für die Objekte Game. Ändert sich
         // das Ergebnis eines Spiels, wird in GameTipp automatisch
         // der neue Punktewert des Tippers berechnet.
@@ -216,15 +213,15 @@ class GameTippTest extends AbstractServiceTest {
         seasonManagerService.updateMatch(game);
 
         {
-            GameTipp gameTippUserA = tippService.findTipp(game, userA).orElseThrow();
+            GameTippEntity gameTippUserA = tippService.findTipp(game, userA.toNickname()).orElseThrow();
             assertThat(gameTippUserA.getTotoResult()).isEqualTo(TotoResult.EQUAL);
             assertThat(gameTippUserA.getPoints()).isEqualTo(UserResult.nEqualValue);
 
-            GameTipp gameTippUserB = tippService.findTipp(game, userB).orElseThrow();
+            GameTippEntity gameTippUserB = tippService.findTipp(game, userB.toNickname()).orElseThrow();
             assertThat(gameTippUserB.getTotoResult()).isEqualTo(TotoResult.ZERO);
             assertThat(gameTippUserB.getPoints()).isEqualTo(UserResult.nZeroValue);
 
-            GameTipp gameTippUserC = tippService.findTipp(game, userC).orElseThrow();
+            GameTippEntity gameTippUserC = tippService.findTipp(game, userC.toNickname()).orElseThrow();
             assertThat(gameTippUserC.getTotoResult()).isEqualTo(TotoResult.ZERO);
             assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nZeroValue);
         }
@@ -235,15 +232,15 @@ class GameTippTest extends AbstractServiceTest {
         seasonManagerService.updateMatch(game);
 
         {
-            GameTipp gameTippUserA = tippService.findTipp(game, userA).orElseThrow();
+            GameTippEntity gameTippUserA = tippService.findTipp(game, userA.toNickname()).orElseThrow();
             assertThat(gameTippUserA.getTotoResult()).isEqualTo(TotoResult.ZERO);
             assertThat(gameTippUserA.getPoints()).isEqualTo(UserResult.nZeroValue);
 
-            GameTipp gameTippUserB = tippService.findTipp(game, userB).orElseThrow();
+            GameTippEntity gameTippUserB = tippService.findTipp(game, userB.toNickname()).orElseThrow();
             assertThat(gameTippUserB.getTotoResult()).isEqualTo(TotoResult.EQUAL);
             assertThat(gameTippUserB.getPoints()).isEqualTo(UserResult.nEqualValue);
 
-            GameTipp gameTippUserC = tippService.findTipp(game, userC).orElseThrow();
+            GameTippEntity gameTippUserC = tippService.findTipp(game, userC.toNickname()).orElseThrow();
             assertThat(gameTippUserC.getTotoResult()).isEqualTo(TotoResult.ZERO);
             assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nZeroValue);
         }
@@ -254,26 +251,27 @@ class GameTippTest extends AbstractServiceTest {
         seasonManagerService.updateMatch(game);
 
         {
-            GameTipp gameTippUserA = tippService.findTipp(game, userA).orElseThrow();
+            GameTippEntity gameTippUserA = tippService.findTipp(game, userA.toNickname()).orElseThrow();
             assertThat(gameTippUserA.getTotoResult()).isEqualTo(TotoResult.ZERO);
             assertThat(gameTippUserA.getPoints()).isEqualTo(UserResult.nZeroValue);
 
-            GameTipp gameTippUserB = tippService.findTipp(game, userB).orElseThrow();
+            GameTippEntity gameTippUserB = tippService.findTipp(game, userB.toNickname()).orElseThrow();
             assertThat(gameTippUserB.getTotoResult()).isEqualTo(TotoResult.ZERO);
             assertThat(gameTippUserB.getPoints()).isEqualTo(UserResult.nZeroValue);
 
-            GameTipp gameTippUserC = tippService.findTipp(game, userC).orElseThrow();
+            GameTippEntity gameTippUserC = tippService.findTipp(game, userC.toNickname()).orElseThrow();
             assertThat(gameTippUserC.getTotoResult()).isEqualTo(TotoResult.EQUAL);
             assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nEqualValue);
-            
-            GameTipp gameTippUserD = tippService.findTipp(game, userD).orElseThrow();
+
+            GameTippEntity gameTippUserD = tippService.findTipp(game, userD.toNickname()).orElseThrow();
             assertThat(gameTippUserD.getTotoResult()).isEqualTo(TotoResult.ZERO);
             assertThat(gameTippUserD.getPoints()).isEqualTo(UserResult.nZeroValue);
             assertThat(gameTippUserD.getTipp()).isEqualTo(GameResult.of(2, 1));
         }
 
         {
-            GameTipp tippD = tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userD, gr11, TippStatusType.USER);
+            GameTippEntity tippD = tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userD.toNickname(), gr11,
+                    TippStatusType.USER);
             assertThat(tippD.getTotoResult()).isEqualTo(TotoResult.EQUAL);
         }
 
@@ -283,23 +281,23 @@ class GameTippTest extends AbstractServiceTest {
 
         {
             // Alle Spieler erhalten eine 0-Punkte Tipp: Spiel ist nicht beendet.
-            GameTipp gameTippUserA = tippService.findTipp(game, userA).orElseThrow();
+            GameTippEntity gameTippUserA = tippService.findTipp(game, userA.toNickname()).orElseThrow();
             assertThat(gameTippUserA.getTotoResult()).isEqualTo(TotoResult.UNDEFINED);
             assertThat(gameTippUserA.getPoints()).isEqualTo(UserResult.nZeroValue);
 
-            GameTipp gameTippUserB = tippService.findTipp(game, userB).orElseThrow();
+            GameTippEntity gameTippUserB = tippService.findTipp(game, userB.toNickname()).orElseThrow();
             assertThat(gameTippUserB.getTotoResult()).isEqualTo(TotoResult.UNDEFINED);
             assertThat(gameTippUserB.getPoints()).isEqualTo(UserResult.nZeroValue);
 
-            GameTipp gameTippUserC = tippService.findTipp(game, userC).orElseThrow();
+            GameTippEntity gameTippUserC = tippService.findTipp(game, userC.toNickname()).orElseThrow();
             assertThat(gameTippUserC.getTotoResult()).isEqualTo(TotoResult.UNDEFINED);
             assertThat(gameTippUserC.getPoints()).isEqualTo(UserResult.nZeroValue);
-            
-            GameTipp gameTippUserD = tippService.findTipp(game, userD).orElseThrow();
+
+            GameTippEntity gameTippUserD = tippService.findTipp(game, userD.toNickname()).orElseThrow();
             assertThat(gameTippUserD.getTotoResult()).isEqualTo(TotoResult.UNDEFINED);
             assertThat(gameTippUserD.getPoints()).isEqualTo(UserResult.nZeroValue);
-            
-            List<GameTipp> tipp = tippService.findTipps(game.getGameList().getId());
+
+            List<GameTippEntity> tipp = tippService.findTipps(game.getGameList().getId());
             assertThat(tipp).hasSize(4);
             assertThat(tipp).contains(gameTippUserA, gameTippUserB, gameTippUserC);
         }
@@ -310,20 +308,20 @@ class GameTippTest extends AbstractServiceTest {
         // mit den Tipps User_A 1:0, User_B 0:1 und User_C 1:1.
 
         // Beteiligte Mannschaften erzeugen.
-        Team luebeck = new Team("Vfb Lübeck", "Vfb Lübeck", "luebeck.gif");
+        TeamEntity luebeck = new TeamEntity("Vfb Lübeck", "Vfb Lübeck", "luebeck.gif");
         masterDataManagerService.createTeam(luebeck);
-        Team rwe = new Team("RWE", "Rot-Weiss-Essen", "rwe.gif");
+        TeamEntity rwe = new TeamEntity("RWE", "Rot-Weiss-Essen", "rwe.gif");
         masterDataManagerService.createTeam(rwe);
 
         // Saison erzeugen.
         SeasonReference seasonReference = SeasonReference.of("1999/2000", "Bundesliga");
-        season = new Season();
+        season = new SeasonEntity();
         season.setMode(SeasonType.LEAGUE);
         season.setReference(seasonReference);
         seasonManagerService.createSeason(season);
 
         // Gruppe erzeugen.
-        GroupType buli1 = new GroupType();
+        GroupTypeEntity buli1 = new GroupTypeEntity();
         buli1.setName("1. Bundesliga");
         masterDataManagerService.createGroupType(buli1);
 
@@ -332,46 +330,47 @@ class GameTippTest extends AbstractServiceTest {
         seasonManagerService.addTeam(season, buli1, rwe);
         seasonManagerService.addTeam(season, buli1, luebeck);
 
-        GameList round = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_1971_03_24, buli1);
+        GameListEntity round = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_1971_03_24, buli1);
 
         // Spiel erzeugen.
         game = seasonManagerService.addMatch(round, DateTimeDummyProducer.DATE_1971_03_24, group, luebeck, rwe);
 
         // Neuen Tipp erzeugen lassen...
-        userA = new User();
-        Nickname communityAdmin = Nickname.of("User A");
-        userA.setNickname(communityAdmin);
-        communityService.createUser(userA);
+        userA = communityService
+                .create(new UserCreateCommand("User A", "Another surname", "User A", "another@email.com", null, null))
+                .orElseThrow();
 
-        userB = new User();
-        userB.setNickname(Nickname.of("User B"));
-        communityService.createUser(userB);
+        userB = communityService
+                .create(new UserCreateCommand("User B", "Another surname", "User B", "another@email.com", null, null))
+                .orElseThrow();
 
-        userC = new User();
-        userC.setNickname(Nickname.of("User C"));
-        communityService.createUser(userC);
+        userC = communityService
+                .create(new UserCreateCommand("User C", "Another surname", "User C", "another@email.com", null, null))
+                .orElseThrow();
 
-        userD = new User();
-        userD.setNickname(Nickname.of("User D"));
-        communityService.createUser(userD);
+        userD = communityService
+                .create(new UserCreateCommand("User D", "Another surname", "User D", "another@email.com", null, null))
+                .orElseThrow();
 
-        userE = new User();
-        userE.setNickname(Nickname.of("User E"));
-        communityService.createUser(userE);
-        
+        userE = communityService
+                .create(new UserCreateCommand("User E", "Another surname", "User E", "another@email.com", null, null))
+                .orElseThrow();
+
         CommunityReference communityReference = CommunityReference.of("TDKB BL 1999/2000");
-        communityService.create(communityReference, seasonReference, "TDKB Bundesliga 1999/2000", "1999/2000", communityAdmin);
+        communityService.create(new CommunityCreateCommand(communityReference, seasonReference,
+                "TDKB Bundesliga 1999/2000", "1999/2000",
+                userA.toNickname()));
 
-        List<User> users = communityService.findAllUsers();
+        List<UserEntity> users = communityService.findAllUsers();
 
         Set<Nickname> nicknames = users.stream().map(u -> u.getNickname()).collect(Collectors.toSet());
-        Community community = communityService.addMembers(communityReference, nicknames);
+        communityService.addMembers(communityReference, nicknames);
 
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userA, gr10, TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userB, gr01, TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userC, gr11, TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userD, gr21, TippStatusType.USER);
-        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userD, gr21, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userA.toNickname(), gr10, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userB.toNickname(), gr01, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userC.toNickname(), gr11, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userD.toNickname(), gr21, TippStatusType.USER);
+        tippService.createOrUpdateTipp(JUNIT_TOKEN, game, userD.toNickname(), gr21, TippStatusType.USER);
     }
 
     /**
@@ -379,7 +378,7 @@ class GameTippTest extends AbstractServiceTest {
      * 
      * @return Ein <code>Game</code>.
      */
-    public Game getGame() {
+    public GameEntity getGame() {
         return game;
     }
 

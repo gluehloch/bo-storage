@@ -1,7 +1,7 @@
 /*
  * ============================================================================
  * Project betoffice-storage
- * Copyright (c) 2000-2022 by Andre Winkler. All rights reserved.
+ * Copyright (c) 2000-2026 by Andre Winkler. All rights reserved.
  * ============================================================================
  *          GNU GENERAL PUBLIC LICENSE
  *  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
@@ -46,20 +46,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.service.request.UserCreateCommand;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.SeasonType;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.season.entity.GameResult;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
-import de.betoffice.storage.team.entity.Team;
-import de.betoffice.storage.tip.GameTipp;
+import de.betoffice.storage.team.entity.TeamEntity;
+import de.betoffice.storage.tip.GameTippEntity;
 import de.betoffice.storage.tip.TippStatusType;
 import de.betoffice.storage.tip.TotoResult;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserProfileDto;
 import de.betoffice.test.DateTimeDummyProducer;
 
 /**
@@ -89,40 +90,41 @@ class GameTest extends AbstractServiceTest {
 
     private DatabaseSetUpAndTearDown dsuatd;
 
-    private Team homeTeam;
+    private TeamEntity homeTeam;
 
-    private Team guestTeam;
+    private TeamEntity guestTeam;
 
-    private Group group;
+    private GroupEntity group;
 
-    private Game game1;
+    private GameEntity game1;
 
     private GameResult gameResult10 = new GameResult(1, 0);
 
     private GameResult gameResult01 = new GameResult(0, 1);
 
-    private User userA;
+    private UserProfileDto userA;
 
-    private User userB;
+    private UserProfileDto userB;
 
-    private User userC;
+    private UserProfileDto userC;
 
-    private User userD;
+    private UserProfileDto userD;
 
-    private GameTipp tippA;
+    private GameTippEntity tippA;
 
-    private GameTipp tippB;
+    private GameTippEntity tippB;
 
-    private GameTipp tippC;
+    private GameTippEntity tippC;
 
     /**
      * Prüft die Methode addNewTipp(). Drei Tipper geben ihre Tipps ab.
      */
     @Test
     void testGameAddNewTipp() {
-        GameTipp tippX;
+        GameTippEntity tippX;
         // Legt keinen neuen Tipp an, überschreibt den alten Tipp.
-        tippX = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userA, gameResult10, TippStatusType.USER);
+        tippX = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, Nickname.of(userA.getNickname()), gameResult10,
+                TippStatusType.USER);
         assertNotNull(tippX.getGame());
         assertNotNull(tippX.getStatus());
         assertNotNull(tippX.getTipp());
@@ -136,7 +138,8 @@ class GameTest extends AbstractServiceTest {
         assertFalse(tippC.equals(tippX));
 
         // Legt keinen neuen Tipp an, überschreibt den alten Tipp.
-        tippX = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userB, gameResult10, TippStatusType.USER);
+        tippX = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, Nickname.of(userB.getNickname()), gameResult10,
+                TippStatusType.USER);
         assertNotNull(tippX.getGame());
         assertNotNull(tippX.getStatus());
         assertNotNull(tippX.getTipp());
@@ -150,7 +153,8 @@ class GameTest extends AbstractServiceTest {
         assertFalse(tippC.equals(tippX));
 
         // Legt keinen neuen Tipp an, überschreibt den alten Tipp.
-        tippX = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userC, gameResult10, TippStatusType.USER);
+        tippX = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, Nickname.of(userC.getNickname()), gameResult10,
+                TippStatusType.USER);
         assertNotNull(tippX.getGame());
         assertNotNull(tippX.getStatus());
         assertNotNull(tippX.getTipp());
@@ -189,24 +193,28 @@ class GameTest extends AbstractServiceTest {
 
     @Test
     void testGameContainsTipp() {
-        assertTrue(tippService.findTipp(game1, userA).isPresent());
-        assertTrue(tippService.findTipp(game1, userB).isPresent());
-        assertTrue(tippService.findTipp(game1, userC).isPresent());
-        assertTrue(tippService.findTipp(game1, userD).isEmpty());
+        assertTrue(tippService.findTipp(game1, userA.toNickname()).isPresent());
+        assertTrue(tippService.findTipp(game1, userB.toNickname()).isPresent());
+        assertTrue(tippService.findTipp(game1, userC.toNickname()).isPresent());
+        assertTrue(tippService.findTipp(game1, userD.toNickname()).isEmpty());
     }
 
     @Test
     void testGameAddTipp() {
-        GameTipp tipp1 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userA, gameResult10, TippStatusType.USER);
+        GameTippEntity tipp1 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userA.toNickname(), gameResult10,
+                TippStatusType.USER);
         assertThat(tipp1.getTotoResult()).isEqualTo(TotoResult.EQUAL);
 
-        GameTipp tipp2 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userB, gameResult10, TippStatusType.USER);
+        GameTippEntity tipp2 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userB.toNickname(), gameResult10,
+                TippStatusType.USER);
         assertThat(tipp2.getTotoResult()).isEqualTo(TotoResult.EQUAL);
 
-        GameTipp tipp3 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userB, gameResult10, TippStatusType.USER);
+        GameTippEntity tipp3 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userB.toNickname(), gameResult10,
+                TippStatusType.USER);
         assertThat(tipp3.getTotoResult()).isEqualTo(TotoResult.EQUAL);
 
-        GameTipp tipp4 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userD, gameResult01, TippStatusType.USER);
+        GameTippEntity tipp4 = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userD.toNickname(), gameResult01,
+                TippStatusType.USER);
         assertThat(tipp4.getTotoResult()).isEqualTo(TotoResult.ZERO);
     }
 
@@ -224,47 +232,43 @@ class GameTest extends AbstractServiceTest {
     }
 
     private void createData() throws Exception {
-        userA = new User();
-        userA.setName("User A");
-        userA.setNickname(Nickname.of("User A"));
-        communityService.createUser(userA);
+        userA = communityService
+                .create(new UserCreateCommand("User A", "Another surname", "User A", "another@email.com", null, null))
+                .orElseThrow();
 
-        userB = new User();
-        userB.setName("User B");
-        userB.setNickname(Nickname.of("User B"));
-        communityService.createUser(userB);
+        userB = communityService
+                .create(new UserCreateCommand("User B", "Another surname", "User B", "another@email.com", null, null))
+                .orElseThrow();
 
-        userC = new User();
-        userC.setName("User C");
-        userC.setNickname(Nickname.of("User C"));
-        communityService.createUser(userC);
+        userC = communityService
+                .create(new UserCreateCommand("User C", "Another surname", "User C", "another@email.com", null, null))
+                .orElseThrow();
 
-        userD = new User();
-        userD.setName("User D");
-        userD.setNickname(Nickname.of("User D"));
-        communityService.createUser(userD);
+        userD = communityService
+                .create(new UserCreateCommand("User D", "Another surname", "User D", "another@email.com", null, null))
+                .orElseThrow();
 
-        homeTeam = new Team();
+        homeTeam = new TeamEntity();
         homeTeam.setName("RWE");
         masterDataManagerService.createTeam(homeTeam);
 
-        guestTeam = new Team();
+        guestTeam = new TeamEntity();
         guestTeam.setName("S04");
         masterDataManagerService.createTeam(guestTeam);
 
-        Season season = new Season(SeasonReference.of("1971", "Bundesliga 2"));
+        SeasonEntity season = new SeasonEntity(SeasonReference.of("1971", "Bundesliga 2"));
         season.setMode(SeasonType.LEAGUE);
 
         seasonManagerService.createSeason(season);
 
-        GroupType buli1 = new GroupType();
+        GroupTypeEntity buli1 = new GroupTypeEntity();
         buli1.setName("1. Bundesliga");
         masterDataManagerService.createGroupType(buli1);
 
         season = seasonManagerService.addGroupType(season, buli1);
         group = season.getGroup(buli1);
 
-        GameList round = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_1971_03_24, buli1);
+        GameListEntity round = seasonManagerService.addRound(season, DateTimeDummyProducer.DATE_1971_03_24, buli1);
 
         game1 = seasonManagerService.addMatch(
                 round,
@@ -273,9 +277,12 @@ class GameTest extends AbstractServiceTest {
                 homeTeam,
                 guestTeam, 1, 0);
 
-        tippA = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userA, gameResult01, TippStatusType.USER);
-        tippB = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userB, gameResult01, TippStatusType.USER);
-        tippC = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userC, gameResult01, TippStatusType.USER);
+        tippA = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userA.toNickname(), gameResult01,
+                TippStatusType.USER);
+        tippB = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userB.toNickname(), gameResult01,
+                TippStatusType.USER);
+        tippC = tippService.createOrUpdateTipp(JUNIT_TOKEN, game1, userC.toNickname(), gameResult01,
+                TippStatusType.USER);
     }
 
 }

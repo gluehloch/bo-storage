@@ -1,7 +1,7 @@
 select
   gt
 from
-  Group as g 
+  GroupEntity as g 
   join g.season as s
   join g.groupType as gt
 where

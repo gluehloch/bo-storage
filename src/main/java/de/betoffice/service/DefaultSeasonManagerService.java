@@ -37,7 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.storage.community.CommunityDao;
 import de.betoffice.storage.group.GroupTypeDao;
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.GameTippDao;
 import de.betoffice.storage.season.GoalDao;
 import de.betoffice.storage.season.GroupDao;
@@ -45,19 +45,19 @@ import de.betoffice.storage.season.MatchDao;
 import de.betoffice.storage.season.PlayerDao;
 import de.betoffice.storage.season.RoundDao;
 import de.betoffice.storage.season.SeasonDao;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.season.entity.GameResult;
-import de.betoffice.storage.season.entity.Goal;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Player;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.GoalEntity;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.PlayerEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.team.TeamDao;
 import de.betoffice.storage.team.TeamResult;
-import de.betoffice.storage.team.entity.Team;
-import de.betoffice.storage.tip.GameTipp;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.team.entity.TeamEntity;
+import de.betoffice.storage.tip.GameTippEntity;
+import de.betoffice.storage.user.entity.UserEntity;
 import de.betoffice.util.BetofficeValidator;
 import de.betoffice.validation.ValidationException;
 import de.betoffice.validation.ValidationMessage;
@@ -103,45 +103,45 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     private CommunityDao communityDao;
 
     @Override
-    public List<TeamResult> calculateTeamRanking(Season season, GroupType groupType) {
+    public List<TeamResult> calculateTeamRanking(SeasonEntity season, GroupTypeEntity groupType) {
         return seasonDao.calculateTeamRanking(season, groupType);
     }
 
     @Override
-    public List<TeamResult> calculateTeamRanking(Season season,
-            GroupType groupType, int startIndex, int endIndex) {
+    public List<TeamResult> calculateTeamRanking(SeasonEntity season,
+            GroupTypeEntity groupType, int startIndex, int endIndex) {
 
         return seasonDao.calculateTeamRanking(season, groupType, startIndex, endIndex);
     }
 
     @Override
-    public List<Season> findAllSeasons() {
+    public List<SeasonEntity> findAllSeasons() {
         return seasonDao.findAll();
     }
 
     @Override
-    public List<Team> findTeams(Group group) {
+    public List<TeamEntity> findTeams(GroupEntity group) {
         return groupDao.findTeams(group);
     }
 
     @Override
-    public List<Team> findTeams(Season season, GroupType groupType) {
+    public List<TeamEntity> findTeams(SeasonEntity season, GroupTypeEntity groupType) {
         return teamDao.findTeamsBySeasonAndGroup(season, groupType);
     }
 
     @Override
-    public List<GroupType> findGroupTypes(Season season) {
+    public List<GroupTypeEntity> findGroupTypes(SeasonEntity season) {
         return (groupTypeDao.findBySeason(season));
     }
 
     @Override
-    public List<Game> findMatches(Team homeTeam, Team guestTeam, int limit) {
+    public List<GameEntity> findMatches(TeamEntity homeTeam, TeamEntity guestTeam, int limit) {
         return matchDao.find(homeTeam, guestTeam, limit);
     }
 
     @Override
-    public List<Game> findMatches(Team homeTeam, Team guestTeam, boolean spin, int limit) {
-        List<Game> results = new ArrayList<Game>();
+    public List<GameEntity> findMatches(TeamEntity homeTeam, TeamEntity guestTeam, boolean spin, int limit) {
+        List<GameEntity> results = new ArrayList<GameEntity>();
         if (spin) {
             results.addAll(matchDao.findAll(homeTeam, guestTeam, limit));
         } else {
@@ -151,74 +151,74 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
-    public List<Game> findMatches(Team team, int limit) {
+    public List<GameEntity> findMatches(TeamEntity team, int limit) {
         return matchDao.find(team, limit);
     }
 
     @Override
-    public List<Game> findMatchesWithHomeTeam(Team team, int limit) {
+    public List<GameEntity> findMatchesWithHomeTeam(TeamEntity team, int limit) {
         return matchDao.findByHomeTeam(team, limit);
     }
 
     @Override
-    public List<Game> findMatchesWithGuestTeam(Team team, int limit) {
+    public List<GameEntity> findMatchesWithGuestTeam(TeamEntity team, int limit) {
         return matchDao.findByGuestTeam(team, limit);
     }
 
     @Override
-    public List<Goal> findGoalsOfMatch(Game game) {
+    public List<GoalEntity> findGoalsOfMatch(GameEntity game) {
         return goalDao.find(game);
     }
 
     @Override
-    public List<Game> findMatches(GameList round) {
+    public List<GameEntity> findMatches(GameListEntity round) {
         return matchDao.find(round);
     }
 
     @Override
-    public List<Game> findMatches(ZonedDateTime dateTime) {
+    public List<GameEntity> findMatches(ZonedDateTime dateTime) {
         return matchDao.findByDay(dateTime);
     }
 
     @Override
-    public Game findMatch(Long gameId) {
+    public GameEntity findMatch(Long gameId) {
         return matchDao.findById(gameId);
     }
 
     @Override
-    public Optional<Game> findMatch(GameList round, Team homeTeam, Team guestTeam) {
+    public Optional<GameEntity> findMatch(GameListEntity round, TeamEntity homeTeam, TeamEntity guestTeam) {
         return matchDao.find(round, homeTeam, guestTeam);
     }
 
     @Override
-    public Optional<GameList> findRound(Season season, int index) {
+    public Optional<GameListEntity> findRound(SeasonEntity season, int index) {
         return roundDao.findRound(season, index);
     }
 
     @Override
-    public Optional<GameList> findLastRound(Season season) {
+    public Optional<GameListEntity> findLastRound(SeasonEntity season) {
         return roundDao.findLastRound(season);
     }
 
     @Override
-    public Optional<GameList> findFirstRound(Season season) {
+    public Optional<GameListEntity> findFirstRound(SeasonEntity season) {
         return roundDao.findFirstRound(season);
     }
 
     @Override
-    public GameList findRound(long id) {
+    public GameListEntity findRound(long id) {
         return roundDao.findById(id);
     }
 
     @Override
-    public Optional<GameList> findRoundGames(long roundId) {
+    public Optional<GameListEntity> findRoundGames(long roundId) {
         return roundDao.findRound(roundId);
     }
 
     @Override
-    public Optional<GameList> findNextRound(long id) {
+    public Optional<GameListEntity> findNextRound(long id) {
         Optional<Long> nextRoundId = roundDao.findNext(id);
-        Optional<GameList> nextGameList = Optional.empty();
+        Optional<GameListEntity> nextGameList = Optional.empty();
         if (nextRoundId.isPresent()) {
             nextGameList = Optional.of(roundDao.findById(nextRoundId.get()));
         }
@@ -226,9 +226,9 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
-    public Optional<GameList> findPrevRound(long id) {
+    public Optional<GameListEntity> findPrevRound(long id) {
         Optional<Long> prevRoundId = roundDao.findPrevious(id);
-        Optional<GameList> prevGameList = Optional.empty();
+        Optional<GameListEntity> prevGameList = Optional.empty();
         if (prevRoundId.isPresent()) {
             prevGameList = Optional.of(roundDao.findById(prevRoundId.get()));
         }
@@ -236,40 +236,40 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
-    public List<GameList> findRounds(Season season) {
+    public List<GameListEntity> findRounds(SeasonEntity season) {
         return roundDao.findRounds(season);
     }
 
     @Override
-    public List<GameList> findRounds(Group group) {
+    public List<GameListEntity> findRounds(GroupEntity group) {
         return roundDao.findRounds(group);
     }
 
     @Override
-    public List<Group> findGroups(Season season) {
+    public List<GroupEntity> findGroups(SeasonEntity season) {
         return groupDao.findBySeason(season);
     }
 
     @Override
-    public Group findGroup(Season season, GroupType groupType) {
+    public GroupEntity findGroup(SeasonEntity season, GroupTypeEntity groupType) {
         return (groupDao.findBySeasonAndGroupType(season, groupType));
     }
 
     @Override
-    public Optional<Season> findSeasonByName(String name, String year) {
+    public Optional<SeasonEntity> findSeasonByName(String name, String year) {
         return seasonDao.find(SeasonReference.of(year, name));
     }
 
     @Override
-    public Season findSeasonById(long id) {
+    public SeasonEntity findSeasonById(long id) {
         return seasonDao.findById(id);
     }
 
     @Override
     @Transactional
-    public Game addMatch(GameList round, ZonedDateTime date, Group group, Team homeTeam, Team guestTeam) {
-        GameList gamelist = roundDao.findById(round.getId());
-        Game match = new Game();
+    public GameEntity addMatch(GameListEntity round, ZonedDateTime date, GroupEntity group, TeamEntity homeTeam, TeamEntity guestTeam) {
+        GameListEntity gamelist = roundDao.findById(round.getId());
+        GameEntity match = new GameEntity();
         match.setDateTime(date);
         match.setHomeTeam(homeTeam);
         match.setGuestTeam(guestTeam);
@@ -284,19 +284,19 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public Game addMatch(GameList round, ZonedDateTime date, Group group,
-            Team homeTeam, Team guestTeam, int homeGoals, int guestGoals) {
+    public GameEntity addMatch(GameListEntity round, ZonedDateTime date, GroupEntity group,
+            TeamEntity homeTeam, TeamEntity guestTeam, int homeGoals, int guestGoals) {
 
         return addMatch(round, date, group, homeTeam, guestTeam, GameResult.of(homeGoals, guestGoals));
     }
 
     @Override
     @Transactional
-    public Game addMatch(GameList round, ZonedDateTime date, Group group,
-            Team homeTeam, Team guestTeam, GameResult result) {
+    public GameEntity addMatch(GameListEntity round, ZonedDateTime date, GroupEntity group,
+            TeamEntity homeTeam, TeamEntity guestTeam, GameResult result) {
 
-        GameList gamelist = roundDao.findById(round.getId());
-        Game match = new Game();
+        GameListEntity gamelist = roundDao.findById(round.getId());
+        GameEntity match = new GameEntity();
         match.setDateTime(date);
         match.setHomeTeam(homeTeam);
         match.setGuestTeam(guestTeam);
@@ -313,21 +313,21 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public Game addMatch(Season season, int round, ZonedDateTime date,
-            GroupType groupType, Team homeTeam, Team guestTeam) {
+    public GameEntity addMatch(SeasonEntity season, int round, ZonedDateTime date,
+            GroupTypeEntity groupType, TeamEntity homeTeam, TeamEntity guestTeam) {
 
-        Season persistedSeason = seasonDao.findById(season.getId());
+        SeasonEntity persistedSeason = seasonDao.findById(season.getId());
         return (addMatch(persistedSeason.getGamesOfDay(round), date,
                 persistedSeason.getGroup(groupType), homeTeam, guestTeam));
     }
 
     @Override
     @Transactional
-    public Game addMatch(Season season, int round, ZonedDateTime date,
-            GroupType groupType, Team homeTeam, Team guestTeam, int homeGoals,
+    public GameEntity addMatch(SeasonEntity season, int round, ZonedDateTime date,
+            GroupTypeEntity groupType, TeamEntity homeTeam, TeamEntity guestTeam, int homeGoals,
             int guestGoals) {
 
-        Season persistedSeason = seasonDao.findById(season.getId());
+        SeasonEntity persistedSeason = seasonDao.findById(season.getId());
         return (addMatch(persistedSeason.getGamesOfDay(round), date,
                 persistedSeason.getGroup(groupType), homeTeam, guestTeam, homeGoals,
                 guestGoals));
@@ -335,14 +335,14 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public GameList addRound(Season season, ZonedDateTime date, GroupType groupType) {
-        GameList round = new GameList();
+    public GameListEntity addRound(SeasonEntity season, ZonedDateTime date, GroupTypeEntity groupType) {
+        GameListEntity round = new GameListEntity();
         round.setDateTime(date);
 
-        Group group = groupDao.findBySeasonAndGroupType(season, groupType);
+        GroupEntity group = groupDao.findBySeasonAndGroupType(season, groupType);
         round.setGroup(group);
 
-        Season persistedSeason = seasonDao.findById(season.getId());
+        SeasonEntity persistedSeason = seasonDao.findById(season.getId());
         persistedSeason.addGameList(round);
         roundDao.persist(round);
         return round;
@@ -350,27 +350,27 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public GameList addRound(Season season, int index, ZonedDateTime data, GroupType groupType) {
+    public GameListEntity addRound(SeasonEntity season, int index, ZonedDateTime data, GroupTypeEntity groupType) {
         BetofficeValidator.validateRoundIndex(index);
 
-        Season seasonEntity = seasonDao.find(season.getReference())
+        SeasonEntity seasonEntity = seasonDao.find(season.getReference())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Season %s not found.", season)));
 
-        Optional<GameList> gameList = roundDao.findRound(seasonEntity, index);
+        Optional<GameListEntity> gameList = roundDao.findRound(seasonEntity, index);
         if (gameList.isPresent()) {
             throw new IllegalArgumentException(String.format("Round '%s, Index: %s' already exists.", season, index));
         }
 
-        GroupType groupTypeEntity = groupTypeDao.findByName(groupType.getName())
+        GroupTypeEntity groupTypeEntity = groupTypeDao.findByName(groupType.getName())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("GroupTyp %s not found.", groupType)));
 
-        Group group = groupDao.findBySeasonAndGroupType(seasonEntity, groupTypeEntity);
+        GroupEntity group = groupDao.findBySeasonAndGroupType(seasonEntity, groupTypeEntity);
         if (group == null) {
             throw new IllegalArgumentException(
                     String.format("Group '%s, GroupType: %s' not found.", seasonEntity, groupTypeEntity));
         }
 
-        GameList round = new GameList();
+        GameListEntity round = new GameListEntity();
         round.setDateTime(data);
         round.setIndex(index);
         round.setGroup(group);
@@ -381,22 +381,22 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public GameList updateRound(Season season, int index, ZonedDateTime date, GroupType groupType) {
+    public GameListEntity updateRound(SeasonEntity season, int index, ZonedDateTime date, GroupTypeEntity groupType) {
         BetofficeValidator.validateRoundIndex(index);
 
-        Season seasonEntity = seasonDao.find(season.getReference())
+        SeasonEntity seasonEntity = seasonDao.find(season.getReference())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Season %s not found.", season)));
 
-        GroupType groupTypeEntity = groupTypeDao.findByName(groupType.getName())
+        GroupTypeEntity groupTypeEntity = groupTypeDao.findByName(groupType.getName())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("GroupTyp %s not found.", groupType)));
 
-        Group group = groupDao.findBySeasonAndGroupType(seasonEntity, groupTypeEntity);
+        GroupEntity group = groupDao.findBySeasonAndGroupType(seasonEntity, groupTypeEntity);
         if (group == null) {
             throw new IllegalArgumentException(
                     String.format("Group '%s, GroupType: %s' not found.", seasonEntity, groupTypeEntity));
         }
 
-        GameList round = roundDao.findRound(season, index)
+        GameListEntity round = roundDao.findRound(season, index)
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Round '%s, Index: %s' not found.")));
 
         round.setGroup(group);
@@ -407,7 +407,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public Group addTeam(Season season, GroupType groupType, Team team) {
+    public GroupEntity addTeam(SeasonEntity season, GroupTypeEntity groupType, TeamEntity team) {
         List<ValidationMessage> messages = new ArrayList<>();
 
         if (!season.getTeamType().equals(team.getTeamType())) {
@@ -416,9 +416,9 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
         }
 
         if (messages.isEmpty()) {
-            Group group = groupDao.findBySeasonAndGroupType(season, groupType);
+            GroupEntity group = groupDao.findBySeasonAndGroupType(season, groupType);
 
-            List<Team> teams = groupDao.findTeams(group);
+            List<TeamEntity> teams = groupDao.findTeams(group);
             if (teams.contains(team)) {
                 throw new ValidationException(ValidationMessage.error(
                         MessageType.SEASON_GROUP_TEAM_IS_ALREADY_A_MEMBER, team, season, groupType));
@@ -435,8 +435,8 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public Group addTeams(Season season, GroupType groupType,
-            Collection<Team> teams) {
+    public GroupEntity addTeams(SeasonEntity season, GroupTypeEntity groupType,
+            Collection<TeamEntity> teams) {
 
         teams.stream().forEach(team -> addTeam(season, groupType, team));
         return groupDao.findBySeasonAndGroupType(season, groupType);
@@ -444,7 +444,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public Season createSeason(Season season) {
+    public SeasonEntity createSeason(SeasonEntity season) {
         try {
             seasonDao.persist(season);
             return season;
@@ -457,7 +457,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public void deleteSeason(Season season) {
+    public void deleteSeason(SeasonEntity season) {
         List<ValidationMessage> messages = new ArrayList<>();
 
         if (!communityDao.find(season.getReference()).isEmpty()) {
@@ -481,29 +481,29 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public void removeMatch(Game match) {
+    public void removeMatch(GameEntity match) {
         match.getGameList().removeGame(match);
         matchDao.delete(match);
     }
 
     @Override
     @Transactional
-    public void removeRound(Season season, GameList round) {
-        Season season2 = seasonDao.findById(season.getId());
+    public void removeRound(SeasonEntity season, GameListEntity round) {
+        SeasonEntity season2 = seasonDao.findById(season.getId());
         season2.removeGameList(round);
         roundDao.delete(round);
 
-        List<GameList> rounds = roundDao.findRounds(season);
+        List<GameListEntity> rounds = roundDao.findRounds(season);
         for (int i = 0; i < rounds.size(); i++) {
-            GameList r = rounds.get(i);
+            GameListEntity r = rounds.get(i);
             r.setIndex(i);
         }
     }
 
     @Override
     @Transactional
-    public void removeTeam(Season season, GroupType groupType, Team team) {
-        Group group = groupDao.findBySeasonAndGroupType(season, groupType);
+    public void removeTeam(SeasonEntity season, GroupTypeEntity groupType, TeamEntity team) {
+        GroupEntity group = groupDao.findBySeasonAndGroupType(season, groupType);
         group.removeTeam(team);
         // Group group = season.getGroup(groupType);
         // group.removeTeam(team);
@@ -512,39 +512,39 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public void removeTeams(Season season, GroupType groupType, Collection<Team> teams) {
+    public void removeTeams(SeasonEntity season, GroupTypeEntity groupType, Collection<TeamEntity> teams) {
         teams.stream().forEach(team -> removeTeam(season, groupType, team));
     }
 
     @Override
     @Transactional
-    public void updateMatch(Game match) {
+    public void updateMatch(GameEntity match) {
         matchDao.update(match);
     }
 
     @Override
     @Transactional
-    public void updateMatch(Collection<Game> modifiedMatches) {
-        for (Game match : modifiedMatches) {
+    public void updateMatch(Collection<GameEntity> modifiedMatches) {
+        for (GameEntity match : modifiedMatches) {
             matchDao.update(match);
         }
     }
 
     @Override
     @Transactional
-    public void updateSeason(Season season) {
+    public void updateSeason(SeasonEntity season) {
         seasonDao.update(season);
     }
 
     @Override
     @Transactional
-    public Season addGroupType(Season season, GroupType groupType) {
+    public SeasonEntity addGroupType(SeasonEntity season, GroupTypeEntity groupType) {
         Objects.requireNonNull(season, "season is null");
         Objects.requireNonNull(groupType, "groupType is null");
 
-        Season persistedSeason = seasonDao.findById(season.getId());
+        SeasonEntity persistedSeason = seasonDao.findById(season.getId());
 
-        Group group = new Group();
+        GroupEntity group = new GroupEntity();
         group.setGroupType(groupType);
         persistedSeason.addGroup(group);
         groupDao.persist(group);
@@ -554,46 +554,46 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
 
     @Override
     @Transactional
-    public void addGroupType(Season season, Collection<GroupType> groupTypes) {
-        for (GroupType groupType : groupTypes) {
+    public void addGroupType(SeasonEntity season, Collection<GroupTypeEntity> groupTypes) {
+        for (GroupTypeEntity groupType : groupTypes) {
             addGroupType(season, groupType);
         }
     }
 
     @Override
     @Transactional
-    public void removeGroupType(Season season, GroupType groupType) {
-        Group group = groupDao.findBySeasonAndGroupType(season, groupType);
+    public void removeGroupType(SeasonEntity season, GroupTypeEntity groupType) {
+        GroupEntity group = groupDao.findBySeasonAndGroupType(season, groupType);
         groupDao.delete(group);
         // TODO season.remove(group) ?
     }
 
     @Override
     @Transactional
-    public void removeGroupType(Season season, Collection<GroupType> groupTypes) {
-        for (GroupType groupType : groupTypes) {
+    public void removeGroupType(SeasonEntity season, Collection<GroupTypeEntity> groupTypes) {
+        for (GroupTypeEntity groupType : groupTypes) {
             removeGroupType(season, groupType);
         }
     }
 
     @Override
-    public List<GameTipp> findTipps(GameList round, User user) {
+    public List<GameTippEntity> findTipps(GameListEntity round, UserEntity user) {
         return gameTippDao.find(round, user);
     }
 
     @Override
-    public List<GameTipp> findTippsByMatch(Game match) {
+    public List<GameTippEntity> findTippsByMatch(GameEntity match) {
         return gameTippDao.find(match);
     }
 
     @Override
-    public Optional<Player> findGoalsOfPlayer(long id) {
+    public Optional<PlayerEntity> findGoalsOfPlayer(long id) {
         return playerDao.findAllGoalsOfPlayer(id);
     }
 
     @Override
     @Transactional
-    public void addGoal(Game match, Goal goal) {
+    public void addGoal(GameEntity match, GoalEntity goal) {
         match.addGoal(goal);
         goal.setGame(match);
         matchDao.update(match);
@@ -601,7 +601,7 @@ public class DefaultSeasonManagerService extends AbstractManagerService implemen
     }
 
     @Override
-    public List<Goal> findAllGoals() {
+    public List<GoalEntity> findAllGoals() {
         return goalDao.findAll();
     }
 

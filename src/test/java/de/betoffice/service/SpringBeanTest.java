@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonEntity;
 
 /**
  * Test for Spring´s JUnit and annotation support.
@@ -67,7 +67,7 @@ public class SpringBeanTest extends AbstractServiceTest {
 
     @Test
     public void testSwingBetofficeStore() {
-        List<Season> championships = seasonManagerService.findAllSeasons();
+        List<SeasonEntity> championships = seasonManagerService.findAllSeasons();
         assertThat(championships).hasSize(34);
     }
 

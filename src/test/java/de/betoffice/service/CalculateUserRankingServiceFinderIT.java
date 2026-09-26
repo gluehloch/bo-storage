@@ -45,14 +45,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonRange;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
-import de.betoffice.storage.tip.GameTipp;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
+import de.betoffice.storage.tip.GameTippEntity;
 import de.betoffice.storage.user.UserResult;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 import de.betoffice.util.LoggerFactory;
 
 /**
@@ -104,28 +104,28 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
 
     @Test
     void testFindTippsWm2006() {
-        Season wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
-        List<GameList> rounds = seasonManagerService.findRounds(wm2006);
+        SeasonEntity wm2006 = seasonManagerService.findSeasonByName("WM Deutschland", "2006").orElseThrow();
+        List<GameListEntity> rounds = seasonManagerService.findRounds(wm2006);
 
-        GameList firstRound = seasonManagerService.findRound(wm2006, 0).orElseThrow();
+        GameListEntity firstRound = seasonManagerService.findRound(wm2006, 0).orElseThrow();
         assertThat(firstRound.size()).isEqualTo(2);
 
-        Game gameDeutschlandVsCostaRica = firstRound.get(0);
+        GameEntity gameDeutschlandVsCostaRica = firstRound.get(0);
         assertThat(gameDeutschlandVsCostaRica.isKo()).as("KO game").isFalse();
 
-        Game gamePolenVsEcuador = firstRound.get(1);
+        GameEntity gamePolenVsEcuador = firstRound.get(1);
         assertThat(gamePolenVsEcuador.isKo()).isFalse();
         
-        GameList finale = seasonManagerService.findRoundGames(rounds.get(24).getId()).orElseThrow();
+        GameListEntity finale = seasonManagerService.findRoundGames(rounds.get(24).getId()).orElseThrow();
         assertThat(finale.size()).isEqualTo(1);
-        Game finalGame = finale.get(0);
+        GameEntity finalGame = finale.get(0);
         assertThat(finalGame.getHomeTeam().getName()).as("Heimmannschaft").isEqualTo("Italien");
         assertThat(finalGame.getGuestTeam().getName()).as("Gastmannschaft").isEqualTo("Frankreich");
         assertThat(finalGame.isKo()).isFalse(); // Damals konnte beoffice noch keine KO Spiele.
         assertThat(finalGame.getResult().getHomeGoals()).isEqualTo(5);
         assertThat(finalGame.getResult().getGuestGoals()).isEqualTo(3);
 
-        List<GameTipp> tipps = tippService.findTipps(finale.get(0));
+        List<GameTippEntity> tipps = tippService.findTipps(finale.get(0));
         assertThat(tipps).hasSize(8);
 
         String[] nicknames = new String[] { "Roenne", "Jogi", "Goddard",
@@ -138,26 +138,26 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
         
         // --
 
-        User frosch = communityService.findUser(Nickname.of("Frosch")).orElseThrow();
-        User mrTipp = communityService.findUser(Nickname.of("mrTipp")).orElseThrow();
-        User peter = communityService.findUser(Nickname.of("Peter")).orElseThrow();
+        UserEntity frosch = communityService.findUser(Nickname.of("Frosch")).orElseThrow();
+        UserEntity mrTipp = communityService.findUser(Nickname.of("mrTipp")).orElseThrow();
+        UserEntity peter = communityService.findUser(Nickname.of("Peter")).orElseThrow();
 
         CommunityReference communityReference = CommunityReference.of("TDKB 2006");
 
-        Set<User> users = communityService.findMembers(communityReference);
+        Set<UserEntity> users = communityService.findMembers(communityReference);
         assertEquals(11, users.size());
         assertEquals("Frosch", frosch.getNickname().value());
         assertEquals("mrTipp", mrTipp.getNickname().value());
         assertEquals("Peter", peter.getNickname().value());
 
         assertThat(rounds.get(24)).isEqualTo(finale);
-        List<GameTipp> finalRoundTipps = tippService.findTipps(finale, frosch);
+        List<GameTippEntity> finalRoundTipps = tippService.findTipps(finale, frosch);
 
         assertEquals(frosch, finalRoundTipps.get(0).getUser());
         assertEquals(0, finalRoundTipps.get(0).getTipp().getHomeGoals());
         assertEquals(2, finalRoundTipps.get(0).getTipp().getGuestGoals());
 
-        List<GameTipp> froschTipps = tippService.findTipps(finale, frosch);
+        List<GameTippEntity> froschTipps = tippService.findTipps(finale, frosch);
         // 7 Tipps von allen Teilnehmern. Nur einer ist nicht 'null'.
         // TODO: Nach der Umstellung auf JPA Annotationen wird nur noch
         // ein Datensatz geliefert: Der fuer Frosch.
@@ -165,17 +165,17 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
         assertEquals(0, froschTipps.get(0).getTipp().getHomeGoals());
         assertEquals(2, froschTipps.get(0).getTipp().getGuestGoals());
 
-        List<GameTipp> mrTippTipps = tippService.findTipps(finale, mrTipp);
+        List<GameTippEntity> mrTippTipps = tippService.findTipps(finale, mrTipp);
         assertEquals(0, mrTippTipps.get(0).getTipp().getHomeGoals());
         assertEquals(1, mrTippTipps.get(0).getTipp().getGuestGoals());
 
-        List<GameTipp> peterTipps = tippService.findTipps(finale, peter);
+        List<GameTippEntity> peterTipps = tippService.findTipps(finale, peter);
         assertEquals(1, peterTipps.get(0).getTipp().getHomeGoals());
         assertEquals(2, peterTipps.get(0).getTipp().getGuestGoals());
         
         // --
 
-        User user = communityService.findUser(Nickname.of("Xtian")).orElseThrow();
+        UserEntity user = communityService.findUser(Nickname.of("Xtian")).orElseThrow();
         assertThat(tippService.findTipps(finale, user)).hasSize(0);
     }
 
@@ -205,13 +205,13 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
         // Bundesliga 2006 / 2007
         //
 
-        Season bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
+        SeasonEntity bundesliga = seasonManagerService.findSeasonByName("Fussball Bundesliga", "2006/2007").orElseThrow();
 
         CommunityReference communityReferenceBundesliga2006 = CommunityReference.of("TDKB 2006/2007");
         communityService.find(communityReferenceBundesliga2006).orElseThrow();
 
-        Optional<GameList> round = seasonManagerService.findRound(bundesliga, 0);
-        Group bundesligaGroup = round.get().getGroup();
+        Optional<GameListEntity> round = seasonManagerService.findRound(bundesliga, 0);
+        GroupEntity bundesligaGroup = round.get().getGroup();
         assertThat(round.get().toList(bundesligaGroup)).hasSize(9);
 
         List<UserResult> userResultsBundesliga2006 = communityCalculatorService.calculateRanking(communityReferenceBundesliga2006, round.get());
