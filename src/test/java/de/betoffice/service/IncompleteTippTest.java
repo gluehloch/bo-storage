@@ -59,6 +59,9 @@ public class IncompleteTippTest extends AbstractServiceTest {
     private SeasonManagerService seasonManagerService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private CommunityService communityService;
 
     @Autowired
@@ -81,7 +84,7 @@ public class IncompleteTippTest extends AbstractServiceTest {
         GameListEntity roundGames = seasonManagerService.findRoundGames(round.getId()).orElseThrow();
         assertThat(roundGames.size()).isEqualTo(2);
 
-        UserEntity user = communityService.findUser(nicknameUserA).orElseThrow();
+        UserEntity user = userService.findUser(nicknameUserA).orElseThrow();
         tippService.createOrUpdateTipp("1", luebeckRwe, user.getNickname(), GameResult.of(1, 0), TippStatusType.USER);
 
         //
@@ -135,7 +138,7 @@ public class IncompleteTippTest extends AbstractServiceTest {
         luebeckRwe = seasonManagerService.addMatch(round, DateTimeDummyProducer.DATE_1971_03_24, group, luebeck, rwe);
         rweLuebeck = seasonManagerService.addMatch(round, DateTimeDummyProducer.DATE_1971_03_24, group, rwe, luebeck);
 
-        final UserProfileDto userA = communityService
+        final UserProfileDto userA = userService
                 .create(new UserCreateCommand("User A", "Another surname", "User A", "another@email.com", null, null))
                 .orElseThrow();
 

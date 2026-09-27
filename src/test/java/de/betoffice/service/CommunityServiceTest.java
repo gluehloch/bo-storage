@@ -66,6 +66,9 @@ class CommunityServiceTest {
     private DataSource dataSource;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private CommunityService communityService;
 
     @Autowired
@@ -102,7 +105,7 @@ class CommunityServiceTest {
         final Nickname nickname = Nickname.of("Frosch");
         final UserCreateCommand createUserCommand = new UserCreateCommand(nickname.getNickname(), "Andre", "Winkler",
                 "email@email.de", "Password", "1234567890");
-        final ServiceResult<UserProfileDto> serviceResult = communityService.create(createUserCommand);
+        final ServiceResult<UserProfileDto> serviceResult = userService.create(createUserCommand);
         assertThat(serviceResult.isSuccessful()).isTrue();
         assertThat(serviceResult.orElseThrow().getSurname()).isEqualTo("Andre");
         assertThat(serviceResult.orElseThrow().getName()).isEqualTo("Winkler");
@@ -143,7 +146,7 @@ class CommunityServiceTest {
                 communityManager.getEmail(),
                 communityManager.getPassword(),
                 "1234567890");
-        final ServiceResult<UserProfileDto> serviceResultCreateUser = communityService.create(userCreateCommand);
+        final ServiceResult<UserProfileDto> serviceResultCreateUser = userService.create(userCreateCommand);
         assertThat(serviceResultCreateUser.isSuccessful()).isTrue();
         assertThat(serviceResultCreateUser.orElseThrow().getName()).isEqualTo(communityManager.getName());
 
@@ -163,11 +166,11 @@ class CommunityServiceTest {
 
         final UserCreateCommand createUserACommand = new UserCreateCommand("DemoA", "DemoA-FirstName", "DemoA-LastName",
                 "demoA@email.de", "DemoA-Password", "1234567890");
-        final ServiceResult<UserProfileDto> serviceResult2 = communityService.create(createUserACommand);
+        final ServiceResult<UserProfileDto> serviceResult2 = userService.create(createUserACommand);
 
         final UserCreateCommand createuserBCommand = new UserCreateCommand("DemoB", "DemoB-FirstName", "DemoB-LastName",
                 "demoB@email.de", "DemoB-Password", "1234567890");
-        final ServiceResult<UserProfileDto> serviceResult3 = communityService.create(createuserBCommand);
+        final ServiceResult<UserProfileDto> serviceResult3 = userService.create(createuserBCommand);
 
         communityService.addMember(community.toCommunityReference(),
                 Nickname.of(serviceResult2.orElseThrow().getNickname()));
@@ -188,7 +191,7 @@ class CommunityServiceTest {
         final Nickname nickname = Nickname.of("Frosch");
         final UserCreateCommand createUserCommand = new UserCreateCommand(nickname.getNickname(), "Andre", "Winkler",
                 "email@email.de", "Password", "1234567890");
-        final ServiceResult<UserProfileDto> serviceResult = communityService.create(createUserCommand);
+        final ServiceResult<UserProfileDto> serviceResult = userService.create(createUserCommand);
         assertThat(serviceResult.isSuccessful()).isTrue();
 
         communityService.create(new CommunityCreateCommand(

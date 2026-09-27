@@ -61,6 +61,9 @@ class CommunityServiceUserTest {
     private DataSource dataSource;
 
     @Autowired
+    private UserService userService;
+    
+    @Autowired
     private CommunityService communityService;
 
     private DatabaseSetUpAndTearDown dsuatd;
@@ -83,7 +86,7 @@ class CommunityServiceUserTest {
         createUser("Frosch", "Andre", "Winkler");
         createUser("Peter", "Peter", "Groth");
 
-        List<UserEntity> users = communityService.findAllUsers();
+        List<UserEntity> users = userService.findAllUsers();
 
         assertThat(users).hasSize(2);
         assertThat(users.get(0).getNickname().value()).isEqualTo("Frosch");
@@ -94,7 +97,7 @@ class CommunityServiceUserTest {
     void testCreateInvalidUser() {
         final UserCreateCommand createUserCommand = new UserCreateCommand("", "Andre", "Winkler",
                 "email@email.de", "Password", "1234567890");
-        final ServiceResult<UserProfileDto> serviceResult = communityService.create(createUserCommand);
+        final ServiceResult<UserProfileDto> serviceResult = userService.create(createUserCommand);
         assertThat(serviceResult.isSuccessful()).isFalse();
         assertThat(serviceResult.messages().containsAnError()).isTrue();
     }
@@ -104,7 +107,7 @@ class CommunityServiceUserTest {
         final UserProfileDto frosch = createUser("Frosch", "Andre", "Winkler");
         final UserProfileDto peter = createUser("Peter", "Peter", "Groth");
 
-        communityService.updateUser(
+        userService.updateUser(
                 true,
                 Nickname.of(frosch.getNickname()),
                 "Winkler-Update",
@@ -113,10 +116,10 @@ class CommunityServiceUserTest {
                 false,
                 frosch.getPhone());
 
-        Optional<UserEntity> userDarkside = communityService.findUser(Nickname.of("Darkside"));
+        Optional<UserEntity> userDarkside = userService.findUser(Nickname.of("Darkside"));
         assertThat(userDarkside).isEmpty();
 
-        Optional<UserEntity> anotherFrosch = communityService.findUser(Nickname.of(frosch.getNickname()));
+        Optional<UserEntity> anotherFrosch = userService.findUser(Nickname.of(frosch.getNickname()));
         assertThat(anotherFrosch).isPresent().hasValueSatisfying(u -> {
             assertThat(u.getNickname().value()).isEqualTo(frosch.getNickname());
             assertThat(u.getSurname()).isEqualTo("Andre-Update");
@@ -131,14 +134,14 @@ class CommunityServiceUserTest {
         final UserProfileDto frosch = createUser("Frosch", "Andre", "Winkler");
         final UserProfileDto peter = createUser("Peter", "Peter", "Groth");
 
-        communityService.deleteUser(Nickname.of(frosch.getNickname()));
-        List<UserEntity> users = communityService.findAllUsers();
+        userService.deleteUser(Nickname.of(frosch.getNickname()));
+        List<UserEntity> users = userService.findAllUsers();
 
         assertThat(users).hasSize(1);
         assertThat(users.get(0).getNickname().value()).isEqualTo(peter.getNickname());
 
-        communityService.deleteUser(Nickname.of(peter.getNickname()));
-        users = communityService.findAllUsers();
+        userService.deleteUser(Nickname.of(peter.getNickname()));
+        users = userService.findAllUsers();
 
         assertThat(users.size()).isEqualTo(0);
     }
@@ -146,7 +149,7 @@ class CommunityServiceUserTest {
     private UserProfileDto createUser(String nickname, String surname, String name) {
         UserCreateCommand createUserCommand = new UserCreateCommand(nickname, surname, name, "another@email.com", null,
                 null);
-        ServiceResult<UserProfileDto> serviceResult = communityService.create(createUserCommand);
+        ServiceResult<UserProfileDto> serviceResult = userService.create(createUserCommand);
         return serviceResult.orElseThrow();
     }
 

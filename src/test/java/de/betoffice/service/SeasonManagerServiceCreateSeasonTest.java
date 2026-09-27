@@ -97,6 +97,9 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     private DataSource dataSource;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private CommunityService communityService;
 
     @Autowired
@@ -298,9 +301,9 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
         // Frosch 2:0 | 1:1 || 1:1 | 1:1 || 1:2 | 0:1
         //
 
-        UserEntity userFrosch = communityService.findUser(frosch).orElseThrow();
-        UserEntity userPeter = communityService.findUser(peter).orElseThrow();
-        UserEntity userMrTipp = communityService.findUser(mrTipp).orElseThrow();
+        UserEntity userFrosch = userService.findUser(frosch).orElseThrow();
+        UserEntity userPeter = userService.findUser(peter).orElseThrow();
+        UserEntity userMrTipp = userService.findUser(mrTipp).orElseThrow();
 
         GameListEntity round_01 = seasonManagerService.findRound(buli_2010, 0).orElseThrow();
         GameListEntity round_02 = seasonManagerService.findRound(buli_2010, 1).orElseThrow();
@@ -498,7 +501,7 @@ class SeasonManagerServiceCreateSeasonTest extends AbstractServiceTest {
     private UserProfileDto createUser(Nickname nickname, String surname, String name) {
         UserCreateCommand createUserCommand = new UserCreateCommand(nickname.value(), surname, name,
                 "another@email.com", null, null);
-        ServiceResult<UserProfileDto> serviceResult = communityService.create(createUserCommand);
+        ServiceResult<UserProfileDto> serviceResult = userService.create(createUserCommand);
         return serviceResult.orElseThrow();
     }
 

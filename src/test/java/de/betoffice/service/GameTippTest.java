@@ -83,6 +83,9 @@ class GameTippTest extends AbstractServiceTest {
     private MasterDataManagerService masterDataManagerService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private CommunityService communityService;
 
     @Autowired
@@ -336,23 +339,23 @@ class GameTippTest extends AbstractServiceTest {
         game = seasonManagerService.addMatch(round, DateTimeDummyProducer.DATE_1971_03_24, group, luebeck, rwe);
 
         // Neuen Tipp erzeugen lassen...
-        userA = communityService
+        userA = userService
                 .create(new UserCreateCommand("User A", "Another surname", "User A", "another@email.com", null, null))
                 .orElseThrow();
 
-        userB = communityService
+        userB = userService
                 .create(new UserCreateCommand("User B", "Another surname", "User B", "another@email.com", null, null))
                 .orElseThrow();
 
-        userC = communityService
+        userC = userService
                 .create(new UserCreateCommand("User C", "Another surname", "User C", "another@email.com", null, null))
                 .orElseThrow();
 
-        userD = communityService
+        userD = userService
                 .create(new UserCreateCommand("User D", "Another surname", "User D", "another@email.com", null, null))
                 .orElseThrow();
 
-        userE = communityService
+        userE = userService
                 .create(new UserCreateCommand("User E", "Another surname", "User E", "another@email.com", null, null))
                 .orElseThrow();
 
@@ -361,7 +364,7 @@ class GameTippTest extends AbstractServiceTest {
                 "TDKB Bundesliga 1999/2000", "1999/2000",
                 userA.toNickname()));
 
-        List<UserEntity> users = communityService.findAllUsers();
+        List<UserEntity> users = userService.findAllUsers();
 
         Set<Nickname> nicknames = users.stream().map(u -> u.getNickname()).collect(Collectors.toSet());
         communityService.addMembers(communityReference, nicknames);

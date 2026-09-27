@@ -72,6 +72,9 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
     SeasonManagerService seasonManagerService;
 
     @Autowired
+    UserService userService;
+
+    @Autowired
     CommunityService communityService;
 
     @Autowired
@@ -138,9 +141,9 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
         
         // --
 
-        UserEntity frosch = communityService.findUser(Nickname.of("Frosch")).orElseThrow();
-        UserEntity mrTipp = communityService.findUser(Nickname.of("mrTipp")).orElseThrow();
-        UserEntity peter = communityService.findUser(Nickname.of("Peter")).orElseThrow();
+        UserEntity frosch = userService.findUser(Nickname.of("Frosch")).orElseThrow();
+        UserEntity mrTipp = userService.findUser(Nickname.of("mrTipp")).orElseThrow();
+        UserEntity peter = userService.findUser(Nickname.of("Peter")).orElseThrow();
 
         CommunityReference communityReference = CommunityReference.of("TDKB 2006");
 
@@ -175,7 +178,7 @@ class CalculateUserRankingServiceFinderIT extends AbstractServiceTest {
         
         // --
 
-        UserEntity user = communityService.findUser(Nickname.of("Xtian")).orElseThrow();
+        UserEntity user = userService.findUser(Nickname.of("Xtian")).orElseThrow();
         assertThat(tippService.findTipps(finale, user)).hasSize(0);
     }
 

@@ -45,6 +45,7 @@ import com.icegreen.greenmail.util.ServerSetupTest;
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.service.CommunityService;
 import de.betoffice.service.TippService;
+import de.betoffice.service.UserService;
 import de.betoffice.service.request.CommunityCreateCommand;
 import de.betoffice.service.request.UserCreateCommand;
 import de.betoffice.storage.community.CommunityDto;
@@ -69,6 +70,9 @@ class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
     @Autowired
     private SendReminderMailNotification sendReminderMailNotification;
 
+    @Autowired
+    private UserService userService;
+    
     @Autowired
     private CommunityService communityService;
 
@@ -100,7 +104,7 @@ class SendReminderMailNotificationTest extends AbstractDaoTestSupport {
                 "mail@mail.com",
                 "password",
                 "12121212");
-        communityService.create(userCreateCommand);
+        userService.create(userCreateCommand);
 
         final SeasonEntity season = nextTippRound.get().getSeason();
         final SeasonReference seasonReference = season.getReference();

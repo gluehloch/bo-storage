@@ -83,7 +83,7 @@ class GameTest extends AbstractServiceTest {
     private MasterDataManagerService masterDataManagerService;
 
     @Autowired
-    private CommunityService communityService;
+    private UserService userService;
 
     @Autowired
     protected DataSource dataSource;
@@ -232,19 +232,19 @@ class GameTest extends AbstractServiceTest {
     }
 
     private void createData() throws Exception {
-        userA = communityService
+        userA = userService
                 .create(new UserCreateCommand("User A", "Another surname", "User A", "another@email.com", null, null))
                 .orElseThrow();
 
-        userB = communityService
+        userB = userService
                 .create(new UserCreateCommand("User B", "Another surname", "User B", "another@email.com", null, null))
                 .orElseThrow();
 
-        userC = communityService
+        userC = userService
                 .create(new UserCreateCommand("User C", "Another surname", "User C", "another@email.com", null, null))
                 .orElseThrow();
 
-        userD = communityService
+        userD = userService
                 .create(new UserCreateCommand("User D", "Another surname", "User D", "another@email.com", null, null))
                 .orElseThrow();
 

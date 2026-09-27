@@ -37,6 +37,7 @@ import de.betoffice.service.CommunityService;
 import de.betoffice.service.MasterDataManagerService;
 import de.betoffice.service.SeasonManagerService;
 import de.betoffice.service.TippService;
+import de.betoffice.service.UserService;
 import de.betoffice.service.request.UserCreateCommand;
 import de.betoffice.storage.season.SeasonType;
 import de.betoffice.storage.season.entity.GameEntity;
@@ -65,6 +66,9 @@ public class ScenarioBuilder {
     @Autowired
     private SeasonManagerService seasonManagerService;
 
+    @Autowired
+    private UserService userService;
+    
     @Autowired
     private CommunityService communityService;
 
@@ -196,7 +200,7 @@ public class ScenarioBuilder {
                 .map(i -> new UserCreateCommand(i.getNickname().value(), i.getSurname(), i.getName(), i.getEmail(),
                         i.getPassword(), i.getPhone()))
                 .forEach(i -> {
-                    communityService.create(i).orElseThrow();
+                    userService.create(i).orElseThrow();
                 });
 
         // Saison erzeugen.

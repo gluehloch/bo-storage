@@ -51,6 +51,9 @@ public class MasterDataManagerServiceFinderTest extends AbstractDaoTestSupport {
     protected SeasonManagerService seasonManagerService;
 
     @Autowired
+    protected UserService userService;
+
+    @Autowired
     protected CommunityService communityService;
 
     @Autowired
@@ -109,7 +112,7 @@ public class MasterDataManagerServiceFinderTest extends AbstractDaoTestSupport {
 
     @Test
     public void testFindAllUsers() {
-        List<UserEntity> users = communityService.findAllUsers();
+        List<UserEntity> users = userService.findAllUsers();
         assertThat(users.size()).isEqualTo(45);
     }
 
