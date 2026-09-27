@@ -49,8 +49,12 @@ public interface ServiceResult<T> {
 
     boolean isSuccessful();
 
-    static <T> ServiceResult<T> sucess(final T result) {
-        return DefaultServiceResult.sucess(result);
+    static ServiceResult<Void> success() {
+        return DefaultServiceResult.success();
+    }
+
+    static <T> ServiceResult<T> success(final T result) {
+        return DefaultServiceResult.success(result);
     }
 
     static <T> ServiceResult<T> failure() {

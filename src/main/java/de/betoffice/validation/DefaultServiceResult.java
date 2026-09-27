@@ -42,6 +42,11 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
     private final T result;
     private final ValidationMessages validationMessages;
 
+    private DefaultServiceResult() {
+        this.result = null;
+        this.validationMessages = ValidationMessages.empty();
+    }
+
     private DefaultServiceResult(T result) {
         this.result = result;
         this.validationMessages = ValidationMessages.empty();
@@ -77,7 +82,11 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
         return validationMessages;
     }
 
-    static <T> ServiceResult<T> sucess(T result) {
+    static ServiceResult<Void> success() {
+        return new DefaultServiceResult<Void>((Void) null);
+    }
+
+    static <T> ServiceResult<T> success(T result) {
         return new DefaultServiceResult<T>(result);
     }
 
@@ -94,7 +103,7 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
     }
 
     static <T> ServiceResult<T> failure(final ValidationMessages validationMessages) {
-        return new DefaultServiceResult<T>( validationMessages);
+        return new DefaultServiceResult<T>(validationMessages);
     }
 
     static <T> ServiceResult<T> failure(MessageType errorType) {
@@ -129,12 +138,12 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
 
     @Override
     public boolean isSuccessful() {
-        return this.result != null && !this.containsAnError();
+        return !this.containsAnError();
     }
 
     @Override
     public <R> Optional<R> map(Function<T, R> mapper) {
-        return Optional.ofNullable( mapper.apply(result) );
+        return Optional.ofNullable(result).map(mapper);
     }
 
 }

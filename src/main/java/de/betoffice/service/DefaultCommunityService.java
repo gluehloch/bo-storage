@@ -161,7 +161,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         }
 
         final CommunityEntity community = persistCommunity(createCommunityResolved.orElseThrow());
-        return ServiceResult.sucess(CommunityDtoMapper.map(community));
+        return ServiceResult.success(CommunityDtoMapper.map(community));
     }
 
     @Override
@@ -174,8 +174,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         }
 
         communityDao.delete(community.orElseThrow().community());
-        // TODO damit ist das ServiceResult.isSuccessful() false!
-        return ServiceResult.sucess(null);
+        return ServiceResult.success();
     }
 
     private CommunityEntity persistCommunity(CreateCommunityResolved ccr) {
@@ -230,7 +229,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         final AddMemberResolved value = resolved.orElseThrow();
         value.community().addMember(value.user());
         communityDao.update(value.community());
-        return ServiceResult.sucess(CommunityDtoMapper.map(value.community()));
+        return ServiceResult.success(CommunityDtoMapper.map(value.community()));
     }
 
     @Override
@@ -246,7 +245,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         final AddMembersResolved value = resolved.orElseThrow();
         value.users().forEach(value.community()::addMember);
         communityDao.update(value.community());
-        return ServiceResult.sucess(CommunityDtoMapper.map(value.community()));
+        return ServiceResult.success(CommunityDtoMapper.map(value.community()));
     }
 
     @Override
@@ -279,7 +278,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         }
 
         final UserEntity userEntity = persistUser(user);
-        return ServiceResult.sucess(UserProfileDtoMapper.map(userEntity));
+        return ServiceResult.success(UserProfileDtoMapper.map(userEntity));
     }
 
     @Override
@@ -341,7 +340,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
                 return ServiceResult.failure(MessageType.EMAIL_CHANGE_DATETIME_IS_IN_THE_FUTURE);
             } else if (now.isBefore(changeDateTimePlusTenMinutes)) {
                 user.acceptEmailChange();
-                return ServiceResult.sucess(user);
+                return ServiceResult.success(user);
             } else {
                 return ServiceResult.failure(MessageType.EMAIL_CHANGE_DATETIME_EXPIRED);
             }
@@ -402,6 +401,9 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
         if (communityDao.hasMembers(communityReference)) {
             vmb.addFormattedMessage(MessageType.COMMUNITY_CANNOT_BE_DELETED_CAUSE_OF_MEMBERS, communityReference);
+        }
+        if (vmb.containsAnError()) {
+            return Optional.empty();
         }
         return Optional.of(new DeleteCommunityResolved(community.orElseThrow()));
     }
