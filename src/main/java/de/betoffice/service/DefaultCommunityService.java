@@ -26,6 +26,7 @@ package de.betoffice.service;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -319,7 +320,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
     }
 
     private boolean hasUserChangedHisMailAddress(final UserEntity user, final String newMailAddress) {
-        return !StringUtils.equals(user.getEmail(), newMailAddress);
+        return !Objects.equals(user.getEmail(), newMailAddress);
     }
 
     @Override
@@ -331,7 +332,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         }
 
         final UserEntity user = optionalUser.get();
-        if (StringUtils.equals(changeToken, user.getChangeToken())) {
+        if (Objects.equals(changeToken, user.getChangeToken())) {
             final var changeDateTime = user.getChangeDateTime();
             final ZonedDateTime changeDateTimePlusTenMinutes = changeDateTime.plusMinutes(10);
             // --- mailChange --- +10m --- now

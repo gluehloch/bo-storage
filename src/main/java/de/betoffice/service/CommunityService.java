@@ -176,7 +176,7 @@ public interface CommunityService {
      *
      * @param user Ein Teilnehmer.
      */
-    ServiceResult<UserProfileDto> create(final UserCreateCommand user);
+    ServiceResult<UserProfileDto> create(UserCreateCommand user);
 
     /**
      * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn dieser keiner Meisterschaft zugeordnet
