@@ -31,14 +31,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import de.betoffice.service.request.CommunityCreateCommand;
-import de.betoffice.service.request.UserCreateCommand;
 import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.storage.user.entity.UserEntity;
-import de.betoffice.storage.user.entity.UserProfileDto;
 import de.betoffice.validation.ServiceResult;
 
 /**
