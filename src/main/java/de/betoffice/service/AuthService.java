@@ -25,9 +25,9 @@ package de.betoffice.service;
 
 import java.util.Optional;
 
-import de.betoffice.storage.session.entity.Session;
+import de.betoffice.storage.session.entity.SessionEntity;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Authentication and authorization service.
@@ -42,7 +42,7 @@ public interface AuthService {
      * @param  nickname the nickname of the user
      * @return          a user
      */
-    Optional<User> findByNickname(Nickname nickname);
+    Optional<UserEntity> findByNickname(Nickname nickname);
 
     /**
      * Find the security token for user.
@@ -77,7 +77,7 @@ public interface AuthService {
      * @param  token a security token
      * @return       a valid user session
      */
-    Optional<Session> validateSession(String token);
+    Optional<SessionEntity> validateSession(String token);
 
     boolean isAdminSession(String token);
 

@@ -27,7 +27,7 @@ package de.betoffice.storage.comparator;
 
 import java.util.Comparator;
 
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Vergleicht zwei Team bezüglich ihres Teamnames.
@@ -36,7 +36,7 @@ import de.betoffice.storage.team.entity.Team;
  * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
  *          +0200 (Sat, 27 Jul 2013) $
  */
-public class TeamNameComparator implements Comparator<Team> {
+public class TeamNameComparator implements Comparator<TeamEntity> {
 
     /**
      * Vergleicht zwei Teams miteinander.
@@ -47,7 +47,7 @@ public class TeamNameComparator implements Comparator<Team> {
      *            Eine Mannschaft.
      * @return -1, 0 oder +1. Vergleich der Mannschaftsnamen.
      */
-    public int compare(Team team1, Team team2) {
+    public int compare(TeamEntity team1, TeamEntity team2) {
         return team1.getName().compareTo(team2.getName());
     }
 

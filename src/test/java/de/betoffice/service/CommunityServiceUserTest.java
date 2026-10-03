@@ -1,6 +1,6 @@
 /*
  * ============================================================================
- * Project betoffice-storage Copyright (c) 2000-2022 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * ============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -24,8 +24,6 @@
 
 package de.betoffice.service;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
@@ -42,12 +40,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.betoffice.conf.BetofficeTestConfig;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.mail.NotificationType;
+import de.betoffice.service.request.UserCreateCommand;
+import de.betoffice.service.request.UserUpdateCommand;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
-import de.betoffice.validation.ValidationException;
+import de.betoffice.storage.user.entity.UserEntity;
+import de.betoffice.storage.user.entity.UserProfileDto;
+import de.betoffice.validation.ServiceResult;
 
 /**
- * Test CRUD operations on storage object {@link User}.
+ * Test CRUD operations on storage object {@link UserEntity}.
  * 
  * TODO: It would be interesting to test a more complex scenario. A user with tips and other related informations. Does
  * MySQL allow delete statements here?
@@ -61,7 +62,7 @@ class CommunityServiceUserTest {
     private DataSource dataSource;
 
     @Autowired
-    private CommunityService communityService;
+    private UserService userService;
 
     private DatabaseSetUpAndTearDown dsuatd;
 
@@ -83,7 +84,7 @@ class CommunityServiceUserTest {
         createUser("Frosch", "Andre", "Winkler");
         createUser("Peter", "Peter", "Groth");
 
-        List<User> users = communityService.findAllUsers();
+        List<UserEntity> users = userService.findAllUsers();
 
         assertThat(users).hasSize(2);
         assertThat(users.get(0).getNickname().value()).isEqualTo("Frosch");
@@ -92,34 +93,36 @@ class CommunityServiceUserTest {
 
     @Test
     void testCreateInvalidUser() {
-        User invalidUser = new User();
-
-        ValidationException ex = assertThrows(ValidationException.class, () -> {
-            communityService.createUser(invalidUser);
-        });
-        assertThat(ex.getMessages()).isNotEmpty();
+        final UserCreateCommand createUserCommand = new UserCreateCommand("", "Andre", "Winkler",
+                "email@email.de", "Password", "1234567890");
+        final ServiceResult<UserProfileDto> serviceResult = userService.create(createUserCommand);
+        assertThat(serviceResult.isSuccessful()).isFalse();
+        assertThat(serviceResult.messages().containsAnError()).isTrue();
+        assertThat(serviceResult.messages().getMessages().get(0).getMessage()).isEqualTo("Nickname ist nicht gesetzt.");
     }
 
     @Test
     void testUpdateUser() {
-        final User frosch = createUser("Frosch", "Andre", "Winkler");
-        final User peter = createUser("Peter", "Peter", "Groth");
-
-        communityService.updateUser(
-                true,
-                frosch.getNickname(),
+        final UserProfileDto frosch = createUser("Frosch", "Andre", "Winkler");
+        final UserProfileDto peter = createUser("Peter", "Peter", "Groth");
+        final UserUpdateCommand userUpdateCommand = new UserUpdateCommand(
+                false,
+                Nickname.of(frosch.getNickname()),
                 "Winkler-Update",
                 "Andre-Update",
-                frosch.getEmail(),
+                frosch.getMail(),
                 false,
                 frosch.getPhone());
 
-        Optional<User> userDarkside = communityService.findUser(Nickname.of("Darkside"));
+        final ServiceResult<UserProfileDto> update = userService.update(userUpdateCommand);
+        assertThat(update.isSuccessful()).isTrue();
+
+        final Optional<UserEntity> userDarkside = userService.findUser(Nickname.of("Darkside"));
         assertThat(userDarkside).isEmpty();
 
-        Optional<User> anotherFrosch = communityService.findUser(frosch.getNickname());
+        Optional<UserEntity> anotherFrosch = userService.findUser(Nickname.of(frosch.getNickname()));
         assertThat(anotherFrosch).isPresent().hasValueSatisfying(u -> {
-            assertThat(u.getNickname()).isEqualTo(frosch.getNickname());
+            assertThat(u.getNickname().value()).isEqualTo(frosch.getNickname());
             assertThat(u.getSurname()).isEqualTo("Andre-Update");
             assertThat(u.getName()).isEqualTo("Winkler-Update");
             assertThat(u.getNotification()).isEqualTo(NotificationType.NONE);
@@ -129,29 +132,31 @@ class CommunityServiceUserTest {
 
     @Test
     void testDeleteUser() {
-        User frosch = createUser("Frosch", "Andre", "Winkler");
-        User peter = createUser("Peter", "Peter", "Groth");
+        final UserProfileDto frosch = createUser("Frosch", "Andre", "Winkler");
+        final UserProfileDto peter = createUser("Peter", "Peter", "Groth");
 
-        communityService.deleteUser(frosch.getNickname());
-        List<User> users = communityService.findAllUsers();
+        userService.deleteUser(Nickname.of(frosch.getNickname()));
+        List<UserEntity> users = userService.findAllUsers();
 
         assertThat(users).hasSize(1);
-        assertThat(users.get(0).getNickname()).isEqualTo(peter.getNickname());
+        assertThat(users.get(0).getNickname().value()).isEqualTo(peter.getNickname());
 
-        communityService.deleteUser(peter.getNickname());
-        users = communityService.findAllUsers();
+        userService.deleteUser(Nickname.of(peter.getNickname()));
+        users = userService.findAllUsers();
 
         assertThat(users.size()).isEqualTo(0);
     }
 
-    private User createUser(String nickname, String surname, String name) {
-        Nickname nick = Nickname.of(nickname);
-        User user = new User();
-        user.setNickname(nick);
-        user.setName(name);
-        user.setSurname(surname);
-        communityService.createUser(user);
-        return user;
+    private UserProfileDto createUser(String nickname, String surname, String name) {
+        UserCreateCommand createUserCommand = new UserCreateCommand(
+                nickname, 
+                surname, 
+                name, 
+                "another@email.com", 
+                "password",
+                "phone");
+        ServiceResult<UserProfileDto> serviceResult = userService.create(createUserCommand);
+        return serviceResult.orElseThrow();
     }
 
 }

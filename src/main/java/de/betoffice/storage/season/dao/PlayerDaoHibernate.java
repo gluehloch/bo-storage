@@ -32,7 +32,7 @@ import org.springframework.stereotype.Repository;
 
 import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.PlayerDao;
-import de.betoffice.storage.season.entity.Player;
+import de.betoffice.storage.season.entity.PlayerEntity;
 
 /**
  * The implementation of {@link PlayerDao}.
@@ -40,37 +40,37 @@ import de.betoffice.storage.season.entity.Player;
  * @author by Andre Winkler
  */
 @Repository("playerDao")
-public class PlayerDaoHibernate extends AbstractCommonDao<Player>
+public class PlayerDaoHibernate extends AbstractCommonDao<PlayerEntity>
         implements PlayerDao {
 
     public PlayerDaoHibernate() {
-        super(Player.class);
+        super(PlayerEntity.class);
     }
 
     @Override
-    public List<Player> findAll() {
+    public List<PlayerEntity> findAll() {
         return getEntityManager()
-                .createQuery("from Player as player order by player.name",
-                        Player.class)
+                .createQuery("from PlayerEntity as player order by player.name",
+                        PlayerEntity.class)
                 .getResultList();
     }
 
     @Override
-    public Optional<Player> findByOpenligaid(long openligaid) {
-        TypedQuery<Player> query = getEntityManager()
+    public Optional<PlayerEntity> findByOpenligaid(long openligaid) {
+        TypedQuery<PlayerEntity> query = getEntityManager()
                 .createQuery(
-                        "from Player as player where player.openligaid = :openligaid",
-                        Player.class)
+                        "from PlayerEntity as player where player.openligaid = :openligaid",
+                        PlayerEntity.class)
                 .setParameter("openligaid", openligaid);
         return singleResult(query);
     }
 
     @Override
-    public Optional<Player> findAllGoalsOfPlayer(long id) {
-        TypedQuery<Player> query = getEntityManager()
+    public Optional<PlayerEntity> findAllGoalsOfPlayer(long id) {
+        TypedQuery<PlayerEntity> query = getEntityManager()
                 .createQuery(
-                        "from Player as player left join fetch player.goals where player.id = :id",
-                        Player.class)
+                        "from PlayerEntity as player left join fetch player.goals where player.id = :id",
+                        PlayerEntity.class)
                 .setParameter("id", id);
         return singleResult(query);
     }

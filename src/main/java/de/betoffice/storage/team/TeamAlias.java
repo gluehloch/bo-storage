@@ -34,7 +34,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import de.betoffice.storage.AbstractStorageObject;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Verwaltet die Alias-Namen von Mannschaften.
@@ -58,7 +58,7 @@ public class TeamAlias extends AbstractStorageObject {
 
     @ManyToOne
     @JoinColumn(name = "bo_team_ref")
-    private Team team;
+    private TeamEntity team;
 
     // -- Construction --------------------------------------------------------
 
@@ -132,7 +132,7 @@ public class TeamAlias extends AbstractStorageObject {
      *
      * @return Eine Mannschaft.
      */
-    public Team getTeam() {
+    public TeamEntity getTeam() {
         return team;
     }
 
@@ -142,7 +142,7 @@ public class TeamAlias extends AbstractStorageObject {
      * @param value
      *            Eine Mannschaft.
      */
-    public void setTeam(final Team value) {
+    public void setTeam(final TeamEntity value) {
         team = value;
     }
 

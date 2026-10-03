@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  */
 public class TeamTest {
 
-    private Team team1;
+    private TeamEntity team1;
 
     @Test
     public void testSettings() {
@@ -47,7 +47,7 @@ public class TeamTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        team1 = new Team();
+        team1 = new TeamEntity();
         team1.setName("RWE");
         team1.setLongName("Fussball");
         team1.setLogo("Logo");

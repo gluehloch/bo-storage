@@ -32,8 +32,8 @@ import org.springframework.stereotype.Repository;
 
 import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.GoalDao;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.Goal;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GoalEntity;
 
 /**
  * The default implementation of the {@link GoalDao}.
@@ -41,48 +41,48 @@ import de.betoffice.storage.season.entity.Goal;
  * @author by Andre Winkler
  */
 @Repository("goalDao")
-public class GoalDaoHibernate extends AbstractCommonDao<Goal> implements GoalDao {
+public class GoalDaoHibernate extends AbstractCommonDao<GoalEntity> implements GoalDao {
 
     public GoalDaoHibernate() {
-        super(Goal.class);
+        super(GoalEntity.class);
     }
 
     @Override
-    public List<Goal> findAll() {
+    public List<GoalEntity> findAll() {
         return getEntityManager()
                 .createQuery(
-                        "select goal from Goal goal inner join fetch goal.player order by goal.id",
-                        Goal.class)
+                        "select goal from GoalEntity goal inner join fetch goal.player order by goal.id",
+                        GoalEntity.class)
                 .getResultList();
     }
 
     @Override
-    public Optional<Goal> findByOpenligaid(long openligaid) {
-        TypedQuery<Goal> query = getEntityManager()
+    public Optional<GoalEntity> findByOpenligaid(long openligaid) {
+        TypedQuery<GoalEntity> query = getEntityManager()
                 .createQuery(
-                        "select goal from Goal goal where goal.openligaid = :openligaid",
-                        Goal.class)
+                        "select goal from GoalEntity goal where goal.openligaid = :openligaid",
+                        GoalEntity.class)
                 .setParameter("openligaid", openligaid);
         return singleResult(query);
     }
 
     @Override
-    public List<Goal> find(Game match) {
+    public List<GoalEntity> find(GameEntity match) {
     	return find(match.getId());
     }
 
     @Override
-    public List<Goal> find(long matchId) {
-        List<Goal> goals = getEntityManager()
-                .createQuery("select goal from Goal goal where goal.game.id = :matchId order by goal.minute",
-                        Goal.class)
+    public List<GoalEntity> find(long matchId) {
+        List<GoalEntity> goals = getEntityManager()
+                .createQuery("select goal from GoalEntity goal where goal.game.id = :matchId order by goal.minute",
+                        GoalEntity.class)
                 .setParameter("matchId", matchId)
                 .getResultList();
         return goals;
     }
 
     @Override
-    public void deleteAll(Game game) {
+    public void deleteAll(GameEntity game) {
         getEntityManager().createNativeQuery("DELETE bo_goal g WHERE g.bo_game_ref = :gameId").setParameter("gameId", game.getId());
     }
 

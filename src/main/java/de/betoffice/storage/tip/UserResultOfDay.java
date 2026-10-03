@@ -27,7 +27,7 @@ package de.betoffice.storage.tip;
 import org.apache.commons.lang3.Validate;
 
 import de.betoffice.storage.user.UserResult;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Verwaltet die Tippstatistik eines Teilnehmers für einen Spieltag.
@@ -49,7 +49,7 @@ public class UserResultOfDay {
     private int tipps = 0;
 
     /** Der Tipper. */
-    private User user;
+    private UserEntity user;
 
     /** Was für ein Tipp? */
     private TippStatusType status;
@@ -92,7 +92,7 @@ public class UserResultOfDay {
         return tipps - (win + toto);
     }
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
@@ -115,7 +115,7 @@ public class UserResultOfDay {
         tipps = value;
     }
 
-    public void setUser(User value) {
+    public void setUser(UserEntity value) {
         Validate.notNull(value);
         user = value;
     }

@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
-import de.betoffice.storage.session.entity.Session;
+import de.betoffice.storage.session.entity.SessionEntity;
 
 /**
  * A test for {@link SessionDao}.
@@ -67,7 +67,7 @@ class SessionDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testFindSessionsByNickname() {
-        List<Session> sessions = sessionDao.findByNickname("Frosch");
+        List<SessionEntity> sessions = sessionDao.findByNickname("Frosch");
         assertThat(sessions).hasSize(2);
         assertThat(sessions.get(0).getNickname()).isEqualTo("Frosch");
         assertThat(sessions.get(0).getBrowser()).isEqualTo("firefoy");
@@ -81,7 +81,7 @@ class SessionDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testFindSessionBySessionId() {
-        List<Session> sessions = sessionDao.findBySessionId("4711");
+        List<SessionEntity> sessions = sessionDao.findBySessionId("4711");
         assertThat(sessions.size()).isEqualTo(1);
         assertThat(sessions.get(0).getToken()).isEqualTo("4711");
     }

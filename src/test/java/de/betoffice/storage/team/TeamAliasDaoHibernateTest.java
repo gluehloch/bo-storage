@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.storage.team.dao.TeamAliasDaoHibernate;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Test for class {@link TeamAliasDaoHibernate}.
@@ -66,7 +66,7 @@ public class TeamAliasDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testTeamAliasDaoHibernateFindAliasNames() {
-        Team team = teamDao.findById(3);
+        TeamEntity team = teamDao.findById(3);
         List<TeamAlias> findAliasNames = teamAliasDao
                 .findAliasNames(team);
         assertEquals(2, findAliasNames.size());
@@ -76,7 +76,7 @@ public class TeamAliasDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testTeamAliasDaoHibernateFindByAliasName() {
-        Optional<Team> team = null;
+        Optional<TeamEntity> team = null;
         team = teamAliasDao.findByAliasName("Schalke");
         assertEquals("FC Schalke 04", team.get().getName());
 

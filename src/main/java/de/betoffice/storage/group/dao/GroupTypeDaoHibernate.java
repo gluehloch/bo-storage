@@ -32,9 +32,9 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.storage.group.GroupTypeDao;
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.hibernate.AbstractCommonDao;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonEntity;
 
 /**
  * Klasse für den Zugriff auf <code>Group</code> Objekte mit Hibernate.
@@ -42,12 +42,12 @@ import de.betoffice.storage.season.entity.Season;
  * @author Andre Winkler
  */
 @Repository("groupTypeDao")
-public class GroupTypeDaoHibernate extends AbstractCommonDao<GroupType>
+public class GroupTypeDaoHibernate extends AbstractCommonDao<GroupTypeEntity>
         implements GroupTypeDao {
 
     /** Sucht nach allen <code>GroupType</code>s mit einem bestimmten Namen. */
     private static final String QUERY_GROUPTYPE_BY_NAME = "from "
-            + GroupType.class.getName() + " groupType " + "where "
+            + GroupTypeEntity.class.getName() + " groupType " + "where "
             + "groupType.name = :groupTypeName order by groupType.name";
 
     private static final String QUERY_GROUPTYPES_BY_SEASON = AbstractCommonDao
@@ -56,29 +56,29 @@ public class GroupTypeDaoHibernate extends AbstractCommonDao<GroupType>
     // ------------------------------------------------------------------------
 
     public GroupTypeDaoHibernate() {
-        super(GroupType.class);
+        super(GroupTypeEntity.class);
     }
 
     @Override
-    public List<GroupType> findAll() {
+    public List<GroupTypeEntity> findAll() {
         return getEntityManager()
-                .createQuery("from GroupType order by name", GroupType.class)
+                .createQuery("from GroupTypeEntity order by name", GroupTypeEntity.class)
                 .getResultList();
     }
 
     @Override
-    public Optional<GroupType> findByName(final String name) {
-        TypedQuery<GroupType> query = getEntityManager()
-                .createQuery(QUERY_GROUPTYPE_BY_NAME, GroupType.class)
+    public Optional<GroupTypeEntity> findByName(final String name) {
+        TypedQuery<GroupTypeEntity> query = getEntityManager()
+                .createQuery(QUERY_GROUPTYPE_BY_NAME, GroupTypeEntity.class)
                 .setParameter("groupTypeName", name);
 
         return singleResult(query);
     }
 
     @Override
-    public List<GroupType> findBySeason(final Season season) {
+    public List<GroupTypeEntity> findBySeason(final SeasonEntity season) {
         return getEntityManager()
-                .createQuery(QUERY_GROUPTYPES_BY_SEASON, GroupType.class)
+                .createQuery(QUERY_GROUPTYPES_BY_SEASON, GroupTypeEntity.class)
                 .setParameter("season_id", season.getId()).getResultList();
     }
 

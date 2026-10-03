@@ -27,6 +27,7 @@ package de.betoffice.validation;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import de.betoffice.validation.ValidationMessage.MessageType;
@@ -41,6 +42,11 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
     private final T result;
     private final ValidationMessages validationMessages;
 
+    private DefaultServiceResult() {
+        this.result = null;
+        this.validationMessages = ValidationMessages.empty();
+    }
+
     private DefaultServiceResult(T result) {
         this.result = result;
         this.validationMessages = ValidationMessages.empty();
@@ -48,6 +54,11 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
 
     private DefaultServiceResult(T result, ValidationMessages validationMessages) {
         this.result = result;
+        this.validationMessages = validationMessages;
+    }
+
+    private DefaultServiceResult(ValidationMessages validationMessages) {
+        this.result = null;
         this.validationMessages = validationMessages;
     }
 
@@ -71,7 +82,11 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
         return validationMessages;
     }
 
-    static <T> ServiceResult<T> sucess(T result) {
+    static ServiceResult<Void> success() {
+        return new DefaultServiceResult<Void>((Void) null);
+    }
+
+    static <T> ServiceResult<T> success(T result) {
         return new DefaultServiceResult<T>(result);
     }
 
@@ -85,6 +100,10 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
                     "The validationMessage has severity OK, but you want to create a failure.");
         }
         return new DefaultServiceResult<T>(validationMessage);
+    }
+
+    static <T> ServiceResult<T> failure(final ValidationMessages validationMessages) {
+        return new DefaultServiceResult<T>(validationMessages);
     }
 
     static <T> ServiceResult<T> failure(MessageType errorType) {
@@ -119,7 +138,12 @@ class DefaultServiceResult<T> implements ServiceResult<T> {
 
     @Override
     public boolean isSuccessful() {
-        return this.result != null && !this.containsAnError();
+        return !this.containsAnError();
+    }
+
+    @Override
+    public <R> Optional<R> map(Function<T, R> mapper) {
+        return Optional.ofNullable(result).map(mapper);
     }
 
 }

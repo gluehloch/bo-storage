@@ -26,9 +26,9 @@ package de.betoffice.storage.community;
 
 import java.util.List;
 
-import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.season.SeasonRange;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.user.UserResult;
 
 /**
@@ -45,7 +45,7 @@ public interface CommunityRankingDao {
      * @param seasonRange Season Range.
      * @return Das Ranking der Tipper.
      */
-    List<UserResult> calculateUserRanking(Community community, SeasonRange seasonRange);
+    List<UserResult> calculateUserRanking(CommunityEntity community, SeasonRange seasonRange);
 
     /**
      * Berechnet das Tipper-Ranking für eine Meisterschaft.
@@ -53,7 +53,7 @@ public interface CommunityRankingDao {
      * @param community Die Tipp-Gemeinschaft.
      * @return Das Ranking der Tipper.
      */
-    List<UserResult> calculateUserRanking(Community community);
+    List<UserResult> calculateUserRanking(CommunityEntity community);
 
     /**
      * Berechnet das Tipper-Ranking für einen Spieltag.
@@ -62,6 +62,6 @@ public interface CommunityRankingDao {
      * @param round     Der betreffende Spieltag.
      * @return Das Ranking der Tipper.
      */
-    List<UserResult> calculateUserRanking(Community community, GameList round);
+    List<UserResult> calculateUserRanking(CommunityEntity community, GameListEntity round);
 
 }

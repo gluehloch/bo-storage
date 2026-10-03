@@ -28,10 +28,12 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import de.betoffice.storage.time.DateTimeProvider;
 
+@Configuration
 public class SendReminderMailNotificationConfiguration {
 
     @Bean

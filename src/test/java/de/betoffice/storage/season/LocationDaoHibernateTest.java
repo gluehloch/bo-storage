@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.storage.season.dao.LocationDaoHibernate;
-import de.betoffice.storage.season.entity.Location;
+import de.betoffice.storage.season.entity.LocationEntity;
 
 /**
  * Test for {@link LocationDaoHibernate}.
@@ -60,12 +60,12 @@ public class LocationDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testLocationFinderByOpenligaid() {
-        Optional<Location> essen = locationDao.findByOpenligaid(1L);
+        Optional<LocationEntity> essen = locationDao.findByOpenligaid(1L);
         assertThat(essen.get().getName()).isEqualTo("Stadion Essen");
         assertThat(essen.get().getCity()).isEqualTo("Essen");
         assertThat(essen.get().getGeodat()).isEqualTo("10.10.10.10");
 
-        Optional<Location> bochum = locationDao.findByOpenligaid(2);
+        Optional<LocationEntity> bochum = locationDao.findByOpenligaid(2);
         assertThat(bochum.get().getName()).isEqualTo("Ruhrstadion");
         assertThat(bochum.get().getCity()).isEqualTo("Bochum");
         assertThat(bochum.get().getGeodat()).isEqualTo("20.20.20.20");
@@ -74,22 +74,22 @@ public class LocationDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testLocationFinder() {
-        List<Location> location = locationDao.findAll();
+        List<LocationEntity> location = locationDao.findAll();
         assertThat(location).hasSize(3);
 
-        Location rwe = locationDao.findById(1);
+        LocationEntity rwe = locationDao.findById(1);
         assertThat(rwe.getName()).isEqualTo("Stadion Essen");
         assertThat(rwe.getCity()).isEqualTo("Essen");
         assertThat(rwe.getGeodat()).isEqualTo("10.10.10.10");
         assertThat(rwe.getOpenligaid()).isEqualTo(1L);
 
-        Location bochum = locationDao.findById(2);
+        LocationEntity bochum = locationDao.findById(2);
         assertThat(bochum.getName()).isEqualTo("Ruhrstadion");
         assertThat(bochum.getCity()).isEqualTo("Bochum");
         assertThat(bochum.getGeodat()).isEqualTo("20.20.20.20");
         assertThat(bochum.getOpenligaid()).isEqualTo(2L);
 
-        Location dortmund = locationDao.findById(3);
+        LocationEntity dortmund = locationDao.findById(3);
         assertThat(dortmund.getName()).isEqualTo("Westfalenstadion");
         assertThat(dortmund.getCity()).isEqualTo("Dortmund");
         assertThat(dortmund.getGeodat()).isEqualTo("30.30.30.30");

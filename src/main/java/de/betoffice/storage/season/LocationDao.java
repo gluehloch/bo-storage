@@ -28,21 +28,21 @@ import java.util.List;
 import java.util.Optional;
 
 import de.betoffice.storage.community.CommonDao;
-import de.betoffice.storage.season.entity.Location;
+import de.betoffice.storage.season.entity.LocationEntity;
 
 /**
  * Location DAO.
  *
  * @author by Andre Winkler
  */
-public interface LocationDao extends CommonDao<Location> {
+public interface LocationDao extends CommonDao<LocationEntity> {
 
     /**
      * Returns a list of all football locations.
      *
      * @return A list of all football locations
      */
-    public List<Location> findAll();
+    public List<LocationEntity> findAll();
 
     /**
      * Searches for a location with the supported openliga id
@@ -51,6 +51,6 @@ public interface LocationDao extends CommonDao<Location> {
      *            The openligadb ID
      * @return A location
      */
-    public Optional<Location> findByOpenligaid(long openligaid);
+    public Optional<LocationEntity> findByOpenligaid(long openligaid);
 
 }

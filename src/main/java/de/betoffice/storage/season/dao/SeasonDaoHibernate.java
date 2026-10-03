@@ -37,28 +37,28 @@ import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
 
 import de.betoffice.storage.comparator.TeamPointsComparator;
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.season.SeasonDao;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.team.TeamResult;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
- * Klasse für den Zugriff auf {@link de.betoffice.storage.season.entity.Season}. Zusätzlich liefern die Methoden
- * {@link #calculateTeamRanking(Season, Group)} und {@link #calculateTeamRanking(Season, Group, int, int)} das
- * Tabellenbild zu der Parameterkombination ({@link Season}, {@link Group}).
+ * Klasse für den Zugriff auf {@link de.betoffice.storage.season.entity.SeasonEntity}. Zusätzlich liefern die Methoden
+ * {@link #calculateTeamRanking(SeasonEntity, GroupEntity)} und {@link #calculateTeamRanking(SeasonEntity, GroupEntity, int, int)} das
+ * Tabellenbild zu der Parameterkombination ({@link SeasonEntity}, {@link GroupEntity}).
  *
  * @author by Andre Winkler
  */
 @Repository("seasonDao")
-public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements SeasonDao {
+public class SeasonDaoHibernate extends AbstractCommonDao<SeasonEntity> implements SeasonDao {
 
     /** Sucht nach einer Meisterschaft mit gesuchtem Namen und Jahrgang. */
     private static final String QUERY_SEASON_BY_NAME_AND_YEAR = "select season from "
-            + Season.class.getName() + " as season "
+            + SeasonEntity.class.getName() + " as season "
             + "where season.reference.name = :name and season.reference.year = :year";
 
     private static final String QUERY_TEAM_SEASON_GOALS = AbstractCommonDao
@@ -76,21 +76,21 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
     // ------------------------------------------------------------------------
 
     public SeasonDaoHibernate() {
-        super(Season.class);
+        super(SeasonEntity.class);
     }
 
     @Override
-    public List<Season> findAll() {
-        List<Season> seasons = getEntityManager()
-                .createQuery("select s from Season s order by s.reference.year", Season.class)
+    public List<SeasonEntity> findAll() {
+        List<SeasonEntity> seasons = getEntityManager()
+                .createQuery("select s from SeasonEntity s order by s.reference.year", SeasonEntity.class)
                 .getResultList();
         return seasons;
     }
 
     @Override
-    public Optional<Season> find(final SeasonReference seasonRef) {
-        TypedQuery<Season> query = getEntityManager()
-                .createQuery(QUERY_SEASON_BY_NAME_AND_YEAR, Season.class)
+    public Optional<SeasonEntity> find(final SeasonReference seasonRef) {
+        TypedQuery<SeasonEntity> query = getEntityManager()
+                .createQuery(QUERY_SEASON_BY_NAME_AND_YEAR, SeasonEntity.class)
                 .setParameter("name", seasonRef.getName())
                 .setParameter("year", seasonRef.getYear());
 
@@ -98,12 +98,12 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
     }
 
     @Override
-    public List<TeamResult> calculateTeamRanking(Season season, GroupType groupType) {
-        Map<Team, TeamResult> resultMap = new HashMap<Team, TeamResult>();
+    public List<TeamResult> calculateTeamRanking(SeasonEntity season, GroupTypeEntity groupType) {
+        Map<TeamEntity, TeamResult> resultMap = new HashMap<TeamEntity, TeamResult>();
 
         NativeQuery queryTeamGoals = getEntityManager().unwrap(Session.class)
                 .createNativeQuery(QUERY_TEAM_SEASON_GOALS)
-                .addEntity("team", Team.class)
+                .addEntity("team", TeamEntity.class)
                 .addScalar("diff", org.hibernate.type.StandardBasicTypes.LONG)
                 .addScalar("pos_goals",
                         org.hibernate.type.StandardBasicTypes.LONG)
@@ -115,7 +115,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
         List<?> resultQueryTeamGoals = queryTeamGoals.list();
         for (Object object : resultQueryTeamGoals) {
             Object[] row = (Object[]) object;
-            Team team = (Team) row[0];
+            TeamEntity team = (TeamEntity) row[0];
             // int diff = ((Long) row[1]).intValue();
             int posGoals = ((Long) row[2]).intValue();
             int negGoals = ((Long) row[3]).intValue();
@@ -127,7 +127,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
 
         NativeQuery queryTeamPoints = getEntityManager().unwrap(Session.class)
                 .createNativeQuery(QUERY_TEAM_SEASON_POINTS)
-                .addEntity("team", Team.class)
+                .addEntity("team", TeamEntity.class)
                 .addScalar("win", org.hibernate.type.StandardBasicTypes.LONG)
                 .addScalar("remis", org.hibernate.type.StandardBasicTypes.LONG)
                 .addScalar("lost", org.hibernate.type.StandardBasicTypes.LONG)
@@ -139,7 +139,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
         List<?> resultQueryTeamPoints = queryTeamPoints.getResultList();
         for (Object object : resultQueryTeamPoints) {
             Object[] row = (Object[]) object;
-            Team team = (Team) row[0];
+            TeamEntity team = (TeamEntity) row[0];
             int win = ((Long) row[1]).intValue();
             int remis = ((Long) row[2]).intValue();
             int lost = ((Long) row[3]).intValue();
@@ -163,12 +163,12 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
     }
 
     @Override
-    public List<TeamResult> calculateTeamRanking(Season season, GroupType groupType, int startIndex, int endIndex) {
-        Map<Team, TeamResult> resultMap = new HashMap<Team, TeamResult>();
+    public List<TeamResult> calculateTeamRanking(SeasonEntity season, GroupTypeEntity groupType, int startIndex, int endIndex) {
+        Map<TeamEntity, TeamResult> resultMap = new HashMap<TeamEntity, TeamResult>();
 
         NativeQuery queryTeamGoals = getEntityManager().unwrap(Session.class)
                 .createNativeQuery(QUERY_TEAM_SEASON_RANGE_GOALS)
-                .addEntity("team", Team.class)
+                .addEntity("team", TeamEntity.class)
                 .addScalar("diff", org.hibernate.type.StandardBasicTypes.LONG)
                 .addScalar("pos_goals",
                         org.hibernate.type.StandardBasicTypes.LONG)
@@ -182,7 +182,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
         List<?> resultQueryTeamGoals = queryTeamGoals.getResultList();
         for (Object object : resultQueryTeamGoals) {
             Object[] row = (Object[]) object;
-            Team team = (Team) row[0];
+            TeamEntity team = (TeamEntity) row[0];
             // int diff = ((Long) row[1]).intValue();
             int posGoals = ((Long) row[2]).intValue();
             int negGoals = ((Long) row[3]).intValue();
@@ -194,7 +194,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
 
         NativeQuery queryTeamPoints = getEntityManager().unwrap(Session.class)
                 .createNativeQuery(QUERY_TEAM_SEASON_RANGE_POINTS)
-                .addEntity("team", Team.class)
+                .addEntity("team", TeamEntity.class)
                 .addScalar("win", org.hibernate.type.StandardBasicTypes.LONG)
                 .addScalar("remis", org.hibernate.type.StandardBasicTypes.LONG)
                 .addScalar("lost", org.hibernate.type.StandardBasicTypes.LONG)
@@ -208,7 +208,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
         List<?> resultQueryTeamPoints = queryTeamPoints.getResultList();
         for (Object object : resultQueryTeamPoints) {
             Object[] row = (Object[]) object;
-            Team team = (Team) row[0];
+            TeamEntity team = (TeamEntity) row[0];
             int win = ((Long) row[1]).intValue();
             int remis = ((Long) row[2]).intValue();
             int lost = ((Long) row[3]).intValue();
@@ -232,7 +232,7 @@ public class SeasonDaoHibernate extends AbstractCommonDao<Season> implements Sea
     }
 
     private List<TeamResult> teamResultToList(
-            Map<Team, TeamResult> teamResults) {
+            Map<TeamEntity, TeamResult> teamResults) {
         List<TeamResult> tr = new ArrayList<TeamResult>();
         tr.addAll(teamResults.values());
 
