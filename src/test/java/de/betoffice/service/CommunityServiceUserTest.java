@@ -41,6 +41,7 @@ import de.betoffice.conf.BetofficeTestConfig;
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.mail.NotificationType;
 import de.betoffice.service.request.UserCreateCommand;
+import de.betoffice.service.request.UserUpdateCommand;
 import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.storage.user.entity.UserEntity;
 import de.betoffice.storage.user.entity.UserProfileDto;
@@ -62,9 +63,6 @@ class CommunityServiceUserTest {
 
     @Autowired
     private UserService userService;
-    
-    @Autowired
-    private CommunityService communityService;
 
     private DatabaseSetUpAndTearDown dsuatd;
 
@@ -100,15 +98,15 @@ class CommunityServiceUserTest {
         final ServiceResult<UserProfileDto> serviceResult = userService.create(createUserCommand);
         assertThat(serviceResult.isSuccessful()).isFalse();
         assertThat(serviceResult.messages().containsAnError()).isTrue();
+        assertThat(serviceResult.messages().getMessages().get(0).getMessage()).isEqualTo("Nickname ist nicht gesetzt.");
     }
 
     @Test
     void testUpdateUser() {
         final UserProfileDto frosch = createUser("Frosch", "Andre", "Winkler");
         final UserProfileDto peter = createUser("Peter", "Peter", "Groth");
-
-        userService.updateUser(
-                true,
+        final UserUpdateCommand userUpdateCommand = new UserUpdateCommand(
+                false,
                 Nickname.of(frosch.getNickname()),
                 "Winkler-Update",
                 "Andre-Update",
@@ -116,7 +114,10 @@ class CommunityServiceUserTest {
                 false,
                 frosch.getPhone());
 
-        Optional<UserEntity> userDarkside = userService.findUser(Nickname.of("Darkside"));
+        final ServiceResult<UserProfileDto> update = userService.update(userUpdateCommand);
+        assertThat(update.isSuccessful()).isTrue();
+
+        final Optional<UserEntity> userDarkside = userService.findUser(Nickname.of("Darkside"));
         assertThat(userDarkside).isEmpty();
 
         Optional<UserEntity> anotherFrosch = userService.findUser(Nickname.of(frosch.getNickname()));
@@ -147,8 +148,13 @@ class CommunityServiceUserTest {
     }
 
     private UserProfileDto createUser(String nickname, String surname, String name) {
-        UserCreateCommand createUserCommand = new UserCreateCommand(nickname, surname, name, "another@email.com", null,
-                null);
+        UserCreateCommand createUserCommand = new UserCreateCommand(
+                nickname, 
+                surname, 
+                name, 
+                "another@email.com", 
+                "password",
+                "phone");
         ServiceResult<UserProfileDto> serviceResult = userService.create(createUserCommand);
         return serviceResult.orElseThrow();
     }

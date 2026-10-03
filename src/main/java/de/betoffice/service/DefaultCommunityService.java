@@ -37,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.mail.SendUserProfileChangeMailNotification;
 import de.betoffice.service.request.CommunityCreateCommand;
+import de.betoffice.service.resolver.UserResolver;
 import de.betoffice.storage.community.CommunityDao;
 import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
@@ -63,16 +64,19 @@ import de.betoffice.validation.ValidationMessages.ValidationMessagesBuilder;
 @Transactional(readOnly = true)
 public class DefaultCommunityService extends AbstractManagerService implements CommunityService {
 
+    private final UserResolver userResolver;
     private final CommunityDao communityDao;
     private final UserDao userDao;
     private final SeasonDao seasonDao;
 
     public DefaultCommunityService(
+            final UserResolver userResolver,
             final CommunityDao communityDao,
             final UserDao userDao,
             final SeasonDao seasonDao,
             final SendUserProfileChangeMailNotification sendUserProfileChangeMailNotification,
             final DateTimeProvider dateTimeProvider) {
+        this.userResolver = userResolver;
         this.communityDao = communityDao;
         this.userDao = userDao;
         this.seasonDao = seasonDao;
@@ -216,7 +220,8 @@ public class DefaultCommunityService extends AbstractManagerService implements C
             final CommunityCreateCommand communityCreateCommand) {
 
         final Optional<SeasonEntity> season = resolveSeason(vmb, communityCreateCommand.seasonRef());
-        final Optional<UserEntity> communityManager = resolveUser(vmb, communityCreateCommand.managerNickname());
+        final Optional<UserEntity> communityManager = userResolver.resolveUser(vmb,
+                communityCreateCommand.managerNickname());
 
         if (vmb.containsAnError()) {
             return Optional.empty();
@@ -246,7 +251,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
             final Nickname nickname) {
 
         final Optional<CommunityEntity> community = resolveCommunity(vmb, communityReference);
-        final Optional<UserEntity> user = resolveUser(vmb, nickname);
+        final Optional<UserEntity> user = userResolver.resolveUser(vmb, nickname);
 
         if (vmb.containsAnError()) {
             return Optional.empty();
@@ -262,7 +267,7 @@ public class DefaultCommunityService extends AbstractManagerService implements C
         final Optional<CommunityEntity> community = resolveCommunity(vmb, communityReference);
         final List<UserEntity> users = new ArrayList<>();
 
-        nicknames.forEach(nickname -> resolveUser(vmb, nickname).ifPresent(users::add));
+        nicknames.forEach(nickname -> userResolver.resolveUser(vmb, nickname).ifPresent(users::add));
 
         if (vmb.containsAnError()) {
             return Optional.empty();
@@ -279,17 +284,6 @@ public class DefaultCommunityService extends AbstractManagerService implements C
             vmb.addFormattedMessage(MessageType.COMMUNITY_NOT_FOUND, communityReference);
         }
         return optionalCommunity;
-    }
-
-    private Optional<UserEntity> resolveUser(
-            final ValidationMessagesBuilder vmb,
-            final Nickname nickname) {
-
-        final Optional<UserEntity> optionalUser = userDao.findByNickname(nickname);
-        if (optionalUser.isEmpty()) {
-            vmb.addFormattedMessage(MessageType.USER_NOT_FOUND, nickname);
-        }
-        return optionalUser;
     }
 
     private Optional<SeasonEntity> resolveSeason(

@@ -39,6 +39,8 @@ import org.springframework.transaction.annotation.Transactional;
 import de.betoffice.mail.NotificationType;
 import de.betoffice.mail.SendUserProfileChangeMailNotification;
 import de.betoffice.service.request.UserCreateCommand;
+import de.betoffice.service.request.UserUpdateCommand;
+import de.betoffice.service.resolver.UserResolver;
 import de.betoffice.storage.time.DateTimeProvider;
 import de.betoffice.storage.user.UserDao;
 import de.betoffice.storage.user.entity.Nickname;
@@ -56,14 +58,18 @@ public class DefaultUserService extends AbstractManagerService implements UserSe
 
     private static final Logger LOG = LoggerFactory.make();
 
+    private final UserResolver userResolver;
     private final UserDao userDao;
     private final SendUserProfileChangeMailNotification sendUserProfileChangeMailNotification;
     private final DateTimeProvider dateTimeProvider;
 
     public DefaultUserService(
-            UserDao userDao,
-            SendUserProfileChangeMailNotification sendUserProfileChangeMailNotification,
-            DateTimeProvider dateTimeProvider) {
+            final UserResolver userResolver,
+            final UserDao userDao,
+            final SendUserProfileChangeMailNotification sendUserProfileChangeMailNotification,
+            final DateTimeProvider dateTimeProvider) {
+
+        this.userResolver = userResolver;
         this.userDao = userDao;
         this.sendUserProfileChangeMailNotification = sendUserProfileChangeMailNotification;
         this.dateTimeProvider = dateTimeProvider;
@@ -96,16 +102,31 @@ public class DefaultUserService extends AbstractManagerService implements UserSe
 
     @Override
     @Transactional
-    public ServiceResult<UserProfileDto> create(final UserCreateCommand user) {
+    public ServiceResult<UserProfileDto> create(final UserCreateCommand userCreateCommand) {
         final ValidationMessagesBuilder vmb = new ValidationMessagesBuilder();
-        validateNickname(vmb, user.nickname());
+        validateUserCreateCommand(vmb, userCreateCommand);
 
         if (vmb.containsAnError()) {
             return ServiceResult.failure(vmb.build());
         }
 
-        final UserEntity userEntity = persistUser(user);
+        final UserEntity userEntity = persistUser(userCreateCommand);
         return ServiceResult.success(UserProfileDtoMapper.map(userEntity));
+    }
+
+    @Override
+    @Transactional
+    public ServiceResult<UserProfileDto> update(final UserUpdateCommand userUpdateCommand) {
+        final ValidationMessagesBuilder vmb = new ValidationMessagesBuilder();
+        final Optional<UserEntity> user = userResolver.resolveUser(vmb, userUpdateCommand.nickname());
+        validateUserUpdateCommand(vmb, userUpdateCommand);
+
+        if (vmb.containsAnError()) {
+            return ServiceResult.failure(vmb.build());
+        }
+
+        persistUser(user.orElseThrow(), userUpdateCommand);
+        return ServiceResult.success(UserProfileDtoMapper.map(user.orElseThrow()));
     }
 
     @Override
@@ -114,35 +135,23 @@ public class DefaultUserService extends AbstractManagerService implements UserSe
         userDao.findByNickname(nickname).ifPresent(u -> userDao.delete(u));
     }
 
-    @Override
-    @Transactional
-    public Optional<UserEntity> updateUser(
-            final boolean adminOperation,
-            final Nickname nickname,
-            final String name,
-            final String surname,
-            final String mail,
-            final boolean emailNotification,
-            final String phone) {
-
-        return userDao.findByNickname(nickname).map(u -> {
-            u.setName(name);
-            u.setSurname(surname);
-            u.setPhone(phone);
-            u.setNotification(emailNotification ? NotificationType.TIPP : NotificationType.NONE);
-            if (!adminOperation && hasUserChangedHisMailAddress(u, mail) && u.getChangeSend() < 5) {
-                u.setChangeEmail(mail);
-                u.setChangeToken(UUID.randomUUID().toString());
-                u.setChangeDateTime(dateTimeProvider.currentDateTime());
-                u.setChangeDateTime(dateTimeProvider.currentDateTime());
-                sendUserProfileChangeMailNotification.send(u);
-                u.incrementChangeSend();
-            } else {
-                u.setEmail(mail);
-                u.abortEmailChange();
-            }
-            return u;
-        });
+    private void persistUser(UserEntity user, UserUpdateCommand userUpdateCommand) {
+        user.setName(userUpdateCommand.name());
+        user.setSurname(userUpdateCommand.surname());
+        user.setPhone(userUpdateCommand.phone());
+        user.setNotification(userUpdateCommand.emailNotification() ? NotificationType.TIPP : NotificationType.NONE);
+        if (!userUpdateCommand.adminOperation()
+                && hasUserChangedHisMailAddress(user, userUpdateCommand.mail())
+                && user.getChangeSend() < 5) {
+            user.setChangeEmail(userUpdateCommand.mail());
+            user.setChangeToken(UUID.randomUUID().toString());
+            user.setChangeDateTime(dateTimeProvider.currentDateTime());
+            sendUserProfileChangeMailNotification.send(user);
+            user.incrementChangeSend();
+        } else {
+            user.setEmail(userUpdateCommand.mail());
+            user.abortEmailChange();
+        }
     }
 
     private boolean hasUserChangedHisMailAddress(final UserEntity user, final String newMailAddress) {
@@ -167,7 +176,6 @@ public class DefaultUserService extends AbstractManagerService implements UserSe
                 return ServiceResult.failure(MessageType.EMAIL_CHANGE_DATETIME_IS_IN_THE_FUTURE);
             } else if (now.isBefore(changeDateTimePlusTenMinutes)) {
                 user.acceptEmailChange();
-                return ServiceResult.success(user);
             } else {
                 return ServiceResult.failure(MessageType.EMAIL_CHANGE_DATETIME_EXPIRED);
             }
@@ -176,6 +184,9 @@ public class DefaultUserService extends AbstractManagerService implements UserSe
                     user.getChangeToken());
             throw new IllegalArgumentException("Unable to confirm email change. ChangeTokens are different.");
         }
+
+        // TODO
+        return null;
     }
 
     @Override
@@ -208,18 +219,62 @@ public class DefaultUserService extends AbstractManagerService implements UserSe
         return user;
     }
 
+    private ValidationMessagesBuilder validateUserCreateCommand(final ValidationMessagesBuilder vmb,
+            final UserCreateCommand userCreateCommand) {
+
+        validateNickname(vmb, userCreateCommand.nickname());
+        if (StringUtils.isBlank(userCreateCommand.firstName())) {
+            vmb.addError(MessageType.USER_SURNAME_IS_NOT_SET);
+        }
+        if (StringUtils.isBlank(userCreateCommand.lastName())) {
+            vmb.addError(MessageType.USER_NAME_IS_NOT_SET);
+        }
+        if (StringUtils.isBlank(userCreateCommand.email())) {
+            vmb.addError(MessageType.USER_MAIL_IS_NOT_SET);
+        }
+        if (!isValidEmail(userCreateCommand.email())) {
+            vmb.addError(MessageType.USER_MAIL_IS_NOT_VALID);
+        }
+        return vmb;
+    }
+
+    private ValidationMessagesBuilder validateUserUpdateCommand(final ValidationMessagesBuilder vmb,
+            final UserUpdateCommand userUpdateCommand) {
+
+        if (StringUtils.isBlank(userUpdateCommand.name())) {
+            vmb.addError(MessageType.USER_NAME_IS_NOT_SET);
+        }
+        if (StringUtils.isBlank(userUpdateCommand.surname())) {
+            vmb.addError(MessageType.USER_SURNAME_IS_NOT_SET);
+        }
+        if (StringUtils.isBlank(userUpdateCommand.mail())) {
+            vmb.addError(MessageType.USER_MAIL_IS_NOT_SET);
+        }
+        if (!isValidEmail(userUpdateCommand.mail())) {
+            vmb.addError(MessageType.USER_MAIL_IS_NOT_VALID);
+        }
+        return vmb;
+    }
+
     private ValidationMessagesBuilder validateNickname(final ValidationMessagesBuilder vmb, final String nickname) {
         if (StringUtils.isBlank(nickname)) {
-            vmb.addError(MessageType.NICKNAME_IS_NOT_SET);
+            vmb.addError(MessageType.USER_NICKNAME_IS_NOT_SET);
         } else if (!nickname.equals(StringUtils.trim(nickname))) {
-            vmb.addFormattedMessage(MessageType.NICKNAME_CONTAINS_WHITESPACES_AT_THE_BEGINNING_OR_END);
+            vmb.addFormattedMessage(MessageType.USER_NICKNAME_CONTAINS_WHITESPACES_AT_THE_BEGINNING_OR_END);
         } else {
             final List<UserEntity> lowerCaseNickname = userDao.findLowerCaseNickname(nickname);
             if (!lowerCaseNickname.isEmpty()) {
-                vmb.addFormattedMessage(MessageType.NICKNAME_ALREADY_EXISTS, nickname);
+                vmb.addFormattedMessage(MessageType.USER_NICKNAME_ALREADY_EXISTS, nickname);
             }
         }
         return vmb;
+    }
+
+    private boolean isValidEmail(String email) {
+        return email != null && email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+    }
+
+    private record UpdateUserResolved(UserUpdateCommand userUpdateCommand, UserEntity user) {
     }
 
 }

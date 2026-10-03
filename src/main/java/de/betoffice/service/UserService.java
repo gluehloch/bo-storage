@@ -30,6 +30,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import de.betoffice.service.request.UserCreateCommand;
+import de.betoffice.service.request.UserUpdateCommand;
 import de.betoffice.storage.user.entity.Nickname;
 import de.betoffice.storage.user.entity.UserEntity;
 import de.betoffice.storage.user.entity.UserProfileDto;
@@ -81,16 +82,9 @@ public interface UserService {
      *
      * TODO: Dafür benöitge ich eine seperate Methode. Oder erst gar nicht anbieten!
      *
-     * @param adminOperation    Administrator Aktion? Dieser kann die Mail-Adresse beliebig ändern.
-     * @param nickname          Nutzerkürzel
-     * @param name              Name
-     * @param surname           Vorname
-     * @param mail              Mail Adresse
-     * @param emailNotification Email Benachrichtigung einschalten?
-     * @param phone             Telefonnummer
+     * @param userUpdateCommand Die neuen Daten eines Teilnehmers.
      */
-    Optional<UserEntity> updateUser(boolean adminOperation, Nickname nickname, String name, String surname, String mail,
-            boolean emailNotification, String phone);
+    ServiceResult<UserProfileDto> update(UserUpdateCommand userUpdateCommand);
 
     /**
      * Bestätigt die Änderung der Mail Adresse.

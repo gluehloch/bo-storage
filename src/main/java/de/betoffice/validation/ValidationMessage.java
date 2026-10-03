@@ -56,10 +56,13 @@ public class ValidationMessage {
         EMAIL_CHANGE_DATETIME_EXPIRED("Die Bestätigungslink für die Änderung der Email-Adresse ist nicht mehr gültig."),
 
         USER_NOT_FOUND("Der Nutzer %s ist nicht bekannt."),
-        NICKNAME_IS_NOT_SET("Nickname ist nicht gesetzt."),
-        NICKNAME_ALREADY_EXISTS("Nickname %s wird bereits verwendet."),
-        NICKNAME_CONTAINS_WHITESPACES_AT_THE_BEGINNING_OR_END("Nickname darf keine Leerzeichen am Anfang oder Ende enthalten."),
-        MAIL_IS_NOT_SET("Email-Adresse ist nicht gesetzt."),
+        USER_NICKNAME_IS_NOT_SET("Nickname ist nicht gesetzt."),
+        USER_NICKNAME_ALREADY_EXISTS("Nickname %s wird bereits verwendet."),
+        USER_NICKNAME_CONTAINS_WHITESPACES_AT_THE_BEGINNING_OR_END("Nickname darf keine Leerzeichen am Anfang oder Ende enthalten."),
+        USER_MAIL_IS_NOT_SET("Email-Adresse ist nicht gesetzt."),
+        USER_MAIL_IS_NOT_VALID("Email-Adresse ist nicht gültig."),
+        USER_NAME_IS_NOT_SET("Name ist nicht gesetzt."),
+        USER_SURNAME_IS_NOT_SET("Vorname ist nicht gesetzt."),
 
         GROUP_TYPE_NAME_IS_NOT_SET("Gruppentyp Name ist nicht gesetzt."),
         TEAM_NAME_IS_NOT_SET("Mannschaftsname ist nicht gesetzt."),

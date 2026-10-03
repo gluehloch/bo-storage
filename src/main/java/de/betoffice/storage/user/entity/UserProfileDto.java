@@ -23,13 +23,11 @@
 
 package de.betoffice.storage.user.entity;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserProfileDto implements Serializable {
+public class UserProfileDto {
 
     private String nickname;
     private String name;
