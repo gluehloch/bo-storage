@@ -140,6 +140,9 @@ public class DefaultUserService extends AbstractManagerService implements UserSe
         user.setSurname(userUpdateCommand.surname());
         user.setPhone(userUpdateCommand.phone());
         user.setNotification(userUpdateCommand.emailNotification() ? NotificationType.TIPP : NotificationType.NONE);
+        // Fachliche Anforderung:
+        // - Änderungen an der Mail Adresse werden ohne Mail-Bestätigung übernommen, wenn diese vom Administrator durchgeführt werden.
+        // - Ansonsten wird eine Mail-Bestätigung versendet.
         if (!userUpdateCommand.adminOperation()
                 && hasUserChangedHisMailAddress(user, userUpdateCommand.mail())
                 && user.getChangeSend() < 5) {
