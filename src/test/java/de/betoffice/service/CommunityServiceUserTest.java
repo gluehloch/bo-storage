@@ -125,6 +125,8 @@ class CommunityServiceUserTest {
             assertThat(u.getNickname().value()).isEqualTo(frosch.getNickname());
             assertThat(u.getSurname()).isEqualTo("Andre-Update");
             assertThat(u.getName()).isEqualTo("Winkler-Update");
+            assertThat(u.getEmail()).isEqualTo(frosch.getMail());
+            assertThat(u.getPhone()).isEqualTo(frosch.getPhone());
             assertThat(u.getNotification()).isEqualTo(NotificationType.NONE);
             assertThat(u).isNotEqualTo(peter);
         });

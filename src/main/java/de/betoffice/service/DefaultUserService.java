@@ -277,7 +277,4 @@ public class DefaultUserService extends AbstractManagerService implements UserSe
         return email != null && email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     }
 
-    private record UpdateUserResolved(UserUpdateCommand userUpdateCommand, UserEntity user) {
-    }
-
 }
