@@ -70,12 +70,14 @@ public class UserDaoHibernate extends AbstractCommonDao<UserEntity> implements U
 
     @Override
     public List<UserEntity> findAll() {
-        return getEntityManager().createQuery("from UserEntity u", UserEntity.class).getResultList();
+        return getEntityManager().createQuery("from UserEntity u order by u.nickname", UserEntity.class)
+                .getResultList();
     }
 
     @Override
     public List<UserEntity> findLowerCaseNickname(String nickname) {
-        return getEntityManager().createQuery("from UserEntity u where LOWER(u.nickname) = LOWER(:nickname)", UserEntity.class)
+        return getEntityManager()
+                .createQuery("from UserEntity u where LOWER(u.nickname) = LOWER(:nickname)", UserEntity.class)
                 .setParameter("nickname", nickname)
                 .getResultList();
     }
