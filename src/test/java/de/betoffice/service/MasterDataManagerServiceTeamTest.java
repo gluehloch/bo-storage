@@ -45,11 +45,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.database.data.DatabaseTestData.DataLoader;
 import de.betoffice.storage.team.TeamType;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 import de.betoffice.validation.ValidationException;
 
 /**
- * Test CRUD operations on storage object {@link Team}.
+ * Test CRUD operations on storage object {@link TeamEntity}.
  * 
  * TODO: It would be interesting to test a more complex scenario. A user with
  * tips and other related informations. Does MySQL allow delete statements here?
@@ -90,7 +90,7 @@ public class MasterDataManagerServiceTeamTest extends AbstractServiceTest{
         createTeam("RWE", "Rot-Weiss-Essen");
         createTeam("RWO", "Rot-Weiss-Oberhausen");
 
-        List<Team> teams = masterDataManagerService.findAllTeams();
+        List<TeamEntity> teams = masterDataManagerService.findAllTeams();
 
         assertThat(teams.size()).isEqualTo(2);
         assertThat(teams.get(0).getName()).isEqualTo("RWE");
@@ -99,7 +99,7 @@ public class MasterDataManagerServiceTeamTest extends AbstractServiceTest{
 
     @Test
     public void testCreateInvalidTeam() {
-        Team invalidTeam = new Team();
+        TeamEntity invalidTeam = new TeamEntity();
         ValidationException  ex = assertThrows(ValidationException.class, () -> {
             masterDataManagerService.createTeam(invalidTeam);
         });
@@ -108,27 +108,27 @@ public class MasterDataManagerServiceTeamTest extends AbstractServiceTest{
 
     @Test
     public void testUpdateTeam() {
-        Team rwe = createTeam("RWE", "Rot-Weiss-Essen");
+        TeamEntity rwe = createTeam("RWE", "Rot-Weiss-Essen");
         createTeam("RWO", "Rot-Weiss-Oberhausen");
 
         rwe.setName("RWE_2010");
         masterDataManagerService.updateTeam(rwe);
 
-        Optional<Team> rwe_2010 = masterDataManagerService.findTeam("RWE_2010");
+        Optional<TeamEntity> rwe_2010 = masterDataManagerService.findTeam("RWE_2010");
         assertThat(rwe_2010).isNotNull();
         assertThat(rwe_2010.get().getName()).isEqualTo("RWE_2010");
     }
 
     @Test
     public void testUpdateTeamType() {
-        Team rwe = createTeam("RWE", "Rot-Weiss-Essen");
+        TeamEntity rwe = createTeam("RWE", "Rot-Weiss-Essen");
         createTeam("RWO", "Rot-Weiss-Oberhausen");
 
         rwe.setName("RWE_2010");
         rwe.setTeamType(TeamType.FIFA);
         masterDataManagerService.updateTeam(rwe);
 
-        Optional<Team> rwe_2010 = masterDataManagerService.findTeam("RWE_2010");
+        Optional<TeamEntity> rwe_2010 = masterDataManagerService.findTeam("RWE_2010");
         assertThat(rwe_2010).isNotNull();
         assertThat(rwe_2010.get().getName()).isEqualTo("RWE_2010");
         assertThat(rwe_2010.get().getTeamType()).isEqualTo(TeamType.FIFA);
@@ -136,11 +136,11 @@ public class MasterDataManagerServiceTeamTest extends AbstractServiceTest{
 
     @Test
     public void testDeleteTeam() {
-        Team rwe = createTeam("RWE", "Rot-Weiss-Essen");
-        Team rwo = createTeam("RWO", "Rot-Weiss-Oberhausen");
+        TeamEntity rwe = createTeam("RWE", "Rot-Weiss-Essen");
+        TeamEntity rwo = createTeam("RWO", "Rot-Weiss-Oberhausen");
 
         masterDataManagerService.deleteTeam(rwe);
-        List<Team> teams = masterDataManagerService.findAllTeams();
+        List<TeamEntity> teams = masterDataManagerService.findAllTeams();
 
         assertThat(teams.size()).isEqualTo(1);
         assertThat(teams.get(0).getName()).isEqualTo("RWO");
@@ -154,17 +154,17 @@ public class MasterDataManagerServiceTeamTest extends AbstractServiceTest{
 
     @Test
     public void testFindTeamByTeamType() {
-        Team rwe = createTeam("RWE", "Rot-Weiss-Essen");
-        Team rwo = createTeam("RWO", "Rot-Weiss-Oberhausen");
+        TeamEntity rwe = createTeam("RWE", "Rot-Weiss-Essen");
+        TeamEntity rwo = createTeam("RWO", "Rot-Weiss-Oberhausen");
 
-        List<Team> teams = masterDataManagerService.findTeams(TeamType.DFB);
+        List<TeamEntity> teams = masterDataManagerService.findTeams(TeamType.DFB);
         assertThat(teams).hasSize(2);
         assertThat(teams.get(0)).isEqualTo(rwe);
         assertThat(teams.get(1)).isEqualTo(rwo);
     }
 
-    private Team createTeam(final String name, final String longname) {
-        Team team = new Team();
+    private TeamEntity createTeam(final String name, final String longname) {
+        TeamEntity team = new TeamEntity();
         team.setName(name);
         team.setLongName(longname);
         team.setTeamType(TeamType.DFB);

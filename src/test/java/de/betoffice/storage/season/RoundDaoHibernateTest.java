@@ -42,11 +42,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.storage.group.GroupTypeDao;
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.dao.RoundDaoHibernate;
-import de.betoffice.storage.season.entity.GameList;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.GameListEntity;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.test.DateTimeDummyProducer;
 
 /**
@@ -85,8 +85,8 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testRoundInde() {
-        Season season = seasonDao.findById(SEASON_ID);
-        List<GameList> rounds = roundDao.findRounds(season);
+        SeasonEntity season = seasonDao.findById(SEASON_ID);
+        List<GameListEntity> rounds = roundDao.findRounds(season);
         assertThat(rounds).hasSize(5);
         assertThat(rounds.get(0).getIndex()).isEqualTo(0);
         assertThat(rounds.get(1).getIndex()).isEqualTo(1);
@@ -97,16 +97,16 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testCreateRound() {
-        Season season = seasonDao.findById(1);
+        SeasonEntity season = seasonDao.findById(1);
         // season = seasonDao.findRoundGroupTeamUser(season);
 
         final ZonedDateTime now = DateTimeDummyProducer.DATE_2002_01_01;
 
-        final GameList newRound = new GameList();
+        final GameListEntity newRound = new GameListEntity();
         newRound.setDateTime(now);
 
-        GroupType liga1 = groupTypeDao.findByName("1. Liga").orElseThrow();
-        Group liga1_1000 = groupDao.findBySeasonAndGroupType(season, liga1);
+        GroupTypeEntity liga1 = groupTypeDao.findByName("1. Liga").orElseThrow();
+        GroupEntity liga1_1000 = groupDao.findBySeasonAndGroupType(season, liga1);
 
         newRound.setGroup(liga1_1000);
         season.addGameList(newRound);
@@ -360,16 +360,16 @@ public class RoundDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     public void testFindLastRound() {
-        Season season = seasonDao.findById(1l);
-        Optional<GameList> lastRound = roundDao.findLastRound(season);
+        SeasonEntity season = seasonDao.findById(1l);
+        Optional<GameListEntity> lastRound = roundDao.findLastRound(season);
         assertThat(lastRound).isPresent();
         assertThat(lastRound.get().getId()).isEqualTo(5L);
     }
 
     @Test
     public void testFindFirstRound() {
-        Season season = seasonDao.findById(1l);
-        Optional<GameList> firstRound = roundDao.findFirstRound(season);
+        SeasonEntity season = seasonDao.findById(1l);
+        Optional<GameListEntity> firstRound = roundDao.findFirstRound(season);
         assertThat(firstRound).isPresent();
         assertThat(firstRound.get().getId()).isEqualTo(SEASON_ID);
     }

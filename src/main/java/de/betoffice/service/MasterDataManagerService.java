@@ -26,13 +26,13 @@ package de.betoffice.service;
 import java.util.List;
 import java.util.Optional;
 
-import de.betoffice.storage.group.entity.GroupType;
-import de.betoffice.storage.season.entity.Location;
-import de.betoffice.storage.season.entity.Player;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
+import de.betoffice.storage.season.entity.LocationEntity;
+import de.betoffice.storage.season.entity.PlayerEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.team.TeamAlias;
 import de.betoffice.storage.team.TeamType;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Verwaltet die Stammdaten von betoffice: Meisterschaft, Teilnehmer, Mannschaften und Ligen.
@@ -46,14 +46,14 @@ public interface MasterDataManagerService {
      * 
      * @param season Die Meisterschaft
      */
-    public void createSeason(Season season);
+    public void createSeason(SeasonEntity season);
 
     /**
      * Aktualisiert eine Meisterschaft.
      * 
      * @param season Die Meisterschaft
      */
-    public void updateSeason(Season season);
+    public void updateSeason(SeasonEntity season);
 
     // ------------------------------------------------------------------------
 
@@ -62,28 +62,28 @@ public interface MasterDataManagerService {
      *
      * @param team Die Mannschaft.
      */
-    public void createTeam(Team team);
+    public void createTeam(TeamEntity team);
 
     /**
      * Löschen einer Mannschaft. Eine Mannschaft kann nur gelöscht werden, wenn sie keiner Meisterschaft zugeordnet ist.
      *
      * @param team Die Mannschaft.
      */
-    public void deleteTeam(Team team);
+    public void deleteTeam(TeamEntity team);
 
     /**
      * Aktualisierung der Daten einer Mannschaft.
      *
      * @param team Die Mannschaft.
      */
-    public void updateTeam(Team team);
+    public void updateTeam(TeamEntity team);
 
     /**
      * Liefert alle bekannten Mannschaften.
      *
      * @return Die bekannten Mannschaften.
      */
-    public List<Team> findAllTeams();
+    public List<TeamEntity> findAllTeams();
 
     /**
      * Liefert eine Liste aller Mannschaften, die dem gesuchten {@link TeamType} entsprechen.
@@ -91,7 +91,7 @@ public interface MasterDataManagerService {
      * @param  teamType Der gesuchte {@link TeamType}.
      * @return          Eine Liste mit Mannschaften.
      */
-    public List<Team> findTeams(TeamType teamType);
+    public List<TeamEntity> findTeams(TeamType teamType);
 
     /**
      * Liefert einer Liste aller Mannschaften, die den gesuchten Parametern entsprechen.
@@ -100,7 +100,7 @@ public interface MasterDataManagerService {
      * @param  filter   Der Filter (name, long-name, short-name, logo, ...)
      * @return          Liste mit Mannschaften die den übergebenen Eigenschaften entsprechen
      */
-    public List<Team> findTeams(Optional<TeamType> teamType, String filter);
+    public List<TeamEntity> findTeams(Optional<TeamType> teamType, String filter);
 
     /**
      * Liefert alle Alias Namen zu einer Mannschaft.
@@ -108,7 +108,7 @@ public interface MasterDataManagerService {
      * @param  team Die gesuchte Mannschaft.
      * @return      Die Alias Namen der Mannschaft.
      */
-    public List<TeamAlias> findAllTeamAlias(Team team);
+    public List<TeamAlias> findAllTeamAlias(TeamEntity team);
 
     /**
      * Sucht nach eine Mannschaft.
@@ -116,7 +116,7 @@ public interface MasterDataManagerService {
      * @param  name Der Name der Mannschaft.
      * @return      Die Mannschaft
      */
-    public Optional<Team> findTeam(String name);
+    public Optional<TeamEntity> findTeam(String name);
 
     /**
      * Sucht eine Mannschaft anhand seines Alias Namen.
@@ -124,7 +124,7 @@ public interface MasterDataManagerService {
      * @param  aliasName Der Aliasname der Mannschaft.
      * @return           Die gesuchte Mannschaft.
      */
-    public Optional<Team> findTeamByAlias(String aliasName);
+    public Optional<TeamEntity> findTeamByAlias(String aliasName);
 
     /**
      * Liefert die Mannschaft zu einer ID.
@@ -132,7 +132,7 @@ public interface MasterDataManagerService {
      * @param  id Die ID der gesuchten Mannschaft.
      * @return    Die gesuchte Mannschaft.
      */
-    public Team findTeamById(long id);
+    public TeamEntity findTeamById(long id);
 
     /**
      * Liefert eine Mannschaft anhand der openliga id.
@@ -140,7 +140,7 @@ public interface MasterDataManagerService {
      * @param  id Openligadb ID
      * @return    Die gesuchte Mannschaft
      */
-    public Optional<Team> findTeamByOpenligaid(long id);
+    public Optional<TeamEntity> findTeamByOpenligaid(long id);
 
     /**
      * Erstellt einen neuen Team Alias Namen.
@@ -149,7 +149,7 @@ public interface MasterDataManagerService {
      * @param  teamAliasName Der neue Alias Name für die Mannschaft.
      * @return               Das TeamAlias.
      */
-    public TeamAlias createTeamAlias(Team team, String teamAliasName);
+    public TeamAlias createTeamAlias(TeamEntity team, String teamAliasName);
 
     /**
      * Entfernt einen Alias Namen.
@@ -172,28 +172,28 @@ public interface MasterDataManagerService {
      *
      * @param groupType Eine Gruppe.
      */
-    public void createGroupType(GroupType groupType);
+    public void createGroupType(GroupTypeEntity groupType);
 
     /**
      * Löscht einen Gruppentyp. Eine Gruppe kann nur gelöscht werden, wenn diese keiner Meisterschaft zugeordnet ist.
      *
      * @param groupType Eine Gruppe.
      */
-    public void deleteGroupType(GroupType groupType);
+    public void deleteGroupType(GroupTypeEntity groupType);
 
     /**
      * Aktualisierung für eine Gruppe.
      *
      * @param groupType Eine Gruppe.
      */
-    public void updateGroupType(GroupType groupType);
+    public void updateGroupType(GroupTypeEntity groupType);
 
     /**
      * Liefert alle bekannten Gruppentypen.
      *
      * @return Alle Gruppentypen.
      */
-    public List<GroupType> findAllGroupTypes();
+    public List<GroupTypeEntity> findAllGroupTypes();
 
     /**
      * Liefert einen bestimmten Gruppentyp.
@@ -201,7 +201,7 @@ public interface MasterDataManagerService {
      * @param  name Der Name der gesuchten Gruppe.
      * @return      Die gesuchte Gruppe.
      */
-    public Optional<GroupType> findGroupType(String name);
+    public Optional<GroupTypeEntity> findGroupType(String name);
 
     /**
      * Liefert einen bestimmten Gruppentyp
@@ -209,7 +209,7 @@ public interface MasterDataManagerService {
      * @param  groupTypeId Die ID der gesuchten Gruppe
      * @return             Der entsprechende Gruppentyp
      */
-    public GroupType findGroupType(long groupTypeId);
+    public GroupTypeEntity findGroupType(long groupTypeId);
 
     // ------------------------------------------------------------------------
 
@@ -218,28 +218,28 @@ public interface MasterDataManagerService {
      * 
      * @param location Eine Spielstaette.
      */
-    public void createLocation(Location location);
+    public void createLocation(LocationEntity location);
 
     /**
      * Loescht eine Spielstaette.
      * 
      * @param location Die zu loeschende Spielstaette.
      */
-    public void deleteLocation(Location location);
+    public void deleteLocation(LocationEntity location);
 
     /**
      * Aendern einer Spielstaette.
      * 
      * @param location Die zu aendernde Spielstaette
      */
-    public void updateLocation(Location location);
+    public void updateLocation(LocationEntity location);
 
     /**
      * Liefert alle Spielstaetten.
      * 
      * @return Eine Spielstaette
      */
-    public List<Location> findAllLocations();
+    public List<LocationEntity> findAllLocations();
 
     /**
      * Findet eine Spielstaette.
@@ -247,7 +247,7 @@ public interface MasterDataManagerService {
      * @param  id Die ID der Spielstaette
      * @return    Eine Spielstaette
      */
-    public Location findLocation(long id);
+    public LocationEntity findLocation(long id);
 
     /**
      * Findet eine Spielstaette anhand der 'openligadbid'
@@ -255,7 +255,7 @@ public interface MasterDataManagerService {
      * @param  openligaid Die openligadb ID
      * @return            Eine Spielstaette
      */
-    public Optional<Location> findLocationByOpenligaid(long openligaid);
+    public Optional<LocationEntity> findLocationByOpenligaid(long openligaid);
 
     // -- player --------------------------------------------------------------
 
@@ -264,28 +264,28 @@ public interface MasterDataManagerService {
      * 
      * @param player Ein Spieler
      */
-    public void createPlayer(Player player);
+    public void createPlayer(PlayerEntity player);
 
     /**
      * Loescht einen Spieler
      * 
      * @param player Ein Spieler
      */
-    public void deletePlayer(Player player);
+    public void deletePlayer(PlayerEntity player);
 
     /**
      * Aendert einen Spieler.
      * 
      * @param player Ein Spieler
      */
-    public void updatePlayer(Player player);
+    public void updatePlayer(PlayerEntity player);
 
     /**
      * Liefert eine Liste aller Spieler.
      * 
      * @return Eine Lister aller Spieler
      */
-    public List<Player> findAllPlayers();
+    public List<PlayerEntity> findAllPlayers();
 
     /**
      * Liefert einen Spieler
@@ -293,7 +293,7 @@ public interface MasterDataManagerService {
      * @param  id Die ID des Spielers
      * @return    Ein Spieler oder <code>null</code>
      */
-    public Player findPlayer(long id);
+    public PlayerEntity findPlayer(long id);
 
     /**
      * Liefert einen Spieler anhand der openligadb ID
@@ -301,6 +301,6 @@ public interface MasterDataManagerService {
      * @param  openligaid Die openligadb ID
      * @return            Ein Spieler
      */
-    public Optional<Player> findPlayerByOpenligaid(long openligaid);
+    public Optional<PlayerEntity> findPlayerByOpenligaid(long openligaid);
 
 }

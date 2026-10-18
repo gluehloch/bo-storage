@@ -27,7 +27,7 @@ import java.util.List;
 
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonRange;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.user.UserResult;
 
 /**
@@ -52,7 +52,7 @@ public interface CommunityCalculatorService {
      * @param  round     Der betreffende Spieltag.
      * @return           Das Ranking der Tipper.
      */
-    List<UserResult> calculateRanking(CommunityReference community, GameList round);
+    List<UserResult> calculateRanking(CommunityReference community, GameListEntity round);
 
     /**
      * Berechnet das Tipper-Ranking für einen Spieltag.

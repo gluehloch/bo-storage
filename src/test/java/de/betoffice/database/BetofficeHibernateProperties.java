@@ -30,16 +30,16 @@ import java.util.Properties;
 import org.hibernate.cfg.Configuration;
 
 import de.betoffice.database.hibernate.HibernateProperties;
-import de.betoffice.storage.group.entity.GroupType;
-import de.betoffice.storage.season.entity.Game;
-import de.betoffice.storage.season.entity.GameList;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
-import de.betoffice.storage.session.entity.Session;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
+import de.betoffice.storage.season.entity.GameEntity;
+import de.betoffice.storage.season.entity.GameListEntity;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
+import de.betoffice.storage.session.entity.SessionEntity;
 import de.betoffice.storage.team.TeamAlias;
-import de.betoffice.storage.team.entity.Team;
-import de.betoffice.storage.tip.GameTipp;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.team.entity.TeamEntity;
+import de.betoffice.storage.tip.GameTippEntity;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Definiert die Konstanten für die <code>hibernate.properties</code> Datei.
@@ -65,16 +65,16 @@ public class BetofficeHibernateProperties extends HibernateProperties {
      */
     public Configuration createConfiguration() {
         List<Class<?>> classes = new ArrayList<Class<?>>();
-        classes.add(Game.class);
-        classes.add(GameList.class);
-        classes.add(GameTipp.class);
-        classes.add(Group.class);
-        classes.add(GroupType.class);
-        classes.add(Season.class);
-        classes.add(Team.class);
+        classes.add(GameEntity.class);
+        classes.add(GameListEntity.class);
+        classes.add(GameTippEntity.class);
+        classes.add(GroupEntity.class);
+        classes.add(GroupTypeEntity.class);
+        classes.add(SeasonEntity.class);
+        classes.add(TeamEntity.class);
         classes.add(TeamAlias.class);
-        classes.add(User.class);
-        classes.add(Session.class);
+        classes.add(UserEntity.class);
+        classes.add(SessionEntity.class);
         return super.createConfiguration(classes);
     }
 

@@ -29,7 +29,7 @@ import org.springframework.stereotype.Repository;
 
 import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.session.SessionDao;
-import de.betoffice.storage.session.entity.Session;
+import de.betoffice.storage.session.entity.SessionEntity;
 
 /**
  * DAO for BO_SESSION
@@ -37,10 +37,10 @@ import de.betoffice.storage.session.entity.Session;
  * @author by Andre Winkler
  */
 @Repository("sessionDao")
-public class SessionDaoHibernate extends AbstractCommonDao<Session> implements SessionDao {
+public class SessionDaoHibernate extends AbstractCommonDao<SessionEntity> implements SessionDao {
 
     SessionDaoHibernate() {
-        super(Session.class);
+        super(SessionEntity.class);
     }
 
     /*
@@ -50,10 +50,10 @@ public class SessionDaoHibernate extends AbstractCommonDao<Session> implements S
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<Session> findByNickname(String nickname) {
+    public List<SessionEntity> findByNickname(String nickname) {
         return getEntityManager()
                 .createQuery(
-                        "from Session as session where session.nickname = :nickname order by session.login desc")
+                        "from SessionEntity as session where session.nickname = :nickname order by session.login desc")
                 .setParameter("nickname", nickname).getResultList();
     }
 
@@ -65,11 +65,11 @@ public class SessionDaoHibernate extends AbstractCommonDao<Session> implements S
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<Session> findBySessionId(String sessionId) {
+    public List<SessionEntity> findBySessionId(String sessionId) {
         return getEntityManager()
                 .createQuery("""
                         from
-                            Session as session
+                            SessionEntity as session
                             left join fetch session.user
                         where
                             session.token = :sessionId

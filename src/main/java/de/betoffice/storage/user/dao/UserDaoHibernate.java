@@ -38,7 +38,7 @@ import org.springframework.stereotype.Repository;
 import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.user.UserDao;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Klasse für den Zugriff auf <code>User</code> Objekte mit Hibernate.
@@ -46,12 +46,12 @@ import de.betoffice.storage.user.entity.User;
  * @author Andre Winkler
  */
 @Repository("userDao")
-public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao {
+public class UserDaoHibernate extends AbstractCommonDao<UserEntity> implements UserDao {
 
     /** Sucht nach allen Usern mit einem bestimmten Nick-Namen. */
     private static final String QUERY_USER_BY_NICKNAME = """
             from
-                User as user
+                UserEntity as user
             where
                 user.nickname = :nickname
             """;
@@ -59,38 +59,38 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
     // ------------------------------------------------------------------------
 
     public UserDaoHibernate() {
-        super(User.class);
+        super(UserEntity.class);
     }
 
     private long countAll() {
         return getEntityManager()
-                .createQuery("select count(*) from Community c", Long.class)
+                .createQuery("select count(*) from CommunityEntity c", Long.class)
                 .getSingleResult();
     }
 
     @Override
-    public List<User> findAll() {
-        return getEntityManager().createQuery("from User u", User.class).getResultList();
+    public List<UserEntity> findAll() {
+        return getEntityManager().createQuery("from UserEntity u", UserEntity.class).getResultList();
     }
 
     @Override
-    public List<User> findLowerCaseNickname(String nickname) {
-        return getEntityManager().createQuery("from User u where LOWER(u.nickname) = LOWER(:nickname)", User.class)
+    public List<UserEntity> findLowerCaseNickname(String nickname) {
+        return getEntityManager().createQuery("from UserEntity u where LOWER(u.nickname) = LOWER(:nickname)", UserEntity.class)
                 .setParameter("nickname", nickname)
                 .getResultList();
     }
 
     @Override
-    public Page<User> findAll(String nicknameFilter, Pageable pageable) {
+    public Page<UserEntity> findAll(String nicknameFilter, Pageable pageable) {
         long total = countAll();
         String filter = new StringBuilder("%").append(nicknameFilter).append("%").toString();
 
-        List<User> users;
+        List<UserEntity> users;
         if (pageable.isPaged()) {
             users = getEntityManager().unwrap(Session.class)
                     .createQuery(
-                            "from User u where LOWER(u.nickname) like LOWER(:filter)",
-                            User.class)
+                            "from UserEntity u where LOWER(u.nickname) like LOWER(:filter)",
+                            UserEntity.class)
                     .setParameter("filter", filter)
                     .setFirstResult((int) pageable.getOffset())
                     .setMaxResults(pageable.getPageSize())
@@ -98,8 +98,8 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
         } else {
             users = getEntityManager().unwrap(Session.class)
                     .createQuery(
-                            "from User u where LOWER(u.nickname) like LOWER(:filter)",
-                            User.class)
+                            "from UserEntity u where LOWER(u.nickname) like LOWER(:filter)",
+                            UserEntity.class)
                     .setParameter("filter", filter)
                     .getResultList();
         }
@@ -108,17 +108,17 @@ public class UserDaoHibernate extends AbstractCommonDao<User> implements UserDao
     }
 
     @Override
-    public Optional<User> findByNickname(final Nickname nickname) {
-        TypedQuery<User> user = getEntityManager()
-                .createQuery(QUERY_USER_BY_NICKNAME, User.class)
+    public Optional<UserEntity> findByNickname(final Nickname nickname) {
+        TypedQuery<UserEntity> user = getEntityManager()
+                .createQuery(QUERY_USER_BY_NICKNAME, UserEntity.class)
                 .setParameter("nickname", nickname);
         return singleResult(user);
     }
 
     @Override
-    public Optional<User> findByChangeToken(String changeToken) {
-        TypedQuery<User> user = getEntityManager()
-                .createQuery("SELECT u FROM User u WHERE u.changeToken = :changeToken", User.class)
+    public Optional<UserEntity> findByChangeToken(String changeToken) {
+        TypedQuery<UserEntity> user = getEntityManager()
+                .createQuery("SELECT u FROM UserEntity u WHERE u.changeToken = :changeToken", UserEntity.class)
                 .setParameter("changeToken", changeToken);
         return singleResult(user);
     }

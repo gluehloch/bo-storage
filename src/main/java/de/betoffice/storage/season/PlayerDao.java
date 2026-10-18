@@ -27,21 +27,21 @@ import java.util.List;
 import java.util.Optional;
 
 import de.betoffice.storage.community.CommonDao;
-import de.betoffice.storage.season.entity.Player;
+import de.betoffice.storage.season.entity.PlayerEntity;
 
 /**
  * Player DAO
  *
  * @author by Andre Winkler
  */
-public interface PlayerDao extends CommonDao<Player> {
+public interface PlayerDao extends CommonDao<PlayerEntity> {
 
     /**
      * Liefert eine Liste aller Fussballspieler.
      *
      * @return Eine Liste aller Fussballspieler.
      */
-    public List<Player> findAll();
+    public List<PlayerEntity> findAll();
 
     /**
      * Liefert einen Fussballspieler anhand der openligadb ID
@@ -50,7 +50,7 @@ public interface PlayerDao extends CommonDao<Player> {
      *            openligadb ID
      * @return Ein Spieler
      */
-    public Optional<Player> findByOpenligaid(long openligaid);
+    public Optional<PlayerEntity> findByOpenligaid(long openligaid);
 
     /**
      * Liefert einen Spieler mit allen Toren.
@@ -59,6 +59,6 @@ public interface PlayerDao extends CommonDao<Player> {
      *            Die Spieler ID
      * @return Ein Spieler
      */
-    public Optional<Player> findAllGoalsOfPlayer(long id);
+    public Optional<PlayerEntity> findAllGoalsOfPlayer(long id);
 
 }

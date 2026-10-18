@@ -31,10 +31,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.storage.community.CommunityDao;
 import de.betoffice.storage.community.CommunityRankingDao;
-import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonRange;
-import de.betoffice.storage.season.entity.GameList;
+import de.betoffice.storage.season.entity.GameListEntity;
 import de.betoffice.storage.user.UserResult;
 
 /**
@@ -53,22 +53,22 @@ public class DefaultCommunityCalculatorService implements CommunityCalculatorSer
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserResult> calculateRanking(CommunityReference communityReference, GameList round) {
-        Community community = communityDao.find(communityReference).orElseThrow();
+    public List<UserResult> calculateRanking(CommunityReference communityReference, GameListEntity round) {
+        CommunityEntity community = communityDao.find(communityReference).orElseThrow();
         return communityRankingDao.calculateUserRanking(community, round);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<UserResult> calculateRanking(CommunityReference communityReference) {
-        Community community = communityDao.find(communityReference).orElseThrow();
+        CommunityEntity community = communityDao.find(communityReference).orElseThrow();
         return communityRankingDao.calculateUserRanking(community);
     }
     
     @Override
     @Transactional(readOnly = true)
     public List<UserResult> calculateRanking(CommunityReference communityReference, SeasonRange seasonRange) {
-        Community community = communityDao.find(communityReference).orElseThrow();
+        CommunityEntity community = communityDao.find(communityReference).orElseThrow();
         return communityRankingDao.calculateUserRanking(community, seasonRange);
     }
 

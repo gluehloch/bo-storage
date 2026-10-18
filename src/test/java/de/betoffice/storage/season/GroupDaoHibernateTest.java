@@ -33,8 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
 import de.betoffice.storage.season.dao.GroupDaoHibernate;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 
 /**
@@ -57,8 +57,8 @@ class GroupDaoHibernateTest extends AbstractDaoTestSupport {
 
     @Test
     void testGroupDaoHibernateFindBySeason() {
-        Season season = seasonDaoHibernate.find(SeasonReference.of("1000", "4711")).orElseThrow();
-        List<Group> groups = groupDao.findBySeason(season);
+        SeasonEntity season = seasonDaoHibernate.find(SeasonReference.of("1000", "4711")).orElseThrow();
+        List<GroupEntity> groups = groupDao.findBySeason(season);
         assertThat(groups).hasSize(2);
         assertThat(groups.get(0).getGroupType().getName()).isEqualTo("1. Liga");
         assertThat(groups.get(1).getGroupType().getName()).isEqualTo("2. Liga");

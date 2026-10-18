@@ -39,7 +39,7 @@ import de.betoffice.storage.season.SeasonType;
  */
 class SeasonTest {
 
-    private Season season;
+    private SeasonEntity season;
 
     @Test
     void testSeasonProperties() {
@@ -67,7 +67,7 @@ class SeasonTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        season = new Season(SeasonReference.of("1998/1999", "Bundesliga"));
+        season = new SeasonEntity(SeasonReference.of("1998/1999", "Bundesliga"));
         season.setMode(SeasonType.CL);
     }
 

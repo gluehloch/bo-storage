@@ -1,0 +1,130 @@
+/*
+ * =============================================================================
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
+ * rights reserved.
+ * =============================================================================
+ * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
+ * MODIFICATION
+ * 
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
+package de.betoffice.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import de.betoffice.service.request.UserCreateCommand;
+import de.betoffice.service.request.UserUpdateCommand;
+import de.betoffice.storage.user.entity.Nickname;
+import de.betoffice.storage.user.entity.UserEntity;
+import de.betoffice.storage.user.entity.UserProfileDto;
+import de.betoffice.validation.ServiceResult;
+
+public interface UserService {
+
+    /**
+     * Find all users.
+     * 
+     * @param  nicknameFilter a nickname filter
+     * @param  pageable       paging parameter
+     * @return                list of users
+     */
+    Page<UserEntity> findUsers(String nicknameFilter, Pageable pageable);
+
+    /**
+     * Liefert alle bekannten Teilnehmer zurück.
+     *
+     * @return Die bekannten Teilnehmer.
+     */
+    List<UserEntity> findAllUsers();
+
+    /**
+     * Find a user by nickname.
+     *
+     * @param  nickname user identified by nickname
+     * @return          a user
+     */
+    Optional<UserEntity> findUser(Nickname nickname);
+
+    /**
+     * Neuanlage eines Teilnehmers.
+     *
+     * @param user Ein Teilnehmer.
+     */
+    ServiceResult<UserProfileDto> create(UserCreateCommand user);
+
+    /**
+     * Löschen eines Teilnehmers. Ein Teilnehmer kann nur gelöscht werden, wenn dieser keiner Meisterschaft zugeordnet
+     * ist.
+     * 
+     * @param nickname Ein Teilnehmer.
+     */
+    void deleteUser(Nickname nickname);
+
+    /**
+     * Aktualisierung der Daten eines Teilnehmers. Der sogenannte 'Nickname' eines Nutzers kann nicht geändert werden.
+     *
+     * TODO: Dafür benöitge ich eine seperate Methode. Oder erst gar nicht anbieten!
+     *
+     * @param userUpdateCommand Die neuen Daten eines Teilnehmers.
+     */
+    ServiceResult<UserProfileDto> update(UserUpdateCommand userUpdateCommand);
+
+    /**
+     * Bestätigt die Änderung der Mail Adresse.
+     *
+     * @param  nickname    Nutzerkürzel
+     * @param  changeToken Das Token für die Änderung der Mail Adresse
+     * @return             Der geänderte Nutzer
+     */
+    ServiceResult<UserEntity> confirmMailAddressChange(Nickname nickname, String changeToken);
+
+    /**
+     * Versendet die Bestätigungs Mail noch einmal an das neue Email Postfach.
+     * 
+     * @param  nickname Nutzerkürzel
+     * @return          Der betroffene Nutzer
+     */
+    Optional<UserEntity> resubmitConfirmationMail(Nickname nickname);
+
+    /**
+     * Nimmt den Email-Änderungswunsch wieder zurück.
+     * 
+     * @param  nickname Nutzerkürzel
+     * @return          Der nicht geänderte Nutzer
+     */
+    Optional<UserEntity> abortMailAddressChange(Nickname nickname);
+
+    /**
+     * Sucht nach einem Teilnehmer.
+     * 
+     * @param  userId Die Teilnehmer ID
+     * @return        Ein Teilnehmer
+     */
+    UserEntity findUser(long userId);
+
+    /**
+     * Sucht nach einem Teilnehmer anhand seine Change-Tokens.
+     * 
+     * @param  changeToken Das Token mit der Nutzer seine Mail-Änderung quittieren kann.
+     * @return
+     */
+    Optional<UserEntity> findUserByChangeToken(String changeToken);
+
+}

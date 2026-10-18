@@ -27,8 +27,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.team.TeamResult;
 import de.betoffice.test.DummyGroups;
@@ -46,15 +46,15 @@ class TeamResultTest {
         DummyGroups groupTypes = new DummyGroups();
         DummyTeams teams = new DummyTeams();
 
-        Season season = new Season(SeasonReference.of("2004/05", "Bundesliga"));
+        SeasonEntity season = new SeasonEntity(SeasonReference.of("2004/05", "Bundesliga"));
         season.setMode(SeasonType.LEAGUE);
 
-        Group groupA = new Group();
+        GroupEntity groupA = new GroupEntity();
         // groupA.setId(1L);
         groupA.setGroupType(groupTypes.groupTypes()[DummyGroups.BULI_1]);
         season.addGroup(groupA);
 
-        Group groupB = new Group();
+        GroupEntity groupB = new GroupEntity();
         // groupB.setId(2L);
         groupB.setGroupType(groupTypes.groupTypes()[DummyGroups.BULI_2]);
         season.addGroup(groupB);

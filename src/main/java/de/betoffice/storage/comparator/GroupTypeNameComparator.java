@@ -27,17 +27,17 @@ package de.betoffice.storage.comparator;
 
 import java.util.Comparator;
 
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 
 /**
- * Definiert einen Comparator für {@link de.betoffice.storage.group.entity.GroupType}
+ * Definiert einen Comparator für {@link de.betoffice.storage.group.entity.GroupTypeEntity}
  * Objekte. Zum Vergleich wird der Gruppenname herangezogen.
  * 
  * @author by Andre Winkler, $LastChangedBy: andrewinkler $
  * @version $LastChangedRevision: 3782 $ $LastChangedDate: 2013-07-27 10:44:32
  *          +0200 (Sat, 27 Jul 2013) $
  */
-public class GroupTypeNameComparator implements Comparator<GroupType> {
+public class GroupTypeNameComparator implements Comparator<GroupTypeEntity> {
 
     /**
      * Vergleicht zwei Gruppen miteinander.
@@ -48,7 +48,7 @@ public class GroupTypeNameComparator implements Comparator<GroupType> {
      *            Eine Gruppe.
      * @return -1, 0 oder +1. Vergleich der Gruppennamen.
      */
-    public int compare(GroupType o1, GroupType o2) {
+    public int compare(GroupTypeEntity o1, GroupTypeEntity o2) {
         return (o1.getName().compareTo(o2.getName()));
     }
 

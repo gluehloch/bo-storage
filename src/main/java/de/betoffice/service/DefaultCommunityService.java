@@ -1,6 +1,6 @@
 /*
  * =============================================================================
- * Project betoffice-storage Copyright (c) 2000-2025 by Andre Winkler. All
+ * Project betoffice-storage Copyright (c) 2000-2026 by Andre Winkler. All
  * rights reserved.
  * =============================================================================
  * GNU GENERAL PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND
@@ -23,120 +23,90 @@
 
 package de.betoffice.service;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 import jakarta.persistence.NoResultException;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.betoffice.mail.NotificationType;
 import de.betoffice.mail.SendUserProfileChangeMailNotification;
+import de.betoffice.service.request.CommunityCreateCommand;
+import de.betoffice.service.resolver.UserResolver;
 import de.betoffice.storage.community.CommunityDao;
+import de.betoffice.storage.community.CommunityDto;
 import de.betoffice.storage.community.CommunityFilter;
-import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityDtoMapper;
+import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
 import de.betoffice.storage.season.SeasonDao;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.season.entity.SeasonReference;
 import de.betoffice.storage.time.DateTimeProvider;
 import de.betoffice.storage.user.UserDao;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
-import de.betoffice.util.LoggerFactory;
+import de.betoffice.storage.user.entity.UserEntity;
 import de.betoffice.validation.ServiceResult;
-import de.betoffice.validation.ValidationException;
-import de.betoffice.validation.ValidationMessage;
 import de.betoffice.validation.ValidationMessage.MessageType;
+import de.betoffice.validation.ValidationMessages.ValidationMessagesBuilder;
 
 /**
  * Manages a community.
  * 
  * @author Andre Winkler
  */
-@Service("communityService")
+@Service
 @Transactional(readOnly = true)
 public class DefaultCommunityService extends AbstractManagerService implements CommunityService {
 
-    private static final Logger LOG = LoggerFactory.make();
-
+    private final UserResolver userResolver;
     private final CommunityDao communityDao;
     private final UserDao userDao;
     private final SeasonDao seasonDao;
-    private final SendUserProfileChangeMailNotification sendUserProfileChangeMailNotification;
-    private final DateTimeProvider dateTimeProvider;
 
     public DefaultCommunityService(
+            final UserResolver userResolver,
             final CommunityDao communityDao,
             final UserDao userDao,
             final SeasonDao seasonDao,
             final SendUserProfileChangeMailNotification sendUserProfileChangeMailNotification,
             final DateTimeProvider dateTimeProvider) {
+        this.userResolver = userResolver;
         this.communityDao = communityDao;
         this.userDao = userDao;
         this.seasonDao = seasonDao;
-        this.sendUserProfileChangeMailNotification = sendUserProfileChangeMailNotification;
-        this.dateTimeProvider = dateTimeProvider;
     }
 
     @Override
-    public Optional<User> findUser(Nickname nickname) {
-        return userDao.findByNickname(nickname);
+    public CommunityDto find(Long communityId) {
+        CommunityEntity byId = communityDao.findById(communityId);
+        return CommunityDtoMapper.map(byId);
     }
 
     @Override
-    public List<User> findAllUsers() {
-        return userDao.findAll();
+    public Optional<CommunityDto> find(CommunityReference communityReference) {
+        return CommunityDtoMapper.map(communityDao.find(communityReference));
     }
 
     @Override
-    public User findUser(long userId) {
-        return userDao.findById(userId);
+    public List<CommunityDto> find(String communityName) {
+        return CommunityDtoMapper.map(communityDao.find(communityName));
     }
 
     @Override
-    public Optional<User> findUserByChangeToken(String changeToken) {
-        return userDao.findByChangeToken(changeToken);
+    public Page<CommunityDto> findCommunities(CommunityFilter communityFilter, Pageable pageable) {
+        return communityDao.findAll(communityFilter, pageable).map(CommunityDtoMapper::map);
     }
 
     @Override
-    public Community find(Long communityId) {
-        return communityDao.findById(communityId);
-    }
-
-    @Override
-    public Optional<Community> find(CommunityReference communityReference) {
-        return communityDao.find(communityReference);
-    }
-
-    @Override
-    public List<Community> find(String communityName) {
-        return communityDao.find(communityName);
-    }
-
-    @Override
-    public Page<Community> findCommunities(CommunityFilter communityFilter, Pageable pageable) {
-        return communityDao.findAll(communityFilter, pageable);
-    }
-
-    @Override
-    public Page<User> findUsers(String nicknameFilter, Pageable pageable) {
-        return userDao.findAll(nicknameFilter, pageable);
-    }
-
-    @Override
-    public Set<User> findMembers(CommunityReference communityReference) {
+    public Set<UserEntity> findMembers(CommunityReference communityReference) {
         try {
-            final Community community = communityDao.findMembers(communityReference);
+            final CommunityEntity community = communityDao.findMembers(communityReference);
             return community.getUsers();
         } catch (NoResultException ex) {
             return Set.of();
@@ -145,194 +115,199 @@ public class DefaultCommunityService extends AbstractManagerService implements C
 
     @Override
     @Transactional
-    public ServiceResult<Community> create(
-            CommunityReference communityRef,
-            SeasonReference seasonRef,
-            String communityName,
-            String communityYear,
-            Nickname managerNickname) {
+    public ServiceResult<CommunityDto> create(CommunityCreateCommand communityCreateCommand) {
+        final ValidationMessagesBuilder vmb = new ValidationMessagesBuilder();
+        final Optional<CreateCommunityResolved> createCommunityResolved = validateAndResolveCreateCommunity(
+                vmb, communityCreateCommand);
 
-        Optional<Community> definedCommunity = communityDao.find(communityRef);
-        if (definedCommunity.isPresent()) {
-            return ServiceResult.failure(MessageType.COMMUNITY_EXISTS);
+        if (vmb.containsAnError()) {
+            return ServiceResult.failure(vmb.build());
         }
 
-        Season persistedSeason = seasonDao.find(seasonRef).orElseThrow(
-                () -> new IllegalArgumentException(String.format("%s does not exist.", seasonRef)));
-        User communityManager = userDao.findByNickname(managerNickname).orElseThrow(
-                () -> new IllegalArgumentException(String.format("%s does not exist.", managerNickname)));
+        final CommunityEntity community = persistCommunity(createCommunityResolved.orElseThrow());
+        return ServiceResult.success(CommunityDtoMapper.map(community));
+    }
 
-        Community community = new Community();
-        community.setYear(communityYear);
-        community.setName(communityName);
-        community.setReference(communityRef);
-        community.setCommunityManager(communityManager);
+    @Override
+    @Transactional
+    public ServiceResult<Void> delete(CommunityReference reference) {
+        final ValidationMessagesBuilder vmb = new ValidationMessagesBuilder();
+        final Optional<DeleteCommunityResolved> community = validateAndResolveCommunityForDelete(vmb, reference);
+        if (vmb.containsAnError()) {
+            return ServiceResult.failure(vmb.build());
+        }
 
-        community.setSeason(persistedSeason);
+        communityDao.delete(community.orElseThrow().community());
+        return ServiceResult.success();
+    }
+
+    private CommunityEntity persistCommunity(CreateCommunityResolved ccr) {
+        final CommunityEntity community = new CommunityEntity();
+        community.setYear(ccr.communityCreateCommand().communityYear());
+        community.setName(ccr.communityCreateCommand().communityName());
+        community.setReference(ccr.communityCreateCommand().communityRef());
+        community.setCommunityManager(ccr.communityManager);
+        community.setSeason(ccr.season());
         communityDao.persist(community);
-
-        return ServiceResult.sucess(community);
+        return community;
     }
+
+    //
+    //    private CreateUserValidationContext validateCreateUserCommand(
+    //            final ValidationMessagesBuilder vmb,
+    //            final UserCreateCommand cmd) {
+    //
+    //        return new CreateUserValidationContext(vmb)
+    //                .validateNicknameIsNotBlank(cmd.nickname())
+    //                .validateNicknameIsUnique(cmd.nickname())
+    //                .validateEmail(cmd.email());
+    //    }
+    //
 
     @Override
     @Transactional
-    public void delete(CommunityReference reference) {
-        Community community = communityDao.find(reference).orElseThrow();
+    public ServiceResult<CommunityDto> addMember(CommunityReference communityReference, Nickname nickname) {
+        final ValidationMessagesBuilder vmb = new ValidationMessagesBuilder();
+        final Optional<AddMemberResolved> resolved = validateAndResolveAddMember(vmb, communityReference, nickname);
 
-        if (communityDao.hasMembers(reference)) {
-            LOG.warn("Unable to delete community '{}'. The Community has members.", community);
-            throw new IllegalArgumentException("Unable to delete community. The Community has members.");
+        if (vmb.containsAnError()) {
+            return ServiceResult.failure(vmb.build());
         }
 
-        communityDao.delete(community);
+        final AddMemberResolved value = resolved.orElseThrow();
+        value.community().addMember(value.user());
+        communityDao.update(value.community());
+        return ServiceResult.success(CommunityDtoMapper.map(value.community()));
     }
 
     @Override
     @Transactional
-    public Community addMember(CommunityReference communityReference, Nickname nickname) {
-        Community community = communityDao.find(communityReference).orElseThrow();
-        User user = userDao.findByNickname(nickname).orElseThrow();
-        community.addMember(user);
-        communityDao.update(community);
-        return community;
+    public ServiceResult<CommunityDto> addMembers(CommunityReference communityReference, Set<Nickname> nicknames) {
+        final ValidationMessagesBuilder vmb = new ValidationMessagesBuilder();
+        final Optional<AddMembersResolved> resolved = validateAndResolveAddMembers(vmb, communityReference, nicknames);
+
+        if (vmb.containsAnError()) {
+            return ServiceResult.failure(vmb.build());
+        }
+
+        final AddMembersResolved value = resolved.orElseThrow();
+        value.users().forEach(value.community()::addMember);
+        communityDao.update(value.community());
+        return ServiceResult.success(CommunityDtoMapper.map(value.community()));
     }
 
     @Override
     @Transactional
-    public Community addMembers(CommunityReference communityReference, Set<Nickname> nicknames) {
-        Community community = communityDao.find(communityReference).orElseThrow();
-        nicknames.stream()
-                .map(n -> userDao.findByNickname(n))
-                .forEach(u -> u.ifPresent(us -> community.addMember(us)));
-        communityDao.update(community);
-
-        return community;
-    }
-
-    @Override
-    @Transactional
-    public Community removeMember(CommunityReference reference, Nickname nickname) {
-        User user = userDao.findByNickname(nickname).orElseThrow();
-        Community community = communityDao.find(reference).orElseThrow();
+    public CommunityDto removeMember(CommunityReference reference, Nickname nickname) {
+        UserEntity user = userDao.findByNickname(nickname).orElseThrow();
+        CommunityEntity community = communityDao.find(reference).orElseThrow();
         community.removeMember(user);
         communityDao.update(community);
-        return community;
+        return CommunityDtoMapper.map(community);
     }
 
     @Override
     @Transactional
-    public Community removeMembers(CommunityReference reference, Set<Nickname> nicknames) {
+    public CommunityDto removeMembers(CommunityReference reference, Set<Nickname> nicknames) {
         nicknames.stream().forEach(nickname -> {
             removeMember(reference, nickname);
         });
-        return communityDao.find(reference).orElseThrow();
+        return CommunityDtoMapper.map(communityDao.find(reference).orElseThrow());
     }
 
-    @Override
-    @Transactional
-    public User createUser(final User user) {
-        final List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
+    private Optional<CreateCommunityResolved> validateAndResolveCreateCommunity(
+            final ValidationMessagesBuilder vmb,
+            final CommunityCreateCommand communityCreateCommand) {
 
-        if (user.getNickname() == null || StringUtils.isBlank(user.getNickname().value())) {
-            messages.add(ValidationMessage.error(MessageType.NICKNAME_IS_NOT_SET));
-        } else {
-            final List<User> lowerCaseNickname = userDao.findLowerCaseNickname(user.getNickname().getNickname());
-            if (!lowerCaseNickname.isEmpty()) {
-                messages.add(ValidationMessage.error(MessageType.NICKNAME_ALREADY_EXISTS, user));
-            }
+        final Optional<SeasonEntity> season = resolveSeason(vmb, communityCreateCommand.seasonRef());
+        final Optional<UserEntity> communityManager = userResolver.resolveUser(vmb,
+                communityCreateCommand.managerNickname());
+
+        if (vmb.containsAnError()) {
+            return Optional.empty();
         }
+        return Optional.of(new CreateCommunityResolved(communityCreateCommand, season.orElseThrow(),
+                communityManager.orElseThrow()));
+    }
 
-        if (messages.isEmpty()) {
-            userDao.persist(user);
-        } else {
-            throw new ValidationException(messages);
+    private Optional<DeleteCommunityResolved> validateAndResolveCommunityForDelete(
+            final ValidationMessagesBuilder vmb,
+            final CommunityReference communityReference) {
+
+        final Optional<CommunityEntity> community = resolveCommunity(vmb, communityReference);
+
+        if (communityDao.hasMembers(communityReference)) {
+            vmb.addFormattedMessage(MessageType.COMMUNITY_CANNOT_BE_DELETED_CAUSE_OF_MEMBERS, communityReference);
         }
-
-        return user;
-    }
-
-    @Override
-    @Transactional
-    public void deleteUser(final Nickname nickname) {
-        userDao.findByNickname(nickname).ifPresent(u -> userDao.delete(u));
-    }
-
-    @Override
-    @Transactional
-    public Optional<User> updateUser(
-            final boolean adminOperation,
-            final Nickname nickname,
-            final String name,
-            final String surname,
-            final String mail,
-            final boolean emailNotification,
-            final String phone) {
-
-        return userDao.findByNickname(nickname).map(u -> {
-            u.setName(name);
-            u.setSurname(surname);
-            u.setPhone(phone);
-            u.setNotification(emailNotification ? NotificationType.TIPP : NotificationType.NONE);
-            if (!adminOperation && hasUserChangedHisMailAddress(u, mail) && u.getChangeSend() < 5) {
-                u.setChangeEmail(mail);
-                u.setChangeToken(UUID.randomUUID().toString());
-                u.setChangeDateTime(dateTimeProvider.currentDateTime());
-                u.setChangeDateTime(dateTimeProvider.currentDateTime());
-                sendUserProfileChangeMailNotification.send(u);
-                u.incrementChangeSend();
-            } else {
-                u.setEmail(mail);
-                u.abortEmailChange();
-            }
-            return u;
-        });
-    }
-
-    private boolean hasUserChangedHisMailAddress(final User user, final String newMailAddress) {
-        return !StringUtils.equals(user.getEmail(), newMailAddress);
-    }
-
-    @Override
-    @Transactional
-    public ServiceResult<User> confirmMailAddressChange(final Nickname nickname, final String changeToken) {
-        final Optional<User> optionalUser = userDao.findByNickname(nickname);
-        if (optionalUser.isEmpty()) {
-            return ServiceResult.failureWithFormattedError(MessageType.USER_NOT_FOUND, nickname.toString());
+        if (vmb.containsAnError()) {
+            return Optional.empty();
         }
+        return Optional.of(new DeleteCommunityResolved(community.orElseThrow()));
+    }
 
-        final User user = optionalUser.get();
-        if (StringUtils.equals(changeToken, user.getChangeToken())) {
-            final var changeDateTime = user.getChangeDateTime();
-            final ZonedDateTime changeDateTimePlusTenMinutes = changeDateTime.plusMinutes(10);
-            // --- mailChange --- +10m --- now
-            final var now = dateTimeProvider.currentDateTime();
-            if (changeDateTime.isAfter(now)) {
-                return ServiceResult.failure(MessageType.EMAIL_CHANGE_DATETIME_IS_IN_THE_FUTURE);
-            } else if (now.isBefore(changeDateTimePlusTenMinutes)) {
-                user.acceptEmailChange();
-                return ServiceResult.sucess(user);
-            } else {
-                return ServiceResult.failure(MessageType.EMAIL_CHANGE_DATETIME_EXPIRED);
-            }
-        } else {
-            LOG.warn("Unable to confirm email change. ChangeTokens are different. {} vs {}", changeToken,
-                    user.getChangeToken());
-            throw new IllegalArgumentException("Unable to confirm email change. ChangeTokens are different.");
+    private Optional<AddMemberResolved> validateAndResolveAddMember(
+            final ValidationMessagesBuilder vmb,
+            final CommunityReference communityReference,
+            final Nickname nickname) {
+
+        final Optional<CommunityEntity> community = resolveCommunity(vmb, communityReference);
+        final Optional<UserEntity> user = userResolver.resolveUser(vmb, nickname);
+
+        if (vmb.containsAnError()) {
+            return Optional.empty();
         }
+        return Optional.of(new AddMemberResolved(community.orElseThrow(), user.orElseThrow()));
     }
 
-    @Override
-    @Transactional
-    public Optional<User> abortMailAddressChange(final Nickname nickname) {
-        return userDao.findByNickname(nickname).map(u -> u.abortEmailChange());
+    private Optional<AddMembersResolved> validateAndResolveAddMembers(
+            final ValidationMessagesBuilder vmb,
+            final CommunityReference communityReference,
+            final Set<Nickname> nicknames) {
+
+        final Optional<CommunityEntity> community = resolveCommunity(vmb, communityReference);
+        final List<UserEntity> users = new ArrayList<>();
+
+        nicknames.forEach(nickname -> userResolver.resolveUser(vmb, nickname).ifPresent(users::add));
+
+        if (vmb.containsAnError()) {
+            return Optional.empty();
+        }
+        return Optional.of(new AddMembersResolved(community.orElseThrow(), users));
     }
 
-    @Override
-    @Transactional
-    public Optional<User> resubmitConfirmationMail(final Nickname nickname) {
-        return userDao.findByNickname(nickname)
-                .filter(u -> u.getChangeSend() < 5)
-                .map(u -> sendUserProfileChangeMailNotification.send(u));
+    private Optional<CommunityEntity> resolveCommunity(
+            final ValidationMessagesBuilder vmb,
+            final CommunityReference communityReference) {
+
+        final Optional<CommunityEntity> optionalCommunity = communityDao.find(communityReference);
+        if (optionalCommunity.isEmpty()) {
+            vmb.addFormattedMessage(MessageType.COMMUNITY_NOT_FOUND, communityReference);
+        }
+        return optionalCommunity;
+    }
+
+    private Optional<SeasonEntity> resolveSeason(
+            final ValidationMessagesBuilder vmb,
+            final SeasonReference seasonReference) {
+
+        final Optional<SeasonEntity> optionalSeason = seasonDao.find(seasonReference);
+        if (optionalSeason.isEmpty()) {
+            vmb.addFormattedMessage(MessageType.SEASON_REFERENCE_NOT_FOUND, seasonReference);
+        }
+        return optionalSeason;
+    }
+
+    private record CreateCommunityResolved(CommunityCreateCommand communityCreateCommand, SeasonEntity season,
+            UserEntity communityManager) {
+    }
+
+    private record DeleteCommunityResolved(CommunityEntity community) {
+    }
+
+    private record AddMemberResolved(CommunityEntity community, UserEntity user) {
+    }
+
+    private record AddMembersResolved(CommunityEntity community, List<UserEntity> users) {
     }
 
 }

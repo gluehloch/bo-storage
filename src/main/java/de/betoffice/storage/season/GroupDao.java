@@ -26,24 +26,24 @@ package de.betoffice.storage.season;
 import java.util.List;
 
 import de.betoffice.storage.community.CommonDao;
-import de.betoffice.storage.group.entity.GroupType;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
- * DAO zur Verwaltung der {@link Group}s.
+ * DAO zur Verwaltung der {@link GroupEntity}s.
  *
  * @author by Andre Winkler
  */
-public interface GroupDao extends CommonDao<Group> {
+public interface GroupDao extends CommonDao<GroupEntity> {
 
     /**
      * Liefert alle Gruppen.
      * 
      * @return Alle Gruppen
      */
-    public List<Group> findAll();
+    public List<GroupEntity> findAll();
 
     /**
      * Liefert eine Liste aller Gruppen zu einer Meisterschaft.
@@ -51,7 +51,7 @@ public interface GroupDao extends CommonDao<Group> {
      * @param  season Die Meisterschaft deren Gruppen gesucht werden.
      * @return        Eine Liste der Gruppen zu der gesuchten Meisterschaft.
      */
-    public List<Group> findBySeason(Season season);
+    public List<GroupEntity> findBySeason(SeasonEntity season);
 
     /**
      * Liefert eine Liste aller Mannschaften zu einer Gruppe.
@@ -59,20 +59,20 @@ public interface GroupDao extends CommonDao<Group> {
      * @param  group Die Mannschaften dieser Gruppe werden gesucht.
      * @return       Eine Liste der Mannschaften der gesuchten Gruppe.
      */
-    public List<Team> findTeams(Group group);
+    public List<TeamEntity> findTeams(GroupEntity group);
 
     /**
      * Löscht eine Gruppe.
      *
      * @param group Eine Gruppe.
      */
-    public void delete(Group group);
+    public void delete(GroupEntity group);
 
     /**
      * @param  season    Die Meisterschaft deren Gruppe gesucht wird
      * @param  groupType Die Gruppe mit dem gesuchten Gruppentyp.
      * @return           Die Gruppe der Meisterschaft
      */
-    public Group findBySeasonAndGroupType(Season season, GroupType groupType);
+    public GroupEntity findBySeasonAndGroupType(SeasonEntity season, GroupTypeEntity groupType);
 
 }

@@ -34,7 +34,7 @@ import org.springframework.stereotype.Repository;
 import de.betoffice.storage.hibernate.AbstractCommonDao;
 import de.betoffice.storage.team.TeamAlias;
 import de.betoffice.storage.team.TeamAliasDao;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 
 /**
  * Die Hibernate Implementierung des DAO {@link TeamAliasDao}.
@@ -78,16 +78,16 @@ public class TeamAliasDaoHibernate extends AbstractCommonDao<TeamAlias>
     }
 
     @Override
-    public Optional<Team> findByAliasName(final String aliasName) {
-        TypedQuery<Team> query = getEntityManager().unwrap(Session.class)
-                .createNativeQuery(QUERY_TEAMALIAS_BY_NAME, Team.class)
+    public Optional<TeamEntity> findByAliasName(final String aliasName) {
+        TypedQuery<TeamEntity> query = getEntityManager().unwrap(Session.class)
+                .createNativeQuery(QUERY_TEAMALIAS_BY_NAME, TeamEntity.class)
                 .setParameter("alias_name", aliasName);
 
         return singleResult(query);
     }
 
     @Override
-    public List<TeamAlias> findAliasNames(final Team team) {
+    public List<TeamAlias> findAliasNames(final TeamEntity team) {
         List<TeamAlias> teams = getEntityManager()
                 .createQuery(QUERY_TEAMALIAS_BY_TEAM, TeamAlias.class)
                 .setParameter("teamId", team.getId()).getResultList();

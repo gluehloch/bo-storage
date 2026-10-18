@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 
 import de.betoffice.storage.tip.UserPointsComparator;
 import de.betoffice.storage.user.entity.Nickname;
-import de.betoffice.storage.user.entity.User;
+import de.betoffice.storage.user.entity.UserEntity;
 
 /**
  * Testet den {@link Comparator} {@link UserPointsComparator}.
@@ -46,13 +46,13 @@ class UserPointsComparatorTest {
 
     @Test
     void testUserPointsComparator() {
-        User frosch = new User();
+        UserEntity frosch = new UserEntity();
         frosch.setNickname(Nickname.of("Frosch"));
-        User hattwig = new User();
+        UserEntity hattwig = new UserEntity();
         hattwig.setNickname(Nickname.of("Hattwig"));
-        User mrTipp = new User();
+        UserEntity mrTipp = new UserEntity();
         mrTipp.setNickname(Nickname.of("mrTipp"));
-        User chris = new User();
+        UserEntity chris = new UserEntity();
         chris.setNickname(Nickname.of("chris"));
 
         UserResult urFrosch = new UserResult(frosch);

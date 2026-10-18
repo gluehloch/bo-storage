@@ -35,7 +35,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
-import de.betoffice.storage.community.entity.Community;
+import de.betoffice.storage.community.entity.CommunityEntity;
 import de.betoffice.storage.community.entity.CommunityReference;
 
 /**
@@ -57,7 +57,7 @@ class CommunityDaoTest extends AbstractDaoTestSupport {
     void findCommunityByShortName() {
         assertThat(communityDao).isNotNull();
 
-        Community community = communityDao.find(CommunityReference.of("TDKB 2021/2022")).orElseThrow();
+        CommunityEntity community = communityDao.find(CommunityReference.of("TDKB 2021/2022")).orElseThrow();
         assertThat(community).isNotNull();
         assertThat(community.getName()).isEqualTo("Bundesliga");
         assertThat(community.getYear()).isEqualTo("2021/2022");
@@ -65,7 +65,7 @@ class CommunityDaoTest extends AbstractDaoTestSupport {
 
     @Test
     void findCommunityUsers() {
-        Community community = communityDao.find(CommunityReference.of("TDKB 2021/2022")).orElseThrow();
+        CommunityEntity community = communityDao.find(CommunityReference.of("TDKB 2021/2022")).orElseThrow();
         assertThat(community.getUsers()).hasSize(6);
         assertThat(community.getUsers())
                 .extracting(user -> user.getNickname().value())
@@ -76,7 +76,7 @@ class CommunityDaoTest extends AbstractDaoTestSupport {
     void findCommunities() {
         CommunityFilter filter = new CommunityFilter();
         filter.setName("Bundesliga");
-        Page<Community> communityPage;
+        Page<CommunityEntity> communityPage;
 
         communityPage = communityDao.findAll(filter, Pageable.unpaged());
         assertThat(communityPage).isNotNull().hasSize(23);

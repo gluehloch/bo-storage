@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.betoffice.dao.hibernate.AbstractDaoTestSupport;
-import de.betoffice.storage.season.entity.GameList;
-import de.betoffice.storage.season.entity.Group;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.GameListEntity;
+import de.betoffice.storage.season.entity.GroupEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 
 public class RoundDaoWithoutGameHibernateTest extends AbstractDaoTestSupport {
 
@@ -34,13 +34,13 @@ public class RoundDaoWithoutGameHibernateTest extends AbstractDaoTestSupport {
         // FIXED: Spieltage ohne Spiele werden ausgegeben. Anpassung der Abfrage `roundDao.findRounds(Group)`.
         // Den Spieltagen sind keine Spiele zugeordnet. Die Selektion ueber die Gruppe kann nur funktionieren,
         // wenn es Spiele gibt, die einer Gruppe zugeordnet sind.
-        final Group group = groupDao.findById(1L);
-        final List<GameList> rounds1 = roundDao.findRounds(group);
+        final GroupEntity group = groupDao.findById(1L);
+        final List<GameListEntity> rounds1 = roundDao.findRounds(group);
         assertThat(rounds1).hasSize(5);
 
         // In diesem Fall muessen die Spieltage ueber die Meisterschaft selektiert werden. 
-        final Season season = seasonDao.findById(1L);
-        final List<GameList> rounds2 = roundDao.findRounds(season);
+        final SeasonEntity season = seasonDao.findById(1L);
+        final List<GameListEntity> rounds2 = roundDao.findRounds(season);
         assertThat(rounds2).hasSize(5);
     }
 

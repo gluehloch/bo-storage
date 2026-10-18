@@ -34,18 +34,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.betoffice.storage.group.GroupTypeDao;
-import de.betoffice.storage.group.entity.GroupType;
+import de.betoffice.storage.group.entity.GroupTypeEntity;
 import de.betoffice.storage.season.LocationDao;
 import de.betoffice.storage.season.PlayerDao;
 import de.betoffice.storage.season.SeasonDao;
-import de.betoffice.storage.season.entity.Location;
-import de.betoffice.storage.season.entity.Player;
-import de.betoffice.storage.season.entity.Season;
+import de.betoffice.storage.season.entity.LocationEntity;
+import de.betoffice.storage.season.entity.PlayerEntity;
+import de.betoffice.storage.season.entity.SeasonEntity;
 import de.betoffice.storage.team.TeamAlias;
 import de.betoffice.storage.team.TeamAliasDao;
 import de.betoffice.storage.team.TeamDao;
 import de.betoffice.storage.team.TeamType;
-import de.betoffice.storage.team.entity.Team;
+import de.betoffice.storage.team.entity.TeamEntity;
 import de.betoffice.validation.ValidationException;
 import de.betoffice.validation.ValidationMessage;
 import de.betoffice.validation.ValidationMessage.MessageType;
@@ -79,19 +79,19 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public void createSeason(final Season season) {
+    public void createSeason(final SeasonEntity season) {
         seasonDao.persist(season);
     }
 
     @Override
     @Transactional
-    public void updateSeason(final Season season) {
+    public void updateSeason(final SeasonEntity season) {
         seasonDao.update(season);
     }
 
     @Override
     @Transactional
-    public void createGroupType(final GroupType groupType) {
+    public void createGroupType(final GroupTypeEntity groupType) {
         List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
 
         if (StringUtils.isBlank(groupType.getName())) {
@@ -107,7 +107,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public void createTeam(final Team team) {
+    public void createTeam(final TeamEntity team) {
         List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
 
         if (StringUtils.isBlank(team.getName())) {
@@ -123,7 +123,7 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public TeamAlias createTeamAlias(final Team team, final String teamAliasName) {
+    public TeamAlias createTeamAlias(final TeamEntity team, final String teamAliasName) {
         List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
         if (StringUtils.isBlank(teamAliasName)) {
             messages.add(ValidationMessage.error(MessageType.TEAM_ALIAS_NAME_IS_NOT_SET));
@@ -144,15 +144,15 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional
-    public void deleteGroupType(final GroupType groupType) {
-        GroupType persistentGroupType = groupTypeDao.findById(groupType.getId());
+    public void deleteGroupType(final GroupTypeEntity groupType) {
+        GroupTypeEntity persistentGroupType = groupTypeDao.findById(groupType.getId());
         groupTypeDao.delete(persistentGroupType);
     }
 
     @Override
     @Transactional
-    public void deleteTeam(final Team team) {
-        Team persistentTeam = teamDao.findById(team.getId());
+    public void deleteTeam(final TeamEntity team) {
+        TeamEntity persistentTeam = teamDao.findById(team.getId());
         teamDao.delete(persistentTeam);
     }
 
@@ -165,73 +165,73 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = true)
-    public List<GroupType> findAllGroupTypes() {
+    public List<GroupTypeEntity> findAllGroupTypes() {
         return groupTypeDao.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Team> findAllTeams() {
+    public List<TeamEntity> findAllTeams() {
         return teamDao.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Team> findTeams(TeamType teamType) {
+    public List<TeamEntity> findTeams(TeamType teamType) {
         return teamDao.findTeams(teamType);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Team> findTeams(Optional<TeamType> teamType, String filter) {
+    public List<TeamEntity> findTeams(Optional<TeamType> teamType, String filter) {
         return teamDao.findTeams(teamType, filter);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<TeamAlias> findAllTeamAlias(Team team) {
+    public List<TeamAlias> findAllTeamAlias(TeamEntity team) {
         return teamAliasDao.findAliasNames(team);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<GroupType> findGroupType(final String name) {
+    public Optional<GroupTypeEntity> findGroupType(final String name) {
         return groupTypeDao.findByName(name);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public GroupType findGroupType(long groupTypeId) {
+    public GroupTypeEntity findGroupType(long groupTypeId) {
         return (groupTypeDao.findById(groupTypeId));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Team> findTeam(final String name) {
+    public Optional<TeamEntity> findTeam(final String name) {
         return teamDao.findByName(name);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Team findTeamById(final long id) {
+    public TeamEntity findTeamById(final long id) {
         return teamDao.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Team> findTeamByAlias(String aliasName) {
+    public Optional<TeamEntity> findTeamByAlias(String aliasName) {
         return teamAliasDao.findByAliasName(aliasName);
     }
 
     @Override
     @Transactional
-    public void updateGroupType(final GroupType groupType) {
+    public void updateGroupType(final GroupTypeEntity groupType) {
         groupTypeDao.update(groupType);
     }
 
     @Override
     @Transactional
-    public void updateTeam(final Team team) {
+    public void updateTeam(final TeamEntity team) {
         teamDao.update(team);
     }
 
@@ -243,79 +243,79 @@ public class DefaultMasterDataManagerService extends AbstractManagerService
 
     @Override
     @Transactional(readOnly = false)
-    public Optional<Team> findTeamByOpenligaid(long id) {
+    public Optional<TeamEntity> findTeamByOpenligaid(long id) {
         return teamDao.findByOpenligaid(id);
     }
 
     @Override
     @Transactional
-    public void createLocation(Location location) {
+    public void createLocation(LocationEntity location) {
         locationDao.persist(location);
     }
 
     @Override
     @Transactional
-    public void deleteLocation(Location location) {
+    public void deleteLocation(LocationEntity location) {
         locationDao.delete(location);
     }
 
     @Override
     @Transactional
-    public void updateLocation(Location location) {
+    public void updateLocation(LocationEntity location) {
         locationDao.update(location);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Location> findAllLocations() {
+    public List<LocationEntity> findAllLocations() {
         return locationDao.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Location findLocation(long id) {
+    public LocationEntity findLocation(long id) {
         return locationDao.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Location> findLocationByOpenligaid(long openligaid) {
+    public Optional<LocationEntity> findLocationByOpenligaid(long openligaid) {
         return locationDao.findByOpenligaid(openligaid);
     }
 
     @Override
     @Transactional
-    public void createPlayer(Player player) {
+    public void createPlayer(PlayerEntity player) {
         playerDao.persist(player);
     }
 
     @Override
     @Transactional
-    public void deletePlayer(Player player) {
+    public void deletePlayer(PlayerEntity player) {
         playerDao.delete(player);
     }
 
     @Override
     @Transactional
-    public void updatePlayer(Player player) {
+    public void updatePlayer(PlayerEntity player) {
         playerDao.update(player);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Player> findAllPlayers() {
+    public List<PlayerEntity> findAllPlayers() {
         return playerDao.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Player findPlayer(long id) {
+    public PlayerEntity findPlayer(long id) {
         return playerDao.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Player> findPlayerByOpenligaid(long openligaid) {
+    public Optional<PlayerEntity> findPlayerByOpenligaid(long openligaid) {
         return playerDao.findByOpenligaid(openligaid);
     }
 
